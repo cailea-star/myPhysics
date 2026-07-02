@@ -1,15 +1,16 @@
 ---
-source_json: Author_Name_Y.yyyy_Journal_Vol.xxxxNol.xxxxP.xxxx.json
-doi: xx.xxxx/XXXXXXXXXXXXXX
-first_author: given_name family_name
+source_json: [json_filename.json]
+doi: [doi_number]
+first_author: [given_name] [family_name]
+affiliations: [affiliations]
 ---
 
-# title_name
+# [title_name]
 
 ### Abstract
 
 ```text
-This is the abstract text from the original paper.
+[abstract]
 ```
 
 ### Background
