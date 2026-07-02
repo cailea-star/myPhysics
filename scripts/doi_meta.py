@@ -14,12 +14,34 @@ def get_json(url):
         return json.load(r)
 
 
-def get_doi_metadata(doi):
+def metadata_from_CrossRef(doi):
     """ get metadata for a DOI from the CrossRef API.
     """
     doi = doi.strip().removeprefix("https://doi.org/")
     url = "https://api.crossref.org/works/" + urllib.parse.quote(doi, safe="")
     return get_json(url)["message"]
+
+
+def metadata_from_Inspire(doi):
+    """ get metadata for a DOI from the INSPIRE API.
+    """
+    doi = doi.strip().removeprefix("https://doi.org/")
+    params = urllib.parse.urlencode({"q": f"doi:{doi}", "size": 1})
+    try:
+        return get_json("https://inspirehep.net/api/literature?" + params)["hits"]["hits"][0]["metadata"]
+    except Exception:
+        return {}
+
+
+def metadata_from_openAlex(doi):
+    """ get metadata for a DOI from the OpenAlex API.
+    """
+    doi = doi.strip().removeprefix("https://doi.org/")
+    url = "https://api.openalex.org/works/https://doi.org/" + urllib.parse.quote(doi, safe="/")
+    try:
+        return get_json(url)
+    except Exception:
+        return {}
 
 
 def clean_abstract(text):
@@ -31,63 +53,53 @@ def clean_abstract(text):
     return text or None
 
 
-def get_abstract_openAlex(doi):
-    """ get abstract for a DOI from the OpenAlex API.
-    """
-    doi = doi.strip().removeprefix("https://doi.org/")
-    url = "https://api.openalex.org/works/https://doi.org/" + urllib.parse.quote(doi, safe="/")
-    try:
-        index = get_json(url).get("abstract_inverted_index") or {}
-    except Exception:
-        return None
-    return clean_abstract(" ".join(word for _, word in sorted(
-        (i, word) for word, positions in index.items() for i in positions
-    )))
-
-
-def get_abstract_inspire(doi):
-    """ get abstract for a DOI from the INSPIRE API.
-    """
-    doi = doi.strip().removeprefix("https://doi.org/")
-    params = urllib.parse.urlencode({"q": f"doi:{doi}", "size": 1})
-    try:
-        abstracts = get_json("https://inspirehep.net/api/literature?" + params)["hits"]["hits"][0]["metadata"].get("abstracts") or []
-    except Exception:
-        return None
-    return clean_abstract(abstracts[0].get("value") if abstracts else None)
-
-
-def get_doi_abstractdata(doi):
+def get_abstractdata(doi):
     """ get metadata and abstract for a DOI.
     """
-    msg = get_doi_metadata(doi)
+    data_crossref = metadata_from_CrossRef(doi)
+    data_inspire = metadata_from_Inspire(doi)
+    data_openalex = metadata_from_openAlex(doi)
+    abstract_crossref = clean_abstract(data_crossref.get("abstract"))
+    abstract_inspire = clean_abstract(data_inspire.get("abstracts")[0].get("value") if data_inspire.get("abstracts") else None)
+    abstract_openalex = clean_abstract(" ".join(word for _, word in sorted(
+        (i, word) for word, positions in (data_openalex.get("abstract_inverted_index") or {}).items() for i in positions
+    )))
+    author_corresponding_openalex = [
+        {
+            "raw_author_name": authorship.get("raw_author_name") or (authorship.get("author") or {}).get("display_name"),
+            "raw_affiliation_strings": authorship.get("raw_affiliation_strings"),
+            "raw_orcid": authorship.get("raw_orcid") or (authorship.get("author") or {}).get("orcid"),
+            "author_position": authorship.get("author_position"),
+            "is_corresponding": authorship.get("is_corresponding"),
+        }
+        for authorship in data_openalex.get("authorships") or []
+        if authorship.get("is_corresponding")
+    ]
     return {
-        "source": msg["source"],
-        "language": msg.get("language"),
-        "title": msg.get("title"),
-        "original-title": msg.get("original-title"),
-        "short-title": msg.get("short-title"),
-        "subtitle": msg.get("subtitle"),
-        "author": msg.get("author"),
-        "DOI": msg.get("DOI"),
-        "URL": msg.get("URL"),
-        "is-referenced-by-count": msg.get("is-referenced-by-count"),
-        "reference-count": msg.get("reference-count"),
-        "abstract": clean_abstract(msg.get("abstract")) or get_abstract_openAlex(doi) or get_abstract_inspire(doi),
-        "publisher": msg.get("publisher"),
-        "container-title": msg.get("container-title"),
-        "short-container-title": msg.get("short-container-title"),
-        "type": msg.get("type"),
-        "volume": msg.get("volume"),
-        "page": msg.get("page"),
-        "issued": msg.get("issued"),
-        "article-number": msg.get("article-number"),
-        "ISSN": msg.get("ISSN"),
-        "funder": msg.get("funder"),
-        "reference": msg.get("reference"),   
+        "source": data_crossref["source"],
+        "language": data_crossref.get("language"),
+        "title": data_crossref.get("title"),
+        "author": data_crossref.get("author"),
+        "author-corresponding-openalex": author_corresponding_openalex,
+        "DOI": data_crossref.get("DOI"),
+        "URL": data_crossref.get("URL"),
+        "is-referenced-by-count": data_crossref.get("is-referenced-by-count"),
+        "reference-count": data_crossref.get("reference-count"),
+        "abstract": abstract_crossref or abstract_inspire or abstract_openalex,
+        "publisher": data_crossref.get("publisher"),
+        "container-title": data_crossref.get("container-title"),
+        "short-container-title": data_crossref.get("short-container-title"),
+        "type": data_crossref.get("type"),
+        "volume": data_crossref.get("volume"),
+        "page": data_crossref.get("page"),
+        "article-number": data_crossref.get("article-number"),
+        "issued": data_crossref.get("issued"),
+        "ISSN": data_crossref.get("ISSN"),
+        "funder": data_crossref.get("funder"),
+        "reference": data_crossref.get("reference"),   
     }
 
 
 if __name__ == "__main__":
     doi = sys.argv[1]
-    print(json.dumps(get_doi_abstractdata(doi), ensure_ascii=False, indent=2))
+    print(json.dumps(get_abstractdata(doi), ensure_ascii=False, indent=2))
