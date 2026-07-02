@@ -1,0 +1,918 @@
+{
+  "source": "Crossref",
+  "language": "en",
+  "title": [
+    "Effect of symmetry energy on the structure and α-decay of deformed superheavy nuclei"
+  ],
+  "author": [
+    {
+      "given": "Guoqing",
+      "family": "Wu",
+      "sequence": "first",
+      "affiliation": [],
+      "role": [
+        {
+          "role": "author",
+          "vocabulary": "crossref"
+        }
+      ]
+    },
+    {
+      "ORCID": "https://orcid.org/0000-0001-9625-7860",
+      "authenticated-orcid": false,
+      "given": "Jianmin",
+      "family": "Dong",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "role": "author",
+          "vocabulary": "crossref"
+        }
+      ]
+    }
+  ],
+  "author-corresponding-openalex": [
+    {
+      "raw_author_name": "Jianmin Dong",
+      "raw_affiliation_strings": [
+        "Institute of Modern Physics, Chinese Academy of Sciences, Lanzhou 730000, China",
+        "School of Nuclear Science and Technology, University of Chinese Academy of Sciences, Beijing 100049, China"
+      ],
+      "raw_orcid": "https://orcid.org/0000-0001-9625-7860",
+      "author_position": "last",
+      "is_corresponding": true
+    }
+  ],
+  "DOI": "10.1016/j.nuclphysa.2025.123089",
+  "URL": "https://doi.org/10.1016/j.nuclphysa.2025.123089",
+  "is-referenced-by-count": 0,
+  "reference-count": 87,
+  "abstract": "We explore the impact of the density-dependent nuclear symmetry energy on the properties and stability of superheavy nuclei (SHN) based on a deformed relativistic mean-field theory in combination with the BCS method. The interaction ‘family’ based on the well-established FSUGarnet parameter set is introduced by adjusting the nonlinear ω − ρ coupling parameter Λ V and ρ-nucleon coupling parameter g ρ . This adjustment allows us to explore various density-dependent behaviors of the symmetry energy while maintaining its value at saturation density. A larger Λ V gives larger symmetry energy (but softer due to its small slope) below the saturation density. Under different density-dependent behavior of symmetry energy, the nuclear deformation remains largely unchanged, and the nuclear magicity is also almost not altered distinctly although the single-particle energy levels shift evidently. Intriguingly, although the shell gaps are not altered obviously, the stability of SHN against α-decay is enhanced substantially as the symmetry energy softens because a softer symmetry energy gives a smaller α-decay energy and a much longer lifetime.",
+  "publisher": "Elsevier BV",
+  "container-title": [
+    "Nuclear Physics A"
+  ],
+  "short-container-title": [
+    "Nuclear Physics A"
+  ],
+  "type": "journal-article",
+  "volume": "1059",
+  "page": "123089",
+  "article-number": "123089",
+  "issued": {
+    "date-parts": [
+      [
+        2025,
+        7
+      ]
+    ]
+  },
+  "ISSN": [
+    "0375-9474"
+  ],
+  "funder": [
+    {
+      "DOI": "10.13039/501100002367",
+      "name": "Chinese Academy of Sciences",
+      "doi-asserted-by": "publisher",
+      "award": [
+        "XDB34000000"
+      ],
+      "award-info": [
+        {
+          "award-number": [
+            "XDB34000000"
+          ]
+        }
+      ],
+      "id": [
+        {
+          "id": "10.13039/501100002367",
+          "id-type": "DOI",
+          "asserted-by": "publisher"
+        }
+      ]
+    },
+    {
+      "DOI": "10.13039/501100001809",
+      "name": "National Natural Science Foundation of China",
+      "doi-asserted-by": "publisher",
+      "award": [
+        "12222511"
+      ],
+      "award-info": [
+        {
+          "award-number": [
+            "12222511"
+          ]
+        }
+      ],
+      "id": [
+        {
+          "id": "10.13039/501100001809",
+          "id-type": "DOI",
+          "asserted-by": "publisher"
+        }
+      ]
+    },
+    {
+      "DOI": "10.13039/501100012166",
+      "name": "National Key Research and Development Program of China",
+      "doi-asserted-by": "publisher",
+      "award": [
+        "2023YFA1606701"
+      ],
+      "award-info": [
+        {
+          "award-number": [
+            "2023YFA1606701"
+          ]
+        }
+      ],
+      "id": [
+        {
+          "id": "10.13039/501100012166",
+          "id-type": "DOI",
+          "asserted-by": "publisher"
+        }
+      ]
+    }
+  ],
+  "reference": [
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0010",
+      "doi-asserted-by": "crossref",
+      "first-page": "1",
+      "DOI": "10.1016/0375-9474(69)90809-4",
+      "volume": "131",
+      "author": "Nilsson",
+      "year": "1969",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0020",
+      "doi-asserted-by": "crossref",
+      "first-page": "261",
+      "DOI": "10.1007/BF01392125",
+      "volume": "222",
+      "author": "Mosel",
+      "year": "1969",
+      "journal-title": "Z. Phys."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0030",
+      "doi-asserted-by": "crossref",
+      "first-page": "733",
+      "DOI": "10.1103/RevModPhys.72.733",
+      "volume": "72",
+      "author": "Hofmann",
+      "year": "2000",
+      "journal-title": "Rev. Mod. Phys."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0040",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.74.044602",
+      "volume": "74",
+      "author": "Oganessian",
+      "year": "2006",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0050",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevLett.104.142502",
+      "volume": "104",
+      "author": "Oganessian",
+      "year": "2010",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0060",
+      "doi-asserted-by": "crossref",
+      "first-page": "62",
+      "DOI": "10.1016/j.nuclphysa.2015.07.003",
+      "volume": "944",
+      "author": "Oganessian",
+      "year": "2015",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0070",
+      "doi-asserted-by": "crossref",
+      "first-page": "3",
+      "DOI": "10.1016/j.nuclphysa.2015.06.007",
+      "volume": "944",
+      "author": "Münzenberg",
+      "year": "2015",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0080",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/RevModPhys.91.011001",
+      "volume": "91",
+      "author": "Giuliani",
+      "year": "2019",
+      "journal-title": "Rev. Mod. Phys."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0090",
+      "doi-asserted-by": "crossref",
+      "first-page": "1681",
+      "DOI": "10.1088/0954-3899/20/11/003",
+      "volume": "20",
+      "author": "Möller",
+      "year": "1994",
+      "journal-title": "J. Phys. G"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0100",
+      "volume": "72",
+      "author": "Baran",
+      "year": "2005",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0110",
+      "doi-asserted-by": "crossref",
+      "first-page": "238",
+      "DOI": "10.1103/PhysRevC.56.238",
+      "volume": "56",
+      "author": "Rutz",
+      "year": "1997",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0120",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.60.034304",
+      "volume": "60",
+      "author": "Bender",
+      "year": "1999",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0130",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.61.034313",
+      "volume": "61",
+      "author": "Kruppa",
+      "year": "2000",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0140",
+      "doi-asserted-by": "crossref",
+      "first-page": "169",
+      "DOI": "10.1016/j.physletb.2014.03.031",
+      "volume": "732",
+      "author": "Li",
+      "year": "2014",
+      "journal-title": "Phys. Lett. B"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0150",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevLett.107.012501",
+      "volume": "107",
+      "author": "Dong",
+      "year": "2011",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0160",
+      "volume": "92",
+      "author": "Wang",
+      "year": "2015",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0170",
+      "volume": "97",
+      "author": "Dong",
+      "year": "2018",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0180",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.99.014319",
+      "volume": "99",
+      "author": "Dong",
+      "year": "2019",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0190",
+      "doi-asserted-by": "crossref",
+      "first-page": "5647",
+      "DOI": "10.1103/PhysRevLett.86.5647",
+      "volume": "86",
+      "author": "Horowitz",
+      "year": "2001",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0200",
+      "doi-asserted-by": "crossref",
+      "first-page": "4221",
+      "DOI": "10.1103/PhysRevLett.85.4221",
+      "volume": "85",
+      "author": "Li",
+      "year": "2000",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0210",
+      "volume": "88",
+      "author": "Li",
+      "year": "2002",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0220",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.67.044317",
+      "volume": "67",
+      "author": "Todd",
+      "year": "2003",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0230",
+      "doi-asserted-by": "crossref",
+      "first-page": "121",
+      "DOI": "10.1016/S0370-1573(00)00019-3",
+      "volume": "333",
+      "author": "Lattimer",
+      "year": "2000",
+      "journal-title": "Phys. Rep."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0240",
+      "doi-asserted-by": "crossref",
+      "first-page": "536",
+      "DOI": "10.1126/science.1090720",
+      "volume": "304",
+      "author": "Lattimer",
+      "year": "2004",
+      "journal-title": "Science"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0250",
+      "doi-asserted-by": "crossref",
+      "first-page": "325",
+      "DOI": "10.1016/j.physrep.2005.02.004",
+      "volume": "411",
+      "author": "Steiner",
+      "year": "2005",
+      "journal-title": "Phys. Rep."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0260",
+      "doi-asserted-by": "crossref",
+      "first-page": "33",
+      "DOI": "10.1016/j.physletb.2005.04.055",
+      "volume": "617",
+      "author": "Jiang",
+      "year": "2005",
+      "journal-title": "Phys. Lett. B"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0270",
+      "doi-asserted-by": "crossref",
+      "first-page": "113",
+      "DOI": "10.1016/j.physrep.2008.04.005",
+      "volume": "464",
+      "author": "Li",
+      "year": "2008",
+      "journal-title": "Phys. Rep."
+    },
+    {
+      "author": "Tong",
+      "key": "10.1016/j.nuclphysa.2025.123089_br0280"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0290",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.101.035802",
+      "volume": "101",
+      "author": "Tong",
+      "year": "2020",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0300",
+      "doi-asserted-by": "crossref",
+      "first-page": "39",
+      "DOI": "10.1140/epja/i2019-12700-0",
+      "volume": "55",
+      "author": "Zhang",
+      "year": "2019",
+      "journal-title": "Eur. Phys. J. A"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0310",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.81.041301",
+      "volume": "81",
+      "author": "Carbone",
+      "year": "2010",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0320",
+      "volume": "82",
+      "author": "Liu",
+      "year": "2010",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0330",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevLett.108.201101",
+      "volume": "108",
+      "author": "Sotani",
+      "year": "2012",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0340",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevLett.109.262501",
+      "volume": "109",
+      "author": "Agrawal",
+      "year": "2012",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0350",
+      "volume": "88",
+      "author": "Wang",
+      "year": "2013",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0360",
+      "doi-asserted-by": "crossref",
+      "first-page": "276",
+      "DOI": "10.1016/j.physletb.2013.10.006",
+      "volume": "727",
+      "author": "Li",
+      "year": "2013",
+      "journal-title": "Phys. Lett. B"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0370",
+      "doi-asserted-by": "crossref",
+      "first-page": "234",
+      "DOI": "10.1016/j.physletb.2013.08.002",
+      "volume": "726",
+      "author": "Zhang",
+      "year": "2013",
+      "journal-title": "Phys. Lett. B"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0380",
+      "volume": "88",
+      "author": "Dong",
+      "year": "2013",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0390",
+      "volume": "87",
+      "author": "Dong",
+      "year": "2013",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0400",
+      "volume": "87",
+      "author": "Roca-Maza",
+      "year": "2013",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0410",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.89.017305",
+      "volume": "89",
+      "author": "Fan",
+      "year": "2014",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0420",
+      "volume": "91",
+      "author": "Dong",
+      "year": "2015",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0430",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/RevModPhys.89.015007",
+      "volume": "89",
+      "author": "Oertel",
+      "year": "2017",
+      "journal-title": "Rev. Mod. Phys."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0440",
+      "volume": "97",
+      "author": "Dong",
+      "year": "2018",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0450",
+      "volume": "81",
+      "author": "Jiang",
+      "year": "2010",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0460",
+      "first-page": "1",
+      "volume": "16",
+      "author": "Serot",
+      "year": "1986",
+      "journal-title": "Adv. Nucl. Phys."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0470",
+      "doi-asserted-by": "crossref",
+      "first-page": "193",
+      "DOI": "10.1016/0146-6410(96)00054-3",
+      "volume": "37",
+      "author": "Ring",
+      "year": "1996",
+      "journal-title": "Prog. Part. Nucl. Phys."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0480",
+      "doi-asserted-by": "crossref",
+      "first-page": "77",
+      "DOI": "10.1016/S0010-4655(97)00022-2",
+      "volume": "105",
+      "author": "Ring",
+      "year": "1997",
+      "journal-title": "Comput. Phys. Commun."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0490",
+      "doi-asserted-by": "crossref",
+      "first-page": "101",
+      "DOI": "10.1016/j.physrep.2004.10.001",
+      "volume": "409",
+      "author": "Vretenar",
+      "year": "2005",
+      "journal-title": "Phys. Rep."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0500",
+      "doi-asserted-by": "crossref",
+      "first-page": "470",
+      "DOI": "10.1016/j.ppnp.2005.06.001",
+      "volume": "57",
+      "author": "Meng",
+      "year": "2006",
+      "journal-title": "Prog. Part. Nucl. Phys."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0510",
+      "doi-asserted-by": "crossref",
+      "first-page": "132",
+      "DOI": "10.1016/0003-4916(90)90330-Q",
+      "volume": "198",
+      "author": "Gambhir",
+      "year": "1990",
+      "journal-title": "Ann. Phys."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0520",
+      "volume": "82",
+      "author": "Fattoyev",
+      "year": "2010",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0530",
+      "doi-asserted-by": "crossref",
+      "first-page": "519",
+      "DOI": "10.1140/epja/i2006-10147-0",
+      "volume": "30",
+      "author": "Zhang",
+      "year": "2006",
+      "journal-title": "Eur. Phys. J. A"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0540",
+      "doi-asserted-by": "crossref",
+      "first-page": "59",
+      "DOI": "10.1007/s10050-000-4504-z",
+      "volume": "8",
+      "author": "Bender",
+      "year": "2000",
+      "journal-title": "Eur. Phys. J."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0550",
+      "doi-asserted-by": "crossref",
+      "first-page": "23",
+      "DOI": "10.1016/j.physletb.2009.10.098",
+      "volume": "682",
+      "author": "Sharma",
+      "year": "2009",
+      "journal-title": "Phys. Lett. B"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0560",
+      "doi-asserted-by": "crossref",
+      "first-page": "1763",
+      "DOI": "10.1093/mnras/stae2170",
+      "volume": "534",
+      "author": "Liu",
+      "year": "2024",
+      "journal-title": "Mon. Not. R. Astron. Soc."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0570",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevLett.97.242501",
+      "volume": "97",
+      "author": "Dvorak",
+      "year": "2006",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0580",
+      "doi-asserted-by": "crossref",
+      "first-page": "403",
+      "DOI": "10.1140/epja/i2010-11057-2",
+      "volume": "46",
+      "author": "Ma",
+      "year": "2010",
+      "journal-title": "Eur. Phys. J. A"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0590",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.95.034611",
+      "volume": "95",
+      "author": "Anghel",
+      "year": "2017",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0600",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.96.044310",
+      "volume": "96",
+      "author": "Adamian",
+      "year": "2017",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0610",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1007/s11433-019-9422-1",
+      "volume": "63",
+      "author": "Meng",
+      "year": "2020",
+      "journal-title": "Sci. China Phys. Mech."
+    },
+    {
+      "issue": "1",
+      "key": "10.1016/j.nuclphysa.2025.123089_br0620",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.104.L011304",
+      "volume": "104",
+      "author": "Malov",
+      "year": "2021",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0630",
+      "doi-asserted-by": "crossref",
+      "first-page": "591",
+      "DOI": "10.1016/0375-9474(89)90691-X",
+      "volume": "502",
+      "author": "Patyk",
+      "year": "1989",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0640",
+      "doi-asserted-by": "crossref",
+      "first-page": "132",
+      "DOI": "10.1016/0375-9474(91)90823-O",
+      "volume": "533",
+      "author": "Patyk",
+      "year": "1991",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0650",
+      "volume": "46",
+      "author": "Wang",
+      "year": "2022",
+      "journal-title": "Chin. Phys. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0660",
+      "doi-asserted-by": "crossref",
+      "first-page": "131",
+      "DOI": "10.1006/adnd.1997.0746",
+      "volume": "66",
+      "author": "Möller",
+      "year": "1997",
+      "journal-title": "At. Data Nucl. Data Tables"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0670",
+      "doi-asserted-by": "crossref",
+      "first-page": "1326",
+      "DOI": "10.1103/PhysRevLett.72.1326",
+      "volume": "72",
+      "author": "Buck",
+      "year": "1994",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0680",
+      "doi-asserted-by": "crossref",
+      "first-page": "266",
+      "DOI": "10.1016/S0375-9474(00)00460-7",
+      "volume": "683",
+      "author": "Moustabchir",
+      "year": "2001",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0690",
+      "doi-asserted-by": "crossref",
+      "first-page": "355",
+      "DOI": "10.1016/j.nuclphysa.2003.11.010",
+      "volume": "730",
+      "author": "Royer",
+      "year": "2004",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0700",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.73.014612",
+      "volume": "73",
+      "author": "Chowdhury",
+      "year": "2006",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0710",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.73.014315",
+      "volume": "73",
+      "author": "Delion",
+      "year": "2006",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0720",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.73.041301",
+      "volume": "73",
+      "author": "Xu",
+      "year": "2006",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0730",
+      "doi-asserted-by": "crossref",
+      "first-page": "142",
+      "DOI": "10.1016/j.nuclphysa.2007.04.001",
+      "volume": "789",
+      "author": "Samanta",
+      "year": "2007",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0740",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.76.044326",
+      "volume": "76",
+      "author": "Pei",
+      "year": "2007",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0750",
+      "volume": "77",
+      "author": "Zhang",
+      "year": "2008",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0760",
+      "volume": "77",
+      "author": "Bhattacharya",
+      "year": "2008",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0770",
+      "volume": "80",
+      "author": "Ni",
+      "year": "2009",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0780",
+      "doi-asserted-by": "crossref",
+      "first-page": "198",
+      "DOI": "10.1016/j.nuclphysa.2009.10.082",
+      "volume": "832",
+      "author": "Dong",
+      "year": "2010",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0790",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.83.014601",
+      "volume": "83",
+      "author": "Poenaru",
+      "year": "2011",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0800",
+      "volume": "86",
+      "author": "Ismail",
+      "year": "2012",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0810",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1088/0954-3899/40/10/105102",
+      "volume": "40",
+      "author": "Seif",
+      "year": "2013",
+      "journal-title": "J. Phys. G, Nucl. Part. Phys."
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0820",
+      "volume": "89",
+      "author": "Wang",
+      "year": "2014",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0830",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.91.014322",
+      "volume": "91",
+      "author": "Seif",
+      "year": "2015",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0840",
+      "volume": "94",
+      "author": "Sun",
+      "year": "2016",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0850",
+      "volume": "97",
+      "author": "Santhosh",
+      "year": "2018",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0860",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.77.037602",
+      "volume": "77",
+      "author": "Royer",
+      "year": "2008",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.nuclphysa.2025.123089_br0870",
+      "doi-asserted-by": "crossref",
+      "first-page": "266",
+      "DOI": "10.1016/S0375-9474(00)00460-7",
+      "volume": "683",
+      "author": "Moustabchir",
+      "year": "2001",
+      "journal-title": "Nucl. Phys. A"
+    }
+  ],
+  "filename": "Jianmin_Dong_Y.2025_NuclearPhysicsA_Vol.1059Nol.123089P.123089"
+}

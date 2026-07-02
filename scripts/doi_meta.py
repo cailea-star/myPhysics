@@ -1,5 +1,6 @@
 import html
 import json
+import os
 import re
 import sys
 import urllib.parse
@@ -100,6 +101,38 @@ def get_abstractdata(doi):
     }
 
 
+def generate_name(abstractdata):
+    """ generate a file name for the DOI based on its metadata.
+    """
+    # Define a function to create a normalized key for name comparison
+    name_key = lambda name: re.sub(r"\W+", "", name or "").lower()
+    get_full_name = lambda author: author.get("name") or " ".join(filter(None, [author.get("given"), author.get("family")]))
+
+    # get the corresponding author's name from OpenAlex, or fall back to the first author in CrossRef
+    author_name_raw = ((abstractdata.get("author-corresponding-openalex") or [{}])[0]).get("raw_author_name")
+    author_target = (abstractdata.get("author") or [{}])[0]
+    for author_target in abstractdata.get("author") or []:
+        if name_key(get_full_name(author_target)) == name_key(author_name_raw):
+            author_target = author_target
+            break
+    author_name = get_full_name(author_target) or author_name_raw
+    
+    journal = abstractdata.get("short-container-title")[0]
+    volume = abstractdata.get("volume")
+    number = abstractdata.get("article-number") or ""
+    page = abstractdata.get("page") or ""
+    date_parts = (abstractdata.get("issued") or {}).get("date-parts") or [[]]
+    year = (date_parts[0] or [""])[0]
+    return f"{author_name.replace(' ', '_')}_Y.{year}_{journal.replace(' ', '')}_Vol.{volume}Nol.{number}P.{page}"
+
 if __name__ == "__main__":
     doi = sys.argv[1]
-    print(json.dumps(get_abstractdata(doi), ensure_ascii=False, indent=2))
+    abstractdata = get_abstractdata(doi)
+    abstractdata["filename"] = generate_name(abstractdata)
+
+    raw_docs = os.path.join(os.path.dirname(__file__), "..", "raw_docs")
+    os.makedirs(raw_docs, exist_ok=True)
+    json_path = os.path.join(raw_docs, abstractdata["filename"] + ".json")
+
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(abstractdata, f, ensure_ascii=False, indent=2)
