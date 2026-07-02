@@ -2,44 +2,54 @@
 
 Evidence-first literature wiki for nuclear physics.
 
-## File Structure
+## Structure
 
 ```text
-raw/
-  *.json   # DOI metadata from scripts
-  *.pdf    # original paper
-  *.tex    # optional source
-  *.md     # tagged original quotes, not summaries
+raw/        # source evidence
+  *.json    # DOI metadata
+  *.pdf     # original paper, optional
+  *.tex     # source text, optional
+  *.md      # tagged original quotes, optional
 
-namelist/
-  topics.md
-  methods.md
-  authors.md
-  relations.md
+namelist/   # controlled vocabulary
+  entities.json
+  conditions.json
+  phenomena.json
+  mechanisms.json
+  methods.json
+  systems.json
+  quantities.json
+  claim_types.json
 
-scripts/
+scripts/    # ingest/query/lint tools
   doi_meta.py
-
-wiki_docs/
-  generated/  # optional query output/cache
 ```
 
-`raw` is source of truth. `namelist` is project vocabulary. `wiki_docs` is rebuildable output.
+`raw` is truth. `namelist` is vocabulary. Wiki pages are generated views, not maintained truth.
 
 ## Operations
 
 **Ingest**
 
-DOI/PDF/TEX -> `raw`. Extract metadata, stable filename, abstract, authors, corresponding author, source path. Later: add tagged quotes.
+DOI/PDF/TEX -> `raw`: metadata, stable filename, abstract, corresponding author, source path, tagged quotes.
 
 **Query**
 
-Keyword -> `namelist` terms -> search tagged raw evidence -> assemble answer or temporary wiki page.
+Keyword -> canonical term in `namelist` -> tagged evidence in `raw` -> assembled answer/wiki view.
 
 **Lint**
 
-Check missing pairs, broken filenames, duplicate topics/authors, stale tags, uncited claims.
+Check missing files, invalid tags, duplicate terms, stale metadata, uncited claims.
 
-## Principle
+## Tags
 
-Do not maintain loose wiki prose as truth. Keep raw evidence + namelist. Generate wiki views when needed.
+```text
+entity:...
+condition:...
+phenomenon:...
+mechanism:...
+method:...
+system:...
+quantity:...
+claim:...
+```
