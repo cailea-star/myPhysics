@@ -11,7 +11,7 @@ raw/        # source evidence
   *.tex     # source text, optional
   *.md      # tagged original quotes, optional
 
-namelist/   # controlled vocabulary
+taglist/   # controlled vocabulary
   entities.json
   conditions.json
   phenomena.json
@@ -19,13 +19,17 @@ namelist/   # controlled vocabulary
   methods.json
   systems.json
   quantities.json
-  claim_types.json
+  claims.json
 
 scripts/    # ingest/query/lint tools
-  doi_meta.py
+  add_raw_json.py
+
+template/   # file templates
+  paper.md
+  taglist.json
 ```
 
-`raw` is truth. `namelist` is vocabulary. Wiki pages are generated views, not maintained truth.
+`raw` is truth. `taglist` is vocabulary. Wiki pages are generated views, not maintained truth.
 
 ## Operations
 
@@ -35,21 +39,14 @@ DOI/PDF/TEX -> `raw`: metadata, stable filename, abstract, corresponding author,
 
 **Query**
 
-Keyword -> canonical term in `namelist` -> tagged evidence in `raw` -> assembled answer/wiki view.
+Keyword -> canonical term in `taglist` -> tagged evidence in `raw` -> assembled answer/wiki view.
 
 **Lint**
 
 Check missing files, invalid tags, duplicate terms, stale metadata, uncited claims.
 
-## Tags
+## Templates
 
-```text
-entity:...
-condition:...
-phenomenon:...
-mechanism:...
-method:...
-system:...
-quantity:...
-claim:...
-```
+Paper quote format lives in `template/paper.md`.
+
+Taglist format lives in `template/taglist.json`.

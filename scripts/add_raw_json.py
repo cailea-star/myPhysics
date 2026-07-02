@@ -130,9 +130,9 @@ if __name__ == "__main__":
     abstractdata = get_abstractdata(doi)
     abstractdata["filename"] = generate_name(abstractdata)
 
-    raw_docs = os.path.join(os.path.dirname(__file__), "..", "raw_docs")
-    os.makedirs(raw_docs, exist_ok=True)
-    json_path = os.path.join(raw_docs, abstractdata["filename"] + ".json")
+    raw_path = os.path.join(os.path.dirname(__file__), "..", "raw")
+    os.makedirs(raw_path, exist_ok=True)
+    json_path = os.path.join(raw_path, abstractdata["filename"] + ".json")
 
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(abstractdata, f, ensure_ascii=False, indent=2)
