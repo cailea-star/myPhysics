@@ -1,0 +1,6 @@
+{
+    "condition_name": {
+        "definition": "the definition of a condition",
+        "aliases": ["condition", "state", " circumstance", "条件", "状况"]
+    }
+}

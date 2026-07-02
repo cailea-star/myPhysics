@@ -1,0 +1,6 @@
+{
+    "quantity_name": {
+        "definition": "the definition of a quantity",
+        "aliases": ["quantity", "amount", "magnitude", "数量", "量"]
+    }
+}
