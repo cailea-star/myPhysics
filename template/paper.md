@@ -1,7 +1,7 @@
 ---
 source_json: [json_filename.json]
 doi: [doi_number]
-first_author: [given_name] [family_name]
+first_author: [given_name], [family_name]
 affiliations: [affiliations]
 ---
 
