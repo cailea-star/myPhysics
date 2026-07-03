@@ -13,7 +13,7 @@ affiliations: [affiliations]
 [abstract]
 ```
 
-### Background
+### Motivation
 
 ##### quotation-01
 
@@ -54,6 +54,6 @@ source : section 1.
 
 ...
 
-### meanings
+### Meanings
 
 ...
