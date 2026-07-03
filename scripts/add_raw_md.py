@@ -17,8 +17,9 @@ def replace_first_author(text, json_data):
 
 
 def replace_affiliations(text, json_data):
+    first_author = (json_data.get("author") or [{}])[0]
     corresponding = (json_data.get("author-corresponding-openalex") or [{}])[0]
-    affiliations = corresponding.get("raw_affiliation_strings") or []
+    affiliations = corresponding.get("raw_affiliation_strings") or first_author.get("affiliation") or []
     names = [a.get("name") if isinstance(a, dict) else str(a) for a in affiliations]
     return text.replace("[affiliations]", ", ".join(filter(None, names)))
 
