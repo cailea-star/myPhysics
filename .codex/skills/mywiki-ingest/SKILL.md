@@ -17,6 +17,8 @@ description: Ingest one paper into myWIKI. Use when user asks to add a paper by 
 
 Tags must come from `taglist/*.json`. Quote must come from `raw/*.pdf` or `raw/*.tex`. Each quote needs source section.
 
+Before adding new `taglist` entries or new quotations in `raw/*.md`, present the draft and wait for user review.
+
 ## Workflow
 
 1. Confirm paper
@@ -27,9 +29,13 @@ Tags must come from `taglist/*.json`. Quote must come from `raw/*.pdf` or `raw/*
    python scripts\add_raw_json.py [doi_number]
    python scripts\add_raw_md.py raw\[json_filename].json
    ```
+   Use `git diff --name-only -- raw/*.json` to identify the new JSON filename; use `git status --short raw` if it is untracked.
 
 3. Collect full text
    Get PDF/TEX from open source or user. Save into `raw/` with same basename as JSON.
 
 4. Discuss quotations
-   Section by section, choose quote, claim type, tags, source section. Write into `raw/*.md`.
+   Discuss quotations under the template frames: Motivation, Methods, Results, Meanings. Section by section, choose quote, claim type, tags, source section.
+   Each quote must be a complete sentence, not a phrase; it should support a clear claim and contain about 20-40 words.
+   Each section must contain at least two quotations.
+   If a needed keyword is missing from `taglist`, draft a matching `taglist/*.json` entry using existing template. Present draft tag entries and quotations for user review before writing to `taglist/*.json` or `raw/*.md`.
