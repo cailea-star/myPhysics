@@ -23,9 +23,9 @@ Quotation tags are centered on physical quantities actually calculated, plotted,
 
 Tags must come from `taglist/*.json`, if a needed keyword is missing, draft a matching `taglist/*.json` entry using existing template.
 
-Before writing any new taglist entry, present its full `tag`, `description`, and `aliases` to the user for review.
+Present new tag drafts one `taglist/*.json` category at a time; include full `tag`, `description`, and only aliases seen in the paper, metadata, or existing project vocabulary.
 
-Present new tag drafts one `taglist/*.json` category at a time; do not mix many tag categories in one review.
+Write a tag category only after the user explicitly confirms that category; then present the next category draft for review.
 
 ### Quote Rules
 
