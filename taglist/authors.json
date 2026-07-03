@@ -1,0 +1,8 @@
+[
+    {
+        "given": "first_name",
+        "family": "last_name",
+        "affiliation": ["affiliation1", "affiliation2"],
+        "ORCID": null
+    }
+]

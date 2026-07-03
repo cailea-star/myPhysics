@@ -1,6 +1,7 @@
-{
-    "mechanism_name": {
-        "definition": "the definition of a mechanism",
-        "aliases": ["mechanism", "process", "system", "机制", "过程"]
-    }
-}
+﻿[
+  {
+    "tag": "mechanism_name",
+    "definition": "the definition of a mechanism",
+    "aliases": ["mechanism", "process", "system", "机制", "过程"]
+  }
+]

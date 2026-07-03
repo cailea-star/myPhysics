@@ -1,6 +1,7 @@
-{
-    "method_name": {
-        "definition": "the definition of a method",
-        "aliases": ["method", "approach", "technique", "方法", "途径"]
-    }
-}
+﻿[
+  {
+    "tag": "method_name",
+    "definition": "the definition of a method",
+    "aliases": ["method", "approach", "technique", "方法", "途径"]
+  }
+]

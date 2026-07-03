@@ -1,6 +1,7 @@
-{
-    "entity_name": {
-        "definition": "the definition of an entity",
-        "aliases": ["entity", "object", "item", "实体", "对象"]
-    }
-}
+﻿[
+  {
+    "tag": "entity_name",
+    "definition": "the definition of an entity",
+    "aliases": ["entity", "object", "item", "实体", "对象"]
+  }
+]
