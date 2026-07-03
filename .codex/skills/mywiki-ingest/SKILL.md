@@ -17,6 +17,12 @@ description: Ingest one paper into myWIKI. Use when user asks to add a paper by 
 
 Tags must come from `taglist/*.json`. Quote must come from `raw/*.pdf` or `raw/*.tex`. Each quote needs source section.
 
+For quotation tags, `quantities` must be physical quantities actually calculated, plotted, fitted, or numerically compared in the paper.
+
+For quotation tags, `methods` must be theory, computational method, model, code, formula, or experimental method actually used to obtain results in the paper.
+
+Before writing any new taglist entry, present its full `tag`, `description`, and `aliases` to the user for review.
+
 Before adding new `taglist` entries or new quotations in `raw/*.md`, present the draft and wait for user review.
 
 ## Workflow
