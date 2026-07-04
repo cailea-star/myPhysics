@@ -2,7 +2,19 @@
     {
         "given": "first_name",
         "family": "last_name",
-        "affiliation": ["affiliation1", "affiliation2"],
+        "affiliation": [
+            "affiliation1",
+            "affiliation2"
+        ],
         "ORCID": null
+    },
+    {
+        "given": "Jianmin",
+        "family": "Dong",
+        "affiliation": [
+            "Institute of Modern Physics, Chinese Academy of Sciences, Lanzhou 730000, China",
+            "School of Nuclear Science and Technology, University of Chinese Academy of Sciences, Beijing 100049, China"
+        ],
+        "ORCID": "https://orcid.org/0000-0001-9625-7860"
     }
 ]

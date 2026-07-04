@@ -35,12 +35,14 @@
   "author-corresponding-openalex": [
     {
       "raw_author_name": "Jianmin Dong",
+      "given": "Jianmin",
+      "family": "Dong",
+      "raw_orcid": "https://orcid.org/0000-0001-9625-7860",
+      "ORCID": "https://orcid.org/0000-0001-9625-7860",
       "raw_affiliation_strings": [
         "Institute of Modern Physics, Chinese Academy of Sciences, Lanzhou 730000, China",
         "School of Nuclear Science and Technology, University of Chinese Academy of Sciences, Beijing 100049, China"
       ],
-      "raw_orcid": "https://orcid.org/0000-0001-9625-7860",
-      "author_position": "last",
       "is_corresponding": true
     }
   ],

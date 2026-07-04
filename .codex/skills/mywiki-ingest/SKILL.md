@@ -44,6 +44,8 @@ Write: Present and write quotation drafts one section at a time; wait for user r
 ## Workflow
 
 1. Confirm paper
+   Check that the current directory is inside a git repository with `git rev-parse --is-inside-work-tree`.
+   Check that the worktree is clean with `git status --short`; if it is not empty, stop and report the existing changes before ingest.
    User gives DOI, title, PDF, TEX, or JSON. Confirm exact paper before ingest.
 
 2. Generate raw files
@@ -57,7 +59,7 @@ Write: Present and write quotation drafts one section at a time; wait for user r
    Get PDF/TEX from open source or user. Save into `raw/` with same basename as JSON.
 
 4. Check tag & author
-   Check whether the new paper's corresponding author is in `vocab/authors.json`; add them if missing.
+   Run `python scripts\add_vocab_author.py raw\[json_filename].json` as a routine check of the corresponding-author list, then read the PDF/TEX source text for corresponding-author information and report both the script terminal output and the source-text corresponding-author information to the user.
    Check rough paper-level keywords against `vocab/tags.json`; draft and confirm missing tags following [Vocab-Rules](#vocab-rules).
 
 5. Discuss quotations
