@@ -124,5 +124,11 @@
     "definition": "nucleus with mass number A=304, atomic number Z=120, element 120",
     "types": ["entity"],
     "aliases": ["304120"]
+  },
+  {
+    "tag": "single_particle_energy_level",
+    "definition": "single-particle energy level calculated or compared for nucleons in a nucleus",
+    "types": ["quantity"],
+    "aliases": ["single-particle energy levels", "single particle energy levels"]
   }
 ]
