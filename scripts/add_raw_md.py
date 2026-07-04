@@ -43,7 +43,7 @@ def main(json_path):
     json_data = json.loads(json_path.read_text(encoding="utf-8"))
     json_data["_json_filename"] = json_path.name
 
-    text = (Path(__file__).resolve().parents[1] / "template" / "paper.md").read_text(encoding="utf-8")
+    text = Path(__file__).with_suffix(".md").read_text(encoding="utf-8")
     text = replace_source_json(text, json_data)
     text = replace_doi(text, json_data)
     text = replace_first_author(text, json_data)
@@ -54,4 +54,6 @@ def main(json_path):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        raise SystemExit("usage: python scripts/add_raw_md.py raw/paper.json")
     main(sys.argv[1])

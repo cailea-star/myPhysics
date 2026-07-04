@@ -5,49 +5,74 @@ Evidence-first literature wiki for nuclear physics.
 ## Structure
 
 ```text
-raw/        # source evidence
-  *.json    # DOI metadata
-  *.pdf     # original paper, optional
-  *.tex     # source text, optional
-  *.md      # tagged original quotes, optional
+raw/                 # source evidence
+  *.json             # DOI metadata
+  *.pdf              # original full text from network or user
+  *.tex              # original source text from network or user
+  *.md               # tagged quotations from the original full text
 
-taglist/   # controlled vocabulary
-  entities.json
-  conditions.json
-  phenomena.json
-  mechanisms.json
-  methods.json
-  properties.json
-  systems.json
-  quantities.json
-  claims.json
+vocab/               # controlled vocabulary
+  tags.json          # canonical tags
+  types.json         # tag_types and claim_types
+  authors.json       # author vocabulary
 
-scripts/    # ingest/query/lint tools
-  add_raw_json.py
-
-template/   # file templates
-  paper.md
-  taglist.json
+scripts/
+  add_raw_json.py    # DOI -> raw/*.json
+  add_raw_md.py      # raw/*.json -> raw/*.md
+  add_raw_md.md      # raw md template
 ```
 
-`raw` is truth. `taglist` is vocabulary. Wiki pages are generated views, not maintained truth.
+`raw` is truth. `vocab` names the vocabulary used to tag that truth.
 
-## Operations
+## Ingest
 
-**Ingest**
+Use the project `mywiki-ingest` skill for the ingest workflow.
 
-DOI/PDF/TEX -> `raw`: metadata, stable filename, abstract, corresponding author, source path, tagged quotes.
+```powershell
+python scripts\add_raw_json.py [doi_number]
+python scripts\add_raw_md.py raw\[json_filename].json
+```
 
-**Query**
+Put matching `*.pdf` or `*.tex` files in `raw/` with the same basename as the generated `*.json`.
 
-Keyword -> canonical term in `taglist` -> tagged evidence in `raw` -> assembled answer/wiki view.
+## Raw Markdown
 
-**Lint**
+`raw/*.md` records quotations from the original `raw/*.pdf` or `raw/*.tex`.
 
-Check missing files, invalid tags, duplicate terms, stale metadata, uncited claims.
+Each quotation block uses:
 
-## Templates
+````md
+```tags
+[claim_type]: ...
+[tags]: ...
+```
 
-Paper quote format lives in `template/paper.md`.
+``` quote
+quoted sentence from the original paper
+```
 
-Taglist format lives in `template/taglist.json`.
+source : section name.
+````
+
+`claim_type` must come from `vocab/types.json`.
+
+Tags must come from `vocab/tags.json`.
+
+Each quote needs a source section.
+
+## Tags
+
+Each tag has:
+
+```json
+{
+  "tag": "tag_name",
+  "definition": "definition",
+  "types": ["quantity"],
+  "aliases": ["seen alias"]
+}
+```
+
+Keep noun-term compounds as precise tags, e.g. `alpha_decay_energy`.
+
+Split adjective-like modifiers into property tags, e.g. `symmetry_energy` + `soft`.
