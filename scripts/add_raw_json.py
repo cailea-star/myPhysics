@@ -54,68 +54,76 @@ def clean_abstract(text):
     return text or None
 
 
+def author_corresponding_from_openAlex(data_openAlex, data_CrossRef):
+    name_key = lambda name: re.sub(r"\W+", "", name or "").lower()
+    get_CrossRef_authorname = lambda author: " ".join(filter(None, [author.get("given"), author.get("family")]))
+    author_corresponding_openalex = []
+    for author_openAlex in data_openAlex.get("authorships") or []:
+        # only include corresponding authors from OpenAlex
+        if not author_openAlex.get("is_corresponding"): continue
+        # find the corresponding author in CrossRef by matching names
+        authorname_openAlex = author_openAlex.get("raw_author_name")
+        author_CrossRef_target = (data_CrossRef.get("author") or [{}])[0]
+        for author_CrossRef in data_CrossRef.get("author") or []:
+            authorname_CrossRef = get_CrossRef_authorname(author_CrossRef)
+            if name_key(authorname_CrossRef) == name_key(authorname_openAlex):
+                author_CrossRef_target = author_CrossRef
+                break
+        # append the corresponding author information to the list
+        author_corresponding_openalex.append({
+            "raw_author_name": authorname_openAlex,
+            "given": author_CrossRef_target.get("given") or "",
+            "family": author_CrossRef_target.get("family") or "",
+            "raw_orcid": author_openAlex.get("raw_orcid"),
+            "ORCID": author_CrossRef_target.get("ORCID") or "",
+            "raw_affiliation_strings": author_openAlex.get("raw_affiliation_strings"),
+            "is_corresponding": author_openAlex.get("is_corresponding"),
+        })
+    return author_corresponding_openalex
+
+
 def get_abstractdata(doi):
     """ get metadata and abstract for a DOI.
     """
-    data_crossref = metadata_from_CrossRef(doi)
-    data_inspire = metadata_from_Inspire(doi)
-    data_openalex = metadata_from_openAlex(doi)
-    abstract_crossref = clean_abstract(data_crossref.get("abstract"))
-    abstract_inspire = clean_abstract(data_inspire.get("abstracts")[0].get("value") if data_inspire.get("abstracts") else None)
-    abstract_openalex = clean_abstract(" ".join(word for _, word in sorted(
-        (i, word) for word, positions in (data_openalex.get("abstract_inverted_index") or {}).items() for i in positions
+    metadata_CrossRef = metadata_from_CrossRef(doi)
+    metadata_Inspire = metadata_from_Inspire(doi)
+    metadata_openAlex = metadata_from_openAlex(doi)
+    abstract_crossRef = clean_abstract(metadata_CrossRef.get("abstract"))
+    abstract_Inspire = clean_abstract(metadata_Inspire.get("abstracts")[0].get("value") if metadata_Inspire.get("abstracts") else None)
+    abstract_openAlex = clean_abstract(" ".join(word for _, word in sorted(
+        (i, word) for word, positions in (metadata_openAlex.get("abstract_inverted_index") or {}).items() for i in positions
     )))
-    author_corresponding_openalex = [
-        {
-            "raw_author_name": authorship.get("raw_author_name") or (authorship.get("author") or {}).get("display_name"),
-            "raw_affiliation_strings": authorship.get("raw_affiliation_strings"),
-            "raw_orcid": authorship.get("raw_orcid") or (authorship.get("author") or {}).get("orcid"),
-            "author_position": authorship.get("author_position"),
-            "is_corresponding": authorship.get("is_corresponding"),
-        }
-        for authorship in data_openalex.get("authorships") or []
-        if authorship.get("is_corresponding")
-    ]
+    author_corresponding = author_corresponding_from_openAlex(metadata_openAlex, metadata_CrossRef)
     return {
-        "source": data_crossref["source"],
-        "language": data_crossref.get("language"),
-        "title": data_crossref.get("title"),
-        "author": data_crossref.get("author"),
-        "author-corresponding-openalex": author_corresponding_openalex,
-        "DOI": data_crossref.get("DOI"),
-        "URL": data_crossref.get("URL"),
-        "is-referenced-by-count": data_crossref.get("is-referenced-by-count"),
-        "reference-count": data_crossref.get("reference-count"),
-        "abstract": abstract_crossref or abstract_inspire or abstract_openalex,
-        "publisher": data_crossref.get("publisher"),
-        "container-title": data_crossref.get("container-title"),
-        "short-container-title": data_crossref.get("short-container-title"),
-        "type": data_crossref.get("type"),
-        "volume": data_crossref.get("volume"),
-        "page": data_crossref.get("page"),
-        "article-number": data_crossref.get("article-number"),
-        "issued": data_crossref.get("issued"),
-        "ISSN": data_crossref.get("ISSN"),
-        "funder": data_crossref.get("funder"),
-        "reference": data_crossref.get("reference"),   
+        "source": metadata_CrossRef["source"],
+        "language": metadata_CrossRef.get("language"),
+        "title": metadata_CrossRef.get("title"),
+        "author": metadata_CrossRef.get("author"),
+        "author-corresponding-openalex": author_corresponding,
+        "DOI": metadata_CrossRef.get("DOI"),
+        "URL": metadata_CrossRef.get("URL"),
+        "is-referenced-by-count": metadata_CrossRef.get("is-referenced-by-count"),
+        "reference-count": metadata_CrossRef.get("reference-count"),
+        "abstract": abstract_crossRef or abstract_Inspire or abstract_openAlex,
+        "publisher": metadata_CrossRef.get("publisher"),
+        "container-title": metadata_CrossRef.get("container-title"),
+        "short-container-title": metadata_CrossRef.get("short-container-title"),
+        "type": metadata_CrossRef.get("type"),
+        "volume": metadata_CrossRef.get("volume"),
+        "page": metadata_CrossRef.get("page"),
+        "article-number": metadata_CrossRef.get("article-number"),
+        "issued": metadata_CrossRef.get("issued"),
+        "ISSN": metadata_CrossRef.get("ISSN"),
+        "funder": metadata_CrossRef.get("funder"),
+        "reference": metadata_CrossRef.get("reference"),   
     }
 
 
 def generate_name(abstractdata):
     """ generate a file name for the DOI based on its metadata.
     """
-    # Define a function to create a normalized key for name comparison
-    name_key = lambda name: re.sub(r"\W+", "", name or "").lower()
-    get_full_name = lambda author: author.get("name") or " ".join(filter(None, [author.get("given"), author.get("family")]))
-
-    # get the corresponding author's name from OpenAlex, or fall back to the first author in CrossRef
-    author_name_raw = ((abstractdata.get("author-corresponding-openalex") or [{}])[0]).get("raw_author_name")
-    author_target = (abstractdata.get("author") or [{}])[0]
-    for author_target in abstractdata.get("author") or []:
-        if name_key(get_full_name(author_target)) == name_key(author_name_raw):
-            author_target = author_target
-            break
-    author_name = get_full_name(author_target) or author_name_raw
+    author = (abstractdata.get("author-corresponding-openalex") or abstractdata.get("author") or [{}])[0]
+    author_name = " ".join(filter(None, [author.get("given"), author.get("family")])) or author.get("raw_author_name") or ""
     
     journal = abstractdata.get("short-container-title")[0]
     volume = abstractdata.get("volume")
