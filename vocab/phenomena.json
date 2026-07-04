@@ -1,0 +1,22 @@
+﻿[
+  {
+    "tag": "phenomenon_name",
+    "definition": "the definition of a phenomenon",
+    "aliases": ["phenomenon", "event", "occurrence", "现象", "事件"]
+  },
+  {
+    "tag": "alpha_decay",
+    "definition": "radioactive decay mode in which a nucleus emits an alpha particle",
+    "aliases": ["alpha-decay", "𝛼-decay"]
+  },
+  {
+    "tag": "shell_closure",
+    "definition": "nuclear shell closure or shell gap associated with enhanced stability",
+    "aliases": ["shell closure", "shell closures", "shell gap", "shell gaps"]
+  },
+  {
+    "tag": "nuclear_deformation",
+    "definition": "departure of nuclear shape from spherical symmetry",
+    "aliases": ["nuclear deformation", "deformation"]
+  }
+]
