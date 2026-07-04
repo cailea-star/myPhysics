@@ -7,7 +7,7 @@ description: Ingest one paper into myWIKI. Use when user asks to add a paper by 
 
 ## Rules
 
-### Raw Rules
+### Raw-Rules
 
 `raw` is truth.
 
@@ -17,29 +17,29 @@ description: Ingest one paper into myWIKI. Use when user asks to add a paper by 
 
 `raw/*.md` is quotation from original full text with tags.
 
-### Tag Rules
+### Vocab-Rules
 
-Quotation tags are centered on physical quantities actually calculated, plotted, or compared in the paper: `quantities` record those quantities, `properties` record their qualities or modifiers, `methods` record the methods/models/formulas used to obtain them, `systems` and `entities` record the objects they describe, `phenomena` and `mechanisms` record the phenomena and mechanisms explained by them, and `conditions` record their parameter ranges, density regions, or nucleus ranges; do not tag unrelated background mentions.
+Scope: Quotation tags are centered on physical quantities actually calculated, plotted, or compared in the paper; do not tag unrelated background mentions.
 
-Tag granularity: keep noun-term compounds as precise tags, but split adjective-like modifiers into `properties`; e.g. use `alpha_decay_energy`, but use `symmetry_energy` + `soft`.
+Types: Use tag types and claim types from `vocab/types.json`, tags from `vocab/tags.json`, and authors from `vocab/authors.json`.
 
-Tags must come from `taglist/*.json`, if a needed keyword is missing, draft a matching `taglist/*.json` entry using existing template.
+Granularity: Keep noun-term compounds as precise tags, but split adjective-like modifiers into property tags; e.g. use `alpha_decay_energy`, but use `symmetry_energy` + `soft`.
 
-Present new tag drafts one `taglist/*.json` category at a time; include full `tag`, `definition`, and only aliases seen in the paper, metadata, or existing project vocabulary.
+Draft: If a needed tag is missing, draft `{tag, definition, types, aliases}` entries for `vocab/tags.json` one tag type at a time; include only aliases seen in the paper, metadata, or existing project vocabulary.
 
-Write a tag category only after the user explicitly confirms that category; then present the next category draft for review.
+Write: Present one draft group, wait for user approval, write confirmed entries, then present the next draft group.
 
-### Quote Rules
+### Quotation-Rules
 
-Quote must come from `raw/*.pdf` or `raw/*.tex`.
+Source: Quote must come from `raw/*.pdf` or `raw/*.tex`.
 
-Each quote needs source section.
+Form: Each quote must be a complete sentence, not a phrase; it should support a clear claim and contain about 10-40 words.
 
-Each quote must be a complete sentence, not a phrase; it should support a clear claim and contain about 20-40 words.
+Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings. Each quote needs source section; each section must contain two to four quotations.
 
-Each section must contain at least two quotations.
+Definition: Each core tag used for a paper must have at least one quotation with `[claim_type]: definition` and `[tags]: tag_name`.
 
-Before adding new quotations in `raw/*.md`, present the draft and wait for user review.
+Write: Present and write quotation drafts one section at a time; wait for user review before writing each section to `raw/*.md`.
 
 ## Workflow
 
@@ -56,6 +56,9 @@ Before adding new quotations in `raw/*.md`, present the draft and wait for user 
 3. Collect full text
    Get PDF/TEX from open source or user. Save into `raw/` with same basename as JSON.
 
-4. Discuss quotations
-   Discuss quotations under the template frames: Motivation, Methods, Results, Meanings. Section by section, choose quote, claim type, tags, source section.
-   If a needed keyword is missing from `taglist`, draft a matching `taglist/*.json` entry using existing template. Present draft tag entries and quotations for user review before writing to `taglist/*.json` or `raw/*.md`.
+4. Check tag & author
+   Check whether the new paper's corresponding author is in `vocab/authors.json`; add them if missing.
+   Check rough paper-level keywords against `vocab/tags.json`; draft and confirm missing tags following [Vocab-Rules](#vocab-rules).
+
+5. Discuss quotations
+   Draft and write quotations under the template frames, following [Quotation-Rules](#quotation-rules).
