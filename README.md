@@ -17,6 +17,7 @@ taglist/   # controlled vocabulary
   phenomena.json
   mechanisms.json
   methods.json
+  properties.json
   systems.json
   quantities.json
   claims.json

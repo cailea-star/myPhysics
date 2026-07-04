@@ -19,7 +19,7 @@ description: Ingest one paper into myWIKI. Use when user asks to add a paper by 
 
 ### Tag Rules
 
-Quotation tags are centered on physical quantities actually calculated, plotted, or compared in the paper: `quantities` record those quantities, `methods` record the methods/models/formulas used to obtain them, `systems` and `entities` record the objects they describe, `phenomena` and `mechanisms` record the phenomena and mechanisms explained by them, and `conditions` record their parameter ranges, density regions, or nucleus ranges; do not tag unrelated background mentions.
+Quotation tags are centered on physical quantities actually calculated, plotted, or compared in the paper: `quantities` record those quantities, `properties` record their qualities or modifiers, `methods` record the methods/models/formulas used to obtain them, `systems` and `entities` record the objects they describe, `phenomena` and `mechanisms` record the phenomena and mechanisms explained by them, and `conditions` record their parameter ranges, density regions, or nucleus ranges; do not tag unrelated background mentions.
 
 Tags must come from `taglist/*.json`, if a needed keyword is missing, draft a matching `taglist/*.json` entry using existing template.
 
