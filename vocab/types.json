@@ -1,0 +1,71 @@
+{
+  "tag_types": [
+    {
+      "type": "quantity",
+      "definition": "physical quantity calculated, plotted, fitted, or numerically compared",
+      "aliases": ["quantities"]
+    },
+    {
+      "type": "property",
+      "definition": "quality or adjective-like modifier of another tag",
+      "aliases": ["properties"]
+    },
+    {
+      "type": "method",
+      "definition": "theory, computational method, model, formula, code, or experimental method used to obtain results",
+      "aliases": ["methods"]
+    },
+    {
+      "type": "system",
+      "definition": "research object class or physical system",
+      "aliases": ["systems"]
+    },
+    {
+      "type": "entity",
+      "definition": "specific named object, nucleus, isotope, author, model instance, or dataset",
+      "aliases": ["entities"]
+    },
+    {
+      "type": "condition",
+      "definition": "parameter range, density region, nucleus range, or other condition under which a claim holds",
+      "aliases": ["conditions"]
+    },
+    {
+      "type": "phenomenon",
+      "definition": "observable physical phenomenon or event discussed in the paper",
+      "aliases": ["phenomena"]
+    }
+  ],
+  "claim_types": [
+    {
+      "type": "definition",
+      "definition": "defines a concept or quantity",
+      "aliases": ["define", "definition", "means", "定义", "称为"]
+    },
+    {
+      "type": "motivation",
+      "definition": "explains why the problem matters",
+      "aliases": ["motivate", "important", "why", "aim", "目的", "重要性"]
+    },
+    {
+      "type": "assumption",
+      "definition": "states a premise or approximation",
+      "aliases": ["assume", "approximation", "neglect", "假设", "近似"]
+    },
+    {
+      "type": "method",
+      "definition": "describes how something is calculated",
+      "aliases": ["calculate", "model", "approach", "method", "方法", "采用"]
+    },
+    {
+      "type": "result",
+      "definition": "reports a finding",
+      "aliases": ["find", "show", "obtain", "result", "发现", "结果"]
+    },
+    {
+      "type": "comparison",
+      "definition": "compares with other work or data",
+      "aliases": ["compare", "consistent", "agree", "versus", "比较", "符合"]
+    }
+  ]
+}
