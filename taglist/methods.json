@@ -3,5 +3,20 @@
     "tag": "method_name",
     "definition": "the definition of a method",
     "aliases": ["method", "approach", "technique", "方法", "途径"]
+  },
+  {
+    "tag": "RMF",
+    "definition": "relativistic mean-field theory used to calculate nuclear structure properties in this paper",
+    "aliases": ["RMF", "relativistic mean-field theory", "relativistic mean-field approach"]
+  },
+  {
+    "tag": "DFT",
+    "definition": "density functional theory framework referenced for nuclear structure calculations",
+    "aliases": ["DFT", "density functional theory", "energy density functional"]
+  },
+  {
+    "tag": "BCS",
+    "definition": "BCS pairing method combined with RMF in this paper",
+    "aliases": ["BCS", "BCS method"]
   }
 ]
