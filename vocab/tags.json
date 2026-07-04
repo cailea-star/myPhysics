@@ -1,0 +1,128 @@
+[
+  {
+    "tag": "tag_name",
+    "definition": "the definition of a tag",
+    "types": ["quantity", "property", "method", "system", "entity", "condition", "phenomenon"],
+    "aliases": ["tag", "keyword", "term", "标签", "关键词"]
+  },
+  {
+    "tag": "superheavy_nuclei",
+    "definition": "nuclei with very large atomic number",
+    "types": ["system"],
+    "aliases": ["SHN", "superheavy nuclei", "superheavy elements", "超重核", "超重元素"]
+  },
+  {
+    "tag": "finite_nuclei",
+    "definition": "finite nuclear systems, contrasted with infinite nuclear matter",
+    "types": ["system"],
+    "aliases": ["finite nucleus", "finite nuclear system", "有限核"]
+  },
+  {
+    "tag": "RMF",
+    "definition": "relativistic mean-field theory used to calculate nuclear structure properties",
+    "types": ["method"],
+    "aliases": ["RMF", "relativistic mean-field theory", "relativistic mean-field approach"]
+  },
+  {
+    "tag": "DFT",
+    "definition": "density functional theory framework for nuclear structure calculations",
+    "types": ["method"],
+    "aliases": ["DFT", "density functional theory", "energy density functional"]
+  },
+  {
+    "tag": "BCS",
+    "definition": "BCS pairing method",
+    "types": ["method"],
+    "aliases": ["BCS", "BCS method"]
+  },
+  {
+    "tag": "symmetry_energy",
+    "definition": "nuclear symmetry energy as a function of density",
+    "types": ["quantity"],
+    "aliases": ["symmetry energy", "nuclear symmetry energy"]
+  },
+  {
+    "tag": "ground_state_energy",
+    "definition": "energy of a nuclear ground state",
+    "types": ["quantity"],
+    "aliases": ["ground state energy", "ground-state energy"]
+  },
+  {
+    "tag": "quadrupole_deformation",
+    "definition": "quadrupole deformation parameter beta_2",
+    "types": ["quantity"],
+    "aliases": ["quadrupole deformation", "quadrupole deformations", "deformation parameter β2", "β2"]
+  },
+  {
+    "tag": "alpha_decay_energy",
+    "definition": "alpha-decay energy Q_alpha",
+    "types": ["quantity"],
+    "aliases": ["alpha-decay energy", "𝛼-decay energy", "Qα"]
+  },
+  {
+    "tag": "alpha_decay_half_life",
+    "definition": "half-life for alpha decay",
+    "types": ["quantity"],
+    "aliases": ["half-life", "𝛼-decay half-life"]
+  },
+  {
+    "tag": "two_nucleon_shell_gap",
+    "definition": "two-neutron or two-proton shell gap",
+    "types": ["quantity"],
+    "aliases": ["two-nucleon shell gap", "two-neutron shell gap", "two-proton shell gap"]
+  },
+  {
+    "tag": "deformed",
+    "definition": "having non-spherical nuclear shape or nonzero deformation",
+    "types": ["property"],
+    "aliases": ["deformed"]
+  },
+  {
+    "tag": "spherical",
+    "definition": "having spherical nuclear shape or near-zero deformation",
+    "types": ["property"],
+    "aliases": ["spherical"]
+  },
+  {
+    "tag": "soft",
+    "definition": "describing symmetry energy with smaller slope at saturation density",
+    "types": ["property"],
+    "aliases": ["soft", "softer", "softening"]
+  },
+  {
+    "tag": "stiff",
+    "definition": "describing symmetry energy with larger slope at saturation density",
+    "types": ["property"],
+    "aliases": ["stiff"]
+  },
+  {
+    "tag": "alpha_decay",
+    "definition": "radioactive decay mode in which a nucleus emits an alpha particle",
+    "types": ["phenomenon"],
+    "aliases": ["alpha-decay", "𝛼-decay"]
+  },
+  {
+    "tag": "shell_closure",
+    "definition": "nuclear shell closure or shell gap associated with enhanced stability",
+    "types": ["phenomenon"],
+    "aliases": ["shell closure", "shell closures", "shell gap", "shell gaps"]
+  },
+  {
+    "tag": "nuclear_deformation",
+    "definition": "departure of nuclear shape from spherical symmetry",
+    "types": ["phenomenon"],
+    "aliases": ["nuclear deformation", "deformation"]
+  },
+  {
+    "tag": "Hs-270",
+    "definition": "nucleus with mass number A=270, atomic number Z=108, element Hassium",
+    "types": ["entity"],
+    "aliases": ["270Hs"]
+  },
+  {
+    "tag": "120-304",
+    "definition": "nucleus with mass number A=304, atomic number Z=120, element 120",
+    "types": ["entity"],
+    "aliases": ["304120"]
+  }
+]
