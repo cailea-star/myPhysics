@@ -27,6 +27,8 @@ Granularity: Keep noun-term compounds as precise tags, but split adjective-like 
 
 Draft: If a needed tag is missing, draft `{tag, definition, types, aliases}` entries for `vocab/tags.json` one tag type at a time; include only aliases seen in the paper, metadata, or existing project vocabulary.
 
+Similarity Check: Before drafting any new tag, check `vocab/tags.json` for semantic duplicates or related existing tags. For each candidate, include `similar-tags: ...`. Prefer reusing existing tags. The user must decide each candidate individually: add new, merge into existing, or use existing. Never write new tags before that decision.
+
 Write: Present one draft group, wait for user approval, write confirmed entries, then present the next draft group.
 
 ### Section-Rules
