@@ -49,9 +49,11 @@ source : section 1.
 
 ##### quotation-xx
 
-```tags
+```secondary-tags
 [claim_type]: ...
 [tags]: ...
+[ref]: [ab] reference index infromation from the original paper
+[doi]: doi number of the reference or unknown.
 ```
 
 ```quote
@@ -59,9 +61,3 @@ This is a quotation with secondary citations from the original paper[ab], which 
 ```
 
 source: ... 
-
-```reference
-[section]: Motvation, Methods, Results or Meanings.
-[ref]: [ab] reference index infromation from the original paper
-[doi]: doi number of the reference or unknown.
-```

@@ -45,7 +45,7 @@ Form: Each quote must be one or more complete sentences, not a phrase; it should
 
 Math: Do not use standalone formulas as quote text. When a formula is important core `[claim_type]: definition` evidence, quote the complete explanatory sentence and add the formula in a following fenced `math` block.
 
-Secondary citations: Quotes whose claim depends on cited refs belong under `### Secondary Citations` with a `reference` block, and must not satisfy primary section coverage.
+Secondary citations: Put cited-ref-dependent quotes under `### Secondary Citations` using `secondary-tags`; they may serve as supplemental notes, but not as primary evidence for Motivation, Methods, Results, or Meanings.
 
 Write: Present and write quotation drafts one section at a time; wait for user review before writing each section to `raw/*.md`.
 
