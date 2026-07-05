@@ -33,15 +33,19 @@ Write: Present one draft group, wait for user approval, write confirmed entries,
 
 Source: Quote must come from `raw/*.pdf` or `raw/*.tex`.
 
-Form: Each quote must be one or more complete sentences, not a phrase; it should support a clear claim and contain about 10-40 words total.
-
-Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings. For each section, present four to five candidate quotations for review in the final raw/*.md block shape, including exact quoted sentence(s), `[claim_type]`, `[tags]`, and source section.
+Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings. For each section, present four to five candidate quotations for review in the final raw/*.md block shape, including exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section.
 
 Coverage: For each section's candidate set, satisfy section-level claim coverage from source evidence; if no valid source quote exists for a required claim, report the gap instead of inventing one.
 - Motivation: include at least one `[claim_type]: motivation`; consider whether candidates should introduce core method or physical-quantity tags.
 - Methods: include `[claim_type]: definition` and `[claim_type]: comparison` for core method tags; check whether the paper states an explicit `[claim_type]: assumption`.
 - Results: include `[claim_type]: definition` and `[claim_type]: comparison` for core calculated or measured quantity tags.
 - Meanings: include at least one `[claim_type]: comparison`.
+
+Form: Each quote must be one or more complete sentences, not a phrase; it should support a clear claim and contain about 10-40 words total.
+
+Math: Do not use standalone formulas as quote text. When a formula is important core `[claim_type]: definition` evidence, quote the complete explanatory sentence and add the formula in a following fenced `math` block.
+
+Secondary citations: Quotes whose claim depends on cited refs belong under `### Secondary Citations` with a `reference` block, and must not satisfy primary section coverage.
 
 Write: Present and write quotation drafts one section at a time; wait for user review before writing each section to `raw/*.md`.
 
