@@ -40,10 +40,6 @@ source : section 1.
 
 ...
 
-### conclusions
-
-...
-
 ### Meanings
 
 ...

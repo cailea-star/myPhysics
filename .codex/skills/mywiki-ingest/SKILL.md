@@ -37,7 +37,11 @@ Form: Each quote must be one or more complete sentences, not a phrase; it should
 
 Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings. For each section, present four to five candidate quotations for review; each candidate needs a source section.
 
-Definition: Each core tag used for a paper must have at least one quotation with `[claim_type]: definition` and `[tags]: tag_name`.
+Coverage: For each section's candidate set, satisfy section-level claim coverage from source evidence; if no valid source quote exists for a required claim, report the gap instead of inventing one.
+- Motivation: include at least one `[claim_type]: motivation`; consider whether candidates should introduce core method or physical-quantity tags.
+- Methods: include `[claim_type]: definition` and `[claim_type]: comparison` for core method tags; check whether the paper states an explicit `[claim_type]: assumption`.
+- Results: include `[claim_type]: definition` and `[claim_type]: comparison` for core calculated or measured quantity tags.
+- Meanings: include at least one `[claim_type]: comparison`.
 
 Write: Present and write quotation drafts one section at a time; wait for user review before writing each section to `raw/*.md`.
 
