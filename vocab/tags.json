@@ -150,6 +150,12 @@
     "aliases": ["stiff"]
   },
   {
+    "tag": "beta_equilibrium",
+    "definition": "condition in which neutron-rich matter or neutron-star matter is in beta equilibrium",
+    "types": ["condition"],
+    "aliases": ["beta equilibrium", "β equilibrium"]
+  },
+  {
     "tag": "alpha_decay",
     "definition": "radioactive decay mode in which a nucleus emits an alpha particle",
     "types": ["phenomenon"],
@@ -172,6 +178,24 @@
     "definition": "pairing correlation treated beyond the mean-field approximation",
     "types": ["phenomenon"],
     "aliases": ["pairing correlation", "pairing correlations"]
+  },
+  {
+    "tag": "Pb-208",
+    "definition": "nucleus with mass number A=208, atomic number Z=82, element Lead",
+    "types": ["entity"],
+    "aliases": ["208Pb", "^{208}Pb", "lead-208"]
+  },
+  {
+    "tag": "S271",
+    "definition": "S271 relativistic mean-field parameter set used as a calibrated model",
+    "types": ["entity"],
+    "aliases": ["S271", "S271 parameter set"]
+  },
+  {
+    "tag": "Z271",
+    "definition": "Z271 relativistic mean-field parameter-set family used with omega-rho or sigma-rho couplings",
+    "types": ["entity"],
+    "aliases": ["Z271", "Z271v", "Z2714"]
   },
   {
     "tag": "FSUGarnet",
