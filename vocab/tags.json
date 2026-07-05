@@ -18,10 +18,22 @@
     "aliases": ["finite nucleus", "finite nuclear system", "有限核"]
   },
   {
+    "tag": "nuclear_matter",
+    "definition": "nuclear matter whose equation of state, phase transition, or composition is calculated or compared",
+    "types": ["system"],
+    "aliases": ["nuclear matter", "neutron matter", "uniform matter"]
+  },
+  {
+    "tag": "neutron_star_crust",
+    "definition": "neutron-star crust system whose transition density, thickness, or related observables are calculated or compared",
+    "types": ["system"],
+    "aliases": ["neutron-star crust", "neutron star crust", "solid crust", "crust of a neutron star"]
+  },
+  {
     "tag": "RMF",
     "definition": "relativistic mean-field theory used to calculate nuclear structure properties",
     "types": ["method"],
-    "aliases": ["RMF", "relativistic mean-field theory", "relativistic mean-field approach"]
+    "aliases": ["RMF", "relativistic mean-field theory", "relativistic mean-field approach", "relativistic effective field theory", "relativistic effective field models", "effective field theories"]
   },
   {
     "tag": "DFT",
@@ -36,10 +48,34 @@
     "aliases": ["BCS", "BCS method"]
   },
   {
+    "tag": "random_phase_approximation",
+    "definition": "random-phase approximation calculation used to estimate the transition density from uniform to nonuniform neutron-rich matter",
+    "types": ["method"],
+    "aliases": ["random-phase-approximation", "RPA"]
+  },
+  {
+    "tag": "parity_violating_electron_scattering",
+    "definition": "parity-violating electron scattering method used to measure the neutron radius or neutron density",
+    "types": ["method"],
+    "aliases": ["parity violating electron scattering", "purely electroweak experiment"]
+  },
+  {
     "tag": "symmetry_energy",
     "definition": "nuclear symmetry energy as a function of density",
     "types": ["quantity"],
     "aliases": ["symmetry energy", "nuclear symmetry energy"]
+  },
+  {
+    "tag": "transition_density",
+    "definition": "density at which neutron-rich matter transitions between nonuniform solid crust matter and uniform liquid matter",
+    "types": ["quantity"],
+    "aliases": ["transition density", "liquid-to-solid transition density", "rho_c", "ρc"]
+  },
+  {
+    "tag": "electron_fraction",
+    "definition": "electron fraction per baryon in neutron-rich matter or neutron-star matter",
+    "types": ["quantity"],
+    "aliases": ["electron fraction", "electron fraction per baryon", "Y_e"]
   },
   {
     "tag": "saturation_density",
@@ -94,6 +130,12 @@
     "definition": "depending on density",
     "types": ["property"],
     "aliases": ["density-dependent"]
+  },
+  {
+    "tag": "neutron_rich",
+    "definition": "having neutron excess or neutron-rich composition",
+    "types": ["property"],
+    "aliases": ["neutron-rich", "neutron rich"]
   },
   {
     "tag": "soft",
