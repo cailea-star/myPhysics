@@ -184,5 +184,29 @@
     "definition": "slope parameter L of the density-dependent symmetry energy at saturation density",
     "types": ["quantity"],
     "aliases": ["slope parameter", "slope parameter L"]
+  },
+  {
+    "tag": "NL3",
+    "definition": "NL3 relativistic mean-field parameter set used as a calibrated model",
+    "types": ["entity"],
+    "aliases": ["NL3", "NL3 set", "NL3 parameter set", "NL3 model"]
+  },
+  {
+    "tag": "FSUGold",
+    "definition": "FSUGold relativistic mean-field parameter set used as a calibrated model",
+    "types": ["entity"],
+    "aliases": ["FSUGold", "FSUGold set", "FSUGold parameter set", "FSUGold model"]
+  },
+  {
+    "tag": "kaon_condensation",
+    "definition": "kaon condensation in neutron-star matter discussed through its onset and effect on neutron-star properties",
+    "types": ["phenomenon"],
+    "aliases": ["kaon condensation", "K− condensation", "K- condensation"]
+  },
+  {
+    "tag": "direct_Urca_process",
+    "definition": "direct Urca neutrino-emission process for rapid neutron-star cooling",
+    "types": ["phenomenon"],
+    "aliases": ["direct Urca process", "Urca process", "Urca cooling"]
   }
 ]
