@@ -42,6 +42,12 @@
     "aliases": ["symmetry energy", "nuclear symmetry energy"]
   },
   {
+    "tag": "saturation_density",
+    "definition": "nuclear matter saturation density",
+    "types": ["quantity"],
+    "aliases": ["saturation density"]
+  },
+  {
     "tag": "ground_state_energy",
     "definition": "energy of a nuclear ground state",
     "types": ["quantity"],
@@ -82,6 +88,12 @@
     "definition": "having spherical nuclear shape or near-zero deformation",
     "types": ["property"],
     "aliases": ["spherical"]
+  },
+  {
+    "tag": "density_dependent",
+    "definition": "depending on density",
+    "types": ["property"],
+    "aliases": ["density-dependent"]
   },
   {
     "tag": "soft",

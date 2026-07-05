@@ -38,7 +38,7 @@ Section: Discuss quotations under the template frames: Motivation, Methods, Resu
 Coverage: For each section's candidate set, satisfy section-level claim coverage from source evidence; if no valid source quote exists for a required claim, report the gap instead of inventing one.
 - Motivation: include at least one `[claim_type]: motivation`; consider whether candidates should introduce core method or physical-quantity tags.
 - Methods: include `[claim_type]: definition` and `[claim_type]: comparison` for core method tags; check whether the paper states an explicit `[claim_type]: assumption`.
-- Results: include `[claim_type]: definition` and `[claim_type]: comparison` for core calculated or measured quantity tags.
+- Results: include `[claim_type]: definition` and `[claim_type]: comparison` for core calculated or measured quantity tags, and every quotation must include at least one directly supported calculation-method tag, such as `RMF` or `BCS`; if no method tag is supported, reject the candidate.
 - Meanings: include at least one `[claim_type]: comparison`.
 
 Form: Each quote must be one or more complete sentences, not a phrase; it should support a clear claim and contain about 10-40 words total.
@@ -47,7 +47,7 @@ Tag Co-occurrence: Each quotation must include at least two directly supported c
 
 Math: Do not use standalone formulas as quote text. When a formula is important core `[claim_type]: definition` evidence, quote the complete explanatory sentence and add the formula in a following fenced `math` block.
 
-Secondary citations: Put cited-ref-dependent quotes under `### Secondary Citations` using `secondary-tags`; they may serve as supplemental notes, but not as primary evidence for Motivation, Methods, Results, or Meanings.
+Secondary citations: Put cited-ref-dependent quotes under `### Secondary Citations` using `secondary-tags`; they may serve as supplemental notes, but not as primary evidence for Motivation, Methods, Results, or Meanings. Treat a quote as cited-ref-dependent if the quoted sentence contains external citation markers such as `[55]`, `[19,56]`, `[31--44]`, `Ref. [45]`, `Refs.`, `given by [55]`, or `same procedure as in Ref.`. Internal references to this paper's `Fig.`, `Table`, `Eq.`, or `section` are not secondary citations.
 
 Write: Present and write quotation drafts one section at a time; wait for user review before writing each section to `raw/*.md`.
 
