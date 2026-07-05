@@ -201,7 +201,57 @@ source : section 3.3. α-decay; Fig. 6.
 
 ### Meanings
 
-...
+##### quotation-15
+
+```tags
+[claim_type]: definition
+[tags]: symmetry_energy, soft, saturation_density
+```
+
+```quote
+A large ΛV means the symmetry energy is soft owing to its small slope, but is large in value below the saturation density.
+```
+
+source : section 4. Summary.
+
+##### quotation-16
+
+```tags
+[claim_type]: result
+[tags]: ground_state_energy, nuclear_deformation, symmetry_energy, soft
+```
+
+```quote
+The ground-state energy increases as the softening of the symmetry energy (the increasing of ΛV value), because the symmetry energy contributes positively to the ground state energy of the nuclei. The deformation is almost unchanged by the variation of the symmetry energy.
+```
+
+source : section 4. Summary.
+
+##### quotation-17
+
+```tags
+[claim_type]: comparison
+[tags]: single_particle_energy_level, shell_closure, two_nucleon_shell_gap, symmetry_energy
+```
+
+```quote
+The single-particle energy levels of 270Hs and 304120 present notable shifts with the softening of the symmetry energy. Yet, the shell gaps at Z = 108 and N = 162 presenting in the single-particle levels for 270Hs as well as the proton shell gap at Z = 120 for 304120 remain almost unchanged.
+```
+
+source : section 4. Summary.
+
+##### quotation-18
+
+```tags
+[claim_type]: comparison
+[tags]: alpha_decay_energy, alpha_decay_half_life, symmetry_energy, soft
+```
+
+```quote
+A softer symmetry energy gives smaller α-decay energy Qα and longer half-life. The half-lives are increased by more than two orders of magnitude when comparing the ΛV = 0 case (stiff symmetry energy) to the ΛV = 0.04 case (soft symmetry energy).
+```
+
+source : section 4. Summary.
 
 
 ### Secondary Citations
