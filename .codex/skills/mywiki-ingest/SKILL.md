@@ -41,26 +41,28 @@ Definition: Each core tag used for a paper must have at least one quotation with
 
 Write: Present and write quotation drafts one section at a time; wait for user review before writing each section to `raw/*.md`.
 
-## Workflow
+## Gated Workflow
 
-1. Confirm paper
+Run gates strictly in order. At the start of each response, state the current gate, the last completed gate, and the next required user approval. Do not advance past a gate until its listed work and required review are complete.
+
+### Gate 1 — Confirm Paper
    Check that the current directory is inside a git repository with `git rev-parse --is-inside-work-tree`.
    Check that the worktree is clean with `git status --short`; if it is not empty, stop and report the existing changes before ingest.
    User gives DOI, title, PDF, TEX, or JSON. Confirm exact paper before ingest.
 
-2. Generate raw files
+### Gate 2 — Generate Raw Files
    ```powershell
    python scripts\add_raw_json.py [doi_number]
    python scripts\add_raw_md.py raw\[json_filename].json
    ```
    Use `git diff --name-only -- raw/*.json` to identify the new JSON filename; use `git status --short raw` if it is untracked.
 
-3. Collect full text
+### Gate 3 — Collect Full Text
    Get PDF/TEX from open source or user. Save into `raw/` with same basename as JSON.
 
-4. Check tag & author
+### Gate 4 — Check Tag & Author
    Run `python scripts\add_vocab_author.py raw\[json_filename].json` as a routine check of the corresponding-author list, then read the PDF/TEX source text for corresponding-author information and report both the script terminal output and the source-text corresponding-author information to the user.
    Check rough paper-level keywords against `vocab/tags.json`; draft and confirm missing tags following [Vocab-Rules](#vocab-rules).
 
-5. Discuss quotations
+### Gate 5 — Discuss Quotations
    Draft and write quotations under the template frames, following [Quotation-Rules](#quotation-rules).
