@@ -33,7 +33,7 @@ Write: Present one draft group, wait for user approval, write confirmed entries,
 
 Source: Quote must come from `raw/*.pdf` or `raw/*.tex`.
 
-Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings. For each section, present four to five candidate quotations for review in the final raw/*.md block shape, including exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section.
+Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings. For each section, present three to four candidate quotations for review in the final raw/*.md block shape, including exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section.
 
 Coverage: For each section's candidate set, satisfy section-level claim coverage from source evidence; if no valid source quote exists for a required claim, report the gap instead of inventing one.
 - Motivation: include at least one `[claim_type]: motivation`; consider whether candidates should introduce core method or physical-quantity tags.
