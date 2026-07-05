@@ -45,6 +45,7 @@ Methods-Coverage:
 - Check whether the paper states an explicit `[claim_type]: assumption`.
 
 Results-Coverage:
+- Cover every figure and table: present >=1 valid complete-sentence quotation candidate for each item to the user, or report that item as a gap.
 - Include `[claim_type]: definition` for core calculated or measured quantity tags.
 - Include `[claim_type]: comparison` for core calculated or measured quantity tags.
 
