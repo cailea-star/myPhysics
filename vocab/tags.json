@@ -160,5 +160,29 @@
     "definition": "compact star system whose masses, radii, cooling thresholds, or composition are calculated or compared",
     "types": ["system"],
     "aliases": ["neutron star", "neutron stars"]
+  },
+  {
+    "tag": "neutron_skin_thickness",
+    "definition": "difference between neutron and proton radii in a nucleus",
+    "types": ["quantity"],
+    "aliases": ["neutron skin thickness", "neutron skin", "skin thickness"]
+  },
+  {
+    "tag": "neutron_star_mass",
+    "definition": "neutron star mass calculated or compared in the model",
+    "types": ["quantity"],
+    "aliases": ["neutron star mass", "neutron star masses", "star mass", "star masses"]
+  },
+  {
+    "tag": "neutron_star_radius",
+    "definition": "neutron star radius calculated or compared in the model",
+    "types": ["quantity"],
+    "aliases": ["neutron star radius", "neutron star radii", "star radius", "star radii"]
+  },
+  {
+    "tag": "slope_parameter",
+    "definition": "slope parameter L of the density-dependent symmetry energy at saturation density",
+    "types": ["quantity"],
+    "aliases": ["slope parameter", "slope parameter L"]
   }
 ]

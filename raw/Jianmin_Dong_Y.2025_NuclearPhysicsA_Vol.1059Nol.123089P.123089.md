@@ -136,7 +136,7 @@ source : section 2.1. Relativistic meanfield theory; Table 1.
 
 ```tags
 [claim_type]: method
-[tags]: FSUGarnet, symmetry_energy, saturation_density
+[tags]: FSUGarnet, symmetry_energy, saturation_density, slope_parameter
 ```
 
 ```quote
@@ -151,7 +151,7 @@ source : section 2.2. Symmetry energy; Table 2.
 
 ```tags
 [claim_type]: comparison
-[tags]: FSUGarnet, symmetry_energy, density_dependent, saturation_density, soft
+[tags]: FSUGarnet, symmetry_energy, density_dependent, saturation_density, soft, slope_parameter
 ```
 
 ```quote
@@ -205,7 +205,7 @@ source : section 3.3. α-decay; Fig. 6.
 
 ```tags
 [claim_type]: definition
-[tags]: symmetry_energy, soft, saturation_density
+[tags]: symmetry_energy, soft, saturation_density, slope_parameter
 ```
 
 ```quote
