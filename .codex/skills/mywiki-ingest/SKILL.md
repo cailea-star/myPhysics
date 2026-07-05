@@ -56,6 +56,11 @@ Results-Quotation:
 Meanings-Coverage:
 - Include at least one `[claim_type]: comparison`.
 
+Secondary-Citations-Coverage:
+- `### Secondary Citations` is for cited-ref-dependent evidence only; each item MUST quote a complete sentence containing an explicit external citation marker.
+- MUST include cited-ref-dependent sources for external methods/formulas, parameter sets/models/data sources, and key physical conclusions or mechanism judgments when they support core tags.
+- Prioritize citations central to the paper's core tags and quotations; reject generic survey/background citations that do not supply a reused method, data/model input, or result interpretation.
+
 ### Quotation-Rules
 
 Source: Quote must come from `raw/*.pdf` or `raw/*.tex`.
