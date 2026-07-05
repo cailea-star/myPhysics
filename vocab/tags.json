@@ -154,5 +154,11 @@
     "definition": "single-particle energy level calculated or compared for nucleons in a nucleus",
     "types": ["quantity"],
     "aliases": ["single-particle energy levels", "single particle energy levels"]
+  },
+  {
+    "tag": "neutron_star",
+    "definition": "compact star system whose masses, radii, cooling thresholds, or composition are calculated or compared",
+    "types": ["system"],
+    "aliases": ["neutron star", "neutron stars"]
   }
 ]

@@ -16,5 +16,14 @@
             "School of Nuclear Science and Technology, University of Chinese Academy of Sciences, Beijing 100049, China"
         ],
         "ORCID": "https://orcid.org/0000-0001-9625-7860"
+    },
+    {
+        "given": "Subrata",
+        "family": "Pal",
+        "affiliation": [
+            "Department of Nuclear and Atomic Physics, Tata Institute of Fundamental Research, Homi Bhabha Road, Mumbai 400005, India",
+            "Department of Nuclear and Atomic Physics, Tata Institute of Fundamental Research, Homi Bhabha Road, Mumbai-400005, India"
+        ],
+        "ORCID": null
     }
 ]

@@ -1,0 +1,414 @@
+{
+  "source": "Crossref",
+  "language": "en",
+  "title": [
+    "Nuclear symmetry energy effects in finite nuclei and neutron star"
+  ],
+  "author": [
+    {
+      "given": "Bharat K.",
+      "family": "Sharma",
+      "sequence": "first",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Subrata",
+      "family": "Pal",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    }
+  ],
+  "author-corresponding-openalex": [
+    {
+      "raw_author_name": "Subrata Pal",
+      "given": "Subrata",
+      "family": "Pal",
+      "raw_orcid": null,
+      "ORCID": "",
+      "raw_affiliation_strings": [
+        "Department of Nuclear and Atomic Physics, Tata Institute of Fundamental Research, Homi Bhabha Road, Mumbai 400005, India",
+        "Department of Nuclear and Atomic Physics, Tata Institute of Fundamental Research, Homi Bhabha Road, Mumbai-400005, India"
+      ],
+      "is_corresponding": true
+    }
+  ],
+  "DOI": "10.1016/j.physletb.2009.10.098",
+  "URL": "https://doi.org/10.1016/j.physletb.2009.10.098",
+  "is-referenced-by-count": 31,
+  "reference-count": 34,
+  "abstract": "Within a relativistic mean-field model with nonlinear isoscalar-isovector coupling, we explore the possibility of constraining the density dependence of nuclear symmetry energy from a systematic study of the neutron skin thickness of finite nuclei and neutron star properties. We find the present skin data supports a rather stiff symmetry energy at subsaturation densities that corresponds to a soft symmetry energy at supranormal densities. Correlation between the skin of ^2^0^8Pb and the neutron st ar masses and radii with kaon condensation has been studied. We find that ^2^0^8Pb skin estimate suggest star radii that reveals considerable model dependence. Thus precise measurements of neutron star radii in conjunction with skin thickness of heavy nuc lei could provide significant constraint on the density dependence of symmetry energy.",
+  "publisher": "Elsevier BV",
+  "container-title": [
+    "Physics Letters B"
+  ],
+  "short-container-title": [
+    "Physics Letters B"
+  ],
+  "type": "journal-article",
+  "volume": "682",
+  "page": "23-26",
+  "article-number": null,
+  "issued": {
+    "date-parts": [
+      [
+        2009,
+        11
+      ]
+    ]
+  },
+  "ISSN": [
+    "0370-2693"
+  ],
+  "funder": null,
+  "reference": [
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib001",
+      "doi-asserted-by": "crossref",
+      "first-page": "1592",
+      "DOI": "10.1126/science.1078070",
+      "volume": "298",
+      "author": "Danielewicz",
+      "year": "2002",
+      "journal-title": "Science"
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib002",
+      "doi-asserted-by": "crossref",
+      "first-page": "335",
+      "DOI": "10.1016/j.physrep.2004.12.004",
+      "volume": "410",
+      "author": "Baran",
+      "year": "2005",
+      "journal-title": "Phys. Rep."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib003",
+      "doi-asserted-by": "crossref",
+      "first-page": "113",
+      "DOI": "10.1016/j.physrep.2008.04.005",
+      "volume": "464",
+      "author": "Li",
+      "year": "2008",
+      "journal-title": "Phys. Rep."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib004",
+      "doi-asserted-by": "crossref",
+      "first-page": "325",
+      "DOI": "10.1016/j.physrep.2005.02.004",
+      "volume": "411",
+      "author": "Steiner",
+      "year": "2005",
+      "journal-title": "Phys. Rep."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib005_1",
+      "doi-asserted-by": "crossref",
+      "first-page": "536",
+      "DOI": "10.1126/science.1090720",
+      "volume": "304",
+      "author": "Lattimer",
+      "year": "2004",
+      "journal-title": "Science"
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib005_2",
+      "doi-asserted-by": "crossref",
+      "first-page": "109",
+      "DOI": "10.1016/j.physrep.2007.02.003",
+      "volume": "442",
+      "author": "Lattimer",
+      "year": "2007",
+      "journal-title": "Phys. Rep."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib006",
+      "doi-asserted-by": "crossref",
+      "first-page": "2701",
+      "DOI": "10.1103/PhysRevLett.66.2701",
+      "volume": "66",
+      "author": "Lattimer",
+      "year": "1991",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib007",
+      "doi-asserted-by": "crossref",
+      "first-page": "693",
+      "DOI": "10.1016/0375-9474(94)90407-3",
+      "volume": "572",
+      "author": "Thorsson",
+      "year": "1994",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib008",
+      "doi-asserted-by": "crossref",
+      "first-page": "3470",
+      "DOI": "10.1103/PhysRevC.52.3470",
+      "volume": "52",
+      "author": "Knorren",
+      "year": "1995",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib009",
+      "doi-asserted-by": "crossref",
+      "first-page": "171",
+      "DOI": "10.1016/0370-1573(80)90001-0",
+      "volume": "64",
+      "author": "Blaizot",
+      "year": "1980",
+      "journal-title": "Phys. Rep."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib010",
+      "first-page": "1157",
+      "volume": "12",
+      "author": "Blaizot",
+      "year": "1981",
+      "journal-title": "Acta Pol. B"
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib011",
+      "doi-asserted-by": "crossref",
+      "first-page": "1118",
+      "DOI": "10.1103/PhysRevC.32.1118",
+      "volume": "31",
+      "author": "Prakash",
+      "year": "1985",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib012",
+      "doi-asserted-by": "crossref",
+      "first-page": "1184",
+      "DOI": "10.1103/PhysRev.168.1184",
+      "volume": "168",
+      "author": "Brueckner",
+      "year": "1967",
+      "journal-title": "Phys. Rev."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib013",
+      "doi-asserted-by": "crossref",
+      "first-page": "225",
+      "DOI": "10.1016/0375-9474(70)90844-4",
+      "volume": "141",
+      "author": "Siemens",
+      "year": "1970",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib014",
+      "doi-asserted-by": "crossref",
+      "first-page": "1804",
+      "DOI": "10.1103/PhysRevC.58.1804",
+      "volume": "58",
+      "author": "Akmal",
+      "year": "1998",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib015",
+      "first-page": "1",
+      "volume": "16",
+      "author": "Serot",
+      "year": "1986",
+      "journal-title": "Adv. Nucl. Phys."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib016",
+      "doi-asserted-by": "crossref",
+      "first-page": "1022",
+      "DOI": "10.1103/PhysRevLett.78.1022",
+      "volume": "78",
+      "author": "Pak",
+      "year": "1997",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib017",
+      "doi-asserted-by": "crossref",
+      "first-page": "1644",
+      "DOI": "10.1103/PhysRevLett.78.1644",
+      "volume": "78",
+      "author": "Li",
+      "year": "1997",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib018",
+      "doi-asserted-by": "crossref",
+      "first-page": "5296",
+      "DOI": "10.1103/PhysRevLett.85.5296",
+      "volume": "85",
+      "author": "Brown",
+      "year": "2000",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib019_1",
+      "doi-asserted-by": "crossref",
+      "first-page": "032701",
+      "DOI": "10.1103/PhysRevLett.94.032701",
+      "volume": "94",
+      "author": "Chen",
+      "year": "2005",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib019_2",
+      "doi-asserted-by": "crossref",
+      "first-page": "064309",
+      "DOI": "10.1103/PhysRevC.72.064309",
+      "volume": "72",
+      "author": "Chen",
+      "year": "2005",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib020",
+      "doi-asserted-by": "crossref",
+      "first-page": "024606",
+      "DOI": "10.1103/PhysRevC.76.024606",
+      "volume": "76",
+      "author": "Shetty",
+      "year": "2007",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib021",
+      "doi-asserted-by": "crossref",
+      "first-page": "122502",
+      "DOI": "10.1103/PhysRevLett.102.122502",
+      "volume": "102",
+      "author": "Centelles",
+      "year": "2009",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib022_1",
+      "doi-asserted-by": "crossref",
+      "first-page": "5647",
+      "DOI": "10.1103/PhysRevLett.86.5647",
+      "volume": "86",
+      "author": "Horowitz",
+      "year": "2001",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib022_2",
+      "doi-asserted-by": "crossref",
+      "first-page": "055803",
+      "DOI": "10.1103/PhysRevC.66.055803",
+      "volume": "66",
+      "author": "Horowitz",
+      "year": "2002",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib023",
+      "doi-asserted-by": "crossref",
+      "first-page": "540",
+      "DOI": "10.1103/PhysRevC.55.540",
+      "volume": "55",
+      "author": "Lalazissis",
+      "year": "1997",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib024",
+      "doi-asserted-by": "crossref",
+      "first-page": "122501",
+      "DOI": "10.1103/PhysRevLett.95.122501",
+      "volume": "95",
+      "author": "Todd",
+      "year": "2005",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib025",
+      "doi-asserted-by": "crossref",
+      "first-page": "062502",
+      "DOI": "10.1103/PhysRevLett.102.062502",
+      "volume": "102",
+      "author": "Xiao",
+      "year": "2009",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib026",
+      "doi-asserted-by": "crossref",
+      "first-page": "052701",
+      "DOI": "10.1103/PhysRevLett.97.052701",
+      "volume": "97",
+      "author": "Famiano",
+      "year": "2006",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib027",
+      "doi-asserted-by": "crossref",
+      "first-page": "162503",
+      "DOI": "10.1103/PhysRevLett.99.162503",
+      "volume": "99",
+      "author": "Li",
+      "year": "2007",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib028",
+      "doi-asserted-by": "crossref",
+      "first-page": "082501",
+      "DOI": "10.1103/PhysRevLett.87.082501",
+      "volume": "87",
+      "author": "Trzcińska",
+      "year": "2001",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib029",
+      "doi-asserted-by": "crossref",
+      "first-page": "1416",
+      "DOI": "10.1103/PhysRevC.53.1416",
+      "volume": "53",
+      "author": "Schaffner",
+      "year": "1996",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib030",
+      "doi-asserted-by": "crossref",
+      "first-page": "553",
+      "DOI": "10.1016/S0375-9474(00)00175-5",
+      "volume": "674",
+      "author": "Pal",
+      "year": "2000",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "key": "10.1016/j.physletb.2009.10.098_bib031",
+      "doi-asserted-by": "crossref",
+      "first-page": "287",
+      "DOI": "10.1016/S0375-9474(97)00487-9",
+      "volume": "625",
+      "author": "Waas",
+      "year": "1997",
+      "journal-title": "Nucl. Phys. A"
+    }
+  ],
+  "filename": "Subrata_Pal_Y.2009_PhysicsLettersB_Vol.682Nol.P.23-26"
+}
