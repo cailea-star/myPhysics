@@ -43,6 +43,8 @@ Coverage: For each section's candidate set, satisfy section-level claim coverage
 
 Form: Each quote must be one or more complete sentences, not a phrase; it should support a clear claim and contain about 10-40 words total.
 
+Tag Co-occurrence: Each quotation must include at least two directly supported comma-separated tags in `[tags]: ...`. If one sentence supports only one tag, add a neighboring complete sentence from the same source section; if no second supported tag exists, report the gap instead of inventing a relation.
+
 Math: Do not use standalone formulas as quote text. When a formula is important core `[claim_type]: definition` evidence, quote the complete explanatory sentence and add the formula in a following fenced `math` block.
 
 Secondary citations: Put cited-ref-dependent quotes under `### Secondary Citations` using `secondary-tags`; they may serve as supplemental notes, but not as primary evidence for Motivation, Methods, Results, or Meanings.
