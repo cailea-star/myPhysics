@@ -44,11 +44,11 @@ def main(json_path):
             print(f"skipping author with no name: {raw_author['raw_author_name']}")
             continue
         if has_author(authors, raw_author):
-            print(f"author already exists: {raw_author['given']} {raw_author['family']}")
+            print(f"author unchanged: {raw_author['given']} {raw_author['family']}")
             continue
         authors.append(raw_author)
         changed = True
-        print(f"added {raw_author['given']} {raw_author['family']}")
+        print(f"author added: {raw_author['given']} {raw_author['family']}")
 
     if changed:
         authors_path.write_text(json.dumps(authors, ensure_ascii=False, indent=4) + "\n", encoding="utf-8")
