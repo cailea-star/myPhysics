@@ -35,7 +35,7 @@ Source: Quote must come from `raw/*.pdf` or `raw/*.tex`.
 
 Form: Each quote must be one or more complete sentences, not a phrase; it should support a clear claim and contain about 10-40 words total.
 
-Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings. For each section, present four to five candidate quotations for review; each candidate needs a source section.
+Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings. For each section, present four to five candidate quotations for review in the final raw/*.md block shape, including exact quoted sentence(s), `[claim_type]`, `[tags]`, and source section.
 
 Coverage: For each section's candidate set, satisfy section-level claim coverage from source evidence; if no valid source quote exists for a required claim, report the gap instead of inventing one.
 - Motivation: include at least one `[claim_type]: motivation`; consider whether candidates should introduce core method or physical-quantity tags.
