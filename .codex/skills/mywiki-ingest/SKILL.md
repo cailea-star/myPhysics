@@ -33,9 +33,9 @@ Write: Present one draft group, wait for user approval, write confirmed entries,
 
 Source: Quote must come from `raw/*.pdf` or `raw/*.tex`.
 
-Form: Each quote must be a complete sentence, not a phrase; it should support a clear claim and contain about 10-40 words.
+Form: Each quote must be one or more complete sentences, not a phrase; it should support a clear claim and contain about 10-40 words total.
 
-Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings. Each quote needs source section; each section must contain two to four quotations.
+Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings. For each section, present four to five candidate quotations for review; each candidate needs a source section.
 
 Definition: Each core tag used for a paper must have at least one quotation with `[claim_type]: definition` and `[tags]: tag_name`.
 
