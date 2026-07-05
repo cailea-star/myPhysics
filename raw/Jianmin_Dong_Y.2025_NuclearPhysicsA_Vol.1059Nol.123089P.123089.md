@@ -119,9 +119,85 @@ In the present work, we still use the term stiff or soft to distinguish the diff
 
 source : section 2.2. Symmetry energy.
 
+##### quotation-09
+
+```tags
+[claim_type]: definition
+[tags]: FSUGarnet, RMF
+```
+
+```quote
+FSUGarnet parameter set. The parameter g2, the nucleon mass M and the meson masses mσ, mω, and mρ are all given in MeV.
+```
+
+source : section 2.1. Relativistic meanfield theory; Table 1.
+
+##### quotation-10
+
+```tags
+[claim_type]: method
+[tags]: FSUGarnet, symmetry_energy, saturation_density
+```
+
+```quote
+The value of the symmetry energy remains fixed at saturation density ρ = 0.153 fm−3 obtained with the FSUGarnet interaction. The obtained interaction ‘family’, together the slope parameter L at saturation density, is listed in Table 2, named FSUGarnet0.153 in the present work.
+```
+
+source : section 2.2. Symmetry energy; Table 2.
+
 ### Results
 
-...
+##### quotation-11
+
+```tags
+[claim_type]: comparison
+[tags]: FSUGarnet, symmetry_energy, density_dependent, saturation_density, soft
+```
+
+```quote
+With the FSUGarnet0.153 parameter set, the density-dependent symmetry energy is depicted in Fig. 1. We would like to stress that below the saturation density ρ = 0.153 fm−3, the larger ΛV gives a larger symmetry energy (but a softer symmetry energy since its slope L at saturation density is small).
+```
+
+source : section 2.2. Symmetry energy; Fig. 1.
+
+##### quotation-12
+
+```tags
+[claim_type]: result
+[tags]: FSUGarnet, ground_state_energy, quadrupole_deformation, symmetry_energy, soft
+```
+
+```quote
+Fig. 2. (Color online) The ground state energies and quadrupole deformations β2 of 270Hs and of 304120 with the FSUGarnet0.153 interaction ‘family’. As illustrated in Fig. 2, the ground state energy Eg.s. exhibits an increase as the coupling coefficient ΛV increases.
+```
+
+source : section 3.1. Ground state energies and deformations; Fig. 2.
+
+##### quotation-13
+
+```tags
+[claim_type]: result
+[tags]: RMF, FSUGarnet, shell_closure, single_particle_energy_level, symmetry_energy, soft
+```
+
+```quote
+The distinct shell gaps observed at Z = 108 and N = 162 are exhibited in Fig. 4, indicating the RMF approach with the FSUGarnet0.153 interaction ‘family’ is able to well reproduce the shell gaps of 270Hs.
+```
+
+source : section 3.2. Single particle energy levels and two-nucleon shell gaps; Figs. 4-5.
+
+##### quotation-14
+
+```tags
+[claim_type]: comparison
+[tags]: FSUGarnet, alpha_decay_energy, alpha_decay_half_life, symmetry_energy, soft
+```
+
+```quote
+Fig. 6. (Color online) The α-decay energies (left) and their half-lives (right) of 270Hs and 304120 with the FSUGarnet0.153 interaction ‘family’. The half-lives are increased by more than two orders of magnitude when comparing the ΛV = 0 case (stiff symmetry energy) to the ΛV = 0.04 case (soft symmetry energy).
+```
+
+source : section 3.3. α-decay; Fig. 6.
 
 ### Meanings
 
