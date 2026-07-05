@@ -79,19 +79,23 @@ Run gates strictly in order. At the start of each response, state the current ga
    Check that the worktree is clean with `git status --short`; if it is not empty, stop and report the existing changes before ingest.
    User gives DOI, title, PDF, TEX, or JSON. Confirm exact paper before ingest.
 
-### Gate 2 — Generate Raw Files
+### Gate 2 — Generate Raw Files / Collect Full Text
    ```powershell
    python scripts\add_raw_json.py [doi_number]
    python scripts\add_raw_md.py raw\[json_filename].json
    ```
    Use `git diff --name-only -- raw/*.json` to identify the new JSON filename; use `git status --short raw` if it is untracked.
 
-### Gate 3 — Collect Full Text
    Get PDF/TEX from open source or user. Save into `raw/` with same basename as JSON.
 
-### Gate 4 — Check Tag & Author
+### Gate 3 — Check Tag & Author
    Run `python scripts\add_vocab_author.py raw\[json_filename].json` as a routine check of the corresponding-author list, then read the PDF/TEX source text for corresponding-author information and report both the script terminal output and the source-text corresponding-author information to the user.
    Check rough paper-level keywords against `vocab/tags.json`; draft and confirm missing tags following [Vocab-Rules](#vocab-rules).
 
-### Gate 5 — Discuss Quotations
+### Gate 4 — Discuss Quotations
    Draft and write quotations under the template frames, following [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules).
+
+### Gate 5 — Recommend Next Paper
+   Read `### Secondary Citations` in the completed `raw/*.md`.
+   Recommend next-paper candidates from cited references that are most central to the current paper's tags and quotations.
+   Present candidates with citation information and why they are next; wait for user approval before starting a new ingest.
