@@ -45,13 +45,34 @@ def metadata_from_openAlex(doi):
         return {}
 
 
-def clean_abstract(text):
+def clean_text(text):
+    """Strip markup from metadata text.
+
+    >>> clean_text("Neutron Radius of<mml:mi>P</mml:mi><mml:mn>208</mml:mn><mml:mi>b</mml:mi>")
+    'Neutron Radius of 208Pb'
+    """
     if not text:
         return None
     text = re.sub(r"<[^>]+>", " ", text)
     text = html.unescape(text)
-    text = re.sub(r"^\s*Abstract\s+", "", " ".join(text.split()), flags=re.I)
+    text = re.sub(r"\s+", " ", text).strip()
+    text = re.sub(r"\b([A-Z])\s+(\d+)\s+([a-z])\b", r"\2\1\3", text)
     return text or None
+
+
+def clean_abstract(text):
+    text = clean_text(text)
+    if not text:
+        return None
+    text = re.sub(r"^\s*Abstract\s+", "", text, flags=re.I)
+    return text or None
+
+
+def clean_titles(titles):
+    cleaned_titles = []
+    for title in titles or [""]:
+        cleaned_titles.append(clean_text(title) or "")
+    return cleaned_titles
 
 
 def author_corresponding_from_openAlex(data_openAlex, data_CrossRef):
@@ -97,7 +118,7 @@ def get_abstractdata(doi):
     return {
         "source": metadata_CrossRef["source"],
         "language": metadata_CrossRef.get("language"),
-        "title": metadata_CrossRef.get("title"),
+        "title": clean_titles(metadata_CrossRef.get("title")),
         "author": metadata_CrossRef.get("author"),
         "author-corresponding-openalex": author_corresponding,
         "DOI": metadata_CrossRef.get("DOI"),
