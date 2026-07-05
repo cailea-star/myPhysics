@@ -33,7 +33,7 @@ Write: Present one draft group, wait for user approval, write confirmed entries,
 
 ### Section-Rules
 
-Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings. For each section, present three to four candidate quotations for review in the final raw/*.md block shape, including exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section.
+Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings. For each section, present three to four candidate quotations for review in [exact mode] (final raw/*.md block shape with exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section) or [summary mode] (source section, candidate `[claim_type]`, candidate `[tags]`, and one-sentence evidence summary before asking for approval).
 
 Coverage: For each section's candidate set, satisfy section-level claim coverage from source evidence; if no valid source quote exists for a required claim, report the gap instead of inventing one.
 
@@ -75,7 +75,7 @@ Math: Do not use standalone formulas as quote text. When a formula is important 
 
 Secondary citations: Put cited-ref-dependent quotes under `### Secondary Citations` using `secondary-tags`; they may serve as supplemental notes, but not as primary evidence for Motivation, Methods, Results, or Meanings. Treat a quote as cited-ref-dependent if the quoted sentence contains external citation markers such as `[55]`, `[19,56]`, `[31--44]`, `Ref. [45]`, `Refs.`, `given by [55]`, or `same procedure as in Ref.`. Internal references to this paper's `Fig.`, `Table`, `Eq.`, or `section` are not secondary citations.
 
-Write: Present and write quotation drafts one section at a time; wait for user review before writing each section to `raw/*.md`.
+Write: Present quotation drafts one section at a time; wait for user review, then write each approved section to `raw/*.md` in [exact mode].
 
 ## Gated Workflow
 
