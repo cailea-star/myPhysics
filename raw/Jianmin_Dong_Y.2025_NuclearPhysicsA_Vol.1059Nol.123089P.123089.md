@@ -67,9 +67,57 @@ source : section 1. Introduction.
 
 ### Methods
 
-##### quotation-xx
+##### quotation-05
 
-...
+```tags
+[claim_type]: method
+[tags]: RMF, BCS
+```
+
+```quote
+The calculations are performed by using the deformed RMF theory in combination with BCS approach.
+```
+
+source : section 1. Introduction.
+
+##### quotation-06
+
+```tags
+[claim_type]: definition
+[tags]: symmetry_energy, density_dependent
+```
+
+```quote
+The nonlinear mixed isoscalar-isovector coupling described by ΛV modifies the density-dependence of the symmetry energy.
+```
+
+source : section 2.1. Relativistic meanfield theory.
+
+##### quotation-07
+
+```tags
+[claim_type]: assumption
+[tags]: symmetry_energy, saturation_density, finite_nuclei
+```
+
+```quote
+For finite nuclei, only the symmetry energy below the saturation density is required.
+```
+
+source : section 2.2. Symmetry energy.
+
+##### quotation-08
+
+```tags
+[claim_type]: comparison
+[tags]: symmetry_energy, density_dependent, soft, stiff
+```
+
+```quote
+In the present work, we still use the term stiff or soft to distinguish the different behavior of the density-dependent symmetry energy.
+```
+
+source : section 2.2. Symmetry energy.
 
 ### Results
 
@@ -102,3 +150,22 @@ E_{\rm sym}
 ```
 
 source : section 2.2. Symmetry energy.
+
+##### quotation-s02
+
+```secondary-tags
+[claim_type]: method
+[tags]: pairing_correlation, BCS
+[ref]: [53] H.F. Zhang, et al., Eur. Phys. J. A 30 (2006) 519--529.
+[doi]: 10.1140/epja/i2006-10147-0
+```
+
+```quote
+The pairing correlation is usually regarded as the predominant component of the residual interaction beyond the meanfield approximation. We introduce the density-dependent delta-interaction in the formalism of BCS-type pairing correlations for isovector channel, taking the form of [53]:
+```
+
+```math
+V = -V_0 \left[1 - \left(\frac{\rho(r)}{\rho_0}\right)^\gamma\right]\delta(r_1 - r_2).
+```
+
+source : section 2.1. Relativistic meanfield theory.

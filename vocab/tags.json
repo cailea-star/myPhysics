@@ -126,6 +126,18 @@
     "aliases": ["nuclear deformation", "deformation"]
   },
   {
+    "tag": "pairing_correlation",
+    "definition": "pairing correlation treated beyond the mean-field approximation",
+    "types": ["phenomenon"],
+    "aliases": ["pairing correlation", "pairing correlations"]
+  },
+  {
+    "tag": "FSUGarnet",
+    "definition": "FSUGarnet relativistic mean-field parameter set",
+    "types": ["entity"],
+    "aliases": ["FSUGarnet", "FSUGarnet parameter", "FSUGarnet parameter set"]
+  },
+  {
     "tag": "Hs-270",
     "definition": "nucleus with mass number A=270, atomic number Z=108, element Hassium",
     "types": ["entity"],
