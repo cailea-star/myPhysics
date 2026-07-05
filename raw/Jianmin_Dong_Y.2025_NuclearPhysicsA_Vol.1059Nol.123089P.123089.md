@@ -259,6 +259,25 @@ source : section 4. Summary.
 ##### quotation-s01
 
 ```secondary-tags
+[claim_type]: method
+[tags]: pairing_correlation, BCS
+[ref]: [53] H.F. Zhang, et al., Eur. Phys. J. A 30 (2006) 519--529.
+[doi]: 10.1140/epja/i2006-10147-0
+```
+
+```quote
+We introduce the density-dependent delta-interaction in the formalism of BCS-type pairing correlations for isovector channel, taking the form of [53]:
+```
+
+```math
+V = -V_0 \left[1 - \left(\frac{\rho(r)}{\rho_0}\right)^\gamma\right]\delta(r_1 - r_2).
+```
+
+source : section 2.1. Relativistic meanfield theory.
+
+##### quotation-s02
+
+```secondary-tags
 [claim_type]: definition
 [tags]: symmetry_energy, RMF
 [ref]: [55] B.K. Sharma, S. Pal, Phys. Lett. B 682 (2009) 23--26.
@@ -271,27 +290,95 @@ The density-dependent symmetry energy of nuclear matter in the framework of RMF 
 
 ```math
 E_{\rm sym}
-= \frac{1}{2}\frac{g_\rho^2}{m_\rho^2 + 8\Lambda_V(g_\rho g_\omega \omega_0)^2}\rho_2
+= \frac{1}{2}\frac{g_\rho^2}{m_\rho^2 + 8\Lambda_V(g_\rho g_\omega \omega_0)^2}\rho
 + \frac{k_F^2}{6E_F^*}.
 ```
 
 source : section 2.2. Symmetry energy.
 
-##### quotation-s02
+##### quotation-s03
 
 ```secondary-tags
 [claim_type]: method
-[tags]: pairing_correlation, BCS
-[ref]: [53] H.F. Zhang, et al., Eur. Phys. J. A 30 (2006) 519--529.
-[doi]: 10.1140/epja/i2006-10147-0
+[tags]: FSUGarnet, symmetry_energy, density_dependent
+[ref]: [19] C.J. Horowitz, J. Piekarewicz, Phys. Rev. Lett. 86 (2001) 5647; [56] C.X. Liu, T.F. Feng, J.M. Dong, Mon. Not. R. Astron. Soc. 534 (2024) 1763.
+[doi]: 10.1103/PhysRevLett.86.5647; 10.1093/mnras/stae2170
 ```
 
 ```quote
-The pairing correlation is usually regarded as the predominant component of the residual interaction beyond the meanfield approximation. We introduce the density-dependent delta-interaction in the formalism of BCS-type pairing correlations for isovector channel, taking the form of [53]:
+To study the effects of different density-dependent behavior of symmetry energy on the properties of SHN, based on the original FSUGarnet interaction listed in Table 1, we introduce a ‘family’ of FSUGarnet by adjusting ΛV and gρ with the same procedure as in Ref. [19,56].
+```
+
+source : section 2.2. Symmetry energy.
+
+##### quotation-s04
+
+```secondary-tags
+[claim_type]: definition
+[tags]: two_nucleon_shell_gap, shell_closure, ground_state_energy
+[ref]: [11] K. Rutz, M. Bender, T. Bürvenich, T. Schilling, et al., Phys. Rev. C 56 (1997) 238.
+[doi]: 10.1103/PhysRevC.56.238
+```
+
+```quote
+The other indicator of shell closures is the two-nucleon gap which is appropriate for assessing shell stabilization. It is calculated with the help of the obtained ground state energy via [11]
 ```
 
 ```math
-V = -V_0 \left[1 - \left(\frac{\rho(r)}{\rho_0}\right)^\gamma\right]\delta(r_1 - r_2).
+\delta_{2n}(N,Z) = 2B(N,Z) - B(N - 2,Z) - B(N + 2,Z),
+\delta_{2p}(N,Z) = 2B(N,Z) - B(N,Z - 2) - B(N,Z + 2).
 ```
 
-source : section 2.1. Relativistic meanfield theory.
+source : section 3.2. Single particle energy levels and two-nucleon shell gaps.
+
+##### quotation-s05
+
+```secondary-tags
+[claim_type]: comparison
+[tags]: alpha_decay_energy, alpha_decay_half_life
+[ref]: [66] P. Möller, J.R. Nix, K.L. Kratz, At. Data Nucl. Data Tables 66 (1997) 131.
+[doi]: 10.1006/adnd.1997.0746
+```
+
+```quote
+The α-decay half-life is extremely sensitive to the decay energy Qα, and an uncertainty of 1 MeV in Qα value results in an uncertainty of half-life by about 10^3 to 10^5 times in the heavy element region [66].
+```
+
+source : section 3.3. α-decay.
+
+##### quotation-s06
+
+```secondary-tags
+[claim_type]: method
+[tags]: alpha_decay_half_life, alpha_decay_energy
+[ref]: [86] G. Royer, H.F. Zhang, Phys. Rev. C 77 (2008) 037602.
+[doi]: 10.1103/PhysRevC.77.037602
+```
+
+```quote
+Many models can be employed to estimate the half-life [67--85], and here we use the Royer’s formula taking the form of [86]
+```
+
+```math
+\log_{10}[T_{1/2}(s)]
+= -25.31 - 1.1629A^{1/6}\sqrt{Z}
++ \frac{1.5864Z}{\sqrt{Q_\alpha}}
+\quad \text{for even}(Z)\text{-even}(N)\text{ nuclei.}
+```
+
+source : section 3.3. α-decay.
+
+##### quotation-s07
+
+```secondary-tags
+[claim_type]: comparison
+[tags]: symmetry_energy, superheavy_nuclei, single_particle_energy_level, two_nucleon_shell_gap
+[ref]: [15] J.M. Dong, W. Zuo, W. Scheid, Phys. Rev. Lett. 107 (2011) 012501.
+[doi]: 10.1103/PhysRevLett.107.012501
+```
+
+```quote
+This conclusion is consistent with that obtained in Ref. [15], which indicates the important role of the symmetry energy in the stability of SHN although the shell gaps presented in single-particle energy levels or extracted two-nucleon shell gaps via the binding energy are almost independent of the different density-dependent behavior of the symmetry energy.
+```
+
+source : section 3.3. α-decay.
