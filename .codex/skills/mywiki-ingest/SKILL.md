@@ -29,17 +29,35 @@ Draft: If a needed tag is missing, draft `{tag, definition, types, aliases}` ent
 
 Write: Present one draft group, wait for user approval, write confirmed entries, then present the next draft group.
 
-### Quotation-Rules
-
-Source: Quote must come from `raw/*.pdf` or `raw/*.tex`.
+### Section-Rules
 
 Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings. For each section, present three to four candidate quotations for review in the final raw/*.md block shape, including exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section.
 
 Coverage: For each section's candidate set, satisfy section-level claim coverage from source evidence; if no valid source quote exists for a required claim, report the gap instead of inventing one.
-- Motivation: include at least one `[claim_type]: motivation`; consider whether candidates should introduce core method or physical-quantity tags.
-- Methods: include `[claim_type]: definition` and `[claim_type]: comparison` for core method tags; check whether the paper states an explicit `[claim_type]: assumption`.
-- Results: include `[claim_type]: definition` and `[claim_type]: comparison` for core calculated or measured quantity tags, and every quotation must include at least one directly supported calculation-method tag, such as `RMF` or `BCS`; if no method tag is supported, reject the candidate.
-- Meanings: include at least one `[claim_type]: comparison`.
+
+Motivation-Coverage:
+- Include at least one `[claim_type]: motivation`.
+- Consider whether candidates should introduce core method or physical-quantity tags.
+
+Methods-Coverage:
+- Include `[claim_type]: definition` for core method tags.
+- Include `[claim_type]: comparison` for core method tags.
+- Check whether the paper states an explicit `[claim_type]: assumption`.
+
+Results-Coverage:
+- Include `[claim_type]: definition` for core calculated or measured quantity tags.
+- Include `[claim_type]: comparison` for core calculated or measured quantity tags.
+
+Results-Quotation:
+- Every quotation must include at least one directly supported calculation-method tag, such as `RMF` or `BCS`.
+- If no method tag is supported, reject the candidate.
+
+Meanings-Coverage:
+- Include at least one `[claim_type]: comparison`.
+
+### Quotation-Rules
+
+Source: Quote must come from `raw/*.pdf` or `raw/*.tex`.
 
 Form: Each quote must be one or more complete sentences, not a phrase; it should support a clear claim and contain about 10-40 words total.
 
@@ -75,4 +93,4 @@ Run gates strictly in order. At the start of each response, state the current ga
    Check rough paper-level keywords against `vocab/tags.json`; draft and confirm missing tags following [Vocab-Rules](#vocab-rules).
 
 ### Gate 5 — Discuss Quotations
-   Draft and write quotations under the template frames, following [Quotation-Rules](#quotation-rules).
+   Draft and write quotations under the template frames, following [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules).
