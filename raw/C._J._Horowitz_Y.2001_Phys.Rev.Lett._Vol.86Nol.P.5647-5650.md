@@ -17,29 +17,42 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 
 ```tags
 [claim_type]: motivation
-[tags]: finite_nuclei, neutron_skin_thickness, neutron_rich
-[source]: introduction.
+[tags]: Pb-208, neutron_star, nuclear_matter, neutron_rich
+[source]: introduction, opening scale argument.
 ```
 
 ```quote
-Heavy nuclei are expected to have a neutron-rich skin. This important feature of nuclear structure arises because of the large neutron excess and because the Coulomb barrier reduces the proton density at the surface.
+It is an extrapolation of 18 orders of magnitude from the neutron radius of a heavy nucleus---such as $^{208}$Pb with $R_{n}\!\approx\! 5.5$~fm---to the approximately 10 km radius of a neutron star. Yet both radii depend on our incomplete knowledge of the equation of state of neutron-rich matter.
 ```
 
 
 ##### quotation-02
 
 ```tags
-[claim_type]: motivation
-[tags]: neutron_skin_thickness, neutron_star, neutron_star_crust
-[source]: introduction.
+[claim_type]: definition
+[tags]: neutron_skin_thickness, neutron_rich, nuclear_matter
+[source]: introduction, neutron-skin paragraph.
 ```
 
 ```quote
-In this letter we study possible ``data-to-data'' relations between the neutron-rich skin of a heavy nucleus and the crust of a neutron star. These relations may impact neutron star observables.
+The thickness of the neutron skin depends on the pressure of neutron-rich matter: the greater the pressure, the thicker the skin as neutrons are pushed out against surface tension.
 ```
 
 
 ##### quotation-03
+
+```tags
+[claim_type]: motivation
+[tags]: neutron_skin_thickness, neutron_star_crust, transition_density, neutron_rich
+[source]: introduction, crust-transition paragraph.
+```
+
+```quote
+Thus a high pressure typically implies a low transition density from a solid crust to a liquid mantle. This suggests an inverse relationship: the thicker the neutron-rich skin of a heavy nucleus, the thinner the solid crust of a neutron star.
+```
+
+
+##### quotation-04
 
 ```tags
 [claim_type]: motivation
@@ -54,7 +67,7 @@ An accurate measurement of the neutron radius in $^{208}$Pb---via parity violati
 
 ### Methods
 
-##### quotation-04
+##### quotation-05
 
 ```tags
 [claim_type]: definition
@@ -67,7 +80,7 @@ We now supplement the Lagrangian with new nonlinear sigma-rho and omega-rho coup
 ```
 
 
-##### quotation-05
+##### quotation-06
 
 ```tags
 [claim_type]: assumption
@@ -80,7 +93,7 @@ A nonzero $\Lambda_3$ does change the thickness of the neutron skin in $^{208}$P
 ```
 
 
-##### quotation-06
+##### quotation-07
 
 ```tags
 [claim_type]: comparison
@@ -93,7 +106,7 @@ The two new couplings ($\Lambda_4$ and $\Lambda_{\rm v}$) change the skin thickn
 ```
 
 
-##### quotation-07
+##### quotation-08
 
 ```tags
 [claim_type]: method
@@ -108,7 +121,7 @@ To study the solid crust of a neutron star we make a simple random-phase-approxi
 
 ### Results
 
-##### quotation-08
+##### quotation-09
 
 ```tags
 [claim_type]: definition
@@ -121,7 +134,7 @@ Finally, $\rho_c$ is our estimate for the transition density of neutron-rich mat
 ```
 
 
-##### quotation-09
+##### quotation-10
 
 ```tags
 [claim_type]: result
@@ -135,19 +148,6 @@ Figure 1 displays a clear inverse correlation between the transition density and
 
 ```math
 \rho_{c}\approx 0.16 - 0.39\,(R_n-R_p)
-```
-
-
-##### quotation-10
-
-```tags
-[claim_type]: definition
-[tags]: RMF, NL3, S271, Z271
-[source]: Table 2 caption.
-```
-
-```quote
-Model parameters used in the calculations. The parameter $\kappa$ and the scalar ($m_{\rm s}$) and vector ($m_{\rm v}$) masses are given in MeV.
 ```
 
 
@@ -182,13 +182,13 @@ Also, the high density equation of state is softer with $\Lambda_{\rm v}$ than w
 ##### quotation-13
 
 ```tags
-[claim_type]: result
-[tags]: RMF, symmetry_energy, density_dependent, nuclear_matter
-[source]: conclusion.
+[claim_type]: innovation
+[tags]: RMF, neutron_skin_thickness
+[source]: conclusion, point 1.
 ```
 
 ```quote
-The density dependence of the symmetry energy is adjustable in our relativistic effective field models while still reproducing nuclear-matter properties and other ground-state observables.
+It is possible to fit nuclear observables---such as charge densities, binding energies, and single particle spectra---with effective field theories that predict a range of neutron-skin thicknesses.
 ```
 
 
@@ -197,7 +197,7 @@ The density dependence of the symmetry energy is adjustable in our relativistic 
 ```tags
 [claim_type]: comparison
 [tags]: RMF, symmetry_energy, density_dependent, soft, nuclear_matter
-[source]: conclusion.
+[source]: conclusion, point 2.
 ```
 
 ```quote
