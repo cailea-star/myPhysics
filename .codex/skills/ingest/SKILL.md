@@ -120,7 +120,7 @@ Run gates strictly in order. At the start of each response, state the current ga
    Review that section against [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules); give every quotation a pass/gap/fix verdict, report section coverage pass/gap/fix items, then stop and wait for user approval before the next section.
    After every fix to a `raw/*.md`, run `python scripts\sort_raw_md_quotations.py mdfile_path` before continuing.
 
-### Gate 6 — Summary & Recommend Next Paper
+### Gate 6 — Summary & Recommend Next Paper(s)
    Log the completed paper before any recommendation: append one concise entry to `log.md` with raw md filename, DOI, title, and core tags.
    Summarize from the completed `raw/*.md`: give exactly two sentences each for Motivation, Methods, Results, and Meanings, then state the paper's core innovation.
-   Recommend next paper from `### Secondary Citations` only: select cited references most central to the current paper's core tags and quotations, present citation information, DOI, matched tags, and why it is next; wait for user approval before starting any new ingest.
+   Recommend one or more next papers from `### Secondary Citations` only: select cited references most central to the current paper's core tags and quotations, present each recommendation's citation information, DOI, matched tags, and why it is next; wait for user approval and selection before starting any new ingest.
