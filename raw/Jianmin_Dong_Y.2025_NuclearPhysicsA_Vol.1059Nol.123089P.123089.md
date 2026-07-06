@@ -204,12 +204,12 @@ source : section 3.3. α-decay; Fig. 6.
 ##### quotation-15
 
 ```tags
-[claim_type]: definition
-[tags]: symmetry_energy, soft, saturation_density, slope_parameter
+[claim_type]: method
+[tags]: RMF, BCS, FSUGarnet, nonlinear_meson_coupling, symmetry_energy, saturation_density
 ```
 
 ```quote
-A large ΛV means the symmetry energy is soft owing to its small slope, but is large in value below the saturation density.
+By employing the deformed RMF approach combined with BCS method, we investigate the effects of different density-dependent behavior of the symmetry energy on the ground-state properties and α-decay properties of some typical nuclei. We introduce the FSUGarnet0.153 interaction ‘family’ based on the well-established FSUGarnet parameter set by adjusting nonlinear ω − ρ coupling parameter ΛV and ρ-nucleon coupling parameter gρ to simulate various density-dependence of the symmetry energy, keeping the symmetry energy fixed at the saturation density ρ = 0.153 fm−3.
 ```
 
 source : section 4. Summary.
@@ -218,7 +218,7 @@ source : section 4. Summary.
 
 ```tags
 [claim_type]: result
-[tags]: ground_state_energy, nuclear_deformation, symmetry_energy, soft
+[tags]: RMF, BCS, nonlinear_meson_coupling, ground_state_energy, nuclear_deformation, symmetry_energy, soft
 ```
 
 ```quote
@@ -231,11 +231,11 @@ source : section 4. Summary.
 
 ```tags
 [claim_type]: comparison
-[tags]: single_particle_energy_level, shell_closure, two_nucleon_shell_gap, symmetry_energy
+[tags]: RMF, BCS, single_particle_energy_level, shell_closure, two_nucleon_shell_gap, symmetry_energy
 ```
 
 ```quote
-The single-particle energy levels of 270Hs and 304120 present notable shifts with the softening of the symmetry energy. Yet, the shell gaps at Z = 108 and N = 162 presenting in the single-particle levels for 270Hs as well as the proton shell gap at Z = 120 for 304120 remain almost unchanged.
+The single-particle energy levels of 270Hs and 304120 present notable shifts with the softening of the symmetry energy. Yet, the shell gaps at Z = 108 and N = 162 presenting in the single-particle levels for 270Hs as well as the proton shell gap at Z = 120 for 304120 remain almost unchanged. The extracted two-nucleon shell gaps are also not affected visually by the different density-dependent behavior of the symmetry energy.
 ```
 
 source : section 4. Summary.
@@ -244,11 +244,11 @@ source : section 4. Summary.
 
 ```tags
 [claim_type]: comparison
-[tags]: alpha_decay_energy, alpha_decay_half_life, symmetry_energy, soft
+[tags]: RMF, BCS, alpha_decay_energy, alpha_decay_half_life, symmetry_energy, soft, alpha_decay, shell_closure
 ```
 
 ```quote
-A softer symmetry energy gives smaller α-decay energy Qα and longer half-life. The half-lives are increased by more than two orders of magnitude when comparing the ΛV = 0 case (stiff symmetry energy) to the ΛV = 0.04 case (soft symmetry energy).
+A softer symmetry energy gives smaller α-decay energy Qα and longer half-life. The half-lives are increased by more than two orders of magnitude when comparing the ΛV = 0 case (stiff symmetry energy) to the ΛV = 0.04 case (soft symmetry energy), which indicates that the stability of SHN against α-decay is enhanced substantially as the symmetry energy becomes softer, although the shell gaps are almost independent of the different density-dependent behavior of symmetry energy.
 ```
 
 source : section 4. Summary.
