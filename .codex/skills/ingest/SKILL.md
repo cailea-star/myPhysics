@@ -61,6 +61,7 @@ Meanings-Coverage:
 - MUST cover high-level judgments from the abstract, summary, or conclusion when supported by valid source quotes.
 - Reject minor results, figure-only details, and claims that do not affect the paper's main message.
 - Include at least one `[claim_type]: comparison`.
+- Include at least one `[claim_type]: innovation`.
 
 Meanings-Quotation:
 - Every quotation must include at least one directly supported method tag from `vocab/tags.json`.
@@ -117,9 +118,9 @@ Run gates strictly in order. At the start of each response, state the current ga
    Review exactly one section per response, in template-frame order: Motivation, Methods, Results, Meanings.
    First print that section's current Coverage rules and any section-specific Quotation rules from [Section-Rules](#section-rules).
    Review that section against [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules); give every quotation a pass/gap/fix verdict, report section coverage pass/gap/fix items, then stop and wait for user approval before the next section.
+   After every fix to a `raw/*.md`, run `python scripts\sort_raw_md_quotations.py mdfile_path` before continuing.
 
-### Gate 6 — Recommend Next Paper
-   Read `### Secondary Citations` in the completed `raw/*.md`.
-   Append a concise completed-paper entry to `log.md` before recommending next papers: raw md filename, DOI, title, and core tags.
-   Recommend next-paper candidates from cited references that are most central to the current paper's tags and quotations.
-   Present candidates with citation information and why they are next; wait for user approval before starting a new ingest.
+### Gate 6 — Summary & Recommend Next Paper
+   Log the completed paper before any recommendation: append one concise entry to `log.md` with raw md filename, DOI, title, and core tags.
+   Summarize from the completed `raw/*.md`: give exactly two sentences each for Motivation, Methods, Results, and Meanings, then state the paper's core innovation.
+   Recommend next paper from `### Secondary Citations` only: select cited references most central to the current paper's core tags and quotations, present citation information, DOI, matched tags, and why it is next; wait for user approval before starting any new ingest.

@@ -66,6 +66,11 @@
       "type": "comparison",
       "definition": "compares with other work or data",
       "aliases": ["compare", "consistent", "agree", "versus", "比较", "符合"]
+    },
+    {
+      "type": "innovation",
+      "definition": "states the paper's explicit new contribution, novelty, or main advance",
+      "aliases": ["innovation", "novelty", "contribution", "advance", "创新", "贡献"]
     }
   ]
 }
