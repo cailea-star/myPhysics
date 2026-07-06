@@ -56,12 +56,24 @@ Results-Quotation:
 - If no method tag is supported, reject the candidate.
 
 Meanings-Coverage:
+- Meanings may repeat Results, but ONLY for claims that state the paper's central significance.
+- MUST cover the abstract's key findings, methods, or claimed implications when supported by valid source quotes.
+- Reject minor results, figure-only details, and claims that do not affect the paper's main message.
 - Include at least one `[claim_type]: comparison`.
 
+Meanings-Quotation:
+- Every quotation must include at least one directly supported method tag from `vocab/tags.json`.
+- If no method tag is supported, reject the candidate.
+
 Secondary-Citations-Coverage:
-- `### Secondary Citations` is for cited-ref-dependent evidence only; each item MUST quote a complete sentence containing an explicit external citation marker.
-- MUST include cited-ref-dependent sources for external methods/formulas, parameter sets/models/data sources, and key physical conclusions or mechanism judgments when they support core tags.
-- Prioritize citations central to the paper's core tags and quotations; reject generic survey/background citations that do not supply a reused method, data/model input, or result interpretation.
+- Include secondary citations ONLY for external methods/formulas, parameter sets/models/data sources, or key physical conclusions/mechanism judgments that support core tags.
+- Reject generic survey/background citations and citations that do not supply a reused method, formula, model/data input, or core interpretation.
+
+Secondary-Citations-Quotation:
+- Put a quote under `### Secondary Citations` ONLY when the quoted sentence depends on an external cited reference; use `secondary-tags`.
+- Each quote MUST be a complete sentence with an explicit external citation marker, such as `[55]` or `Ref. [45]`; otherwise reject it.
+- Do not use secondary quotes as primary evidence for Motivation, Methods, Results, or Meanings.
+- Internal references to this paper's `Fig.`, `Table`, `Eq.`, or `section` are not secondary citations.
 
 ### Quotation-Rules
 
@@ -72,8 +84,6 @@ Form: Each quote must be one or more complete sentences, not a phrase; it should
 Tag Co-occurrence: Each quotation must include at least two directly supported comma-separated tags in `[tags]: ...`. If one sentence supports only one tag, add a neighboring complete sentence from the same source section; if no second supported tag exists, report the gap instead of inventing a relation.
 
 Math: Do not use standalone formulas as quote text. When a formula is important core `[claim_type]: definition` evidence, quote the complete explanatory sentence and add the formula in a following fenced `math` block.
-
-Secondary citations: Put cited-ref-dependent quotes under `### Secondary Citations` using `secondary-tags`; they may serve as supplemental notes, but not as primary evidence for Motivation, Methods, Results, or Meanings. Treat a quote as cited-ref-dependent if the quoted sentence contains external citation markers such as `[55]`, `[19,56]`, `[31--44]`, `Ref. [45]`, `Refs.`, `given by [55]`, or `same procedure as in Ref.`. Internal references to this paper's `Fig.`, `Table`, `Eq.`, or `section` are not secondary citations.
 
 Write: Present quotation drafts one section at a time; wait for user review, then write each approved section to `raw/*.md` in [exact mode].
 
@@ -104,5 +114,6 @@ Run gates strictly in order. At the start of each response, state the current ga
 
 ### Gate 5 — Recommend Next Paper
    Read `### Secondary Citations` in the completed `raw/*.md`.
+   Append a concise completed-paper entry to `log.md` before recommending next papers: raw md filename, DOI, title, and core tags.
    Recommend next-paper candidates from cited references that are most central to the current paper's tags and quotations.
    Present candidates with citation information and why they are next; wait for user approval before starting a new ingest.

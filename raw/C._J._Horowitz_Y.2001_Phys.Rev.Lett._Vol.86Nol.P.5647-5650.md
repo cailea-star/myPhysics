@@ -183,11 +183,11 @@ source: Fig. 3 discussion.
 
 ```tags
 [claim_type]: result
-[tags]: RMF, neutron_skin_thickness, symmetry_energy, density_dependent
+[tags]: RMF, symmetry_energy, density_dependent, nuclear_matter
 ```
 
 ```quote
-We conclude that the neutron-skin thickness is not tightly constrained by these observables. Yet a measurement of the skin thickness will constrain the density dependence of the symmetry energy.
+The density dependence of the symmetry energy is adjustable in our relativistic effective field models while still reproducing nuclear-matter properties and other ground-state observables.
 ```
 
 source: conclusion.
@@ -196,7 +196,7 @@ source: conclusion.
 
 ```tags
 [claim_type]: comparison
-[tags]: RMF, nonlinear_meson_coupling, symmetry_energy, density_dependent, soft, nuclear_matter
+[tags]: RMF, symmetry_energy, density_dependent, soft, nuclear_matter
 ```
 
 ```quote
@@ -209,31 +209,27 @@ source: conclusion.
 
 ```tags
 [claim_type]: result
-[tags]: electron_fraction, beta_equilibrium, neutron_skin_thickness, Pb-208, direct_Urca_process
+[tags]: RMF, neutron_skin_thickness, Pb-208, electron_fraction, transition_density, neutron_rich, nuclear_matter
 ```
 
 ```quote
-The electron fraction $Y_e$ of neutron-rich matter in beta equilibrium is correlated with the neutron-skin thickness in $^{208}$Pb. The thicker the neutron skin the faster $Y_e$ rises with density.
+Relativistic effective field theories with a thicker neutron skin in $^{208}$Pb have a larger electron fraction and a lower liquid-to-solid transition density for neutron-rich matter.
 ```
 
-source: conclusion.
+source: abstract.
 
 ##### quotation-16
 
 ```tags
-[claim_type]: result
-[tags]: transition_density, neutron_skin_thickness, neutron_star_crust, neutron_rich, nuclear_matter
+[claim_type]: motivation
+[tags]: parity_violating_electron_scattering, Pb-208, neutron_star
 ```
 
 ```quote
-We have found an inverse correlation between the neutron-skin thickness and the density of a phase transition from nonuniform to uniform neutron-rich matter.
+An accurate measurement of the neutron radius in $^{208}$Pb---via parity violating electron scattering---may have important implications for the structure of neutron stars.
 ```
 
-```math
-\rho_c\approx 0.16 -0.39\,(R_n\!-\!R_p)
-```
-
-source: conclusion.
+source: abstract.
 
 
 ### Secondary Citations

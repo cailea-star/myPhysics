@@ -196,24 +196,24 @@ source : Fig. 3 caption.
 
 ```tags
 [claim_type]: result
-[tags]: RMF, NL3, FSUGold, symmetry_energy, density_dependent, stiff
+[tags]: RMF, nonlinear_meson_coupling, symmetry_energy, density_dependent, neutron_skin_thickness, neutron_star, stiff, soft
 ```
 
 ```quote
-In summary, within two accurately calibrated relativistic mean field models, the NL3 and FSUGold, we explore constraints on the density dependence of nuclear symmetry energy Esym(ρ). We find soft symmetric nuclear EOS generates a stiff symmetry energy at high densities.
+Within a relativistic mean-field model with nonlinear isoscalar–isovector coupling, we explore the possibility of constraining the density dependence of nuclear symmetry energy from a systematic study of the neutron skin thickness of finite nuclei and neutron star properties. We find the present skin data supports a rather stiff symmetry energy at subsaturation densities that corresponds to a soft symmetry energy at supranormal densities.
 ```
 
-source : Summary.
+source : Abstract.
 
 ##### quotation-14
 
 ```tags
-[claim_type]: result
-[tags]: neutron_skin_thickness, symmetry_energy, slope_parameter, soft
+[claim_type]: comparison
+[tags]: RMF, NL3, FSUGold, neutron_skin_thickness, symmetry_energy, slope_parameter, soft
 ```
 
 ```quote
-From model comparison with the measured neutron skin thickness of several stable nuclei we find an overall rather soft symmetry energy with a slope parameter L ∼ 60 MeV.
+In summary, within two accurately calibrated relativistic mean field models, the NL3 and FSUGold, we explore constraints on the density dependence of nuclear symmetry energy Esym(ρ). From model comparison with the measured neutron skin thickness of several stable nuclei we find an overall rather soft symmetry energy with a slope parameter L ∼ 60 MeV.
 ```
 
 source : Summary.
@@ -222,27 +222,27 @@ source : Summary.
 
 ```tags
 [claim_type]: comparison
-[tags]: neutron_skin_thickness, neutron_star_mass, neutron_star_radius, kaon_condensation
+[tags]: RMF, nonlinear_meson_coupling, neutron_skin_thickness, neutron_star_mass, neutron_star_radius, kaon_condensation, Pb-208
 ```
 
 ```quote
-The correlation between the skin thickness of 208Pb and the neutron star mass-radius have been explored. We find diverse model predictions in the correlation between 208Pb skin and the onset for kaon condensation.
+Within a relativistic mean-field model with nonlinear isoscalar–isovector coupling, we explore the possibility of constraining the density dependence of nuclear symmetry energy from a systematic study of the neutron skin thickness of finite nuclei and neutron star properties. Correlation between the skin of 208Pb and the neutron star masses and radii with kaon condensation has been studied. We find that 208Pb skin estimate suggest star radii that reveals considerable model dependence.
 ```
 
-source : Summary.
+source : Abstract.
 
 ##### quotation-16
 
 ```tags
 [claim_type]: motivation
-[tags]: symmetry_energy, density_dependent, neutron_skin_thickness, neutron_star_radius, neutron_star
+[tags]: RMF, nonlinear_meson_coupling, symmetry_energy, density_dependent, neutron_skin_thickness, neutron_star_radius, neutron_star
 ```
 
 ```quote
-The present skin data points to the mass-radii region of neutron stars that exhibit appreciable model dependence. This provides an unique opportunity to accurately constrain the symmetry energy dependence over a large density range by precise measurements of neutron skin thickness and mass-radius of neutron stars.
+Within a relativistic mean-field model with nonlinear isoscalar–isovector coupling, we explore the possibility of constraining the density dependence of nuclear symmetry energy from a systematic study of the neutron skin thickness of finite nuclei and neutron star properties. Thus precise measurements of neutron star radii in conjunction with skin thickness of heavy nuclei could provide significant constraint on the density dependence of symmetry energy.
 ```
 
-source : Summary.
+source : Abstract.
 
 
 ### Secondary Citations
