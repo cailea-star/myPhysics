@@ -114,9 +114,9 @@ Run gates strictly in order. At the start of each response, state the current ga
    Draft and write quotations under the template frames, following [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules).
 
 ### Gate 5 — Review Discuss Quotations
-   Review the completed `raw/*.md` one section at a time in template-frame order: Motivation, Methods, Results, Meanings.
-   For each section, first print that section's current Coverage rules and any section-specific Quotation rules from [Section-Rules](#section-rules).
-   Review each section against [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules); report pass/gap/fix items before moving to the next section.
+   Review exactly one section per response, in template-frame order: Motivation, Methods, Results, Meanings.
+   First print that section's current Coverage rules and any section-specific Quotation rules from [Section-Rules](#section-rules).
+   Review that section against [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules); give every quotation a pass/gap/fix verdict, report section coverage pass/gap/fix items, then stop and wait for user approval before the next section.
 
 ### Gate 6 — Recommend Next Paper
    Read `### Secondary Citations` in the completed `raw/*.md`.
