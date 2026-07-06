@@ -25,5 +25,24 @@
             "Department of Nuclear and Atomic Physics, Tata Institute of Fundamental Research, Homi Bhabha Road, Mumbai-400005, India"
         ],
         "ORCID": null
+    },
+    {
+        "given": "D S",
+        "family": "Delion",
+        "affiliation": [
+            "Academy of Romanian Scientists, 54 Splaiul Independenţei, Bucharest, RO-050094, România",
+            "Bioterra University, 81 Gârlei str., Bucharest, RO-013724, România",
+            "‘Horia Hulubei’ National Institute of Physics and Nuclear Engineering, 30 Reactorului, POB MG-6, Bucharest-Măgurele, RO-077125, România",
+            "'Horia Hulubei' National Institute of Physics and Nuclear Engineering, 30 Reactorului, POB MG-6, Bucharest-Măgurele, RO-077125, România"
+        ],
+        "ORCID": "https://orcid.org/0000-0002-9982-0695"
+    },
+    {
+        "given": "Zhongzhou",
+        "family": "Ren",
+        "affiliation": [
+            "School of Physics Science and Engineering, Tongji University, Shanghai 200092, People's Republic of China"
+        ],
+        "ORCID": null
     }
 ]
