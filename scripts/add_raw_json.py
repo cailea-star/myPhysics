@@ -148,6 +148,7 @@ def generate_name(abstractdata):
     author_name = " ".join(filter(None, [author.get("given"), author.get("family")])) or author.get("raw_author_name") or ""
     
     journal = abstractdata.get("short-container-title")[0]
+    journal = journal.replace(":", "_")
     volume = abstractdata.get("volume")
     number = abstractdata.get("article-number") or ""
     page = abstractdata.get("page") or ""
