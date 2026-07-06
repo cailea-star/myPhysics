@@ -36,6 +36,12 @@
     "aliases": ["RMF", "relativistic mean-field theory", "relativistic mean-field approach", "relativistic effective field theory", "relativistic effective field models", "effective field theories"]
   },
   {
+    "tag": "nonlinear_meson_coupling",
+    "definition": "nonlinear couplings between meson fields used in RMF models to modify the density dependence of the symmetry energy",
+    "types": ["method"],
+    "aliases": ["nonlinear meson coupling", "nonlinear couplings between isoscalar and isovector mesons", "nonlinear sigma-rho and omega-rho couplings", "nonlinear couplings between isoscalar and isovector meson fields", "omega-rho coupling", "sigma-rho coupling"]
+  },
+  {
     "tag": "DFT",
     "definition": "density functional theory framework for nuclear structure calculations",
     "types": ["method"],
