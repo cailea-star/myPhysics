@@ -39,7 +39,8 @@ Coverage: For each section's candidate set, satisfy section-level claim coverage
 
 Motivation-Coverage:
 - Include at least one `[claim_type]: motivation`.
-- Consider whether candidates should introduce core method or physical-quantity tags.
+- Include `[claim_type]: definition` for core calculated quantity tags.
+- Include `[claim_type]: comparison` or `[claim_type]: motivation` for core method tags.
 
 Methods-Coverage:
 - Include `[claim_type]: definition` for core method tags.
@@ -47,17 +48,17 @@ Methods-Coverage:
 - Check whether the paper states an explicit `[claim_type]: assumption`.
 
 Results-Coverage:
-- Cover every figure and table: present >=1 valid complete-sentence quotation candidate for each item to the user, or report that item as a gap.
+- Cover every figure and table: present >=1 valid complete-sentence quotation candidate for each item with its calculated or measured quantity tags, or report that item as a gap.
 - Include `[claim_type]: definition` for core calculated or measured quantity tags.
 - Include `[claim_type]: comparison` for core calculated or measured quantity tags.
 
 Results-Quotation:
-- Every quotation must include at least one directly supported calculation-method tag, such as `RMF` or `BCS`.
-- If no method tag is supported, reject the candidate.
+- Every quotation must include at least one directly supported calculation-method tag and at least one calculated or measured quantity tag.
+- If either tag type is unsupported, reject the candidate.
 
 Meanings-Coverage:
 - Meanings may repeat Results, but ONLY for claims that state the paper's central significance.
-- MUST cover the abstract's key findings, methods, or claimed implications when supported by valid source quotes.
+- MUST cover high-level judgments from the abstract, summary, or conclusion when supported by valid source quotes.
 - Reject minor results, figure-only details, and claims that do not affect the paper's main message.
 - Include at least one `[claim_type]: comparison`.
 
@@ -112,7 +113,12 @@ Run gates strictly in order. At the start of each response, state the current ga
 ### Gate 4 — Discuss Quotations
    Draft and write quotations under the template frames, following [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules).
 
-### Gate 5 — Recommend Next Paper
+### Gate 5 — Review Discuss Quotations
+   Review the completed `raw/*.md` one section at a time in template-frame order: Motivation, Methods, Results, Meanings.
+   For each section, first print that section's current Coverage rules and any section-specific Quotation rules from [Section-Rules](#section-rules).
+   Review each section against [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules); report pass/gap/fix items before moving to the next section.
+
+### Gate 6 — Recommend Next Paper
    Read `### Secondary Citations` in the completed `raw/*.md`.
    Append a concise completed-paper entry to `log.md` before recommending next papers: raw md filename, DOI, title, and core tags.
    Recommend next-paper candidates from cited references that are most central to the current paper's tags and quotations.
