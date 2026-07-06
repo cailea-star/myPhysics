@@ -15,11 +15,12 @@ vocab/                # controlled vocabulary
   authors.json        # author vocabulary
 
 scripts/
-  add_raw_json.py     # DOI -> raw/*.json
-  add_raw_md.py       # raw/*.json -> raw/*.md
-  add_raw_md.md       # raw md template
-  add_vocab_author.py # check and add author to vocab/authors.json  
-  search_a_tag.py     # canonical tag -> tmp/* section quotation slices
+  add_raw_json.py           # DOI -> raw/*.json
+  add_raw_md.py             # raw/*.json -> raw/*.md
+  add_raw_md.md             # raw md template
+  add_vocab_author.py       # check and add author to vocab/authors.json  
+  search_a_tag.py           # canonical tag -> tmp/* section quotation slices
+  sort_raw_md_quotations.py # renumber raw/*.md quotation headings after edits
 
 tmp/                  # generated temporary query outputs
 
@@ -27,3 +28,9 @@ log.md                # completed paper log
 ```
 
 `raw` is truth. `vocab` names the vocabulary. Use the project `ingest` skill for workflow rules.
+
+Renumber a raw markdown file after adding or deleting quotations:
+
+```powershell
+python scripts\sort_raw_md_quotations.py raw\paper.md
+```
