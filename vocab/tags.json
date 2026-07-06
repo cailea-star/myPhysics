@@ -162,6 +162,12 @@
     "aliases": ["beta equilibrium", "β equilibrium"]
   },
   {
+    "tag": "charge_neutrality",
+    "definition": "condition in neutron-star matter requiring total electric charge neutrality",
+    "types": ["condition"],
+    "aliases": ["charge neutrality", "charge neutrality condition"]
+  },
+  {
     "tag": "alpha_decay",
     "definition": "radioactive decay mode in which a nucleus emits an alpha particle",
     "types": ["phenomenon"],
