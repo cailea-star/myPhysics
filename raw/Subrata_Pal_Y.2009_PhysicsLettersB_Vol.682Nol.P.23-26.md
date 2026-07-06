@@ -65,9 +65,26 @@ Thus precise measurements of neutron skin thickness that is sensitive to symmetr
 ```
 
 
+##### quotation-05
+
+```tags
+[claim_type]: definition
+[tags]: symmetry_energy, neutron_skin_thickness
+[source]: main text, Fig. 2 discussion.
+```
+
+```quote
+Within the same baseline models we investigate consistently the effects of symmetry energy (by varying only Λ v and g ρ ) on the neutron skin thickness S = R n − R p for several nuclei across the periodic table and it is shown in Fig. 2.
+```
+
+```math
+S=R_n-R_p.
+```
+
+
 ### Methods
 
-##### quotation-05
+##### quotation-06
 
 ```tags
 [claim_type]: definition
@@ -86,7 +103,7 @@ E_{\rm sym}(\rho)
 ```
 
 
-##### quotation-06
+##### quotation-07
 
 ```tags
 [claim_type]: method
@@ -99,7 +116,7 @@ To study the effect of symmetry energy in neutron skin and in neutron star, Λv 
 ```
 
 
-##### quotation-07
+##### quotation-08
 
 ```tags
 [claim_type]: comparison
@@ -112,7 +129,7 @@ To demonstrate the effect of symmetric nuclear EOS, such as incompressibility K0
 ```
 
 
-##### quotation-08
+##### quotation-09
 
 ```tags
 [claim_type]: definition
@@ -136,9 +153,22 @@ K_{\rm sym} = 9\rho_0^2 \left.\frac{\partial^2 E_{\rm sym}(\rho)}{\partial \rho^
 ```
 
 
+##### quotation-10
+
+```tags
+[claim_type]: assumption
+[tags]: neutron_star, beta_equilibrium, charge_neutrality
+[source]: main text, neutron-star matter paragraph before Eq. (4).
+```
+
+```quote
+For this purpose we consider a cold neutron star composed of neutrons, protons, muons, and massless electrons in beta equilibrium n ↔ p + e − + ν̄e and e − ↔ μ− + ν̄μ + νe. In addition, the charge neutrality condition in neutron star imposes ρ p = ρe + ρμ.
+```
+
+
 ### Results
 
-##### quotation-09
+##### quotation-11
 
 ```tags
 [claim_type]: definition
@@ -151,7 +181,7 @@ Results for the NL3 (FSUGold) parameter set. The slope parameter L and Kasy ≈ 
 ```
 
 
-##### quotation-10
+##### quotation-12
 
 ```tags
 [claim_type]: comparison
@@ -164,7 +194,7 @@ Fig. 1 shows the density dependence of the nuclear symmetry energy Esym(ρ) at v
 ```
 
 
-##### quotation-11
+##### quotation-13
 
 ```tags
 [claim_type]: result
@@ -177,7 +207,7 @@ Within the same baseline models we investigate consistently the effects of symme
 ```
 
 
-##### quotation-12
+##### quotation-14
 
 ```tags
 [claim_type]: result
@@ -192,7 +222,7 @@ Fig. 3. Neutron skin thickness S of 208Pb versus the neutron star mass (top pane
 
 ### Meanings
 
-##### quotation-13
+##### quotation-15
 
 ```tags
 [claim_type]: result
@@ -205,7 +235,7 @@ Within a relativistic mean-field model with nonlinear isoscalar–isovector coup
 ```
 
 
-##### quotation-14
+##### quotation-16
 
 ```tags
 [claim_type]: comparison
@@ -218,7 +248,7 @@ In summary, within two accurately calibrated relativistic mean field models, the
 ```
 
 
-##### quotation-15
+##### quotation-17
 
 ```tags
 [claim_type]: comparison
@@ -231,16 +261,16 @@ Within a relativistic mean-field model with nonlinear isoscalar–isovector coup
 ```
 
 
-##### quotation-16
+##### quotation-18
 
 ```tags
-[claim_type]: motivation
-[tags]: RMF, nonlinear_meson_coupling, symmetry_energy, density_dependent, neutron_skin_thickness, neutron_star_radius, neutron_star
-[source]: Abstract.
+[claim_type]: innovation
+[tags]: RMF, NL3, FSUGold, neutron_skin_thickness, symmetry_energy, slope_parameter, soft
+[source]: Fig. 2 discussion.
 ```
 
 ```quote
-Within a relativistic mean-field model with nonlinear isoscalar–isovector coupling, we explore the possibility of constraining the density dependence of nuclear symmetry energy from a systematic study of the neutron skin thickness of finite nuclei and neutron star properties. Thus precise measurements of neutron star radii in conjunction with skin thickness of heavy nuclei could provide significant constraint on the density dependence of symmetry energy.
+The skin data can be reproduced in the NL3 and FSUGold models with a soft symmetry energy corresponding to the parameter sets Λv ≥ 0.02, which sets a conservative upper bound of L ∼ 60 MeV (see Table 1). This constitutes a major result of the present study.
 ```
 
 
@@ -309,4 +339,3 @@ We now assess the effect of K− meson condensation in neutron star [7,8] on the
 ```math
 \mathcal{L}_K = D_\mu^*K D^\mu K - m_K^{*2}K^*K.
 ```
-
