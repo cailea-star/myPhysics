@@ -1,5 +1,6 @@
 import json
 import sys
+import os
 from pathlib import Path
 
 
@@ -43,7 +44,7 @@ def main(json_path):
     json_data = json.loads(json_path.read_text(encoding="utf-8"))
     json_data["_json_filename"] = json_path.name
 
-    text = Path(__file__).with_suffix(".md").read_text(encoding="utf-8")
+    text = Path(os.path.join(os.path.dirname(__file__), "add_raw_md.md")).read_text(encoding="utf-8")
     text = replace_source_json(text, json_data)
     text = replace_doi(text, json_data)
     text = replace_first_author(text, json_data)
