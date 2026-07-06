@@ -7,6 +7,7 @@ import urllib.parse
 import urllib.request
 
 HEADERS = {"User-Agent": "doi-metadata-script/0.1 (mailto:your@email.com)"}
+ROOT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 
 def get_json(url):
@@ -159,7 +160,7 @@ if __name__ == "__main__":
     abstractdata = get_abstractdata(doi)
     abstractdata["filename"] = generate_name(abstractdata)
 
-    raw_path = os.path.join(os.path.dirname(__file__), "..", "raw")
+    raw_path = os.path.join(ROOT_PATH, "raw")
     os.makedirs(raw_path, exist_ok=True)
     json_path = os.path.join(raw_path, abstractdata["filename"] + ".json")
 

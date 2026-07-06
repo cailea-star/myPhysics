@@ -1,10 +1,13 @@
+import os
 from pathlib import Path
 import re
 import sys
 
+ROOT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-def get_md_paths(raw_dir: Path = Path("raw")) -> list[Path]:
-    paths = raw_dir.glob("*.md")
+
+def get_md_paths(raw_dir: str | Path = os.path.join(ROOT_PATH, "raw")) -> list[Path]:
+    paths = Path(raw_dir).glob("*.md")
     return sorted(paths)
 
 
@@ -118,11 +121,11 @@ def main(tagname: str, sectionname: str, outfile_path: str | Path) -> Path:
 
 if __name__ == "__main__":
     tagname = sys.argv[1]
-    output_path = main(tagname, "Motivation", Path("tmp") / f"{tagname}_Motivation.md")
+    output_path = main(tagname, "Motivation", os.path.join(ROOT_PATH, "tmp", f"{tagname}_Motivation.md"))
     print(output_path)
-    output_path = main(tagname, "Methods", Path("tmp") / f"{tagname}_Methods.md")
+    output_path = main(tagname, "Methods", os.path.join(ROOT_PATH, "tmp", f"{tagname}_Methods.md"))
     print(output_path)
-    output_path = main(tagname, "Results", Path("tmp") / f"{tagname}_Results.md")
+    output_path = main(tagname, "Results", os.path.join(ROOT_PATH, "tmp", f"{tagname}_Results.md"))
     print(output_path)
-    output_path = main(tagname, "Meanings", Path("tmp") / f"{tagname}_Meanings.md")
+    output_path = main(tagname, "Meanings", os.path.join(ROOT_PATH, "tmp", f"{tagname}_Meanings.md"))
     print(output_path)
