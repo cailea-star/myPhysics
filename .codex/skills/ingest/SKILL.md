@@ -48,9 +48,9 @@ Methods-Coverage:
 - Check whether the paper states an explicit `[claim_type]: assumption`.
 
 Results-Coverage:
-- Cover every figure and table: present >=1 valid complete-sentence quotation candidate for each item with its calculated or measured quantity tags, or report that item as a gap.
-- Include `[claim_type]: definition` for core calculated or measured quantity tags.
-- Include `[claim_type]: comparison` for core calculated or measured quantity tags.
+- MUST cover every figure and table: present >=1 valid complete-sentence quotation candidate for each item with its calculated or measured quantity tags, or report that item as a gap.
+- Require `[claim_type]: definition` for any calculated or measured quantity tag used in Results that has not already been defined in an earlier section or earlier Results quotation.
+- Treat `[claim_type]: comparison` as optional Results evidence; do not report a Results coverage gap solely because it is absent.
 
 Results-Quotation:
 - Every quotation must include at least one directly supported calculation-method tag and at least one calculated or measured quantity tag.
