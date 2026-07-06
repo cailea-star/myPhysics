@@ -18,13 +18,12 @@ affiliations: [affiliations]
 ```tags
 [claim_type]: ...
 [tags]: ...
+[source]: section 1.
 ```
 
 ``` quote
 This is a quotation from the original paper, which is tagged with the above tags.
 ```
-
-source : section 1.
 
 ##### quotation-02
 
@@ -52,6 +51,7 @@ source : section 1.
 ```secondary-tags
 [claim_type]: ...
 [tags]: ...
+[source]: ...
 [ref]: [ab] reference index infromation from the original paper
 [doi]: doi number of the reference or unknown.
 ```
@@ -59,5 +59,3 @@ source : section 1.
 ```quote
 This is a quotation with secondary citations from the original paper[ab], which is tagged with the above tags.
 ```
-
-source: ... 

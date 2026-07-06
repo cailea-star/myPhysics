@@ -31,24 +31,23 @@ def search_quotations(sectionmd: str) -> list[dict]:
     blocks = re.split(r"(?m)^#####\s+", sectionmd)
     for block in blocks[1:]:
         _, _, body = block.partition("\n")
-        # search for the tags block and quote block
+        # search for the tags block
         tag_block = re.search(r"```(tags|secondary-tags)\s*\n(.*?)\n```", body, re.S)
-        quote_block = re.search(r"```\s*quote\s*\n(.*?)\n```", body, re.S)
         # search for claim_type and tags in the tags block
         tag_text = tag_block.group(2)
         claim_type_match = re.search(r"(?m)^\[claim_type\]:\s*(.+)$", tag_text)
         tags_match = re.search(r"(?m)^\[tags\]:\s*(.+)$", tag_text)
+        source_match = re.search(r"(?m)^\[source\]:\s*(.+)$", tag_text)
 
         taglist = []
         tags_text = tags_match.group(1)
         for tag in tags_text.split(","):
             tag = tag.strip()
             if tag: taglist.append(tag)
-        # search for source in the quote block
-        source_match = re.search(r"(?m)^source\s*:\s*(.+)$", body, re.I)
+        # search for source in the tags block
         claim_type = claim_type_match.group(1).strip()
-        quote = quote_block.group(1).strip()
-        source = source_match.group(1).strip() if source_match else ""
+        quote = (body[:tag_block.start()] + body[tag_block.end():]).strip()
+        source = source_match.group(1).strip()
         quotations.append(
             {
                 "claim_type": claim_type,
@@ -99,7 +98,7 @@ def write_quotations(query_name: str, quotations: list[dict], outfile_path: str 
             lines += [f"## {quote['claim_type']}", ""]
             last_claim_type = quote["claim_type"]
         tags = ", ".join(quote["tags"])
-        lines += [f"- source: {quote['source']}", f"- tags: {tags}", "", f"> {quote['quote']}", ""]
+        lines += [f"- source: {quote['source']}", f"- tags: {tags}", "", quote["quote"], ""]
     outfile_path = Path(outfile_path)
     outfile_path.parent.mkdir(parents=True, exist_ok=True)
     output = "\n".join(lines)
