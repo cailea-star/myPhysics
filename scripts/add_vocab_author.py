@@ -1,7 +1,10 @@
 import json
+import os
 import re
 import sys
 from pathlib import Path
+
+ROOT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 
 def affiliation_names(affiliations):
@@ -35,7 +38,7 @@ def main(json_path):
     raw_data = json.loads(Path(json_path).read_text(encoding="utf-8"))
     raw_corresponding_authors = get_corresponding_authors(raw_data)
 
-    authors_path = Path(__file__).resolve().parents[1] / "vocab" / "authors.json"
+    authors_path = Path(os.path.join(ROOT_PATH, "vocab", "authors.json"))
     authors = json.loads(authors_path.read_text(encoding="utf-8"))
 
     changed = False
