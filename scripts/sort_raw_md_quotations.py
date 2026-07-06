@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 import sys
 
 
@@ -6,7 +7,7 @@ def record_quotation_linenumber(fullmd: str) -> list[int]:
     lines = fullmd.splitlines()
     linenumberlist = []
     for linenumber, line in enumerate(lines):
-        if line.startswith("##### quotation-"):
+        if re.match(r"^##### quotation-\d+\s*$", line):
             linenumberlist.append(linenumber)
     return linenumberlist
 
