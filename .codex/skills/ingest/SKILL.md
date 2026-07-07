@@ -108,7 +108,9 @@ Run gates strictly in order. At the start of each response, state the current ga
    ```
    Use `git diff --name-only -- raw/*.json` to identify the new JSON filename; use `git status --short raw` if it is untracked.
 
-   Get PDF/TEX from open source or user. Save into `raw/` with same basename as JSON.
+   Download PDF/TEX from arXiv only; save as `raw/[json_basename].pdf` or `.tex`.
+
+   If arXiv fails, do not try other downloads. Give direct PDF link(s), the exact target path, and wait for the user file.
 
 ### Gate 3 — Check Tag & Author
    Run `python scripts\add_vocab_author.py raw\[json_filename].json` as a routine check of the corresponding-author list, then read the PDF/TEX source text for corresponding-author information and report both the script terminal output and the source-text corresponding-author information to the user.
