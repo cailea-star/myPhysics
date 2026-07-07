@@ -30,6 +30,42 @@
     "aliases": ["neutron-star crust", "neutron star crust", "solid crust", "crust of a neutron star"]
   },
   {
+    "tag": "even_even_nuclei",
+    "definition": "nuclei with even proton number and even neutron number",
+    "types": ["system"],
+    "aliases": ["even-even nuclei", "even–even nuclei", "even-even emitters"]
+  },
+  {
+    "tag": "odd_mass_nuclei",
+    "definition": "nuclei with odd mass number",
+    "types": ["system"],
+    "aliases": ["odd-mass nuclei", "odd–mass nuclei", "odd-mass emitters"]
+  },
+  {
+    "tag": "odd_odd_nuclei",
+    "definition": "nuclei with odd proton number and odd neutron number",
+    "types": ["system"],
+    "aliases": ["odd-odd nuclei", "odd–odd nuclei", "odd-odd emitters"]
+  },
+  {
+    "tag": "rotational_nuclei",
+    "definition": "nuclei whose low-lying collective spectrum is described as rotational",
+    "types": ["system"],
+    "aliases": ["rotational nuclei", "rotational emitters", "well-deformed rotational nuclei"]
+  },
+  {
+    "tag": "vibrational_nuclei",
+    "definition": "nuclei whose low-lying collective spectrum is described as vibrational",
+    "types": ["system"],
+    "aliases": ["vibrational nuclei", "vibrational emitters"]
+  },
+  {
+    "tag": "transitional_nuclei",
+    "definition": "nuclei in the transitional regime between vibrational and rotational collective spectra",
+    "types": ["system"],
+    "aliases": ["transitional nuclei"]
+  },
+  {
     "tag": "RMF",
     "definition": "relativistic mean-field theory used to calculate nuclear structure properties",
     "types": ["method"],
@@ -58,6 +94,54 @@
     "definition": "random-phase approximation calculation used to estimate the transition density from uniform to nonuniform neutron-rich matter",
     "types": ["method"],
     "aliases": ["random-phase-approximation", "RPA"]
+  },
+  {
+    "tag": "coupled_channels_method",
+    "definition": "coupled-channels method used to calculate alpha transitions, decay widths, and branching to excited nuclear states",
+    "types": ["method"],
+    "aliases": ["coupled channels method", "coupled channels approach", "coupled channels formalism"]
+  },
+  {
+    "tag": "double_folding_potential",
+    "definition": "nucleus-nucleus interaction potential obtained by folding nuclear densities with an effective nucleon-nucleon interaction, often used as the real part of an optical potential",
+    "types": ["method"],
+    "aliases": ["double folding potential"]
+  },
+  {
+    "tag": "vibrational_model",
+    "definition": "collective nuclear model describing vibrational excitation modes",
+    "types": ["method"],
+    "aliases": ["vibrational model"]
+  },
+  {
+    "tag": "rotational_model",
+    "definition": "collective nuclear model describing rotational excitation modes",
+    "types": ["method"],
+    "aliases": ["rotational model"]
+  },
+  {
+    "tag": "coherent_state_model",
+    "definition": "Coherent State Model used to describe vibrational, transitional, and rotational nuclear spectra",
+    "types": ["method"],
+    "aliases": ["Coherent State Model", "CSM"]
+  },
+  {
+    "tag": "semiclassical_method",
+    "definition": "semiclassical method used to estimate alpha-decay half-lives, decay widths, branching ratios, or barrier penetration",
+    "types": ["method"],
+    "aliases": ["semiclassical method", "semiclassical methods", "semiclassical calculations", "semiclassical approach"]
+  },
+  {
+    "tag": "viola_seaborg_law",
+    "definition": "Viola-Seaborg law or generalized Viola-Seaborg relation used to correlate alpha-decay partial half-lives with decay parameters",
+    "types": ["method"],
+    "aliases": ["Viola-Seaborg law", "generalized Viola-Seaborg parameter", "Viola-Seaborg parameter"]
+  },
+  {
+    "tag": "cluster_core_model",
+    "definition": "cluster-core model used to describe alpha-particle dynamics relative to a daughter nuclear core",
+    "types": ["method"],
+    "aliases": ["cluster-core model", "cluster core model", "cluster model"]
   },
   {
     "tag": "parity_violating_electron_scattering",
@@ -96,6 +180,12 @@
     "aliases": ["ground state energy", "ground-state energy"]
   },
   {
+    "tag": "angular_momentum",
+    "definition": "angular momentum quantum number or coupled angular momentum used to label nuclear, alpha-particle, or decay-channel states",
+    "types": ["quantity"],
+    "aliases": ["angular momentum", "angular momenta", "ℓ", "J", "I"]
+  },
+  {
     "tag": "quadrupole_deformation",
     "definition": "quadrupole deformation parameter beta_2",
     "types": ["quantity"],
@@ -112,6 +202,48 @@
     "definition": "half-life for alpha decay",
     "types": ["quantity"],
     "aliases": ["half-life", "𝛼-decay half-life"]
+  },
+  {
+    "tag": "alpha_decay_width",
+    "definition": "total or partial decay width for alpha decay",
+    "types": ["quantity"],
+    "aliases": ["alpha-decay width", "decay width", "partial decay width", "total decay width"]
+  },
+  {
+    "tag": "alpha_decay_branching_ratio",
+    "definition": "branching ratio for alpha decay to daughter ground or excited states",
+    "types": ["quantity"],
+    "aliases": ["branching ratio", "branching ratios", "b.r."]
+  },
+  {
+    "tag": "alpha_decay_intensity",
+    "definition": "relative alpha-decay intensity to a daughter-state channel",
+    "types": ["quantity"],
+    "aliases": ["alpha-decay intensity", "α-decay intensity", "relative intensity", "alpha-intensities"]
+  },
+  {
+    "tag": "excitation_energy",
+    "definition": "excitation energy of nuclear states",
+    "types": ["quantity"],
+    "aliases": ["excitation energy", "excitation energies", "Ec", "E2"]
+  },
+  {
+    "tag": "spectroscopic_factor",
+    "definition": "ratio between the experimental decay width and the theoretical decay width",
+    "types": ["quantity"],
+    "aliases": ["spectroscopic factor", "spectroscopic factors"]
+  },
+  {
+    "tag": "hindrance_factor",
+    "definition": "ratio quantity measuring hindrance of alpha transitions to excited states",
+    "types": ["quantity"],
+    "aliases": ["hindrance factor", "HF"]
+  },
+  {
+    "tag": "electromagnetic_transition",
+    "definition": "electromagnetic transition between nuclear states used to characterize nuclear collectivity",
+    "types": ["quantity", "phenomenon"],
+    "aliases": ["electromagnetic transition", "electromagnetic transitions", "B(E2)"]
   },
   {
     "tag": "two_nucleon_shell_gap",
@@ -172,6 +304,24 @@
     "definition": "radioactive decay mode in which a nucleus emits an alpha particle",
     "types": ["phenomenon"],
     "aliases": ["alpha-decay", "𝛼-decay"]
+  },
+  {
+    "tag": "alpha_decay_fine_structure",
+    "definition": "fine structure of alpha decay, especially alpha transitions to excited daughter states",
+    "types": ["phenomenon"],
+    "aliases": ["α-decay fine structure", "alpha-decay fine structure", "fine structure of alpha-transitions"]
+  },
+  {
+    "tag": "alpha_clustering",
+    "definition": "alpha-clustering or alpha preformation behavior in nuclei",
+    "types": ["phenomenon"],
+    "aliases": ["α-clustering", "alpha-clustering"]
+  },
+  {
+    "tag": "nuclear_collectivity",
+    "definition": "collective nuclear behavior characterized through electromagnetic transitions and collective spectra",
+    "types": ["phenomenon"],
+    "aliases": ["nuclear collectivity", "collectivity"]
   },
   {
     "tag": "shell_closure",
