@@ -91,12 +91,12 @@ Due to the fact that all measured decay widths are by many orders of magnitude s
 
 ```tags
 [claim_type]: definition
-[tags]: double_folding_potential, alpha_decay, deformed
+[tags]: double_folding_potential, deformed
 [source]: section 2.2. Interaction
 ```
 
 ``` quote
-The double folding procedure to estimate the α-core potential is given by the following integral [53–55]
+The double folding procedure to estimate the α-core potential is given by the following integral [53–55]. The resulting potential can be decomposed into a spherical (V0) and a deformed part (Vd) as in equation (2.8).
 ```
 
 ```math
@@ -138,7 +138,7 @@ These data were analyzed within the coupled channels formalism [59, 60], by usin
 ```
 
 ``` quote
-By using the orthonormality of the core-angular harmonics (2.4) in the superposition (2.2), one obtains in a standard way the coupled system of differential equations for radial components [8]. Panel (a) presents an even–even core coupled with an α particle to angular momentum IP = 0.
+By using the orthonormality of the core-angular harmonics (2.4) in the superposition (2.2), one obtains in a standard way the coupled system of differential equations for radial components [8]. Panel (a) presents an even–even core coupled with an α particle to angular momentum IP = 0. Panel (b) shows a core of angular momentum J coupled with an odd nucleon of spin j to angular momentum I, then coupled again with an α particle with angular momentum ℓ to total spin IP.
 ```
 
 ##### quotation-11
@@ -174,7 +174,7 @@ As can be seen, all the semiclassical models tend to overestimate the b.r. to ex
 ```
 
 ``` quote
-A cluster model describes the α-particle dynamics by a spherical Schrödinger equation using an appropriate phenomenologic potential. In figure 3 were analyzed available experimental data concerning α-decays to excited states in even–even nuclei [61].
+A cluster model describes the α-particle dynamics by a spherical Schrödinger equation using an appropriate phenomenologic potential. Here there are plotted the intensities deﬁned by equation (2.28) versus the excitation energy E2 of daughter nuclei corresponding to (a) c = J = 2, (b) c = J = 4 and (c) c = J = 6.
 ```
 
 ##### quotation-14
@@ -186,7 +186,7 @@ A cluster model describes the α-particle dynamics by a spherical Schrödinger e
 ```
 
 ``` quote
-The horizontal line denotes the Q-value. The dotted curve indicates the original double folding result.
+The horizontal line denotes the Q-value. The dotted curve indicates the original double folding result. The decay process is 232Pu → 228U + α.
 ```
 
 ##### quotation-15
@@ -198,7 +198,7 @@ The horizontal line denotes the Q-value. The dotted curve indicates the original
 ```
 
 ``` quote
-In figure 5(a) are given the quadrupole (squares) and hexadecapole deformations (triangles), while in (b) the experimental values of the ratios ϑ2, ϑ4 (squares) are shown. One sees that the agreement with experimental data for ϑ2 is very good.
+These data were analyzed within the coupled channels formalism [59, 60], by using the double folding potential plus a repulsive core simulating the Pauli principle. In figure 5(a) are given the quadrupole (squares) and hexadecapole deformations (triangles), while in (b) the experimental values of the ratios ϑ2, ϑ4 (squares) are shown.
 ```
 
 ##### quotation-16
@@ -210,7 +210,7 @@ In figure 5(a) are given the quadrupole (squares) and hexadecapole deformations 
 ```
 
 ``` quote
-First, ﬁve-channels calculations are separately performed with different quadrupole deformations β2. But the b.r. to excited 4+ and 6+ states have a strong dependence upon the β2 value, as shown in ﬁgure 6(a).
+First, ﬁve-channels calculations are separately performed with different quadrupole deformations β2. But the b.r. to excited 4+ and 6+ states have a strong dependence upon the β2 value, as shown in ﬁgure 6(a). Figure 6(b) illustrates the calculated b.r. to excited 4+ and 6+ states as a function of the excitation energy E2 for the α-decay of 244Cm.
 ```
 
 ##### quotation-17
@@ -222,19 +222,19 @@ First, ﬁve-channels calculations are separately performed with different quadr
 ```
 
 ``` quote
-Figure 7 displays the calculated relative intensities ϑJℓ for excited J = 2+, 4+, and 6+ states in the P scheme for well-deformed even–even rotational nuclei, compared with the systematics of the experimental data (the upper panel). The theoretical results contain the three-channels calculations of Delion et al [59, 60], the four-channels calculations with the diagonalization technique for the interaction matrix elements [57], and the ﬁve-channels calculations with the multipole expansion of the interaction potential [58].
+Figure 7 displays the calculated relative intensities ϑJℓ for excited J = 2+, 4+, and 6+ states in the P scheme for well-deformed even–even rotational nuclei, compared with the systematics of the experimental data (the upper panel). Lower panel: the theoretical results are obtained using the semiclassical methods, containing the simple barrier penetration approach [86], the UMADAC [87], and the CPPMDN [89].
 ```
 
 ##### quotation-18
 
 ```tags
 [claim_type]: comparison
-[tags]: coupled_channels_method, semiclassical_method, alpha_decay_branching_ratio, odd_mass_nuclei
+[tags]: coupled_channels_method, cluster_core_model, alpha_decay_branching_ratio, odd_mass_nuclei
 [source]: section 5.4. Results for well-deformed even-even, odd-mass, and odd-odd emitters, table 2
 ```
 
 ``` quote
-Table 2. Comparison of the calculated b.r. with the experimental data for the α-transitions to seven low-lying members of the favored rotational band in the α-decay of 251Cf and 253Fm from their ground 1/2+ states. Calculations are performed within the MCCM and with the simple WKB barrier penetration approach.
+Next, the multi-channel cluster model (MCCM) in the coupled channels framework was extended from even–even rotational nuclei to heavy odd-mass nuclei [109]. Table 2. Comparison of the calculated b.r. with the experimental data for the α-transitions to seven low-lying members of the favored rotational band in the α-decay of 251Cf and 253Fm from their ground 1/2+ states.
 ```
 
 ##### quotation-19
@@ -258,7 +258,7 @@ In [142], intensities and HFs for α-transitions to 2+ states in even–even nuc
 ```
 
 ``` quote
-The CSM was proposed in [143, 144] as a tool to describe in a uniﬁed way the spectra of vibrational, transitional and rotational nuclei. Within this model, the surface vibrations of a deformed nucleus are treated by using an exponential superposition of boson operators.
+The CSM was proposed in [143, 144] as a tool to describe in a uniﬁed way the spectra of vibrational, transitional and rotational nuclei. Figure 9. The expectation value of the harmonic Hamiltonian on the projected functions (8.2) versus the deformation parameter d.
 ```
 
 ##### quotation-21
@@ -282,7 +282,7 @@ A negative slope is predicted by the CSM model in equation (8.7). We also notice
 ```
 
 ``` quote
-The theoretical intensities were calculated by means of the linear dependence (8.7) between the α-daughter strength and deformation parameter d. The computed intensities for J = 4 are described within a factor less than 3, except Pu region.
+The theoretical intensities were calculated by means of the linear dependence (8.7) between the α-daughter strength and deformation parameter d. The computed intensities for J = 4 are described within a factor less than 3, except Pu region. Let us mention that the logarithms of HFs, given by equation (2.30), have a similar behavior.
 ```
 
 ##### quotation-23
@@ -306,31 +306,31 @@ Finally, in ﬁgure 12 we show the linear correlation between the intensity ϑ2 
 ```
 
 ``` quote
-It is interesting to point out that the nuclear collectivity, given by reduced transition probability B(E2; 2+ → 0+), is closely related to the α-clustering, described by the reduced g.s. width γ2gs deﬁned by equation (2.17), as can be seen from ﬁgure 13.
+The CSM deformation parameter d was determined by ﬁtting four experimental energy levels EJ, for each nuclide where the data was available. It is interesting to point out that the nuclear collectivity, given by reduced transition probability B(E2; 2+ → 0+), is closely related to the α-clustering, described by the reduced g.s. width γ2gs deﬁned by equation (2.17), as can be seen from ﬁgure 13.
 ```
 
 ##### quotation-25
 
 ```tags
 [claim_type]: result
-[tags]: coherent_state_model, alpha_clustering, quadrupole_deformation, spectroscopic_factor
+[tags]: coherent_state_model, alpha_clustering, quadrupole_deformation
 [source]: section 7.2. Favored odd-mass emitters, figure 14
 ```
 
 ``` quote
-When plotted against the deformation parameter, the values of C obtained by ﬁtting ϑ1 values to experimental data, follow the prediction of equation (8.7) by exhibiting a linear trend with respect to d, as seen in ﬁgure 14 panel (a). This coupling strength can be interpreted as a measure of α-clustering because, as it turns out, C shows a linear correlation with γ2W0 with a positive slope, as can be seen in ﬁgure 14 panel (b).
+Since the reduced matrix element between the states of the core is a linear function of the deformation [148], one can still use an effective α-nucleus coupling strength given by equation (8.7). When plotted against the deformation parameter, the values of C obtained by ﬁtting ϑ1 values to experimental data, follow the prediction of equation (8.7) by exhibiting a linear trend with respect to d, as seen in ﬁgure 14 panel (a). This coupling strength can be interpreted as a measure of α-clustering because, as it turns out, C shows a linear correlation with γ2W0 with a positive slope, as can be seen in ﬁgure 14 panel (b).
 ```
 
 ##### quotation-26
 
 ```tags
 [claim_type]: result
-[tags]: coherent_state_model, spectroscopic_factor, alpha_decay_intensity
+[tags]: coherent_state_model, alpha_decay_intensity
 [source]: section 7.2. Favored odd-mass emitters, figure 15
 ```
 
 ``` quote
-In ﬁgure 15 we present in separate panels the values of the logarithms of the SFs deﬁned by equation (2.35), obtained through the method presented above, versus the index number n found in the ﬁrst column of table in [151]. It is clearly shown that coupling an α-particle to the daughter nucleus with the required strength needed to reproduce one value of the intensity (usually ϑ1, with the exception of Ac isotopes where ϑ2 is reproduced) allows one to predict the values of the other intensities within a factor usually less than 3.
+Since the reduced matrix element between the states of the core is a linear function of the deformation [148], one can still use an effective α-nucleus coupling strength given by equation (8.7). It is clearly shown that coupling an α-particle to the daughter nucleus with the required strength needed to reproduce one value of the intensity (usually ϑ1, with the exception of Ac isotopes where ϑ2 is reproduced) allows one to predict the values of the other intensities within a factor usually less than 3.
 ```
 
 ##### quotation-27
@@ -342,7 +342,7 @@ In ﬁgure 15 we present in separate panels the values of the logarithms of the 
 ```
 
 ``` quote
-We note that the universal decay law treated in [62] and [65] is once again observed in the dependence of the decay intensities on excitation energies. In ﬁgure 16, one notices the strong correlation between all of the ϑi values and the corresponding excitation energy Ei relative to the bandhead for each collective structure analyzed in [151].
+Since the reduced matrix element between the states of the core is a linear function of the deformation [148], one can still use an effective α-nucleus coupling strength given by equation (8.7). In ﬁgure 16, one notices the strong correlation between all of the ϑi values and the corresponding excitation energy Ei relative to the bandhead for each collective structure analyzed in [151].
 ```
 
 ### Meanings
@@ -356,7 +356,7 @@ We note that the universal decay law treated in [62] and [65] is once again obse
 ```
 
 ``` quote
-It is found that the semiclassical calculations overestimate the branching ratios (BR) to excited 4+ states by about one order of magnitude for some even–even Pu, Cm, and Cf α-emitters and fail in explaining the unexpected inversion of branching ratios (i.e. BRI+1 > BRI) in the α decay of some odd-mass nuclei, while the coupled-channels results show good agreement with the experimental data.
+The coupled-channels approach including enough decay channels gives a precise description of the α-decay ﬁne structure observed in heavy deformed nuclei. It is found that the semiclassical calculations overestimate the branching ratios (BR) to excited 4+ states by about one order of magnitude for some even–even Pu, Cm, and Cf α-emitters and fail in explaining the unexpected inversion of branching ratios (i.e. BRI+1 > BRI) in the α decay of some odd-mass nuclei, while the coupled-channels results show good agreement with the experimental data.
 ```
 
 ##### quotation-29
@@ -416,14 +416,14 @@ The double folding procedure to estimate the α-core potential is given by the f
 
 ```secondary-tags
 [claim_type]: method
-[tags]: viola_seaborg_law, alpha_decay_half_life, excitation_energy
+[tags]: alpha_decay, viola_seaborg_law, alpha_decay_half_life
 [source]: section 2.4. The Universal Decay Law
 [ref]: [46] Evaluated Nuclear Structure Data Files of the Brookhaven National Laboratory; [65] Delion D S and Dumitrescu A 2015 Phys. Rev. C 92 021303(R)
 [doi]: [46] unknown; [65] 10.1103/PhysRevC.92.021303
 ```
 
 ```quote
-Experimentally measured α-transitions were recently reviewed in [65] by using the ENSDF database maintained by BNL [46].
+Experimentally measured α-transitions were recently reviewed in [65] by using the ENSDF database maintained by BNL [46]. A well-known systematics for α-transitions between ground states is given by the Viola-Seaborg rule (2.39), where the logarithm of the total half-life depends on the Coulomb parameter and charge number of the daughter nucleus.
 ```
 
 ##### quotation-s03
@@ -451,7 +451,7 @@ These data were analyzed within the coupled channels formalism [59, 60], by usin
 ```
 
 ```quote
-In [142], intensities and HFs for α-transitions to 2+ states in even–even nuclei are investigated.
+In [142], intensities and HFs for α-transitions to 2+ states in even–even nuclei are investigated. The ﬁne structure mainly depends upon the vibrational parameter Cv, deﬁning the coupling strength between the two considered channels with J = 0, 2.
 ```
 
 ##### quotation-s05
@@ -466,4 +466,46 @@ In [142], intensities and HFs for α-transitions to 2+ states in even–even nuc
 
 ```quote
 The CSM was proposed in [143, 144] as a tool to describe in a uniﬁed way the spectra of vibrational, transitional and rotational nuclei.
+```
+
+##### quotation-s06
+
+```secondary-tags
+[claim_type]: method
+[tags]: semiclassical_method, alpha_decay_intensity
+[source]: section 5.3. Systematics
+[ref]: [86] Zhang X, Xu C and Ren Z Z 2001 Phys. Rev. C 84 044312; [87] Denisov V Y and Khudenko A A 2009 Phys. Rev. C 80 034603; [89] Santhosh K P, Sahadevan S and Joseph J G 2011 Nucl. Phys. A 850 34
+[doi]: [86] 10.1103/PhysRevC.84.044312; [87] 10.1103/PhysRevC.80.034603; [89] 10.1016/j.nuclphysa.2010.12.002
+```
+
+```quote
+The semiclassical calculations contain the simple WKB barrier penetration approach [86], the UMADAC [87], and the CPPMDN [89]. Within the CPPMDN, there is an abnormal point corresponding to the α-decay of 248Fm where the calculated ϑ2-value has a sudden increase by about two orders of magnitude with respect to the neighboring emitters [89].
+```
+
+##### quotation-s07
+
+```secondary-tags
+[claim_type]: method
+[tags]: coupled_channels_method, cluster_core_model, odd_mass_nuclei
+[source]: section 5.4. Results for well-deformed even-even, odd-mass, and odd-odd emitters
+[ref]: [109] Ni D D and Ren Z Z 2012 Phys. Rev. C 86 054608
+[doi]: 10.1103/PhysRevC.86.054608
+```
+
+```quote
+Next, the multi-channel cluster model (MCCM) in the coupled channels framework was extended from even–even rotational nuclei to heavy odd-mass nuclei [109].
+```
+
+##### quotation-s08
+
+```secondary-tags
+[claim_type]: result
+[tags]: alpha_decay_intensity, excitation_energy
+[source]: section 7.2. Favored odd-mass emitters
+[ref]: [151] Dumitrescu A and Delion D S 2016 Phys. Rev. C 93 024313
+[doi]: 10.1103/PhysRevC.93.024313
+```
+
+```quote
+In ﬁgure 16, one notices the strong correlation between all of the ϑi values and the corresponding excitation energy Ei relative to the bandhead for each collective structure analyzed in [151].
 ```

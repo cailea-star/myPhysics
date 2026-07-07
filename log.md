@@ -17,3 +17,8 @@
 [DOI]: 10.1016/j.physletb.2009.10.098
 [Title]: Nuclear symmetry energy effects in finite nuclei and neutron star
 [Tags]: RMF, nonlinear_meson_coupling, symmetry_energy, neutron_skin_thickness, neutron_star_radius, kaon_condensation
+
+## [2026-07-07] | raw/D_S_Delion_Y.2018_J.Phys.G_Nucl.Part.Phys._Vol.45Nol.P.053001.md
+[DOI]: 10.1088/1361-6471/aaac52
+[Title]: Coupled channels description of the alpha-decay fine structure
+[Tags]: coupled_channels_method, alpha_decay_fine_structure, semiclassical_method, coherent_state_model, alpha_decay_intensity, alpha_clustering

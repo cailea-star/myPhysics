@@ -71,10 +71,13 @@ Secondary-Citations-Coverage:
 - Include secondary citations ONLY for external methods/formulas, parameter sets/models/data sources, or key physical conclusions/mechanism judgments that support core tags.
 - Reject generic survey/background citations and citations that do not supply a reused method, formula, model/data input, or core interpretation.
 
+Secondary-Citations-Check:
+- If a quotation contains an explicit external citation marker, such as `[55]` or `Ref. [45]`, it MUST be classified as a citation-marked quotation for this check.
+- If the core information of a citation-marked quotation comes from the external cited work, it MUST be placed under `### Secondary Citations`.
+- If the core information of a citation-marked quotation states the current paper's own problem setting, method use, calculated result, or conclusion judgment, it MUST remain eligible for `Motivation`, `Methods`, `Results`, or `Meanings`.
+
 Secondary-Citations-Quotation:
 - Put a quote under `### Secondary Citations` ONLY when the quoted sentence depends on an external cited reference; use `secondary-tags`.
-- Each quote MUST be a complete sentence with an explicit external citation marker, such as `[55]` or `Ref. [45]`; otherwise reject it.
-- Do not use secondary quotes as primary evidence for Motivation, Methods, Results, or Meanings.
 - Internal references to this paper's `Fig.`, `Table`, `Eq.`, or `section` are not secondary citations.
 
 ### Quotation-Rules
@@ -115,7 +118,7 @@ Run gates strictly in order. At the start of each response, state the current ga
    Draft and write quotations under the template frames, following [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules).
 
 ### Gate 5 — Review Discuss Quotations
-   Review exactly one section per response, in template-frame order: Motivation, Methods, Results, Meanings.
+   Review exactly one section per response, in template-frame order: Motivation, Methods, Results, Meanings, and Secondary Citations.
    First print that section's current Coverage rules and any section-specific Quotation rules from [Section-Rules](#section-rules).
    Review that section against [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules); give every quotation a pass/gap/fix verdict, report section coverage pass/gap/fix items, then stop and wait for user approval before the next section.
    After every fix to a `raw/*.md`, run `python scripts\sort_raw_md_quotations.py mdfile_path` before continuing.
