@@ -100,6 +100,7 @@ Run gates strictly in order. At the start of each response, state the current ga
    Check that the current directory is inside a git repository with `git rev-parse --is-inside-work-tree`.
    Check that the worktree is clean with `git status --short`; if it is not empty, stop and report the existing changes before ingest.
    User gives DOI, title, PDF, TEX, or JSON. Confirm exact paper before ingest.
+   Known DOI: run `python scripts\search_a_doi.py [doi_number]` before Gate 2. On `recorded:`, stop; do not generate raw files until user approves reuse or re-ingest. Reference-only hits: report as context, then continue confirmation.
 
 ### Gate 2 — Generate Raw Files / Collect Full Text
    ```powershell
