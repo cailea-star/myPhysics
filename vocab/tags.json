@@ -120,6 +120,25 @@
     "aliases": ["rotational model"]
   },
   {
+    "tag": "particle_rotor_model",
+    "definition": "particle-rotor model calculation coupling an aligned particle to a triaxial rotor to calculate wobbling-mode properties",
+    "types": ["method"],
+    "aliases": ["particle-rotor model", "strongly deformed triaxial rotor"]
+  },
+  {
+    "tag": "cranking_model",
+    "definition": "cranking calculation used to compare rotational configurations, signature splitting, and electromagnetic transition properties",
+    "types": ["method"],
+    "aliases": ["cranking calculations", "ultimate cranker", "crankinglike", "cranking regime"]
+  },
+  {
+    "tag": "gamma_ray_spectroscopy",
+    "definition": "gamma-ray spectroscopy method used to establish nuclear level schemes and electromagnetic transitions from coincidence and gated spectra",
+    "types": ["method"],
+    "aliases": ["gamma-ray spectroscopy", "gated spectra", "coincidence analyses"],
+    "similar-tags": ["electromagnetic_transition"]
+  },
+  {
     "tag": "coherent_state_model",
     "definition": "Coherent State Model used to describe vibrational, transitional, and rotational nuclear spectra",
     "types": ["method"],
@@ -228,6 +247,24 @@
     "aliases": ["excitation energy", "excitation energies", "Ec", "E2"]
   },
   {
+    "tag": "reduced_transition_probability",
+    "definition": "reduced electromagnetic transition probability measured or calculated for nuclear transitions",
+    "types": ["quantity"],
+    "aliases": ["reduced transition probabilities", "B(E2)", "B(M1)"]
+  },
+  {
+    "tag": "rotational_frequency",
+    "definition": "rotational frequency used as the independent variable for rotational-band comparisons",
+    "types": ["quantity"],
+    "aliases": ["rotational frequency"]
+  },
+  {
+    "tag": "moment_of_inertia",
+    "definition": "nuclear moment of inertia used to describe or compare rotational-band dynamics",
+    "types": ["quantity"],
+    "aliases": ["moment of inertia", "moments of inertia", "dynamic moment of inertia"]
+  },
+  {
     "tag": "spectroscopic_factor",
     "definition": "ratio between the experimental decay width and the theoretical decay width",
     "types": ["quantity"],
@@ -256,6 +293,12 @@
     "definition": "having non-spherical nuclear shape or nonzero deformation",
     "types": ["property"],
     "aliases": ["deformed"]
+  },
+  {
+    "tag": "triaxial_deformation",
+    "definition": "having triaxial nuclear deformation or a triaxial nuclear shape",
+    "types": ["property"],
+    "aliases": ["triaxial", "triaxiality", "triaxial shape"]
   },
   {
     "tag": "spherical",
@@ -324,6 +367,12 @@
     "aliases": ["nuclear collectivity", "collectivity"]
   },
   {
+    "tag": "wobbling_mode",
+    "definition": "nuclear wobbling excitation mode associated with rotational motion of a triaxial nucleus",
+    "types": ["phenomenon"],
+    "aliases": ["wobbling mode", "wobbling excitation", "wobbling phonon"]
+  },
+  {
     "tag": "shell_closure",
     "definition": "nuclear shell closure or shell gap associated with enhanced stability",
     "types": ["phenomenon"],
@@ -346,6 +395,12 @@
     "definition": "nucleus with mass number A=208, atomic number Z=82, element Lead",
     "types": ["entity"],
     "aliases": ["208Pb", "^{208}Pb", "lead-208"]
+  },
+  {
+    "tag": "Lu-163",
+    "definition": "nucleus with mass number A=163, atomic number Z=71, element Lutetium",
+    "types": ["entity"],
+    "aliases": ["163Lu", "^{163}Lu", "lutetium-163"]
   },
   {
     "tag": "S271",

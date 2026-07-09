@@ -22,3 +22,8 @@
 [DOI]: 10.1088/1361-6471/aaac52
 [Title]: Coupled channels description of the alpha-decay fine structure
 [Tags]: coupled_channels_method, alpha_decay_fine_structure, semiclassical_method, coherent_state_model, alpha_decay_intensity, alpha_clustering
+
+## [2026-07-09] | raw/S._W._Ødegård_Y.2001_Phys.Rev.Lett._Vol.86Nol.P.5866-5869.md
+[DOI]: 10.1103/physrevlett.86.5866
+[Title]: Evidence for the Wobbling Mode in Nuclei
+[Tags]: wobbling_mode, triaxial_deformation, particle_rotor_model, cranking_model, gamma_ray_spectroscopy, electromagnetic_transition
