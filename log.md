@@ -27,3 +27,8 @@
 [DOI]: 10.1103/physrevlett.86.5866
 [Title]: Evidence for the Wobbling Mode in Nuclei
 [Tags]: wobbling_mode, triaxial_deformation, particle_rotor_model, cranking_model, gamma_ray_spectroscopy, electromagnetic_transition
+
+## [2026-07-13] | raw/Wojciech_Satuła_Y.2001_Phys.Rev.Lett._Vol.86Nol.P.4488-4491.md
+[DOI]: 10.1103/physrevlett.86.4488
+[Title]: Rotations in Isospace: A Doorway to the Understanding of Neutron-Proton Superfluidity in N = Z Nuclei
+[Tags]: isocranking_model, isospin_rotation, pairing_correlation, isoscalar, isovector, moment_of_inertia, excitation_energy
