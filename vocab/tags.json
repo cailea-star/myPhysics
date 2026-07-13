@@ -491,5 +491,124 @@
     "definition": "direct Urca neutrino-emission process for rapid neutron-star cooling",
     "types": ["phenomenon"],
     "aliases": ["direct Urca process", "Urca process", "Urca cooling"]
+  },
+  {
+    "tag": "isocranking_model",
+    "definition": "cranking constraint in isospin space used to calculate isospin excitations and responses",
+    "types": ["method"],
+    "aliases": ["isospin cranked mean-field approach", "cranking approximation in isospace", "iso-cranking"],
+    "similar-tags": ["cranking_model"]
+  },
+  {
+    "tag": "lipkin_nogami_method",
+    "definition": "Lipkin-Nogami method used for approximate particle-number projection and pairing-Hamiltonian calculations",
+    "types": ["method"],
+    "aliases": ["Lipkin-Nogami method", "Lipkin-Nogami calculations"],
+    "similar-tags": ["bcs_method"]
+  },
+  {
+    "tag": "woods_saxon_potential",
+    "definition": "Woods-Saxon potential used as a deformed nuclear mean field",
+    "types": ["method"],
+    "aliases": ["Woods-Saxon potential", "WS"],
+    "similar-tags": []
+  },
+  {
+    "tag": "bogoliubov_transformation",
+    "definition": "general Bogoliubov transformation used to treat isoscalar and isovector pairing channels simultaneously",
+    "types": ["method"],
+    "aliases": ["general Bogoliubov transformation"],
+    "similar-tags": ["bcs_method"]
+  },
+  {
+    "tag": "wigner_energy_strength",
+    "definition": "mass-dependent Wigner-energy strength calculated or fitted for N=Z nuclei",
+    "types": ["quantity"],
+    "aliases": ["Wigner energy strength", "W(A)"],
+    "similar-tags": ["ground_state_energy"]
+  },
+  {
+    "tag": "isospin_alignment",
+    "definition": "alignment of nuclear isospin along the isocranking axis",
+    "types": ["quantity"],
+    "aliases": ["isospin alignment", "iso-alignment", "Tx"],
+    "similar-tags": ["angular_momentum"]
+  },
+  {
+    "tag": "pairing_gap",
+    "definition": "gap parameter calculated for nuclear pairing correlations",
+    "types": ["quantity"],
+    "aliases": ["gap parameter", "gap parameters"],
+    "similar-tags": ["pairing_correlation"]
+  },
+  {
+    "tag": "pairing_strength",
+    "definition": "interaction strength used or fitted for nuclear pairing channels",
+    "types": ["quantity"],
+    "aliases": ["pairing strength", "pairing strength parameters", "GT=0", "GT=1"],
+    "similar-tags": ["pairing_correlation"]
+  },
+  {
+    "tag": "N_equal_Z_nuclei",
+    "definition": "nuclei with equal proton and neutron numbers studied for proton-neutron pairing",
+    "types": ["system"],
+    "aliases": ["N=Z nuclei", "N = Z nuclei"],
+    "similar-tags": ["finite_nuclei", "even_even_nuclei"]
+  },
+  {
+    "tag": "isoscalar",
+    "definition": "having total isospin T=0",
+    "types": ["property"],
+    "aliases": ["isoscalar", "T=0"],
+    "similar-tags": []
+  },
+  {
+    "tag": "isovector",
+    "definition": "having total isospin T=1",
+    "types": ["property"],
+    "aliases": ["isovector", "T=1"],
+    "similar-tags": []
+  },
+  {
+    "tag": "collective",
+    "definition": "exhibiting collective nuclear behavior",
+    "types": ["property"],
+    "aliases": ["collective"],
+    "similar-tags": []
+  },
+  {
+    "tag": "rigid_body",
+    "definition": "corresponding to the unpaired rigid-body reference value",
+    "types": ["property"],
+    "aliases": ["rigid body", "rigid-body"],
+    "similar-tags": []
+  },
+  {
+    "tag": "superfluidity",
+    "definition": "nuclear superfluidity arising from Cooper-pair correlations",
+    "types": ["phenomenon"],
+    "aliases": ["superfluidity", "neutron-proton superfluidity", "proton-neutron superfluidity"],
+    "similar-tags": ["pairing_correlation"]
+  },
+  {
+    "tag": "isospin_rotation",
+    "definition": "collective or non-collective nuclear rotation in isospin space",
+    "types": ["phenomenon"],
+    "aliases": ["rotation in isospace", "rotations in isospace", "iso-rotation"],
+    "similar-tags": ["nuclear_collectivity"]
+  },
+  {
+    "tag": "Mg-24",
+    "definition": "nucleus with mass number A=24, atomic number Z=12, element Magnesium",
+    "types": ["entity"],
+    "aliases": ["24Mg", "²⁴Mg"],
+    "similar-tags": []
+  },
+  {
+    "tag": "Cr-48",
+    "definition": "nucleus with mass number A=48, atomic number Z=24, element Chromium",
+    "types": ["entity"],
+    "aliases": ["48Cr", "⁴⁸Cr"],
+    "similar-tags": []
   }
 ]

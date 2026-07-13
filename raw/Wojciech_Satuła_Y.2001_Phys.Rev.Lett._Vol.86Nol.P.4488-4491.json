@@ -1,0 +1,216 @@
+{
+  "source": "Crossref",
+  "language": "en",
+  "title": [
+    "Rotations in Isospace: A Doorway to the Understanding of Neutron-Proton Superfluidity in N = Z Nuclei"
+  ],
+  "author": [
+    {
+      "given": "Wojciech",
+      "family": "Satuła",
+      "sequence": "first",
+      "affiliation": [],
+      "role": [
+        {
+          "role": "author",
+          "vocabulary": "crossref"
+        }
+      ]
+    },
+    {
+      "given": "Ramon",
+      "family": "Wyss",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "role": "author",
+          "vocabulary": "crossref"
+        }
+      ]
+    }
+  ],
+  "author-corresponding-openalex": [],
+  "DOI": "10.1103/physrevlett.86.4488",
+  "URL": "https://doi.org/10.1103/physrevlett.86.4488",
+  "is-referenced-by-count": 63,
+  "reference-count": 16,
+  "abstract": "The $T$=2 excitations in even-even $N$=$Z$ nuclei are calculated within the isospin cranked mean-field approach. The response of pairing correlations to rotation in isospace is investigated. It is shown that whereas the isovector pairing rather modestly modifies the single-particle moment of inertia in isospace, the isoscalar pairing strongly reduces its value. This reduction of the moments of inertia in isospace with respect to its rigid body value is a strong indicator of collective isoscalar pairing correlations. Beautiful analogies between the role of isovector pairing for the case of spatial rotations and the role of isoscalar pairing for the case of iso-rotations are underlined.",
+  "publisher": "American Physical Society (APS)",
+  "container-title": [
+    "Physical Review Letters"
+  ],
+  "short-container-title": [
+    "Phys. Rev. Lett."
+  ],
+  "type": "journal-article",
+  "volume": "86",
+  "page": "4488-4491",
+  "article-number": null,
+  "issued": {
+    "date-parts": [
+      [
+        2001,
+        5,
+        14
+      ]
+    ]
+  },
+  "ISSN": [
+    "0031-9007",
+    "1079-7114"
+  ],
+  "funder": null,
+  "reference": [
+    {
+      "key": "PhysRevLett.86.4488Cc1R1",
+      "doi-asserted-by": "crossref",
+      "first-page": "936",
+      "DOI": "10.1103/PhysRev.110.936",
+      "volume": "110",
+      "author": "A. Bohr",
+      "year": "1958",
+      "journal-title": "Phys. Rev."
+    },
+    {
+      "key": "PhysRevLett.86.4488Cc2R1",
+      "first-page": "263",
+      "volume": "11",
+      "author": "A. L. Goodman",
+      "year": "1979",
+      "journal-title": "Adv. Nucl. Phys."
+    },
+    {
+      "key": "PhysRevLett.86.4488Cc3R1",
+      "doi-asserted-by": "crossref",
+      "first-page": "97",
+      "DOI": "10.1016/0029-5582(65)90157-4",
+      "volume": "73",
+      "author": "J. Jänecke",
+      "year": "1965",
+      "journal-title": "Nucl. Phys."
+    },
+    {
+      "key": "PhysRevLett.86.4488Cc4R1",
+      "doi-asserted-by": "crossref",
+      "first-page": "12",
+      "DOI": "10.1016/0370-2693(76)90034-4",
+      "volume": "62B",
+      "author": "N. Zeldes",
+      "year": "1976",
+      "journal-title": "Phys. Lett."
+    },
+    {
+      "key": "PhysRevLett.86.4488Cc5R1",
+      "doi-asserted-by": "crossref",
+      "first-page": "148",
+      "DOI": "10.1016/S0375-9474(99)00423-6",
+      "volume": "A662",
+      "author": "P. Vogel",
+      "year": "2000",
+      "journal-title": "Nucl. Phys."
+    },
+    {
+      "key": "PhysRevLett.86.4488Cc6R1",
+      "doi-asserted-by": "crossref",
+      "first-page": "041303",
+      "DOI": "10.1103/PhysRevC.61.041303",
+      "volume": "61",
+      "author": "A. O. Macchiavelli",
+      "year": "2000",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "PhysRevLett.86.4488Cc7R1",
+      "first-page": "445",
+      "volume": "A297",
+      "author": "H. T. Chen",
+      "year": "1978",
+      "journal-title": "Nucl. Phys."
+    },
+    {
+      "key": "PhysRevLett.86.4488Cc8R1",
+      "volume-title": "Nuclear Structure",
+      "author": "A. Bohr",
+      "year": "1969"
+    },
+    {
+      "key": "PhysRevLett.86.4488Cc9R1",
+      "volume": "31",
+      "author": "S. T. Belyaev",
+      "year": "1959",
+      "journal-title": "Mat. Fys. Medd. K. Dan. Vidensk. Selsk."
+    },
+    {
+      "key": "PhysRevLett.86.4488Cc10R1",
+      "doi-asserted-by": "crossref",
+      "first-page": "1",
+      "DOI": "10.1016/S0370-2693(96)01603-6",
+      "volume": "393",
+      "author": "W. Satuła",
+      "year": "1997",
+      "journal-title": "Phys. Lett. B"
+    },
+    {
+      "key": "PhysRevLett.86.4488Cc11R1",
+      "doi-asserted-by": "crossref",
+      "first-page": "120",
+      "DOI": "10.1016/S0375-9474(00)00222-0",
+      "volume": "A676",
+      "author": "W. Satuła",
+      "year": "2000",
+      "journal-title": "Nucl. Phys."
+    },
+    {
+      "key": "PhysRevLett.86.4488Cc13R1",
+      "doi-asserted-by": "crossref",
+      "first-page": "379",
+      "DOI": "10.1016/0010-4655(87)90093-2",
+      "volume": "46",
+      "author": "S. Ćwiok",
+      "year": "1987",
+      "journal-title": "Comput. Phys. Commun."
+    },
+    {
+      "key": "PhysRevLett.86.4488Cc14R1",
+      "doi-asserted-by": "crossref",
+      "first-page": "20",
+      "DOI": "10.1016/0375-9474(92)90244-E",
+      "volume": "A536",
+      "author": "P. Möller",
+      "year": "1992",
+      "journal-title": "Nucl. Phys."
+    },
+    {
+      "key": "PhysRevLett.86.4488Cc15R1",
+      "doi-asserted-by": "crossref",
+      "first-page": "103",
+      "DOI": "10.1016/S0370-2693(97)00711-9",
+      "volume": "407",
+      "author": "W. Satuła",
+      "year": "1997",
+      "journal-title": "Phys. Lett. B"
+    },
+    {
+      "key": "PhysRevLett.86.4488Cc16R1",
+      "doi-asserted-by": "crossref",
+      "first-page": "787",
+      "DOI": "10.1007/BF01504252",
+      "volume": "21",
+      "author": "W. Meissner",
+      "year": "1933",
+      "journal-title": "Naturwissenschaften"
+    },
+    {
+      "key": "PhysRevLett.86.4488Cc17R1",
+      "doi-asserted-by": "crossref",
+      "first-page": "024306",
+      "DOI": "10.1103/PhysRevC.61.024306",
+      "volume": "61",
+      "author": "G. Röpke",
+      "year": "2000",
+      "journal-title": "Phys. Rev. C"
+    }
+  ],
+  "filename": "Wojciech_Satuła_Y.2001_Phys.Rev.Lett._Vol.86Nol.P.4488-4491"
+}
