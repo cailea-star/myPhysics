@@ -3,7 +3,7 @@ name: ingest
 description: Ingest one paper into myWIKI. Use when user asks to add a paper by DOI, title, PDF, TEX, or JSON; generate raw files; collect full text; discuss tagged quotations.
 ---
 
-# myWIKI Ingest
+# Ingest
 
 ## Rules
 
