@@ -251,9 +251,8 @@ The present calculations show that on a qualitative level, the mean-field method
 
 ### Secondary Citations
 
-##### quotation-s02
-
-```secondary-tags
+##### quotation-19
+```tags
 [claim_type]: method
 [tags]: woods_saxon_potential, deformed
 [source]: Model description, p. 2
@@ -265,9 +264,8 @@ The present calculations show that on a qualitative level, the mean-field method
 Our Hamiltonian is based on the deformed mean-field potential of Woods-Saxon (WS) type [13].
 ```
 
-##### quotation-s03
-
-```secondary-tags
+##### quotation-20
+```tags
 [claim_type]: method
 [tags]: pairing_strength, pairing_correlation, isovector, woods_saxon_potential
 [source]: Pairing-strength prescription, p. 3
@@ -279,9 +277,8 @@ Our Hamiltonian is based on the deformed mean-field potential of Woods-Saxon (WS
 The isovector pairing strength, GT=1, is computed using the average gap method of Ref. [14] where the number of proton and neutron WS states retained for the pairing calculations is consistently put to A/2.
 ```
 
-##### quotation-s04
-
-```secondary-tags
+##### quotation-21
+```tags
 [claim_type]: assumption
 [tags]: pairing_strength, pairing_correlation, isoscalar
 [source]: Pairing-strength prescription, p. 3

@@ -277,9 +277,8 @@ The skin data can be reproduced in the NL3 and FSUGold models with a soft symmet
 
 ### Secondary Citations
 
-##### quotation-s01
-
-```secondary-tags
+##### quotation-19
+```tags
 [claim_type]: method
 [tags]: RMF, symmetry_energy
 [source]: nonlinear RMF model paragraph before Eq. (1).
@@ -292,9 +291,8 @@ The interaction Lagrangian density in the nonlinear RMF model is given by [22]
 ```
 
 
-##### quotation-s02
-
-```secondary-tags
+##### quotation-20
+```tags
 [claim_type]: method
 [tags]: RMF, NL3, FSUGold
 [source]: model paragraph before Table 1.
@@ -307,9 +305,8 @@ In the present study, we use two accurately calibrated models: NL3 [23] and FSUG
 ```
 
 
-##### quotation-s03
-
-```secondary-tags
+##### quotation-21
+```tags
 [claim_type]: definition
 [tags]: direct_Urca_process, neutron_star, neutron_star_mass
 [source]: neutron-star correlation discussion.
@@ -322,9 +319,8 @@ Neutron stars may cool rapidly by neutrino emission in the direct Urca process [
 ```
 
 
-##### quotation-s04
-
-```secondary-tags
+##### quotation-22
+```tags
 [claim_type]: method
 [tags]: kaon_condensation, neutron_star, RMF
 [source]: kaon-condensation paragraph.

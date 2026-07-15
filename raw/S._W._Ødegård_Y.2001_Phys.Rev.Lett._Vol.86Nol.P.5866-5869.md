@@ -206,9 +206,8 @@ The failure of a crankinglike solution is particularly obvious from the E2 stren
 
 ### Secondary Citations
 
-##### quotation-s01
-
-```secondary-tags
+##### quotation-16
+```tags
 [claim_type]: definition
 [tags]: wobbling_mode, triaxial_deformation, moment_of_inertia, rotational_frequency, electromagnetic_transition
 [source]: Introduction.
@@ -224,9 +223,8 @@ The wobbling frequency is then given by Eq. (1), with hbar omega_rot = I/Jx [2].
 \hbar\omega_w = \hbar\omega_{\rm rot}\sqrt{\frac{(J_x-J_y)(J_x-J_z)}{J_yJ_z}}, \quad \hbar\omega_{\rm rot}=I/J_x.
 ```
 
-##### quotation-s02
-
-```secondary-tags
+##### quotation-17
+```tags
 [claim_type]: method
 [tags]: gamma_ray_spectroscopy, electromagnetic_transition
 [source]: Methods.
@@ -238,9 +236,8 @@ The wobbling frequency is then given by Eq. (1), with hbar omega_rot = I/Jx [2].
 The directional correlation of gamma rays from the oriented states (DCO ratios) [13] were obtained for the strongest connecting transitions using "25 deg" and "90 deg" data.
 ```
 
-##### quotation-s03
-
-```secondary-tags
+##### quotation-18
+```tags
 [claim_type]: method
 [tags]: cranking_model, excitation_energy, angular_momentum
 [source]: Results.
@@ -252,9 +249,8 @@ The directional correlation of gamma rays from the oriented states (DCO ratios) 
 First, cranking calculations with the "ultimate cranker" (UC) [15,16], based on a modified harmonic oscillator potential, predict a large signature splitting of the pi13/2 orbital (>1 MeV).
 ```
 
-##### quotation-s04
-
-```secondary-tags
+##### quotation-19
+```tags
 [claim_type]: method
 [tags]: particle_rotor_model, wobbling_mode, angular_momentum, moment_of_inertia
 [source]: Results.

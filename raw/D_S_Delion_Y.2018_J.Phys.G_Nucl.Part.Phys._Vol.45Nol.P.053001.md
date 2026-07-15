@@ -398,9 +398,8 @@ Finally we have shown that the CSM is a powerful tool that can describe in a uni
 
 ### Secondary Citations
 
-##### quotation-s01
-
-```secondary-tags
+##### quotation-32
+```tags
 [claim_type]: method
 [tags]: double_folding_potential, alpha_decay
 [source]: section 2.2. Interaction
@@ -412,9 +411,8 @@ Finally we have shown that the CSM is a powerful tool that can describe in a uni
 The double folding procedure to estimate the α-core potential is given by the following integral [53–55].
 ```
 
-##### quotation-s02
-
-```secondary-tags
+##### quotation-33
+```tags
 [claim_type]: method
 [tags]: alpha_decay, viola_seaborg_law, alpha_decay_half_life
 [source]: section 2.4. The Universal Decay Law
@@ -426,9 +424,8 @@ The double folding procedure to estimate the α-core potential is given by the f
 Experimentally measured α-transitions were recently reviewed in [65] by using the ENSDF database maintained by BNL [46]. A well-known systematics for α-transitions between ground states is given by the Viola-Seaborg rule (2.39), where the logarithm of the total half-life depends on the Coulomb parameter and charge number of the daughter nucleus.
 ```
 
-##### quotation-s03
-
-```secondary-tags
+##### quotation-34
+```tags
 [claim_type]: comparison
 [tags]: coupled_channels_method, double_folding_potential, alpha_decay_fine_structure
 [source]: section 5. Rotational nuclei
@@ -440,9 +437,8 @@ Experimentally measured α-transitions were recently reviewed in [65] by using t
 These data were analyzed within the coupled channels formalism [59, 60], by using the double folding potential plus a repulsive core simulating the Pauli principle.
 ```
 
-##### quotation-s04
-
-```secondary-tags
+##### quotation-35
+```tags
 [claim_type]: method
 [tags]: vibrational_model, hindrance_factor, alpha_decay_intensity
 [source]: section 6. Vibrational even-even nuclei
@@ -454,9 +450,8 @@ These data were analyzed within the coupled channels formalism [59, 60], by usin
 In [142], intensities and HFs for α-transitions to 2+ states in even–even nuclei are investigated. The ﬁne structure mainly depends upon the vibrational parameter Cv, deﬁning the coupling strength between the two considered channels with J = 0, 2.
 ```
 
-##### quotation-s05
-
-```secondary-tags
+##### quotation-36
+```tags
 [claim_type]: method
 [tags]: coherent_state_model, vibrational_nuclei, transitional_nuclei, rotational_nuclei
 [source]: section 7. Coherent state model (CSM)
@@ -468,9 +463,8 @@ In [142], intensities and HFs for α-transitions to 2+ states in even–even nuc
 The CSM was proposed in [143, 144] as a tool to describe in a uniﬁed way the spectra of vibrational, transitional and rotational nuclei.
 ```
 
-##### quotation-s06
-
-```secondary-tags
+##### quotation-37
+```tags
 [claim_type]: method
 [tags]: semiclassical_method, alpha_decay_intensity
 [source]: section 5.3. Systematics
@@ -482,9 +476,8 @@ The CSM was proposed in [143, 144] as a tool to describe in a uniﬁed way the s
 The semiclassical calculations contain the simple WKB barrier penetration approach [86], the UMADAC [87], and the CPPMDN [89]. Within the CPPMDN, there is an abnormal point corresponding to the α-decay of 248Fm where the calculated ϑ2-value has a sudden increase by about two orders of magnitude with respect to the neighboring emitters [89].
 ```
 
-##### quotation-s07
-
-```secondary-tags
+##### quotation-38
+```tags
 [claim_type]: method
 [tags]: coupled_channels_method, cluster_core_model, odd_mass_nuclei
 [source]: section 5.4. Results for well-deformed even-even, odd-mass, and odd-odd emitters
@@ -496,9 +489,8 @@ The semiclassical calculations contain the simple WKB barrier penetration approa
 Next, the multi-channel cluster model (MCCM) in the coupled channels framework was extended from even–even rotational nuclei to heavy odd-mass nuclei [109].
 ```
 
-##### quotation-s08
-
-```secondary-tags
+##### quotation-39
+```tags
 [claim_type]: result
 [tags]: alpha_decay_intensity, excitation_energy
 [source]: section 7.2. Favored odd-mass emitters

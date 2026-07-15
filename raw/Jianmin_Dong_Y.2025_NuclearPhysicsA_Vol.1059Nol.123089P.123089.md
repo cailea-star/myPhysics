@@ -321,9 +321,8 @@ We introduce the FSUGarnet0.153 interaction ‘family’ based on the well-estab
 
 ### Secondary Citations
 
-##### quotation-s01
-
-```secondary-tags
+##### quotation-24
+```tags
 [claim_type]: method
 [tags]: pairing_correlation, BCS
 [source]: section 2.1. Relativistic meanfield theory.
@@ -340,9 +339,8 @@ V = -V_0 \left[1 - \left(\frac{\rho(r)}{\rho_0}\right)^\gamma\right]\delta(r_1 -
 ```
 
 
-##### quotation-s02
-
-```secondary-tags
+##### quotation-25
+```tags
 [claim_type]: definition
 [tags]: symmetry_energy, RMF
 [source]: section 2.2. Symmetry energy.
@@ -361,9 +359,8 @@ E_{\rm sym}
 ```
 
 
-##### quotation-s03
-
-```secondary-tags
+##### quotation-26
+```tags
 [claim_type]: method
 [tags]: FSUGarnet, symmetry_energy, density_dependent
 [source]: section 2.2. Symmetry energy.
@@ -376,9 +373,8 @@ To study the effects of different density-dependent behavior of symmetry energy 
 ```
 
 
-##### quotation-s04
-
-```secondary-tags
+##### quotation-27
+```tags
 [claim_type]: definition
 [tags]: two_nucleon_shell_gap, shell_closure, ground_state_energy
 [source]: section 3.2. Single particle energy levels and two-nucleon shell gaps.
@@ -396,9 +392,8 @@ The other indicator of shell closures is the two-nucleon gap which is appropriat
 ```
 
 
-##### quotation-s05
-
-```secondary-tags
+##### quotation-28
+```tags
 [claim_type]: comparison
 [tags]: alpha_decay_energy, alpha_decay_half_life
 [source]: section 3.3. α-decay.
@@ -411,9 +406,8 @@ The α-decay half-life is extremely sensitive to the decay energy Qα, and an un
 ```
 
 
-##### quotation-s06
-
-```secondary-tags
+##### quotation-29
+```tags
 [claim_type]: method
 [tags]: alpha_decay_half_life, alpha_decay_energy
 [source]: section 3.3. α-decay.
@@ -433,9 +427,8 @@ Many models can be employed to estimate the half-life [67--85], and here we use 
 ```
 
 
-##### quotation-s07
-
-```secondary-tags
+##### quotation-30
+```tags
 [claim_type]: comparison
 [tags]: symmetry_energy, superheavy_nuclei, single_particle_energy_level, two_nucleon_shell_gap
 [source]: section 3.3. α-decay.

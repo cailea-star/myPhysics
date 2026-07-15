@@ -46,9 +46,9 @@ This is a quotation from the original paper, which is tagged with the above tags
 
 ### Secondary Citations
 
-##### quotation-sxx
+##### quotation-xx
 
-```secondary-tags
+```tags
 [claim_type]: ...
 [tags]: ...
 [source]: ...
