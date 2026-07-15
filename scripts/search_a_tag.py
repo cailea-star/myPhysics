@@ -37,10 +37,12 @@ def search_quotations(sectionmd: str) -> list[dict]:
         # search for the tags block
         tag_block = re.search(r"```tags\s*\n(.*?)\n```", body, re.S)
         # search for claim_type and tags in the tags block
-        tag_text = tag_block.group(2)
+        tag_text = tag_block.group(1)
         claim_type_match = re.search(r"(?m)^\[claim_type\]:\s*(.+)$", tag_text)
         tags_match = re.search(r"(?m)^\[tags\]:\s*(.+)$", tag_text)
         source_match = re.search(r"(?m)^\[source\]:\s*(.+)$", tag_text)
+        ref_match = re.search(r"(?m)^\[ref\]:\s*(.+)$", tag_text)
+        doi_match = re.search(r"(?m)^\[doi\]:\s*(.+)$", tag_text)
 
         taglist = []
         tags_text = tags_match.group(1)
@@ -57,6 +59,8 @@ def search_quotations(sectionmd: str) -> list[dict]:
                 "tags": taglist,
                 "quote": quote,
                 "source": source,
+                "ref": ref_match.group(1).strip() if ref_match else "",
+                "doi": doi_match.group(1).strip() if doi_match else "",
             }
         )
     return quotations
@@ -101,7 +105,10 @@ def write_quotations(query_name: str, quotations: list[dict], outfile_path: str 
             lines += [f"## {quote['claim_type']}", ""]
             last_claim_type = quote["claim_type"]
         tags = ", ".join(quote["tags"])
-        lines += [f"- source: {quote['source']}", f"- tags: {tags}", "", quote["quote"], ""]
+        lines += [f"- tags: {tags}", f"- source: {quote['source']}"]
+        if quote["ref"]: lines.append(f"- ref: {quote['ref']}")
+        if quote["doi"]: lines.append(f"- doi: {quote['doi']}")
+        lines += ["", quote["quote"], ""]
     outfile_path = Path(outfile_path)
     outfile_path.parent.mkdir(parents=True, exist_ok=True)
     output = "\n".join(lines)
@@ -121,11 +128,18 @@ def main(tagname: str, sectionname: str, outfile_path: str | Path) -> Path:
 
 if __name__ == "__main__":
     tagname = sys.argv[1]
-    output_path = main(tagname, "Motivation", os.path.join(ROOT_PATH, "tmp", f"{tagname}_Motivation.md"))
-    print(output_path)
-    output_path = main(tagname, "Methods", os.path.join(ROOT_PATH, "tmp", f"{tagname}_Methods.md"))
-    print(output_path)
-    output_path = main(tagname, "Results", os.path.join(ROOT_PATH, "tmp", f"{tagname}_Results.md"))
-    print(output_path)
-    output_path = main(tagname, "Meanings", os.path.join(ROOT_PATH, "tmp", f"{tagname}_Meanings.md"))
-    print(output_path)
+    motivation_path = os.path.join(ROOT_PATH, "tmp", f"{tagname}_Motivation.md")
+    main(tagname, "Motivation", motivation_path)
+    print(motivation_path)
+    methods_path = os.path.join(ROOT_PATH, "tmp", f"{tagname}_Methods.md")
+    main(tagname, "Methods", methods_path)
+    print(methods_path)
+    results_path = os.path.join(ROOT_PATH, "tmp", f"{tagname}_Results.md")
+    main(tagname, "Results", results_path)
+    print(results_path)
+    meanings_path = os.path.join(ROOT_PATH, "tmp", f"{tagname}_Meanings.md")
+    main(tagname, "Meanings", meanings_path)
+    print(meanings_path)
+    secondary_cpath = os.path.join(ROOT_PATH, "tmp", f"{tagname}_Secondary.md")
+    main(tagname, "Secondary Citations", secondary_cpath)
+    print(secondary_cpath)
