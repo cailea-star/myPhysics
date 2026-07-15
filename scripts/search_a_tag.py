@@ -35,7 +35,7 @@ def search_quotations(sectionmd: str) -> list[dict]:
     for block in blocks[1:]:
         _, _, body = block.partition("\n")
         # search for the tags block
-        tag_block = re.search(r"```(tags|secondary-tags)\s*\n(.*?)\n```", body, re.S)
+        tag_block = re.search(r"```tags\s*\n(.*?)\n```", body, re.S)
         # search for claim_type and tags in the tags block
         tag_text = tag_block.group(2)
         claim_type_match = re.search(r"(?m)^\[claim_type\]:\s*(.+)$", tag_text)

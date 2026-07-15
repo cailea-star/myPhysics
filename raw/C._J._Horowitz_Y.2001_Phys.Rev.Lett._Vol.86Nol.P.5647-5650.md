@@ -234,9 +234,8 @@ An accurate measurement of the neutron radius in $^{208}$Pb---via parity violati
 
 ### Secondary Citations
 
-##### quotation-s01
-
-```secondary-tags
+##### quotation-17
+```tags
 [claim_type]: method
 [tags]: parity_violating_electron_scattering, Pb-208, neutron_skin_thickness
 [source]: introduction, PREX paragraph.
@@ -249,9 +248,8 @@ The Parity Radius Experiment (PREX) at the Jefferson Laboratory aims to measure 
 ```
 
 
-##### quotation-s02
-
-```secondary-tags
+##### quotation-18
+```tags
 [claim_type]: method
 [tags]: RMF, nonlinear_meson_coupling, finite_nuclei, nuclear_matter, neutron_rich
 [source]: methods, model setup.
@@ -264,9 +262,8 @@ We start with a relativistic effective field theory~\cite{horst} that provides a
 ```
 
 
-##### quotation-s03
-
-```secondary-tags
+##### quotation-19
+```tags
 [claim_type]: method
 [tags]: random_phase_approximation, transition_density, neutron_star_crust, nuclear_matter, neutron_rich
 [source]: methods, crust transition calculation.
@@ -279,9 +276,8 @@ To study the solid crust of a neutron star we make a simple random-phase-approxi
 ```
 
 
-##### quotation-s04
-
-```secondary-tags
+##### quotation-20
+```tags
 [claim_type]: comparison
 [tags]: transition_density, neutron_skin_thickness, nuclear_matter, neutron_rich
 [source]: Fig. 1 comparison paragraph.
@@ -294,9 +290,8 @@ For example, the nonrelativistic microscopic equation of state of Friedman and P
 ```
 
 
-##### quotation-s05
-
-```secondary-tags
+##### quotation-21
+```tags
 [claim_type]: comparison
 [tags]: electron_fraction, direct_Urca_process, neutron_star, neutron_skin_thickness
 [source]: Fig. 2 discussion.
