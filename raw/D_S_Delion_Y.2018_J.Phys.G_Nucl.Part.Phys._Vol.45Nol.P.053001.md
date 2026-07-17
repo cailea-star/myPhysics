@@ -1,8 +1,8 @@
 ---
-source_json: D_S_Delion_Y.2018_J.Phys.G_Nucl.Part.Phys._Vol.45Nol.P.053001.json
-doi: 10.1088/1361-6471/aaac52
-first_author: D S, Delion
-affiliations: Academy of Romanian Scientists, 54 Splaiul Independenţei, Bucharest, RO-050094, România, Bioterra University, 81 Gârlei str., Bucharest, RO-013724, România, ‘Horia Hulubei’ National Institute of Physics and Nuclear Engineering, 30 Reactorului, POB MG-6, Bucharest-Măgurele, RO-077125, România, 'Horia Hulubei' National Institute of Physics and Nuclear Engineering, 30 Reactorului, POB MG-6, Bucharest-Măgurele, RO-077125, România
+[source_json]: D_S_Delion_Y.2018_J.Phys.G_Nucl.Part.Phys._Vol.45Nol.P.053001.json
+[doi]: 10.1088/1361-6471/aaac52
+[first_author]: D S, Delion
+[affiliations]: Academy of Romanian Scientists, 54 Splaiul Independenţei, Bucharest, RO-050094, România, Bioterra University, 81 Gârlei str., Bucharest, RO-013724, România, ‘Horia Hulubei’ National Institute of Physics and Nuclear Engineering, 30 Reactorului, POB MG-6, Bucharest-Măgurele, RO-077125, România, 'Horia Hulubei' National Institute of Physics and Nuclear Engineering, 30 Reactorului, POB MG-6, Bucharest-Măgurele, RO-077125, România
 ---
 
 # Coupled channels description of the α -decay fine structure

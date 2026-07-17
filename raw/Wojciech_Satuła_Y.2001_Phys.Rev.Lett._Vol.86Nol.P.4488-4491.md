@@ -1,8 +1,8 @@
 ---
-source_json: Wojciech_Satuła_Y.2001_Phys.Rev.Lett._Vol.86Nol.P.4488-4491.json
-doi: 10.1103/physrevlett.86.4488
-first_author: Wojciech, Satuła
-affiliations: 
+[source_json]: Wojciech_Satuła_Y.2001_Phys.Rev.Lett._Vol.86Nol.P.4488-4491.json
+[doi]: 10.1103/physrevlett.86.4488
+[first_author]: Wojciech, Satuła
+[affiliations]: 
 ---
 
 # Rotations in Isospace: A Doorway to the Understanding of Neutron-Proton Superfluidity in N = Z Nuclei

@@ -1,8 +1,8 @@
 ---
-source_json: [json_filename.json]
-doi: [doi_number]
-first_author: [given_name], [family_name]
-affiliations: [affiliations]
+[source_json]: [this_source_json]
+[doi]: [this_doi]
+[first_author]: [this_first_name], [this_family_name]
+[affiliations]: [this_affiliations]
 ---
 
 # [title_name]

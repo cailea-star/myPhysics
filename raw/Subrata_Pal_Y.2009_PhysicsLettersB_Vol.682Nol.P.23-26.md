@@ -1,8 +1,8 @@
 ---
-source_json: Subrata_Pal_Y.2009_PhysicsLettersB_Vol.682Nol.P.23-26.json
-doi: 10.1016/j.physletb.2009.10.098
-first_author: Bharat K., Sharma
-affiliations: Department of Nuclear and Atomic Physics, Tata Institute of Fundamental Research, Homi Bhabha Road, Mumbai 400005, India, Department of Nuclear and Atomic Physics, Tata Institute of Fundamental Research, Homi Bhabha Road, Mumbai-400005, India
+[source_json]: Subrata_Pal_Y.2009_PhysicsLettersB_Vol.682Nol.P.23-26.json
+[doi]: 10.1016/j.physletb.2009.10.098
+[first_author]: Bharat K., Sharma
+[affiliations]: Department of Nuclear and Atomic Physics, Tata Institute of Fundamental Research, Homi Bhabha Road, Mumbai 400005, India, Department of Nuclear and Atomic Physics, Tata Institute of Fundamental Research, Homi Bhabha Road, Mumbai-400005, India
 ---
 
 # Nuclear symmetry energy effects in finite nuclei and neutron star

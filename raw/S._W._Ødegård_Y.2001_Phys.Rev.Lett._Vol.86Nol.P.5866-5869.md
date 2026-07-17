@@ -1,8 +1,8 @@
 ---
-source_json: S._W._Ødegård_Y.2001_Phys.Rev.Lett._Vol.86Nol.P.5866-5869.json
-doi: 10.1103/physrevlett.86.5866
-first_author: S. W., Ødegård
-affiliations: 
+[source_json]: S._W._Ødegård_Y.2001_Phys.Rev.Lett._Vol.86Nol.P.5866-5869.json
+[doi]: 10.1103/physrevlett.86.5866
+[first_author]: S. W., Ødegård
+[affiliations]: 
 ---
 
 # Evidence for the Wobbling Mode in Nuclei
