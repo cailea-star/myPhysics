@@ -1,8 +1,8 @@
 ---
-source_json: C._J._Horowitz_Y.2001_Phys.Rev.Lett._Vol.86Nol.P.5647-5650.json
-doi: 10.1103/physrevlett.86.5647
-first_author: C. J., Horowitz
-affiliations: 
+[source_json]: C._J._Horowitz_Y.2001_Phys.Rev.Lett._Vol.86Nol.P.5647-5650.json
+[doi]: 10.1103/physrevlett.86.5647
+[first_author]: C. J., Horowitz
+[affiliations]: 
 ---
 
 # Neutron Star Structure and the Neutron Radius of 208Pb

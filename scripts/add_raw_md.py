@@ -5,16 +5,16 @@ from pathlib import Path
 
 
 def replace_source_json(text, json_data):
-    return text.replace("[json_filename.json]", json_data["_json_filename"])
+    return text.replace("[this_source_json]", json_data["_json_filename"])
 
 
 def replace_doi(text, json_data):
-    return text.replace("[doi_number]", json_data.get("DOI") or "")
+    return text.replace("[this_doi]", json_data.get("DOI") or "")
 
 
 def replace_first_author(text, json_data):
     author = (json_data.get("author") or [{}])[0]
-    return text.replace("[given_name]", author.get("given") or "").replace("[family_name]", author.get("family") or "")
+    return text.replace("[this_first_name]", author.get("given") or "").replace("[this_family_name]", author.get("family") or "")
 
 
 def replace_affiliations(text, json_data):
@@ -22,7 +22,7 @@ def replace_affiliations(text, json_data):
     corresponding = (json_data.get("author-corresponding-openalex") or [{}])[0]
     affiliations = corresponding.get("raw_affiliation_strings") or first_author.get("affiliation") or []
     names = [a.get("name") if isinstance(a, dict) else str(a) for a in affiliations]
-    return text.replace("[affiliations]", ", ".join(filter(None, names)))
+    return text.replace("[this_affiliations]", ", ".join(filter(None, names)))
 
 
 def replace_title(text, json_data):

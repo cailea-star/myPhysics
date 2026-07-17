@@ -1,8 +1,8 @@
 ---
-source_json: Jianmin_Dong_Y.2025_NuclearPhysicsA_Vol.1059Nol.123089P.123089.json
-doi: 10.1016/j.nuclphysa.2025.123089
-first_author: Guoqing, Wu
-affiliations: Institute of Modern Physics, Chinese Academy of Sciences, Lanzhou 730000, China, School of Nuclear Science and Technology, University of Chinese Academy of Sciences, Beijing 100049, China
+[source_json]: Jianmin_Dong_Y.2025_NuclearPhysicsA_Vol.1059Nol.123089P.123089.json
+[doi]: 10.1016/j.nuclphysa.2025.123089
+[first_author]: Guoqing, Wu
+[affiliations]: Institute of Modern Physics, Chinese Academy of Sciences, Lanzhou 730000, China, School of Nuclear Science and Technology, University of Chinese Academy of Sciences, Beijing 100049, China
 ---
 
 # Effect of symmetry energy on the structure and α-decay of deformed superheavy nuclei
