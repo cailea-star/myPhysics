@@ -27,7 +27,7 @@ Granularity: Keep noun-term compounds as precise tags, but split adjective-like 
 
 Draft: If a needed tag is missing, draft `{tag, definition, types, aliases}` entries for `vocab/tags.json` one tag type at a time; include only aliases seen in the paper, metadata, or existing project vocabulary.
 
-Similarity Check: Before drafting any new tag, check `vocab/tags.json` for semantic duplicates or related existing tags. For each candidate, include `similar-tags: ...`. Prefer reusing existing tags. The user must decide each candidate individually: add new, merge into existing, or use existing. Never write new tags before that decision.
+Similarity Check: Before drafting each new tag, run `python scripts\search_similar_tags.py "CANDIDATE" 3` and show all three results. Prefer reusing existing tags. The user must decide each candidate individually: add new, merge into existing, or use existing. Never write new tags before that decision.
 
 Write: Present one draft group, wait for user approval, write confirmed entries, then present the next draft group.
 
@@ -114,7 +114,7 @@ Run gates strictly in order. At the start of each response, state the current ga
    If arXiv fails, do not try other downloads. Give direct PDF link(s), the exact target path, and wait for the user file.
 
 ### Gate 3 — Check Tag & Author
-   Run `python scripts\add_vocab_author.py raw\[json_filename].json` as a routine check of the corresponding-author list, then read the PDF/TEX source text for corresponding-author information and report both the script terminal output and the source-text corresponding-author information to the user.
+   Run `python scripts\check_vocab_author.py raw\[json_filename].json` as a routine check of the corresponding-author list, then read the PDF/TEX source text for corresponding-author information and report both the script terminal output and the source-text corresponding-author information to the user.
    Check rough paper-level keywords against `vocab/tags.json`; draft and confirm missing tags following [Vocab-Rules](#vocab-rules).
 
 ### Gate 4 — Discuss Quotations

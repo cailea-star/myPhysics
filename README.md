@@ -18,13 +18,20 @@ scripts/
   add_raw_json.py           # DOI -> raw/*.json
   add_raw_md.py             # raw/*.json -> raw/*.md
   add_raw_md.md             # raw md template
-  add_vocab_author.py       # check and add author to vocab/authors.json  
+  check_vocab_author.py     # check and add author to vocab/authors.json
+  search_a_author.py        # author -> matching raw metadata
+  search_a_doi.py           # DOI -> recorded papers and citation links
   search_a_tag.py           # canonical tag -> tmp/* section quotation slices
+  search_similar_tags.py    # query -> similar canonical tags
   sort_raw_md_quotations.py # renumber raw/*.md quotation headings after edits
 
 tmp/                  # generated temporary query outputs
 
+.codex/skills/
+  ingest/SKILL.md      # gated paper-ingest workflow
+
 log.md                # completed paper log
+log-PRL.md            # Physical Review Letters coverage log
 ```
 
 `raw` is truth. `vocab` names the vocabulary. Use the project `ingest` skill for workflow rules.
