@@ -105,10 +105,12 @@ def write_quotations(query_name: str, quotations: list[dict], outfile_path: str 
             lines += [f"## {quote['claim_type']}", ""]
             last_claim_type = quote["claim_type"]
         tags = ", ".join(quote["tags"])
-        lines += [f"- tags: {tags}", f"- source: {quote['source']}"]
-        if quote["ref"]: lines.append(f"- ref: {quote['ref']}")
-        if quote["doi"]: lines.append(f"- doi: {quote['doi']}")
-        lines += ["", quote["quote"], ""]
+        lines += ["```tags"]
+        lines += [f"[tags]: {tags}", f"[source]: {quote['source']}"]
+        if quote["ref"]: lines.append(f"[ref]: {quote['ref']}")
+        if quote["doi"]: lines.append(f"[doi]: {quote['doi']}")
+        lines += ["```", ""]
+        lines += [quote["quote"], "---", ""]
     outfile_path = Path(outfile_path)
     outfile_path.parent.mkdir(parents=True, exist_ok=True)
     output = "\n".join(lines)
