@@ -18,6 +18,7 @@ scripts/
   add_raw_json.py           # DOI -> raw/*.json
   add_raw_md.py             # raw/*.json -> raw/*.md
   add_raw_md.md             # raw md template
+  add_wiki_topic.md         # system and phenomenon wiki template
   add_wiki_method.md        # method wiki template
   check_vocab_author.py     # check and add author to vocab/authors.json
   search_a_author.py        # author -> matching raw metadata
