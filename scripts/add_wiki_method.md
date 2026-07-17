@@ -16,49 +16,60 @@
 
 ### Framework
 
+```tags
+[tags]: method, conditions, approximations, and assumptions
+```
+
+```references
+  - source_json_xx: ...
+  - ...
+```
 
 ##### Assumptions and Approximations
 
-```references
-  - source_json_xx: ...
-  - ...
-```
-
-- Core assumptions:
-- Truncations or approximations:
-- Parameter dependence:
+- **Assumptions**:
+- **Truncations or approximations**:
+- **Parameter dependence**:
 
 ##### Core Equations
-
-```references
-  - source_json_xx: ...
-  - ...
-```
 
 ```math
 \textrm{This is core-equation-1.}
 ```
-- [description]: This is a physical picture of core-equation-1.
+
+- **description**: This is a physical picture of core-equation-1.
+
+---
 
 ```math
 \textrm{This is core-equation-2.}
 ```
-- [description]: This is a physical picture of core-equation-2.
+
+- **description**: This is a physical picture of core-equation-2.
 
 ...
 
 ### Inputs & Outputs
 
+```tags
+[tags]: ...
+```
+
+##### Inputs
+
 ```references
   - source_json_xx: ...
   - ...
 ```
 
-##### Inputs
-
 core inputs, parameters, and initial conditions.
 
-##### Outputs:
+##### Outputs
+
+```references
+  - source_json_xx: ...
+  - ...
+```
 
 basic outputs, derived quantities, and final results.
 
@@ -76,21 +87,27 @@ basic outputs, derived quantities, and final results.
   - ...
 ```
 
-- [Problem]: Limitations or deficiencies of the main framework.
-- [Solution]: How the correction algorithm addresses the problem.
-- [Effect]: How the correction algorithm improves the main framework.
+- **Problem**: Limitations or deficiencies of the main framework.
+- **Solution**: How the correction algorithm addresses the problem.
+- **Effect**: How the correction algorithm improves the main framework.
+
+---
 
 ```math
 \textrm{ This is correction-equation-1 of the solution1.}
 ```
 
-- [description]: This is a physical picture of correction-equation-1.
+- **description**: This is a physical picture of correction-equation-1.
+
+---
 
 ```math
 \textrm{This is correction-equation-2 of the solution1.}
 ```
 
-- [description]: This is a physical picture of correction-equation-2.
+- **description**: This is a physical picture of correction-equation-2.
+
+---
 
 ...
 
@@ -112,11 +129,11 @@ basic outputs, derived quantities, and final results.
   - ...
 ```
 
-- [Motivation]: This is the motivation of the study type 1.
-- [Innovation]: This is the innovation of the study type 1.
-- [Quantities]: This is the quantities of the study type 1.
-- [Precision]: exact precision or none.
-- [Meaning]: This is the meaning of the study type 1.
+- **Motivation**: This is the motivation of the study type 1.
+- **Innovation**: This is the innovation of the study type 1.
+- **Quantities**: This is the quantities of the study type 1.
+- **Precision**: exact precision or none.
+- **Meaning**: This is the meaning of the study type 1.
 
 #### Study Type 2
 
@@ -129,4 +146,8 @@ basic outputs, derived quantities, and final results.
   - ...
 ```
 
-[Failure conditions, error sources, computational costs, and unresolved problems.]
+- **Current Precision**: Current numerical precision, experimental error, or theoretical uncertainty; use `not quantified` when unavailable.
+- **Missing Quantities or Physics**: Quantities, phenomena, or problems the method cannot yet describe.
+- **Formal Limitations**: Limitations caused by assumptions, truncations, or parameter dependence.
+- **Computational Limitations**: Computational cost, numerical stability, or scaling limits.
+- **Applicability Limits**: Systems, conditions, or regimes where the method becomes unreliable.
