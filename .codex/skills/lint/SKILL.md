@@ -66,7 +66,7 @@ Run gates strictly in order. Start every response with current gate, last comple
 2. If the worktree is not clean, stop and report existing changes.
 3. Confirm the canonical tag, types, wiki path, and required template under Truth Rules.
 4. If the tag is absent from `vocab/tags.json`, stop.
-5. If wiki is absent, obtain approval and create it from the required template.
+5. If wiki is absent, **🔴 CHECKPOINT · 🛑 STOP**: do not search, audit, or propose changes; obtain approval to create it from the required template.
 6. Run `python scripts\search_a_tag.py TAG`; if it fails or any expected `tmp` section is absent, stop.
 
 ### Gate 2 — Quotations to Wiki
