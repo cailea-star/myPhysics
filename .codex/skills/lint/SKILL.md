@@ -26,7 +26,7 @@ Give every quotation exactly one verdict:
 - `conflict`: quotation conflicts with wiki; preserve both conclusions, conditions, and references.
 - `irrelevant`: quotation does not belong in this tag wiki; do not add it.
 
-Every quotation MUST receive exactly one verdict; otherwise the section fails. Propose the smallest change for every non-`covered` verdict; never apply it before approval.
+List one verdict per `quote` block in source order and report `Verdicts: <verdicts>/<quote blocks>`. If counts differ, the section fails and no change set may be proposed; verdicts may share a change but MUST NOT be merged. Propose the smallest change for every non-`covered` verdict; never apply it before approval.
 
 ### Wiki Verdict Rules
 
