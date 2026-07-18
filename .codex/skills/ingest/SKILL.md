@@ -90,7 +90,7 @@ Tag Co-occurrence: Each quotation must include at least two directly supported c
 
 Math: Do not use standalone formulas as quote text. When a formula is important core `[claim_type]: definition` evidence, quote the complete explanatory sentence and add the formula in a following fenced `math` block.
 
-Write: Present quotation drafts one section at a time; wait for user review, then write each approved section to `raw/*.md` in [exact mode].
+Write: Present quotation drafts one section at a time; wait for user review, then write each approved section to `raw/*.md` in [exact mode] matching `scripts/add_raw_md.md`. Formatting is defective only if it violates that template or breaks parsing.
 
 ## Gated Workflow
 
@@ -124,6 +124,7 @@ Run gates strictly in order. At the start of each response, state the current ga
    Independently review exactly one written section per response, in template-frame order: Motivation, Methods, Results, Meanings, and Secondary Citations.
    First print that section's current Coverage rules and any section-specific Quotation rules from [Section-Rules](#section-rules).
    Review that section against [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules); give every quotation a pass/gap/fix verdict, report section coverage pass/gap/fix items, then stop and wait for user approval before the next section.
+   A section passes ONLY when every quotation passes and every Coverage rule is satisfied. Any `fix` blocks advancement; a `gap` passes ONLY when no valid source evidence exists and the gap is explicitly recorded.
    After every fix to a `raw/*.md`, run `python scripts\sort_raw_md_quotations.py mdfile_path` before continuing.
 
 ### Gate 6 — Summary & Recommend Next Paper(s)

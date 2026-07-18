@@ -13,7 +13,7 @@ description: Audit and update myWIKI from tagged quotations. Use when checking w
 - A wiki filename MUST equal its canonical tag. A `method` uses `scripts/add_wiki_method.md`; every other type uses `scripts/add_wiki_topic.md`.
 - Wiki MUST synthesize evidence; never copy a quotation into wiki prose.
 - Every factual claim and formula MUST have an adjacent reference. Reference MUST be an existing `raw/*` filename without path or suffix: `raw/PAPER.md` -> `PAPER`.
-- Every new `raw/*.md` quotation MUST strictly follow all rules in `.codex/skills/ingest/SKILL.md` and receive approval before writing.
+- Every new `raw/*.md` quotation MUST follow the Section-Rules, Quotation-Rules, and applicable section-specific rules in `.codex/skills/ingest/SKILL.md` and receive approval before writing.
 - Never infer evidence, fill a template without evidence, or modify `raw`, `wiki`, or `vocab` before approval.
 
 ### Quotation Verdict Rules
@@ -82,12 +82,13 @@ Run gates strictly in order. Start every response with current gate, last comple
 1. Audit exactly one wiki section per response, in template order.
 2. Apply Wiki Verdict Rules to every claim, formula, and required item.
 3. For each `weak` or `missing`, find exact source evidence under Truth Rules; report a gap if none exists.
-4. Present the section's raw-and-wiki change set and stop for approval.
-5. After approval, write raw, renumber, rerun `search_a_tag`, and give every new quotation a Quotation Verdict.
-6. Only verified evidence may enter wiki; show `git diff -- raw wiki`.
-7. Advance only after approval of the updated section.
+4. Review every proposed raw quotation under the referenced ingest rules with `pass`, `gap`, or `fix`; only `pass` may enter the change set.
+5. Present the section's raw-and-wiki change set and stop for approval.
+6. After approval, write raw, renumber, rerun `search_a_tag`, and give every new quotation a Quotation Verdict.
+7. Only verified evidence may enter wiki; show `git diff -- raw wiki`.
+8. Advance only after approval of the updated section.
 
-### Gate 4 — Wiki to Vocab
+### Gate 4 — Wiki to Tags
 
 1. Check the target tag's definition, aliases, and types against the approved wiki and source evidence.
 2. Before every add, merge, or rename, run:
