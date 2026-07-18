@@ -33,7 +33,7 @@ Write: Present one draft group, wait for user approval, write confirmed entries,
 
 ### Section-Rules
 
-Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings. For each section, present three to four candidate quotations for review in [exact mode] (final raw/*.md block shape with exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section) or [summary mode] (source section, candidate `[claim_type]`, candidate `[tags]`, and one-sentence evidence summary before asking for approval).
+Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings, Secondary Citations. Present three to four candidates per review batch, repeating batches until section coverage is complete, in [exact mode] (final raw/*.md block shape with exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section) or [summary mode] (source section, candidate `[claim_type]`, candidate `[tags]`, and one-sentence evidence summary before asking for approval).
 
 Coverage: For each section's candidate set, satisfy section-level claim coverage from source evidence; if no valid source quote exists for a required claim, report the gap instead of inventing one.
 
@@ -77,7 +77,7 @@ Secondary-Citations-Check:
 - If the core information of a citation-marked quotation states the current paper's own problem setting, method use, calculated result, or conclusion judgment, it MUST remain eligible for `Motivation`, `Methods`, `Results`, or `Meanings`.
 
 Secondary-Citations-Quotation:
-- Put a quote under `### Secondary Citations` ONLY when the quoted sentence depends on an external cited reference; use `secondary-tags`.
+- Put a quote under `### Secondary Citations` ONLY when the quoted sentence depends on an external cited reference; use `tags`.
 - Internal references to this paper's `Fig.`, `Table`, `Eq.`, or `section` are not secondary citations.
 
 ### Quotation-Rules
@@ -118,10 +118,10 @@ Run gates strictly in order. At the start of each response, state the current ga
    Check rough paper-level keywords against `vocab/tags.json`; draft and confirm missing tags following [Vocab-Rules](#vocab-rules).
 
 ### Gate 4 — Discuss Quotations
-   Draft and write quotations under the template frames, following [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules).
+   Draft and discuss exactly one section per response, in template-frame order, following [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules). Present one review batch, stop for approval, then write only approved exact-mode quotations. Complete all five sections before Gate 5.
 
 ### Gate 5 — Review Discuss Quotations
-   Review exactly one section per response, in template-frame order: Motivation, Methods, Results, Meanings, and Secondary Citations.
+   Independently review exactly one written section per response, in template-frame order: Motivation, Methods, Results, Meanings, and Secondary Citations.
    First print that section's current Coverage rules and any section-specific Quotation rules from [Section-Rules](#section-rules).
    Review that section against [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules); give every quotation a pass/gap/fix verdict, report section coverage pass/gap/fix items, then stop and wait for user approval before the next section.
    After every fix to a `raw/*.md`, run `python scripts\sort_raw_md_quotations.py mdfile_path` before continuing.
