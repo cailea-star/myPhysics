@@ -13,14 +13,8 @@ description: Audit and update myWIKI from tagged quotations. Use when checking w
 - A wiki filename MUST equal its canonical tag. A `method` uses `scripts/add_wiki_method.md`; every other type uses `scripts/add_wiki_topic.md`.
 - Wiki MUST synthesize evidence; never copy a quotation into wiki prose.
 - Every factual claim and formula MUST have an adjacent reference. Reference MUST be an existing `raw/*` filename without path or suffix: `raw/PAPER.md` -> `PAPER`.
+- Every new `raw/*.md` quotation MUST strictly follow all rules in `.codex/skills/ingest/SKILL.md` and receive approval before writing.
 - Never infer evidence, fill a template without evidence, or modify `raw`, `wiki`, or `vocab` before approval.
-
-### Raw Backfill Rules
-
-- Quote exact complete sentence(s) from `raw/*.pdf` or `raw/*.tex`, normally 10–40 words; include `[claim_type]`, `[tags]`, and `[source]`.
-- Use at least two directly supported canonical tags. Results MUST include a method and quantity tag; Meanings MUST include a method tag.
-- Put externally attributed claims in Secondary Citations. Pair any core formula with its explanatory sentence and a fenced `math` block.
-- Show the final exact-mode block and obtain approval before writing `raw/*.md`.
 
 ### Quotation Verdict Rules
 
@@ -43,14 +37,14 @@ Give every factual claim, formula, and required template item exactly one verdic
 - `missing`: required content is absent; find candidate papers and quotations.
 - `not-applicable`: the template item does not apply; do not fill it.
 
-For every `weak` or `missing` verdict, identify candidate sources or report an evidence gap. New quotations MUST follow Raw Backfill Rules. After writing, run:
+For every `weak` or `missing` verdict, identify candidate sources or report an evidence gap. After writing an approved quotation, run:
 
 ```powershell
 python scripts\sort_raw_md_quotations.py raw\PAPER.md
 python scripts\search_a_tag.py TAG
 ```
 
-The new quotation MUST appear in generated `tmp`; then reopen its Gate 2 section. Otherwise the section fails.
+The new quotation MUST appear in generated `tmp` and receive a Quotation Verdict before entering wiki; otherwise the section fails.
 
 ### Vocab Rules
 
@@ -60,9 +54,9 @@ The new quotation MUST appear in generated `tmp`; then reopen its Gate 2 section
 
 ## Gated Workflow
 
-Run gates strictly in order. Start every response with current gate, last completed gate, and next approval. Never advance from an unapproved section or gate. If raw changes after search, rerun `search_a_tag` and restart the affected Gate 2 section.
+Run gates strictly in order. Start every response with current gate, last completed gate, and next approval. Never advance from an unapproved section or gate. After any raw change, rerun `search_a_tag` and re-audit the affected quotation section before continuing.
 
-### Gate 1 — Confirm Tag
+### Gate 1 — Confirm Tag & Search
 
 1. Run:
    ```powershell
@@ -72,49 +66,39 @@ Run gates strictly in order. Start every response with current gate, last comple
 2. If the worktree is not clean, stop and report existing changes.
 3. Confirm the canonical tag, types, wiki path, and required template under Truth Rules.
 4. If the tag is absent from `vocab/tags.json`, stop.
-5. If wiki is absent, obtain approval and create it from the required template before Gate 2.
+5. If wiki is absent, obtain approval and create it from the required template.
+6. Run `python scripts\search_a_tag.py TAG`; if it fails or any expected `tmp` section is absent, stop.
 
-### Gate 2 — Audit Quotations
+### Gate 2 — Quotations to Wiki
 
-1. Run:
-   ```powershell
-   python scripts\search_a_tag.py TAG
-   ```
-2. If the command fails or any expected `tmp` section is absent, stop; never audit partial output.
-3. Audit exactly one generated section per response, in order: Motivation, Methods, Results, Meanings, Secondary Citations.
-4. Apply Quotation Verdict Rules; stop after each section and advance only after approval.
+1. Audit exactly one generated section per response, in order: Motivation, Methods, Results, Meanings, Secondary Citations.
+2. Apply Quotation Verdict Rules to every quotation.
+3. Present the section's smallest wiki change set and stop for approval.
+4. Apply only approved references and entries; show `git diff -- wiki`.
+5. Advance only after approval of the updated section.
 
-### Gate 3 — Audit Wiki Gaps
+### Gate 3 — Wiki to Raw to Wiki
 
 1. Audit exactly one wiki section per response, in template order.
-2. Apply Wiki Verdict Rules; stop after each section and advance only after approval.
+2. Apply Wiki Verdict Rules to every claim, formula, and required item.
+3. For each `weak` or `missing`, find exact source evidence under Truth Rules; report a gap if none exists.
+4. Present the section's raw-and-wiki change set and stop for approval.
+5. After approval, write raw, renumber, rerun `search_a_tag`, and give every new quotation a Quotation Verdict.
+6. Only verified evidence may enter wiki; show `git diff -- raw wiki`.
+7. Advance only after approval of the updated section.
 
-### Gate 4 — Update Wiki
+### Gate 4 — Wiki to Vocab
 
-1. Apply only changes approved in Gates 2 and 3.
-2. Add no unsupported claim and no change outside the approved set.
-3. Show:
-   ```powershell
-   git diff -- wiki raw
-   ```
-4. Stop and obtain wiki-update approval.
-
-### Gate 5 — Reconcile Vocab
-
-1. Check only the target tag's definition, aliases, and types under Vocab Rules.
-2. Run before every add, merge, or rename:
+1. Check the target tag's definition, aliases, and types against the approved wiki and source evidence.
+2. Before every add, merge, or rename, run:
    ```powershell
    python scripts\search_similar_tags.py "CANDIDATE" 3
    ```
-3. Obtain separate approval, then apply the complete approved vocab change under Vocab Rules.
-
-### Gate 6 — Verify
-
-1. Rerun `python scripts\search_a_tag.py TAG`.
-2. Verify every added quotation, reference, wiki entry, and vocab change; references MUST satisfy Truth Rules.
-3. Require zero unprocessed quotations, unresolved approved changes, unsupported wiki claims, or partial tag migrations.
-4. Show:
+3. Show all three results and the smallest vocab change; obtain separate approval for each change.
+4. Apply approved changes under Vocab Rules.
+5. Rerun `search_a_tag` for all affected tags and require zero unprocessed quotations, unresolved approved changes, unsupported wiki claims, or partial tag migrations.
+6. Show:
    ```powershell
    git diff -- raw wiki vocab
    ```
-5. Report evidence gaps without expanding scope.
+7. Report evidence gaps without expanding scope.
