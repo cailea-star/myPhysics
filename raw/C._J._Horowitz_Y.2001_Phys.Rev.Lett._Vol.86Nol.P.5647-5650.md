@@ -30,29 +30,16 @@ It is an extrapolation of 18 orders of magnitude from the neutron radius of a he
 
 ```tags
 [claim_type]: definition
-[tags]: neutron_skin_thickness, neutron_rich, nuclear_matter
-[source]: introduction, neutron-skin paragraph.
+[tags]: neutron_skin_thickness, transition_density, Pb-208, neutron_rich
+[source]: Table I caption.
 ```
 
 ```quote
-The thickness of the neutron skin depends on the pressure of neutron-rich matter: the greater the pressure, the thicker the skin as neutrons are pushed out against surface tension.
+The binding energy per particle in $^{208}$Pb is B.E., $R_p$ is the proton and $R_n-R_p$ is the difference between neutron and proton radii in Pb. Finally, $\rho_c$ is our estimate for the transition density of neutron-rich matter from a nonuniform to uniform phase.
 ```
 
 
 ##### quotation-03
-
-```tags
-[claim_type]: motivation
-[tags]: neutron_skin_thickness, neutron_star_crust, transition_density, neutron_rich
-[source]: introduction, crust-transition paragraph.
-```
-
-```quote
-Thus a high pressure typically implies a low transition density from a solid crust to a liquid mantle. This suggests an inverse relationship: the thicker the neutron-rich skin of a heavy nucleus, the thinner the solid crust of a neutron star.
-```
-
-
-##### quotation-04
 
 ```tags
 [claim_type]: motivation
@@ -67,11 +54,41 @@ An accurate measurement of the neutron radius in $^{208}$Pb---via parity violati
 
 ### Methods
 
-##### quotation-05
+##### quotation-04
 
 ```tags
 [claim_type]: definition
-[tags]: RMF, nonlinear_meson_coupling, symmetry_energy, neutron_skin_thickness, Pb-208, neutron_star_crust
+[tags]: RMF, nonlinear_meson_coupling
+[source]: methods, interacting Lagrangian density.
+```
+
+```quote
+The interacting Lagrangian density is given by~\cite{horst}.
+```
+
+```math
+\begin{aligned}
+\mathcal L_{\rm int}={}&
+\bar\psi\left[g_{\rm s}\phi-
+\left(g_{\rm v}V_\mu+
+\frac{g_\rho}{2}\boldsymbol{\tau}\cdot\mathbf b_\mu+
+\frac e2(1+\tau_3)A_\mu\right)\gamma^\mu\right]\psi\\
+&-\frac{\kappa}{3!}(g_{\rm s}\phi)^3
+-\frac{\lambda}{4!}(g_{\rm s}\phi)^4
++\frac{\zeta}{4!}g_{\rm v}^4(V_\mu V^\mu)^2
++\frac{\xi}{4!}g_\rho^4(\mathbf b_\mu\cdot\mathbf b^\mu)^2\\
+&+g_\rho^2\,\mathbf b_\mu\cdot\mathbf b^\mu
+\left[\Lambda_4g_{\rm s}^2\phi^2+
+\Lambda_{\rm v}g_{\rm v}^2V_\mu V^\mu\right].
+\end{aligned}
+```
+
+
+##### quotation-05
+
+```tags
+[claim_type]: method
+[tags]: nonlinear_meson_coupling, symmetry_energy, neutron_skin_thickness, Pb-208, neutron_star_crust
 [source]: methods, model setup.
 ```
 
@@ -84,7 +101,7 @@ We now supplement the Lagrangian with new nonlinear sigma-rho and omega-rho coup
 
 ```tags
 [claim_type]: assumption
-[tags]: RMF, nonlinear_meson_coupling, neutron_skin_thickness, Pb-208
+[tags]: nonlinear_meson_coupling, neutron_skin_thickness, Pb-208
 [source]: methods, parameter-set simplification.
 ```
 
@@ -97,7 +114,7 @@ A nonzero $\Lambda_3$ does change the thickness of the neutron skin in $^{208}$P
 
 ```tags
 [claim_type]: comparison
-[tags]: RMF, nonlinear_meson_coupling, symmetry_energy, density_dependent, neutron_skin_thickness, Pb-208
+[tags]: nonlinear_meson_coupling, neutron_skin_thickness, Pb-208
 [source]: methods, coupling comparison.
 ```
 
@@ -124,13 +141,13 @@ To study the solid crust of a neutron star we make a simple random-phase-approxi
 ##### quotation-09
 
 ```tags
-[claim_type]: definition
-[tags]: RMF, NL3, Pb-208, neutron_skin_thickness, transition_density
-[source]: Table 1 caption.
+[claim_type]: result
+[tags]: nonlinear_meson_coupling, neutron_skin_thickness, Pb-208
+[source]: Table I discussion.
 ```
 
 ```quote
-Finally, $\rho_c$ is our estimate for the transition density of neutron-rich matter from a nonuniform to uniform phase.
+This simple procedure produces a nearly constant binding energy per nucleon for $^{208}$Pb as $\Lambda_{\rm v}$ is changed, as can be seen in Table I. Moreover, Table I shows that increasing $\Lambda_{\rm v}$ reduces the neutron-skin thickness significantly---while maintaining the proton radius nearly constant.
 ```
 
 
@@ -138,16 +155,12 @@ Finally, $\rho_c$ is our estimate for the transition density of neutron-rich mat
 
 ```tags
 [claim_type]: result
-[tags]: RMF, transition_density, neutron_skin_thickness, Pb-208
+[tags]: nonlinear_meson_coupling, transition_density, neutron_skin_thickness, Pb-208
 [source]: Fig. 1 discussion.
 ```
 
 ```quote
-Figure 1 displays a clear inverse correlation between the transition density and the neutron-skin thickness $R_n\!-\!R_p$.
-```
-
-```math
-\rho_{c}\approx 0.16 - 0.39\,(R_n-R_p)
+Moreover, this correlation seems to be insensitive to $M^*$ or to using $\Lambda_4$ or $\Lambda_{\rm v}$ to change $R_n\!-\!R_p$. These results suggest that a measurement of the neutron radius in $^{208}$Pb will provide considerable information on the transition density.
 ```
 
 
@@ -155,12 +168,12 @@ Figure 1 displays a clear inverse correlation between the transition density and
 
 ```tags
 [claim_type]: result
-[tags]: RMF, S271, electron_fraction, symmetry_energy, beta_equilibrium, neutron_rich
+[tags]: nonlinear_meson_coupling, electron_fraction, symmetry_energy, neutron_skin_thickness, transition_density
 [source]: Fig. 2 discussion.
 ```
 
 ```quote
-The electron fraction $Y_e$ is determined by the symmetry energy while $R_n\!-\!R_p$ is sensitive to the density dependence of the symmetry energy.
+The different curves are for different values of $\Lambda_{\rm v}$ which predict the indicated $R_n\!-\!R_p$ values. The curves start near the transition densities displayed in Fig. 1. The electron fraction $Y_e$ is determined by the symmetry energy while $R_n\!-\!R_p$ is sensitive to the density dependence of the symmetry energy.
 ```
 
 
@@ -168,7 +181,7 @@ The electron fraction $Y_e$ is determined by the symmetry energy while $R_n\!-\!
 
 ```tags
 [claim_type]: comparison
-[tags]: RMF, nonlinear_meson_coupling, neutron_star_radius, neutron_skin_thickness, Pb-208, Z271
+[tags]: nonlinear_meson_coupling, neutron_star_radius, Z271
 [source]: Fig. 3 discussion.
 ```
 
