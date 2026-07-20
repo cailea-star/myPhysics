@@ -17,13 +17,18 @@ Type Match: Every type assigned to a drafted tag MUST independently satisfy that
 
 Granularity: Keep noun-term compounds as precise tags, but split adjective-like modifiers into `[tag_type]: property` tags; e.g. use `alpha_decay_energy`, but use `symmetry_energy` + `soft`.
 
+### Verify-Rules
+
+After every approved add, merge, or rename, rerun `python scripts\search_a_tag.py TAG` for every affected tag; require zero unprocessed quotations, unresolved approved changes, or partial tag migrations. Re-audit the resulting tag and report evidence gaps without expanding scope.
+
+
 ### Draft-Rules
 
 Draft: If the script finds no valid existing tag, draft `{tag, definition, types, aliases}` entries for [vocab/tags.json](../../../vocab/tags.json) one tag type at a time; include only aliases seen in the paper, metadata, or existing project vocabulary.
 
 Resolve: For each candidate concept, run `python scripts\search_similar_tags.py "CANDIDATE" 3`, show all three results, and propose `reuse`, `merge`, or `add`.
 
-Write: Present one draft group with an explicit add, merge, or reuse proposal for each candidate. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Write only individually approved entries, then present the next draft group.
+Write: Present one draft group with an explicit add, merge, or reuse proposal for each candidate. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Write only individually approved entries, verify every affected tag under [Verify-Rules](#verify-rules), then present the next draft group.
 
 ### Merge-Rules
 
@@ -31,5 +36,5 @@ Target: Run `python scripts\search_similar_tags.py "TARGET" 3`, require the exac
 
 Apply: For an approved merge or rename, run `python scripts\rename_raw_tag.py OLD NEW`; update `tags.json` and affected wiki names and links in the same gate.
 
-Verify: Rerun `search_a_tag` for OLD and NEW; require zero OLD quotations, zero unprocessed quotations, zero unresolved approved changes, zero unsupported wiki claims, and no partial tag migration; re-audit NEW and report evidence gaps without expanding scope.
+Verify: Verify OLD and NEW under [Verify-Rules](#verify-rules) and require zero OLD quotations.
 
