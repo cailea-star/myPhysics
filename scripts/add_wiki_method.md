@@ -80,7 +80,7 @@ core inputs, parameters, and initial conditions.
 basic outputs, derived quantities, and final results.
 
 
-<!-- claim-types: [claim_type]: method for each correction algorithm [and] [claim_type]: result for each correction effect [and] [claim_type]: definition for each correction equation -->
+<!-- claim-types: [claim_type]: motivation for each correction problem [and] [claim_type]: innovation for each correction effect -->
 <!-- coverage: problem, solution, and effect for each correction algorithm [and] each correction equation with physical meaning; if none applies, not-applicable -->
 ### Correction Algorithm
 
@@ -124,7 +124,7 @@ basic outputs, derived quantities, and final results.
 
 ...
 
-<!-- claim-types: [claim_type]: result for each study -->
+<!-- claim-types: [claim_type]: motivation for each study [and] [claim_type]: innovation for each study -->
 <!-- coverage: quantities, precision, and meaning for each study -->
 ### Previous Studies
 
@@ -149,7 +149,7 @@ basic outputs, derived quantities, and final results.
 
 ...
 
-<!-- claim-types: [claim_type]: result [or] [claim_type]: motivation for each limitation -->
+<!-- claim-types: [claim_type]: motivation [or] [claim_type]: innovation for each limitation -->
 <!-- coverage: current precision [and] missing quantities or physics [and] formal limitations [and] computational limitations [and] applicability limits -->
 ### Limitations
 
