@@ -14,6 +14,7 @@ description: Audit and update myWIKI from tagged quotations. Use when checking w
 - Wiki MUST synthesize evidence; never copy a quotation into wiki prose.
 - Every factual claim and formula MUST have an adjacent reference. Reference MUST be an existing `raw/*` filename without path or suffix: `raw/PAPER.md` -> `PAPER`.
 - Every new `raw/*.md` quotation MUST follow the Section-Rules, Quotation-Rules, and applicable section-specific rules in `.codex/skills/ingest/SKILL.md` and receive approval before writing.
+- Secondary Citations are source leads, not wiki evidence; never use their quoted claims or formulas to update wiki or backfill raw.
 - Never infer evidence, fill a template without evidence, or modify `raw`, `wiki`, or `vocab` before approval.
 
 ### Quotation Verdict Rules
@@ -71,7 +72,7 @@ Run gates strictly in order. Start every response with current gate, last comple
 
 ### Gate 2 — Quotations to Wiki
 
-1. Audit exactly one generated section per response, in order: Motivation, Methods, Results, Meanings, Secondary Citations.
+1. Audit exactly one generated section per response, in order: Motivation, Methods, Results, Meanings.
 2. Apply Quotation Verdict Rules to every quotation.
 3. Present the section's smallest wiki change set and stop for approval.
 4. Apply only approved references and entries; show `git diff -- wiki`.
@@ -81,7 +82,7 @@ Run gates strictly in order. Start every response with current gate, last comple
 
 1. Audit exactly one wiki section per response, in template order.
 2. Apply Wiki Verdict Rules to every claim, formula, and required item.
-3. For each `weak` or `missing`, find exact source evidence under Truth Rules; report a gap if none exists.
+3. For each `weak` or `missing`, search primary raw evidence first. If none exists, inspect `tmp/TAG_Secondary.md` only for cited-paper leads: use an already-ingested original paper's direct evidence; otherwise propose ingesting it or report an evidence gap.
 4. Review every proposed raw quotation under the referenced ingest rules with `pass`, `gap`, or `fix`; only `pass` may enter the change set.
 5. Present the section's raw-and-wiki change set and stop for approval.
 6. After approval, write raw, renumber, rerun `search_a_tag`, and give every new quotation a Quotation Verdict.
