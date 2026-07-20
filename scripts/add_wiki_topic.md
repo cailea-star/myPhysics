@@ -120,7 +120,7 @@
 
 ...
 
-<!-- claim-types: [claim_type]: result for each study -->
+<!-- claim-types: [claim_type]: motivation for each study [and] [claim_type]: innovation for each study -->
 <!-- coverage: quantities, precision, and meaning for each study -->
 ### Previous Studies
 
@@ -145,7 +145,7 @@
 
 ...
 
-<!-- claim-types: [claim_type]: result [or] [claim_type]: motivation for each limitation or open question -->
+<!-- claim-types: [claim_type]: motivation [or] [claim_type]: innovation for each limitation or open question -->
 <!-- coverage: current precision [and] unmeasured or unexplained quantities [and] competing explanations [and] methodological gaps [and] open questions -->
 ### Limitations & Open Questions
 
