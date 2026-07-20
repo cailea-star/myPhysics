@@ -82,6 +82,12 @@ Before drafting or reviewing a section, verify that it contains exactly one `cla
 
 Section: Draft and discuss exactly one quotation section per response from [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) in template order; NEVER mix sections. Present at most four candidates or fixes per response, repeating batches until the section passes, in [exact mode] (final raw/*.md block shape with exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section) or [summary mode] (source section, candidate `[claim_type]`, candidate `[tags]`, and one-sentence evidence summary before the checkpoint).
 
+Tag-Resolution-Check:
+- Before presenting or writing any quotation candidate, resolve every proposed `[tags]` entry under [Vocab Rules](../vocab-rules/SKILL.md).
+- If a quotation directly supports a necessary concept but no valid tag is resolved, report it under `Missing Tags` and apply Vocab Draft-Rules.
+- Any unresolved `Missing Tags` blocks section approval and writing.
+- NEVER create tags for unrelated background mentions or invent a second tag merely to satisfy Tag Co-occurrence.
+
 Secondary-Citations-Check:
 - Secondary Citations are paper leads only; NEVER use their quoted claims or formulas as direct evidence, to backfill `raw/*.md`, or to update wiki.
 - If a quotation contains an explicit external citation marker, such as `[55]` or `Ref. [45]`, it MUST be classified as a citation-marked quotation for this check.
