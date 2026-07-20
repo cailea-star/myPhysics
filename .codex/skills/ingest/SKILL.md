@@ -17,23 +17,35 @@ description: Ingest one paper into myWIKI. Use when user asks to add a paper by 
 
 `raw/*.md` is quotation from original full text with tags.
 
-### Vocab-Rules
+### Tag-Rules
 
 Scope: Quotation tags are centered on physical quantities actually calculated, plotted, or compared in the paper; do not tag unrelated background mentions.
 
-Types: Use tag types and claim types from `vocab/types.json`, tags from `vocab/tags.json`, and authors from `vocab/authors.json`.
+Types: Use tag types from `vocab/types.json`, tags from `vocab/tags.json`, and authors from `vocab/authors.json`.
+
+Type Match: Every type assigned to a drafted tag MUST independently satisfy that tag type's `requirement` in `vocab/types.json`; otherwise remove the type or reject the draft.
 
 Granularity: Keep noun-term compounds as precise tags, but split adjective-like modifiers into property tags; e.g. use `alpha_decay_energy`, but use `symmetry_energy` + `soft`.
 
 Draft: If a needed tag is missing, draft `{tag, definition, types, aliases}` entries for `vocab/tags.json` one tag type at a time; include only aliases seen in the paper, metadata, or existing project vocabulary.
 
-Similarity Check: Before drafting each new tag, run `python scripts\search_similar_tags.py "CANDIDATE" 3` and show all three results. Prefer reusing existing tags. The user must decide each candidate individually: add new, merge into existing, or use existing. Never write new tags before that decision.
+Similarity Check: Before drafting each new tag, run `python scripts\search_similar_tags.py "CANDIDATE" 3` and show all three results. Prefer reusing existing tags.
 
-Write: Present one draft group, wait for user approval, write confirmed entries, then present the next draft group.
+Write: Present one draft group with an explicit add, merge, or reuse proposal for each candidate. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Write only individually approved entries, then present the next draft group.
+
+### Claim-Type-Rules
+
+Types: Use only claim types from `vocab/types.json`. A quotation satisfies a claim type ONLY when it meets that type's `requirement`.
+
+Match: Assign exactly one `[claim_type]` from the quotation's explicit primary claim. Keywords, tags, source section, and Coverage targets are not classification evidence.
+
+Coverage: A required claim type is covered ONLY by a quotation that passes its requirement. If no valid quotation exists, report `gap`; NEVER relabel other evidence to satisfy Coverage.
+
+Review: An unsupported or incorrect `[claim_type]` is `fix` and blocks section approval.
 
 ### Section-Rules
 
-Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings, Secondary Citations. Present three to four candidates per review batch, repeating batches until section coverage is complete, in [exact mode] (final raw/*.md block shape with exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section) or [summary mode] (source section, candidate `[claim_type]`, candidate `[tags]`, and one-sentence evidence summary before asking for approval).
+Section: Discuss quotations under the template frames: Motivation, Methods, Results, Meanings, Secondary Citations. Present three to four candidates per review batch, repeating batches until section coverage is complete, in [exact mode] (final raw/*.md block shape with exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section) or [summary mode] (source section, candidate `[claim_type]`, candidate `[tags]`, and one-sentence evidence summary before the checkpoint).
 
 Coverage: For each section's candidate set, satisfy section-level claim coverage from source evidence; if no valid source quote exists for a required claim, report the gap instead of inventing one.
 
@@ -80,6 +92,10 @@ Secondary-Citations-Quotation:
 - Put a quote under `### Secondary Citations` ONLY when the quoted sentence depends on an external cited reference; use `tags`.
 - Internal references to this paper's `Fig.`, `Table`, `Eq.`, or `section` are not secondary citations.
 
+Review: Independently review exactly one written section per response in template order: Motivation, Methods, Results, Meanings, and Secondary Citations. First print its applicable Coverage and section-specific Quotation rules. Give every quotation and every section Coverage item exactly one `pass`, `gap`, or `fix` verdict.
+
+Review Pass: A section passes ONLY when every quotation and Coverage item passes. Any `fix` blocks advancement. A `gap` passes ONLY when no valid source evidence exists and the gap is explicitly recorded.
+
 ### Quotation-Rules
 
 Source: Quote must come from `raw/*.pdf` or `raw/*.tex`.
@@ -90,7 +106,9 @@ Tag Co-occurrence: Each quotation must include at least two directly supported c
 
 Math: Do not use standalone formulas as quote text. When a formula is important core `[claim_type]: definition` evidence, quote the complete explanatory sentence and add the formula in a following fenced `math` block.
 
-Write: Present quotation drafts one section at a time; wait for user review, then write each approved section to `raw/*.md` in [exact mode] matching `scripts/add_raw_md.md`. Formatting is defective only if it violates that template or breaks parsing.
+Write: Present quotation drafts one section at a time. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Write each approved section to `raw/*.md` in [exact mode] matching `scripts/add_raw_md.md`. Formatting is defective only if it violates that template or breaks parsing.
+
+Fix: After ANY fix to `raw/*.md`, run `python scripts\sort_raw_md_quotations.py mdfile_path` before review continues.
 
 ## Gated Workflow
 
@@ -99,8 +117,9 @@ Run gates strictly in order. At the start of each response, state the current ga
 ### Gate 1 — Confirm Paper
    Check that the current directory is inside a git repository with `git rev-parse --is-inside-work-tree`.
    Check that the worktree is clean with `git status --short`; if it is not empty, stop and report the existing changes before ingest.
-   User gives DOI, title, PDF, TEX, or JSON. Confirm exact paper before ingest.
-   Known DOI: run `python scripts\search_a_doi.py [doi_number]` before Gate 2. On `recorded:`, stop; do not generate raw files until user approves reuse or re-ingest. Reference-only hits: report as context, then continue confirmation.
+   Identify the exact paper from the user's DOI, title, PDF, TEX, or JSON.
+   Known DOI: run `python scripts\search_a_doi.py [doi_number]` before Gate 2. On `recorded:`, report the match and reuse/re-ingest options; report reference-only hits as context.
+   **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed.
 
 ### Gate 2 — Generate Raw Files / Collect Full Text
    ```powershell
@@ -115,19 +134,15 @@ Run gates strictly in order. At the start of each response, state the current ga
 
 ### Gate 3 — Check Tag & Author
    Run `python scripts\check_vocab_author.py raw\[json_filename].json` as a routine check of the corresponding-author list, then read the PDF/TEX source text for corresponding-author information and report both the script terminal output and the source-text corresponding-author information to the user.
-   Check rough paper-level keywords against `vocab/tags.json`; draft and confirm missing tags following [Vocab-Rules](#vocab-rules).
+   Check rough paper-level keywords against `vocab/tags.json`; draft and confirm missing tags following [Tag-Rules](#tag-rules).
 
 ### Gate 4 — Discuss Quotations
-   Draft and discuss exactly one section per response, in template-frame order, following [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules). Present one review batch, stop for approval, then write only approved exact-mode quotations. Complete all five sections before Gate 5.
+   Draft and discuss exactly one section per response, in template-frame order, following [Claim-Type-Rules](#claim-type-rules), [Section-Rules](#section-rules), and [Quotation-Rules](#quotation-rules). Present one review batch. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Write only approved exact-mode quotations. Complete all five sections before Gate 5.
 
 ### Gate 5 — Review Discuss Quotations
-   Independently review exactly one written section per response, in template-frame order: Motivation, Methods, Results, Meanings, and Secondary Citations.
-   First print that section's current Coverage rules and any section-specific Quotation rules from [Section-Rules](#section-rules).
-   Review that section against [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules); give every quotation a pass/gap/fix verdict, report section coverage pass/gap/fix items, then stop and wait for user approval before the next section.
-   A section passes ONLY when every quotation passes and every Coverage rule is satisfied. Any `fix` blocks advancement; a `gap` passes ONLY when no valid source evidence exists and the gap is explicitly recorded.
-   After every fix to a `raw/*.md`, run `python scripts\sort_raw_md_quotations.py mdfile_path` before continuing.
+   Apply [Claim-Type-Rules](#claim-type-rules), [Section-Rules](#section-rules), and [Quotation-Rules](#quotation-rules) to exactly one written section per response in template order. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed.
 
 ### Gate 6 — Summary & Recommend Next Paper(s)
    Log the completed paper before any recommendation: append one concise entry to `log.md` with raw md filename, DOI, title, and core tags.
    Summarize from the completed `raw/*.md`: give exactly two sentences each for Motivation, Methods, Results, and Meanings, then state the paper's core innovation.
-   Recommend one or more next papers from `### Secondary Citations` only: select cited references most central to the current paper's core tags and quotations, present each recommendation's citation information, DOI, matched tags, and why it is next; wait for user approval and selection before starting any new ingest.
+   Recommend one or more next papers from `### Secondary Citations` only: select cited references most central to the current paper's core tags and quotations, present each recommendation's citation information, DOI, matched tags, and why it is next. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed.
