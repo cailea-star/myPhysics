@@ -68,7 +68,7 @@ Re-audit the affected quotation section. A new quotation MUST appear in generate
 ### Tag-Rules
 
 - Reconcile vocab only after wiki approval.
-- Verify every approved vocab change under [Vocab Verify-Rules](../vocab-rules/SKILL.md#verify-rules) and require zero unsupported wiki claims.
+- Verify every approved vocab change under [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules) and require zero unsupported wiki claims.
 
 ## Gated Workflow
 

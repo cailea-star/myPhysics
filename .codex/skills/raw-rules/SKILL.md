@@ -86,7 +86,7 @@ Section: Draft and discuss exactly one quotation section per response from [scri
 
 Tag-Resolution-Check:
 - Before presenting or writing any quotation candidate, resolve every proposed `[tags]` entry under [Vocab Rules](../vocab-rules/SKILL.md).
-- If a quotation directly supports a necessary concept but no valid tag is resolved, report it under `Missing Tags` and apply Vocab Draft-Rules.
+- If a quotation directly supports a necessary concept but no valid tag is resolved, report it under `Missing Tags` and apply [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules).
 - Any unresolved `Missing Tags` blocks section approval and writing.
 - NEVER create tags for unrelated background mentions or invent a second tag merely to satisfy Tag Co-occurrence.
 
