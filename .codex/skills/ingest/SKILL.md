@@ -57,7 +57,7 @@ Counting: `[and]` separates independently reviewed items; `[or]` joins alternati
 
 ### Section-Rules
 
-Section: Discuss quotation sections from [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) in template order. Present three to four candidates per review batch, repeating batches until section coverage is complete, in [exact mode] (final raw/*.md block shape with exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section) or [summary mode] (source section, candidate `[claim_type]`, candidate `[tags]`, and one-sentence evidence summary before the checkpoint).
+Section: Discuss quotation sections from [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) in template order. Present at most four candidates or fixes per response, repeating batches until the section passes, in [exact mode] (final raw/*.md block shape with exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section) or [summary mode] (source section, candidate `[claim_type]`, candidate `[tags]`, and one-sentence evidence summary before the checkpoint).
 
 Secondary-Citations-Check:
 - If a quotation contains an explicit external citation marker, such as `[55]` or `Ref. [45]`, it MUST be classified as a citation-marked quotation for this check.
@@ -67,6 +67,8 @@ Secondary-Citations-Check:
 Review: Independently review exactly one written quotation section per response in [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) order. First print its `claim-types`, `coverage`, and `quotation` declarations. Give every quotation and every required template item exactly one `pass`, `gap`, or `fix` verdict. Report `Review Verdicts: <verdicts>/<quotation blocks + required template items>`; a count mismatch fails the section and blocks writing.
 
 Review Pass: A section passes ONLY when every quotation and every declared claim-type, coverage, and quotation requirement passes. Any `fix` blocks advancement. A `gap` passes ONLY when no valid source evidence exists and the gap is explicitly recorded.
+
+Re-review: After ANY write to `raw/*.md`, run `python scripts\sort_raw_md_quotations.py mdfile_path`, then re-review the ENTIRE current section. Do not advance until it passes.
 
 ### Quotation-Rules
 
@@ -79,8 +81,6 @@ Tag Co-occurrence: Each quotation must include at least two directly supported c
 Math: Do not use standalone formulas as quote text. When a formula is important core `[claim_type]: definition` evidence, quote the complete explanatory sentence and add the formula in a following fenced `math` block.
 
 Write: Present quotation drafts one section at a time. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Write each approved section to `raw/*.md` in [exact mode] matching [scripts/add_raw_md.md](../../../scripts/add_raw_md.md). Formatting is defective only if it violates that template or breaks parsing.
-
-Fix: After ANY fix to `raw/*.md`, run `python scripts\sort_raw_md_quotations.py mdfile_path` before review continues.
 
 ## Gated Workflow
 
@@ -110,7 +110,7 @@ Run gates strictly in order. At the start of each response, state the current ga
    Draft and discuss exactly one quotation section per response, in [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) order, following [Claim-Type-Rules](#claim-type-rules), [Template-Rules](#template-rules), [Section-Rules](#section-rules), and [Quotation-Rules](#quotation-rules). First print its three template declarations and requirement verdicts, then present one review batch. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Write only approved exact-mode quotations. Complete every quotation section before Gate 5.
 
 ### Gate 5 — Review Discuss Quotations
-   Apply [Claim-Type-Rules](#claim-type-rules), [Template-Rules](#template-rules), [Section-Rules](#section-rules), and [Quotation-Rules](#quotation-rules) to exactly one written quotation section per response in [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) order; present every `fix` as an exact-mode draft in the same response. **🔴 CHECKPOINT · 🛑 STOP** — Write only the explicitly approved draft, then sort and re-review the same section before advancing.
+   Apply [Claim-Type-Rules](#claim-type-rules), [Template-Rules](#template-rules), [Section-Rules](#section-rules), and [Quotation-Rules](#quotation-rules) to exactly one written quotation section per response in [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) order; present unresolved `fix` drafts in exact-mode batches of at most four. **🔴 CHECKPOINT · 🛑 STOP** — Write only explicitly approved drafts, then apply Re-review.
 
 ### Gate 6 — Summary & Recommend Next Paper(s)
    Log the completed paper before any recommendation: append one concise entry to [log.md](../../../log.md) with raw md filename, DOI, title, and core tags.

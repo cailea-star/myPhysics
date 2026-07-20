@@ -11,8 +11,8 @@
 
 [abstract]
 
-<!-- claim-types: require motivation [and] require definition for each core calculated quantity tag [and] require comparison [or] motivation for each core method tag -->
-<!-- coverage: none beyond claim-types -->
+<!-- claim-types: require definition [and] require motivation -->
+<!-- coverage: for each of the three most central tags identified from the abstract, require >=1 valid definition quotation -->
 <!-- quotation: no section-specific requirements -->
 ### Motivation
 
@@ -32,8 +32,8 @@ This is a quotation from the original paper, which is tagged with the above tags
 
 ...
 
-<!-- claim-types: require definition for each core method tag [and] require comparison for each core method tag [and] check whether the paper states an explicit assumption -->
-<!-- coverage: none beyond claim-types -->
+<!-- claim-types: require definition [and] require comparison [and] require assumption if the paper states an explicit assumption -->
+<!-- coverage: for each core method tag, require >=1 valid definition quotation [and] for each core method tag, require >=1 valid comparison quotation -->
 <!-- quotation: no section-specific requirements -->
 ### Methods
 
@@ -41,8 +41,8 @@ This is a quotation from the original paper, which is tagged with the above tags
 
 ...
 
-<!-- claim-types: require definition for each calculated or measured quantity tag not defined earlier [and] comparison is optional -->
-<!-- coverage: for each figure or table, require >=1 valid complete-sentence quotation using its calculated or measured quantity tags; otherwise report a gap -->
+<!-- claim-types: require result [and] definition is optional [and] comparison is optional -->
+<!-- coverage: for each calculated or measured quantity tag not defined earlier, require >=1 valid definition quotation [and] for each figure or table, require >=1 valid complete-sentence quotation using its calculated or measured quantity tags; otherwise report a gap -->
 <!-- quotation: every quotation requires at least one directly supported calculation-method tag and one calculated or measured quantity tag; reject otherwise -->
 ### Results
 
