@@ -127,9 +127,7 @@ Run gates strictly in order. At the start of each response, state the current ga
    python scripts\add_raw_md.py raw\[json_filename].json
    ```
    Use `git diff --name-only -- raw/*.json` to identify the new JSON filename; use `git status --short raw` if it is untracked.
-
    Download PDF/TEX from arXiv only; save as `raw/[json_basename].pdf` or `.tex`.
-
    If arXiv fails, do not try other downloads. Give direct PDF link(s), the exact target path, and wait for the user file.
 
 ### Gate 3 — Check Tag & Author
