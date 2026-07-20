@@ -1,10 +1,12 @@
 ---
 [tags]: [this_tags_set]
-[types]: [this_types]
+[tag_types]: [this_tag_types]
 ---
 
 # [tag_name]
 
+<!-- claim-types: [claim_type]: definition -->
+<!-- coverage: what the method is [and] problem it solves [and] origin when supported by direct primary evidence -->
 ### Definition & Origin
 
 ```references
@@ -14,6 +16,8 @@
 
 [What the method is, what problem it solves, and where it originated.]
 
+<!-- claim-types: [claim_type]: method [and] [claim_type]: definition for each core equation [and] [claim_type]: assumption for each stated assumption, approximation, or truncation -->
+<!-- coverage: operational framework [and] stated assumptions, approximations, and truncations [and] parameter dependence [and] each core equation with physical meaning -->
 ### Framework
 
 ```tags
@@ -49,6 +53,8 @@
 
 ...
 
+<!-- claim-types: [claim_type]: method [or] [claim_type]: definition for each core input or output -->
+<!-- coverage: core inputs, parameters, and initial conditions [and] basic outputs, derived quantities, and final results -->
 ### Inputs & Outputs
 
 ```tags
@@ -74,6 +80,8 @@ core inputs, parameters, and initial conditions.
 basic outputs, derived quantities, and final results.
 
 
+<!-- claim-types: [claim_type]: method for each correction algorithm [and] [claim_type]: result for each correction effect [and] [claim_type]: definition for each correction equation -->
+<!-- coverage: problem, solution, and effect for each correction algorithm [and] each correction equation with physical meaning; if none applies, not-applicable -->
 ### Correction Algorithm
 
 ##### Correction Algorithm 1
@@ -116,6 +124,8 @@ basic outputs, derived quantities, and final results.
 
 ...
 
+<!-- claim-types: [claim_type]: result for each study -->
+<!-- coverage: quantities, precision, and meaning for each study -->
 ### Previous Studies
 
 #### Study Type 1
@@ -139,6 +149,8 @@ basic outputs, derived quantities, and final results.
 
 ...
 
+<!-- claim-types: [claim_type]: result [or] [claim_type]: motivation for each limitation -->
+<!-- coverage: current precision [and] missing quantities or physics [and] formal limitations [and] computational limitations [and] applicability limits -->
 ### Limitations
 
 ```references

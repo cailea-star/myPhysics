@@ -25,7 +25,7 @@ Types: Use tag types from [vocab/types.json](../../../vocab/types.json), tags fr
 
 Type Match: Every type assigned to a drafted tag MUST independently satisfy that tag type's `requirement` in [vocab/types.json](../../../vocab/types.json); otherwise remove the type or reject the draft.
 
-Granularity: Keep noun-term compounds as precise tags, but split adjective-like modifiers into property tags; e.g. use `alpha_decay_energy`, but use `symmetry_energy` + `soft`.
+Granularity: Keep noun-term compounds as precise tags, but split adjective-like modifiers into `[tag_type]: property` tags; e.g. use `alpha_decay_energy`, but use `symmetry_energy` + `soft`.
 
 Draft: If a needed tag is missing, draft `{tag, definition, types, aliases}` entries for [vocab/tags.json](../../../vocab/tags.json) one tag type at a time; include only aliases seen in the paper, metadata, or existing project vocabulary.
 
@@ -42,6 +42,21 @@ Match: Assign exactly one `[claim_type]` from the quotation's explicit primary c
 Coverage: A required claim type is covered ONLY by a quotation that passes its requirement. If no valid quotation exists, report `gap`; NEVER relabel other evidence to satisfy Coverage.
 
 Review: An unsupported or incorrect `[claim_type]` is `fix` and blocks section approval.
+
+### Evidence-Link-Rules
+
+Purpose: Allow a `[claim_type]: definition` or `[claim_type]: innovation` claim to link its method evidence, preserving the true `[claim_type]` while satisfying `[tag_type]: method` requirements.
+
+Rules:
+- Both sentences MUST come from the same paragraph or the same figure/table discussion.
+- The method sentence MUST explicitly state that the `[tag_type]: method` is used to obtain, define, or realize the other sentence's core claim.
+- Use `[...]` to omit nonessential text between the two sentences.
+- Assign `[claim_type]` from the core claim; a `[tag_type]: method` tag MUST be directly supported by the retained method sentence.
+
+Prohibitions:
+- NEVER link across paragraphs or figure/table discussions.
+- NEVER omit conditions, negations, contrasts, or other text that changes the meaning.
+- NEVER link a method sentence that has no direct relation to the core claim.
 
 ### Template-Rules
 
@@ -74,7 +89,7 @@ Re-review: After ANY write to `raw/*.md`, run `python scripts\sort_raw_md_quotat
 
 Source: Quote must come from `raw/*.pdf` or `raw/*.tex`.
 
-Form: Each quote must be one or more complete sentences, not a phrase; it should support a clear claim and contain about 10-40 words total.
+Form: Each quote must be one or more complete sentences, not a phrase; it should support a clear claim and contain about 10-50 words total.
 
 Tag Co-occurrence: Each quotation must include at least two directly supported comma-separated tags in `[tags]: ...`. If one sentence supports only one tag, add a neighboring complete sentence from the same source section; if no second supported tag exists, report the gap instead of inventing a relation.
 
