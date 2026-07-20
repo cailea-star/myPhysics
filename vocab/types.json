@@ -3,74 +3,74 @@
     {
       "type": "quantity",
       "definition": "physical quantity calculated, plotted, fitted, or numerically compared",
-      "aliases": ["quantities"]
+      "requirement": "represents something that can take a calculated, measured, fitted, plotted, or numerically compared value, distribution, or functional dependence"
     },
     {
       "type": "property",
       "definition": "quality or adjective-like modifier of another tag",
-      "aliases": ["properties"]
+      "requirement": "represents a non-quantitative quality or adjective-like modifier of another tag; a numerical observable or claim-validity range does not qualify"
     },
     {
       "type": "method",
       "definition": "theory, computational method, model, formula, code, or experimental method used to obtain results",
-      "aliases": ["methods"]
+      "requirement": "represents a reusable theory, procedure, model framework, formula, code, or experimental technique used to obtain or analyze results; a specific parameter set, dataset, or model instance does not qualify"
     },
     {
       "type": "system",
       "definition": "research object class or physical system",
-      "aliases": ["systems"]
+      "requirement": "represents a class or category of research objects or physical systems; one specifically named object, nucleus, isotope, or dataset does not qualify"
     },
     {
       "type": "entity",
       "definition": "specific named object, nucleus, isotope, author, model instance, or dataset",
-      "aliases": ["entities"]
+      "requirement": "represents one specifically named or uniquely identified object, nucleus, isotope, author, model instance, parameter set, or dataset; a general class or reusable method does not qualify"
     },
     {
       "type": "condition",
       "definition": "parameter range, density region, nucleus range, or other condition under which a claim holds",
-      "aliases": ["conditions"]
+      "requirement": "represents a range, regime, selection criterion, or constraint that limits when, where, or to which objects a claim applies; the research object or its intrinsic property does not qualify"
     },
     {
       "type": "phenomenon",
       "definition": "observable physical phenomenon or event discussed in the paper",
-      "aliases": ["phenomena"]
+      "requirement": "represents a physical process, event, or observable behavior; its numerical descriptor, governing method, or applicability condition does not qualify"
     }
   ],
   "claim_types": [
     {
       "type": "definition",
-      "definition": "defines a concept or quantity",
-      "aliases": ["define", "definition", "means", "定义", "称为"]
+      "definition": "defines a concept, quantity, or method",
+      "requirement": "explicitly states the essential meaning, defining relation, defining equation, or identification criterion of a concept, quantity, or method; merely stating its use, effect, or behavior does not qualify"
     },
     {
       "type": "motivation",
       "definition": "explains why the problem matters",
-      "aliases": ["motivate", "important", "why", "aim", "目的", "重要性"]
+      "requirement": "explicitly states an unresolved problem, scientific need, importance, or reason for pursuing the current objective; merely stating the work performed or objective does not qualify"
     },
     {
       "type": "assumption",
       "definition": "states a premise or approximation",
-      "aliases": ["assume", "approximation", "neglect", "假设", "近似"]
+      "requirement": "explicitly states something the current analysis treats as true, fixed, approximated, constrained, or neglected; a reported condition or result does not qualify"
     },
     {
       "type": "method",
-      "definition": "describes how something is calculated",
-      "aliases": ["calculate", "model", "approach", "method", "方法", "采用"]
+      "definition": "describes how a result is obtained",
+      "requirement": "explicitly states how the current work uses a procedure, model, formula, data source, or computational or experimental step to obtain results"
     },
     {
       "type": "result",
       "definition": "reports a finding",
-      "aliases": ["find", "show", "obtain", "result", "发现", "结果"]
+      "requirement": "explicitly reports an outcome, value, trend, dependence, or observed behavior produced by the current work"
     },
     {
       "type": "comparison",
-      "definition": "compares with other work or data",
-      "aliases": ["compare", "consistent", "agree", "versus", "比较", "符合"]
+      "definition": "compares alternatives or evidence",
+      "requirement": "explicitly states a difference, similarity, agreement, disagreement, ordering, or other relative relation between at least two methods, models, calculations, measurements, datasets, or prior results"
     },
     {
       "type": "innovation",
       "definition": "states the paper's explicit new contribution, novelty, or main advance",
-      "aliases": ["innovation", "novelty", "contribution", "advance", "创新", "贡献"]
+      "requirement": "explicitly presents a contribution, improvement, capability, or advance of the current work as new or novel; novelty must not be inferred from an ordinary result"
     }
   ]
 }
