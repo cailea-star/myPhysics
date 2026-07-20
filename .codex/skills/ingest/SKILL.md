@@ -31,7 +31,7 @@ Run gates strictly in order. At the start of each response, state the current ga
 
 ### Gate 3 — Check Tag & Author
    Run `python scripts\check_vocab_author.py raw\[json_filename].json` as a routine check of the corresponding-author list, then read the PDF/TEX source text for corresponding-author information and report both the script terminal output and the source-text corresponding-author information to the user.
-   Check rough paper-level keywords against [vocab/tags.json](../../../vocab/tags.json) following [Tag-Rules](../vocab-rules/SKILL.md#tag-rules); draft and confirm missing tags following [Draft-Rules](../vocab-rules/SKILL.md#draft-rules).
+   Select and print exactly three core Abstract concepts; keep them fixed for later abstract coverage and resolve each under [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules)—NEVER substitute easier existing tags.
 
 ### Gate 4 — Discuss Quotations
    Draft and discuss exactly one quotation section per response, in [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) order, following [Claim-Type-Rules](../raw-rules/SKILL.md#claim-type-rules), [Template-Rules](../raw-rules/SKILL.md#template-rules), [Draft-Rules](../raw-rules/SKILL.md#draft-rules), [Section-Rules](../raw-rules/SKILL.md#section-rules), and [Quotation-Rules](../raw-rules/SKILL.md#quotation-rules). Present one review batch. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Write only approved exact-mode quotations. Complete every quotation section before Gate 5.

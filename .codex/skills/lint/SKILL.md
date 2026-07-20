@@ -7,11 +7,12 @@ description: Audit and update myWIKI from tagged quotations. Use when checking w
 
 ## Rules
 
+Before Gate 1, read both [Vocab Rules](../vocab-rules/SKILL.md) and [Raw Rules](../raw-rules/SKILL.md) completely and apply all rules.
+
 ### Truth Rules
 
-- `raw/*.pdf` and `raw/*.tex` are source truth; `raw/*.md` is quotation evidence; `wiki/*.md` is synthesis; `vocab/tags.json` is canonical schema; never edit generated `tmp/*.md`.
-- Every new `raw/*.md` quotation MUST follow ingest [Claim-Type-Rules](../ingest/SKILL.md#claim-type-rules), [Section-Rules](../ingest/SKILL.md#section-rules), [Quotation-Rules](../ingest/SKILL.md#quotation-rules), and applicable section-specific rules, and receive approval before writing.
-- Never infer evidence, fill a template without evidence, or modify `raw`, `wiki`, or `vocab` before approval.
+- `wiki/*.md` is synthesis; `vocab/tags.json` is canonical schema.
+- Never modify `raw`, `wiki`, or `vocab` before approval.
 
 ### Template-Rules
 
@@ -44,7 +45,6 @@ List one verdict per `quote` block in source order and report `Verdicts: <verdic
 - A wiki filename MUST equal its canonical tag.
 - Wiki MUST synthesize evidence; never copy a quotation into wiki prose.
 - Every factual claim and formula MUST have an adjacent reference. Reference MUST be an existing `raw/*` filename without path or suffix: `raw/PAPER.md` -> `PAPER`.
-- Secondary Citations are source leads, not wiki evidence; never use their quoted claims or formulas to update wiki or backfill raw.
 
 Give every factual claim, formula, and required template item exactly one verdict:
 
@@ -57,7 +57,7 @@ List one verdict per factual claim, formula, and required template item and repo
 
 For each `weak` or `missing`, search primary raw evidence first. If none exists, inspect `tmp/TAG_Secondary.md` only for cited-paper leads: use an already-ingested original paper's direct evidence; otherwise propose ingesting it or report an explicit gap.
 
-Review every proposed raw quotation under ingest [Claim-Type-Rules](../ingest/SKILL.md#claim-type-rules), [Section-Rules](../ingest/SKILL.md#section-rules), and [Quotation-Rules](../ingest/SKILL.md#quotation-rules) with `pass`, `gap`, or `fix`; only `pass` may enter the change set.
+Review every proposed raw quotation under [Raw Rules](../raw-rules/SKILL.md) with `pass`, `gap`, or `fix`; only `pass` may enter the change set.
 
 After any approved raw change, run:
 
@@ -70,9 +70,7 @@ Re-audit the affected quotation section. A new quotation MUST appear in generate
 
 ### Tag-Rules
 
-- Every vocab proposal MUST follow ingest [Tag-Rules](../ingest/SKILL.md#tag-rules).
-- Reconcile vocab only after wiki approval; check the target definition, aliases, and types against the approved wiki and source evidence.
-- For an approved merge or rename, run `python scripts\rename_raw_tag.py OLD NEW`, update `tags.json` and affected wiki names/links in the same gate, then require zero OLD quotations and re-audit NEW.
+- Reconcile vocab only after wiki approval.
 - After every approved vocab change, rerun `search_a_tag` for all affected tags and require zero unprocessed quotations, unresolved approved changes, unsupported wiki claims, or partial tag migrations. Report evidence gaps without expanding scope.
 
 ## Gated Workflow
