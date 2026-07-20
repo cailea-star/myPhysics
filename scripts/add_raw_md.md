@@ -11,7 +11,7 @@
 
 [abstract]
 
-<!-- claim-types: require definition [and] require motivation -->
+<!-- claim-types: require [claim_type]: definition [and] require [claim_type]: motivation -->
 <!-- coverage: for each of the three most central tags identified from the abstract, require >=1 valid definition quotation -->
 <!-- quotation: no section-specific requirements -->
 ### Motivation
@@ -32,25 +32,25 @@ This is a quotation from the original paper, which is tagged with the above tags
 
 ...
 
-<!-- claim-types: require definition [and] require comparison [and] require assumption if the paper states an explicit assumption -->
-<!-- coverage: for each core method tag, require >=1 valid definition quotation [and] for each core method tag, require >=1 valid comparison quotation -->
-<!-- quotation: no section-specific requirements -->
+<!-- claim-types: require [claim_type]: definition [and] require [claim_type]: comparison [and] require [claim_type]: assumption if the paper states an explicit assumption -->
+<!-- coverage: for each core [tag_type]: method tag, require >=1 valid definition quotation [and] for each core [tag_type]: method tag, require >=1 valid comparison quotation -->
+<!-- quotation: every quotation requires at least one directly supported [tag_type]: method tag from vocab/tags.json; reject otherwise -->
 ### Methods
 
 ##### quotation-xx
 
 ...
 
-<!-- claim-types: require result [and] definition is optional [and] comparison is optional -->
-<!-- coverage: for each calculated or measured quantity tag not defined earlier, require >=1 valid definition quotation [and] for each figure or table, require >=1 valid complete-sentence quotation using its calculated or measured quantity tags; otherwise report a gap -->
-<!-- quotation: every quotation requires at least one directly supported calculation-method tag and one calculated or measured quantity tag; reject otherwise -->
+<!-- claim-types: require [claim_type]: result [and] [claim_type]: definition is optional [and] [claim_type]: comparison is optional -->
+<!-- coverage: for each calculated or measured [tag_type]: quantity tag not defined earlier, require >=1 valid definition quotation [and] for each figure or table, require >=1 valid complete-sentence quotation using its calculated or measured [tag_type]: quantity tags; otherwise report a gap -->
+<!-- quotation: every quotation requires at least one directly supported [tag_type]: method tag and one calculated or measured [tag_type]: quantity tag; reject otherwise -->
 ### Results
 
 ...
 
-<!-- claim-types: require comparison [and] require innovation -->
+<!-- claim-types: require [claim_type]: comparison [and] require [claim_type]: innovation -->
 <!-- coverage: may repeat Results only for central-significance claims [and] cover supported high-level judgments from the abstract, summary, or conclusion [and] reject minor results, figure-only details, and claims outside the main message -->
-<!-- quotation: every quotation requires at least one directly supported method tag from vocab/tags.json; reject otherwise -->
+<!-- quotation: every quotation requires at least one directly supported [tag_type]: method tag from vocab/tags.json; reject otherwise -->
 ### Meanings
 
 ...

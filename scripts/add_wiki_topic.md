@@ -1,10 +1,12 @@
 ---
 [tags]: [this_tags_set]
-[types]: [this_types]
+[tag_types]: [this_tag_types]
 ---
 
 # [tag_name]
 
+<!-- claim-types: [claim_type]: definition -->
+<!-- coverage: what the topic is [and] where it applies [and] origin when supported by direct primary evidence -->
 ### Definition & Origin
 
 ```references
@@ -14,6 +16,8 @@
 
 [What the topic is, where it appears, and how the concept originated.]
 
+<!-- claim-types: [claim_type]: definition [or] [claim_type]: result for each core component or mechanism [and] [claim_type]: definition for each core equation -->
+<!-- coverage: components or states [and] conditions [and] mechanisms [and] each core equation with physical meaning; competing mechanisms when supported -->
 ### Composition & Mechanism
 
 ```tags
@@ -57,6 +61,8 @@
 
 ...
 
+<!-- claim-types: [claim_type]: definition for each core [tag_type]: quantity or [tag_type]: property -->
+<!-- coverage: meaning and variables [and] physical interpretation [and] applicable conditions for each core [tag_type]: quantity or [tag_type]: property; mathematical expression when supported -->
 ### Quantities & Properties
 
 ```tags
@@ -81,6 +87,8 @@
 
 ...
 
+<!-- claim-types: [claim_type]: method for each related [tag_type]: method [and] [claim_type]: definition for each core equation -->
+<!-- coverage: inputs, outputs, precision, and applicability for each related [tag_type]: method [and] each core equation with physical meaning -->
 ### Related Methods
 
 ##### Method 1
@@ -112,6 +120,8 @@
 
 ...
 
+<!-- claim-types: [claim_type]: result for each study -->
+<!-- coverage: quantities, precision, and meaning for each study -->
 ### Previous Studies
 
 ##### Study Type 1
@@ -135,6 +145,8 @@
 
 ...
 
+<!-- claim-types: [claim_type]: result [or] [claim_type]: motivation for each limitation or open question -->
+<!-- coverage: current precision [and] unmeasured or unexplained quantities [and] competing explanations [and] methodological gaps [and] open questions -->
 ### Limitations & Open Questions
 
 ```references
