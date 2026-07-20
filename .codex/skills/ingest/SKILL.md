@@ -138,7 +138,7 @@ Run gates strictly in order. At the start of each response, state the current ga
    Draft and discuss exactly one section per response, in template-frame order, following [Claim-Type-Rules](#claim-type-rules), [Section-Rules](#section-rules), and [Quotation-Rules](#quotation-rules). Present one review batch. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Write only approved exact-mode quotations. Complete all five sections before Gate 5.
 
 ### Gate 5 — Review Discuss Quotations
-   Apply [Claim-Type-Rules](#claim-type-rules), [Section-Rules](#section-rules), and [Quotation-Rules](#quotation-rules) to exactly one written section per response in template order. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed.
+   Apply [Claim-Type-Rules](#claim-type-rules), [Section-Rules](#section-rules), and [Quotation-Rules](#quotation-rules) to exactly one written section per response in template order; present every `fix` as an exact-mode draft in the same response. **🔴 CHECKPOINT · 🛑 STOP** — Write only the explicitly approved draft, then sort and re-review the same section before advancing.
 
 ### Gate 6 — Summary & Recommend Next Paper(s)
    Log the completed paper before any recommendation: append one concise entry to `log.md` with raw md filename, DOI, title, and core tags.
