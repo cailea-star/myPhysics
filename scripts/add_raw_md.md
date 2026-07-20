@@ -11,6 +11,9 @@
 
 [abstract]
 
+<!-- claim-types: require motivation [and] require definition for each core calculated quantity tag [and] require comparison [or] motivation for each core method tag -->
+<!-- coverage: none beyond claim-types -->
+<!-- quotation: no section-specific requirements -->
 ### Motivation
 
 ##### quotation-01
@@ -29,21 +32,33 @@ This is a quotation from the original paper, which is tagged with the above tags
 
 ...
 
+<!-- claim-types: require definition for each core method tag [and] require comparison for each core method tag [and] check whether the paper states an explicit assumption -->
+<!-- coverage: none beyond claim-types -->
+<!-- quotation: no section-specific requirements -->
 ### Methods
 
 ##### quotation-xx
 
 ...
 
+<!-- claim-types: require definition for each calculated or measured quantity tag not defined earlier [and] comparison is optional -->
+<!-- coverage: for each figure or table, require >=1 valid complete-sentence quotation using its calculated or measured quantity tags; otherwise report a gap -->
+<!-- quotation: every quotation requires at least one directly supported calculation-method tag and one calculated or measured quantity tag; reject otherwise -->
 ### Results
 
 ...
 
+<!-- claim-types: require comparison [and] require innovation -->
+<!-- coverage: may repeat Results only for central-significance claims [and] cover supported high-level judgments from the abstract, summary, or conclusion [and] reject minor results, figure-only details, and claims outside the main message -->
+<!-- quotation: every quotation requires at least one directly supported method tag from vocab/tags.json; reject otherwise -->
 ### Meanings
 
 ...
 
 
+<!-- claim-types: no section-specific type required [and] every quotation must still match its explicit primary claim -->
+<!-- coverage: include only external methods/formulas, parameter sets/models/data sources, or key physical conclusions/mechanism judgments supporting core tags [and] reject generic survey/background citations and citations that supply no reused method, formula, model/data input, or core interpretation -->
+<!-- quotation: include only quotations dependent on an external cited reference [and] use tags [and] internal Fig., Table, Eq., or section references are not secondary citations -->
 ### Secondary Citations
 
 ##### quotation-xx
