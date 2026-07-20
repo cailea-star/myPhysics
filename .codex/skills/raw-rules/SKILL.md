@@ -78,6 +78,8 @@ Write: Present quotation drafts one section at a time. **🔴 CHECKPOINT · 🛑
 
 ### Draft-Rules
 
+Before ANY write to `raw/*.md`, complete these Draft-Rules for the affected section; NEVER write first and review afterward.
+
 Before drafting or reviewing a section, verify that it contains exactly one `claim-types`, one `coverage`, and one `quotation` declaration; otherwise stop. Print those declarations, then print the relevant claim-type requirement and every tagged tag-type requirement from [vocab/types.json](../../../vocab/types.json). For `definition`, map each covered tag to its exact defining clause; mention, use, effect, or implementation detail is not a definition.
 
 Section: Draft and discuss exactly one quotation section per response from [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) in template order; NEVER mix sections. Present at most four candidates or fixes per response, repeating batches until the section passes, in [exact mode] (final raw/*.md block shape with exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section) or [summary mode] (source section, candidate `[claim_type]`, candidate `[tags]`, and one-sentence evidence summary before the checkpoint).

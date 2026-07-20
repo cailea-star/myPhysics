@@ -11,8 +11,8 @@ Before Gate 1, read both [Vocab Rules](../vocab-rules/SKILL.md) and [Raw Rules](
 
 ### Truth Rules
 
-- `wiki/*.md` is synthesis; `vocab/tags.json` is canonical schema.
-- Never modify `raw`, `wiki`, or `vocab` before approval.
+- `wiki/*.md` is synthesis.
+- Never modify `wiki` before approval.
 
 ### Template-Rules
 
@@ -57,12 +57,9 @@ List one verdict per factual claim, formula, and required template item and repo
 
 For each `weak` or `missing`, search primary raw evidence first. If none exists, inspect `tmp/TAG_Secondary.md` only for cited-paper leads: use an already-ingested original paper's direct evidence; otherwise propose ingesting it or report an explicit gap.
 
-Review every proposed raw quotation under [Raw Rules](../raw-rules/SKILL.md) with `pass`, `gap`, or `fix`; only `pass` may enter the change set.
-
-After any approved raw change, run:
+After any approved raw change, complete [Raw Re-review](../raw-rules/SKILL.md#section-rules), then run:
 
 ```powershell
-python scripts\sort_raw_md_quotations.py raw\PAPER.md
 python scripts\search_a_tag.py TAG
 ```
 
@@ -71,7 +68,7 @@ Re-audit the affected quotation section. A new quotation MUST appear in generate
 ### Tag-Rules
 
 - Reconcile vocab only after wiki approval.
-- After every approved vocab change, rerun `search_a_tag` for all affected tags and require zero unprocessed quotations, unresolved approved changes, unsupported wiki claims, or partial tag migrations. Report evidence gaps without expanding scope.
+- Verify every approved vocab change under [Vocab Verify-Rules](../vocab-rules/SKILL.md#verify-rules) and require zero unsupported wiki claims.
 
 ## Gated Workflow
 
@@ -84,7 +81,7 @@ Run gates strictly in order. Start every response with current gate, last comple
    git rev-parse --is-inside-work-tree
    git status --short
    ```
-2. Confirm the canonical tag, types, wiki path, and required template under [Truth Rules](#truth-rules), [Template-Rules](#template-rules), and [Wiki-Verdict-Rules](#wiki-verdict-rules); if the tag is absent from `vocab/tags.json`, **🛑 STOP**.
+2. Resolve the canonical tag and types under [Vocab Rules](../vocab-rules/SKILL.md), then confirm its wiki path and required template under [Truth Rules](#truth-rules), [Template-Rules](#template-rules), and [Wiki-Verdict-Rules](#wiki-verdict-rules); if no valid existing tag resolves, **🛑 STOP**.
 3. If wiki is absent, do not search, audit, or propose changes. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval to create it from the required template; do not proceed.
 4. Run `python scripts\search_a_tag.py TAG`; if it fails or any expected `tmp` section is absent, **🛑 STOP**.
 
