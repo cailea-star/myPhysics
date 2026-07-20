@@ -42,10 +42,6 @@ Prohibitions:
 - NEVER omit conditions, negations, contrasts, or other text that changes the meaning.
 - NEVER link a method sentence that has no direct relation to the core claim.
 
-### Preflight-Rules
-
-Before drafting or reviewing a section, verify that it contains exactly one `claim-types`, one `coverage`, and one `quotation` declaration; otherwise stop. Print those declarations, then print the relevant claim-type requirement and every tagged tag-type requirement from [vocab/types.json](../../../vocab/types.json). For `definition`, map each covered tag to its exact defining clause; mention, use, effect, or implementation detail is not a definition.
-
 ### Template-Rules
 
 Template Claim Types: Before drafting or reviewing a section, read its `claim-types` declaration from [scripts/add_raw_md.md](../../../scripts/add_raw_md.md). Give every declared requirement exactly one `pass`, `gap`, or `fix`. Missing evidence is `gap`; incorrectly classified evidence is `fix`. NEVER relabel evidence to satisfy the declaration.
@@ -57,13 +53,6 @@ Template Quotation: Read the section's `quotation` declaration from [scripts/add
 Counting: `[and]` separates independently reviewed items; `[or]` joins alternatives within one item. A `for each` item expands to one verdict per identified target. `optional` and `none` contribute zero items, and their absence is NEVER `gap`.
 
 ### Section-Rules
-
-Section: Discuss quotation sections from [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) in template order. Present at most four candidates or fixes per response, repeating batches until the section passes, in [exact mode] (final raw/*.md block shape with exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section) or [summary mode] (source section, candidate `[claim_type]`, candidate `[tags]`, and one-sentence evidence summary before the checkpoint).
-
-Secondary-Citations-Check:
-- If a quotation contains an explicit external citation marker, such as `[55]` or `Ref. [45]`, it MUST be classified as a citation-marked quotation for this check.
-- If the core information of a citation-marked quotation comes from the external cited work, it MUST be placed under `### Secondary Citations`.
-- If the core information of a citation-marked quotation states the current paper's own problem setting, method use, calculated result, or conclusion judgment, it MUST remain eligible for `Motivation`, `Methods`, `Results`, or `Meanings`.
 
 Review: Independently review exactly one written quotation section per response in [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) order. Give every quotation and every required template item exactly one `pass`, `gap`, or `fix` verdict. Report `Review Verdicts: <verdicts>/<quotation blocks + required template items>`; a count mismatch fails the section and blocks writing.
 
@@ -82,4 +71,15 @@ Tag Co-occurrence: Each quotation must include at least two directly supported c
 Math: Do not use standalone formulas as quote text. When a formula is important core `[claim_type]: definition` evidence, quote the complete explanatory sentence and add the formula in a following fenced `math` block.
 
 Write: Present quotation drafts one section at a time. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Write each approved section to `raw/*.md` in [exact mode] matching [scripts/add_raw_md.md](../../../scripts/add_raw_md.md). Formatting is defective only if it violates that template or breaks parsing.
+
+### Draft-Rules
+
+Before drafting or reviewing a section, verify that it contains exactly one `claim-types`, one `coverage`, and one `quotation` declaration; otherwise stop. Print those declarations, then print the relevant claim-type requirement and every tagged tag-type requirement from [vocab/types.json](../../../vocab/types.json). For `definition`, map each covered tag to its exact defining clause; mention, use, effect, or implementation detail is not a definition.
+
+Section: Discuss quotation sections from [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) in template order. Present at most four candidates or fixes per response, repeating batches until the section passes, in [exact mode] (final raw/*.md block shape with exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section) or [summary mode] (source section, candidate `[claim_type]`, candidate `[tags]`, and one-sentence evidence summary before the checkpoint).
+
+Secondary-Citations-Check:
+- If a quotation contains an explicit external citation marker, such as `[55]` or `Ref. [45]`, it MUST be classified as a citation-marked quotation for this check.
+- If the core information of a citation-marked quotation comes from the external cited work, it MUST be placed under `### Secondary Citations`.
+- If the core information of a citation-marked quotation states the current paper's own problem setting, method use, calculated result, or conclusion judgment, it MUST remain eligible for `Motivation`, `Methods`, `Results`, or `Meanings`.
 

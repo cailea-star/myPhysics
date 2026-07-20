@@ -17,6 +17,8 @@ Type Match: Every type assigned to a drafted tag MUST independently satisfy that
 
 Granularity: Keep noun-term compounds as precise tags, but split adjective-like modifiers into `[tag_type]: property` tags; e.g. use `alpha_decay_energy`, but use `symmetry_energy` + `soft`.
 
+### Draft-Rules
+
 Draft: If a needed tag is missing, draft `{tag, definition, types, aliases}` entries for [vocab/tags.json](../../../vocab/tags.json) one tag type at a time; include only aliases seen in the paper, metadata, or existing project vocabulary.
 
 Similarity Check: Before drafting each new tag, run `python scripts\search_similar_tags.py "CANDIDATE" 3` and show all three results. Prefer reusing existing tags.
