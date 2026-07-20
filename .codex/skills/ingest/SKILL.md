@@ -58,9 +58,11 @@ Prohibitions:
 - NEVER omit conditions, negations, contrasts, or other text that changes the meaning.
 - NEVER link a method sentence that has no direct relation to the core claim.
 
-### Template-Rules
+### Preflight-Rules
 
-Template Integrity: Every quotation section MUST contain exactly one `claim-types`, one `coverage`, and one `quotation` declaration. Missing or duplicate declarations block drafting and review.
+Before drafting or reviewing a section, verify that it contains exactly one `claim-types`, one `coverage`, and one `quotation` declaration; otherwise stop. Print those declarations, then print the relevant claim-type requirement and every tagged tag-type requirement from [vocab/types.json](../../../vocab/types.json). For `definition`, map each covered tag to its exact defining clause; mention, use, effect, or implementation detail is not a definition.
+
+### Template-Rules
 
 Template Claim Types: Before drafting or reviewing a section, read its `claim-types` declaration from [scripts/add_raw_md.md](../../../scripts/add_raw_md.md). Give every declared requirement exactly one `pass`, `gap`, or `fix`. Missing evidence is `gap`; incorrectly classified evidence is `fix`. NEVER relabel evidence to satisfy the declaration.
 
@@ -79,7 +81,7 @@ Secondary-Citations-Check:
 - If the core information of a citation-marked quotation comes from the external cited work, it MUST be placed under `### Secondary Citations`.
 - If the core information of a citation-marked quotation states the current paper's own problem setting, method use, calculated result, or conclusion judgment, it MUST remain eligible for `Motivation`, `Methods`, `Results`, or `Meanings`.
 
-Review: Independently review exactly one written quotation section per response in [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) order. First print its `claim-types`, `coverage`, and `quotation` declarations. Give every quotation and every required template item exactly one `pass`, `gap`, or `fix` verdict. Report `Review Verdicts: <verdicts>/<quotation blocks + required template items>`; a count mismatch fails the section and blocks writing.
+Review: Independently review exactly one written quotation section per response in [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) order. Give every quotation and every required template item exactly one `pass`, `gap`, or `fix` verdict. Report `Review Verdicts: <verdicts>/<quotation blocks + required template items>`; a count mismatch fails the section and blocks writing.
 
 Review Pass: A section passes ONLY when every quotation and every declared claim-type, coverage, and quotation requirement passes. Any `fix` blocks advancement. A `gap` passes ONLY when no valid source evidence exists and the gap is explicitly recorded.
 
@@ -122,10 +124,10 @@ Run gates strictly in order. At the start of each response, state the current ga
    Check rough paper-level keywords against [vocab/tags.json](../../../vocab/tags.json); draft and confirm missing tags following [Tag-Rules](#tag-rules).
 
 ### Gate 4 — Discuss Quotations
-   Draft and discuss exactly one quotation section per response, in [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) order, following [Claim-Type-Rules](#claim-type-rules), [Template-Rules](#template-rules), [Section-Rules](#section-rules), and [Quotation-Rules](#quotation-rules). First print its three template declarations and requirement verdicts, then present one review batch. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Write only approved exact-mode quotations. Complete every quotation section before Gate 5.
+   Draft and discuss exactly one quotation section per response, in [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) order, following [Preflight-Rules](#preflight-rules), [Claim-Type-Rules](#claim-type-rules), [Template-Rules](#template-rules), [Section-Rules](#section-rules), and [Quotation-Rules](#quotation-rules). Present one review batch. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Write only approved exact-mode quotations. Complete every quotation section before Gate 5.
 
 ### Gate 5 — Review Discuss Quotations
-   Apply [Claim-Type-Rules](#claim-type-rules), [Template-Rules](#template-rules), [Section-Rules](#section-rules), and [Quotation-Rules](#quotation-rules) to exactly one written quotation section per response in [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) order; present unresolved `fix` drafts in exact-mode batches of at most four. **🔴 CHECKPOINT · 🛑 STOP** — Write only explicitly approved drafts, then apply Re-review.
+   Apply [Preflight-Rules](#preflight-rules), [Claim-Type-Rules](#claim-type-rules), [Template-Rules](#template-rules), [Section-Rules](#section-rules), and [Quotation-Rules](#quotation-rules) to exactly one written quotation section per response in [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) order; present unresolved `fix` drafts in exact-mode batches of at most four. **🔴 CHECKPOINT · 🛑 STOP** — Write only explicitly approved drafts, then apply Re-review.
 
 ### Gate 6 — Summary & Recommend Next Paper(s)
    Log the completed paper before any recommendation: append one concise entry to [log.md](../../../log.md) with raw md filename, DOI, title, and core tags.
