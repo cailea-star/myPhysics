@@ -13,6 +13,20 @@ description: Audit and update myWIKI from tagged quotations. Use when checking w
 - Every new `raw/*.md` quotation MUST follow ingest [Claim-Type-Rules](../ingest/SKILL.md#claim-type-rules), [Section-Rules](../ingest/SKILL.md#section-rules), [Quotation-Rules](../ingest/SKILL.md#quotation-rules), and applicable section-specific rules, and receive approval before writing.
 - Never infer evidence, fill a template without evidence, or modify `raw`, `wiki`, or `vocab` before approval.
 
+### Template-Rules
+
+Template Selection: A `[tag_type]: method` uses [scripts/add_wiki_method.md](../../../scripts/add_wiki_method.md); every other tag type uses [scripts/add_wiki_topic.md](../../../scripts/add_wiki_topic.md).
+
+Template Integrity: Every `###` wiki section MUST contain exactly one `claim-types` and one `coverage` declaration in the selected template. Declarations are not required for `#####` subsections. Missing or duplicate declarations block drafting and review.
+
+Template Claim Types: Before drafting or reviewing a wiki section, read its `claim-types` declaration from the selected template. Give every required item exactly one verdict under [Wiki-Verdict-Rules](#wiki-verdict-rules). NEVER relabel evidence to satisfy the declaration.
+
+Template Coverage: Before drafting or reviewing a wiki section, read its `coverage` declaration from the selected template. Give every required item exactly one verdict under [Wiki-Verdict-Rules](#wiki-verdict-rules). NEVER invent content or evidence.
+
+Counting: `[and]` separates independently reviewed items; `[or]` joins alternatives within one item. A `for each` item expands to one verdict per identified target. `optional` and `none` contribute zero items, and their absence is NEVER `missing`.
+
+Output: Template declarations are authoritative and MUST NOT be copied into `wiki/*.md`.
+
 ### Quotation Verdict Rules
 
 Give every quotation exactly one verdict:
@@ -25,9 +39,9 @@ Give every quotation exactly one verdict:
 
 List one verdict per `quote` block in source order and report `Verdicts: <verdicts>/<quote blocks>`. If counts differ, the section fails and no change set may be proposed; verdicts may share a change but MUST NOT be merged. Propose the smallest change for every non-`covered` verdict; never apply it before approval.
 
-### Wiki-Rules
+### Wiki-Verdict-Rules
 
-- A wiki filename MUST equal its canonical tag. A `method` uses `scripts/add_wiki_method.md`; every other type uses `scripts/add_wiki_topic.md`.
+- A wiki filename MUST equal its canonical tag.
 - Wiki MUST synthesize evidence; never copy a quotation into wiki prose.
 - Every factual claim and formula MUST have an adjacent reference. Reference MUST be an existing `raw/*` filename without path or suffix: `raw/PAPER.md` -> `PAPER`.
 - Secondary Citations are source leads, not wiki evidence; never use their quoted claims or formulas to update wiki or backfill raw.
@@ -72,7 +86,7 @@ Run gates strictly in order. Start every response with current gate, last comple
    git rev-parse --is-inside-work-tree
    git status --short
    ```
-2. Confirm the canonical tag, types, wiki path, and required template under [Truth Rules](#truth-rules) and [Wiki-Rules](#wiki-rules); if the tag is absent from `vocab/tags.json`, **🛑 STOP**.
+2. Confirm the canonical tag, types, wiki path, and required template under [Truth Rules](#truth-rules), [Template-Rules](#template-rules), and [Wiki-Verdict-Rules](#wiki-verdict-rules); if the tag is absent from `vocab/tags.json`, **🛑 STOP**.
 3. If wiki is absent, do not search, audit, or propose changes. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval to create it from the required template; do not proceed.
 4. Run `python scripts\search_a_tag.py TAG`; if it fails or any expected `tmp` section is absent, **🛑 STOP**.
 
@@ -85,9 +99,9 @@ Run gates strictly in order. Start every response with current gate, last comple
 
 ### Gate 3 — Wiki to Raw to Wiki
 
-1. Apply [Wiki-Rules](#wiki-rules) to exactly one wiki section per response, in template order.
+1. Apply [Template-Rules](#template-rules) and [Wiki-Verdict-Rules](#wiki-verdict-rules) to exactly one wiki section per response, in template order.
 2. Present the raw-and-wiki change set. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed.
-3. Apply only approved changes under [Wiki-Rules](#wiki-rules); show `git diff -- raw wiki`.
+3. Apply only approved changes under [Template-Rules](#template-rules) and [Wiki-Verdict-Rules](#wiki-verdict-rules); show `git diff -- raw wiki`.
 4. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next wiki section; do not proceed.
 
 ### Gate 4 — Wiki to Tags
