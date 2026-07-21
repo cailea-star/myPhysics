@@ -36,6 +36,20 @@ Prohibitions:
 - NEVER omit conditions, negations, contrasts, or other text that changes the meaning.
 - NEVER link a method sentence that has no direct relation to the core claim.
 
+### Gap-Rules
+
+Eligibility: `gap` ONLY after full-text review finds no valid evidence.
+
+Record: Every `gap` MUST have exactly one matching `### Gaps` entry.
+
+Form: Use the exact template; all fields required; `[reason]` is 1-10 words.
+
+Identity: `[section]`, `[item]`, and `[target]` MUST identify one verdict.
+
+Sync: Missing, duplicate, extra, malformed, or stale entries block approval.
+
+Ban: NEVER record `pass` or `fix`.
+
 ### Template-Rules
 
 Types: Read the section's `claim-types` declaration from [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) before drafting or review. Use ONLY claim types from [vocab/types.json](../../../vocab/types.json); a quotation matches one ONLY if it passes that type's `requirement`.
@@ -54,7 +68,7 @@ Counting: `[and]` separates independently reviewed items; `[or]` joins alternati
 
 Review: Independently review exactly one written quotation section per response in [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) order. Give every quotation and every required template item exactly one `pass`, `gap`, or `fix` verdict. Report `Review Verdicts: <verdicts>/<quotation blocks + required template items>`; a count mismatch fails the section and blocks writing.
 
-Review Pass: A section passes ONLY when every quotation and every declared claim-type, coverage, and quotation requirement passes. Any `fix` blocks advancement. A `gap` passes ONLY after searching the current source's full text, including all relevant sections, finding no valid source evidence, and explicitly recording the gap.
+Review Pass: A section passes ONLY when every quotation and every declared claim-type, coverage, and quotation requirement passes. Any `fix` blocks advancement. A `gap` passes ONLY when all Gap-Rules pass.
 
 Re-review: After ANY write to `raw/*.md`, run `python scripts\sort_raw_md_quotations.py mdfile_path`, then re-review the ENTIRE current section. Do not advance until it passes.
 
