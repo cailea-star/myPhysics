@@ -74,3 +74,8 @@ This is a quotation from the original paper, which is tagged with the above tags
 ```quote
 This is a quotation with secondary citations from the original paper[ab], which is tagged with the above tags.
 ```
+
+<!-- gaps: record only validated gap verdicts after full-text review; use one bullet per independently counted template item; limit [reason] to 10 words; delete the placeholder when there are no gaps; do not record fix verdicts -->
+### Gaps
+
+- `[section]: [section name] | [item]: [claim-types|coverage|quotation] | [target]: [exact requirement or expanded target] | [reason]: [why no valid evidence exists, up to 10 words]`
