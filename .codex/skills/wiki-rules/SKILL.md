@@ -86,16 +86,22 @@ Before ANY write to `wiki/*.md`, complete these Draft-Rules for the affected sec
 
 Before drafting or reviewing a section, verify that the selected template contains exactly one `claim-types` and one `coverage` declaration for it; otherwise stop. Print both declarations, then print every relevant claim-type requirement from [vocab/types.json](../../../vocab/types.json).
 
+Evidence Scope: Before drafting or reviewing, the calling workflow MUST declare exactly one evidence scope: `all-primary` or `one-approved-primary-section`. For `one-approved-primary-section`, identify the exact generated primary section. A missing or ambiguous scope requires STOP.
+
+Evidence Search: Resolve exactly one canonical `TAG` under [Vocab Rules](../vocab-rules/SKILL.md), then run `python scripts\search_a_tag.py TAG` to regenerate the primary quotation outputs. If it fails or any expected primary output (`Motivation`, `Methods`, `Results`, or `Meanings`) is missing, STOP. Review every generated primary section in the declared evidence scope as read-only quotation evidence. NEVER modify `raw/*.md` or generated sections, use `tmp/TAG_Secondary.md` as evidence, expand to another tag, sample within the declared scope, or stop early. If the evidence remains insufficient, report `weak` or `missing` to the calling workflow and block approval, writing, and advancement.
+
 #### Batch Review and Approval
 
 Section: Draft and discuss exactly one wiki section per response in selected-template order; NEVER mix sections. Write the smallest synthesis supported by evidence, separating conclusions when systems, assumptions, methods, parameter ranges, or uncertainties differ. Present at most four Wiki candidates or fixes per response after reviewing every generated primary section in the declared evidence scope, repeating batches until the current wiki section passes, in exact mode (final wiki block shape with exact prose, formulas, tags, and references) or summary mode (candidate claim, supporting Raw filename and quotation location, and one-sentence evidence summary before the checkpoint).
 
-Evidence Search: Resolve exactly one canonical `TAG` under [Vocab Rules](../vocab-rules/SKILL.md) and run `python scripts\search_a_tag.py TAG`; if it fails or any expected primary output (`Motivation`, `Methods`, `Results`, or `Meanings`) is missing, STOP. When the calling workflow supplies one approved generated primary section for incremental Quotation-to-Wiki processing, that complete section is the evidence scope; otherwise all four generated primary sections are the evidence scope. Review every section in scope as read-only primary quotation evidence. NEVER modify `raw/*.md` or generated sections, use `tmp/TAG_Secondary.md` as evidence, expand to another tag, sample within the declared scope, or stop early. If the evidence remains insufficient, report `weak` or `missing` to the calling workflow and block approval, writing, and advancement.
-
 Validation: Before approval, validate every candidate under Wiki-Rules and Template-Rules, then apply Section-Rules to the resulting proposed section. Any violation or unresolved `weak` or `missing` blocks approval and writing.
 
-Approval: Present the smallest section change set. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed.
+Approval: Present the smallest section change set. Summary-mode approval authorizes ONLY a subsequent exact-mode proposal and NEVER authorizes writing. Write requires separate explicit approval of the final exact-mode change. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed.
 
 #### Write and Re-review
 
-Apply only approved changes, show `git diff -- wiki`, then complete Section-Rules Re-review before the next section.
+Write: After approval, immediately write ONLY the explicitly approved change to the current Wiki section in exact mode matching the selected template.
+
+Re-review: Re-review the ENTIRE current Wiki section under Section-Rules, then show `git diff -- wiki`.
+
+Post-write Violation: Any failed Re-review returns to a fix batch. Advance ONLY after the current Wiki section passes.
