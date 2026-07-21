@@ -21,16 +21,6 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 
 NEVER infer evidence or fill a template without direct source evidence.
 
-### Claim-Type-Rules
-
-Types: Use only claim types from [vocab/types.json](../../../vocab/types.json). A quotation satisfies a claim type ONLY when it meets that type's `requirement`.
-
-Match: Assign exactly one `[claim_type]` from the quotation's explicit primary claim. Keywords, tags, source section, and Coverage targets are not classification evidence.
-
-Coverage: A required claim type is covered ONLY by a quotation that passes its requirement. If no valid quotation exists, report `gap`; NEVER relabel other evidence to satisfy Coverage.
-
-Review: An unsupported or incorrect `[claim_type]` is `fix` and blocks section approval.
-
 ### Evidence-Link-Rules
 
 Purpose: Allow a `[claim_type]: definition`, `[claim_type]: result`, or `[claim_type]: innovation` claim to link its method evidence, preserving the true `[claim_type]` while satisfying `[tag_type]: method` requirements.
@@ -48,7 +38,11 @@ Prohibitions:
 
 ### Template-Rules
 
-Template Claim Types: Before drafting or reviewing a section, read its `claim-types` declaration from [scripts/add_raw_md.md](../../../scripts/add_raw_md.md). Give every declared requirement exactly one `pass`, `gap`, or `fix`. Missing evidence is `gap`; incorrectly classified evidence is `fix`. NEVER relabel evidence to satisfy the declaration.
+Types: Read the section's `claim-types` declaration from [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) before drafting or review. Use ONLY claim types from [vocab/types.json](../../../vocab/types.json); a quotation matches one ONLY if it passes that type's `requirement`.
+
+Match: Assign every quotation exactly one `[claim_type]` based ONLY on its explicit primary claim; keywords, tags, source section, and Coverage targets are NEVER classification evidence.
+
+Verdict: Give every declared requirement exactly one `pass`, `gap`, or `fix`: `pass` ONLY with valid evidence matching its type and requirement; no valid evidence is `gap`; any unsupported or incorrect `[claim_type]` is `fix` and blocks approval. NEVER relabel evidence to satisfy the declaration.
 
 Template Coverage: Before drafting or reviewing a section, read its `coverage` declaration from [scripts/add_raw_md.md](../../../scripts/add_raw_md.md). Give every requirement exactly one `pass`, `gap`, or `fix`. Missing valid evidence is `gap`; violating an exclusion is `fix`. NEVER invent evidence.
 
@@ -60,7 +54,7 @@ Counting: `[and]` separates independently reviewed items; `[or]` joins alternati
 
 Review: Independently review exactly one written quotation section per response in [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) order. Give every quotation and every required template item exactly one `pass`, `gap`, or `fix` verdict. Report `Review Verdicts: <verdicts>/<quotation blocks + required template items>`; a count mismatch fails the section and blocks writing.
 
-Review Pass: A section passes ONLY when every quotation and every declared claim-type, coverage, and quotation requirement passes. Any `fix` blocks advancement. A `gap` passes ONLY when no valid source evidence exists and the gap is explicitly recorded.
+Review Pass: A section passes ONLY when every quotation and every declared claim-type, coverage, and quotation requirement passes. Any `fix` blocks advancement. A `gap` passes ONLY after searching the current source's full text, including all relevant sections, finding no valid source evidence, and explicitly recording the gap.
 
 Re-review: After ANY write to `raw/*.md`, run `python scripts\sort_raw_md_quotations.py mdfile_path`, then re-review the ENTIRE current section. Do not advance until it passes.
 
@@ -68,7 +62,7 @@ Re-review: After ANY write to `raw/*.md`, run `python scripts\sort_raw_md_quotat
 
 Source: Quote must come from `raw/*.pdf` or `raw/*.tex`.
 
-Form: Each quote must be one or more complete sentences, not a phrase; it should support a clear claim and contain about 10-50 words total.
+Form: Each quote must be one or more complete sentences, not a phrase; it MUST support a clear claim and should contain about 10-50 words total.
 
 Tag Co-occurrence: Each quotation must include at least two directly supported comma-separated tags in `[tags]: ...`. If one sentence supports only one tag, add a neighboring complete sentence from the same source section; if no second supported tag exists, report the gap instead of inventing a relation.
 
@@ -80,7 +74,7 @@ Write: Present quotation drafts one section at a time. **🔴 CHECKPOINT · 🛑
 
 Before ANY write to `raw/*.md`, complete these Draft-Rules for the affected section; NEVER write first and review afterward.
 
-Before drafting or reviewing a section, verify that it contains exactly one `claim-types`, one `coverage`, and one `quotation` declaration; otherwise stop. Print those declarations, then print the relevant claim-type requirement and every tagged tag-type requirement from [vocab/types.json](../../../vocab/types.json). For `definition`, map each covered tag to its exact defining clause; mention, use, effect, or implementation detail is not a definition.
+Before drafting or reviewing a section, verify that the corresponding template section contains exactly one `claim-types`, one `coverage`, and one `quotation` declaration; otherwise stop. Print those declarations, then print the relevant claim-type requirement and every tagged tag-type requirement from [vocab/types.json](../../../vocab/types.json). For `definition`, map each covered tag to its exact defining clause; mention, use, effect, or implementation detail is not a definition.
 
 Section: Draft and discuss exactly one quotation section per response from [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) in template order; NEVER mix sections. Present at most four candidates or fixes per response, repeating batches until the section passes, in [exact mode] (final raw/*.md block shape with exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section) or [summary mode] (source section, candidate `[claim_type]`, candidate `[tags]`, and one-sentence evidence summary before the checkpoint).
 
