@@ -9,6 +9,8 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 
 ### Raw-Rules
 
+#### Truth and File Roles
+
 `raw` is truth.
 
 `raw/*.json` is metadata.
@@ -19,51 +21,15 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 
 `tmp/*.md` is a temporary rearrangement of raw quotation evidence generated from `raw/*.md` searches.
 
+#### Global Prohibitions
+
 NEVER edit `tmp/*.md`.
 
 NEVER infer evidence or fill a template without direct source evidence.
 
-### Evidence-Link-Rules
-
-Purpose: Link method evidence to a `[claim_type]: definition`, `[claim_type]: result`, or `[claim_type]: innovation` claim.
-
-Claim Type: Preserve the core claim's true `[claim_type]`.
-
-Method Coverage: A valid method sentence may satisfy `[tag_type]: method` requirements.
-
-Scope: Both sentences MUST share one paragraph or figure/table discussion.
-
-Scope Failure: Any cross-paragraph or cross-discussion link is invalid.
-
-Relation: The method sentence MUST explicitly state that the `[tag_type]: method` is used to obtain, define, or realize the core claim.
-
-Relation Failure: A method sentence without that direct relation is invalid.
-
-Omission: Use `[...]` only for nonessential intervening text.
-
-Integrity: NEVER omit conditions, negations, contrasts, or any other meaning-changing text.
-
-Assignment: Assign `[claim_type]` from the core claim.
-
-Method Tag: A retained `[tag_type]: method` tag MUST be directly supported by the retained method sentence.
-
-Violation: Any invalid evidence link is `fix` and blocks approval.
-
-### Gap-Rules
-
-Eligibility: `gap` ONLY after full-text review finds no valid evidence.
-
-Record: Every `gap` MUST have exactly one matching `### Gaps` entry.
-
-Form: Use the exact template; all fields required; `[reason]` is 1-10 words.
-
-Identity: `[section]`, `[item]`, and `[target]` MUST identify one verdict.
-
-Sync: Missing, duplicate, extra, malformed, or stale entries block approval.
-
-Ban: NEVER record `pass` or `fix`.
-
 ### Template-Rules
+
+#### Declaration and Classification
 
 Declarations: Before drafting or review, verify that the corresponding template section contains exactly one `claim-types`, one `coverage`, and one `quotation` declaration.
 
@@ -83,15 +49,9 @@ Basis: Use ONLY the quotation's explicit primary claim.
 
 Classification Ban: Keywords, tags, source section, and coverage targets are NEVER classification evidence.
 
-Verdict: Give every declared requirement exactly one `pass`, `gap`, or `fix`.
-
-Pass: Valid evidence MUST match the declared type and requirement.
-
-Gap: No valid evidence is `gap`.
-
-Fix: Any unsupported or incorrect `[claim_type]` is `fix` and blocks approval.
-
 Relabel Ban: NEVER relabel evidence to satisfy a declaration.
+
+#### Coverage and Quotation
 
 Coverage: Before drafting or review, read the section's `coverage` declaration from [scripts/add_raw_md.md](../../../scripts/add_raw_md.md).
 
@@ -107,6 +67,16 @@ Quotation: Before drafting or review, read the section's `quotation` declaration
 
 Quotation Fix: Any quotation-declaration violation is `fix` and blocks approval.
 
+#### Verdict and Expansion
+
+Verdict: Give every declared requirement exactly one `pass`, `gap`, or `fix`.
+
+Pass: Valid evidence MUST match the declared type and requirement.
+
+Gap: No valid evidence is `gap`.
+
+Fix: Any unsupported or incorrect `[claim_type]` is `fix` and blocks approval.
+
 And: `[and]` separates independently reviewed items.
 
 Or: `[or]` joins alternatives within one item.
@@ -119,6 +89,8 @@ Optional Ban: Their absence is NEVER `gap`.
 
 ### Section-Rules
 
+#### Review Contract
+
 Scope: Independently review exactly one written quotation section per response.
 
 Order: Follow [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) section order.
@@ -129,15 +101,33 @@ Report: Print `Review Verdicts: <verdicts>/<quotation blocks + required template
 
 Count Failure: A verdict-count mismatch fails the section and blocks advancement.
 
+#### Gap-Rules
+
+Eligibility: `gap` ONLY after full-text review finds no valid evidence.
+
+Record: Every `gap` MUST have exactly one matching `### Gaps` entry.
+
+Form: Use the exact template; all fields required; `[reason]` is 1-10 words.
+
+Identity: `[section]`, `[item]`, and `[target]` MUST identify one verdict.
+
+Sync: Missing, duplicate, extra, malformed, or stale entries block approval.
+
+Ban: NEVER record `pass` or `fix`.
+
+Gap: A `gap` passes ONLY when all Gap-Rules pass.
+
+#### Pass and Advancement
+
 Pass: A section passes ONLY when every quotation and declared requirement passes.
 
 Fix: Any `fix` blocks advancement.
 
-Gap: A `gap` passes ONLY when all Gap-Rules pass.
-
 Advance: Continue batches until the section passes; NEVER advance before it passes.
 
 ### Quotation-Rules
+
+#### Core Evidence
 
 Source: Every quote MUST come from `raw/*.pdf` or `raw/*.tex`.
 
@@ -165,6 +155,32 @@ Format: Formatting is defective ONLY when it violates the template or breaks par
 
 Violation: Any Quotation-Rule violation is `fix` and blocks approval.
 
+#### Evidence-Link-Rules
+
+Purpose: Link method evidence to a `[claim_type]: definition`, `[claim_type]: result`, or `[claim_type]: innovation` claim.
+
+Claim Type: Preserve the core claim's true `[claim_type]`.
+
+Method Coverage: A valid method sentence may satisfy `[tag_type]: method` requirements.
+
+Scope: Both sentences MUST share one paragraph or figure/table discussion.
+
+Scope Failure: Any cross-paragraph or cross-discussion link is invalid.
+
+Relation: The method sentence MUST explicitly state that the `[tag_type]: method` is used to obtain, define, or realize the core claim.
+
+Relation Failure: A method sentence without that direct relation is invalid.
+
+Omission: Use `[...]` only for nonessential intervening text.
+
+Integrity: NEVER omit conditions, negations, contrasts, or any other meaning-changing text.
+
+Assignment: Assign `[claim_type]` from the core claim.
+
+Method Tag: A retained `[tag_type]: method` tag MUST be directly supported by the retained method sentence.
+
+Violation: Any invalid evidence link is `fix` and blocks approval.
+
 #### Secondary-Citations-Check
 
 Role: Secondary Citations are paper leads only.
@@ -191,6 +207,8 @@ Violation: Misplacing citation-marked evidence is `fix` and blocks approval.
 
 ### Draft-Rules
 
+#### Preparation
+
 Preflight: Complete all pre-write Draft-Rules for the current batch before ANY write.
 
 Order: Follow [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) section order; NEVER write before drafting and review are complete.
@@ -207,8 +225,6 @@ Print Tag Types: Print every requirement for the proposed tags' tag types from [
 
 Definition Map: For `definition`, map every covered tag to its exact defining clause.
 
-#### Tag-Resolution-Check
-
 Resolve: Before presenting or writing a candidate, resolve every proposed `[tags]` entry under [Vocab Rules](../vocab-rules/SKILL.md).
 
 Missing: If the quotation directly supports a necessary unresolved concept, report it under `Missing Tags`.
@@ -218,6 +234,8 @@ Draft: Apply [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules) to every M
 Block: Any unresolved Missing Tag blocks approval and writing.
 
 Scope Ban: NEVER create tags for unrelated background mentions.
+
+#### Batch Review and Approval
 
 Batch: Present at most four candidates or fixes per response.
 
@@ -230,6 +248,8 @@ Review: Before the checkpoint, apply Template-Rules to the current section; appl
 Pre-write Violation: Any pre-write Draft-Rule violation blocks approval and writing.
 
 Approval: Present either mode, then **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; NEVER proceed without it.
+
+#### Write and Re-review
 
 Mode: Write approved quotations to `raw/*.md` in [exact mode] matching [scripts/add_raw_md.md](../../../scripts/add_raw_md.md).
 
