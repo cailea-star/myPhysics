@@ -11,9 +11,9 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 
 #### Truth and File Roles
 
-`wiki/*.md` is synthesis from verified `raw/*.md` quotation evidence; it is NEVER original evidence.
+`raw/*.md` is the underlying evidence truth; generated primary `tmp/*.md` sections are read-only direct input for `wiki/*.md` synthesis. Wiki is NEVER original evidence.
 
-Raw evidence is verified ONLY when its quotation and entire containing section pass [Raw Section-Rules](../raw-rules/SKILL.md#section-rules); unreviewed, `gap`, or `fix` evidence MUST NOT support Wiki.
+A generated quotation may support Wiki ONLY when its source Raw quotation and entire containing section pass [Raw Section-Rules](../raw-rules/SKILL.md#section-rules); unreviewed, `gap`, or `fix` evidence MUST NOT support Wiki.
 
 A wiki filename MUST equal its canonical tag resolved under [Vocab Rules](../vocab-rules/SKILL.md).
 
@@ -32,10 +32,6 @@ Formula: A formula is supported ONLY when the cited Raw evidence contains the fo
 Conflict: When verified sources disagree, preserve each conclusion, its conditions, and its references; NEVER collapse conflicts into a false consensus.
 
 Tags: Resolve every frontmatter and fenced-block tag under [Vocab Rules](../vocab-rules/SKILL.md). Unresolved tags block writing.
-
-#### Global Prohibitions
-
-Secondary Citations: Treat Secondary Citations only as paper leads. NEVER cite their claims or formulas in Wiki; use an already-ingested original paper's verified direct evidence, propose ingesting it, or report an explicit gap.
 
 ### Template-Rules
 
@@ -63,20 +59,20 @@ Output: Template declarations are authoritative and MUST NOT be copied into `wik
 
 #### Review Contract
 
-Review: Independently review exactly one written wiki section per response in selected-template order. List verdicts in source order and report `Wiki Verdicts: <verdicts>/<factual claims + formulas + required template items>`. A count mismatch fails the section and blocks writing.
+Review: Independently review exactly one current or proposed wiki section per response in selected-template order. List verdicts in source order and report `Wiki Verdicts: <verdicts>/<factual claims + formulas + required template items>`. A count mismatch fails the section and blocks writing.
 
 #### Verdict Contract
 
 Verdicts: Give every factual claim, formula, and required template item exactly one verdict:
 
 - `supported`: sufficient verified Raw evidence directly supports it; do nothing.
-- `weak`: content exists but its evidence is absent, indirect, insufficient, or mismatched; support, qualify, or remove it.
-- `missing`: required content is absent; find verified Raw evidence or record an explicit no-evidence gap.
+- `weak`: content exists but its evidence is absent, indirect, insufficient, or mismatched; report it to the calling workflow.
+- `missing`: required content is absent; report it to the calling workflow.
 - `not-applicable`: a required template item does not apply; do not fill it.
 
 #### Pass and Advancement
 
-Review Pass: A section passes ONLY when counts match, every existing factual claim and formula is `supported`, and every required item is `supported`, `not-applicable`, or an explicit no-evidence gap. Any unresolved `weak` or `missing` blocks advancement.
+Review Pass: A section passes ONLY when counts match, every existing factual claim and formula is `supported`, and every required item is `supported` or `not-applicable`. Any `weak` or `missing` unresolved by the proposed change blocks approval, writing, and advancement.
 
 Re-review: After ANY write to `wiki/*.md`, re-review the ENTIRE current section. Do not advance until it passes.
 
@@ -92,7 +88,9 @@ Before drafting or reviewing a section, verify that the selected template contai
 
 Section: Draft and discuss exactly one wiki section per response in selected-template order; NEVER mix sections. Write the smallest synthesis supported by evidence, separating conclusions when systems, assumptions, methods, parameter ranges, or uncertainties differ. Present at most four candidates or fixes per response, repeating batches until the section passes, in exact mode (final wiki block shape with exact prose, formulas, tags, and references) or summary mode (candidate claim, supporting Raw filename and quotation location, and one-sentence evidence summary before the checkpoint).
 
-Evidence Search: Resolve exactly one canonical `TAG` under [Vocab Rules](../vocab-rules/SKILL.md), run `python scripts\search_a_tag.py TAG`, and review every generated primary section as read-only input before drafting or review. NEVER directly load or traverse `raw/*.md`, modify generated sections, use `tmp/TAG_Secondary.md` as evidence, expand to another tag, sample sections, or stop early. If the evidence remains insufficient, report `weak` or `missing` to the calling workflow and block drafting, writing, and advancement.
+Evidence Search: Resolve exactly one canonical `TAG` under [Vocab Rules](../vocab-rules/SKILL.md) and run `python scripts\search_a_tag.py TAG`; if it fails or any expected primary output (`Motivation`, `Methods`, `Results`, or `Meanings`) is missing, STOP. Review every generated primary section as the read-only primary quotation reference before drafting or review. NEVER modify `raw/*.md` or generated sections, use `tmp/TAG_Secondary.md` as evidence, expand to another tag, sample sections, or stop early. If the evidence remains insufficient, report `weak` or `missing` to the calling workflow and block approval, writing, and advancement.
+
+Validation: Before approval, validate every candidate under Wiki-Rules and Template-Rules, then apply Section-Rules to the resulting proposed section. Any violation or unresolved `weak` or `missing` blocks approval and writing.
 
 Approval: Present the smallest section change set. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed.
 
