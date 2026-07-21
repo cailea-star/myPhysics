@@ -127,7 +127,7 @@ Review: Give every quotation and required template item exactly one `pass`, `gap
 
 Report: Print `Review Verdicts: <verdicts>/<quotation blocks + required template items>`.
 
-Count Failure: A verdict-count mismatch fails the section and blocks writing.
+Count Failure: A verdict-count mismatch fails the section and blocks advancement.
 
 Pass: A section passes ONLY when every quotation and declared requirement passes.
 
@@ -135,19 +135,13 @@ Fix: Any `fix` blocks advancement.
 
 Gap: A `gap` passes ONLY when all Gap-Rules pass.
 
-Sort: After ANY write to `raw/*.md`, run `python scripts\sort_raw_md_quotations.py mdfile_path`.
-
-Repeat: Continue batches until the section passes.
-
-Advance: Do not advance until the section passes.
+Advance: Continue batches until the section passes; NEVER advance before it passes.
 
 ### Quotation-Rules
 
 Source: Every quote MUST come from `raw/*.pdf` or `raw/*.tex`.
 
-Sentence: Every quote MUST contain one or more complete sentences.
-
-Phrase Ban: A phrase alone is invalid.
+Sentence: Every quote MUST contain one or more complete sentences; a phrase alone is invalid.
 
 Claim: Every quote MUST support one clear claim.
 
@@ -197,15 +191,11 @@ Violation: Misplacing citation-marked evidence is `fix` and blocks approval.
 
 ### Draft-Rules
 
-Preflight: Complete all Draft-Rules before ANY write to `raw/*.md`.
+Preflight: Complete all pre-write Draft-Rules for the current batch before ANY write.
 
-Order: NEVER write before drafting and review are complete.
+Order: Follow [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) section order; NEVER write before drafting and review are complete.
 
-Section: Draft and discuss exactly one quotation section per response.
-
-Section: Present quotation drafts one section at a time.
-
-Order: Follow [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) section order.
+Section: Draft, present, and discuss exactly one quotation section per response.
 
 Isolation: NEVER mix quotation sections.
 
@@ -229,22 +219,24 @@ Block: Any unresolved Missing Tag blocks approval and writing.
 
 Scope Ban: NEVER create tags for unrelated background mentions.
 
-Co-occurrence Ban: NEVER invent a second tag to satisfy Tag Co-occurrence.
-
 Batch: Present at most four candidates or fixes per response.
 
 Exact Mode: In [exact mode], use the final `raw/*.md` block shape with exact quoted sentence(s), any required `math` block, `[claim_type]`, `[tags]`, and source section.
 
 Summary Mode: In [summary mode], include source section, candidate `[claim_type]`, candidate `[tags]`, and one-sentence evidence summary.
 
-Checkpoint: Present either mode before the approval checkpoint.
+Review: Before the checkpoint, apply Template-Rules to the current section; apply Quotation-Rules, any triggered Evidence-Link-Rules, and any triggered Secondary-Citations-Check to every candidate.
 
-Approval: **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed.
+Pre-write Violation: Any pre-write Draft-Rule violation blocks approval and writing.
 
-Write: Write ONLY explicitly approved quotations.
+Approval: Present either mode, then **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; NEVER proceed without it.
 
 Mode: Write approved quotations to `raw/*.md` in [exact mode] matching [scripts/add_raw_md.md](../../../scripts/add_raw_md.md).
 
-Re-review: After sorting, re-review the ENTIRE current section.
+Write: Write ONLY explicitly approved quotations.
 
-Violation: Any Draft-Rule violation blocks writing.
+Sort: After ANY write to `raw/*.md`, run `python scripts\sort_raw_md_quotations.py mdfile_path`.
+
+Re-review: After sorting, re-review the ENTIRE current section under Section-Rules.
+
+Post-write Violation: Any Re-review failure blocks advancement; any Re-review `fix` requires another fix batch.
