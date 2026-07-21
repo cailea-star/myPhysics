@@ -5,74 +5,41 @@ description: Audit and update myWIKI from tagged quotations. Use when checking w
 
 # Lint
 
-## Rules
+## Comparison Rules
 
-Before Gate 1, read both [Vocab Rules](../vocab-rules/SKILL.md) and [Raw Rules](../raw-rules/SKILL.md) completely and apply all rules.
+Before Gate 1, read [Vocab Rules](../vocab-rules/SKILL.md), [Raw Rules](../raw-rules/SKILL.md), and [Wiki Rules](../wiki-rules/SKILL.md) completely and apply them throughout every gate.
 
-### Truth Rules
+### Quotation-to-Wiki Rules
 
-- `wiki/*.md` is synthesis.
-- Never modify `wiki` before approval.
+Give every generated primary quotation exactly one verdict:
 
-### Template-Rules
+- `covered`: Wiki states the conclusion and cites the paper.
+- `miss-reference`: Wiki states the conclusion but does not cite the paper.
+- `miss-conclusion`: Wiki omits an important supported conclusion.
+- `conflict`: The quotation conflicts with Wiki.
+- `irrelevant`: The quotation does not belong in this tag's Wiki.
 
-Template Selection: A `[tag_type]: method` uses [scripts/add_wiki_method.md](../../../scripts/add_wiki_method.md); every other tag type uses [scripts/add_wiki_topic.md](../../../scripts/add_wiki_topic.md).
+List one verdict per `quote` block in source order and report `Verdicts: <verdicts>/<quote blocks>`. A count mismatch fails the generated section and blocks advancement. Verdicts may share one Wiki change but MUST NOT be merged.
 
-Template Integrity: Every `###` wiki section MUST contain exactly one `claim-types` and one `coverage` declaration in the selected template. Declarations are not required for `#####` subsections. Missing or duplicate declarations block drafting and review.
+Apply [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) to every `miss-reference`, `miss-conclusion`, or `conflict`; `covered` and `irrelevant` require no Wiki change.
 
-Template Claim Types: Before drafting or reviewing a wiki section, read its `claim-types` declaration from the selected template. Give every required item exactly one verdict under [Wiki-Verdict-Rules](#wiki-verdict-rules). NEVER relabel evidence to satisfy the declaration.
+### Wiki-to-Quotation Rules
 
-Template Coverage: Before drafting or reviewing a wiki section, read its `coverage` declaration from the selected template. Give every required item exactly one verdict under [Wiki-Verdict-Rules](#wiki-verdict-rules). NEVER invent content or evidence.
+Apply [Wiki Section-Rules](../wiki-rules/SKILL.md#section-rules) to identify `weak` and `missing` items. Search all generated primary sections first.
 
-Counting: `[and]` separates independently reviewed items; `[or]` joins alternatives within one item. A `for each` item expands to one verdict per identified target. `optional` and `none` contribute zero items, and their absence is NEVER `missing`.
+If generated primary evidence is insufficient, inspect relevant already-ingested primary full text under [Raw Rules](../raw-rules/SKILL.md) and draft any valid direct evidence under [Raw Draft-Rules](../raw-rules/SKILL.md#draft-rules). Only after finding no valid direct evidence may you inspect `tmp/TAG_Secondary.md` for cited-paper leads. For an already-ingested original paper, apply Raw Draft-Rules; otherwise propose ingesting it. If no valid evidence or lead exists, report the evidence gap and STOP; a gap does not pass the Wiki section.
 
-Output: Template declarations are authoritative and MUST NOT be copied into `wiki/*.md`.
-
-### Quotation Verdict Rules
-
-Give every quotation exactly one verdict:
-
-- `covered`: wiki states the conclusion and cites the paper; do nothing.
-- `miss-reference`: conclusion exists but lacks the paper; add only its reference.
-- `miss-conclusion`: an important conclusion is absent; add the smallest supported entry and reference.
-- `conflict`: quotation conflicts with wiki; preserve both conclusions, conditions, and references.
-- `irrelevant`: quotation does not belong in this tag wiki; do not add it.
-
-List one verdict per `quote` block in source order and report `Verdicts: <verdicts>/<quote blocks>`. If counts differ, the section fails and no change set may be proposed; verdicts may share a change but MUST NOT be merged. Propose the smallest change for every non-`covered` verdict; never apply it before approval.
-
-### Wiki-Verdict-Rules
-
-- A wiki filename MUST equal its canonical tag.
-- Wiki MUST synthesize evidence; never copy a quotation into wiki prose.
-- Every factual claim and formula MUST have an adjacent reference. Reference MUST be an existing `raw/*` filename without path or suffix: `raw/PAPER.md` -> `PAPER`.
-
-Give every factual claim, formula, and required template item exactly one verdict:
-
-- `supported`: evidence is sufficient; do nothing.
-- `weak`: content exists but evidence is insufficient; find supporting quotations.
-- `missing`: required content is absent; find candidate papers and quotations.
-- `not-applicable`: the template item does not apply; do not fill it.
-
-List one verdict per factual claim, formula, and required template item and report `Wiki Verdicts: <verdicts>/<claims + formulas + required items>`. A section passes ONLY when counts match and every `weak` or `missing` is resolved or recorded as an explicit no-evidence gap; otherwise no change set may be proposed.
-
-For each `weak` or `missing`, search primary raw evidence first. If none exists, inspect `tmp/TAG_Secondary.md` only for cited-paper leads: use an already-ingested original paper's direct evidence; otherwise propose ingesting it or report an explicit gap.
-
-After any approved raw change, complete [Raw Re-review](../raw-rules/SKILL.md#section-rules), then run:
+After ANY approved Raw change, complete [Raw Re-review](../raw-rules/SKILL.md#section-rules), then run:
 
 ```powershell
 python scripts\search_a_tag.py TAG
 ```
 
-Re-audit the affected quotation section. A new quotation MUST appear in generated `tmp` and receive a Quotation Verdict before entering wiki; otherwise the section fails. Only verified evidence may enter wiki.
-
-### Tag-Rules
-
-- Reconcile vocab only after wiki approval.
-- Verify every approved vocab change under [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules) and require zero unsupported wiki claims.
+The new quotation MUST appear in generated primary output and receive a Quotation-to-Wiki verdict before supporting Wiki; otherwise the section fails. Apply [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) only after this check passes.
 
 ## Gated Workflow
 
-Run gates strictly in order. Start every response with current gate, last completed gate, and next approval. Never advance from an unapproved section or gate.
+Run gates strictly in order. Start every response with the current gate, last completed gate, and next approval. NEVER advance from an unapproved or failed section or gate.
 
 ### Gate 1 — Confirm Tag & Search
 
@@ -81,26 +48,28 @@ Run gates strictly in order. Start every response with current gate, last comple
    git rev-parse --is-inside-work-tree
    git status --short
    ```
-2. Resolve the canonical tag and types under [Vocab Rules](../vocab-rules/SKILL.md), then confirm its wiki path and required template under [Truth Rules](#truth-rules), [Template-Rules](#template-rules), and [Wiki-Verdict-Rules](#wiki-verdict-rules); if no valid existing tag resolves, **🛑 STOP**.
-3. If wiki is absent, do not search, audit, or propose changes. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval to create it from the required template; do not proceed.
-4. Run `python scripts\search_a_tag.py TAG`; if it fails or any expected `tmp` section is absent, **🛑 STOP**.
+2. Resolve exactly one canonical tag and its types under [Vocab Rules](../vocab-rules/SKILL.md), then confirm its Wiki path and required template under [Wiki Rules](../wiki-rules/SKILL.md); if no valid existing tag resolves, **🛑 STOP**.
+3. If Wiki is absent, **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval to draft it from the required template; do not write, search, audit, or propose content changes before approval.
+4. Complete [Wiki Evidence Search](../wiki-rules/SKILL.md#draft-rules); do not advance unless every expected primary output exists.
 
 ### Gate 2 — Quotations to Wiki
 
-1. Apply [Quotation Verdict Rules](#quotation-verdict-rules) to exactly one generated section per response, in order: Motivation, Methods, Results, Meanings.
-2. Present the smallest wiki change set. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed.
-3. Apply only approved references and entries; show `git diff -- wiki`.
-4. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next section; do not proceed.
+1. Apply Quotation-to-Wiki Rules to exactly one generated primary section per response, in order: Motivation, Methods, Results, Meanings.
+2. Report its complete verdict set. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next generated section; do not proceed.
+3. After all four generated primary sections pass, resolve actionable verdicts under [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules), exactly one Wiki section per response.
+4. After each approved Wiki write and re-review, show `git diff -- wiki`. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next Wiki section; do not proceed.
 
-### Gate 3 — Wiki to Raw to Wiki
+### Gate 3 — Wiki to Quotations to Wiki
 
-1. Apply [Template-Rules](#template-rules) and [Wiki-Verdict-Rules](#wiki-verdict-rules) to exactly one wiki section per response, in template order.
-2. Present the raw-and-wiki change set. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed.
-3. Apply only approved changes under [Template-Rules](#template-rules) and [Wiki-Verdict-Rules](#wiki-verdict-rules); show `git diff -- raw wiki`.
-4. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next wiki section; do not proceed.
+1. Apply [Wiki Section-Rules](../wiki-rules/SKILL.md#section-rules) to exactly one Wiki section per response in template order.
+2. If the Wiki section passes, report pass. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next Wiki section; do not proceed.
+3. Otherwise resolve every `weak` or `missing` under Wiki-to-Quotation Rules. Complete any required Raw Draft, Raw Re-review, regeneration, and Quotation-to-Wiki verdict before proposing a Wiki change.
+4. Apply [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) to the resulting Wiki candidates or fixes. Do not advance until the current Wiki section passes.
+5. Show `git diff -- raw wiki`. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next Wiki section; do not proceed.
 
 ### Gate 4 — Wiki to Tags
 
-1. Reconcile vocab under [Tag-Rules](#tag-rules) after wiki approval.
-2. Present exactly one smallest vocab change. **🔴 CHECKPOINT · 🛑 STOP** — Await separate explicit approval; do not proceed.
-3. Apply only the approved change, verify under [Tag-Rules](#tag-rules), and show `git diff -- raw wiki vocab`.
+1. Begin only after every Wiki section passes and no actionable Quotation-to-Wiki verdict remains.
+2. Reconcile vocab under [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules), requiring zero unsupported Wiki claims.
+3. Present exactly one smallest vocab change. **🔴 CHECKPOINT · 🛑 STOP** — Await separate explicit approval; do not proceed.
+4. Apply only the approved change, complete Vocab verification, and show `git diff -- raw wiki vocab`.
