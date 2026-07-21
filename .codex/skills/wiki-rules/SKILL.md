@@ -11,6 +11,8 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 
 `wiki/*.md` is synthesis from verified `raw/*.md` quotation evidence; it is NEVER original evidence.
 
+Raw evidence is verified ONLY when its quotation and entire containing section pass [Raw Section-Rules](../raw-rules/SKILL.md#section-rules); unreviewed, `gap`, or `fix` evidence MUST NOT support Wiki.
+
 A wiki filename MUST equal its canonical tag resolved under [Vocab Rules](../vocab-rules/SKILL.md).
 
 Every factual claim and formula MUST be directly supported by verified primary Raw evidence. NEVER infer, generalize beyond evidence, fill a template from domain knowledge, or use `tmp/*_Secondary.md` claims or formulas as evidence.
@@ -34,6 +36,8 @@ Tags: Resolve every frontmatter and fenced-block tag under [Vocab Rules](../voca
 Template Selection: A `[tag_type]: method` uses [scripts/add_wiki_method.md](../../../scripts/add_wiki_method.md); every other tag type uses [scripts/add_wiki_topic.md](../../../scripts/add_wiki_topic.md).
 
 Template Integrity: Every `###` section in the selected template MUST contain exactly one `claim-types` and one `coverage` declaration. Declarations are not required for `#####` subsections. Missing or duplicate declarations block drafting and review.
+
+Template Shape: Preserve the selected template's `###` section order, heading levels, and required block shapes; NEVER add, remove, reorder, or reshape its `###` sections. Add or remove repeated `#####` instances ONLY as verified evidence requires.
 
 Template Claim Types: Use only claim types from [vocab/types.json](../../../vocab/types.json). Before drafting or reviewing a wiki section, read its `claim-types` declaration. A required claim type is covered ONLY when sufficient verified Raw evidence has that `[claim_type]` and passes its `requirement`. Judge the quotation's explicit primary claim; keywords, headings, tags, and Coverage targets are not classification evidence. Give every required item exactly one verdict under Section-Rules; NEVER relabel evidence to satisfy the declaration.
 
@@ -66,6 +70,6 @@ Before drafting or reviewing a section, verify that the selected template contai
 
 Section: Draft and discuss exactly one wiki section per response in selected-template order; NEVER mix sections. Write the smallest synthesis supported by evidence, separating conclusions when systems, assumptions, methods, parameter ranges, or uncertainties differ. Present at most four candidates or fixes per response, repeating batches until the section passes, in exact mode (final wiki block shape with exact prose, formulas, tags, and references) or summary mode (candidate claim, supporting Raw filename and quotation location, and one-sentence evidence summary before the checkpoint).
 
-Evidence Search: For every `weak` or `missing`, search verified primary Raw evidence first. If none exists, inspect `tmp/TAG_Secondary.md` only for cited-paper leads: use an already-ingested original paper's verified direct evidence; otherwise propose ingesting it or record an explicit gap.
+Evidence Search: For every `weak` or `missing`, run `python scripts\search_a_tag.py TAG` and review every generated primary section. Only after finding no valid evidence may you inspect `tmp/TAG_Secondary.md` for cited-paper leads, then use an already-ingested original paper's verified direct evidence, propose ingesting it, or record an explicit gap.
 
 Approval: Present the smallest section change set. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Apply only approved changes, show `git diff -- wiki`, then complete Section-Rules Re-review before the next section.
