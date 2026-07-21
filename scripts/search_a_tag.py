@@ -74,6 +74,7 @@ def parse_quotations(md_path: Path, sectionlist: list[str]) -> list[dict]:
         section_quotes = search_quotations(sectionmd)
         quotations.extend(section_quotes)
     for quote in quotations:
+        quote["filename"] = md_path.stem
         quote["source"] = md_path.stem + ": " + quote["source"]
     return quotations
 
@@ -97,8 +98,20 @@ def sort_quotations(quotations: list[dict]) -> list[dict]:
     return sorted_quotations
 
 
-def write_quotations(query_name: str, quotations: list[dict], outfile_path: str | Path) -> Path:
-    lines = [f"# {query_name}", ""]
+def format_summary(quotations: list[dict]) -> list[str]:
+    papers = {}
+    for quote in quotations:
+        papers.setdefault(quote["filename"], []).append(quote)
+    lines = ["## Papers", "", "| filename | quotes | claim-types | tags |", "|---|---:|---|---|"]
+    for filename, quotes in papers.items():
+        claim_types = ", ".join(dict.fromkeys(quote["claim_type"] for quote in quotes))
+        tags = ", ".join(dict.fromkeys(tag for quote in quotes for tag in quote["tags"]))
+        lines.append(f"| {filename} | {len(quotes)} | {claim_types} | {tags} |")
+    return lines + [""]
+
+
+def format_quotations(quotations: list[dict]) -> list[str]:
+    lines = []
     last_claim_type = ""
     for quote in sort_quotations(quotations):
         if quote["claim_type"] != last_claim_type:
@@ -111,11 +124,7 @@ def write_quotations(query_name: str, quotations: list[dict], outfile_path: str 
         if quote["doi"]: lines.append(f"[doi]: {quote['doi']}")
         lines += ["```", ""]
         lines += [quote["quote"], "---", ""]
-    outfile_path = Path(outfile_path)
-    outfile_path.parent.mkdir(parents=True, exist_ok=True)
-    output = "\n".join(lines)
-    outfile_path.write_text(output, encoding="utf-8")
-    return outfile_path
+    return lines
 
 
 def main(tagname: str, sectionname: str, outfile_path: str | Path) -> Path:
@@ -125,7 +134,11 @@ def main(tagname: str, sectionname: str, outfile_path: str | Path) -> Path:
         path_quotes = parse_quotations(path, [sectionname])
         quotations.extend(path_quotes)
     target_quotes = filter_quotations(quotations, None, [tagname])
-    return write_quotations(query_name, target_quotes, outfile_path)
+    lines = [f"# {query_name}", ""] + format_summary(target_quotes) + format_quotations(target_quotes)
+    outfile_path = Path(outfile_path)
+    outfile_path.parent.mkdir(parents=True, exist_ok=True)
+    outfile_path.write_text("\n".join(lines), encoding="utf-8")
+    return outfile_path
 
 
 if __name__ == "__main__":
