@@ -15,13 +15,13 @@ Give every generated primary quotation exactly one verdict:
 
 - `covered`: Wiki states the conclusion and cites the paper.
 - `miss-reference`: Wiki states the conclusion but does not cite the paper.
-- `miss-conclusion`: Wiki omits an important supported conclusion.
+- `needs-inclusion`: Wiki omits an important supported conclusion.
 - `conflict`: The quotation conflicts with Wiki.
 - `irrelevant`: The quotation does not belong in this tag's Wiki.
 
 List one verdict per `quote` block in source order and report `Verdicts: <verdicts>/<quote blocks>`. A count mismatch fails the generated section and blocks advancement. Verdicts may share one Wiki change but MUST NOT be merged.
 
-Apply [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) to every `miss-reference`, `miss-conclusion`, or `conflict`; `covered` and `irrelevant` require no Wiki change.
+Apply [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) to every `miss-reference`, `needs-inclusion`, or `conflict`; `covered` and `irrelevant` require no Wiki change.
 
 ### Wiki-to-Quotation Rules
 
