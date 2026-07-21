@@ -139,9 +139,9 @@ Claim: Every quote MUST support one clear claim.
 
 Length: Every quote should contain about 10-50 words.
 
-Tags: Every quotation MUST include at least two directly supported comma-separated tags in `[tags]: ...`.
+Tags: Every quotation MUST include at least one directly supported canonical tag in `[tags]: ...`.
 
-Repair: If one sentence supports only one tag, add a neighboring complete sentence from the same source section.
+Additional Tags: Include additional tags ONLY when the retained quotation directly supports each one.
 
 Tag Ban: NEVER invent tag co-occurrence.
 

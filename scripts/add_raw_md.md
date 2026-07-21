@@ -11,8 +11,8 @@
 
 [abstract]
 
-<!-- claim-types: require [claim_type]: definition [and] require [claim_type]: motivation -->
-<!-- coverage: for each of the three most central tags identified from the abstract, require >=1 valid definition quotation -->
+<!-- claim-types: require [claim_type]: motivation [and] require [claim_type]: definition if this section has at least one definition coverage target -->
+<!-- coverage: for each of the three most central tags identified from the abstract that is neither a core [tag_type]: method tag nor a current-work output [tag_type]: quantity tag, require >=1 valid definition quotation -->
 <!-- quotation: no section-specific requirements -->
 ### Motivation
 
@@ -32,8 +32,8 @@ This is a quotation from the original paper, which is tagged with the above tags
 
 ...
 
-<!-- claim-types: require [claim_type]: definition [and] require [claim_type]: comparison [and] require [claim_type]: assumption if the paper states an explicit assumption -->
-<!-- coverage: for each core [tag_type]: method tag, require >=1 valid definition quotation [and] for each core [tag_type]: method tag, require >=1 valid comparison quotation -->
+<!-- claim-types: require [claim_type]: definition [and] require [claim_type]: method [and] [claim_type]: comparison is optional [and] require [claim_type]: assumption if the paper states an explicit assumption -->
+<!-- coverage: for each core [tag_type]: method tag, require >=1 valid definition quotation [and] require >=1 valid method-use quotation -->
 <!-- quotation: every quotation requires at least one directly supported [tag_type]: method tag from vocab/tags.json; reject otherwise -->
 ### Methods
 
