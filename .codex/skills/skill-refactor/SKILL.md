@@ -1,9 +1,9 @@
 ---
-name: rule-skill-refactor
+name: skill-refactor
 description: Refactor rule-heavy SKILL.md files without losing semantics or constraints. Use when simplifying structure, execution flow, ownership, or duplication in a skill.
 ---
 
-# Rule Skill Refactor
+# Skill Refactor
 
 ## Workflow
 
