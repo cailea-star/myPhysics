@@ -112,6 +112,19 @@ With the FSUGarnet0.153 parameter set, the density-dependent symmetry energy is 
 
 ```tags
 [claim_type]: result
+[tags]: nonlinear_meson_coupling, slope_parameter, symmetry_energy, saturation_density
+[source]: section 2.2. Symmetry energy; Table 2.
+```
+
+```quote
+[...] we introduce [...] by adjusting ΛV and gρ [...]. The [...] symmetry energy remains fixed at saturation density ρ=0.153 fm−3 [...]. The equation of state for symmetric matter remains unchanged, as other parameters remain constant. The obtained [...] ‘family’, together the slope parameter L at saturation density, is listed in Table 2 [...].
+```
+
+
+##### quotation-09
+
+```tags
+[claim_type]: result
 [tags]: nonlinear_meson_coupling, ground_state_energy, symmetry_energy
 [source]: section 3.1. Ground state energies and deformations; Fig. 2.
 ```
@@ -121,7 +134,7 @@ As illustrated in Fig. 2, the ground state energy Eg.s. exhibits an increase as 
 ```
 
 
-##### quotation-09
+##### quotation-10
 
 ```tags
 [claim_type]: result
@@ -134,7 +147,7 @@ For nuclei with non-zero isospin asymmetry, the ground-state energy increases vi
 ```
 
 
-##### quotation-10
+##### quotation-11
 
 ```tags
 [claim_type]: result
@@ -147,7 +160,7 @@ In addition, it is found that the proton single particle levels along with its F
 ```
 
 
-##### quotation-11
+##### quotation-12
 
 ```tags
 [claim_type]: result
@@ -160,7 +173,7 @@ In the framework of RMF theory, the spherical neutron magic number beyond N = 12
 ```
 
 
-##### quotation-12
+##### quotation-13
 
 ```tags
 [claim_type]: comparison
@@ -175,7 +188,7 @@ Fig. 6(b) shows substantial increases of the half-lives of 270Hs and 304120 as t
 
 ### Meanings
 
-##### quotation-13
+##### quotation-14
 
 ```tags
 [claim_type]: innovation
@@ -188,7 +201,7 @@ We introduce the FSUGarnet0.153 interaction ‘family’ based on the well-estab
 ```
 
 
-##### quotation-14
+##### quotation-15
 
 ```tags
 [claim_type]: comparison
@@ -201,7 +214,7 @@ The ground-state energy increases as the softening of the symmetry energy (the i
 ```
 
 
-##### quotation-15
+##### quotation-16
 
 ```tags
 [claim_type]: comparison
@@ -214,7 +227,7 @@ However, the proton shell gap at Z = 108 and neutron shell gap at N = 162 for 27
 ```
 
 
-##### quotation-16
+##### quotation-17
 
 ```tags
 [claim_type]: comparison
@@ -230,7 +243,7 @@ Fig. 6(b) shows substantial increases of the half-lives of 270Hs and 304120 as t
 
 ### Secondary Citations
 
-##### quotation-17
+##### quotation-18
 ```tags
 [claim_type]: method
 [tags]: pairing_correlation, BCS
@@ -248,7 +261,7 @@ V = -V_0 \left[1 - \left(\frac{\rho(r)}{\rho_0}\right)^\gamma\right]\delta(r_1 -
 ```
 
 
-##### quotation-18
+##### quotation-19
 ```tags
 [claim_type]: definition
 [tags]: symmetry_energy, density_dependent
@@ -268,7 +281,7 @@ E_{\rm sym}
 ```
 
 
-##### quotation-19
+##### quotation-20
 ```tags
 [claim_type]: method
 [tags]: FSUGarnet, symmetry_energy, density_dependent
@@ -282,7 +295,7 @@ To study the effects of different density-dependent behavior of symmetry energy 
 ```
 
 
-##### quotation-20
+##### quotation-21
 ```tags
 [claim_type]: definition
 [tags]: two_nucleon_shell_gap, shell_closure
@@ -301,7 +314,7 @@ The other indicator of shell closures is the two-nucleon gap which is appropriat
 ```
 
 
-##### quotation-21
+##### quotation-22
 ```tags
 [claim_type]: result
 [tags]: alpha_decay_energy, alpha_decay_half_life
@@ -315,7 +328,7 @@ The α-decay half-life is extremely sensitive to the decay energy Qα, and an un
 ```
 
 
-##### quotation-22
+##### quotation-23
 ```tags
 [claim_type]: method
 [tags]: alpha_decay_half_life, alpha_decay_energy
@@ -336,7 +349,7 @@ Many models can be employed to estimate the half-life [67--85], and here we use 
 ```
 
 
-##### quotation-23
+##### quotation-24
 ```tags
 [claim_type]: result
 [tags]: RMF, symmetry_energy, superheavy_nuclei, single_particle_energy_level
@@ -355,14 +368,11 @@ The impact of the symmetry energy on the properties of spherical SHN has been in
 - `[section]: Motivation | [item]: coverage | [target]: superheavy_nuclei definition quotation | [reason]: source provides no definition`
 - `[section]: Motivation | [item]: coverage | [target]: alpha_decay definition quotation | [reason]: source provides no definition`
 - `[section]: Methods | [item]: claim-types | [target]: require [claim_type]: definition | [reason]: definitions depend on external citations`
-- `[section]: Methods | [item]: claim-types | [target]: require [claim_type]: comparison | [reason]: no direct core-method comparison`
 - `[section]: Methods | [item]: coverage | [target]: RMF definition quotation | [reason]: definition comes from cited sources`
 - `[section]: Methods | [item]: coverage | [target]: RMF comparison quotation | [reason]: no RMF method comparison`
 - `[section]: Methods | [item]: coverage | [target]: BCS definition quotation | [reason]: definition comes from cited sources`
 - `[section]: Methods | [item]: coverage | [target]: BCS comparison quotation | [reason]: no BCS method comparison`
 - `[section]: Methods | [item]: coverage | [target]: nonlinear_meson_coupling definition quotation | [reason]: source states use and effect only`
-- `[section]: Methods | [item]: coverage | [target]: nonlinear_meson_coupling comparison quotation | [reason]: no coupling-method comparison`
-- `[section]: Results | [item]: coverage | [target]: saturation_density definition quotation | [reason]: source gives value without defining criterion`
 - `[section]: Results | [item]: coverage | [target]: slope_parameter definition quotation | [reason]: source reports values without definition`
 - `[section]: Results | [item]: coverage | [target]: ground_state_energy definition quotation | [reason]: source states importance and behavior only`
 - `[section]: Results | [item]: coverage | [target]: quadrupole_deformation definition quotation | [reason]: source reports values without definition`
@@ -371,4 +381,3 @@ The impact of the symmetry energy on the properties of spherical SHN has been in
 - `[section]: Results | [item]: coverage | [target]: alpha_decay_energy definition quotation | [reason]: formula lacks eligible method evidence`
 - `[section]: Results | [item]: coverage | [target]: alpha_decay_half_life definition quotation | [reason]: definition depends on cited Royer formula`
 - `[section]: Results | [item]: coverage | [target]: Table 1 quotation | [reason]: no eligible method-and-quantity sentence`
-- `[section]: Results | [item]: coverage | [target]: Table 2 quotation | [reason]: no valid linked quotation within length limit`

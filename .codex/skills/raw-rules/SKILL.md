@@ -17,6 +17,8 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 
 `raw/*.pdf` and `raw/*.tex` are original full text from network or user.
 
+Source Check: Before drafting or reviewing, run `python -c "from pathlib import Path; assert Path('raw/<basename>.pdf').is_file() or Path('raw/<basename>.tex').is_file()"`.
+
 `raw/*.md` is quotation from original full text with tags.
 
 `tmp/*.md` is a temporary rearrangement of raw quotation evidence generated from `raw/*.md` searches.

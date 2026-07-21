@@ -92,7 +92,7 @@ Before drafting or reviewing a section, verify that the selected template contai
 
 Section: Draft and discuss exactly one wiki section per response in selected-template order; NEVER mix sections. Write the smallest synthesis supported by evidence, separating conclusions when systems, assumptions, methods, parameter ranges, or uncertainties differ. Present at most four candidates or fixes per response, repeating batches until the section passes, in exact mode (final wiki block shape with exact prose, formulas, tags, and references) or summary mode (candidate claim, supporting Raw filename and quotation location, and one-sentence evidence summary before the checkpoint).
 
-Evidence Search: For every `weak` or `missing`, run `python scripts\search_a_tag.py TAG` and review every generated primary section. Only after finding no valid evidence may you inspect `tmp/TAG_Secondary.md` for cited-paper leads, then use an already-ingested original paper's verified direct evidence, propose ingesting it, or record an explicit gap.
+Evidence Search: Resolve exactly one canonical `TAG` under [Vocab Rules](../vocab-rules/SKILL.md), run `python scripts\search_a_tag.py TAG`, and review every generated primary section as read-only input before drafting or review. NEVER directly load or traverse `raw/*.md`, modify generated sections, use `tmp/TAG_Secondary.md` as evidence, expand to another tag, sample sections, or stop early. If the evidence remains insufficient, report `weak` or `missing` to the calling workflow and block drafting, writing, and advancement.
 
 Approval: Present the smallest section change set. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed.
 
