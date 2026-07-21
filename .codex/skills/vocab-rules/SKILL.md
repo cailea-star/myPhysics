@@ -7,13 +7,19 @@ description: Apply canonical myWIKI vocabulary rules when selecting, drafting, r
 
 ## Rules
 
+### Author-Rules
+
+Sources: Use authors from [vocab/authors.json](../../../vocab/authors.json).
+
+Check: Run `python scripts\check_vocab_author.py raw\[json_filename].json` as a routine check of the corresponding-author list, then read the PDF/TEX source text for corresponding-author information and report both the script terminal output and the source-text corresponding-author information to the user.
+
 ### Resolve-Rules
 
 Scope: Quotation tags are centered on physical quantities actually calculated, plotted, or compared in the paper; do not tag unrelated background mentions.
 
-Sources: Use tag types from [vocab/types.json](../../../vocab/types.json) and authors from [vocab/authors.json](../../../vocab/authors.json).
+Sources: Use tag types from [vocab/types.json](../../../vocab/types.json).
 
-Lookup: For every candidate concept, run `python scripts\search_similar_tags.py "CANDIDATE" 3`, show all three results, and use their canonical tags, types, aliases, and definitions; NEVER load `vocab/tags.json` directly.
+Lookup: For every candidate concept, run `python scripts\search_similar_tags.py "CANDIDATE" 3`, show all three results, and use their canonical tags, types, aliases, and definitions; during candidate resolution, NEVER load `vocab/tags.json` directly.
 
 Type Match: Every type assigned to a drafted tag MUST independently satisfy that tag type's `requirement` in [vocab/types.json](../../../vocab/types.json); otherwise remove the type or reject the draft.
 
@@ -25,6 +31,6 @@ Proposal: Under Resolve-Rules, propose `reuse`, `add`, `merge`, or `rename` for 
 
 Merge: Run `python scripts\search_similar_tags.py "TARGET" 3`, require the exact target in its output, and check its definition, aliases, and types against approved wiki and source evidence.
 
-Write: Present one draft group with an explicit proposal for each candidate. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Apply only individually approved proposals: write approved additions; for an approved merge or rename, run `python scripts\rename_raw_tag.py OLD NEW` and update `tags.json` and affected wiki names and links in the same gate. After any required verification passes, present the next draft group.
+Write: Present one draft group with an explicit proposal for each candidate. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Apply only individually approved proposals: use the approved canonical tag for `reuse`; for an approved `add`, read only the final 10 lines of `vocab/tags.json` and write the approved addition; for an approved merge or rename, run `python scripts\rename_raw_tag.py OLD NEW` and update `tags.json` and affected wiki names and links in the same gate. After any required verification passes, present the next draft group.
 
 Verify: After every approved add, merge, or rename, rerun `python scripts\search_a_tag.py TAG` for every affected tag; require zero unprocessed quotations, unresolved approved changes, or partial tag migrations. For merge or rename, also require zero OLD quotations. Re-audit the resulting tag and report evidence gaps without expanding scope.

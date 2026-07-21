@@ -103,7 +103,7 @@ Count Failure: A verdict-count mismatch fails the section and blocks advancement
 
 #### Gap-Rules
 
-Eligibility: `gap` ONLY after full-text review finds no valid evidence.
+Eligibility: Before recording or retaining any `gap`, recheck its declared requirement against the full text and all written quotation sections. A `gap` is valid ONLY when the requirement applies, no valid evidence exists, and no necessary Missing Tag remains unresolved.
 
 Record: Every `gap` MUST have exactly one matching `### Gaps` entry.
 
@@ -140,8 +140,6 @@ Length: Every quote should contain about 10-50 words.
 Tags: Every quotation MUST include at least two directly supported comma-separated tags in `[tags]: ...`.
 
 Repair: If one sentence supports only one tag, add a neighboring complete sentence from the same source section.
-
-Gap: If no second supported tag exists, record a gap.
 
 Tag Ban: NEVER invent tag co-occurrence.
 

@@ -42,7 +42,7 @@ This is a quotation from the original paper, which is tagged with the above tags
 ...
 
 <!-- claim-types: require [claim_type]: result [and] [claim_type]: definition is optional [and] [claim_type]: comparison is optional -->
-<!-- coverage: for each calculated or measured [tag_type]: quantity tag not defined earlier, require >=1 valid definition quotation [and] for each figure or table, require >=1 valid complete-sentence quotation using its calculated or measured [tag_type]: quantity tags; otherwise report a gap -->
+<!-- coverage: for each [tag_type]: quantity tag calculated or measured as a current-work output and not defined earlier, require >=1 valid definition quotation [and] for each figure or table, require >=1 valid complete-sentence quotation using its calculated or measured [tag_type]: quantity tags; otherwise report a gap -->
 <!-- quotation: every quotation requires at least one directly supported [tag_type]: method tag and one calculated or measured [tag_type]: quantity tag; reject otherwise -->
 ### Results
 
