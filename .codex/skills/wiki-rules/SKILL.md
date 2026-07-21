@@ -9,11 +9,15 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 
 ### Wiki-Rules
 
+#### Truth and File Roles
+
 `wiki/*.md` is synthesis from verified `raw/*.md` quotation evidence; it is NEVER original evidence.
 
 Raw evidence is verified ONLY when its quotation and entire containing section pass [Raw Section-Rules](../raw-rules/SKILL.md#section-rules); unreviewed, `gap`, or `fix` evidence MUST NOT support Wiki.
 
 A wiki filename MUST equal its canonical tag resolved under [Vocab Rules](../vocab-rules/SKILL.md).
+
+#### Evidence and Synthesis
 
 Every factual claim and formula MUST be directly supported by verified primary Raw evidence. NEVER infer, generalize beyond evidence, fill a template from domain knowledge, or use `tmp/*_Secondary.md` claims or formulas as evidence.
 
@@ -27,11 +31,15 @@ Formula: A formula is supported ONLY when the cited Raw evidence contains the fo
 
 Conflict: When verified sources disagree, preserve each conclusion, its conditions, and its references; NEVER collapse conflicts into a false consensus.
 
-Secondary Citations: Treat Secondary Citations only as paper leads. NEVER cite their claims or formulas in Wiki; use an already-ingested original paper's verified direct evidence, propose ingesting it, or report an explicit gap.
-
 Tags: Resolve every frontmatter and fenced-block tag under [Vocab Rules](../vocab-rules/SKILL.md). Unresolved tags block writing.
 
+#### Global Prohibitions
+
+Secondary Citations: Treat Secondary Citations only as paper leads. NEVER cite their claims or formulas in Wiki; use an already-ingested original paper's verified direct evidence, propose ingesting it, or report an explicit gap.
+
 ### Template-Rules
+
+#### Selection and Shape
 
 Template Selection: A `[tag_type]: method` uses [scripts/add_wiki_method.md](../../../scripts/add_wiki_method.md); every other tag type uses [scripts/add_wiki_topic.md](../../../scripts/add_wiki_topic.md).
 
@@ -39,15 +47,25 @@ Template Integrity: Every `###` section in the selected template MUST contain ex
 
 Template Shape: Preserve the selected template's `###` section order, heading levels, and required block shapes; NEVER add, remove, reorder, or reshape its `###` sections. Add or remove repeated `#####` instances ONLY as verified evidence requires.
 
+#### Declaration and Classification
+
 Template Claim Types: Use only claim types from [vocab/types.json](../../../vocab/types.json). Before drafting or reviewing a wiki section, read its `claim-types` declaration. A required claim type is covered ONLY when sufficient verified Raw evidence has that `[claim_type]` and passes its `requirement`. Judge the quotation's explicit primary claim; keywords, headings, tags, and Coverage targets are not classification evidence. Give every required item exactly one verdict under Section-Rules; NEVER relabel evidence to satisfy the declaration.
 
 Template Coverage: Before drafting or reviewing a wiki section, read its `coverage` declaration from the selected template. Give every required item exactly one verdict under Section-Rules. NEVER invent content or evidence.
+
+#### Verdict and Expansion
 
 Counting: `[and]` separates independently reviewed items; `[or]` joins alternatives within one item. A `for each` item expands to one verdict per identified target. `optional` and `none` contribute zero items, and their absence is NEVER `missing`.
 
 Output: Template declarations are authoritative and MUST NOT be copied into `wiki/*.md`.
 
 ### Section-Rules
+
+#### Review Contract
+
+Review: Independently review exactly one written wiki section per response in selected-template order. List verdicts in source order and report `Wiki Verdicts: <verdicts>/<factual claims + formulas + required template items>`. A count mismatch fails the section and blocks writing.
+
+#### Verdict Contract
 
 Verdicts: Give every factual claim, formula, and required template item exactly one verdict:
 
@@ -56,7 +74,7 @@ Verdicts: Give every factual claim, formula, and required template item exactly 
 - `missing`: required content is absent; find verified Raw evidence or record an explicit no-evidence gap.
 - `not-applicable`: a required template item does not apply; do not fill it.
 
-Review: Independently review exactly one written wiki section per response in selected-template order. List verdicts in source order and report `Wiki Verdicts: <verdicts>/<factual claims + formulas + required template items>`. A count mismatch fails the section and blocks writing.
+#### Pass and Advancement
 
 Review Pass: A section passes ONLY when counts match, every existing factual claim and formula is `supported`, and every required item is `supported`, `not-applicable`, or an explicit no-evidence gap. Any unresolved `weak` or `missing` blocks advancement.
 
@@ -64,12 +82,20 @@ Re-review: After ANY write to `wiki/*.md`, re-review the ENTIRE current section.
 
 ### Draft-Rules
 
+#### Preparation
+
 Before ANY write to `wiki/*.md`, complete these Draft-Rules for the affected section; NEVER write first and review afterward.
 
 Before drafting or reviewing a section, verify that the selected template contains exactly one `claim-types` and one `coverage` declaration for it; otherwise stop. Print both declarations, then print every relevant claim-type requirement from [vocab/types.json](../../../vocab/types.json).
+
+#### Batch Review and Approval
 
 Section: Draft and discuss exactly one wiki section per response in selected-template order; NEVER mix sections. Write the smallest synthesis supported by evidence, separating conclusions when systems, assumptions, methods, parameter ranges, or uncertainties differ. Present at most four candidates or fixes per response, repeating batches until the section passes, in exact mode (final wiki block shape with exact prose, formulas, tags, and references) or summary mode (candidate claim, supporting Raw filename and quotation location, and one-sentence evidence summary before the checkpoint).
 
 Evidence Search: For every `weak` or `missing`, run `python scripts\search_a_tag.py TAG` and review every generated primary section. Only after finding no valid evidence may you inspect `tmp/TAG_Secondary.md` for cited-paper leads, then use an already-ingested original paper's verified direct evidence, propose ingesting it, or record an explicit gap.
 
-Approval: Present the smallest section change set. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Apply only approved changes, show `git diff -- wiki`, then complete Section-Rules Re-review before the next section.
+Approval: Present the smallest section change set. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed.
+
+#### Write and Re-review
+
+Apply only approved changes, show `git diff -- wiki`, then complete Section-Rules Re-review before the next section.

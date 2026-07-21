@@ -30,7 +30,7 @@ Run gates strictly in order. At the start of each response, state the current ga
    If arXiv fails, do not try other downloads. Give direct PDF link(s), the exact target path, and wait for the user file.
 
 ### Gate 3 — Check Tag & Author
-   Run `python scripts\check_vocab_author.py raw\[json_filename].json` as a routine check of the corresponding-author list, then read the PDF/TEX source text for corresponding-author information and report both the script terminal output and the source-text corresponding-author information to the user.
+   Apply [Vocab Author-Rules](../vocab-rules/SKILL.md#author-rules).
    Select and print exactly three core Abstract concepts; keep them fixed for later abstract coverage and resolve each under [Vocab Resolve-Rules](../vocab-rules/SKILL.md#resolve-rules), applying Draft-Rules when needed—NEVER substitute easier existing tags.
 
 ### Gate 4 — Discuss Quotations
