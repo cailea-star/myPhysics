@@ -23,7 +23,7 @@ Give every non-`irrelevant` quotation exactly one `[wiki-section]` destination u
 
 List one `{verdict, wiki-section}` pair per `quote` block in source order and report `Verdicts: <verdicts>/<quote blocks>`. A count mismatch fails the generated section and blocks advancement. Verdicts may share one Wiki change but MUST NOT be merged.
 
-Queue every `miss-reference`, `needs-inclusion`, or `conflict` from the current generated primary section under its resolved `[wiki-section]`; `covered` and `irrelevant` require no Wiki change. The current section's actionable queue MUST reach zero under Gate 2 before advancing to the next generated primary section.
+Queue every `miss-reference`, `needs-inclusion`, or `conflict` from the current generated primary section under its resolved `[wiki-section]`; `covered` and `irrelevant` require no Wiki change. The current section's actionable queue MUST reach zero under Gate 3 before advancing to the next generated primary section.
 
 ### Wiki-to-Quotation Rules
 
@@ -52,23 +52,23 @@ Run gates strictly in order. Start every response with the current gate, last co
    ```
 2. Resolve exactly one canonical tag and its types under [Vocab Rules](../vocab-rules/SKILL.md), then confirm its Wiki path and required template under [Wiki Rules](../wiki-rules/SKILL.md); if no valid existing tag resolves, **🛑 STOP**.
 3. If Wiki is absent, **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval to draft it from the required template; do not write, search, audit, or propose content changes before approval. After approval, run `python scripts\add_wiki_md.py TAG TAG_TYPE`; if it fails, **🛑 STOP**.
-4. Complete [Wiki Evidence Search](../wiki-rules/SKILL.md#draft-rules); do not advance unless every expected primary output exists.
+4. Declare Wiki evidence scope `all-primary`, then complete [Wiki Evidence Search](../wiki-rules/SKILL.md#draft-rules); do not advance unless every expected primary output exists.
 
-### Gate 2 — Quotations to Wiki
+### Gate 2 — Wiki to Quotations to Wiki
 
-1. Process generated primary sections in order: Motivation, Methods, Results, Meanings. Apply Quotation-to-Wiki Rules, including destination routing, to exactly one generated primary section per response.
-2. Report its complete verdict set. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before processing its actionable queue; do not proceed.
-3. After approval, process the current generated section's destination Wiki sections in template order. For exactly one Wiki section per response, collect every actionable verdict assigned to it and present the smallest exact-mode Wiki draft under [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules). **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not write or proceed.
-4. After explicit approval, write that draft immediately, re-review the entire Wiki section, and show `git diff -- wiki`. A failed re-review returns to fixes; a pass advances to the next destination Wiki section.
-5. Advance to the next generated primary section ONLY when the current section's actionable queue is empty. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next generated primary section; do not proceed.
-
-### Gate 3 — Wiki to Quotations to Wiki
-
-1. Apply [Wiki Section-Rules](../wiki-rules/SKILL.md#section-rules) to exactly one Wiki section per response in template order.
+1. Declare Wiki evidence scope `all-primary`, then apply [Wiki Section-Rules](../wiki-rules/SKILL.md#section-rules) to exactly one Wiki section per response in template order.
 2. If the Wiki section passes, report pass. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next Wiki section; do not proceed.
 3. Otherwise resolve every `weak` or `missing` under Wiki-to-Quotation Rules. Complete any required Raw Draft, Raw Re-review, regeneration, and Quotation-to-Wiki verdict before proposing a Wiki change.
 4. Apply [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) to the resulting Wiki candidates or fixes. Do not advance until the current Wiki section passes.
 5. Show `git diff -- raw wiki`. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next Wiki section; do not proceed.
+
+### Gate 3 — Quotations to Wiki
+
+1. Process generated primary sections in order: Motivation, Methods, Results, Meanings. Apply Quotation-to-Wiki Rules, including destination routing, to exactly one generated primary section per response.
+2. Report its complete verdict set. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before processing its actionable queue; do not proceed.
+3. After approval, declare Wiki evidence scope `one-approved-primary-section` for the exact current generated primary section, then process its destination Wiki sections in template order. For exactly one Wiki section per response, collect every actionable verdict assigned to it and present the smallest exact-mode Wiki draft under [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules). **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not write or proceed.
+4. After explicit approval, apply [Wiki Write and Re-review](../wiki-rules/SKILL.md#write-and-re-review).
+5. Advance to the next generated primary section ONLY when the current section's actionable queue is empty. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next generated primary section; do not proceed.
 
 ### Gate 4 — Wiki to Tags
 
