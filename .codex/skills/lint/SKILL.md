@@ -23,7 +23,7 @@ Give every non-`irrelevant` quotation exactly one `[wiki-section]` destination u
 
 List one `{verdict, wiki-section}` pair per `quote` block in source order and report `Verdicts: <verdicts>/<quote blocks>`. A count mismatch fails the generated section and blocks advancement. Verdicts may share one Wiki change but MUST NOT be merged.
 
-Queue every `miss-reference`, `needs-inclusion`, or `conflict` under its resolved `[wiki-section]`; `covered` and `irrelevant` require no Wiki change. Apply [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) only after all four generated primary sections pass verdict review and routing.
+Queue every `miss-reference`, `needs-inclusion`, or `conflict` from the current generated primary section under its resolved `[wiki-section]`; `covered` and `irrelevant` require no Wiki change. The current section's actionable queue MUST reach zero under Gate 2 before advancing to the next generated primary section.
 
 ### Wiki-to-Quotation Rules
 
@@ -56,10 +56,11 @@ Run gates strictly in order. Start every response with the current gate, last co
 
 ### Gate 2 — Quotations to Wiki
 
-1. Apply Quotation-to-Wiki Rules, including destination routing, to exactly one generated primary section per response, in order: Motivation, Methods, Results, Meanings.
-2. Report its complete verdict set. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next generated section; do not proceed.
-3. After all four generated primary sections pass, process destination Wiki sections in template order. For exactly one Wiki section per response, collect every assigned actionable verdict and present the smallest exact-mode Wiki draft under [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules). **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not write or proceed.
-4. After explicit approval, write that draft immediately, re-review the entire Wiki section, and show `git diff -- wiki`. A failed re-review returns to fixes; a pass advances to the next Wiki section. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next Wiki section; do not proceed.
+1. Process generated primary sections in order: Motivation, Methods, Results, Meanings. Apply Quotation-to-Wiki Rules, including destination routing, to exactly one generated primary section per response.
+2. Report its complete verdict set. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before processing its actionable queue; do not proceed.
+3. After approval, process the current generated section's destination Wiki sections in template order. For exactly one Wiki section per response, collect every actionable verdict assigned to it and present the smallest exact-mode Wiki draft under [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules). **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not write or proceed.
+4. After explicit approval, write that draft immediately, re-review the entire Wiki section, and show `git diff -- wiki`. A failed re-review returns to fixes; a pass advances to the next destination Wiki section.
+5. Advance to the next generated primary section ONLY when the current section's actionable queue is empty. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next generated primary section; do not proceed.
 
 ### Gate 3 — Wiki to Quotations to Wiki
 
