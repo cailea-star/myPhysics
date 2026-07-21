@@ -51,7 +51,7 @@ Run gates strictly in order. Start every response with the current gate, last co
    git status --short
    ```
 2. Resolve exactly one canonical tag and its types under [Vocab Rules](../vocab-rules/SKILL.md), then confirm its Wiki path and required template under [Wiki Rules](../wiki-rules/SKILL.md); if no valid existing tag resolves, **🛑 STOP**.
-3. If Wiki is absent, **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval to draft it from the required template; do not write, search, audit, or propose content changes before approval.
+3. If Wiki is absent, **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval to draft it from the required template; do not write, search, audit, or propose content changes before approval. After approval, run `python scripts\add_wiki_md.py TAG TAG_TYPE`; if it fails, **🛑 STOP**.
 4. Complete [Wiki Evidence Search](../wiki-rules/SKILL.md#draft-rules); do not advance unless every expected primary output exists.
 
 ### Gate 2 — Quotations to Wiki

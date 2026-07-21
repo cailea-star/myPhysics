@@ -39,6 +39,8 @@ Tags: Resolve every frontmatter and fenced-block tag under [Vocab Rules](../voca
 
 Template Selection: A `[tag_type]: method` uses [scripts/add_wiki_method.md](../../../scripts/add_wiki_method.md); every other tag type uses [scripts/add_wiki_topic.md](../../../scripts/add_wiki_topic.md).
 
+Template Generation: After the calling workflow approves creation of an absent Wiki, run `python scripts\add_wiki_md.py TAG TAG_TYPE`; NEVER create the Wiki scaffold manually.
+
 Template Integrity: Every `###` section in the selected template MUST contain exactly one `claim-types` and one `coverage` declaration. Declarations are not required for `#####` subsections. Missing or duplicate declarations block drafting and review.
 
 Template Shape: Preserve the selected template's `###` section order, heading levels, and required block shapes; NEVER add, remove, reorder, or reshape its `###` sections. Add or remove repeated `#####` instances ONLY as verified evidence requires.
