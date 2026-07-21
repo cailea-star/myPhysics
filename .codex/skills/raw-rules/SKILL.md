@@ -185,6 +185,8 @@ Violation: Any invalid evidence link is `fix` and blocks approval.
 
 Role: Secondary Citations are paper leads only.
 
+Gap Lead: Prioritize an explicitly linked external citation when it supplies a core method definition, current-output quantity definition, or core mechanism missing under a validated gap; it remains a paper lead and NEVER satisfies that gap.
+
 Evidence Ban: NEVER use their quoted claims or formulas as direct evidence.
 
 Raw Ban: NEVER use them to backfill `raw/*.md`.
