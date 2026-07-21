@@ -19,9 +19,11 @@ Give every generated primary quotation exactly one verdict:
 - `conflict`: The quotation conflicts with Wiki.
 - `irrelevant`: The quotation does not belong in this tag's Wiki.
 
-List one verdict per `quote` block in source order and report `Verdicts: <verdicts>/<quote blocks>`. A count mismatch fails the generated section and blocks advancement. Verdicts may share one Wiki change but MUST NOT be merged.
+Give every non-`irrelevant` quotation exactly one `[wiki-section]` destination using the selected Wiki template's exact `###` heading. Resolve it from the quotation's explicit primary claim against each Wiki section's `claim-types` and `coverage`; the generated primary section name is NEVER destination evidence. Use `[wiki-section]: none` only for `irrelevant`. Zero or multiple valid destinations is `routing-gap` and blocks advancement.
 
-Apply [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) to every `miss-reference`, `needs-inclusion`, or `conflict`; `covered` and `irrelevant` require no Wiki change.
+List one `{verdict, wiki-section}` pair per `quote` block in source order and report `Verdicts: <verdicts>/<quote blocks>`. A count mismatch fails the generated section and blocks advancement. Verdicts may share one Wiki change but MUST NOT be merged.
+
+Queue every `miss-reference`, `needs-inclusion`, or `conflict` under its resolved `[wiki-section]`; `covered` and `irrelevant` require no Wiki change. Apply [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) only after all four generated primary sections pass verdict review and routing.
 
 ### Wiki-to-Quotation Rules
 
@@ -54,10 +56,10 @@ Run gates strictly in order. Start every response with the current gate, last co
 
 ### Gate 2 — Quotations to Wiki
 
-1. Apply Quotation-to-Wiki Rules to exactly one generated primary section per response, in order: Motivation, Methods, Results, Meanings.
+1. Apply Quotation-to-Wiki Rules, including destination routing, to exactly one generated primary section per response, in order: Motivation, Methods, Results, Meanings.
 2. Report its complete verdict set. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next generated section; do not proceed.
-3. After all four generated primary sections pass, resolve actionable verdicts under [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules), exactly one Wiki section per response.
-4. After each approved Wiki write and re-review, show `git diff -- wiki`. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next Wiki section; do not proceed.
+3. After all four generated primary sections pass, process destination Wiki sections in template order. For exactly one Wiki section per response, collect every assigned actionable verdict and present the smallest exact-mode Wiki draft under [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules). **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not write or proceed.
+4. After explicit approval, write that draft immediately, re-review the entire Wiki section, and show `git diff -- wiki`. A failed re-review returns to fixes; a pass advances to the next Wiki section. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next Wiki section; do not proceed.
 
 ### Gate 3 — Wiki to Quotations to Wiki
 
