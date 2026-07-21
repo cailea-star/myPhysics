@@ -73,21 +73,7 @@ In addition, it should be particularly noted that sufﬁcient knowledge of the �
 The α-decaying states are identified as narrow outgoing Gamow resonances in an α-daughter potential. The real part of the eigenvalue corresponds to the Q-value, while the imaginary part determines the half of the total α-decay width.
 ```
 
-### Methods
-
 ##### quotation-06
-
-```tags
-[claim_type]: assumption
-[tags]: semiclassical_method, alpha_decay_fine_structure
-[source]: section 3. Semiclassical approach
-```
-
-```quote
-As a straightforward extension for the fine structure, one treats the decay channels involved as individual events with different decay energies and various centrifugal barriers together with WKB penetration probabilities that are separately evaluated for them.
-```
-
-##### quotation-07
 
 ```tags
 [claim_type]: definition
@@ -99,7 +85,33 @@ As a straightforward extension for the fine structure, one treats the decay chan
 By expanding the total wave function of the system into a sum of partial waves one obtains the coupled-channel equations given by equations (2.9) and (2.10) for the radial wave function representing the relative motion of the α particle with respect to the daughter nucleus, fc(R).
 ```
 
+### Methods
+
+##### quotation-07
+
+```tags
+[claim_type]: assumption
+[tags]: semiclassical_method, alpha_decay_fine_structure
+[source]: section 3. Semiclassical approach
+```
+
+```quote
+As a straightforward extension for the fine structure, one treats the decay channels involved as individual events with different decay energies and various centrifugal barriers together with WKB penetration probabilities that are separately evaluated for them.
+```
+
 ##### quotation-08
+
+```tags
+[claim_type]: definition
+[tags]: coupled_channels_method, alpha_decay
+[source]: section 5.1. Double folding interaction plus repulsive core
+```
+
+```quote
+By expanding the total wave function of the system into a sum of partial waves one obtains the coupled-channel equations given by equations (2.9) and (2.10) for the radial wave function representing the relative motion of the α particle with respect to the daughter nucleus, fc(R).
+```
+
+##### quotation-09
 
 ```tags
 [claim_type]: definition
@@ -115,7 +127,7 @@ In both cases, the α-decay process is treated as a one-dimensional problem and 
 P = \exp\left(-\frac{2}{\hbar}\int_{R_1}^{R_2}\sqrt{2\mu[V(R)-Q_\alpha]}\,dR\right)
 ```
 
-##### quotation-09
+##### quotation-10
 
 ```tags
 [claim_type]: comparison
@@ -127,9 +139,21 @@ P = \exp\left(-\frac{2}{\hbar}\int_{R_1}^{R_2}\sqrt{2\mu[V(R)-Q_\alpha]}\,dR\rig
 In table 1, the coupled-channel results obtained from different models are also displayed for comparison. The comparison with the semiclassical results gives a strong indication of the importance of the coupling effects, which cannot be ignored especially for the transitions to highly excited states.
 ```
 
+##### quotation-11
+
+```tags
+[claim_type]: comparison
+[tags]: double_folding_potential, alpha_clustering
+[source]: section 8. Conclusions
+```
+
+```quote
+We described two equivalent methods to simulate the Pauli principle, which implies the existence of the α-particle on the nuclear surface, namely (i) the lowest narrow outgoing resonance in the pocket-like potential obtained by adding a repulsive core and (ii) the Wildermuth rule [...] in the original double folding potential.
+```
+
 ### Results
 
-##### quotation-10
+##### quotation-12
 
 ```tags
 [claim_type]: comparison
@@ -141,7 +165,19 @@ In table 1, the coupled-channel results obtained from different models are also 
 As can be seen, all the semiclassical models tend to overestimate the b.r. to excited 4+ states by more than one order of magnitude except for the CPPMDN result for the emitter 238Pu where the b.r. is underestimated by a factor of roughly 20.
 ```
 
-##### quotation-11
+##### quotation-13
+
+```tags
+[claim_type]: comparison
+[tags]: semiclassical_method, cluster_core_model, alpha_decay_branching_ratio
+[source]: section 5.4. Results for well-deformed even-even, odd-mass, and odd-odd emitters, table 2
+```
+
+```quote
+In terms of the WKB barrier penetration approach, the b.r. to 5/2+ states should be smaller than that to 3/2+ states [...]. This is in contradiction with the experimental data. By contrast, the MCCM results interpret well such an unexpected inversion and show good agreement with the data.
+```
+
+##### quotation-14
 
 ```tags
 [claim_type]: result
@@ -153,7 +189,7 @@ As can be seen, all the semiclassical models tend to overestimate the b.r. to ex
 First, five-channels calculations are separately performed with different quadrupole deformations β2. But the b.r. to excited 4+ and 6+ states have a strong dependence upon the β2 value, as shown in figure 6(a).
 ```
 
-##### quotation-12
+##### quotation-15
 
 ```tags
 [claim_type]: result
@@ -163,44 +199,6 @@ First, five-channels calculations are separately performed with different quadru
 
 ```quote
 A negative slope is predicted by the CSM model in equation (8.7). We also notice the strong correlation of the coupling strength with the reduced width, characterizing the α-clustering probability (proportional to the spectroscopic factor), also seen in figure 10.
-```
-
-##### quotation-13
-
-```tags
-[claim_type]: result
-[tags]: coupled_channels_method, alpha_decay_intensity, excitation_energy
-[source]: section 7.1. Even-even emitters, figure 12
-```
-
-```quote
-Finally, in figure 12 we show the linear correlation between the intensity ϑ2 and the excitation energy of the daughter nucleus E2 predicted by equation (2.41) for all analyzed experimental data and the corresponding coupled channels results.
-```
-
-### Meanings
-
-##### quotation-14
-
-```tags
-[claim_type]: comparison
-[tags]: coupled_channels_method, semiclassical_method, alpha_decay_branching_ratio
-[source]: section 8. Conclusions
-```
-
-```quote
-It is found that the semiclassical calculations overestimate the branching ratios (BR) to excited 4+ states by about one order of magnitude for some even–even Pu, Cm, and Cf α-emitters [...] while the coupled-channels results show good agreement with the experimental data.
-```
-
-##### quotation-15
-
-```tags
-[claim_type]: result
-[tags]: coherent_state_model, vibrational_nuclei, transitional_nuclei, rotational_nuclei
-[source]: section 8. Conclusions
-```
-
-```quote
-Finally we have shown that the CSM is a powerful tool that can describe in a unified way vibrational, transitional and rotational nuclei.
 ```
 
 ##### quotation-16
@@ -215,7 +213,45 @@ Finally we have shown that the CSM is a powerful tool that can describe in a uni
 Finally, in figure 12 we show the linear correlation between the intensity ϑ2 and the excitation energy of the daughter nucleus E2 predicted by equation (2.41) for all analyzed experimental data and the corresponding coupled channels results.
 ```
 
+### Meanings
+
 ##### quotation-17
+
+```tags
+[claim_type]: comparison
+[tags]: coupled_channels_method, semiclassical_method, alpha_decay_branching_ratio
+[source]: section 8. Conclusions
+```
+
+```quote
+It is found that the semiclassical calculations overestimate the branching ratios (BR) to excited 4+ states by about one order of magnitude for some even–even Pu, Cm, and Cf α-emitters [...] while the coupled-channels results show good agreement with the experimental data.
+```
+
+##### quotation-18
+
+```tags
+[claim_type]: result
+[tags]: coherent_state_model, vibrational_nuclei, transitional_nuclei, rotational_nuclei
+[source]: section 8. Conclusions
+```
+
+```quote
+Finally we have shown that the CSM is a powerful tool that can describe in a unified way vibrational, transitional and rotational nuclei.
+```
+
+##### quotation-19
+
+```tags
+[claim_type]: result
+[tags]: coupled_channels_method, alpha_decay_intensity, excitation_energy
+[source]: section 7.1. Even-even emitters, figure 12
+```
+
+```quote
+Finally, in figure 12 we show the linear correlation between the intensity ϑ2 and the excitation energy of the daughter nucleus E2 predicted by equation (2.41) for all analyzed experimental data and the corresponding coupled channels results.
+```
+
+##### quotation-20
 
 ```tags
 [claim_type]: result
@@ -230,7 +266,7 @@ A negative slope is predicted by the CSM model in equation (8.7). We also notice
 
 ### Secondary Citations
 
-##### quotation-18
+##### quotation-21
 ```tags
 [claim_type]: definition
 [tags]: double_folding_potential, alpha_decay
@@ -247,7 +283,7 @@ The double folding procedure to estimate the α-core potential is given by the f
 V(\Omega_D,R)=\int dr_D\int dr_\alpha\,\rho_D(r_D)\rho_\alpha(r_\alpha)v(R+r_D-r_\alpha)
 ```
 
-##### quotation-19
+##### quotation-22
 ```tags
 [claim_type]: method
 [tags]: coupled_channels_method, double_folding_potential
@@ -260,7 +296,7 @@ V(\Omega_D,R)=\int dr_D\int dr_\alpha\,\rho_D(r_D)\rho_\alpha(r_\alpha)v(R+r_D-r
 These data were analyzed within the coupled channels formalism [59, 60], by using the double folding potential plus a repulsive core simulating the Pauli principle.
 ```
 
-##### quotation-20
+##### quotation-23
 ```tags
 [claim_type]: method
 [tags]: coherent_state_model, vibrational_nuclei, transitional_nuclei, rotational_nuclei
@@ -273,7 +309,7 @@ These data were analyzed within the coupled channels formalism [59, 60], by usin
 The CSM was proposed in [143, 144] as a tool to describe in a uniﬁed way the spectra of vibrational, transitional and rotational nuclei.
 ```
 
-##### quotation-21
+##### quotation-24
 ```tags
 [claim_type]: method
 [tags]: coupled_channels_method, cluster_core_model, odd_mass_nuclei
@@ -286,3 +322,34 @@ The CSM was proposed in [143, 144] as a tool to describe in a uniﬁed way the s
 Next, the multi-channel cluster model (MCCM) in the coupled channels framework was extended from even–even rotational nuclei to heavy odd-mass nuclei [109].
 ```
 
+
+### Gaps
+
+- `[section]: Motivation | [item]: coverage | [target]: coherent_state_model definition quotation | [reason]: definition depends on cited sources`
+
+- `[section]: Methods | [item]: coverage | [target]: double_folding_potential definition quotation | [reason]: definition depends on cited sources`
+- `[section]: Methods | [item]: coverage | [target]: coherent_state_model definition quotation | [reason]: definition depends on cited sources`
+- `[section]: Methods | [item]: coverage | [target]: coherent_state_model comparison quotation | [reason]: no direct method comparison`
+
+- `[section]: Results | [item]: coverage | [target]: alpha_decay_branching_ratio definition quotation | [reason]: no eligible definition with method tag`
+- `[section]: Results | [item]: coverage | [target]: quadrupole_deformation definition quotation | [reason]: no eligible definition with method tag`
+- `[section]: Results | [item]: coverage | [target]: spectroscopic_factor definition quotation | [reason]: no eligible definition with method tag`
+- `[section]: Results | [item]: coverage | [target]: alpha_decay_intensity definition quotation | [reason]: no eligible definition with method tag`
+- `[section]: Results | [item]: coverage | [target]: excitation_energy definition quotation | [reason]: no eligible definition with method tag`
+
+- `[section]: Results | [item]: coverage | [target]: Figure 1 quotation | [reason]: no eligible method-and-quantity quotation`
+- `[section]: Results | [item]: coverage | [target]: Figure 2 quotation | [reason]: no eligible method-and-quantity quotation`
+- `[section]: Results | [item]: coverage | [target]: Figure 3 quotation | [reason]: no eligible method-and-quantity quotation`
+- `[section]: Results | [item]: coverage | [target]: Figure 4 quotation | [reason]: no eligible method-and-quantity quotation`
+- `[section]: Results | [item]: coverage | [target]: Figure 5 quotation | [reason]: no eligible method-and-quantity quotation`
+- `[section]: Results | [item]: coverage | [target]: Figure 7 quotation | [reason]: no eligible method-and-quantity quotation`
+- `[section]: Results | [item]: coverage | [target]: Figure 8 quotation | [reason]: no eligible method-and-quantity quotation`
+- `[section]: Results | [item]: coverage | [target]: Figure 9 quotation | [reason]: no eligible method-and-quantity quotation`
+- `[section]: Results | [item]: coverage | [target]: Figure 11 quotation | [reason]: no eligible method-and-quantity quotation`
+- `[section]: Results | [item]: coverage | [target]: Figure 13 quotation | [reason]: no eligible method-and-quantity quotation`
+- `[section]: Results | [item]: coverage | [target]: Figure 14 quotation | [reason]: no eligible method-and-quantity quotation`
+- `[section]: Results | [item]: coverage | [target]: Figure 15 quotation | [reason]: no eligible method-and-quantity quotation`
+- `[section]: Results | [item]: coverage | [target]: Figure 16 quotation | [reason]: no eligible method-and-quantity quotation`
+
+- `[section]: Meanings | [item]: claim-types | [target]: require [claim_type]: innovation | [reason]: no explicit novelty statement`
+- `[section]: Meanings | [item]: coverage | [target]: collectivity-clustering high-level judgment | [reason]: no directly linked method evidence`

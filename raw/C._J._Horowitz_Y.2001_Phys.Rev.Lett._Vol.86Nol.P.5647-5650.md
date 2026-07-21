@@ -381,3 +381,11 @@ For example, the nonrelativistic microscopic equation of state of Friedman and P
 If $R_n\!-\!R_p$ is greater than about 0.24 fm, $Y_e$ becomes large enough to allow the direct URCA process~\cite{urca} to cool down a 1.4 solar mass neutron star.
 ```
 
+
+### Gaps
+
+- `[section]: Motivation | [item]: coverage | [target]: symmetry_energy >=1 valid definition quotation | [reason]: no explicit defining relation`
+- `[section]: Methods | [item]: coverage | [target]: random_phase_approximation >=1 valid definition quotation | [reason]: no intrinsic method definition`
+- `[section]: Methods | [item]: coverage | [target]: random_phase_approximation >=1 valid comparison quotation | [reason]: comparison depends on external citation`
+- `[section]: Results | [item]: coverage | [target]: Table II >=1 valid complete-sentence quotation using calculated or measured quantity tags | [reason]: table contains input parameters only`
+
