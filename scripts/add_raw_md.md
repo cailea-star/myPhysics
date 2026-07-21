@@ -57,7 +57,7 @@ This is a quotation from the original paper, which is tagged with the above tags
 
 
 <!-- claim-types: no section-specific type required [and] every quotation must still match its explicit primary claim -->
-<!-- coverage: include only external methods/formulas, parameter sets/models/data sources, or key physical conclusions/mechanism judgments supporting core tags [and] reject generic survey/background citations and citations that supply no reused method, formula, model/data input, or core interpretation -->
+<!-- coverage: prioritize citations explicitly linked to validated gaps in core method definitions, current-output quantity definitions, or core mechanisms [and] include actually reused external models, formulas, parameter sets, or data sources [and] reject generic background citations and citations with no gap or reused-dependency link -->
 <!-- quotation: include only quotations dependent on an external cited reference [and] use tags [and] internal Fig., Table, Eq., or section references are not secondary citations -->
 ### Secondary Citations
 
