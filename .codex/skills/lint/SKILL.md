@@ -32,11 +32,11 @@ Run gates strictly in order. Start every response with the current gate, last co
 4. Apply [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) to the resulting Wiki candidates or fixes. Do not advance until the current Wiki section passes.
 5. Show `git diff -- raw wiki`. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval before the next Wiki section; do not proceed.
 
-### Gate 3 — Re-review Previous Studies
+### Gate 3 — Process Previous Studies by Paper
 
-1. Re-review the entire `Previous Studies` section one paper at a time under [Wiki Section-Rules](../wiki-rules/SKILL.md#section-rules).
-2. Pass: proceed to Gate 4.
-3. Fail: return to Gate 2 and fix it.
+1. Identify every unique Raw paper in generated `Meanings`, preserving source order.
+2. Apply [Process-One-Paper-Rules](../wiki-rules/SKILL.md#process-one-paper-rules) to exactly one unreviewed paper.
+3. Proceed to Gate 4 only after every identified paper passes.
 
 ### Gate 4 — Wiki to Tags
 

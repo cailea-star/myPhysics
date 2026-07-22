@@ -106,8 +106,6 @@ Re-review: After ANY write to `wiki/*.md`, re-review the ENTIRE current section.
 
 Target: Every unique Raw paper in generated Meanings MUST have exactly one Study.
 
-Unit: Process exactly one paper at a time; after its required whole-section re-review, **🛑 STOP** before selecting another.
-
 Gap: If validated Raw gaps prevent completion, ask whether to skip that paper.
 
 Checkpoint: **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval.
@@ -116,7 +114,23 @@ Scope: Approval skips only the named paper for the current run.
 
 No Approval: Omission is `missing` and blocks pass.
 
-Isolation: Evaluate each Study independently. NEVER combine claims across papers.
+### Process-One-Paper-Rules
+
+Unit: Select and declare exactly one Raw paper at a time.
+
+Evidence: Use every verified primary Raw quotation from the selected paper.
+
+Study: Run Gate 2 on `Previous Studies` for the selected paper, overriding template order.
+
+Impact: Screen its quotations against every other Wiki section and identify affected sections.
+
+Fix: Run Gate 2 for one affected section at a time, following template order.
+
+Pass: Keep the paper active until its Study and every affected section pass.
+
+Checkpoint: **🔴 CHECKPOINT · 🛑 STOP** — Await approval before selecting another paper.
+
+Isolation: Evaluate each Study independently. NEVER combine evidence or claims across papers.
 
 ### Draft-Rules
 
