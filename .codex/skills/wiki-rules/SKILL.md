@@ -33,6 +33,8 @@ Conflict: When verified sources disagree, preserve each conclusion, its conditio
 
 Tags: Resolve every frontmatter and fenced-block tag under [Vocab Rules](../vocab-rules/SKILL.md). Unresolved tags block writing.
 
+Next Papers: Run `python scripts\search_a_doi.py DOI` for every Secondary DOI; exclude any paper with a `recorded:` hit.
+
 ### Template-Rules
 
 #### Selection and Shape
