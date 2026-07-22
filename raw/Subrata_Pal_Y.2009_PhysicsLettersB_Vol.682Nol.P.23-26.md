@@ -48,13 +48,18 @@ Neutron stars provide an unique opportunity to constrain the high density behavi
 ```
 
 ```quote
-The symmetry energy for this Lagrangian is given by
+The symmetry energy for this Lagrangian is given by [...] where \(E_F^*=\sqrt{k_F^2+m^{*2}}\) and the nucleon Fermi momentum and effective mass are \(k_F\) and \(m^*=m-g_s\phi_0\). The effective rho-meson mass is \(m_\rho^{*2}=m_\rho^2+2g_\rho^2(\Lambda_vg_v^2V_0^2)\).
 ```
 
 ```math
+\begin{aligned}
 E_{\rm sym}(\rho)
-= \frac{k_F^2}{6E_F^*}
-+ \frac{g_\rho^2}{12\pi^2m_\rho^{*2}}k_F^3.
+&= \frac{k_F^2}{6E_F^*}
+ + \frac{g_\rho^2}{12\pi^2m_\rho^{*2}}k_F^3,\\
+E_F^* &= \sqrt{k_F^2+m^{*2}},\\
+m^* &= m-g_s\phi_0,\\
+m_\rho^{*2} &= m_\rho^2+2g_\rho^2(\Lambda_vg_v^2V_0^2).
+\end{aligned}
 ```
 
 
