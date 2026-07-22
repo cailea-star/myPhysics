@@ -43,6 +43,11 @@
       "requirement": "explicitly states the essential meaning, defining relation, defining equation, or identification criterion of a concept, quantity, or method; merely stating its use, effect, or behavior does not qualify"
     },
     {
+      "type": "background",
+      "definition": "introduces established context for a concept",
+      "requirement": "explicitly states an established role, relationship, scope, or characteristic of a concept needed to introduce the paper's research context; merely mentioning or using the concept, or reporting a current-work result, does not qualify"
+    },
+    {
       "type": "motivation",
       "definition": "explains why the problem matters",
       "requirement": "explicitly states an unresolved problem, scientific need, importance, or reason for pursuing the current objective; merely stating the work performed or objective does not qualify"

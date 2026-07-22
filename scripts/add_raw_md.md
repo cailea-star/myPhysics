@@ -11,9 +11,9 @@
 
 [abstract]
 
-<!-- claim-types: require [claim_type]: motivation [and] require [claim_type]: definition if this section has at least one definition coverage target -->
-<!-- coverage: for each of the three most central tags identified from the abstract that is neither a core [tag_type]: method tag nor a current-work output [tag_type]: quantity tag, require >=1 valid definition quotation -->
-<!-- quotation: no section-specific requirements -->
+<!-- claim-types: ([claim_type]: motivation is required) and ([claim_type]: definition or [claim_type]: background is required for core-tag coverage; prefer definition) -->
+<!-- coverage: (identify the three most central tags from the Abstract, excluding [tag_type]: method and current-work output [tag_type]: quantity) and (for each identified tag, assign >=1 valid quotation to [claim_type]: definition or [claim_type]: background; otherwise report a gap) -->
+<!-- quotation: (none) -->
 ### Motivation
 
 ##### quotation-01
@@ -32,33 +32,33 @@ This is a quotation from the original paper, which is tagged with the above tags
 
 ...
 
-<!-- claim-types: require [claim_type]: definition [and] require [claim_type]: method [and] [claim_type]: comparison is optional [and] require [claim_type]: assumption if the paper states an explicit assumption -->
-<!-- coverage: for each core [tag_type]: method tag, require >=1 valid definition quotation [and] require >=1 valid method-use quotation -->
-<!-- quotation: every quotation requires at least one directly supported [tag_type]: method tag from vocab/tags.json; reject otherwise -->
+<!-- claim-types: ([claim_type]: definition or [claim_type]: background is required for core-method coverage; prefer definition) and ([claim_type]: method is required) and ([claim_type]: comparison is optional) and ([claim_type]: assumption is required if the paper states an explicit assumption) -->
+<!-- coverage: (identify the core [tag_type]: method tags) and (for each identified method, assign >=1 valid quotation to [claim_type]: definition or [claim_type]: background; otherwise report a gap) and (for each identified method, require >=1 valid method-use quotation under its true [claim_type]; otherwise report a gap) -->
+<!-- quotation: (each quotation requires >=1 directly supported [tag_type]: method tag; reject otherwise) -->
 ### Methods
 
 ##### quotation-xx
 
 ...
 
-<!-- claim-types: require [claim_type]: result [and] [claim_type]: definition is optional [and] [claim_type]: comparison is optional -->
-<!-- coverage: for each [tag_type]: quantity tag calculated or measured as a current-work output and not defined earlier, require >=1 valid definition quotation [and] for each figure or table, require >=1 valid complete-sentence quotation using its calculated or measured [tag_type]: quantity tags; otherwise report a gap -->
-<!-- quotation: every quotation requires at least one directly supported [tag_type]: method tag and one calculated or measured [tag_type]: quantity tag; reject otherwise -->
+<!-- claim-types: ([claim_type]: result is required) and ([claim_type]: definition or [claim_type]: background is required if output-quantity coverage has at least one target; prefer definition) and ([claim_type]: comparison is optional) -->
+<!-- coverage: (identify current-work output [tag_type]: quantity tags not defined earlier) and (for each identified quantity, assign >=1 valid quotation to [claim_type]: definition or [claim_type]: background; otherwise report a gap) and (for each figure or table, require >=1 valid complete-sentence quotation using its current-work output quantity tags; otherwise report a gap) -->
+<!-- quotation: (each quotation requires >=1 directly supported current-work output [tag_type]: quantity tag; reject otherwise) and (each quotation not assigned to [claim_type]: definition or [claim_type]: background requires >=1 directly supported [tag_type]: method tag; reject otherwise) -->
 ### Results
 
 ...
 
-<!-- claim-types: require [claim_type]: comparison [and] require [claim_type]: innovation -->
-<!-- coverage: may repeat Results only for central-significance claims [and] cover supported high-level judgments from the abstract, summary, or conclusion [and] reject minor results, figure-only details, and claims outside the main message -->
-<!-- quotation: every quotation requires at least one directly supported [tag_type]: method tag from vocab/tags.json; reject otherwise -->
+<!-- claim-types: ([claim_type]: comparison is required) and ([claim_type]: innovation is required) -->
+<!-- coverage: (identify supported high-level judgments from the abstract, summary, or conclusion) and (for each identified judgment, require >=1 valid quotation) and (repeat Results only for central-significance claims) and (reject minor results, figure-only details, and claims outside the main message) -->
+<!-- quotation: (each quotation requires >=1 directly supported [tag_type]: method tag; reject otherwise) -->
 ### Meanings
 
 ...
 
 
-<!-- claim-types: no section-specific type required [and] every quotation must still match its explicit primary claim -->
-<!-- coverage: prioritize citations explicitly linked to validated gaps in core method definitions, current-output quantity definitions, or core mechanisms [and] include actually reused external models, formulas, parameter sets, or data sources [and] reject generic background citations and citations with no gap or reused-dependency link -->
-<!-- quotation: include only quotations dependent on an external cited reference [and] use tags [and] internal Fig., Table, Eq., or section references are not secondary citations -->
+<!-- claim-types: (none: no section-specific [claim_type] is required) and (each quotation must match its explicit primary claim) -->
+<!-- coverage: (identify eligible external citations linked to validated gaps in core method definitions, current-output quantity definitions, or core mechanisms, or to reused external models, formulas, parameter sets, or data sources) and (for each identified citation, require >=1 valid quotation; otherwise report a gap) and (reject generic background citations and citations without a gap or reused-dependency link) -->
+<!-- quotation: (include only quotations dependent on an explicit external citation) and (each quotation requires directly supported tags) and (internal Fig., Table, Eq., or section references do not qualify) -->
 ### Secondary Citations
 
 ##### quotation-xx
