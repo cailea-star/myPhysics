@@ -78,9 +78,22 @@ Neutron stars are expected to have a solid crust of nonuniform neutron-rich matt
 ```
 
 
+##### quotation-06
+
+```tags
+[claim_type]: background
+[tags]: symmetry_energy
+[source]: methods, symmetry-energy calibration rationale.
+```
+
+```quote
+The symmetry energy at saturation density is not well constrained by the binding energy of nuclei. However, some average of the symmetry energy at full density and the surface energy is constrained by binding energies.
+```
+
+
 ### Methods
 
-##### quotation-06
+##### quotation-07
 
 ```tags
 [claim_type]: definition
@@ -110,7 +123,7 @@ The theory has an isoscalar-scalar $\phi$ (sigma) meson field and three vector f
 ```
 
 
-##### quotation-07
+##### quotation-08
 
 ```tags
 [claim_type]: method
@@ -123,7 +136,7 @@ We now supplement the Lagrangian with new nonlinear sigma-rho and omega-rho coup
 ```
 
 
-##### quotation-08
+##### quotation-09
 
 ```tags
 [claim_type]: assumption
@@ -136,7 +149,7 @@ A nonzero $\Lambda_3$ does change the thickness of the neutron skin in $^{208}$P
 ```
 
 
-##### quotation-09
+##### quotation-10
 
 ```tags
 [claim_type]: comparison
@@ -149,7 +162,7 @@ The two new couplings ($\Lambda_4$ and $\Lambda_{\rm v}$) change the skin thickn
 ```
 
 
-##### quotation-10
+##### quotation-11
 
 ```tags
 [claim_type]: method
@@ -162,7 +175,7 @@ To study the solid crust of a neutron star we make a simple random-phase-approxi
 ```
 
 
-##### quotation-11
+##### quotation-12
 
 ```tags
 [claim_type]: comparison
@@ -177,7 +190,7 @@ Indeed, our models can provide a Lorentz-covariant extrapolation for the high de
 
 ### Results
 
-##### quotation-12
+##### quotation-13
 
 ```tags
 [claim_type]: result
@@ -190,7 +203,7 @@ This simple procedure produces a nearly constant binding energy per nucleon for 
 ```
 
 
-##### quotation-13
+##### quotation-14
 
 ```tags
 [claim_type]: result
@@ -203,7 +216,7 @@ Moreover, this correlation seems to be insensitive to $M^*$ or to using $\Lambda
 ```
 
 
-##### quotation-14
+##### quotation-15
 
 ```tags
 [claim_type]: result
@@ -216,7 +229,7 @@ The different curves are for different values of $\Lambda_{\rm v}$ which predict
 ```
 
 
-##### quotation-15
+##### quotation-16
 
 ```tags
 [claim_type]: definition
@@ -229,7 +242,7 @@ In Fig.~2 we show the electron fraction per baryon $Y_e$ versus density for unif
 ```
 
 
-##### quotation-16
+##### quotation-17
 
 ```tags
 [claim_type]: definition
@@ -242,7 +255,7 @@ We now consider the radius $R$ of a 1.4 solar mass neutron star. [...] Also, the
 ```
 
 
-##### quotation-17
+##### quotation-18
 
 ```tags
 [claim_type]: comparison
@@ -257,7 +270,7 @@ Also, the high density equation of state is softer with $\Lambda_{\rm v}$ than w
 
 ### Meanings
 
-##### quotation-18
+##### quotation-19
 
 ```tags
 [claim_type]: innovation
@@ -270,7 +283,7 @@ We now supplement the Lagrangian with new nonlinear sigma-rho and omega-rho coup
 ```
 
 
-##### quotation-19
+##### quotation-20
 
 ```tags
 [claim_type]: comparison
@@ -283,7 +296,7 @@ Indeed, our models can provide a Lorentz-covariant extrapolation for the high de
 ```
 
 
-##### quotation-20
+##### quotation-21
 
 ```tags
 [claim_type]: result
@@ -296,7 +309,7 @@ Relativistic effective field theories with a thicker neutron skin in $^{208}$Pb 
 ```
 
 
-##### quotation-21
+##### quotation-22
 
 ```tags
 [claim_type]: motivation
@@ -312,7 +325,7 @@ An accurate measurement of the neutron radius in $^{208}$Pb---via parity violati
 
 ### Secondary Citations
 
-##### quotation-22
+##### quotation-23
 ```tags
 [claim_type]: definition
 [tags]: parity_violating_electron_scattering, Pb-208
@@ -326,7 +339,7 @@ The Parity Radius Experiment (PREX) at the Jefferson Laboratory aims to measure 
 ```
 
 
-##### quotation-23
+##### quotation-24
 ```tags
 [claim_type]: method
 [tags]: RMF, nonlinear_meson_coupling, finite_nuclei, nuclear_matter, neutron_rich
@@ -340,7 +353,7 @@ We start with a relativistic effective field theory~\cite{horst} that provides a
 ```
 
 
-##### quotation-24
+##### quotation-25
 ```tags
 [claim_type]: method
 [tags]: random_phase_approximation, transition_density, neutron_star_crust, nuclear_matter, neutron_rich
@@ -354,7 +367,7 @@ To study the solid crust of a neutron star we make a simple random-phase-approxi
 ```
 
 
-##### quotation-25
+##### quotation-26
 ```tags
 [claim_type]: comparison
 [tags]: transition_density, neutron_skin_thickness
@@ -368,7 +381,7 @@ For example, the nonrelativistic microscopic equation of state of Friedman and P
 ```
 
 
-##### quotation-26
+##### quotation-27
 ```tags
 [claim_type]: result
 [tags]: electron_fraction, direct_Urca_process, neutron_star, neutron_skin_thickness
@@ -384,8 +397,6 @@ If $R_n\!-\!R_p$ is greater than about 0.24 fm, $Y_e$ becomes large enough to al
 
 ### Gaps
 
-- `[section]: Motivation | [item]: coverage | [target]: symmetry_energy >=1 valid definition quotation | [reason]: no explicit defining relation`
-- `[section]: Methods | [item]: coverage | [target]: random_phase_approximation >=1 valid definition quotation | [reason]: no intrinsic method definition`
-- `[section]: Methods | [item]: coverage | [target]: random_phase_approximation >=1 valid comparison quotation | [reason]: comparison depends on external citation`
-- `[section]: Results | [item]: coverage | [target]: Table II >=1 valid complete-sentence quotation using calculated or measured quantity tags | [reason]: table contains input parameters only`
+- `[section]: Methods | [item]: coverage | [target]: random_phase_approximation >=1 valid definition or background quotation | [reason]: no intrinsic definition or background`
+- `[section]: Results | [item]: coverage | [target]: Table II >=1 valid complete-sentence quotation using its current-work output quantity tags | [reason]: table contains input parameters only`
 

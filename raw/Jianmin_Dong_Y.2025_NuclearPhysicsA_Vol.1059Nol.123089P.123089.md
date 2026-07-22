@@ -54,9 +54,34 @@ For uniform nuclear matter with a total density ρ = ρp + ρn and an isospin as
 ```math
 E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 ```
-### Methods
 
 ##### quotation-04
+
+```tags
+[claim_type]: background
+[tags]: superheavy_nuclei, single_particle_energy_level
+[source]: section 1. Introduction
+```
+
+```quote
+The shell structure is the most essential feature for SHN at present, which draws significant interest theoretically. [...] The diversity of these predictions is associated with different single-particle properties near the Fermi surface which is strongly model-dependent.
+```
+
+##### quotation-05
+
+```tags
+[claim_type]: background
+[tags]: alpha_decay, alpha_decay_energy, alpha_decay_half_life, superheavy_nuclei
+[source]: section 3.3. α-decay
+```
+
+```quote
+α-decay is regarded as one of the predominant decay mode in superheavy mass region, with the α-decay energy and its half-life serving as two crucial physical quantities that can be measured in experiments.
+```
+
+### Methods
+
+##### quotation-06
 
 ```tags
 [claim_type]: method
@@ -69,7 +94,7 @@ The calculations are performed by using the deformed RMF theory in combination w
 ```
 
 
-##### quotation-05
+##### quotation-07
 
 ```tags
 [claim_type]: assumption
@@ -82,7 +107,7 @@ The interaction ‘family’ based on the well-established FSUGarnet parameter s
 ```
 
 
-##### quotation-06
+##### quotation-08
 
 ```tags
 [claim_type]: method
@@ -93,9 +118,22 @@ The interaction ‘family’ based on the well-established FSUGarnet parameter s
 ```quote
 To study the effects of different density-dependent behavior of symmetry energy on the properties of SHN, based on the original FSUGarnet interaction listed in Table 1, we introduce a ‘family’ of FSUGarnet by adjusting ΛV and gρ with the same procedure as in Ref. [19,56].
 ```
+
+##### quotation-09
+
+```tags
+[claim_type]: background
+[tags]: nonlinear_meson_coupling, symmetry_energy, density_dependent
+[source]: section 2.1. Relativistic meanfield theory
+```
+
+```quote
+The last line in the above equation denotes the meson self-interacting terms. The nonlinear mixed isoscalar-isovector coupling described by ΛV modifies the density-dependence of the symmetry energy.
+```
+
 ### Results
 
-##### quotation-07
+##### quotation-10
 
 ```tags
 [claim_type]: comparison
@@ -108,7 +146,7 @@ With the FSUGarnet0.153 parameter set, the density-dependent symmetry energy is 
 ```
 
 
-##### quotation-08
+##### quotation-11
 
 ```tags
 [claim_type]: result
@@ -121,7 +159,7 @@ With the FSUGarnet0.153 parameter set, the density-dependent symmetry energy is 
 ```
 
 
-##### quotation-09
+##### quotation-12
 
 ```tags
 [claim_type]: result
@@ -134,7 +172,7 @@ As illustrated in Fig. 2, the ground state energy Eg.s. exhibits an increase as 
 ```
 
 
-##### quotation-10
+##### quotation-13
 
 ```tags
 [claim_type]: result
@@ -147,7 +185,7 @@ For nuclei with non-zero isospin asymmetry, the ground-state energy increases vi
 ```
 
 
-##### quotation-11
+##### quotation-14
 
 ```tags
 [claim_type]: result
@@ -160,7 +198,7 @@ In addition, it is found that the proton single particle levels along with its F
 ```
 
 
-##### quotation-12
+##### quotation-15
 
 ```tags
 [claim_type]: result
@@ -173,7 +211,7 @@ In the framework of RMF theory, the spherical neutron magic number beyond N = 12
 ```
 
 
-##### quotation-13
+##### quotation-16
 
 ```tags
 [claim_type]: comparison
@@ -185,10 +223,22 @@ In the framework of RMF theory, the spherical neutron magic number beyond N = 12
 Fig. 6(b) shows substantial increases of the half-lives of 270Hs and 304120 as the ΛV increases. The half-lives are increased by more than two orders of magnitude when comparing the ΛV = 0 case (stiff symmetry energy) to the ΛV = 0.04 case (soft symmetry energy).
 ```
 
+##### quotation-17
+
+```tags
+[claim_type]: background
+[tags]: ground_state_energy, two_nucleon_shell_gap
+[source]: section 3.1. Ground state energies and deformations
+```
+
+```quote
+The ground state energy serves as a pivotal quantity in the characterization of nuclear ground states. These results can be used to determine other important quantities such as the α-decay energy Qα, two-neutron shell gap δ2n, and two-proton shell gap δ2p.
+```
+
 
 ### Meanings
 
-##### quotation-14
+##### quotation-18
 
 ```tags
 [claim_type]: innovation
@@ -201,7 +251,7 @@ We introduce the FSUGarnet0.153 interaction ‘family’ based on the well-estab
 ```
 
 
-##### quotation-15
+##### quotation-19
 
 ```tags
 [claim_type]: comparison
@@ -214,7 +264,7 @@ The ground-state energy increases as the softening of the symmetry energy (the i
 ```
 
 
-##### quotation-16
+##### quotation-20
 
 ```tags
 [claim_type]: comparison
@@ -227,7 +277,7 @@ However, the proton shell gap at Z = 108 and neutron shell gap at N = 162 for 27
 ```
 
 
-##### quotation-17
+##### quotation-21
 
 ```tags
 [claim_type]: comparison
@@ -243,7 +293,7 @@ Fig. 6(b) shows substantial increases of the half-lives of 270Hs and 304120 as t
 
 ### Secondary Citations
 
-##### quotation-18
+##### quotation-22
 ```tags
 [claim_type]: method
 [tags]: pairing_correlation, BCS
@@ -261,7 +311,7 @@ V = -V_0 \left[1 - \left(\frac{\rho(r)}{\rho_0}\right)^\gamma\right]\delta(r_1 -
 ```
 
 
-##### quotation-19
+##### quotation-23
 ```tags
 [claim_type]: definition
 [tags]: symmetry_energy, density_dependent
@@ -281,7 +331,7 @@ E_{\rm sym}
 ```
 
 
-##### quotation-20
+##### quotation-24
 ```tags
 [claim_type]: method
 [tags]: FSUGarnet, symmetry_energy, density_dependent
@@ -295,7 +345,7 @@ To study the effects of different density-dependent behavior of symmetry energy 
 ```
 
 
-##### quotation-21
+##### quotation-25
 ```tags
 [claim_type]: definition
 [tags]: two_nucleon_shell_gap, shell_closure
@@ -314,7 +364,7 @@ The other indicator of shell closures is the two-nucleon gap which is appropriat
 ```
 
 
-##### quotation-22
+##### quotation-26
 ```tags
 [claim_type]: result
 [tags]: alpha_decay_energy, alpha_decay_half_life
@@ -328,7 +378,7 @@ The α-decay half-life is extremely sensitive to the decay energy Qα, and an un
 ```
 
 
-##### quotation-23
+##### quotation-27
 ```tags
 [claim_type]: method
 [tags]: alpha_decay_half_life, alpha_decay_energy
@@ -349,7 +399,7 @@ Many models can be employed to estimate the half-life [67--85], and here we use 
 ```
 
 
-##### quotation-24
+##### quotation-28
 ```tags
 [claim_type]: result
 [tags]: RMF, symmetry_energy, superheavy_nuclei, single_particle_energy_level
@@ -365,19 +415,8 @@ The impact of the symmetry energy on the properties of spherical SHN has been in
 
 ### Gaps
 
-- `[section]: Motivation | [item]: coverage | [target]: superheavy_nuclei definition quotation | [reason]: source provides no definition`
-- `[section]: Motivation | [item]: coverage | [target]: alpha_decay definition quotation | [reason]: source provides no definition`
-- `[section]: Methods | [item]: claim-types | [target]: require [claim_type]: definition | [reason]: definitions depend on external citations`
-- `[section]: Methods | [item]: coverage | [target]: RMF definition quotation | [reason]: definition comes from cited sources`
-- `[section]: Methods | [item]: coverage | [target]: RMF comparison quotation | [reason]: no RMF method comparison`
-- `[section]: Methods | [item]: coverage | [target]: BCS definition quotation | [reason]: definition comes from cited sources`
-- `[section]: Methods | [item]: coverage | [target]: BCS comparison quotation | [reason]: no BCS method comparison`
-- `[section]: Methods | [item]: coverage | [target]: nonlinear_meson_coupling definition quotation | [reason]: source states use and effect only`
-- `[section]: Results | [item]: coverage | [target]: slope_parameter definition quotation | [reason]: source reports values without definition`
-- `[section]: Results | [item]: coverage | [target]: ground_state_energy definition quotation | [reason]: source states importance and behavior only`
-- `[section]: Results | [item]: coverage | [target]: quadrupole_deformation definition quotation | [reason]: source reports values without definition`
-- `[section]: Results | [item]: coverage | [target]: single_particle_energy_level definition quotation | [reason]: source reports shifts without definition`
-- `[section]: Results | [item]: coverage | [target]: two_nucleon_shell_gap definition quotation | [reason]: defining equations come from cited source`
-- `[section]: Results | [item]: coverage | [target]: alpha_decay_energy definition quotation | [reason]: formula lacks eligible method evidence`
-- `[section]: Results | [item]: coverage | [target]: alpha_decay_half_life definition quotation | [reason]: definition depends on cited Royer formula`
-- `[section]: Results | [item]: coverage | [target]: Table 1 quotation | [reason]: no eligible method-and-quantity sentence`
+- `[section]: Methods | [item]: coverage | [target]: RMF >=1 valid definition or background quotation | [reason]: definition and background depend on cited sources`
+- `[section]: Methods | [item]: coverage | [target]: BCS >=1 valid definition or background quotation | [reason]: no eligible definition or background evidence`
+- `[section]: Results | [item]: coverage | [target]: slope_parameter >=1 valid definition or background quotation | [reason]: no valid definition or background evidence`
+- `[section]: Results | [item]: coverage | [target]: quadrupole_deformation >=1 valid definition or background quotation | [reason]: no valid definition or background evidence`
+- `[section]: Results | [item]: coverage | [target]: Table 1 >=1 valid complete-sentence quotation using its current-work output quantity tags | [reason]: table contains input parameters only`

@@ -142,9 +142,22 @@ As discussed above, these two RMF models however favor a more stiff symmetry ene
 ```
 
 
+##### quotation-10
+
+```tags
+[claim_type]: background
+[tags]: nonlinear_meson_coupling, symmetry_energy, density_dependent
+[source]: main text, nonlinear RMF model paragraph after Eq. (2).
+```
+
+```quote
+The nonlinear isoscalar–isovector coupling (Λv) modifies the density dependent symmetry energy via m∗ρ without affecting the saturation properties.
+```
+
+
 ### Results
 
-##### quotation-10
+##### quotation-11
 
 ```tags
 [claim_type]: result
@@ -157,7 +170,39 @@ The couplings Λv and gρ so generated are listed in Table 1. [...] The slope pa
 ```
 
 
-##### quotation-11
+##### quotation-12
+
+```tags
+[claim_type]: definition
+[tags]: slope_parameter, symmetry_energy, density_dependent
+[source]: main text, Eq. (3) discussion.
+```
+
+```quote
+The slope and curvature parameters that determine the density dependence of Esym at ρ0 are L = 3ρ0 ∂Esym(ρ)/∂ρ|ρ0 and Ksym = 9ρ0² ∂²Esym(ρ)/∂ρ²|ρ0, respectively.
+```
+
+```math
+L=3\rho_0\left.\frac{\partial E_{\rm sym}(\rho)}{\partial\rho}\right|_{\rho_0},
+\qquad
+K_{\rm sym}=9\rho_0^2\left.\frac{\partial^2E_{\rm sym}(\rho)}{\partial\rho^2}\right|_{\rho_0}.
+```
+
+
+##### quotation-13
+
+```tags
+[claim_type]: definition
+[tags]: neutron_star_mass, neutron_star_radius
+[source]: Fig. 3 caption.
+```
+
+```quote
+The results are for the maximum masses Mmax, threshold mass MUrca and radius RUrca for the direct Urca process, mass MρK and radius RρK at the onset of kaon condensation, and the radius R1.4M⊙ of 1.4M⊙ neutron star.
+```
+
+
+##### quotation-14
 
 ```tags
 [claim_type]: result
@@ -170,7 +215,7 @@ Fig. 1 shows the density dependence of the nuclear symmetry energy Esym(ρ) at v
 ```
 
 
-##### quotation-12
+##### quotation-15
 
 ```tags
 [claim_type]: result
@@ -183,7 +228,7 @@ The skin data can be reproduced in the NL3 and FSUGold models with a soft symmet
 ```
 
 
-##### quotation-13
+##### quotation-16
 
 ```tags
 [claim_type]: result
@@ -198,7 +243,7 @@ In summary, within two accurately calibrated relativistic mean field models, [..
 
 ### Meanings
 
-##### quotation-14
+##### quotation-17
 
 ```tags
 [claim_type]: result
@@ -211,7 +256,7 @@ Within a relativistic mean-field model with nonlinear isoscalar–isovector coup
 ```
 
 
-##### quotation-15
+##### quotation-18
 
 ```tags
 [claim_type]: comparison
@@ -224,7 +269,7 @@ In summary, within two accurately calibrated relativistic mean field models, [..
 ```
 
 
-##### quotation-16
+##### quotation-19
 
 ```tags
 [claim_type]: result
@@ -237,7 +282,7 @@ Within a relativistic mean-field model with nonlinear isoscalar–isovector coup
 ```
 
 
-##### quotation-17
+##### quotation-20
 
 ```tags
 [claim_type]: result
@@ -253,7 +298,7 @@ The skin data can be reproduced in the NL3 and FSUGold models with a soft symmet
 
 ### Secondary Citations
 
-##### quotation-18
+##### quotation-21
 ```tags
 [claim_type]: definition
 [tags]: RMF, nonlinear_meson_coupling
@@ -288,7 +333,7 @@ g_vV_\mu
 ```
 
 
-##### quotation-19
+##### quotation-22
 ```tags
 [claim_type]: method
 [tags]: NL3, FSUGold, finite_nuclei
@@ -302,7 +347,7 @@ In the present study, we use two accurately calibrated models: NL3 [23] and FSUG
 ```
 
 
-##### quotation-20
+##### quotation-23
 ```tags
 [claim_type]: definition
 [tags]: direct_Urca_process, neutron_star
@@ -316,7 +361,7 @@ Neutron stars may cool rapidly by neutrino emission in the direct Urca process [
 ```
 
 
-##### quotation-21
+##### quotation-24
 ```tags
 [claim_type]: method
 [tags]: kaon_condensation, neutron_star, RMF
@@ -336,12 +381,5 @@ We now assess the effect of K− meson condensation in neutron star [7,8] on the
 
 ### Gaps
 
-- `[section]: Motivation | [item]: coverage | [target]: definition quotation for neutron_star_radius | [reason]: paper calculates radius but never defines it`
-- `[section]: Methods | [item]: claim-types | [target]: valid definition quotation | [reason]: all method definitions are externally sourced`
-- `[section]: Methods | [item]: coverage | [target]: definition quotation for RMF | [reason]: RMF definition comes from cited reference`
-- `[section]: Methods | [item]: coverage | [target]: definition quotation for nonlinear_meson_coupling | [reason]: coupling definition comes from cited Lagrangian`
-- `[section]: Methods | [item]: coverage | [target]: comparison quotation for nonlinear_meson_coupling | [reason]: no explicit comparison isolates coupling method`
-- `[section]: Results | [item]: coverage | [target]: definition quotation for slope_parameter | [reason]: definition sentence lacks an eligible method tag`
-- `[section]: Results | [item]: coverage | [target]: definition quotation for neutron_star_mass | [reason]: paper reports masses without defining the quantity`
-- `[section]: Results | [item]: coverage | [target]: definition quotation for neutron_star_radius | [reason]: paper reports radii without defining the quantity`
+- `[section]: Methods | [item]: coverage | [target]: definition or background quotation for RMF | [reason]: only eligible RMF explanation is externally sourced`
 - `[section]: Meanings | [item]: claim-types | [target]: valid innovation quotation | [reason]: paper states major results but no novelty claim`
