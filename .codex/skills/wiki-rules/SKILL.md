@@ -89,9 +89,7 @@ Output: Template declarations are authoritative and MUST NOT be copied into `wik
 
 Review: Independently review exactly one current or proposed wiki section per response in selected-template order. List verdicts in source order and report `Wiki Verdicts: <verdicts>/<factual claims + formulas + required template items>`. A count mismatch fails the section and blocks writing.
 
-Previous Studies: Review the entire `### Previous Studies` section in one response. Evaluate each `##### Study` independently, with exactly one Raw paper per Study and separate verdicts for every per-Study requirement. NEVER combine required claim types across papers.
-
-#### Verdict Contract
+#### Verdict and Pass
 
 Verdicts: Give every factual claim, formula, and required template item exactly one verdict:
 
@@ -100,11 +98,23 @@ Verdicts: Give every factual claim, formula, and required template item exactly 
 - `missing`: required content is absent; report it to the calling workflow.
 - `not-applicable`: an explicitly authorized identified target set is complete and empty; do not fill it.
 
-#### Pass and Advancement
-
 Review Pass: A section passes ONLY when counts match, every existing factual claim and formula is `supported`, and every required item is `supported` or `not-applicable`. Any `weak` or `missing` unresolved by the proposed change blocks approval, writing, and advancement.
 
 Re-review: After ANY write to `wiki/*.md`, re-review the ENTIRE current section. Do not advance until it passes.
+
+#### Previous Studies Rules
+
+Target: Every unique Raw paper in generated Meanings MUST have exactly one Study.
+
+Gap: If validated Raw gaps prevent completion, ask whether to skip that paper.
+
+Checkpoint: **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval.
+
+Scope: Approval skips only the named paper for the current run.
+
+No Approval: Omission is `missing` and blocks pass.
+
+Isolation: Evaluate each Study independently. NEVER combine claims across papers.
 
 ### Draft-Rules
 
