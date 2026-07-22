@@ -18,6 +18,9 @@ description: Refactor rule-heavy SKILL.md files without losing semantics or cons
 - Separate mechanical moves from semantic edits.
 - Preserve `MUST`, `NEVER`, `ONLY`, checkpoints, commands, paths, fields, and templates.
 - Check non-heading content, links, callers, and pre-write/post-write gates.
+- Conciseness: Keep modified prose to 20 words per line.
+- Overflow: Split longer prose into bullets or remove nonessential wording.
+- Safety: NEVER shorten commands, paths, formats, or required semantics.
 - Strengthen constraints and close logic gaps: require every path to have owned inputs, validation, STOP conditions, checkpoints, write boundaries, post-write verification, and a pass-or-fix exit, with no bypass or dead end.
 
 ## Output

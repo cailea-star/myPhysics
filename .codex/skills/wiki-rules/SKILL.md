@@ -13,7 +13,7 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 
 `raw/*.md` is the underlying evidence truth; generated primary `tmp/*.md` sections are read-only direct input for `wiki/*.md` synthesis. Wiki is NEVER original evidence.
 
-A generated quotation may support Wiki ONLY when its source Raw quotation and entire containing section pass [Raw Section-Rules](../raw-rules/SKILL.md#section-rules); unreviewed, `gap`, or `fix` evidence MUST NOT support Wiki.
+A generated quotation may support Wiki ONLY when its source Raw quotation has a `pass` verdict under [Raw Section-Rules](../raw-rules/SKILL.md#section-rules); an unreviewed source quotation or one with a `gap` or `fix` verdict MUST NOT support Wiki.
 
 A wiki filename MUST equal its canonical tag resolved under [Vocab Rules](../vocab-rules/SKILL.md).
 
@@ -63,9 +63,17 @@ Identification: An `identify` item is `supported` ONLY when its target set is co
 
 Expansion: `for each` creates one verdict per identified target.
 
+Equation Grouping:
+
+- Group only parallel relations in one `math` block serving one definition or claim.
+- Count derived, sequential, or independently argued relations as separate core equations.
+- Review every displayed relation separately as a factual formula.
+
 Optional: `optional` and `none` contribute zero items.
 
 Optional Ban: Their absence is NEVER `missing`.
+
+Empty Target Placeholder: For a complete empty target set without an explicit `not-applicable` group, preserve its fixed template placeholder verbatim; it is structural, not factual, and contributes zero review items. NEVER use it for an incomplete search or nonempty target.
 
 Not-Applicable: An explicit `(if no TARGET qualifies, report not-applicable)` group produces one `not-applicable` verdict when the corresponding identified target set is complete and empty; when the set is nonempty, the group produces zero items.
 
@@ -106,7 +114,7 @@ Claim-Type Lead: First expand `claim-types` to establish the required claim cate
 
 Evidence Scope: Before drafting, the calling workflow MUST declare exactly one evidence scope: `all-primary` or `one-approved-primary-section`. For `one-approved-primary-section`, identify the exact generated primary section; this scope limits ONLY the evidence used to draft new or changed Wiki claims. Before approval validation and after ANY write, use `all-primary` to review the entire current Wiki section. A missing or ambiguous scope requires STOP.
 
-Evidence Search: Resolve exactly one canonical `TAG` under [Vocab Rules](../vocab-rules/SKILL.md), then run `python scripts\search_a_tag.py TAG` to regenerate the primary quotation outputs. If it fails or any expected primary output (`Motivation`, `Methods`, `Results`, or `Meanings`) is missing, STOP. Review every generated primary section in the declared evidence scope as read-only quotation evidence. During Evidence Search, NEVER modify `raw/*.md` or generated sections, use `tmp/TAG_Secondary.md` as evidence, expand to another tag, sample within the declared scope, or stop early. If evidence remains insufficient, report each item under `Missing Quotations` and apply [Raw Draft-Rules](../raw-rules/SKILL.md#draft-rules). After any approved Raw change, regenerate the primary outputs; block Wiki approval, writing, and advancement until the quotation appears there and its Raw section passes review.
+Evidence Search: Resolve exactly one canonical `TAG` under [Vocab Rules](../vocab-rules/SKILL.md), then run `python scripts\search_a_tag.py TAG` to regenerate the primary quotation outputs. If it fails or any expected primary output (`Motivation`, `Methods`, `Results`, or `Meanings`) is missing, STOP. Review every generated primary section in the declared evidence scope as read-only quotation evidence. During Evidence Search, NEVER modify `raw/*.md` or generated sections, use `tmp/TAG_Secondary.md` as evidence, expand to another tag, sample within the declared scope, or stop early. If evidence remains insufficient, report each item under `Missing Quotations` and apply [Raw Draft-Rules](../raw-rules/SKILL.md#draft-rules). After any approved Raw change, regenerate the primary outputs; block Wiki approval, writing, and advancement until the quotation appears there and its source Raw quotation receives a `pass` verdict.
 
 #### Batch Review and Approval
 
