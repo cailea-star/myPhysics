@@ -5,8 +5,8 @@
 
 # [tag_name]
 
-<!-- claim-types: [claim_type]: definition -->
-<!-- coverage: what the topic is [and] where it applies [and] origin when supported by direct primary evidence -->
+<!-- claim-types: ([claim_type]: definition or [claim_type]: background is required for the root topic; prefer definition) and ([claim_type]: background or [claim_type]: result is required for each applicability condition under its true claim type) -->
+<!-- coverage: (identify the root canonical tag and every explicit applicability condition) and (assign >=1 supported Wiki claim defining the root topic to [claim_type]: definition or [claim_type]: background; otherwise report missing) and (for each identified applicability condition, assign it to [claim_type]: background or [claim_type]: result according to its explicit primary claim; otherwise report missing) and (origin is optional and requires direct primary evidence) -->
 ### Definition & Origin
 
 ```references
@@ -16,8 +16,8 @@
 
 [What the topic is, where it appears, and how the concept originated.]
 
-<!-- claim-types: [claim_type]: definition [or] [claim_type]: result for each core component or mechanism [and] [claim_type]: definition for each core equation -->
-<!-- coverage: components or states [and] conditions [and] mechanisms [and] each core equation with physical meaning; competing mechanisms when supported -->
+<!-- claim-types: ([claim_type]: definition or [claim_type]: background or [claim_type]: result is required for each core component, state, condition, or mechanism under its true claim type) and ([claim_type]: definition or [claim_type]: background is required for each core equation; prefer definition) -->
+<!-- coverage: (identify every core component or state, every existence condition, every core or competing mechanism, and every core equation) and (for each identified component or state, assign it to [claim_type]: definition, [claim_type]: background, or [claim_type]: result; otherwise report missing) and (for each identified condition, assign it to [claim_type]: background or [claim_type]: result; otherwise report missing) and (for each identified mechanism, assign it to [claim_type]: definition, [claim_type]: background, or [claim_type]: result; otherwise report missing) and (for each identified core equation, assign it to [claim_type]: definition or [claim_type]: background with its physical meaning; otherwise report missing) and (if no competing mechanism qualifies, report not-applicable) -->
 ### Composition & Mechanism
 
 ```tags
@@ -61,8 +61,8 @@
 
 ...
 
-<!-- claim-types: [claim_type]: definition for each core [tag_type]: quantity or [tag_type]: property -->
-<!-- coverage: meaning and variables [and] physical interpretation [and] applicable conditions for each core [tag_type]: quantity or [tag_type]: property; mathematical expression when supported -->
+<!-- claim-types: ([claim_type]: definition or [claim_type]: background is required for the meaning and variables of each core [tag_type]: quantity or [tag_type]: property; prefer definition) and ([claim_type]: definition or [claim_type]: background is required for the physical interpretation of each core [tag_type]: quantity or [tag_type]: property) and ([claim_type]: background or [claim_type]: result is required for the applicable conditions of each core [tag_type]: quantity or [tag_type]: property under their true claim type) and ([claim_type]: definition or [claim_type]: background is required for each associated equation; prefer definition) -->
+<!-- coverage: (identify every core [tag_type]: quantity or [tag_type]: property and every associated equation) and (for each identified quantity or property, assign its meaning and variables to [claim_type]: definition or [claim_type]: background; otherwise report missing) and (for each identified quantity or property, assign its physical interpretation to [claim_type]: definition or [claim_type]: background; otherwise report missing) and (for each identified quantity or property, assign its applicable conditions to [claim_type]: background or [claim_type]: result; otherwise report missing) and (for each identified equation, assign it to [claim_type]: definition or [claim_type]: background with its meaning; otherwise report missing) -->
 ### Quantities & Properties
 
 ```tags
@@ -87,8 +87,8 @@
 
 ...
 
-<!-- claim-types: [claim_type]: method for each related [tag_type]: method [and] [claim_type]: definition for each core equation -->
-<!-- coverage: inputs, outputs, precision, and applicability for each related [tag_type]: method [and] each core equation with physical meaning -->
+<!-- claim-types: ([claim_type]: method is required for each related [tag_type]: method) and ([claim_type]: result or [claim_type]: comparison is required for the precision of each related [tag_type]: method under the true claim type) and ([claim_type]: background or [claim_type]: result is required for the applicability of each related [tag_type]: method under the true claim type) and ([claim_type]: definition or [claim_type]: background is required for each core equation; prefer definition) -->
+<!-- coverage: (identify every related [tag_type]: method centrally used to obtain or analyze the root topic and every associated core equation) and (for each identified method, assign its use, inputs, and outputs to [claim_type]: method; otherwise report missing) and (for each identified method, assign its precision to [claim_type]: result or [claim_type]: comparison; otherwise report missing) and (for each identified method, assign its applicability to [claim_type]: background or [claim_type]: result; otherwise report missing) and (for each identified core equation, assign it to [claim_type]: definition or [claim_type]: background with its meaning; otherwise report missing) -->
 ### Related Methods
 
 ##### Method 1
@@ -120,8 +120,8 @@
 
 ...
 
-<!-- claim-types: [claim_type]: motivation for each study [and] [claim_type]: innovation for each study -->
-<!-- coverage: quantities, precision, and meaning for each study -->
+<!-- claim-types: ([claim_type]: motivation or [claim_type]: background is required for each study) and ([claim_type]: result or [claim_type]: comparison is required for each study) and ([claim_type]: innovation is required for each study) -->
+<!-- coverage: (identify every primary study that centrally investigates, measures, computes, or compares the root topic) and (for each identified study, identify its core method and quantity or property tags) and (for each identified study, assign its purpose to [claim_type]: motivation or [claim_type]: background; otherwise report missing) and (for each identified study, assign its quantities, precision, and main meaning to [claim_type]: result or [claim_type]: comparison; otherwise report missing) and (for each identified study, assign its explicitly supported innovation to [claim_type]: innovation; otherwise report missing) -->
 ### Previous Studies
 
 ##### Study Type 1
@@ -145,8 +145,8 @@
 
 ...
 
-<!-- claim-types: [claim_type]: motivation [or] [claim_type]: innovation for each limitation or open question -->
-<!-- coverage: current precision [and] unmeasured or unexplained quantities [and] competing explanations [and] methodological gaps [and] open questions -->
+<!-- claim-types: ([claim_type]: motivation or [claim_type]: background or [claim_type]: comparison or [claim_type]: result is required for each limitation or open question under its true claim type) -->
+<!-- coverage: (identify every explicit current-precision limitation, unmeasured or unexplained quantity, competing explanation, methodological gap, and open question) and (for each identified limitation or open question, retain its supported quantity, condition, phenomenon, or method tags) and (for each identified limitation or open question, assign it to [claim_type]: motivation, [claim_type]: background, [claim_type]: comparison, or [claim_type]: result according to its explicit primary claim; otherwise report missing) and (if no limitation or open question qualifies, report not-applicable) -->
 ### Limitations & Open Questions
 
 ```references
