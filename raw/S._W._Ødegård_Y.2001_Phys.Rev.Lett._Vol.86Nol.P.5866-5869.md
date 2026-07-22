@@ -17,7 +17,7 @@ The nucleus (163)Lu has been populated through the fusion-evaporation reaction (
 
 ```tags
 [claim_type]: definition
-[tags]: wobbling_mode, triaxial_deformation
+[tags]: wobbling_mode, triaxial_deformation, moment_of_inertia
 [source]: Introduction.
 ```
 
@@ -87,9 +87,33 @@ Second, a configuration [...] is predicted by the UC calculations. This configur
 Finally, based on particle-rotor model calculations [17], the [...] possibility that TSD2 is a wobbling excitation [...] built on [...] TSD1 [...] is suggested. Around the relevant angular-momentum region, a wobbling mode [...] can appear energetically lower than the [...] signature partner [...] if appropriate values of gamma and moments of inertia are chosen.
 ```
 
+##### quotation-07
+
+```tags
+[claim_type]: assumption
+[tags]: particle_rotor_model, reduced_transition_probability, spin_alignment
+[source]: Results; Fig. 5; Table I.
+```
+
+```quote
+The agreement of the present data with the results calculated for the wobbling mode appears quite satisfactory [...] in view of the schematic character of the particle-rotor calculations [...]. [...] The observed gradual increase of B(M1) values may come from the gradual increase of neutron alignment in the core, which is seen in the observed alignment ix but not included in the calculation of B(M1) values.
+```
+
+##### quotation-08
+
+```tags
+[claim_type]: background
+[tags]: cranking_model, electromagnetic_transition
+[source]: Results; Fig. 4.
+```
+
+```quote
+In the cranking regime both E2 and M1 (αu, I + 1) → (αf, I) transitions are strongly reduced because ΔRx ≈ 2ℏ and, simultaneously, Δjx ≈ 1ℏ.
+```
+
 ### Results
 
-##### quotation-07
+##### quotation-09
 
 ```tags
 [claim_type]: result
@@ -101,7 +125,7 @@ Finally, based on particle-rotor model calculations [17], the [...] possibility 
 The band TSD2 could be extended to both lower (6 hbar) and higher (4 hbar) spins, and 9 connecting transitions to TSD1 were established; see Fig. 1. Gated spectra illustrating the connecting transitions and their angular dependence [...] are shown in Fig. 2.
 ```
 
-##### quotation-08
+##### quotation-10
 
 ```tags
 [claim_type]: definition
@@ -113,7 +137,7 @@ The band TSD2 could be extended to both lower (6 hbar) and higher (4 hbar) spins
 In all cases the data were selected by clean gates in TSD1 [...] in the spin range 21/2–45/2 hbar. The spin alignment, parametrized as s/I for a Gaussian distribution of the m-substate population, was determined for [...] stretched E2 transitions [...].
 ```
 
-##### quotation-09
+##### quotation-11
 
 ```tags
 [claim_type]: definition
@@ -125,7 +149,7 @@ In all cases the data were selected by clean gates in TSD1 [...] in the spin ran
 The zigzag pattern can be understood by examining Fig. 4, obtained by analyzing the wave functions in the particle-rotor model. The total angular momentum is I=R+j, where the angular momentum of the collective rotation of the core is expressed by R.
 ```
 
-##### quotation-10
+##### quotation-12
 
 ```tags
 [claim_type]: comparison
@@ -137,9 +161,21 @@ The zigzag pattern can be understood by examining Fig. 4, obtained by analyzing 
 Calculated values of B(E2)out/B(E2)in and B(M1)/B(E2)in are shown together with the experimental values [...] in Fig. 5. The agreement of the present data with the results calculated for the wobbling mode appears quite satisfactory [...], in view of the [...] particle-rotor calculations [...].
 ```
 
+##### quotation-13
+
+```tags
+[claim_type]: background
+[tags]: electromagnetic_transition, reduced_transition_probability, electromagnetic_transition_mixing_ratio, electromagnetic_transition_branching_ratio
+[source]: Results; Table I.
+```
+
+```quote
+From the measured branching ratios, λ = Tγ,out(M1 + E2)/Tγ,in(E2), and mixing ratio δ, the experimental reduced transition probabilities B(M1) and B(E2)out can be determined relative to B(E2)in, and compared to theoretical expectations.
+```
+
 ### Meanings
 
-##### quotation-11
+##### quotation-14
 
 ```tags
 [claim_type]: innovation
@@ -151,7 +187,7 @@ Calculated values of B(E2)out/B(E2)in and B(M1)/B(E2)in are shown together with 
 Evidence is presented for the assignment of the excited TSD band as a wobbling mode built on the yrast TSD band, based on comparisons to new calculations in which an aligned particle is coupled to a strongly deformed triaxial rotor. The wobbling mode is uniquely related to triaxiality in nuclei.
 ```
 
-##### quotation-12
+##### quotation-15
 
 ```tags
 [claim_type]: comparison
@@ -166,7 +202,7 @@ The agreement of the present data with the results calculated for the wobbling m
 
 ### Secondary Citations
 
-##### quotation-13
+##### quotation-16
 ```tags
 [claim_type]: definition
 [tags]: wobbling_frequency, rotational_frequency
@@ -183,7 +219,7 @@ The wobbling phonon energy is hbar omega_w = hbar omega_rot [(Jx-Jy)(Jx-Jz)/(JyJ
 \hbar\omega_w = \hbar\omega_{\rm rot}\sqrt{\frac{(J_x-J_y)(J_x-J_z)}{J_yJ_z}}, \quad \hbar\omega_{\rm rot}=I/J_x.
 ```
 
-##### quotation-14
+##### quotation-17
 ```tags
 [claim_type]: method
 [tags]: gamma_ray_spectroscopy, electromagnetic_transition
@@ -196,7 +232,7 @@ The wobbling phonon energy is hbar omega_w = hbar omega_rot [(Jx-Jy)(Jx-Jz)/(JyJ
 The directional correlation of gamma rays from the oriented states (DCO ratios) [13] were obtained for the strongest connecting transitions using "25 deg" and "90 deg" data.
 ```
 
-##### quotation-15
+##### quotation-18
 ```tags
 [claim_type]: result
 [tags]: cranking_model, quadrupole_deformation, triaxial_deformation
@@ -209,7 +245,7 @@ The directional correlation of gamma rays from the oriented states (DCO ratios) 
 First, cranking calculations with the "ultimate cranker" (UC) [15,16], based on a modified harmonic oscillator potential, predict a large signature splitting [...]. The local minimum associated with the unfavored signature [...] is found [...] at a smaller quadrupole deformation, epsilon2 ~ 0.32, and a larger triaxiality, gamma ~ 40 deg.
 ```
 
-##### quotation-16
+##### quotation-19
 ```tags
 [claim_type]: result
 [tags]: particle_rotor_model, wobbling_mode
@@ -224,20 +260,10 @@ Finally, based on particle-rotor model calculations [17], the most interesting p
 
 ### Gaps
 
-- `[section]: Motivation | [item]: coverage | [target]: particle_rotor_model definition quotation | [reason]: current paper states use, not definition`
-- `[section]: Methods | [item]: claim-types | [target]: definition | [reason]: no core method is explicitly defined`
-- `[section]: Methods | [item]: claim-types | [target]: assumption | [reason]: explicit omission lacks a directly supported method tag`
-- `[section]: Methods | [item]: coverage | [target]: gamma_ray_spectroscopy definition quotation | [reason]: paper describes use, not method definition`
-- `[section]: Methods | [item]: coverage | [target]: cranking_model definition quotation | [reason]: paper describes use, not method definition`
-- `[section]: Methods | [item]: coverage | [target]: particle_rotor_model definition quotation | [reason]: paper describes use, not method definition`
-- `[section]: Results | [item]: coverage | [target]: electromagnetic_transition definition quotation | [reason]: paper reports transitions without defining the quantity`
-- `[section]: Results | [item]: coverage | [target]: excitation_energy definition quotation | [reason]: paper compares energies without defining excitation energy`
-- `[section]: Results | [item]: coverage | [target]: moment_of_inertia definition quotation | [reason]: paper plots inertia without defining the quantity`
-- `[section]: Results | [item]: coverage | [target]: rotational_frequency definition quotation | [reason]: paper plots frequency without a defining statement`
-- `[section]: Results | [item]: coverage | [target]: reduced_transition_probability definition quotation | [reason]: probabilities are calculated but never explicitly defined`
-- `[section]: Results | [item]: coverage | [target]: electromagnetic_transition_mixing_ratio definition quotation | [reason]: paper reports δ without defining the mixing ratio`
-- `[section]: Results | [item]: coverage | [target]: electromagnetic_transition_branching_ratio definition quotation | [reason]: defining equation lacks direct method-tag support`
-- `[section]: Results | [item]: coverage | [target]: quadrupole_deformation definition quotation | [reason]: paper reports deformation values without defining the parameter`
-- `[section]: Results | [item]: coverage | [target]: wobbling_frequency definition quotation | [reason]: paper reports frequency ratio without defining wobbling frequency`
-- `[section]: Results | [item]: coverage | [target]: Fig. 3 quotation using spin_alignment, moment_of_inertia, rotational_frequency | [reason]: figure discussion lacks directly linked method evidence`
-- `[section]: Results | [item]: coverage | [target]: Table I quotation using electromagnetic_transition_mixing_ratio, electromagnetic_transition_branching_ratio | [reason]: table quantities lack complete method-linked sentence`
+- `[section]: Methods | [item]: coverage | [target]: gamma_ray_spectroscopy >=1 valid definition or background quotation | [reason]: definition depends on cited source`
+- `[section]: Results | [item]: coverage | [target]: excitation_energy >=1 valid definition or background quotation | [reason]: no valid definition or background evidence`
+- `[section]: Results | [item]: coverage | [target]: rotational_frequency >=1 valid definition or background quotation | [reason]: definition depends on cited source`
+- `[section]: Results | [item]: coverage | [target]: quadrupole_deformation >=1 valid definition or background quotation | [reason]: no valid definition or background evidence`
+- `[section]: Results | [item]: coverage | [target]: wobbling_frequency >=1 valid definition or background quotation | [reason]: definition depends on cited source`
+- `[section]: Results | [item]: coverage | [target]: Fig. 3 >=1 valid complete-sentence quotation using its current-work output quantity tags | [reason]: no directly linked method evidence`
+- `[section]: Results | [item]: coverage | [target]: Table I >=1 valid complete-sentence quotation using its current-work output quantity tags | [reason]: no eligible method-and-quantity sentence`
