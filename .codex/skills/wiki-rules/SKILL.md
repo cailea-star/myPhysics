@@ -87,6 +87,8 @@ Output: Template declarations are authoritative and MUST NOT be copied into `wik
 
 Review: Independently review exactly one current or proposed wiki section per response in selected-template order. List verdicts in source order and report `Wiki Verdicts: <verdicts>/<factual claims + formulas + required template items>`. A count mismatch fails the section and blocks writing.
 
+Previous Studies: Review the entire `### Previous Studies` section in one response. Evaluate each `##### Study` independently, with exactly one Raw paper per Study and separate verdicts for every per-Study requirement. NEVER combine required claim types across papers.
+
 #### Verdict Contract
 
 Verdicts: Give every factual claim, formula, and required template item exactly one verdict:
