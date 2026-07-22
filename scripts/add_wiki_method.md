@@ -5,8 +5,8 @@
 
 # [tag_name]
 
-<!-- claim-types: ([claim_type]: definition or [claim_type]: background is required for the root method; prefer definition) and ([claim_type]: motivation or [claim_type]: background is required for the problem it solves) -->
-<!-- coverage: (identify the root [tag_type]: method tag) and (assign >=1 supported Wiki claim defining the method to [claim_type]: definition or [claim_type]: background; otherwise report missing) and (assign >=1 supported Wiki claim explaining the problem it solves to [claim_type]: motivation or [claim_type]: background; otherwise report missing) and (origin is optional and requires direct primary evidence) -->
+<!-- claim-types: ([claim_type]: definition or [claim_type]: background) -->
+<!-- coverage: (from Motivation and Methods, select the smallest sufficient root-method quotation set with [claim_type]: definition or [claim_type]: background; prefer [claim_type]: definition) and (origin with [claim_type]: background is optional) -->
 ### Definition & Origin
 
 ```references
@@ -16,8 +16,8 @@
 
 [What the method is, what problem it solves, and where it originated.]
 
-<!-- claim-types: ([claim_type]: method is required) and ([claim_type]: assumption is required for each explicit assumption, approximation, or truncation) and ([claim_type]: definition or [claim_type]: background is required for each core equation; prefer definition) -->
-<!-- coverage: (identify the operational framework, every parameter-dependence target, every explicit assumption, approximation, or truncation, and every core equation of the root method) and (assign >=1 supported Wiki claim describing the framework to [claim_type]: method; otherwise report missing) and (for each identified parameter-dependence target, assign it to [claim_type]: method or [claim_type]: assumption under its true claim type; otherwise report missing) and (for each identified assumption, approximation, or truncation, assign it to [claim_type]: assumption; otherwise report missing) and (for each identified core equation, assign it to [claim_type]: definition or [claim_type]: background with its meaning; otherwise report missing) -->
+<!-- claim-types: ([claim_type]: method is required) and ([claim_type]: definition is required) and ([claim_type]: background is optional) -->
+<!-- coverage: (Methods provides root-method framework quotations with [claim_type]: method) and (Motivation or Methods provides root-method framework quotations with [claim_type]: definition) and (supplementary root-method framework quotations from Motivation or Methods with [claim_type]: background are optional) -->
 ### Framework
 
 ```tags
@@ -53,35 +53,32 @@
 
 ...
 
-<!-- claim-types: ([claim_type]: definition or [claim_type]: background is required for each core input or output tag; prefer definition) and ([claim_type]: method is required for each input-output relation) -->
-<!-- coverage: (identify every canonical tag explicitly used as an input, parameter, initial condition, or output of the root method and every input-output relation) and (for each identified input or output tag, assign it to [claim_type]: definition or [claim_type]: background; otherwise report missing) and (for each identified input-output relation, assign it to [claim_type]: method; otherwise report missing) -->
+<!-- claim-types: ([claim_type]: definition or [claim_type]: background) and ([claim_type]: definition or [claim_type]: method) -->
+<!-- coverage: (Motivation or Results provides root-method input or output quotations with [claim_type]: definition or [claim_type]: background) and (Methods provides root-method input or output quotations with [claim_type]: definition or [claim_type]: method) -->
 ### Inputs & Outputs
 
 ```tags
 [tags]: ...
 ```
 
-##### Inputs
-
 ```references
   - source_xx: ...
   - ...
 ```
+[core inputs, parameters, and initial conditions. and basic outputs, derived quantities, and final results.]
 
-core inputs, parameters, and initial conditions.
+##### Inputs & Outputs1
 
-##### Outputs
+- description: Meaning and production of this output.
 
-```references
-  - source_xx: ...
-  - ...
-```
+<!-- Optional: directly supported math block. -->
 
-basic outputs, derived quantities, and final results.
+##### Inputs & Outputs2
 
+...
 
-<!-- claim-types: ([claim_type]: motivation is required for each correction problem) and ([claim_type]: method is required for each correction method) and ([claim_type]: result or [claim_type]: innovation is required for each correction effect; use innovation only when explicit) and ([claim_type]: definition or [claim_type]: background is required for each correction equation; prefer definition) -->
-<!-- coverage: (identify every [tag_type]: method explicitly used to correct the root method and every associated correction equation) and (for each identified correction method, assign its problem to [claim_type]: motivation; otherwise report missing) and (for each identified correction method, assign its procedure to [claim_type]: method; otherwise report missing) and (for each identified correction method, assign its effect to [claim_type]: result or [claim_type]: innovation; otherwise report missing) and (for each identified correction equation, assign it to [claim_type]: definition or [claim_type]: background with its meaning; otherwise report missing) and (if no correction method qualifies, report not-applicable) -->
+<!-- claim-types: ([claim_type]: definition or [claim_type]: background or [claim_type]: motivation) and ([claim_type]: method or [claim_type]: definition) -->
+<!-- coverage: (Motivation provides root-method correction quotations with [claim_type]: definition or [claim_type]: background or [claim_type]: motivation) and (Methods provides root-method correction quotations with [claim_type]: method or [claim_type]: definition) -->
 ### Correction Algorithm
 
 ##### Correction Algorithm 1
@@ -124,11 +121,11 @@ basic outputs, derived quantities, and final results.
 
 ...
 
-<!-- claim-types: ([claim_type]: motivation or [claim_type]: background is required for each study) and ([claim_type]: result or [claim_type]: comparison is required for each study) and ([claim_type]: innovation is required for each study) -->
-<!-- coverage: (identify every primary study that centrally uses, tests, or compares the root method) and (for each identified study, identify its core method and output quantity or property tags) and (for each identified study, assign its purpose to [claim_type]: motivation or [claim_type]: background; otherwise report missing) and (for each identified study, assign its main finding to [claim_type]: result or [claim_type]: comparison; otherwise report missing) and (for each identified study, assign its explicitly supported innovation to [claim_type]: innovation; otherwise report missing) and (if no primary study qualifies, report not-applicable) -->
+<!-- claim-types: ([claim_type]: motivation is required for each Study) and ([claim_type]: comparison is required for each Study) and ([claim_type]: innovation is required for each Study) and ([claim_type]: result is required for each Study) -->
+<!-- coverage: (each Study describes exactly one raw paper) and (for each Study, its Motivation provides [claim_type]: motivation) and (for each Study, its Meanings provides [claim_type]: comparison) and (for each Study, its Meanings provides [claim_type]: innovation) and (for each Study, its Meanings provides [claim_type]: result) -->
 ### Previous Studies
 
-#### Study Type 1
+##### Study 1
 
 ```tags
 [tags]: ...
@@ -136,30 +133,33 @@ basic outputs, derived quantities, and final results.
 
 ```references
   - source_xx: ...
-  - ...
 ```
 
-- **Motivation**: This is the motivation of the study type 1.
-- **Innovation**: This is the innovation of the study type 1.
-- **Quantities**: This is the quantities of the study type 1.
+- **Motivation**: This is the motivation of the study 1.
+- **Innovation**: This is the innovation of the study 1.
+- **Quantities**: This is the quantities of the study 1.
 - **Precision**: exact precision or none.
-- **Meaning**: This is the meaning of the study type 1.
+- **Meaning**: This is the meaning of the study 1.
 
-#### Study Type 2
+##### Study 2
 
 ...
 
-<!-- claim-types: ([claim_type]: motivation or [claim_type]: background or [claim_type]: comparison or [claim_type]: result is required for each limitation under its true claim type) -->
-<!-- coverage: (identify every explicit precision, missing-physics, formal, computational, or applicability limitation of the root method) and (for each identified limitation, retain its supported quantity, condition, or method tags) and (for each identified limitation, assign it to [claim_type]: motivation, [claim_type]: background, [claim_type]: comparison, or [claim_type]: result according to its explicit primary claim; otherwise report missing) and (if no limitation qualifies, report not-applicable) -->
-### Limitations
+<!-- claim-types: (none: Candidate Papers do not support Wiki claims) -->
+<!-- coverage: (from Secondary, identify every unique Candidate Paper) and (for each Candidate Paper, include tags, title, DOI, journal, year, reason) and (if no Candidate Paper qualifies, report not-applicable) -->
+### Next Papers
 
-```references
-  - source_xx: ...
-  - ...
+##### Candidate Paper 1
+
+```tags
+[tags]: ...
+[doi]: ...
+[title]: ...
 ```
 
-- **Current Precision**: Current numerical precision, experimental error, or theoretical uncertainty; use `not quantified` when unavailable.
-- **Missing Quantities or Physics**: Quantities, phenomena, or problems the method cannot yet describe.
-- **Formal Limitations**: Limitations caused by assumptions, truncations, or parameter dependence.
-- **Computational Limitations**: Computational cost, numerical stability, or scaling limits.
-- **Applicability Limits**: Systems, conditions, or regimes where the method becomes unreliable.
+- **Citation**: journal, year.
+- **Reason**: why this paper should be ingested next.
+
+##### Candidate Paper 2
+
+...
