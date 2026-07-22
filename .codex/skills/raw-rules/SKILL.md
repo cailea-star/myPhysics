@@ -79,9 +79,13 @@ Gap: No valid evidence is `gap`.
 
 Fix: Any unsupported or incorrect `[claim_type]` is `fix` and blocks approval.
 
-And: `[and]` separates independently reviewed items.
+Grouping: Each outer parenthesized group is one independently reviewed item.
 
-Or: `[or]` joins alternatives within one item.
+And: Plain `and` separates outer parenthesized items.
+
+Or: Plain `or` joins alternatives within one parenthesized item.
+
+Identification: An `identify` item passes ONLY when its target set is complete and correct; any missing, extra, or misclassified target is `fix`.
 
 Expansion: `for each` creates one verdict per identified target.
 
@@ -225,7 +229,7 @@ Print Requirements: Print every relevant claim-type requirement.
 
 Print Tag Types: Print every requirement for the proposed tags' tag types from [vocab/types.json](../../../vocab/types.json).
 
-Definition Map: For `definition`, map every covered tag to its exact defining clause.
+Introduction Map: For `definition` or `background` coverage, map every covered tag to its proposed claim type and exact qualifying clause.
 
 Resolve: Before presenting or writing a candidate, resolve every proposed `[tags]` entry under [Vocab Rules](../vocab-rules/SKILL.md).
 

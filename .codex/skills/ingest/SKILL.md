@@ -31,7 +31,7 @@ Run gates strictly in order. At the start of each response, state the current ga
 
 ### Gate 3 — Check Tag & Author
    Apply [Vocab Author-Rules](../vocab-rules/SKILL.md#author-rules).
-   Select and print exactly three core Abstract concepts; keep them fixed for later abstract coverage and resolve each under [Vocab Resolve-Rules](../vocab-rules/SKILL.md#resolve-rules), applying Draft-Rules when needed—NEVER substitute easier existing tags.
+   Apply the Motivation coverage declaration in [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) to identify and print exactly three core Abstract concepts; keep them fixed for later abstract coverage and resolve each under [Vocab Resolve-Rules](../vocab-rules/SKILL.md#resolve-rules), applying Draft-Rules when needed—NEVER substitute easier existing tags.
 
 ### Gate 4 — Discuss Quotations
    Draft and discuss exactly one quotation section per response, in [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) order, following [Template-Rules](../raw-rules/SKILL.md#template-rules), [Draft-Rules](../raw-rules/SKILL.md#draft-rules), [Section-Rules](../raw-rules/SKILL.md#section-rules), and [Quotation-Rules](../raw-rules/SKILL.md#quotation-rules). Present one review batch. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Write only approved exact-mode quotations. Complete every quotation section before Gate 5.
