@@ -53,7 +53,23 @@ Template Coverage: Before drafting or reviewing a wiki section, read its `covera
 
 #### Verdict and Expansion
 
-Counting: `[and]` separates independently reviewed items; `[or]` joins alternatives within one item. A `for each` item expands to one verdict per identified target. `optional` and `none` contribute zero items, and their absence is NEVER `missing`.
+Grouping: Each outer parenthesized group is one independently reviewed item.
+
+And: Plain `and` separates outer parenthesized items.
+
+Or: Plain `or` joins alternatives within one parenthesized item.
+
+Identification: An `identify` item is `supported` ONLY when its target set is complete and correct; if it contains any extra or misclassified target, its verdict is `weak`; otherwise, if any target is missing, its verdict is `missing`.
+
+Expansion: `for each` creates one verdict per identified target.
+
+Optional: `optional` and `none` contribute zero items.
+
+Optional Ban: Their absence is NEVER `missing`.
+
+Not-Applicable: An explicit `(if no TARGET qualifies, report not-applicable)` group produces one `not-applicable` verdict when the corresponding identified target set is complete and empty; when the set is nonempty, the group produces zero items.
+
+Not-Applicable Ban: A required claim or coverage assignment for an identified target is NEVER `not-applicable`; absent valid content is `missing`.
 
 Output: Template declarations are authoritative and MUST NOT be copied into `wiki/*.md`.
 
@@ -70,7 +86,7 @@ Verdicts: Give every factual claim, formula, and required template item exactly 
 - `supported`: sufficient verified Raw evidence directly supports it; do nothing.
 - `weak`: content exists but its evidence is absent, indirect, insufficient, or mismatched; report it to the calling workflow.
 - `missing`: required content is absent; report it to the calling workflow.
-- `not-applicable`: a required template item does not apply; do not fill it.
+- `not-applicable`: an explicitly authorized identified target set is complete and empty; do not fill it.
 
 #### Pass and Advancement
 
@@ -86,7 +102,9 @@ Before ANY write to `wiki/*.md`, complete these Draft-Rules for the affected sec
 
 Before drafting or reviewing a section, verify that the selected template contains exactly one `claim-types` and one `coverage` declaration for it; otherwise stop. Print both declarations, then print every relevant claim-type requirement from [vocab/types.json](../../../vocab/types.json).
 
-Evidence Scope: Before drafting or reviewing, the calling workflow MUST declare exactly one evidence scope: `all-primary` or `one-approved-primary-section`. For `one-approved-primary-section`, identify the exact generated primary section. A missing or ambiguous scope requires STOP.
+Claim-Type Lead: First expand `claim-types` to establish the required claim categories. Then expand `coverage` to identify targets and map each target to those declared categories using ONLY verified Raw evidence that already satisfies the category requirement; coverage NEVER creates or changes a claim type.
+
+Evidence Scope: Before drafting, the calling workflow MUST declare exactly one evidence scope: `all-primary` or `one-approved-primary-section`. For `one-approved-primary-section`, identify the exact generated primary section; this scope limits ONLY the evidence used to draft new or changed Wiki claims. Before approval validation and after ANY write, use `all-primary` to review the entire current Wiki section. A missing or ambiguous scope requires STOP.
 
 Evidence Search: Resolve exactly one canonical `TAG` under [Vocab Rules](../vocab-rules/SKILL.md), then run `python scripts\search_a_tag.py TAG` to regenerate the primary quotation outputs. If it fails or any expected primary output (`Motivation`, `Methods`, `Results`, or `Meanings`) is missing, STOP. Review every generated primary section in the declared evidence scope as read-only quotation evidence. NEVER modify `raw/*.md` or generated sections, use `tmp/TAG_Secondary.md` as evidence, expand to another tag, sample within the declared scope, or stop early. If the evidence remains insufficient, report `weak` or `missing` to the calling workflow and block approval, writing, and advancement.
 

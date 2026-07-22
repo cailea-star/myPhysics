@@ -125,7 +125,7 @@ basic outputs, derived quantities, and final results.
 ...
 
 <!-- claim-types: ([claim_type]: motivation or [claim_type]: background is required for each study) and ([claim_type]: result or [claim_type]: comparison is required for each study) and ([claim_type]: innovation is required for each study) -->
-<!-- coverage: (identify every primary study that centrally uses, tests, or compares the root method) and (for each identified study, identify its core method and output quantity or property tags) and (for each identified study, assign its purpose to [claim_type]: motivation or [claim_type]: background; otherwise report missing) and (for each identified study, assign its main finding to [claim_type]: result or [claim_type]: comparison; otherwise report missing) and (for each identified study, assign its explicitly supported innovation to [claim_type]: innovation; otherwise report missing) -->
+<!-- coverage: (identify every primary study that centrally uses, tests, or compares the root method) and (for each identified study, identify its core method and output quantity or property tags) and (for each identified study, assign its purpose to [claim_type]: motivation or [claim_type]: background; otherwise report missing) and (for each identified study, assign its main finding to [claim_type]: result or [claim_type]: comparison; otherwise report missing) and (for each identified study, assign its explicitly supported innovation to [claim_type]: innovation; otherwise report missing) and (if no primary study qualifies, report not-applicable) -->
 ### Previous Studies
 
 #### Study Type 1
