@@ -32,8 +32,11 @@ def search_similar_tags(query: str, tags: list[dict]) -> list[tuple[float, dict]
 
 def tag_print(score: float, tag: dict) -> None:
     print(
-        f"{score:.3f}\t{tag['tag']}\t{', '.join(tag.get('types', []))}\t"
-        f"{', '.join(tag.get('aliases', []))}\t{tag.get('definition', '')}"
+        f"score: {score:.3f} | "
+        f"tag: {tag['tag']} | "
+        f"{', '.join(tag.get('types', [])) or '-'} | "
+        f"{', '.join(tag.get('aliases', [])) or '-'} | "
+        f"{tag.get('definition', '') or '-'} | "
     )
 
 
