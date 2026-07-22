@@ -106,6 +106,8 @@ Re-review: After ANY write to `wiki/*.md`, re-review the ENTIRE current section.
 
 Target: Every unique Raw paper in generated Meanings MUST have exactly one Study.
 
+Unit: Process exactly one paper at a time; after its required whole-section re-review, **🛑 STOP** before selecting another.
+
 Gap: If validated Raw gaps prevent completion, ask whether to skip that paper.
 
 Checkpoint: **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval.
