@@ -86,8 +86,8 @@
 
 ...
 
-<!-- claim-types: ([claim_type]: motivation is required for each Study) and ([claim_type]: comparison is required for each Study) and ([claim_type]: innovation is required for each Study) and ([claim_type]: result is required for each Study) -->
-<!-- coverage: (each Study describes exactly one raw paper) and (for each Study, its Motivation provides [claim_type]: motivation) and (for each Study, its Meanings provides [claim_type]: comparison) and (for each Study, its Meanings provides [claim_type]: innovation) and (for each Study, its Meanings provides [claim_type]: result) -->
+<!-- claim-types: ([claim_type]: motivation is required for each Study) and ([claim_type]: comparison is required for each Study) and ([claim_type]: innovation or [claim_type]: result is required for each Study) and ([claim_type]: result is required for each Study) -->
+<!-- coverage: (each Study describes exactly one raw paper) and (for each Study, its Motivation provides [claim_type]: motivation) and (for each Study, its Meanings provides [claim_type]: comparison) and (for each Study, its Meanings provides [claim_type]: innovation or [claim_type]: result) and (for each Study, its Meanings provides [claim_type]: result) -->
 ### Previous Studies
 
 ##### Study 1
@@ -101,7 +101,7 @@
 ```
 
 - **Motivation**: This is the motivation of the study 1.
-- **Innovation**: This is the innovation of the study 1.
+- **Innovation or Result**: This is the innovation or result of the study 1.
 - **Quantities**: This is the quantities of the study 1.
 - **Precision**: exact precision or none.
 - **Meaning**: This is the meaning of the study 1.
