@@ -21,12 +21,12 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 - [vocab/tags.json](../../../vocab/tags.json) defines canonical tags, aliases, definitions, and tag types.
 - [vocab/types.json](../../../vocab/types.json) defines claim-type and tag-type requirements.
 - Run `python scripts\search_similar_tags.py QUERY 3` for every proposed tag.
-- PRINT: Show required type requirements and canonical-tag results before approval.
+- PRINT: Report every unresolved proposed tag before input validation.
 
 ### Check-Inputs
 
 - Checkpoint 1: Source passes when exactly one DOI-matching JSON has same-basename PDF or TEX.
-- Checkpoint 2: Vocabulary passes when every proposed tag resolves to one canonical tag.
+- Checkpoint 2: One canonical match passes; failure MUST STOP and follow [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules).
 - Checkpoint 3: Target mode is create if Markdown is absent; continue if basename and `[source_json]` match.
 - PRINT: Any failure requires STOP; report solutions; NEVER overwrite mismatched Markdown.
 
@@ -61,8 +61,8 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 
 ## Draft-Rules
 
-- Prepare: Apply all `Input-Rules`; any failure requires STOP.
+- Prepare: Apply all [Input-Rules](#input-rules); any failure requires STOP.
 - Draft: Follow template order; present at most four candidates for current section per batch.
 - Approval: PRINT exact candidate blocks and gaps; STOP until explicit user approval.
 - Write: Write ONLY exact approved content; MUST then run `python scripts\sort_raw_md_quotations.py mdfile_path`.
-- Verify: Run `Template-Check` after EVERY write; ONLY completed sections advance; incomplete MUST return to Draft.
+- Verify: Run [Template-Check](#template-check) after EVERY write; ONLY completed sections advance; incomplete MUST return to [Draft-Rules](#draft-rules).
