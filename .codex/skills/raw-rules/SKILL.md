@@ -9,10 +9,8 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 
 ### Raw-Inputs
 
-- `raw` is truth; `raw/*.json` is metadata; matching `raw/*.pdf` or `raw/*.tex` is source.
-- Before every draft, run `python scripts\search_a_doi.py DOI`.
-- Exactly one `raw/*.json` MUST match the target DOI.
-- At least one PDF or TEX MUST share the matched JSON basename.
+- `raw/*.md` is evidence truth; `raw/*.json` is metadata.
+- Same-basename `raw/*.pdf` or `raw/*.tex` is the primary source.
 - PRINT: Missing, duplicate, or mismatched Raw inputs require STOP.
 
 ### Vocab-Inputs
@@ -25,7 +23,7 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 
 ### Check-Inputs
 
-- Checkpoint 1: Source passes when exactly one DOI-matching JSON has same-basename PDF or TEX.
+- Checkpoint 1: Run `python scripts\search_a_paper.py DOI`; pass ONLY with one matching JSON and same-basename PDF or TEX.
 - Checkpoint 2: One canonical match passes; failure MUST STOP and follow [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules).
 - Checkpoint 3: Target mode is create if Markdown is absent; continue if basename and `[source_json]` match.
 - PRINT: Any failure requires STOP; report solutions; NEVER overwrite mismatched Markdown.
