@@ -25,7 +25,8 @@ scripts/
   search_a_doi.py           # DOI -> recorded papers and citation links
   search_a_tag.py           # canonical tag -> tmp/* section quotation slices
   search_similar_tags.py    # query -> similar canonical tags
-  sort_raw_md_quotations.py # renumber raw/*.md quotation headings after edits
+  sort_raw_quotations.py    # renumber raw/*.md quotation headings after edits
+  sort_wiki_studies.py      # order Previous Studies by publication year
 
 tmp/                  # generated temporary query outputs
 
@@ -41,5 +42,11 @@ log-PRL.md            # Physical Review Letters coverage log
 Renumber a raw markdown file after adding or deleting quotations:
 
 ```powershell
-python scripts\sort_raw_md_quotations.py raw\paper.md
+python scripts\sort_raw_quotations.py raw\paper.md
+```
+
+Sort a wiki's `Previous Studies` after edits:
+
+```powershell
+python scripts\sort_wiki_studies.py wiki\topic.md
 ```
