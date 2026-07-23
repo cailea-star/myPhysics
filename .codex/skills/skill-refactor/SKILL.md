@@ -7,21 +7,18 @@ description: Refactor rule-heavy SKILL.md files without losing semantics or cons
 
 ## Workflow
 
-1. Preserve key meaning, constraint strength, fixed formats, and scope.
-2. Assign each rule one owner: truth, schema, validity, review, or execution.
-3. Make the workflow explicit: prepare → validate → approve → write → verify → pass or fix.
-4. Deduplicate only after every path applies the surviving owner.
-5. Restructure last; keep few main sections and at most three subsections each.
+1. Confirm the minimal gate workflow with the user.
+2. Present one gate's core cautions at a time; use at most five items.
+3. Map current rules to each gate; show the user differences and redundancies against core cautions.
+4. Use gate-led decisions to deprecate, merge, or delete rules.
 
 ## Checks
 
-- Separate mechanical moves from semantic edits.
-- Preserve `MUST`, `NEVER`, `ONLY`, checkpoints, commands, paths, fields, and templates.
-- Check non-heading content, links, callers, and pre-write/post-write gates.
-- Conciseness: Keep modified prose to 20 words per line.
-- Overflow: Split longer prose into bullets or remove nonessential wording.
-- Safety: NEVER shorten commands, paths, formats, or required semantics.
-- Strengthen constraints and close logic gaps: require every path to have owned inputs, validation, STOP conditions, checkpoints, write boundaries, post-write verification, and a pass-or-fix exit, with no bypass or dead end.
+- Separate mechanical moves from semantic edits; NEVER shorten commands, paths, formats, or required semantics.
+- Format: Checkpoints, commands, paths, fields, and templates MUST NOT change.
+- Constraints: Preserve and prefer `MUST`, `NEVER`, and `ONLY`.
+- Align static Rules with Gates; allow three subsections, five rules each, fifteen words per rule.
+- Strengthen constraints; close gaps; require inputs → validation → STOP → approval → write boundaries → post-write review.
 
 ## Output
 
