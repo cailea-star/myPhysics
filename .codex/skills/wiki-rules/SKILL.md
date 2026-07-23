@@ -50,7 +50,7 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 - The specified Raw paper qualifies ONLY when its `Meanings` contains current `TAG`.
 - The qualifying specified Raw MUST form exactly one Study using ONLY its quotations.
 - After that Study passes, use its Quotation-Inputs to inspect other Wiki sections for evidence-supported improvements.
-- Next Papers MUST derive from Secondary Citations; `python scripts\search_a_paper.py DOI` `recorded:` disqualifies candidates.
+- Next Papers MUST run `python scripts\search_a_paper.py DOI` on each Secondary DOI in specified `raw/*.md`, rejecting `recorded:` papers.
 
 ### Template-Check
 
