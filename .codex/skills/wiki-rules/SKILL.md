@@ -5,39 +5,53 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 
 # Wiki Rules
 
+## Evidence Rules
+
+### Truth and Inputs
+
+- `raw/*.md` is the evidence truth.
+- Generated `tmp/*.md` quotation files are read-only Wiki inputs.
+- `wiki/*.md` is NEVER original evidence.
+- If the user specifies a paper, use ONLY the quotations in that Raw file.
+- Otherwise, run `python scripts\search_a_tag.py TAG` and use ONLY its generated quotation files.
+
+### Claim Validity
+
+- A quotation is eligible ONLY when its Raw quotation passes [Raw Section-Rules](../raw-rules/SKILL.md#section-rules).
+- Unreviewed, `gap`, or `fix` quotations MUST NOT support Wiki.
+- Every factual claim and formula MUST have direct verified primary Raw evidence.
+- NEVER infer, reconstruct, generalize, or fill templates from domain knowledge.
+- Wiki prose MUST synthesize evidence; NEVER copy quotations as prose.
+- Preserve conditions, scope, uncertainty, negation, contrast, and conflicts.
+- Every claim and formula MUST have an adjacent `references` block.
+- Each reference MUST name an existing Raw file without path or suffix:
+  `raw/PAPER.md` -> `PAPER`.
+- Each cited quotation MUST support the complete claim, including conditions and scope.
+- A related topic, shared keyword, or paper-level relevance is insufficient.
+- A formula is valid ONLY when Raw evidence states it or an explicit equivalent
+  and explains its meaning.
+- Conflicting conclusions MUST remain separate with their conditions and references.
+- NEVER collapse conflicting evidence into a false consensus.
+
+### Candidate Papers
+
+- With a specified paper, inspect ONLY its `### Secondary Citations`.
+- Otherwise, inspect ONLY the generated Secondary quotation file.
+- Deduplicate DOI values within the selected quotation input.
+- Run `python scripts\search_a_doi.py DOI` for every unique Secondary DOI.
+- Exclude every DOI with a `recorded:` hit.
+- Remaining DOI records are Candidate Papers.
+- Candidate Papers support discovery only; they NEVER support Wiki claims.
+- Report `[doi]: unknown` as an unresolved Secondary reference.
+- An unresolved Secondary reference is not a Candidate Paper until its DOI is verified.
+
 ## Rules
-
-### Wiki-Rules
-
-#### Truth and File Roles
-
-`raw/*.md` is the underlying evidence truth; generated primary `tmp/*.md` sections are read-only direct input for `wiki/*.md` synthesis. Wiki is NEVER original evidence.
-
-A generated quotation may support Wiki ONLY when its source Raw quotation has a `pass` verdict under [Raw Section-Rules](../raw-rules/SKILL.md#section-rules); an unreviewed source quotation or one with a `gap` or `fix` verdict MUST NOT support Wiki.
-
-A wiki filename MUST equal its canonical tag resolved under [Vocab Rules](../vocab-rules/SKILL.md).
-
-#### Evidence and Synthesis
-
-Every factual claim and formula MUST be directly supported by verified primary Raw evidence. NEVER infer, generalize beyond evidence, fill a template from domain knowledge, or use `tmp/*_Secondary.md` claims or formulas as evidence.
-
-Wiki prose MUST synthesize evidence; NEVER copy quotation text as wiki prose. Preserve every material condition, scope, uncertainty, negation, contrast, and conflicting conclusion.
-
-Reference: Every factual claim and formula MUST have an adjacent `references` entry naming an existing `raw/*` file without path or suffix: `raw/PAPER.md` -> `PAPER`.
-
-Support: Each cited Raw quotation MUST directly support the complete adjacent claim or formula, including its conditions and scope. A related topic, shared keyword, or paper-level relevance is insufficient.
-
-Formula: A formula is supported ONLY when the cited Raw evidence contains the formula or its explicit equivalent and explains its meaning. NEVER reconstruct a formula from memory or unstated algebra.
-
-Conflict: When verified sources disagree, preserve each conclusion, its conditions, and its references; NEVER collapse conflicts into a false consensus.
-
-Tags: Resolve every frontmatter and fenced-block tag under [Vocab Rules](../vocab-rules/SKILL.md). Unresolved tags block writing.
-
-Next Papers: Run `python scripts\search_a_doi.py DOI` for every Secondary DOI; exclude any paper with a `recorded:` hit.
 
 ### Template-Rules
 
 #### Selection and Shape
+
+Wiki Filename: A wiki filename MUST equal its canonical tag resolved under [Vocab Rules](../vocab-rules/SKILL.md).
 
 Template Selection: A `[tag_type]: method` uses [scripts/add_wiki_method.md](../../../scripts/add_wiki_method.md); every other tag type uses [scripts/add_wiki_topic.md](../../../scripts/add_wiki_topic.md).
 
@@ -48,6 +62,8 @@ Template Integrity: Every `###` section in the selected template MUST contain ex
 Template Shape: Preserve the selected template's `###` section order, heading levels, and required block shapes; NEVER add, remove, reorder, or reshape its `###` sections. Add or remove repeated `#####` instances ONLY as verified evidence requires.
 
 #### Declaration and Classification
+
+Tags: Resolve every frontmatter and fenced-block tag under [Vocab Rules](../vocab-rules/SKILL.md). Unresolved tags block writing.
 
 Template Claim Types: Use only claim types from [vocab/types.json](../../../vocab/types.json). Before drafting or reviewing a wiki section, read its `claim-types` declaration. A required claim type is covered ONLY when sufficient verified Raw evidence has that `[claim_type]` and passes its `requirement`. Judge the quotation's explicit primary claim; keywords, headings, tags, and Coverage targets are not classification evidence. Give every required item exactly one verdict under Section-Rules; NEVER relabel evidence to satisfy the declaration.
 
@@ -114,50 +130,83 @@ Scope: Approval skips only the named paper for the current run.
 
 No Approval: Omission is `missing` and blocks pass.
 
-### Process-One-Paper-Rules
-
-Unit: Select and declare exactly one Raw paper at a time.
-
-Evidence: Use every verified primary Raw quotation from the selected paper.
-
-Study: Run Gate 2 on `Previous Studies` for the selected paper, overriding template order.
-
-Impact: Screen its quotations against every other Wiki section and identify affected sections.
-
-Fix: Run Gate 2 for one affected section at a time, following template order.
-
-Pass: Keep the paper active until its Study and every affected section pass.
-
-Checkpoint: **🔴 CHECKPOINT · 🛑 STOP** — Await approval before selecting another paper.
-
-Isolation: Evaluate each Study independently. NEVER combine evidence or claims across papers.
-
 ### Draft-Rules
 
 #### Preparation
 
-Before ANY write to `wiki/*.md`, complete these Draft-Rules for the affected section; NEVER write first and review afterward.
+- Complete these Draft-Rules before ANY write to `wiki/*.md`.
+- NEVER write first and review afterward.
+- Apply Truth and Inputs before drafting.
+- In specified-paper mode, select and declare exactly one Raw paper.
+- Evaluate each Study independently.
+- NEVER combine evidence or claims across papers.
+- Verify the selected template before drafting or reviewing a section.
+- It MUST contain exactly one `claim-types` and one `coverage` declaration.
+- Missing or duplicate declarations require STOP.
+- Print both declarations.
+- Print every relevant claim-type requirement from [vocab/types.json](../../../vocab/types.json).
+- Expand `claim-types` first to establish required categories.
+- Expand `coverage` second to identify and map targets.
+- Use ONLY verified Raw evidence satisfying each category requirement.
+- Coverage NEVER creates or changes a claim type.
+- In tag-search mode, declare exactly one evidence scope.
+- Allowed scopes are `all-primary` or `one-approved-primary-section`.
+- For `one-approved-primary-section`, identify the exact generated primary section.
+- That scope limits ONLY evidence for new or changed Wiki claims.
+- In specified-paper mode, the selected Raw paper is the quotation scope.
+- Before approval validation, review the entire current Wiki section with the full active input.
+- After ANY write, repeat that full-input review.
+- A missing or ambiguous scope requires STOP.
+- In tag-search mode, resolve exactly one canonical `TAG` under [Vocab Rules](../vocab-rules/SKILL.md).
+- Run `python scripts\search_a_tag.py TAG`.
+- A failed command requires STOP.
+- Missing `Motivation`, `Methods`, `Results`, or `Meanings` output requires STOP.
+- Review every generated quotation file under its Evidence Rules owner.
+- In specified-paper mode, review every quotation in the selected Raw paper.
+- During Evidence Search, NEVER modify `raw/*.md` or generated files.
+- NEVER expand to another tag, sample within scope, or stop early.
+- If evidence is insufficient, report every item under `Missing Quotations`.
+- Apply [Raw Draft-Rules](../raw-rules/SKILL.md#draft-rules) to those items.
+- After an approved Raw change, refresh the active quotation input.
+- In tag-search mode, rerun `python scripts\search_a_tag.py TAG`.
+- Block approval, writing, and advancement until the quotation appears in the active input.
+- Its Raw quotation MUST also receive a `pass` verdict.
 
-Before drafting or reviewing a section, verify that the selected template contains exactly one `claim-types` and one `coverage` declaration for it; otherwise stop. Print both declarations, then print every relevant claim-type requirement from [vocab/types.json](../../../vocab/types.json).
+#### Review, Approval, and Write
 
-Claim-Type Lead: First expand `claim-types` to establish the required claim categories. Then expand `coverage` to identify targets and map each target to those declared categories using ONLY verified Raw evidence that already satisfies the category requirement; coverage NEVER creates or changes a claim type.
+- Draft and discuss exactly one Wiki section per response.
+- In tag-search mode, follow selected-template order.
+- NEVER mix sections.
+- In specified-paper mode, run Gate 2 on `Previous Studies` first.
+- This specified-paper step overrides template order.
+- Screen the selected paper against every other Wiki section.
+- Identify every affected section.
+- Run Gate 2 for one affected section per response.
+- Follow template order for affected sections.
+- Write the smallest synthesis supported by evidence.
+- Separate conclusions across systems, assumptions, methods, ranges, or uncertainties.
+- Review every quotation in the active input under its Evidence Rules owner.
+- Present at most four Wiki candidates or fixes per response.
+- Repeat batches until the current Wiki section passes.
+- Exact mode provides final block shape, prose, formulas, tags, and references.
+- Summary mode provides the candidate claim and supporting Raw location.
+- Summary mode also provides one evidence sentence before the checkpoint.
+- Before approval, validate every candidate under Evidence Rules and Template-Rules.
+- Then apply Section-Rules to the proposed section.
+- Any violation, `weak`, or `missing` verdict blocks approval and writing.
+- Present the smallest section change set.
+- Summary-mode approval authorizes ONLY a later exact-mode proposal.
+- Summary-mode approval NEVER authorizes writing.
+- Writing requires separate explicit approval of the exact-mode change.
+- **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed.
+- After approval, immediately write ONLY the explicitly approved change.
+- Write in exact mode matching the selected template.
 
-Evidence Scope: Before drafting, the calling workflow MUST declare exactly one evidence scope: `all-primary` or `one-approved-primary-section`. For `one-approved-primary-section`, identify the exact generated primary section; this scope limits ONLY the evidence used to draft new or changed Wiki claims. Before approval validation and after ANY write, use `all-primary` to review the entire current Wiki section. A missing or ambiguous scope requires STOP.
+#### Verify, Pass, or Fix
 
-Evidence Search: Resolve exactly one canonical `TAG` under [Vocab Rules](../vocab-rules/SKILL.md), then run `python scripts\search_a_tag.py TAG` to regenerate the primary quotation outputs. If it fails or any expected primary output (`Motivation`, `Methods`, `Results`, or `Meanings`) is missing, STOP. Review every generated primary section in the declared evidence scope as read-only quotation evidence. During Evidence Search, NEVER modify `raw/*.md` or generated sections, use `tmp/TAG_Secondary.md` as evidence, expand to another tag, sample within the declared scope, or stop early. If evidence remains insufficient, report each item under `Missing Quotations` and apply [Raw Draft-Rules](../raw-rules/SKILL.md#draft-rules). After any approved Raw change, regenerate the primary outputs; block Wiki approval, writing, and advancement until the quotation appears there and its source Raw quotation receives a `pass` verdict.
-
-#### Batch Review and Approval
-
-Section: Draft and discuss exactly one wiki section per response in selected-template order; NEVER mix sections. Write the smallest synthesis supported by evidence, separating conclusions when systems, assumptions, methods, parameter ranges, or uncertainties differ. Present at most four Wiki candidates or fixes per response after reviewing every generated primary section in the declared evidence scope, repeating batches until the current wiki section passes, in exact mode (final wiki block shape with exact prose, formulas, tags, and references) or summary mode (candidate claim, supporting Raw filename and quotation location, and one-sentence evidence summary before the checkpoint).
-
-Validation: Before approval, validate every candidate under Wiki-Rules and Template-Rules, then apply Section-Rules to the resulting proposed section. Any violation or unresolved `weak` or `missing` blocks approval and writing.
-
-Approval: Present the smallest section change set. Summary-mode approval authorizes ONLY a subsequent exact-mode proposal and NEVER authorizes writing. Write requires separate explicit approval of the final exact-mode change. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed.
-
-#### Write and Re-review
-
-Write: After approval, immediately write ONLY the explicitly approved change to the current Wiki section in exact mode matching the selected template.
-
-Re-review: Re-review the ENTIRE current Wiki section under Section-Rules, then show `git diff -- wiki`.
-
-Post-write Violation: Any failed Re-review returns to a fix batch. Advance ONLY after the current Wiki section passes.
+- Re-review the ENTIRE current Wiki section under Section-Rules.
+- Show `git diff -- wiki`.
+- Any failed Re-review returns to a fix batch.
+- Advance ONLY after the current Wiki section passes.
+- Keep the selected paper active until its Study and every affected section pass.
+- **🔴 CHECKPOINT · 🛑 STOP** — Await approval before selecting another paper.
