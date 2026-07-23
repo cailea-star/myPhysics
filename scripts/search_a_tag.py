@@ -98,15 +98,32 @@ def sort_quotations(quotations: list[dict]) -> list[dict]:
     return sorted_quotations
 
 
-def format_summary(quotations: list[dict]) -> list[str]:
+def summary_split_filename(filename: str) -> dict[str, str]:
+    fields = ("author", "year", "journal", "volume", "number", "page")
+    match = re.fullmatch(
+        r"(?P<author>.+?)_Y\.(?P<year>[^_]*)_(?P<journal>.*?)_Vol\."
+        r"(?P<volume>.*?)Nol\.(?P<number>.*?)P\.(?P<page>.*)",
+        filename,
+    )
+    return match.groupdict() if match else dict.fromkeys(fields, "")
+
+
+def summary_paper_sort_key(filename: str) -> tuple[bool, str, str]:
+    year = summary_split_filename(filename)["year"]
+    return year == "", year, filename
+
+
+def summary_format(quotations: list[dict]) -> list[str]:
     papers = {}
     for quote in quotations:
         papers.setdefault(quote["filename"], []).append(quote)
-    lines = ["## Papers", "", "| filename | quotes | claim-types | tags |", "|---|---:|---|---|"]
-    for filename, quotes in papers.items():
+    lines = ["## Papers", "", "| filename | year | quotes | claim-types | tags |", "|---|---:|---:|---|---|"]
+    for filename in sorted(papers, key=summary_paper_sort_key):
+        year = summary_split_filename(filename)["year"]
+        quotes = papers[filename]
         claim_types = ", ".join(dict.fromkeys(quote["claim_type"] for quote in quotes))
         tags = ", ".join(dict.fromkeys(tag for quote in quotes for tag in quote["tags"]))
-        lines.append(f"| {filename} | {len(quotes)} | {claim_types} | {tags} |")
+        lines.append(f"| {filename} | {year} | {len(quotes)} | {claim_types} | {tags} |")
     return lines + [""]
 
 
@@ -134,7 +151,7 @@ def main(tagname: str, sectionname: str, outfile_path: str | Path) -> Path:
         path_quotes = parse_quotations(path, [sectionname])
         quotations.extend(path_quotes)
     target_quotes = filter_quotations(quotations, None, [tagname])
-    lines = [f"# {query_name}", ""] + format_summary(target_quotes) + format_quotations(target_quotes)
+    lines = [f"# {query_name}", ""] + summary_format(target_quotes) + format_quotations(target_quotes)
     outfile_path = Path(outfile_path)
     outfile_path.parent.mkdir(parents=True, exist_ok=True)
     outfile_path.write_text("\n".join(lines), encoding="utf-8")
