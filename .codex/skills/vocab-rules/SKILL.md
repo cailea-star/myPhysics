@@ -30,8 +30,8 @@ description: Apply canonical myWIKI vocabulary rules when selecting, drafting, r
 
 ### Draft-Rules
 
-- PRINT: Show the processed tag-type requirement from [vocab/types.json](../../../vocab/types.json).
-- Draft: Read ONLY the final 15 lines of [vocab/tags.json](../../../vocab/tags.json) and present exact format-matching proposals.
+- Draft: PRINT tag-type requirement; read ONLY final 15 [vocab/tags.json](../../../vocab/tags.json) lines; present exact proposals.
 - Validate: Every tag MUST satisfy its tag-type requirement; assign `reuse`, `add`, `merge`, or `rename`.
-- Write: STOP until explicit approval; apply ONLY approved changes; `merge` or `rename` MUST run `python scripts\rename_raw_tag.py OLD NEW`.
-- Verify: Run `python scripts\search_a_tag.py TAG`; unresolved changes MUST return to [Draft-Rules](#draft-rules).
+- Approve: STOP until explicit user approval.
+- Write: Apply ONLY approved changes across [vocab/tags.json](../../../vocab/tags.json), `raw/*.md`, and Wiki files/links; merge/rename MUST run `python scripts\rename_raw_tag.py OLD NEW`.
+- Verify: Run `python scripts\search_a_tag.py TAG`; OLD MUST vanish from [vocab/tags.json](../../../vocab/tags.json), `raw/*.md`, and Wiki files/links; otherwise redraft.
