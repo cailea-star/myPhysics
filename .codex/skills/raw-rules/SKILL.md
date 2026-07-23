@@ -38,8 +38,8 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 ### Section-Rules
 
 - Each quotation section MUST contain exactly one `claim-types`, `coverage`, and `quotation` HTML declaration.
-- Section quotations collectively assign exactly one `pass`, `gap`, or `fix` to every applicable target.
-- Missing valid full-text evidence MUST create exactly one matching `Gaps` entry.
+- Collective section evidence MUST yield exactly one `pass`, `gap`, or `fix` per applicable target.
+- A `gap` is valid ONLY after full-text review confirms no compliant evidence exists.
 - Any `fix` MUST block section completion and require correction.
 - A section completes ONLY when quotations pass and every target is `pass` or validated `gap`.
 
@@ -63,6 +63,6 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 
 - Prepare: Apply all `Input-Rules`; any failure requires STOP.
 - Draft: Follow template order; present at most four candidates for current section per batch.
-- Approval: PRINT candidate quotations and gap entries, then STOP until explicit user approval.
-- Write: Write ONLY approved quotations and gaps; run `python scripts\sort_raw_md_quotations.py mdfile_path`.
-- Verify: Run `Template-Check` after every write; incomplete sections return to Draft, completed sections advance.
+- Approval: PRINT exact candidate blocks and gaps; STOP until explicit user approval.
+- Write: Write ONLY exact approved content; MUST then run `python scripts\sort_raw_md_quotations.py mdfile_path`.
+- Verify: Run `Template-Check` after EVERY write; ONLY completed sections advance; incomplete MUST return to Draft.
