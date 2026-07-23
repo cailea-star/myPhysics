@@ -5,32 +5,33 @@ description: Apply canonical myWIKI vocabulary rules when selecting, drafting, r
 
 # Vocab Rules
 
-## Rules
+## Author-Rules
 
-### Author-Rules
+- Authors: [vocab/authors.json](../../../vocab/authors.json) stores corresponding authors’ `given`, `family`, `affiliation`, and `ORCID`.
+- Check: For one `raw/*.json`, MUST run `python scripts\check_vocab_author.py raw\[json_filename].json`; report additions and unchanged authors.
 
-Sources: Use authors from [vocab/authors.json](../../../vocab/authors.json).
+## Tag-Rules
 
-Check: Run `python scripts\check_vocab_author.py raw\[json_filename].json` as a routine check of the corresponding-author list, then read the PDF/TEX source text for corresponding-author information and report both the script terminal output and the source-text corresponding-author information to the user.
+- Tags: [vocab/tags.json](../../../vocab/tags.json) defines canonical concepts, types, aliases, and definitions for Raw and Wiki classification.
+- Types: [vocab/types.json](../../../vocab/types.json) defines tag types and their requirements.
+
+### Input-Rules
+
+- `raw/*.pdf` and `raw/*.tex` are Tag-Inputs; `raw/*.md` is NEVER Tag-Input.
+- ONLY technical terms stated in Tag-Inputs and absent from canonical tags may become new-tag candidates.
+- Definitions MUST be determined ONLY from Tag-Inputs.
+- Aliases MUST come ONLY from actual Tag-Inputs usage; NEVER invent aliases.
+- PRINT: If Tag-Inputs cannot determine a definition, MUST STOP and ask the user.
 
 ### Resolve-Rules
 
-Scope: Quotation tags are centered on physical quantities actually calculated, plotted, or compared in the paper; do not tag unrelated background mentions.
-
-Sources: Use tag types from [vocab/types.json](../../../vocab/types.json).
-
-Lookup: For every candidate concept, run `python scripts\search_similar_tags.py "CANDIDATE" 3`, show all three results, and use their canonical tags, types, aliases, and definitions; during candidate resolution, NEVER load `vocab/tags.json` directly.
-
-Type Match: Every type assigned to a drafted tag MUST independently satisfy that tag type's `requirement` in [vocab/types.json](../../../vocab/types.json); otherwise remove the type or reject the draft.
-
-Granularity: Keep noun-term compounds as precise tags, but split adjective-like modifiers into `[tag_type]: property` tags; e.g. use `alpha_decay_energy`, but use `symmetry_energy` + `soft`.
+- For every candidate, MUST run `python scripts\search_similar_tags.py "CANDIDATE" 3` and show all three results.
+- Resolve ONLY from returned canonical tags, types, aliases, and definitions; NEVER load [vocab/tags.json](../../../vocab/tags.json) directly.
 
 ### Draft-Rules
 
-Proposal: Under Resolve-Rules, propose `reuse`, `add`, `merge`, or `rename` for each candidate. If no valid existing tag resolves, draft `{tag, definition, types, aliases}` for [vocab/tags.json](../../../vocab/tags.json) one tag type at a time; include only aliases seen in the paper, metadata, or existing project vocabulary.
-
-Merge: Run `python scripts\search_similar_tags.py "TARGET" 3`, require the exact target in its output, and check its definition, aliases, and types against approved wiki and source evidence.
-
-Write: Present one draft group with an explicit proposal for each candidate. **🔴 CHECKPOINT · 🛑 STOP** — Await explicit approval; do not proceed. Apply only individually approved proposals: use the approved canonical tag for `reuse`; for an approved `add`, read only the final 10 lines of `vocab/tags.json` and write the approved addition; for an approved merge or rename, run `python scripts\rename_raw_tag.py OLD NEW` and update `tags.json` and affected wiki names and links in the same gate. After any required verification passes, present the next draft group.
-
-Verify: After every approved add, merge, or rename, rerun `python scripts\search_a_tag.py TAG` for every affected tag; require zero unprocessed quotations, unresolved approved changes, or partial tag migrations. For merge or rename, also require zero OLD quotations. Re-audit the resulting tag and report evidence gaps without expanding scope.
+- PRINT: Show the processed tag-type requirement from [vocab/types.json](../../../vocab/types.json).
+- Draft: Read ONLY the final 15 lines of [vocab/tags.json](../../../vocab/tags.json) and present exact format-matching proposals.
+- Validate: Every tag MUST satisfy its tag-type requirement; assign `reuse`, `add`, `merge`, or `rename`.
+- Write: STOP until explicit approval; apply ONLY approved changes; `merge` or `rename` MUST run `python scripts\rename_raw_tag.py OLD NEW`.
+- Verify: Run `python scripts\search_a_tag.py TAG`; unresolved changes MUST return to Draft.
