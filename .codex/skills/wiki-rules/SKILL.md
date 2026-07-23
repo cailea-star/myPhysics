@@ -46,7 +46,7 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 
 ### Paper-Rules
 
-- MUST process one specified Raw through `Previous Studies` first; otherwise iterate `tmp/*_Meanings.md` papers one-by-one identically.
+- MUST process exactly one specified Raw at a time.
 - The specified Raw paper qualifies ONLY when its `Meanings` contains current `TAG`.
 - The qualifying specified Raw MUST form exactly one Study using ONLY its quotations.
 - After that Study passes, use its Quotation-Inputs to inspect other Wiki sections for evidence-supported improvements.
@@ -58,12 +58,14 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 - Scope: Review ONLY one entire section using all active Quotation-Inputs.
 - Verdict: Assign exactly one `supported`, `weak`, `missing`, or `not-applicable` to every claim, formula, and target.
 - Review: Apply [Section-Rules](#section-rules); `Previous Studies` MUST additionally pass [Paper-Rules](#paper-rules); `weak` or `missing` requires STOP.
+- Sort: After every `Previous Studies` write, MUST run `python scripts\sort_wiki_studies.py wikipath` before Re-review.
 - Re-review: After every write, rerun `PRINT`, `Scope`, `Verdict`, and `Review` on persisted section.
 
 ## Draft-Rules
 
 - Prepare: Apply [Input-Rules](#input-rules); any failure MUST STOP before drafting.
 - Draft: Process ONLY one section; MUST follow template order unless [Paper-Rules](#paper-rules) requires otherwise.
+- MUST process the specified Raw through `Previous Studies` first; otherwise iterate `tmp/*_Meanings.md` papers one-by-one identically.
 - Approve: PRINT at most four exact changes; STOP until explicit user approval.
 - Write: Write ONLY exact approved content; NEVER alter unrelated Wiki content.
 - Verify: Rerun [Template-Check](#template-check); `pass` advances, while `fix` requires another approved batch.
