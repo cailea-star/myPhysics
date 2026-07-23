@@ -35,7 +35,7 @@ Run gates strictly in order. Start every response with the current gate, last co
 ### Gate 3 — Process Previous Studies by Paper
 
 1. Identify every unique Raw paper in generated `Meanings`, preserving source order.
-2. Apply [Process-One-Paper-Rules](../wiki-rules/SKILL.md#process-one-paper-rules) to exactly one unreviewed paper.
+2. Apply [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) in specified-paper mode to exactly one unreviewed paper.
 3. Proceed to Gate 4 only after every identified paper passes.
 
 ### Gate 4 — Wiki to Tags
