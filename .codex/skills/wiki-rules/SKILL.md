@@ -25,7 +25,7 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 
 ### Check-Inputs
 
-- Checkpoint 1: Specified Raw MUST run `python scripts\search_a_doi.py DOI`; matching JSON, Markdown, and PDF-or-TEX MUST exist.
+- Checkpoint 1: Specified Raw MUST run `python scripts\search_a_paper.py DOI`; matching JSON, Markdown, and PDF-or-TEX MUST exist.
 - Checkpoint 2: One canonical match passes; failure MUST STOP and follow [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules).
 - Checkpoint 3: Canonical `TAG` MUST run `python scripts\search_a_tag.py TAG`; generated `tmp/*.md` MUST contain matching quotations.
 - Checkpoint 4: Raw quotations MUST cover Wiki needs; failure MUST STOP and follow [Raw Draft-Rules](../raw-rules/SKILL.md#draft-rules).
@@ -44,25 +44,26 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 - References MUST use adjacent existing Raw stems; prose MUST synthesize, preserve uncertainty, and separate conflicts.
 - A section completes ONLY when items are `supported` or valid `not-applicable`; others MUST block completion.
 
-### Study-Rules
+### Paper-Rules
 
 - MUST process one specified Raw through `Previous Studies` first; otherwise iterate `tmp/*_Meanings.md` papers one-by-one identically.
 - The specified Raw paper qualifies ONLY when its `Meanings` contains current `TAG`.
 - The qualifying specified Raw MUST form exactly one Study using ONLY its quotations.
 - After that Study passes, use its Quotation-Inputs to inspect other Wiki sections for evidence-supported improvements.
+- Next Papers MUST derive from Secondary Citations; `python scripts\search_a_paper.py DOI` `recorded:` disqualifies candidates.
 
 ### Template-Check
 
 - PRINT: Show current section’s `claim-types` and `coverage` declarations.
 - Scope: Review ONLY one entire section using all active Quotation-Inputs.
 - Verdict: Assign exactly one `supported`, `weak`, `missing`, or `not-applicable` to every claim, formula, and target.
-- Review: Apply [Section-Rules](#section-rules); `Previous Studies` MUST additionally pass [Study-Rules](#study-rules); `weak` or `missing` requires STOP.
+- Review: Apply [Section-Rules](#section-rules); `Previous Studies` MUST additionally pass [Paper-Rules](#paper-rules); `weak` or `missing` requires STOP.
 - Re-review: After every write, rerun `PRINT`, `Scope`, `Verdict`, and `Review` on persisted section.
 
 ## Draft-Rules
 
 - Prepare: Apply [Input-Rules](#input-rules); any failure MUST STOP before drafting.
-- Draft: Process ONLY one section; MUST follow template order unless [Study-Rules](#study-rules) requires otherwise.
+- Draft: Process ONLY one section; MUST follow template order unless [Paper-Rules](#paper-rules) requires otherwise.
 - Approve: PRINT at most four exact changes; STOP until explicit user approval.
 - Write: Write ONLY exact approved content; NEVER alter unrelated Wiki content.
 - Verify: Rerun [Template-Check](#template-check); `pass` advances, while `fix` requires another approved batch.

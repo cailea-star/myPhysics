@@ -17,7 +17,7 @@ Run gates strictly in order. At the start of each response, state the current ga
 
 - Check: Run `git rev-parse --is-inside-work-tree` and `git status --short`; dirty worktrees MUST STOP and report changes.
 - Identify exactly one paper from the user’s DOI, title, PDF, TEX, or JSON.
-- DOI: Run `python scripts\search_a_doi.py [doi_number]`; report `recorded:` reuse/re-ingest options and reference-only hits.
+- DOI: Run `python scripts\search_a_paper.py [doi_number]`; report `recorded:` reuse/re-ingest options and reference-only hits.
 - Approval: PRINT the identified paper; STOP until explicit user approval.
 
 ### Gate 2 — Generate Raw Files / Collect Full Text
