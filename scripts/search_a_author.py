@@ -12,7 +12,7 @@ def get_raw_json_paths(raw_dir: str | Path = RAW_PATH) -> list[Path]:
     return sorted(paths)
 
 
-def find_author(given_name: str, family_name: str, raw_json_data: dict) -> list[str]:
+def find_author(given_name: str, family_name: str, raw_json_data: dict) -> None:
     target = re.sub(r"\W+", "", f"{given_name} {family_name}").lower()
     for author in raw_json_data.get("author") or []:
         name = " ".join(filter(None, [author.get("given"), author.get("family")]))
@@ -21,7 +21,7 @@ def find_author(given_name: str, family_name: str, raw_json_data: dict) -> list[
 
 
 
-def find_corresponding(given_name: str, family_name: str, raw_json_data: dict) -> list[str]:
+def find_corresponding(given_name: str, family_name: str, raw_json_data: dict) -> None:
     target = re.sub(r"\W+", "", f"{given_name} {family_name}").lower()
     for author in raw_json_data.get("author-corresponding-openalex") or []:
         name = " ".join(filter(None, [author.get("given"), author.get("family")]))
@@ -31,7 +31,7 @@ def find_corresponding(given_name: str, family_name: str, raw_json_data: dict) -
 
 def main(given_name: str, family_name: str) -> None:
     for raw_json_path in get_raw_json_paths():
-        raw_json_data = json.load(raw_json_path.read_text(encoding="utf-8"))
+        raw_json_data = json.loads(raw_json_path.read_text(encoding="utf-8"))
         find_author(given_name, family_name, raw_json_data)
         find_corresponding(given_name, family_name, raw_json_data)
 

@@ -1,9 +1,9 @@
 ---
-[tags]: [this_tags_set]
+[tags]: [this_tags_name]
 [tag_types]: [this_tag_types]
 ---
 
-# [tag_name]
+# [this_tag_name]
 
 <!-- claim-types: ([claim_type]: definition or [claim_type]: background) -->
 <!-- coverage: (from Motivation and Methods, select the smallest sufficient root-method quotation set with [claim_type]: definition or [claim_type]: background; prefer [claim_type]: definition) and (origin with [claim_type]: background is optional) -->

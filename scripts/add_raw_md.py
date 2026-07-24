@@ -30,11 +30,11 @@ def replace_affiliations(raw_template_str, raw_json_data):
 
 
 def replace_title(raw_template_str, raw_json_data):
-    return raw_template_str.replace("[title_name]", (raw_json_data.get("title") or [""])[0])
+    return raw_template_str.replace("[this_title]", (raw_json_data.get("title") or [""])[0])
 
 
 def replace_abstract(raw_template_str, raw_json_data):
-    return raw_template_str.replace("[abstract]", raw_json_data.get("abstract") or "")
+    return raw_template_str.replace("[this_abstract]", raw_json_data.get("abstract") or "")
 
 
 def main(raw_json_path):

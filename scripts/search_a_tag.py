@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 import re
 import sys
@@ -5,6 +6,13 @@ import sys
 ROOT_PATH = Path(__file__).resolve().parent.parent
 RAW_PATH = ROOT_PATH.joinpath("raw")
 TMP_PATH = ROOT_PATH.joinpath("tmp")
+TAGS_PATH = ROOT_PATH.joinpath("vocab", "tags.json")
+
+
+def check_tag(tag: str) -> dict:
+    tag_data = {item["tag"]: item for item in json.loads(TAGS_PATH.read_text(encoding="utf-8"))}
+    if tag not in tag_data: raise SystemExit(f"invalid tag: {tag}")
+    return tag_data[tag]
 
 
 # Resolve quotations from raw markdown files;
@@ -127,9 +135,9 @@ def resolve_stem(stem: str) -> dict[str, str]:
     return match.groupdict() if match else dict.fromkeys(fields, "")
 
 
-def get_paper_sort_key(stem: str) -> tuple[bool, str, str]:
-    year = resolve_stem(stem)["year"]
-    return year == "", year, stem
+def get_paper_sort_key(stem: str) -> tuple[str, bool, str, str]:
+    paper = resolve_stem(stem)
+    return paper["author"], paper["year"] == "", paper["year"], stem
 
 
 def format_stems(quotations_list: list[dict]) -> list[str]:
@@ -168,7 +176,10 @@ def main(tagname: str, sectionname: str, outfile_path: str | Path) -> Path:
 
 
 if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        raise SystemExit("usage: python scripts/search_a_tag.py TAG")
     tagname = sys.argv[1]
+    check_tag(tagname)
     motivation_path = TMP_PATH.joinpath(f"{tagname}_Motivation.md")
     main(tagname, "Motivation", motivation_path)
     print(motivation_path)
