@@ -291,9 +291,22 @@ Fig. 6(b) shows substantial increases of the half-lives of 270Hs and 304120 as t
 
 
 
+##### quotation-22
+
+```tags
+[claim_type]: result
+[tags]: RMF, symmetry_energy, alpha_decay_energy, alpha_decay_half_life
+[source]: section 4. Summary.
+```
+
+```quote
+By employing the deformed RMF approach combined with BCS method, we investigate the effects of different density-dependent behavior of the symmetry energy on the ground-state properties and α-decay properties of some typical nuclei. [...] A softer symmetry energy gives smaller α-decay energy Qα and longer half-life.
+```
+
+
 ### Secondary Citations
 
-##### quotation-22
+##### quotation-23
 ```tags
 [claim_type]: method
 [tags]: pairing_correlation, BCS
@@ -311,7 +324,7 @@ V = -V_0 \left[1 - \left(\frac{\rho(r)}{\rho_0}\right)^\gamma\right]\delta(r_1 -
 ```
 
 
-##### quotation-23
+##### quotation-24
 ```tags
 [claim_type]: definition
 [tags]: symmetry_energy, density_dependent
@@ -331,7 +344,7 @@ E_{\rm sym}
 ```
 
 
-##### quotation-24
+##### quotation-25
 ```tags
 [claim_type]: method
 [tags]: FSUGarnet, symmetry_energy, density_dependent
@@ -345,7 +358,7 @@ To study the effects of different density-dependent behavior of symmetry energy 
 ```
 
 
-##### quotation-25
+##### quotation-26
 ```tags
 [claim_type]: definition
 [tags]: two_nucleon_shell_gap, shell_closure
@@ -364,7 +377,7 @@ The other indicator of shell closures is the two-nucleon gap which is appropriat
 ```
 
 
-##### quotation-26
+##### quotation-27
 ```tags
 [claim_type]: result
 [tags]: alpha_decay_energy, alpha_decay_half_life
@@ -378,7 +391,7 @@ The α-decay half-life is extremely sensitive to the decay energy Qα, and an un
 ```
 
 
-##### quotation-27
+##### quotation-28
 ```tags
 [claim_type]: method
 [tags]: alpha_decay_half_life, alpha_decay_energy
@@ -399,7 +412,7 @@ Many models can be employed to estimate the half-life [67--85], and here we use 
 ```
 
 
-##### quotation-28
+##### quotation-29
 ```tags
 [claim_type]: result
 [tags]: RMF, symmetry_energy, superheavy_nuclei, single_particle_energy_level
