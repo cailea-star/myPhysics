@@ -4,53 +4,54 @@ import sys
 
 
 ROOT_PATH = Path(__file__).resolve().parent.parent
-RAW_PATH = ROOT_PATH / "raw"
+RAW_PATH = ROOT_PATH.joinpath("raw")
+
 TAGS_LINE = re.compile(r"^([ \t]*\[tags\]:[ \t]*)([^\r\n]*)(\r?\n?)$")
 
 
-def get_md_paths(raw_dir: Path = RAW_PATH) -> list[Path]:
+def get_raw_md_paths(raw_dir: str | Path = RAW_PATH) -> list[Path]:
     """Return sorted raw/*.md paths."""
-    return sorted(raw_dir.glob("*.md"))
+    return sorted(Path(raw_dir).glob("*.md"))
 
 
-def match_tags_lines(lines: list[str]) -> list[int]:
+def find_tags_lines(raw_md_lines_str_list: list[str]) -> list[int]:
     """Return zero-based indices of exact `[tags]:` lines."""
-    return [i for i, line in enumerate(lines) if TAGS_LINE.match(line)]
+    return [i for i, line in enumerate(raw_md_lines_str_list) if TAGS_LINE.match(line)]
 
 
-def replace_tag(line: str, old: str, new: str) -> str:
+def replace_tag(raw_md_line_str: str, old_tag: str, new_tag: str) -> str:
     """Replace an exact tag, preserving layout and deduplicating merges.
 
     >>> replace_tag("[tags]: old, keep, new\\n", "old", "new")
     '[tags]: new, keep\\n'
     """
-    match = TAGS_LINE.match(line)
-    if not match: return line
+    match = TAGS_LINE.match(raw_md_line_str)
+    if not match: return raw_md_line_str
     prefix, value, ending = match.groups()
     tags = [tag.strip() for tag in value.split(",")]
-    if old not in tags: return line
-    tags = dict.fromkeys(new if tag == old else tag for tag in tags)
+    if old_tag not in tags: return raw_md_line_str
+    tags = dict.fromkeys(new_tag if tag == old_tag else tag for tag in tags)
     return prefix + ", ".join(tags) + ending
 
 
-def main(old: str, new: str) -> list[Path]:
+def main(old_tag: str, new_tag: str) -> list[Path]:
     """Update matched files and return changed paths."""
-    old, new = old.strip(), new.strip()
-    if not old or not new or old == new or "," in old + new:
+    old_tag, new_tag = old_tag.strip(), new_tag.strip()
+    if not old_tag or not new_tag or old_tag == new_tag or "," in old_tag + new_tag:
         raise SystemExit("tags must be distinct, non-empty, and contain no comma")
 
     changed = []
-    for path in get_md_paths():
-        with path.open(encoding="utf-8", newline="") as file:
-            original = file.read()
-        lines = original.splitlines(keepends=True)
-        for i in match_tags_lines(lines):
-            lines[i] = replace_tag(lines[i], old, new)
-        text = "".join(lines)
-        if text != original:
-            with path.open("w", encoding="utf-8", newline="") as file:
-                file.write(text)
-            changed.append(path)
+    for raw_md_path in get_raw_md_paths():
+        with raw_md_path.open(encoding="utf-8", newline="") as file:
+            raw_md_str_old = file.read()
+        raw_md_lines = raw_md_str_old.splitlines(keepends=True)
+        for tagline_number in find_tags_lines(raw_md_lines):
+            raw_md_lines[tagline_number] = replace_tag(raw_md_lines[tagline_number], old_tag, new_tag)
+        raw_md_str_new = "".join(raw_md_lines)
+        if raw_md_str_new != raw_md_str_old:
+            with raw_md_path.open("w", encoding="utf-8", newline="") as file:
+                file.write(raw_md_str_new)
+            changed.append(raw_md_path)
     return changed
 
 

@@ -1,37 +1,35 @@
-import os
 from pathlib import Path
 import re
 import sys
 
-ROOT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+ROOT_PATH = Path(__file__).resolve().parent.parent
+RAW_PATH = ROOT_PATH.joinpath("raw")
+TMP_PATH = ROOT_PATH.joinpath("tmp")
 
 
-def get_md_paths(raw_dir: str | Path = os.path.join(ROOT_PATH, "raw")) -> list[Path]:
-    paths = Path(raw_dir).glob("*.md")
-    return sorted(paths)
+# Resolve quotations from raw markdown files;
 
-
-def search_section(fullmd: str, sectionname: str) -> str:
+def find_section(raw_md_str: str, sectionname: str) -> str:
     sectionname = sectionname.strip()
     escaped_sectionname = re.escape(sectionname)
-    header = re.search(rf"(?m)^(#+)\s+{escaped_sectionname}\s*$", fullmd)
+    header = re.search(rf"(?m)^(#+)\s+{escaped_sectionname}\s*$", raw_md_str)
     if not header: return ""
     body_start = header.end()
     header_marks = header.group(1)
     header_level = len(header_marks)
-    section_tail = fullmd[body_start:]
+    section_tail = raw_md_str[body_start:]
     next_header = re.search(rf"(?m)^#{{1,{header_level}}}\s+", section_tail)
     if next_header: body_end = body_start + next_header.start()
-    else: body_end = len(fullmd)
-    section_body = fullmd[body_start:body_end]
+    else: body_end = len(raw_md_str)
+    section_body = raw_md_str[body_start:body_end]
     return section_body.strip()
 
 
-def search_quotations(sectionmd: str) -> list[dict]:
+def split_section_quotations(raw_md_section_str: str) -> list[dict]:
     quotations = []
 
     # split the section into blocks by "##### " header, don't include the first block which is the section header
-    blocks = re.split(r"(?m)^#####\s+", sectionmd)
+    blocks = re.split(r"(?m)^#####\s+", raw_md_section_str)
     for block in blocks[1:]:
         _, _, body = block.partition("\n")
         # search for the tags block
@@ -66,71 +64,44 @@ def search_quotations(sectionmd: str) -> list[dict]:
     return quotations
 
 
-def parse_quotations(md_path: Path, sectionlist: list[str]) -> list[dict]:
-    fullmd = md_path.read_text(encoding="utf-8")
-    quotations = []
-    for sectionname in sectionlist:
-        sectionmd = search_section(fullmd, sectionname)
-        section_quotes = search_quotations(sectionmd)
-        quotations.extend(section_quotes)
-    for quote in quotations:
-        quote["filename"] = md_path.stem
-        quote["source"] = md_path.stem + ": " + quote["source"]
-    return quotations
+# resolve quotations from certain section, and match them with claim_type and tags;
+
+def resolve_section_quotations(raw_md_path: Path, sectionname: str) -> list[dict]:
+    raw_md_str = raw_md_path.read_text(encoding="utf-8")
+    raw_md_section_str = find_section(raw_md_str, sectionname)
+    raw_md_section_quotations_list = split_section_quotations(raw_md_section_str)
+    for raw_md_quotation in raw_md_section_quotations_list:
+        raw_md_quotation["filename"] = raw_md_path.stem
+        raw_md_quotation["source"] = raw_md_path.stem + ": " + raw_md_quotation["source"]
+    return raw_md_section_quotations_list
 
 
-def filter_quotations(quotations: list[dict], claim_type: str | None, tags_list: list[str]) -> list[dict]:
-    filtered = []
-    for quote in quotations:
-        if claim_type is not None and quote["claim_type"] != claim_type: continue
+def match_quotations(quotations_list: list[dict], claim_type: str | None, tags_list: list[str]) -> list[dict]:
+    raw_md_quotations_list_filtered = []
+    for raw_md_quotation in quotations_list:
+        if claim_type is not None and raw_md_quotation["claim_type"] != claim_type: continue
         matched = True
         for tag in tags_list:
-            if tag not in quote["tags"]:
+            if tag not in raw_md_quotation["tags"]:
                 matched = False
                 break
         if matched:
-            filtered.append(quote)
-    return filtered
+            raw_md_quotations_list_filtered.append(raw_md_quotation)
+    return raw_md_quotations_list_filtered
 
 
-def sort_quotations(quotations: list[dict]) -> list[dict]:
-    sorted_quotations = sorted(quotations, key=lambda quote: quote["claim_type"])
-    return sorted_quotations
+# Sort and format quotations for output
 
 
-def summary_split_filename(filename: str) -> dict[str, str]:
-    fields = ("author", "year", "journal", "volume", "number", "page")
-    match = re.fullmatch(
-        r"(?P<author>.+?)_Y\.(?P<year>[^_]*)_(?P<journal>.*?)_Vol\."
-        r"(?P<volume>.*?)Nol\.(?P<number>.*?)P\.(?P<page>.*)",
-        filename,
-    )
-    return match.groupdict() if match else dict.fromkeys(fields, "")
+def sort_quotations(quotations_list: list[dict]) -> list[dict]:
+    raw_md_quotations_list_sorted = sorted(quotations_list, key=lambda quote: quote["claim_type"])
+    return raw_md_quotations_list_sorted
 
 
-def summary_paper_sort_key(filename: str) -> tuple[bool, str, str]:
-    year = summary_split_filename(filename)["year"]
-    return year == "", year, filename
-
-
-def summary_format(quotations: list[dict]) -> list[str]:
-    papers = {}
-    for quote in quotations:
-        papers.setdefault(quote["filename"], []).append(quote)
-    lines = ["## Papers", "", "| filename | year | quotes | claim-types | tags |", "|---|---:|---:|---|---|"]
-    for filename in sorted(papers, key=summary_paper_sort_key):
-        year = summary_split_filename(filename)["year"]
-        quotes = papers[filename]
-        claim_types = ", ".join(dict.fromkeys(quote["claim_type"] for quote in quotes))
-        tags = ", ".join(dict.fromkeys(tag for quote in quotes for tag in quote["tags"]))
-        lines.append(f"| {filename} | {year} | {len(quotes)} | {claim_types} | {tags} |")
-    return lines + [""]
-
-
-def format_quotations(quotations: list[dict]) -> list[str]:
+def format_quotations(quotations_list: list[dict]) -> list[str]:
     lines = []
     last_claim_type = ""
-    for quote in sort_quotations(quotations):
+    for quote in sort_quotations(quotations_list):
         if quote["claim_type"] != last_claim_type:
             lines += [f"## {quote['claim_type']}", ""]
             last_claim_type = quote["claim_type"]
@@ -144,14 +115,52 @@ def format_quotations(quotations: list[dict]) -> list[str]:
     return lines
 
 
+# Collect papers appearing in quotations, and sort them by year and author
+
+def resolve_filename(filename: str) -> dict[str, str]:
+    fields = ("author", "year", "journal", "volume", "number", "page")
+    match = re.fullmatch(
+        r"(?P<author>.+?)_Y\.(?P<year>[^_]*)_(?P<journal>.*?)_Vol\."
+        r"(?P<volume>.*?)Nol\.(?P<number>.*?)P\.(?P<page>.*)",
+        filename,
+    )
+    return match.groupdict() if match else dict.fromkeys(fields, "")
+
+
+def get_paper_sort_key(filename: str) -> tuple[bool, str, str]:
+    year = resolve_filename(filename)["year"]
+    return year == "", year, filename
+
+
+def format_filenames(quotations_list: list[dict]) -> list[str]:
+    papers = {}
+    for quote in quotations_list:
+        papers.setdefault(quote["filename"], []).append(quote)
+    lines = ["## Papers", "", "| filename | year | quotes | claim-types | tags |", "|---|---:|---:|---|---|"]
+    for filename in sorted(papers, key=get_paper_sort_key):
+        year = resolve_filename(filename)["year"]
+        quotes = papers[filename]
+        claim_types = ", ".join(dict.fromkeys(quote["claim_type"] for quote in quotes))
+        tags = ", ".join(dict.fromkeys(tag for quote in quotes for tag in quote["tags"]))
+        lines.append(f"| {filename} | {year} | {len(quotes)} | {claim_types} | {tags} |")
+    return lines + [""]
+
+
+# Collect raw/*.md paths, and main function;
+
+def get_raw_md_paths(raw_dir: str | Path = RAW_PATH) -> list[Path]:
+    paths = Path(raw_dir).glob("*.md")
+    return sorted(paths)
+
+
 def main(tagname: str, sectionname: str, outfile_path: str | Path) -> Path:
-    quotations = []
+    all_section_quotations_list = []
     query_name = f"{tagname}_{sectionname}"
-    for path in get_md_paths():
-        path_quotes = parse_quotations(path, [sectionname])
-        quotations.extend(path_quotes)
-    target_quotes = filter_quotations(quotations, None, [tagname])
-    lines = [f"# {query_name}", ""] + summary_format(target_quotes) + format_quotations(target_quotes)
+    for raw_md_path in get_raw_md_paths():
+        one_section_quotations_list = resolve_section_quotations(raw_md_path, sectionname)
+        all_section_quotations_list.extend(one_section_quotations_list)
+    all_matched_section_quotations_list = match_quotations(all_section_quotations_list, None, [tagname])
+    lines = [f"# {query_name}", ""] + format_filenames(all_matched_section_quotations_list) + format_quotations(all_matched_section_quotations_list)
     outfile_path = Path(outfile_path)
     outfile_path.parent.mkdir(parents=True, exist_ok=True)
     outfile_path.write_text("\n".join(lines), encoding="utf-8")
@@ -160,18 +169,18 @@ def main(tagname: str, sectionname: str, outfile_path: str | Path) -> Path:
 
 if __name__ == "__main__":
     tagname = sys.argv[1]
-    motivation_path = os.path.join(ROOT_PATH, "tmp", f"{tagname}_Motivation.md")
+    motivation_path = TMP_PATH.joinpath(f"{tagname}_Motivation.md")
     main(tagname, "Motivation", motivation_path)
     print(motivation_path)
-    methods_path = os.path.join(ROOT_PATH, "tmp", f"{tagname}_Methods.md")
+    methods_path = TMP_PATH.joinpath(f"{tagname}_Methods.md")
     main(tagname, "Methods", methods_path)
     print(methods_path)
-    results_path = os.path.join(ROOT_PATH, "tmp", f"{tagname}_Results.md")
+    results_path = TMP_PATH.joinpath(f"{tagname}_Results.md")
     main(tagname, "Results", results_path)
     print(results_path)
-    meanings_path = os.path.join(ROOT_PATH, "tmp", f"{tagname}_Meanings.md")
+    meanings_path = TMP_PATH.joinpath(f"{tagname}_Meanings.md")
     main(tagname, "Meanings", meanings_path)
     print(meanings_path)
-    secondary_cpath = os.path.join(ROOT_PATH, "tmp", f"{tagname}_Secondary.md")
+    secondary_cpath = TMP_PATH.joinpath(f"{tagname}_Secondary.md")
     main(tagname, "Secondary Citations", secondary_cpath)
     print(secondary_cpath)

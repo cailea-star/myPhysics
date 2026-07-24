@@ -7,10 +7,10 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 
 ROOT_PATH = Path(__file__).resolve().parent.parent
-TAGS_PATH = ROOT_PATH / "vocab" / "tags.json"
+TAGS_PATH = ROOT_PATH.joinpath("vocab", "tags.json")
 
 
-def load_tags(path: Path = TAGS_PATH) -> list[dict]:
+def get_vocab_tags(path: Path = TAGS_PATH) -> list[dict]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
@@ -43,7 +43,7 @@ def tag_print(score: float, tag: dict) -> None:
 def main(query: str, number: int) -> int:
     if number < 1:
         raise SystemExit("number must be a positive integer")
-    for score, tag in search_similar_tags(query, load_tags())[:number]:
+    for score, tag in search_similar_tags(query, get_vocab_tags())[:number]:
         tag_print(score, tag)
     return 0
 
