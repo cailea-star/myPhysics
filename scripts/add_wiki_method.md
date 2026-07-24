@@ -1,12 +1,12 @@
 ---
-[tags]: [this_tags_name]
-[tag_types]: [this_tag_types]
+[tags]: [this_tag_name]
+[tag-type]: [this_tag_type]
 ---
 
 # [this_tag_name]
 
-<!-- claim-types: ([claim_type]: definition or [claim_type]: background) -->
-<!-- coverage: (from Motivation and Methods, select the smallest sufficient root-method quotation set with [claim_type]: definition or [claim_type]: background; prefer [claim_type]: definition) and (origin with [claim_type]: background is optional) -->
+<!-- claim-type: ([claim-type]: definition or [claim-type]: background) -->
+<!-- coverage: (from Motivation and Methods, select the smallest sufficient root-method quotation set with [claim-type]: definition or [claim-type]: background; prefer [claim-type]: definition) and (origin with [claim-type]: background is optional) -->
 ### Definition & Origin
 
 ```references
@@ -16,8 +16,8 @@
 
 [What the method is, what problem it solves, and where it originated.]
 
-<!-- claim-types: ([claim_type]: method is required) and ([claim_type]: definition is required) and ([claim_type]: background is optional) -->
-<!-- coverage: (Methods provides root-method framework quotations with [claim_type]: method) and (Motivation or Methods provides root-method framework quotations with [claim_type]: definition) and (supplementary root-method framework quotations from Motivation or Methods with [claim_type]: background are optional) -->
+<!-- claim-type: ([claim-type]: method is required) and ([claim-type]: definition is required) and ([claim-type]: background is optional) -->
+<!-- coverage: (Methods provides root-method framework quotations with [claim-type]: method) and (Motivation or Methods provides root-method framework quotations with [claim-type]: definition) and (supplementary root-method framework quotations from Motivation or Methods with [claim-type]: background are optional) -->
 ### Framework
 
 ```tags
@@ -53,8 +53,8 @@
 
 ...
 
-<!-- claim-types: ([claim_type]: definition or [claim_type]: background) and ([claim_type]: definition or [claim_type]: method) -->
-<!-- coverage: (Motivation or Results provides root-method input or output quotations with [claim_type]: definition or [claim_type]: background) and (Methods provides root-method input or output quotations with [claim_type]: definition or [claim_type]: method) -->
+<!-- claim-type: ([claim-type]: definition or [claim-type]: background) and ([claim-type]: definition or [claim-type]: method) -->
+<!-- coverage: (Motivation or Results provides root-method input or output quotations with [claim-type]: definition or [claim-type]: background) and (Methods provides root-method input or output quotations with [claim-type]: definition or [claim-type]: method) -->
 ### Inputs & Outputs
 
 ```tags
@@ -77,8 +77,8 @@
 
 ...
 
-<!-- claim-types: ([claim_type]: definition or [claim_type]: background or [claim_type]: motivation) and ([claim_type]: method or [claim_type]: definition) -->
-<!-- coverage: (Motivation provides root-method correction quotations with [claim_type]: definition or [claim_type]: background or [claim_type]: motivation) and (Methods provides root-method correction quotations with [claim_type]: method or [claim_type]: definition) -->
+<!-- claim-type: ([claim-type]: definition or [claim-type]: background or [claim-type]: motivation) and ([claim-type]: method or [claim-type]: definition) -->
+<!-- coverage: (Motivation provides root-method correction quotations with [claim-type]: definition or [claim-type]: background or [claim-type]: motivation) and (Methods provides root-method correction quotations with [claim-type]: method or [claim-type]: definition) -->
 ### Correction Algorithm
 
 ##### Correction Algorithm 1
@@ -121,8 +121,8 @@
 
 ...
 
-<!-- claim-types: ([claim_type]: motivation is required for each Study) and ([claim_type]: comparison is required for each Study) and ([claim_type]: innovation or [claim_type]: result is required for each Study) and ([claim_type]: result is required for each Study) -->
-<!-- coverage: (each Study describes exactly one raw paper) and (for each Study, its Motivation provides [claim_type]: motivation) and (for each Study, its Meanings provides [claim_type]: comparison) and (for each Study, its Meanings provides [claim_type]: innovation or [claim_type]: result) and (for each Study, its Meanings provides [claim_type]: result) -->
+<!-- claim-type: ([claim-type]: motivation is required for each Study) and ([claim-type]: comparison is required for each Study) and ([claim-type]: innovation or [claim-type]: result is required for each Study) and ([claim-type]: result is required for each Study) -->
+<!-- coverage: (each Study describes exactly one raw paper) and (for each Study, its Motivation provides [claim-type]: motivation) and (for each Study, its Meanings provides [claim-type]: comparison) and (for each Study, its Meanings provides [claim-type]: innovation or [claim-type]: result) and (for each Study, its Meanings provides [claim-type]: result) -->
 ### Previous Studies
 
 ##### Study 1
@@ -145,7 +145,7 @@
 
 ...
 
-<!-- claim-types: (none: Candidate Papers do not support Wiki claims) -->
+<!-- claim-type: (none: Candidate Papers do not support Wiki claims) -->
 <!-- coverage: (from Secondary, identify every unique Candidate Paper) and (for each Candidate Paper, include tags, title, DOI, journal, year, reason) and (if no Candidate Paper qualifies, report not-applicable) -->
 ### Next Papers
 

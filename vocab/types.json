@@ -1,5 +1,5 @@
 {
-  "tag_types": [
+  "tag-type": [
     {
       "type": "quantity",
       "definition": "physical quantity calculated, plotted, fitted, or numerically compared",
@@ -36,7 +36,7 @@
       "requirement": "represents a physical process, event, or observable behavior; its numerical descriptor, governing method, or applicability condition does not qualify"
     }
   ],
-  "claim_types": [
+  "claim-type": [
     {
       "type": "definition",
       "definition": "defines a concept, quantity, or method",

@@ -16,7 +16,7 @@ We review the coupled channels approach of α transitions to excited states. The
 ##### quotation-01
 
 ```tags
-[claim_type]: motivation
+[claim-type]: motivation
 [tags]: alpha_decay, alpha_decay_fine_structure
 [source]: section 1. Introduction
 ```
@@ -28,7 +28,7 @@ The α-transitions to excited states are very sensitive to nuclear structure det
 ##### quotation-02
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: alpha_decay_fine_structure, alpha_decay, deformed
 [source]: section 1. Introduction
 ```
@@ -40,7 +40,7 @@ Many deformed α emitters show a line spectrum of α groups corresponding to α-
 ##### quotation-03
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: coupled_channels_method, even_even_nuclei, odd_mass_nuclei, odd_odd_nuclei
 [source]: section 1. Introduction
 ```
@@ -52,7 +52,7 @@ The logic of theoretical investigations followed a path from semiclassical to co
 ##### quotation-04
 
 ```tags
-[claim_type]: motivation
+[claim-type]: motivation
 [tags]: alpha_decay_fine_structure, superheavy_nuclei, alpha_decay
 [source]: section 1. Introduction
 ```
@@ -64,7 +64,7 @@ In addition, it should be particularly noted that sufﬁcient knowledge of the �
 ##### quotation-05
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: alpha_decay_energy, alpha_decay_width, alpha_decay
 [source]: abstract.
 ```
@@ -76,7 +76,7 @@ The α-decaying states are identified as narrow outgoing Gamow resonances in an 
 ##### quotation-06
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: coupled_channels_method, alpha_decay
 [source]: section 5.1. Double folding interaction plus repulsive core
 ```
@@ -88,7 +88,7 @@ By expanding the total wave function of the system into a sum of partial waves o
 ##### quotation-07
 
 ```tags
-[claim_type]: background
+[claim-type]: background
 [tags]: coherent_state_model
 [source]: section 2.2. Interaction
 ```
@@ -102,7 +102,7 @@ Let us mention that this type of QQ interaction can be used as a general ansatz 
 ##### quotation-08
 
 ```tags
-[claim_type]: assumption
+[claim-type]: assumption
 [tags]: semiclassical_method, alpha_decay_fine_structure
 [source]: section 3. Semiclassical approach
 ```
@@ -114,7 +114,7 @@ As a straightforward extension for the fine structure, one treats the decay chan
 ##### quotation-09
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: coupled_channels_method, alpha_decay
 [source]: section 5.1. Double folding interaction plus repulsive core
 ```
@@ -126,7 +126,7 @@ By expanding the total wave function of the system into a sum of partial waves o
 ##### quotation-10
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: semiclassical_method, alpha_decay
 [source]: section 3. Semiclassical approach
 ```
@@ -142,7 +142,7 @@ P = \exp\left(-\frac{2}{\hbar}\int_{R_1}^{R_2}\sqrt{2\mu[V(R)-Q_\alpha]}\,dR\rig
 ##### quotation-11
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: coupled_channels_method, semiclassical_method
 [source]: section 5.1. Double folding interaction plus repulsive core
 ```
@@ -154,7 +154,7 @@ In table 1, the coupled-channel results obtained from different models are also 
 ##### quotation-12
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: double_folding_potential, alpha_clustering
 [source]: section 8. Conclusions
 ```
@@ -166,7 +166,7 @@ We described two equivalent methods to simulate the Pauli principle, which impli
 ##### quotation-13
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: double_folding_potential
 [source]: section 5.3. Double folding interaction and the Wildermuth rule
 ```
@@ -184,7 +184,7 @@ V_N(R,\theta)=\frac{V_0}{1+\exp([R-R(\theta)]/a)}.
 ##### quotation-14
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: semiclassical_method, alpha_decay_branching_ratio, even_even_nuclei
 [source]: section 3. Semiclassical approach, table 1
 ```
@@ -196,7 +196,7 @@ As can be seen, all the semiclassical models tend to overestimate the b.r. to ex
 ##### quotation-15
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: semiclassical_method, cluster_core_model, alpha_decay_branching_ratio
 [source]: section 5.4. Results for well-deformed even-even, odd-mass, and odd-odd emitters, table 2
 ```
@@ -208,7 +208,7 @@ In terms of the WKB barrier penetration approach, the b.r. to 5/2+ states should
 ##### quotation-16
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: coupled_channels_method, alpha_decay_branching_ratio, quadrupole_deformation
 [source]: section 5.4. Results for well-deformed even-even, odd-mass, and odd-odd emitters, figure 6
 ```
@@ -220,7 +220,7 @@ First, five-channels calculations are separately performed with different quadru
 ##### quotation-17
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: coherent_state_model, spectroscopic_factor, alpha_clustering
 [source]: section 7. Coherent state model (CSM), figure 10
 ```
@@ -232,7 +232,7 @@ A negative slope is predicted by the CSM model in equation (8.7). We also notice
 ##### quotation-18
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: coupled_channels_method, alpha_decay_intensity, excitation_energy
 [source]: section 7.1. Even-even emitters, figure 12
 ```
@@ -244,7 +244,7 @@ Finally, in figure 12 we show the linear correlation between the intensity ϑ2 a
 ##### quotation-19
 
 ```tags
-[claim_type]: background
+[claim-type]: background
 [tags]: alpha_decay_branching_ratio
 [source]: section 1. Introduction
 ```
@@ -256,7 +256,7 @@ Furthermore, each member of the rotational band exhibits one single channel and 
 ##### quotation-20
 
 ```tags
-[claim_type]: background
+[claim-type]: background
 [tags]: quadrupole_deformation, excitation_energy, vibrational_nuclei, rotational_nuclei
 [source]: section 6. Vibrational even–even nuclei
 ```
@@ -268,7 +268,7 @@ The so-called vibrational nuclei have zero or a small quadrupole deformation and
 ##### quotation-21
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: spectroscopic_factor
 [source]: section 2.4. Observables
 ```
@@ -287,7 +287,7 @@ S=\frac{\Gamma_{\mathrm{exp}}}{\Gamma_{\mathrm{th}}}
 ##### quotation-22
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: coupled_channels_method, semiclassical_method, alpha_decay_branching_ratio
 [source]: section 8. Conclusions
 ```
@@ -299,7 +299,7 @@ It is found that the semiclassical calculations overestimate the branching ratio
 ##### quotation-23
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: coherent_state_model, vibrational_nuclei, transitional_nuclei, rotational_nuclei
 [source]: section 8. Conclusions
 ```
@@ -311,7 +311,7 @@ Finally we have shown that the CSM is a powerful tool that can describe in a uni
 ##### quotation-24
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: coupled_channels_method, alpha_decay_intensity, excitation_energy
 [source]: section 7.1. Even-even emitters, figure 12
 ```
@@ -323,7 +323,7 @@ Finally, in figure 12 we show the linear correlation between the intensity ϑ2 a
 ##### quotation-25
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: coherent_state_model, spectroscopic_factor, alpha_clustering
 [source]: section 7.1. Even-even emitters, figure 10
 ```
@@ -337,7 +337,7 @@ A negative slope is predicted by the CSM model in equation (8.7). We also notice
 
 ##### quotation-26
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: double_folding_potential, alpha_decay
 [source]: section 2.2. Interaction
 [ref]: [53] Bertsch G, Borysowicz J, McManus H and Love W G 1977 Nucl. Phys. A 284 399; [54] Satchler G R and Love W G 1979 Phys. Rep. 55 183; [55] Cârstoiu F and Lombard R J 1992 Ann. Phys. (NY) 217 279
@@ -354,7 +354,7 @@ V(\Omega_D,R)=\int dr_D\int dr_\alpha\,\rho_D(r_D)\rho_\alpha(r_\alpha)v(R+r_D-r
 
 ##### quotation-27
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: coupled_channels_method, double_folding_potential
 [source]: section 5. Rotational nuclei
 [ref]: [59] Delion D S, Peltonen S and Suhonen J 2006 Phys. Rev. C 73 014315; [60] Peltonen S, Delion D S and Suhonen J 2008 Phys. Rev. C 78 034608
@@ -367,7 +367,7 @@ These data were analyzed within the coupled channels formalism [59, 60], by usin
 
 ##### quotation-28
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: coherent_state_model, vibrational_nuclei, transitional_nuclei, rotational_nuclei
 [source]: section 7. Coherent state model (CSM)
 [ref]: [143] Raduta A A and Dreizler R M 1976 Nucl. Phys. A 258 109; [144] Raduta A A, Ceausescu V and Dreizler R M 1976 Nucl. Phys. A 272 11
@@ -380,7 +380,7 @@ The CSM was proposed in [143, 144] as a tool to describe in a uniﬁed way the s
 
 ##### quotation-29
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: coupled_channels_method, cluster_core_model, odd_mass_nuclei
 [source]: section 5.4. Results for well-deformed even-even, odd-mass, and odd-odd emitters
 [ref]: [109] Ni D D and Ren Z Z 2012 Phys. Rev. C 86 054608
@@ -410,5 +410,5 @@ Next, the multi-channel cluster model (MCCM) in the coupled channels framework w
 - `[section]: Results | [item]: coverage | [target]: Figure 15 >=1 valid complete-sentence quotation using its current-work output quantity tags | [reason]: no eligible method-and-quantity quotation`
 - `[section]: Results | [item]: coverage | [target]: Figure 16 >=1 valid complete-sentence quotation using its current-work output quantity tags | [reason]: no eligible method-and-quantity quotation`
 
-- `[section]: Meanings | [item]: claim-types | [target]: require [claim_type]: innovation | [reason]: no explicit novelty statement`
+- `[section]: Meanings | [item]: claim-type | [target]: require [claim-type]: innovation | [reason]: no explicit novelty statement`
 - `[section]: Meanings | [item]: coverage | [target]: collectivity-clustering high-level judgment | [reason]: no directly linked method evidence`

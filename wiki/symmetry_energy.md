@@ -1,6 +1,6 @@
 ---
 [tags]: symmetry_energy
-[tag_types]: quantity
+[tag-type]: quantity
 ---
 
 # symmetry_energy
@@ -164,23 +164,7 @@ S=R_n-R_p.
 
 ### Previous Studies
 
-##### Wu and Dong (2025)
-
-```tags
-[tags]: symmetry_energy, nonlinear_meson_coupling, RMF, alpha_decay_energy, alpha_decay_half_life
-```
-
-```references
-  - Jianmin_Dong_Y.2025_NuclearPhysicsA_Vol.1059Nol.123089P.123089: section 1 Introduction; section 3.3, Fig. 6; section 4 Summary.
-```
-
-- **Motivation**: 不同的密度依赖对称能可能改变费米面附近的单粒子能级，进而影响超重核稳定性。
-- **Innovation or Result**: 通过调节非线性 \(\omega-\rho\) 耦合 \(\Lambda_V\) 与 \(\rho\)-核子耦合 \(g_\rho\)，构造 FSUGarnet0.153 相互作用族，同时将饱和密度 \(\rho=0.153\,\mathrm{fm}^{-3}\) 处的对称能固定。
-- **Quantities**: 较柔软的对称能给出较小的 \(\alpha\) 衰变能 \(Q_\alpha\) 和较长的半衰期。
-- **Precision**: 对 \(^{270}\mathrm{Hs}\) 与 \(^{304}120\)，从 \(\Lambda_V=0\) 到 \(0.04\)，半衰期增加超过两个数量级。
-- **Meaning**: 对称能软化时基态能量增加，而核形变几乎不变。
-
-##### Horowitz and Piekarewicz (2001)
+##### C. J. Horowitz (2001)
 
 ```tags
 [tags]: symmetry_energy, nonlinear_meson_coupling, RMF
@@ -196,7 +180,23 @@ S=R_n-R_p.
 - **Precision**: none.
 - **Meaning**: 这些模型给出的高密度对称能随密度增长得比早期相对论平均场模型更慢。
 
-##### Sharma and Pal (2009)
+##### Jianmin Dong (2025)
+
+```tags
+[tags]: symmetry_energy, nonlinear_meson_coupling, RMF, alpha_decay_energy, alpha_decay_half_life
+```
+
+```references
+  - Jianmin_Dong_Y.2025_NuclearPhysicsA_Vol.1059Nol.123089P.123089: section 1 Introduction; section 3.3, Fig. 6; section 4 Summary.
+```
+
+- **Motivation**: 不同的密度依赖对称能可能改变费米面附近的单粒子能级，进而影响超重核稳定性。
+- **Innovation or Result**: 通过调节非线性 \(\omega-\rho\) 耦合 \(\Lambda_V\) 与 \(\rho\)-核子耦合 \(g_\rho\)，构造 FSUGarnet0.153 相互作用族，同时将饱和密度 \(\rho=0.153\,\mathrm{fm}^{-3}\) 处的对称能固定。
+- **Quantities**: 较柔软的对称能给出较小的 \(\alpha\) 衰变能 \(Q_\alpha\) 和较长的半衰期。
+- **Precision**: 对 \(^{270}\mathrm{Hs}\) 与 \(^{304}120\)，从 \(\Lambda_V=0\) 到 \(0.04\)，半衰期增加超过两个数量级。
+- **Meaning**: 对称能软化时基态能量增加，而核形变几乎不变。
+
+##### Subrata Pal (2009)
 
 ```tags
 [tags]: symmetry_energy, nonlinear_meson_coupling, RMF, slope_parameter, soft

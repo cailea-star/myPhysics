@@ -16,7 +16,7 @@ The $T$=2 excitations in even-even $N$=$Z$ nuclei are calculated within the isos
 ##### quotation-01
 
 ```tags
-[claim_type]: motivation
+[claim-type]: motivation
 [tags]: pairing_correlation, isoscalar, isovector, superfluidity
 [source]: Introduction, p. 1
 ```
@@ -28,7 +28,7 @@ The question whether isoscalar pairing may form a condensate similar to the well
 ##### quotation-02
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: moment_of_inertia, isospin_rotation
 [source]: Introduction, p. 1
 ```
@@ -45,7 +45,7 @@ a_T = 1/\mathcal{J}_T
 ##### quotation-03
 
 ```tags
-[claim_type]: background
+[claim-type]: background
 [tags]: pairing_correlation
 [source]: Discussion of Fig. 4, p. 4
 ```
@@ -59,7 +59,7 @@ Pairing correlations as a function of rotational frequency in either space or is
 ##### quotation-04
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: isocranking_model
 [source]: Single-particle model, p. 1
 ```
@@ -75,7 +75,7 @@ Before entering the details of our model, let us consider a single-particle (sp)
 ##### quotation-05
 
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: isocranking_model
 [source]: Introduction, p. 1
 ```
@@ -87,7 +87,7 @@ Therefore, we analyze the T=2 excitations in even-even N=Z nuclei by means of th
 ##### quotation-06
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: woods_saxon_potential, pairing_correlation, isovector, isoscalar
 [source]: Model description, p. 2
 ```
@@ -103,7 +103,7 @@ Our Hamiltonian is based on the deformed mean-field potential of Woods-Saxon (WS
 ##### quotation-07
 
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: lipkin_nogami_method
 [source]: Model description, p. 2
 ```
@@ -115,7 +115,7 @@ The Hamiltonian (2) is solved using the Lipkin-Nogami method.
 ##### quotation-08
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: bogoliubov_transformation, pairing_correlation, isoscalar
 [source]: Model description, p. 2
 ```
@@ -127,7 +127,7 @@ However, different to Ref. [12] we now employ the most general Bogoliubov transf
 ##### quotation-09
 
 ```tags
-[claim_type]: assumption
+[claim-type]: assumption
 [tags]: bogoliubov_transformation, quadrupole_deformation, spherical
 [source]: Model description, p. 2
 ```
@@ -142,7 +142,7 @@ However, different to Ref. [12] we now employ the most general Bogoliubov transf
 ##### quotation-10
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: isocranking_model, isospin_alignment
 [source]: Single-particle model, pp. 1–2
 ```
@@ -158,7 +158,7 @@ The cranking term, −ωt̂x, lifts the isospin but not Kramers degeneracy resul
 ##### quotation-11
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: isocranking_model, excitation_energy
 [source]: Single-particle model, p. 2
 ```
@@ -180,7 +180,7 @@ E^\omega+\omega T_x
 ##### quotation-12
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: isocranking_model, isospin_alignment, excitation_energy
 [source]: Figure 1 caption, p. 1
 ```
@@ -192,7 +192,7 @@ The single-particle routhians (upper panel) versus the iso-cranking frequency fo
 ##### quotation-13
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: isocranking_model, isospin_alignment, pairing_correlation, isovector
 [source]: Figure 2 discussion, p. 2
 ```
@@ -204,7 +204,7 @@ The major modification introduced by isovector pairing correlations is the smoot
 ##### quotation-14
 
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: woods_saxon_potential, pairing_strength
 [source]: Figure 3 discussion, p. 3
 ```
@@ -216,7 +216,7 @@ The isovector pairing strength, GT=1, is computed using the average gap method o
 ##### quotation-15
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: isocranking_model, isospin_alignment, pairing_gap
 [source]: Figure 4 caption, p. 3
 ```
@@ -228,7 +228,7 @@ Alignment (a) and isoscalar and isovector gap parameters (b) versus iso-cranking
 ##### quotation-16
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: isocranking_model, moment_of_inertia, rotational_frequency
 [source]: Figure 5 discussion, p. 4
 ```
@@ -242,7 +242,7 @@ The dependence of the moments of inertia (MoI), ℑT(x) = Tx/ω as a function of
 ##### quotation-17
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: isocranking_model, moment_of_inertia, isovector, isoscalar
 [source]: Abstract, p. 1
 ```
@@ -254,7 +254,7 @@ The T=2 excitations in even-even N=Z nuclei are calculated within the isospin cr
 ##### quotation-18
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: isocranking_model, moment_of_inertia, isospin_alignment, pairing_correlation, isoscalar
 [source]: Summary, p. 4
 ```
@@ -266,7 +266,7 @@ The presence of isoscalar pairing strongly reduces the MoI in isospace, but only
 ##### quotation-19
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: isocranking_model, moment_of_inertia, pairing_correlation, isoscalar, N_equal_Z_nuclei
 [source]: Summary, p. 4
 ```
@@ -280,7 +280,7 @@ The present calculations show that on a qualitative level, the mean-field method
 
 ##### quotation-20
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: woods_saxon_potential, deformed
 [source]: Model description, p. 2
 [ref]: [13] S. Ćwiok et al., Comput. Phys. Commun. 46, 379 (1987)
@@ -293,7 +293,7 @@ Our Hamiltonian is based on the deformed mean-field potential of Woods-Saxon (WS
 
 ##### quotation-21
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: pairing_strength, pairing_correlation, isovector, woods_saxon_potential
 [source]: Pairing-strength prescription, p. 3
 [ref]: [14] P. Möller and R. Nix, Nucl. Phys. A536, 20 (1992)
@@ -306,7 +306,7 @@ The isovector pairing strength, GT=1, is computed using the average gap method o
 
 ##### quotation-22
 ```tags
-[claim_type]: assumption
+[claim-type]: assumption
 [tags]: pairing_strength, pairing_correlation, isoscalar
 [source]: Pairing-strength prescription, p. 3
 [ref]: [12] W. Satuła and R. Wyss, Nucl. Phys. A676, 120 (2000)
@@ -320,7 +320,7 @@ To compute the strength of the isoscalar pairing correlations, GT=0, we follow t
 ##### quotation-23
 
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: isocranking_model
 [source]: Introduction, p. 1
 [ref]: [7] A. Kamlah, Z. Phys. 216, 52 (1968)
@@ -334,7 +334,7 @@ Therefore, we analyze the T=2 excitations in even-even N=Z nuclei by means of th
 ##### quotation-24
 
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: lipkin_nogami_method, pairing_correlation, isovector
 [source]: Isovector-pairing calculation, p. 2
 [ref]: [11] W. Satuła and R. Wyss, Phys. Lett. B393, 1 (1997)
@@ -348,7 +348,7 @@ To study this issue we have performed a series of Lipkin-Nogami calculations for
 ##### quotation-25
 
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: pairing_strength, wigner_energy_strength, isoscalar
 [source]: Pairing-strength prescription, p. 3
 [ref]: [15] W. Satuła et al., Phys. Lett. B407, 103 (1997)
@@ -364,4 +364,4 @@ In other words we fit GT=0 to reproduce roughly the Wigner energy strength W(A)�
 - `[section]: Results | [item]: coverage | [target]: definition or background quotation for pairing_gap | [reason]: paper only plots the gap parameter`
 - `[section]: Results | [item]: coverage | [target]: definition or background quotation for pairing_strength | [reason]: paper only computes or fits pairing strengths`
 - `[section]: Results | [item]: coverage | [target]: definition or background quotation for wigner_energy_strength | [reason]: paper only plots and fits W(A)`
-- `[section]: Meanings | [item]: claim-types | [target]: valid innovation quotation | [reason]: paper makes no explicit novelty claim`
+- `[section]: Meanings | [item]: claim-type | [target]: valid innovation quotation | [reason]: paper makes no explicit novelty claim`
