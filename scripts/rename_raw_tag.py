@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 import re
 import sys
@@ -5,8 +6,15 @@ import sys
 
 ROOT_PATH = Path(__file__).resolve().parent.parent
 RAW_PATH = ROOT_PATH.joinpath("raw")
+TAGS_PATH = ROOT_PATH.joinpath("vocab", "tags.json")
 
 TAGS_LINE = re.compile(r"^([ \t]*\[tags\]:[ \t]*)([^\r\n]*)(\r?\n?)$")
+
+
+def check_tag(tag: str) -> dict:
+    tag_data = {item["tag"]: item for item in json.loads(TAGS_PATH.read_text(encoding="utf-8"))}
+    if tag not in tag_data: raise SystemExit(f"invalid tag: {tag}")
+    return tag_data[tag]
 
 
 def get_raw_md_paths(raw_dir: str | Path = RAW_PATH) -> list[Path]:
@@ -37,8 +45,8 @@ def replace_tag(raw_md_line_str: str, old_tag: str, new_tag: str) -> str:
 def main(old_tag: str, new_tag: str) -> list[Path]:
     """Update matched files and return changed paths."""
     old_tag, new_tag = old_tag.strip(), new_tag.strip()
-    if not old_tag or not new_tag or old_tag == new_tag or "," in old_tag + new_tag:
-        raise SystemExit("tags must be distinct, non-empty, and contain no comma")
+    check_tag(old_tag)
+    check_tag(new_tag)
 
     changed = []
     for raw_md_path in get_raw_md_paths():

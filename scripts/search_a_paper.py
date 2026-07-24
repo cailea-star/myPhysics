@@ -63,14 +63,21 @@ def find_json_reference(doi: str, raw_json_data: dict) -> None:
             print(f"json reference: {raw_stem}: {ref.get('key') or ref_doi}")
 
 
+def split_doi_line(line: str) -> list[str]:
+    match = re.match(r"\[doi\]:\s*(.+)$", line.strip(), re.I)
+    if not match: return []
+    dois = []
+    for item in match.group(1).split(";"):
+        dois.append(re.sub(r"^\[[^\]]+\]\s*", "", item.strip()).lower())
+    return dois
+
+
 def find_md_secondary(doi: str, raw_md_path: Path) -> None:
     lines = raw_md_path.read_text(encoding="utf-8").splitlines()
     start, end = lines.index("### Secondary Citations") + 1, lines.index("### Gaps")
     for line_number, line in enumerate(lines[start:end], start + 1):
-        match = re.match(r"\[doi\]:\s*(.+)$", line.strip(), re.I)
-        if not match: continue
-        line_dois = [item.strip().lower() for item in match.group(1).split(";")]
-        if doi in line_dois: print(f"md secondary: {raw_md_path.name}: {line_number}: {line.strip()}")
+        if doi in split_doi_line(line):
+            print(f"md secondary: {raw_md_path.name}: {line_number}: {line.strip()}")
 
 
 def main(doi: str) -> None:
@@ -89,5 +96,5 @@ def main(doi: str) -> None:
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        raise SystemExit("usage: python scripts/search_a_doi.py DOI")
+        raise SystemExit("usage: python scripts/search_a_paper.py DOI")
     main(sys.argv[1])

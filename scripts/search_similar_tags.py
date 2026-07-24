@@ -41,6 +41,8 @@ def tag_print(score: float, tag: dict) -> None:
 
 
 def main(query: str, number: int) -> int:
+    query = query.strip()
+    if not query: raise SystemExit("query must not be empty")
     if number < 1:
         raise SystemExit("number must be a positive integer")
     for score, tag in search_similar_tags(query, get_vocab_tags())[:number]:
@@ -51,4 +53,5 @@ def main(query: str, number: int) -> int:
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         raise SystemExit("usage: python scripts/search_similar_tags.py QUERY NUMBER")
-    raise SystemExit(main(sys.argv[1], int(sys.argv[2])))
+    number = int(sys.argv[2])
+    raise SystemExit(main(sys.argv[1], number))

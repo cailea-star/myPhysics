@@ -34,7 +34,7 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 ## Template-Rules
 
 - Templates: [scripts/add_wiki_method.md](../../../scripts/add_wiki_method.md) for `method`; [scripts/add_wiki_topic.md](../../../scripts/add_wiki_topic.md) otherwise.
-- Generate: ONLY explicitly approved Tag mode may run `python scripts\add_wiki_md.py TAG TAG_TYPE`; NEVER scaffold manually.
+- Generate: ONLY explicitly approved Tag mode may run `python scripts\add_wiki_md.py TAG`; NEVER scaffold manually.
 
 ### Section-Rules
 

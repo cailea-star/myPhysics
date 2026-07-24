@@ -5,11 +5,11 @@
 [affiliations]: [this_affiliations]
 ---
 
-# [title_name]
+# [this_title]
 
 ### Abstract
 
-[abstract]
+[this_abstract]
 
 <!-- claim-types: ([claim_type]: motivation is required) and ([claim_type]: definition or [claim_type]: background is required for core-tag coverage; prefer definition) -->
 <!-- coverage: (identify the three most central tags from the Abstract, excluding [tag_type]: method and current-work output [tag_type]: quantity) and (for each identified tag, assign >=1 valid quotation to [claim_type]: definition or [claim_type]: background; otherwise report a gap) -->

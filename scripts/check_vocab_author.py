@@ -43,7 +43,7 @@ def main(raw_json_path):
     changed = False
     for raw_author in raw_json_corresponding_authors:
         if not raw_author["given"] and not raw_author["family"]: 
-            print(f"skipping author with no name: {raw_author['raw_author_name']}")
+            print("skipping author with no name")
             continue
         if is_recorded_author(vocab_json_authors, raw_author):
             print(f"author unchanged: {raw_author['given']} {raw_author['family']}")
@@ -57,4 +57,6 @@ def main(raw_json_path):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        raise SystemExit("usage: python scripts/check_vocab_author.py RAW_JSON_PATH")
     main(sys.argv[1])

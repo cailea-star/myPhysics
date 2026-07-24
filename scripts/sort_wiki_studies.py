@@ -2,13 +2,10 @@ from pathlib import Path
 import re
 import sys
 
-from search_a_tag import resolve_stem
-
 
 SECTION_HEADER = re.compile(r"(?m)^### Previous Studies\s*$")
 NEXT_SECTION = re.compile(r"(?m)^###\s+")
-STUDY_HEADER = re.compile(r"(?m)^#####\s+")
-
+STUDY_HEADER = re.compile(r"(?m)^#####\s+.*$")
 
 def match_previous_studies(wiki_md_str: str) -> str:
     section = SECTION_HEADER.search(wiki_md_str)
@@ -19,13 +16,23 @@ def match_previous_studies(wiki_md_str: str) -> str:
     return wiki_md_str[section.start():section_end]
 
 
-def split_studies(studieswiki_str: str) -> list[str]:
-    headers = list(STUDY_HEADER.finditer(studieswiki_str))
+def split_studies(wiki_studies_str: str) -> list[str]:
+    headers = list(STUDY_HEADER.finditer(wiki_studies_str))
     studies = []
     for index, header in enumerate(headers):
-        study_end = headers[index + 1].start() if index + 1 < len(headers) else len(studieswiki_str)
-        studies.append(studieswiki_str[header.start():study_end].rstrip())
+        study_end = headers[index + 1].start() if index + 1 < len(headers) else len(wiki_studies_str)
+        studies.append(wiki_studies_str[header.start():study_end].rstrip())
     return studies
+
+
+def resolve_stem(stem: str) -> dict[str, str]:
+    fields = ("author", "year", "journal", "volume", "number", "page")
+    match = re.fullmatch(
+        r"(?P<author>.+?)_Y\.(?P<year>[^_]*)_(?P<journal>.*?)_Vol\."
+        r"(?P<volume>.*?)Nol\.(?P<number>.*?)P\.(?P<page>.*)",
+        stem,
+    )
+    return match.groupdict() if match else dict.fromkeys(fields, "")
 
 
 def resolve_study(study_str: str) -> dict[str, str]:
@@ -37,26 +44,36 @@ def resolve_study(study_str: str) -> dict[str, str]:
     return {"author": stem["author"], "year": stem["year"]}
 
 
-def sort_studies(studies: list[str]) -> list[str]:
-    def sort_key(study: str) -> tuple[bool, str, str]:
+def replace_study_title(study_str: str) -> str:
+    study_data = resolve_study(study_str)
+    author = study_data["author"].replace("_", " ")
+    title = f"##### {author} ({study_data['year']})"
+    return STUDY_HEADER.sub(title, study_str, count=1)
+
+
+def sort_studies(studies_list: list[str]) -> list[str]:
+    def sort_key(study: str) -> tuple[str, str]:
         study_data = resolve_study(study)
-        return study_data["year"] == "", study_data["year"], study_data["author"]
+        return study_data["author"], study_data["year"]
 
-    return sorted(studies, key=sort_key)
+    sorted_studies = sorted(studies_list, key=sort_key)
+    for index, study in enumerate(sorted_studies):
+        sorted_studies[index] = replace_study_title(study)
+    return sorted_studies
 
 
-def main(wikipath: str | Path) -> Path:
-    wikipath = Path(wikipath)
-    fullwiki = wikipath.read_text(encoding="utf-8")
-    studieswiki = match_previous_studies(fullwiki)
-    studies = split_studies(studieswiki)
-    if not studies: return wikipath
+def main(wiki_md_path: str | Path) -> Path:
+    wiki_md_path = Path(wiki_md_path)
+    wiki_md_str = wiki_md_path.read_text(encoding="utf-8")
+    wiki_studies_str = match_previous_studies(wiki_md_str)
+    studies_list = split_studies(wiki_studies_str)
+    if not studies_list: return wiki_md_path
 
-    prefix = studieswiki[:STUDY_HEADER.search(studieswiki).start()]
-    suffix = studieswiki[len(studieswiki.rstrip()):]
-    sortedwiki = prefix + "\n\n".join(sort_studies(studies)) + suffix
-    wikipath.write_text(fullwiki.replace(studieswiki, sortedwiki, 1), encoding="utf-8")
-    return wikipath
+    prefix = wiki_studies_str[:STUDY_HEADER.search(wiki_studies_str).start()]
+    suffix = wiki_studies_str[len(wiki_studies_str.rstrip()):]
+    sortedwiki = prefix + "\n\n".join(sort_studies(studies_list)) + suffix
+    wiki_md_path.write_text(wiki_md_str.replace(wiki_studies_str, sortedwiki, 1), encoding="utf-8")
+    return wiki_md_path
 
 
 if __name__ == "__main__":
