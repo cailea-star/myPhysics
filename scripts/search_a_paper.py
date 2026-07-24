@@ -51,7 +51,7 @@ def find_recorded(doi: str, json_data: dict) -> str | None:
     filename = json_data["filename"]
     print(f"recorded: {filename}")
     for path in sorted(Path(ROOT_PATH, "raw").glob(f"{filename}.*")):
-        if path.is_file(): print(f"samename: {path}")
+        if path.is_file(): print(f"samename: {path.name}")
     return filename
 
 
