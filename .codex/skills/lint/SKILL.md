@@ -14,16 +14,21 @@ Run gates strictly in order. Start every response with the current gate, last co
 ### Gate 1 — Confirm Tag & Prepare Inputs
 
 - Check: Run `git rev-parse --is-inside-work-tree` and `git status --short`; failures or changes MUST STOP and report.
-- Prepare: MUST execute every [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) Prepare step for one canonical `TAG`; failure MUST STOP.
+- Prepare: MUST execute [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) Prepare, including `python scripts\search_a_tag.py TAG`; generated `tmp/*` quotations MUST pass validation.
 - Mode: Existing `wiki/TAG.md` means update; absence MUST STOP until explicit creation approval under [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules).
 
 ### Gate 2 — Audit Wiki Sections
 
-- Review: MUST process exactly one Wiki section through every [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) step in template order.
-- Approval: After each section passes, PRINT `git diff -- raw wiki`; STOP until approval for next section.
-- Advance: Gate 3 begins ONLY after every Wiki section passes.
+- Review: MUST execute every [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) section-mode step for exactly one section in template order.
+- Approval: Each pass MUST PRINT `git diff -- raw wiki`; STOP until approval; ONLY all-section completion advances.
 
-### Gate 3 — Wiki to Tags
+### Gate 3 — Scan Papers
 
-- Reconcile: After Gate 2 passes, MUST execute [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules) completely until every Wiki tag resolves canonically.
+- Scan: MUST queue every Raw indexed by `tmp/*_Meanings.md`; missing or duplicate mappings MUST STOP.
+- Review: MUST execute every [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) paper-mode step for exactly one queued Raw.
+- Approval: Each pass MUST PRINT `git diff -- raw wiki`; STOP until approval; ONLY empty queue advances.
+
+### Gate 4 — Wiki to Tags
+
+- Reconcile: After Gate 3 passes, MUST execute [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules) completely until every Wiki tag resolves canonically.
 - Complete: ONLY after Vocab verification passes, PRINT `git diff -- raw wiki vocab`.

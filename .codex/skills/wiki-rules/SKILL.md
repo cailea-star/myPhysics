@@ -9,11 +9,11 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 
 ### Quotation-Inputs
 
-- `raw/*.md` contains quotations from exactly one specified paper.
-- `tmp/*.md` contains read-only `TAG` quotation summaries generated ONLY from `raw/*.md`.
+- Raw mode MUST use exactly one specified paper’s `raw/*.md`; NEVER treat `tmp/*.md` as evidence.
+- Tag mode MUST use read-only `tmp/*.md` `TAG` summaries generated ONLY from `raw/*.md`.
 - Quotation-Inputs contain ONLY `Motivation`, `Methods`, `Results`, `Meanings`, and `Secondary Citations`; templates determine usage.
-- Using `tmp/*.md` MUST run `python scripts\search_a_tag.py TAG` before input validation.
-- PRINT: Report Wiki template requirements unsupported by current Quotation-Inputs.
+- Tag mode MUST run `python scripts\search_a_tag.py TAG` before validating generated `tmp/*.md`.
+- PRINT: MUST report Wiki template requirements unsupported by selected-mode Quotation-Inputs.
 
 ### Vocab-Inputs
 
@@ -25,16 +25,16 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 
 ### Check-Inputs
 
-- Checkpoint 1: Specified Raw MUST run `python scripts\search_a_paper.py DOI`; matching JSON, Markdown, and PDF-or-TEX MUST exist.
-- Checkpoint 2: One canonical match passes; failure MUST STOP and follow [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules).
-- Checkpoint 3: Canonical `TAG` MUST run `python scripts\search_a_tag.py TAG`; generated `tmp/*.md` MUST contain matching quotations.
-- Checkpoint 4: Raw quotations MUST cover Wiki needs; failure MUST STOP and follow [Raw Draft-Rules](../raw-rules/SKILL.md#draft-rules).
-- PRINT: Any failure requires STOP; report the problem and recommended solution.
+- Checkpoint 1: Raw mode MUST run `python scripts\search_a_paper.py DOI`; matching JSON, Markdown, and PDF/TEX MUST exist.
+- Checkpoint 2: ONLY one canonical match passes; failure MUST STOP and execute [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules) completely.
+- Checkpoint 3: Tag mode MUST run `python scripts\search_a_tag.py TAG`; generated `tmp/*.md` MUST contain matching quotations.
+- Checkpoint 4: Selected-mode Quotation-Inputs MUST cover Wiki needs; failure MUST STOP and execute [Raw Draft-Rules](../raw-rules/SKILL.md#draft-rules) completely.
+- PRINT: MUST validate and report [Quotation-Inputs](#quotation-inputs) and [Vocab-Inputs](#vocab-inputs); failures MUST STOP with recommended solutions.
 
 ## Template-Rules
 
 - Templates: [scripts/add_wiki_method.md](../../../scripts/add_wiki_method.md) for `method`; [scripts/add_wiki_topic.md](../../../scripts/add_wiki_topic.md) otherwise.
-- Generate: ONLY after explicit creation approval, run `python scripts\add_wiki_md.py TAG TAG_TYPE`; NEVER create scaffolds manually.
+- Generate: ONLY explicitly approved Tag mode may run `python scripts\add_wiki_md.py TAG TAG_TYPE`; NEVER scaffold manually.
 
 ### Section-Rules
 
@@ -46,26 +46,24 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 
 ### Paper-Rules
 
-- MUST process exactly one specified Raw at a time.
+- Raw mode MUST process exactly one specified Raw paper at a time.
 - The specified Raw paper qualifies ONLY when its `Meanings` contains current `TAG`.
 - The qualifying specified Raw MUST form exactly one Study using ONLY its quotations.
-- After that Study passes, use its Quotation-Inputs to inspect other Wiki sections for evidence-supported improvements.
+- After that Study passes, MUST inspect other Wiki sections using its [Quotation-Inputs](#quotation-inputs) for evidence-supported improvements.
 - Next Papers MUST run `python scripts\search_a_paper.py DOI` on each Secondary DOI in specified `raw/*.md`, rejecting `recorded:` papers.
 
 ### Template-Check
 
 - PRINT: Show current section’s `claim-types` and `coverage` declarations.
-- Scope: Review ONLY one entire section using all active Quotation-Inputs.
-- Verdict: Assign exactly one `supported`, `weak`, `missing`, or `not-applicable` to every claim, formula, and target.
-- Review: Apply [Section-Rules](#section-rules); `Previous Studies` MUST additionally pass [Paper-Rules](#paper-rules); `weak` or `missing` requires STOP.
-- Sort: After every `Previous Studies` write, MUST run `python scripts\sort_wiki_studies.py wikipath` before Re-review.
-- Re-review: After every write, rerun `PRINT`, `Scope`, `Verdict`, and `Review` on persisted section.
+- Scope: MUST review ONLY one section—Tag mode: all `tmp/*.md`; Raw mode: one specified `raw/*.md`.
+- Verdict: MUST assign exactly one `supported`, `weak`, `missing`, or `not-applicable` to every claim, formula, and target.
+- Review: MUST apply [Section-Rules](#section-rules); Raw mode MUST apply [Paper-Rules](#paper-rules) to `Previous Studies`; `weak`/`missing` MUST STOP.
+- Re-review: After EVERY write, MUST rerun `PRINT`, `Scope`, `Verdict`, and `Review` on persisted section.
 
 ## Draft-Rules
 
-- Prepare: Apply [Input-Rules](#input-rules); any failure MUST STOP before drafting.
-- Draft: Process ONLY one section; MUST follow template order unless [Paper-Rules](#paper-rules) requires otherwise.
-- MUST process the specified Raw through `Previous Studies` first; otherwise iterate `tmp/*_Meanings.md` papers one-by-one identically.
-- Approve: PRINT at most four exact changes; STOP until explicit user approval.
-- Write: Write ONLY exact approved content; NEVER alter unrelated Wiki content.
-- Verify: Rerun [Template-Check](#template-check); `pass` advances, while `fix` requires another approved batch.
+- Prepare: Selected mode MUST execute [Check-Inputs](#check-inputs); approved missing Tag-mode Wiki MUST generate; failures MUST STOP.
+- Draft: Process ONLY one Tag-mode template-order section or one Raw via [Paper-Rules](#paper-rules), starting with `Previous Studies`.
+- Approve: MUST execute [Template-Check](#template-check); PRINT at most four exact changes; STOP until explicit user approval.
+- Write: ONLY write approved content; `Previous Studies` MUST then run `python scripts\sort_wiki_studies.py wikipath`; NEVER alter unrelated content.
+- Verify: After EVERY write, MUST rerun [Template-Check](#template-check); `pass` advances; `fix` requires another approved batch.
