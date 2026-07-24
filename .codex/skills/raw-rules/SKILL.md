@@ -23,10 +23,11 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 
 ### Check-Inputs
 
-- Checkpoint 1: Run `python scripts\search_a_paper.py DOI`; pass ONLY with one matching JSON and same-basename PDF or TEX.
-- Checkpoint 2: One canonical match passes; failure MUST STOP and follow [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules).
-- Checkpoint 3: Target mode is create if Markdown is absent; continue if basename and `[source_json]` match.
-- PRINT: Any failure requires STOP; report solutions; NEVER overwrite mismatched Markdown.
+- Scope: MUST validate inputs against [Raw-Inputs](#raw-inputs) and [Vocab-Inputs](#vocab-inputs) before Checkpoints.
+- Checkpoint 1: MUST run `python scripts\search_a_paper.py DOI`; ONLY one matching JSON with same-basename PDF/TEX passes.
+- Checkpoint 2: ONLY one canonical match passes; failure MUST STOP and execute [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules) completely.
+- Checkpoint 3: Missing Markdown MUST enter create mode; existing Markdown passes ONLY with matching basename and `[source_json]`.
+- PRINT: Any failure MUST STOP; report solutions; NEVER overwrite mismatched Markdown.
 
 
 ## Template-Rules
@@ -52,15 +53,15 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 ### Template-Check
 
 - PRINT: Show current section’s `claim-types`, `quotation`, and `coverage` declarations.
-- Scope: Process ONLY one section; review at most four candidate or written quotations per batch.
-- Verdict: Expand every applicable target; assign exactly one `pass`, `gap`, or `fix`.
-- Review: Mark quotations `pass` or `fix`; record each valid `gap` once; any `fix` requires STOP.
-- Re-review: After every write, rerun `PRINT`, `Scope`, `Verdict`, and `Review` on the persisted section.
+- Scope: MUST process ONLY one section; review at most four candidate or written quotations per batch.
+- Verdict: MUST expand every applicable target; assign exactly one `pass`, `gap`, or `fix`.
+- Review: MUST apply [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules); mark quotations `pass`/`fix`; record valid `gap`s once; fixes MUST STOP.
+- Re-review: After every write, MUST rerun `PRINT`, `Scope`, `Verdict`, and `Review` on the persisted section.
 
 ## Draft-Rules
 
-- Prepare: Apply all [Input-Rules](#input-rules); any failure requires STOP.
+- Prepare: MUST execute [Check-Inputs](#check-inputs); any failure MUST STOP.
 - Draft: Follow template order; present at most four candidates for current section per batch.
 - Approval: PRINT exact candidate blocks and gaps; STOP until explicit user approval.
 - Write: Write ONLY exact approved content; MUST then run `python scripts\sort_raw_quotations.py mdfile_path`.
-- Verify: Run [Template-Check](#template-check) after EVERY write; ONLY completed sections advance; incomplete MUST return to [Draft-Rules](#draft-rules).
+- Verify: After EVERY write, MUST execute [Template-Check](#template-check); ONLY completed sections advance; incomplete MUST return to [Draft-Rules](#draft-rules).
