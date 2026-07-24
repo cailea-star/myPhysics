@@ -17,7 +17,7 @@ def find_author(given_name: str, family_name: str, raw_json_data: dict) -> list[
     for author in raw_json_data.get("author") or []:
         name = " ".join(filter(None, [author.get("given"), author.get("family")]))
         if re.sub(r"\W+", "", name).lower() == target:
-            print(f"author: {raw_json_data.get('filename')}: {name}")
+            print(f"author: {raw_json_data.get('stem')}: {name}")
 
 
 
@@ -26,7 +26,7 @@ def find_corresponding(given_name: str, family_name: str, raw_json_data: dict) -
     for author in raw_json_data.get("author-corresponding-openalex") or []:
         name = " ".join(filter(None, [author.get("given"), author.get("family")]))
         if re.sub(r"\W+", "", name).lower() == target:
-            print(f"corresponding: {raw_json_data.get('filename')}: {name}")
+            print(f"corresponding: {raw_json_data.get('stem')}: {name}")
 
 
 def main(given_name: str, family_name: str) -> None:

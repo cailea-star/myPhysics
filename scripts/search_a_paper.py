@@ -48,19 +48,19 @@ def get_raw_json_paths(raw_dir: str | Path = RAW_PATH) -> list[Path]:
 
 def find_recorded(doi: str, raw_json_data: dict) -> str | None:
     if (raw_json_data.get("DOI") or "").strip().lower() != doi: return
-    filename = raw_json_data["filename"]
-    print(f"recorded: {filename}")
-    for path in sorted(RAW_PATH.glob(f"{filename}.*")):
+    raw_stem = raw_json_data["stem"]
+    print(f"recorded: {raw_stem}")
+    for path in sorted(RAW_PATH.glob(f"{raw_stem}.*")):
         if path.is_file(): print(f"samename: {path.name}")
-    return filename
+    return raw_stem
 
 
 def find_json_reference(doi: str, raw_json_data: dict) -> None:
-    filename = raw_json_data["filename"]
+    raw_stem = raw_json_data["stem"]
     for ref in raw_json_data.get("reference") or []:
         ref_doi = (ref.get("DOI") or "").strip().lower()
         if ref_doi == doi:
-            print(f"json reference: {filename}: {ref.get('key') or ref_doi}")
+            print(f"json reference: {raw_stem}: {ref.get('key') or ref_doi}")
 
 
 def find_md_secondary(doi: str, raw_md_path: Path) -> None:
