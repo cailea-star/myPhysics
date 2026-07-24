@@ -42,9 +42,9 @@ def split_section_quotations(raw_md_section_str: str) -> list[dict]:
         _, _, body = block.partition("\n")
         # search for the tags block
         tag_block = re.search(r"```tags\s*\n(.*?)\n```", body, re.S)
-        # search for claim_type and tags in the tags block
+        # search for claim-type and tags in the tags block
         tag_text = tag_block.group(1)
-        claim_type_match = re.search(r"(?m)^\[claim_type\]:\s*(.+)$", tag_text)
+        claim_match = re.search(r"(?m)^\[claim-type\]:\s*(.+)$", tag_text)
         tags_match = re.search(r"(?m)^\[tags\]:\s*(.+)$", tag_text)
         source_match = re.search(r"(?m)^\[source\]:\s*(.+)$", tag_text)
         ref_match = re.search(r"(?m)^\[ref\]:\s*(.+)$", tag_text)
@@ -56,12 +56,12 @@ def split_section_quotations(raw_md_section_str: str) -> list[dict]:
             tag = tag.strip()
             if tag: taglist.append(tag)
         # search for source in the tags block
-        claim_type = claim_type_match.group(1).strip()
+        claim_kind = claim_match.group(1).strip()
         quote = (body[:tag_block.start()] + body[tag_block.end():]).strip()
         source = source_match.group(1).strip()
         quotations.append(
             {
-                "claim_type": claim_type,
+                "claim-type": claim_kind,
                 "tags": taglist,
                 "quote": quote,
                 "source": source,
@@ -72,7 +72,7 @@ def split_section_quotations(raw_md_section_str: str) -> list[dict]:
     return quotations
 
 
-# resolve quotations from certain section, and match them with claim_type and tags;
+# resolve quotations from certain section, and match them with claim-type and tags;
 
 def resolve_section_quotations(raw_md_path: Path, sectionname: str) -> list[dict]:
     raw_md_str = raw_md_path.read_text(encoding="utf-8")
@@ -84,10 +84,10 @@ def resolve_section_quotations(raw_md_path: Path, sectionname: str) -> list[dict
     return raw_md_section_quotations_list
 
 
-def match_quotations(quotations_list: list[dict], claim_type: str | None, tags_list: list[str]) -> list[dict]:
+def match_quotations(quotations_list: list[dict], claim_kind: str | None, tags_list: list[str]) -> list[dict]:
     raw_md_quotations_list_filtered = []
     for raw_md_quotation in quotations_list:
-        if claim_type is not None and raw_md_quotation["claim_type"] != claim_type: continue
+        if claim_kind is not None and raw_md_quotation["claim-type"] != claim_kind: continue
         matched = True
         for tag in tags_list:
             if tag not in raw_md_quotation["tags"]:
@@ -102,17 +102,17 @@ def match_quotations(quotations_list: list[dict], claim_type: str | None, tags_l
 
 
 def sort_quotations(quotations_list: list[dict]) -> list[dict]:
-    raw_md_quotations_list_sorted = sorted(quotations_list, key=lambda quote: quote["claim_type"])
+    raw_md_quotations_list_sorted = sorted(quotations_list, key=lambda quote: quote["claim-type"])
     return raw_md_quotations_list_sorted
 
 
 def format_quotations(quotations_list: list[dict]) -> list[str]:
     lines = []
-    last_claim_type = ""
+    last_claim_kind = ""
     for quote in sort_quotations(quotations_list):
-        if quote["claim_type"] != last_claim_type:
-            lines += [f"## {quote['claim_type']}", ""]
-            last_claim_type = quote["claim_type"]
+        if quote["claim-type"] != last_claim_kind:
+            lines += [f"## {quote['claim-type']}", ""]
+            last_claim_kind = quote["claim-type"]
         tags = ", ".join(quote["tags"])
         lines += ["```tags"]
         lines += [f"[tags]: {tags}", f"[source]: {quote['source']}"]
@@ -144,13 +144,13 @@ def format_stems(quotations_list: list[dict]) -> list[str]:
     papers = {}
     for quote in quotations_list:
         papers.setdefault(quote["stem"], []).append(quote)
-    lines = ["## Papers", "", "| stem | year | quotes | claim-types | tags |", "|---|---:|---:|---|---|"]
+    lines = ["## Papers", "", "| stem | year | quotes | claim-type | tags |", "|---|---:|---:|---|---|"]
     for stem in sorted(papers, key=get_paper_sort_key):
         year = resolve_stem(stem)["year"]
         quotes = papers[stem]
-        claim_types = ", ".join(dict.fromkeys(quote["claim_type"] for quote in quotes))
+        claim_kinds = ", ".join(dict.fromkeys(quote["claim-type"] for quote in quotes))
         tags = ", ".join(dict.fromkeys(tag for quote in quotes for tag in quote["tags"]))
-        lines.append(f"| {stem} | {year} | {len(quotes)} | {claim_types} | {tags} |")
+        lines.append(f"| {stem} | {year} | {len(quotes)} | {claim_kinds} | {tags} |")
     return lines + [""]
 
 

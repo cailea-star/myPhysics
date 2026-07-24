@@ -38,7 +38,7 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 
 ### Section-Rules
 
-- Each template `###` section MUST contain exactly one `claim-types`/`coverage` pair; NEVER copy declarations.
+- Each template `###` section MUST contain exactly one `claim-type`/`coverage` pair; NEVER copy declarations.
 - MUST preserve template section order, heading levels, required blocks, and evidence-driven repeated `#####` instances.
 - Claims and formulas MUST have direct verified Quotation-Inputs evidence, complete scope, and explained formula meaning.
 - References MUST use adjacent existing Raw stems; prose MUST synthesize, preserve uncertainty, and separate conflicts.
@@ -54,7 +54,7 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 
 ### Template-Check
 
-- PRINT: Show current section’s `claim-types` and `coverage` declarations.
+- PRINT: Show current section’s `claim-type` and `coverage` declarations.
 - Scope: MUST review ONLY one section—Tag mode: all `tmp/*.md`; Raw mode: one specified `raw/*.md`.
 - Verdict: MUST assign exactly one `supported`, `weak`, `missing`, or `not-applicable` to every claim, formula, and target.
 - Review: MUST apply [Section-Rules](#section-rules); Raw mode MUST apply [Paper-Rules](#paper-rules) to `Previous Studies`; `weak`/`missing` MUST STOP.

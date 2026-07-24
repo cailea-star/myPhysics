@@ -11,7 +11,7 @@ raw/                  # source evidence
 
 vocab/                # controlled vocabulary
   tags.json           # canonical tags
-  types.json          # tag_types and claim_types
+  types.json          # tag-type and claim-type
   authors.json        # author vocabulary
 
 scripts/

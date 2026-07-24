@@ -16,7 +16,7 @@ We explore the impact of the density-dependent nuclear symmetry energy on the pr
 ##### quotation-01
 
 ```tags
-[claim_type]: motivation
+[claim-type]: motivation
 [tags]: alpha_decay, superheavy_nuclei
 [source]: section 1. Introduction.
 ```
@@ -29,7 +29,7 @@ The 𝛼-decay is one of the dominant decay mode for SHN, and it is crucial for 
 ##### quotation-02
 
 ```tags
-[claim_type]: motivation
+[claim-type]: motivation
 [tags]: symmetry_energy, single_particle_energy_level, superheavy_nuclei
 [source]: section 1. Introduction.
 ```
@@ -42,7 +42,7 @@ The different behavior of density-dependent symmetry energy is expected to influ
 ##### quotation-03
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: symmetry_energy, density_dependent
 [source]: section 2.2. Symmetry energy
 ```
@@ -58,7 +58,7 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 ##### quotation-04
 
 ```tags
-[claim_type]: background
+[claim-type]: background
 [tags]: superheavy_nuclei, single_particle_energy_level
 [source]: section 1. Introduction
 ```
@@ -70,7 +70,7 @@ The shell structure is the most essential feature for SHN at present, which draw
 ##### quotation-05
 
 ```tags
-[claim_type]: background
+[claim-type]: background
 [tags]: alpha_decay, alpha_decay_energy, alpha_decay_half_life, superheavy_nuclei
 [source]: section 3.3. α-decay
 ```
@@ -84,7 +84,7 @@ The shell structure is the most essential feature for SHN at present, which draw
 ##### quotation-06
 
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: RMF, BCS
 [source]: section 1. Introduction.
 ```
@@ -97,7 +97,7 @@ The calculations are performed by using the deformed RMF theory in combination w
 ##### quotation-07
 
 ```tags
-[claim_type]: assumption
+[claim-type]: assumption
 [tags]: nonlinear_meson_coupling, FSUGarnet, symmetry_energy, saturation_density
 [source]: Abstract.
 ```
@@ -110,7 +110,7 @@ The interaction ‘family’ based on the well-established FSUGarnet parameter s
 ##### quotation-08
 
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: nonlinear_meson_coupling, FSUGarnet, symmetry_energy, superheavy_nuclei
 [source]: section 2.2. Symmetry energy.
 ```
@@ -122,7 +122,7 @@ To study the effects of different density-dependent behavior of symmetry energy 
 ##### quotation-09
 
 ```tags
-[claim_type]: background
+[claim-type]: background
 [tags]: nonlinear_meson_coupling, symmetry_energy, density_dependent
 [source]: section 2.1. Relativistic meanfield theory
 ```
@@ -136,7 +136,7 @@ The last line in the above equation denotes the meson self-interacting terms. Th
 ##### quotation-10
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: nonlinear_meson_coupling, symmetry_energy, density_dependent, saturation_density, soft, slope_parameter
 [source]: section 2.2. Symmetry energy; Fig. 1.
 ```
@@ -149,7 +149,7 @@ With the FSUGarnet0.153 parameter set, the density-dependent symmetry energy is 
 ##### quotation-11
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: nonlinear_meson_coupling, slope_parameter, symmetry_energy, saturation_density
 [source]: section 2.2. Symmetry energy; Table 2.
 ```
@@ -162,7 +162,7 @@ With the FSUGarnet0.153 parameter set, the density-dependent symmetry energy is 
 ##### quotation-12
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: nonlinear_meson_coupling, ground_state_energy, symmetry_energy
 [source]: section 3.1. Ground state energies and deformations; Fig. 2.
 ```
@@ -175,7 +175,7 @@ As illustrated in Fig. 2, the ground state energy Eg.s. exhibits an increase as 
 ##### quotation-13
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: nonlinear_meson_coupling, ground_state_energy
 [source]: section 3.1. Ground state energies and deformations; Fig. 3.
 ```
@@ -188,7 +188,7 @@ For nuclei with non-zero isospin asymmetry, the ground-state energy increases vi
 ##### quotation-14
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: nonlinear_meson_coupling, single_particle_energy_level, symmetry_energy
 [source]: section 3.2. Single particle energy levels and two-nucleon shell gaps; Fig. 4.
 ```
@@ -201,7 +201,7 @@ In addition, it is found that the proton single particle levels along with its F
 ##### quotation-15
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: RMF, single_particle_energy_level, shell_closure
 [source]: section 3.2. Single particle energy levels and two-nucleon shell gaps; Fig. 5.
 ```
@@ -214,7 +214,7 @@ In the framework of RMF theory, the spherical neutron magic number beyond N = 12
 ##### quotation-16
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: nonlinear_meson_coupling, alpha_decay_half_life, symmetry_energy
 [source]: section 3.3. α-decay; Fig. 6.
 ```
@@ -226,7 +226,7 @@ Fig. 6(b) shows substantial increases of the half-lives of 270Hs and 304120 as t
 ##### quotation-17
 
 ```tags
-[claim_type]: background
+[claim-type]: background
 [tags]: ground_state_energy, two_nucleon_shell_gap
 [source]: section 3.1. Ground state energies and deformations
 ```
@@ -241,7 +241,7 @@ The ground state energy serves as a pivotal quantity in the characterization of 
 ##### quotation-18
 
 ```tags
-[claim_type]: innovation
+[claim-type]: innovation
 [tags]: nonlinear_meson_coupling, FSUGarnet, symmetry_energy, saturation_density
 [source]: section 4. Summary.
 ```
@@ -254,7 +254,7 @@ We introduce the FSUGarnet0.153 interaction ‘family’ based on the well-estab
 ##### quotation-19
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: nonlinear_meson_coupling, ground_state_energy, nuclear_deformation, symmetry_energy
 [source]: section 4. Summary.
 ```
@@ -267,7 +267,7 @@ The ground-state energy increases as the softening of the symmetry energy (the i
 ##### quotation-20
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: nonlinear_meson_coupling, single_particle_energy_level, shell_closure, symmetry_energy
 [source]: section 3.2. Single particle energy levels and two-nucleon shell gaps; Fig. 4.
 ```
@@ -280,7 +280,7 @@ However, the proton shell gap at Z = 108 and neutron shell gap at N = 162 for 27
 ##### quotation-21
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: nonlinear_meson_coupling, alpha_decay_half_life, symmetry_energy
 [source]: section 3.3. α-decay; Fig. 6.
 ```
@@ -294,7 +294,7 @@ Fig. 6(b) shows substantial increases of the half-lives of 270Hs and 304120 as t
 ##### quotation-22
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: RMF, symmetry_energy, alpha_decay_energy, alpha_decay_half_life
 [source]: section 4. Summary.
 ```
@@ -308,7 +308,7 @@ By employing the deformed RMF approach combined with BCS method, we investigate 
 
 ##### quotation-23
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: pairing_correlation, BCS
 [source]: section 2.1. Relativistic meanfield theory.
 [ref]: [53] H.F. Zhang, et al., Eur. Phys. J. A 30 (2006) 519--529.
@@ -326,7 +326,7 @@ V = -V_0 \left[1 - \left(\frac{\rho(r)}{\rho_0}\right)^\gamma\right]\delta(r_1 -
 
 ##### quotation-24
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: symmetry_energy, density_dependent
 [source]: section 2.2. Symmetry energy.
 [ref]: [55] B.K. Sharma, S. Pal, Phys. Lett. B 682 (2009) 23--26.
@@ -346,7 +346,7 @@ E_{\rm sym}
 
 ##### quotation-25
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: FSUGarnet, symmetry_energy, density_dependent
 [source]: section 2.2. Symmetry energy.
 [ref]: [19] C.J. Horowitz, J. Piekarewicz, Phys. Rev. Lett. 86 (2001) 5647; [56] C.X. Liu, T.F. Feng, J.M. Dong, Mon. Not. R. Astron. Soc. 534 (2024) 1763.
@@ -360,7 +360,7 @@ To study the effects of different density-dependent behavior of symmetry energy 
 
 ##### quotation-26
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: two_nucleon_shell_gap, shell_closure
 [source]: section 3.2. Single particle energy levels and two-nucleon shell gaps.
 [ref]: [11] K. Rutz, M. Bender, T. Bürvenich, T. Schilling, et al., Phys. Rev. C 56 (1997) 238.
@@ -379,7 +379,7 @@ The other indicator of shell closures is the two-nucleon gap which is appropriat
 
 ##### quotation-27
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: alpha_decay_energy, alpha_decay_half_life
 [source]: section 3.3. α-decay.
 [ref]: [66] P. Möller, J.R. Nix, K.L. Kratz, At. Data Nucl. Data Tables 66 (1997) 131.
@@ -393,7 +393,7 @@ The α-decay half-life is extremely sensitive to the decay energy Qα, and an un
 
 ##### quotation-28
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: alpha_decay_half_life, alpha_decay_energy
 [source]: section 3.3. α-decay.
 [ref]: [86] G. Royer, H.F. Zhang, Phys. Rev. C 77 (2008) 037602.
@@ -414,7 +414,7 @@ Many models can be employed to estimate the half-life [67--85], and here we use 
 
 ##### quotation-29
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: RMF, symmetry_energy, superheavy_nuclei, single_particle_energy_level
 [source]: section 1. Introduction.
 [ref]: [45] W.Z. Jiang, Phys. Rev. C 81 (2010) 044306.

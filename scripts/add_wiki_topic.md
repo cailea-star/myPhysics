@@ -1,12 +1,12 @@
 ---
-[tags]: [this_tags_name]
-[tag_types]: [this_tag_types]
+[tags]: [this_tag_name]
+[tag-type]: [this_tag_type]
 ---
 
 # [this_tag_name]
 
-<!-- claim-types: ([claim_type]: definition or [claim_type]: background) -->
-<!-- coverage: (from Motivation and Results, select the smallest sufficient root-topic quotation set with [claim_type]: definition or [claim_type]: background; prefer [claim_type]: definition) and (origin with [claim_type]: background is optional) -->
+<!-- claim-type: ([claim-type]: definition or [claim-type]: background) -->
+<!-- coverage: (from Motivation and Results, select the smallest sufficient root-topic quotation set with [claim-type]: definition or [claim-type]: background; prefer [claim-type]: definition) and (origin with [claim-type]: background is optional) -->
 ### Definition & Origin
 
 ```references
@@ -16,8 +16,8 @@
 
 [What the topic is, where it appears, and how the concept originated.]
 
-<!-- claim-types: ([claim_type]: definition or [claim_type]: background or [claim_type]: comparison) -->
-<!-- coverage: (from Motivation and Results, select the smallest sufficient root-topic quotation set with [claim_type]: definition or [claim_type]: background or [claim_type]: comparison that describes composition or mechanism details) and (exclude quotations used in Definition & Origin) -->
+<!-- claim-type: ([claim-type]: definition or [claim-type]: background or [claim-type]: comparison) -->
+<!-- coverage: (from Motivation and Results, select the smallest sufficient root-topic quotation set with [claim-type]: definition or [claim-type]: background or [claim-type]: comparison that describes composition or mechanism details) and (exclude quotations used in Definition & Origin) -->
 ### Composition & Mechanism
 
 ##### Composition & Mechanism 1
@@ -35,8 +35,8 @@
 
 ...
 
-<!-- claim-types: ([claim_type]: definition or [claim_type]: background or [claim_type]: result) -->
-<!-- coverage: (from Motivation and Results, select the smallest sufficient quotation set for root-topic-related derived [tag_type]: quantity or [tag_type]: property tags with [claim_type]: definition or [claim_type]: background or [claim_type]: result) and (exclude quotations used in Definition & Origin or Composition & Mechanism) -->
+<!-- claim-type: ([claim-type]: definition or [claim-type]: background or [claim-type]: result) -->
+<!-- coverage: (from Motivation and Results, select the smallest sufficient quotation set for root-topic-related derived [tag-type]: quantity or [tag-type]: property tags with [claim-type]: definition or [claim-type]: background or [claim-type]: result) and (exclude quotations used in Definition & Origin or Composition & Mechanism) -->
 ### Quantities & Properties
 
 ```tags
@@ -61,8 +61,8 @@
 
 ...
 
-<!-- claim-types: ([claim_type]: method) and ([claim_type]: result) -->
-<!-- coverage: (from Methods, select root-topic-related core [tag_type]: method quotations with [claim_type]: method) and (from Results, select their output quotations with [claim_type]: result) -->
+<!-- claim-type: ([claim-type]: method) and ([claim-type]: result) -->
+<!-- coverage: (from Methods, select root-topic-related core [tag-type]: method quotations with [claim-type]: method) and (from Results, select their output quotations with [claim-type]: result) -->
 ### Related Methods
 
 ##### Method 1
@@ -86,8 +86,8 @@
 
 ...
 
-<!-- claim-types: ([claim_type]: motivation is required for each Study) and ([claim_type]: comparison is required for each Study) and ([claim_type]: innovation or [claim_type]: result is required for each Study) and ([claim_type]: result is required for each Study) -->
-<!-- coverage: (each Study describes exactly one raw paper) and (for each Study, its Motivation provides [claim_type]: motivation) and (for each Study, its Meanings provides [claim_type]: comparison) and (for each Study, its Meanings provides [claim_type]: innovation or [claim_type]: result) and (for each Study, its Meanings provides [claim_type]: result) -->
+<!-- claim-type: ([claim-type]: motivation is required for each Study) and ([claim-type]: comparison is required for each Study) and ([claim-type]: innovation or [claim-type]: result is required for each Study) and ([claim-type]: result is required for each Study) -->
+<!-- coverage: (each Study describes exactly one raw paper) and (for each Study, its Motivation provides [claim-type]: motivation) and (for each Study, its Meanings provides [claim-type]: comparison) and (for each Study, its Meanings provides [claim-type]: innovation or [claim-type]: result) and (for each Study, its Meanings provides [claim-type]: result) -->
 ### Previous Studies
 
 ##### Study 1
@@ -110,7 +110,7 @@
 
 ...
 
-<!-- claim-types: (none: Candidate Papers do not support Wiki claims) -->
+<!-- claim-type: (none: Candidate Papers do not support Wiki claims) -->
 <!-- coverage: (from Secondary, identify every unique Candidate Paper) and (for each Candidate Paper, include tags, title, DOI, journal, year, reason) and (if no Candidate Paper qualifies, report not-applicable) -->
 ### Next Papers
 

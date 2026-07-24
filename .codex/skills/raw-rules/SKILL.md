@@ -36,7 +36,7 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 
 ### Section-Rules
 
-- Each quotation section MUST contain exactly one `claim-types`, `coverage`, and `quotation` HTML declaration.
+- Each quotation section MUST contain exactly one `claim-type`, `coverage`, and `quotation` HTML declaration.
 - Collective section evidence MUST yield exactly one `pass`, `gap`, or `fix` per applicable target.
 - A `gap` is valid ONLY after full-text review confirms no compliant evidence exists.
 - Any `fix` MUST block section completion and require correction.
@@ -44,15 +44,15 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 
 ### Quotation-Rules
 
-- Every quotation MUST contain `tags` and `quote`; `[claim_type]`, `[tags]`, and accurate `[source]` are required.
-- Assign exactly one `[claim_type]` from explicit primary claims; satisfy its requirement and declared `quotation`.
+- Every quotation MUST contain `tags` and `quote`; `[claim-type]`, `[tags]`, and accurate `[source]` are required.
+- Assign exactly one `[claim-type]` from explicit primary claims; satisfy its requirement and declared `quotation`.
 - Quote wording MUST remain verbatim from source; standalone formulas are NEVER quotes; `math` MAY follow.
 - Each quote MUST use 10–50 words from complete sentences supporting one explicit claim and every tag.
 - Overlong evidence MUST join two explicitly-related same-paragraph sentences with `[...]`; NEVER omit meaning-changing text.
 
 ### Template-Check
 
-- PRINT: Show current section’s `claim-types`, `quotation`, and `coverage` declarations.
+- PRINT: Show current section’s `claim-type`, `quotation`, and `coverage` declarations.
 - Scope: MUST process ONLY one section; review at most four candidate or written quotations per batch.
 - Verdict: MUST expand every applicable target; assign exactly one `pass`, `gap`, or `fix`.
 - Review: MUST apply [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules); mark quotations `pass`/`fix`; record valid `gap`s once; fixes MUST STOP.

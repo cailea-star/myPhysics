@@ -16,7 +16,7 @@ Within a relativistic mean-field model with nonlinear isoscalar-isovector coupli
 ##### quotation-01
 
 ```tags
-[claim_type]: motivation
+[claim-type]: motivation
 [tags]: symmetry_energy, density_dependent
 [source]: Introduction.
 ```
@@ -29,7 +29,7 @@ In contrast, the density dependence of symmetry energy is poorly known.
 ##### quotation-02
 
 ```tags
-[claim_type]: motivation
+[claim-type]: motivation
 [tags]: neutron_star, symmetry_energy, density_dependent
 [source]: Introduction.
 ```
@@ -42,7 +42,7 @@ Neutron stars provide an unique opportunity to constrain the high density behavi
 ##### quotation-03
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: symmetry_energy, density_dependent
 [source]: main text, nonlinear RMF model; Eq. (2).
 ```
@@ -66,7 +66,7 @@ m_\rho^{*2} &= m_\rho^2+2g_\rho^2(\Lambda_vg_v^2V_0^2).
 ##### quotation-04
 
 ```tags
-[claim_type]: motivation
+[claim-type]: motivation
 [tags]: neutron_skin_thickness, neutron_star_radius, symmetry_energy, density_dependent
 [source]: main text, neutron-star correlation discussion.
 ```
@@ -79,7 +79,7 @@ Thus precise measurements of neutron skin thickness that is sensitive to symmetr
 ##### quotation-05
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: symmetry_energy, neutron_skin_thickness
 [source]: main text, Fig. 2 discussion.
 ```
@@ -98,7 +98,7 @@ S=R_n-R_p.
 ##### quotation-06
 
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: RMF, symmetry_energy, density_dependent
 [source]: Introduction.
 ```
@@ -111,7 +111,7 @@ In this Letter, within a relativistic mean field model (RMF) we investigate the 
 ##### quotation-07
 
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: nonlinear_meson_coupling, NL3, FSUGold, symmetry_energy, density_dependent
 [source]: main text, model paragraph before Table 1.
 ```
@@ -124,7 +124,7 @@ To demonstrate the effect of symmetric nuclear EOS, such as incompressibility K0
 ##### quotation-08
 
 ```tags
-[claim_type]: assumption
+[claim-type]: assumption
 [tags]: nonlinear_meson_coupling, nuclear_matter, saturation_density
 [source]: main text, nonlinear RMF model paragraph.
 ```
@@ -137,7 +137,7 @@ The nonlinear sigma meson couplings (κ, λ) soften the symmetric nuclear matter
 ##### quotation-09
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: RMF, symmetry_energy, slope_parameter
 [source]: main text, Fig. 2 discussion.
 ```
@@ -150,7 +150,7 @@ As discussed above, these two RMF models however favor a more stiff symmetry ene
 ##### quotation-10
 
 ```tags
-[claim_type]: background
+[claim-type]: background
 [tags]: nonlinear_meson_coupling, symmetry_energy, density_dependent
 [source]: main text, nonlinear RMF model paragraph after Eq. (2).
 ```
@@ -165,7 +165,7 @@ The nonlinear isoscalar–isovector coupling (Λv) modifies the density dependen
 ##### quotation-11
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: nonlinear_meson_coupling, slope_parameter
 [source]: Table 1 and its preceding discussion.
 ```
@@ -178,7 +178,7 @@ The couplings Λv and gρ so generated are listed in Table 1. [...] The slope pa
 ##### quotation-12
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: slope_parameter, symmetry_energy, density_dependent
 [source]: main text, Eq. (3) discussion.
 ```
@@ -197,7 +197,7 @@ K_{\rm sym}=9\rho_0^2\left.\frac{\partial^2E_{\rm sym}(\rho)}{\partial\rho^2}\ri
 ##### quotation-13
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: neutron_star_mass, neutron_star_radius
 [source]: Fig. 3 caption.
 ```
@@ -210,7 +210,7 @@ The results are for the maximum masses Mmax, threshold mass MUrca and radius RUr
 ##### quotation-14
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: nonlinear_meson_coupling, symmetry_energy, density_dependent, stiff, soft
 [source]: Fig. 1 discussion.
 ```
@@ -223,7 +223,7 @@ Fig. 1 shows the density dependence of the nuclear symmetry energy Esym(ρ) at v
 ##### quotation-15
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: nonlinear_meson_coupling, NL3, FSUGold, neutron_skin_thickness, symmetry_energy, slope_parameter, soft
 [source]: Fig. 2 discussion.
 ```
@@ -236,7 +236,7 @@ The skin data can be reproduced in the NL3 and FSUGold models with a soft symmet
 ##### quotation-16
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: RMF, neutron_skin_thickness, neutron_star_mass, neutron_star_radius, kaon_condensation
 [source]: Summary, summarizing Fig. 3.
 ```
@@ -251,7 +251,7 @@ In summary, within two accurately calibrated relativistic mean field models, [..
 ##### quotation-17
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: RMF, nonlinear_meson_coupling, symmetry_energy, density_dependent, neutron_skin_thickness, stiff, soft
 [source]: Abstract.
 ```
@@ -264,7 +264,7 @@ Within a relativistic mean-field model with nonlinear isoscalar–isovector coup
 ##### quotation-18
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: RMF, neutron_skin_thickness, symmetry_energy, slope_parameter, soft
 [source]: Summary.
 ```
@@ -277,7 +277,7 @@ In summary, within two accurately calibrated relativistic mean field models, [..
 ##### quotation-19
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: RMF, nonlinear_meson_coupling, neutron_skin_thickness, neutron_star_radius, Pb-208
 [source]: Abstract.
 ```
@@ -290,7 +290,7 @@ Within a relativistic mean-field model with nonlinear isoscalar–isovector coup
 ##### quotation-20
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: nonlinear_meson_coupling, NL3, FSUGold, neutron_skin_thickness, symmetry_energy, slope_parameter, soft
 [source]: Fig. 2 discussion.
 ```
@@ -305,7 +305,7 @@ The skin data can be reproduced in the NL3 and FSUGold models with a soft symmet
 
 ##### quotation-21
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: RMF, nonlinear_meson_coupling
 [source]: nonlinear RMF model paragraph before Eq. (1).
 [ref]: [22] C.J. Horowitz, J. Piekarewicz, Phys. Rev. Lett. 86 (2001) 5647; Phys. Rev. C 66 (2002) 055803.
@@ -340,7 +340,7 @@ g_vV_\mu
 
 ##### quotation-22
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: NL3, FSUGold, finite_nuclei
 [source]: model paragraph before Table 1.
 [ref]: [23] G.A. Lalazissis, J. König, P. Ring, Phys. Rev. C 55 (1997) 540; [24] B.G. Todd, J. Piekarewicz, Phys. Rev. Lett. 95 (2005) 122501.
@@ -354,7 +354,7 @@ In the present study, we use two accurately calibrated models: NL3 [23] and FSUG
 
 ##### quotation-23
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: direct_Urca_process, neutron_star
 [source]: neutron-star correlation discussion.
 [ref]: [4] A.W. Steiner, M. Prakash, J.M. Lattimer, P.J. Ellis, Phys. Rep. 411 (2005) 325; [6] J.M. Lattimer, C.J. Pethick, M. Prakash, P. Hansel, Phys. Rev. Lett. 66 (1991) 2701; [22] C.J. Horowitz, J. Piekarewicz, Phys. Rev. Lett. 86 (2001) 5647; Phys. Rev. C 66 (2002) 055803.
@@ -368,7 +368,7 @@ Neutron stars may cool rapidly by neutrino emission in the direct Urca process [
 
 ##### quotation-24
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: kaon_condensation, neutron_star, RMF
 [source]: kaon-condensation paragraph.
 [ref]: [7] V. Thorsson, M. Prakash, J.M. Lattimer, Nucl. Phys. A 572 (1994) 693; [8] R. Knorren, M. Prakash, P.J. Ellis, Phys. Rev. C 52 (1995) 3470; [29] J. Schaffner, I.N. Mishustin, Phys. Rev. C 53 (1996) 1416; [30] S. Pal, D. Bandyopadhyay, W. Greiner, Nucl. Phys. A 674 (2000) 553.
@@ -387,4 +387,4 @@ We now assess the effect of K− meson condensation in neutron star [7,8] on the
 ### Gaps
 
 - `[section]: Methods | [item]: coverage | [target]: definition or background quotation for RMF | [reason]: only eligible RMF explanation is externally sourced`
-- `[section]: Meanings | [item]: claim-types | [target]: valid innovation quotation | [reason]: paper states major results but no novelty claim`
+- `[section]: Meanings | [item]: claim-type | [target]: valid innovation quotation | [reason]: paper states major results but no novelty claim`

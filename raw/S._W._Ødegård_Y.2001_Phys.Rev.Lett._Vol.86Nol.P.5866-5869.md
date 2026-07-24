@@ -16,7 +16,7 @@ The nucleus (163)Lu has been populated through the fusion-evaporation reaction (
 ##### quotation-01
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: wobbling_mode, triaxial_deformation, moment_of_inertia
 [source]: Introduction.
 ```
@@ -28,7 +28,7 @@ The wobbling mode [...] is a direct consequence of rotational motion of a triaxi
 ##### quotation-02
 
 ```tags
-[claim_type]: motivation
+[claim-type]: motivation
 [tags]: triaxial_deformation, wobbling_mode
 [source]: Introduction.
 ```
@@ -42,7 +42,7 @@ So far, no direct experimental evidence for the triaxiality of the observed tria
 ##### quotation-03
 
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: gamma_ray_spectroscopy, electromagnetic_transition
 [source]: Methods.
 ```
@@ -54,7 +54,7 @@ To find and investigate the nature of the connecting transitions between TSD2 an
 ##### quotation-04
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: gamma_ray_spectroscopy, electromagnetic_transition
 [source]: Methods.
 ```
@@ -66,7 +66,7 @@ The directional correlation of gamma rays from the oriented states (DCO ratios) 
 ##### quotation-05
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: cranking_model, excitation_energy
 [source]: Results.
 ```
@@ -78,7 +78,7 @@ Second, a configuration [...] is predicted by the UC calculations. This configur
 ##### quotation-06
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: particle_rotor_model, wobbling_mode
 [source]: Results.
 ```
@@ -90,7 +90,7 @@ Finally, based on particle-rotor model calculations [17], the [...] possibility 
 ##### quotation-07
 
 ```tags
-[claim_type]: assumption
+[claim-type]: assumption
 [tags]: particle_rotor_model, reduced_transition_probability, spin_alignment
 [source]: Results; Fig. 5; Table I.
 ```
@@ -102,7 +102,7 @@ The agreement of the present data with the results calculated for the wobbling m
 ##### quotation-08
 
 ```tags
-[claim_type]: background
+[claim-type]: background
 [tags]: cranking_model, electromagnetic_transition
 [source]: Results; Fig. 4.
 ```
@@ -116,7 +116,7 @@ In the cranking regime both E2 and M1 (αu, I + 1) → (αf, I) transitions are 
 ##### quotation-09
 
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: gamma_ray_spectroscopy, electromagnetic_transition
 [source]: Results; Fig. 1; Fig. 2.
 ```
@@ -128,7 +128,7 @@ The band TSD2 could be extended to both lower (6 hbar) and higher (4 hbar) spins
 ##### quotation-10
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: gamma_ray_spectroscopy, spin_alignment, electromagnetic_transition
 [source]: Methods.
 ```
@@ -140,7 +140,7 @@ In all cases the data were selected by clean gates in TSD1 [...] in the spin ran
 ##### quotation-11
 
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: particle_rotor_model, angular_momentum
 [source]: Results; Fig. 4.
 ```
@@ -152,7 +152,7 @@ The zigzag pattern can be understood by examining Fig. 4, obtained by analyzing 
 ##### quotation-12
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: particle_rotor_model, reduced_transition_probability, electromagnetic_transition, wobbling_mode
 [source]: Results; Fig. 5.
 ```
@@ -164,7 +164,7 @@ Calculated values of B(E2)out/B(E2)in and B(M1)/B(E2)in are shown together with 
 ##### quotation-13
 
 ```tags
-[claim_type]: background
+[claim-type]: background
 [tags]: electromagnetic_transition, reduced_transition_probability, electromagnetic_transition_mixing_ratio, electromagnetic_transition_branching_ratio
 [source]: Results; Table I.
 ```
@@ -178,7 +178,7 @@ From the measured branching ratios, λ = Tγ,out(M1 + E2)/Tγ,in(E2), and mixing
 ##### quotation-14
 
 ```tags
-[claim_type]: innovation
+[claim-type]: innovation
 [tags]: particle_rotor_model, wobbling_mode, triaxial_deformation
 [source]: Abstract.
 ```
@@ -190,7 +190,7 @@ Evidence is presented for the assignment of the excited TSD band as a wobbling m
 ##### quotation-15
 
 ```tags
-[claim_type]: comparison
+[claim-type]: comparison
 [tags]: particle_rotor_model, wobbling_mode
 [source]: Results; Fig. 5; Table I.
 ```
@@ -204,7 +204,7 @@ The agreement of the present data with the results calculated for the wobbling m
 
 ##### quotation-16
 ```tags
-[claim_type]: definition
+[claim-type]: definition
 [tags]: wobbling_frequency, rotational_frequency
 [source]: Introduction.
 [ref]: [2] A. Bohr and B. R. Mottelson, Nuclear Structure (Benjamin, New York, 1975), Vol. II.
@@ -221,7 +221,7 @@ The wobbling phonon energy is hbar omega_w = hbar omega_rot [(Jx-Jy)(Jx-Jz)/(JyJ
 
 ##### quotation-17
 ```tags
-[claim_type]: method
+[claim-type]: method
 [tags]: gamma_ray_spectroscopy, electromagnetic_transition
 [source]: Methods.
 [ref]: [13] K. S. Krane, R. M. Steffen, and R. M. Wheeler, Nucl. Data Tables 11, 351 (1973).
@@ -234,7 +234,7 @@ The directional correlation of gamma rays from the oriented states (DCO ratios) 
 
 ##### quotation-18
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: cranking_model, quadrupole_deformation, triaxial_deformation
 [source]: Results.
 [ref]: [15] T. Bengtsson, Nucl. Phys. A496, 56 (1989); 512, 124 (1990); [16] R. Bengtsson, www.matfys.lth.se/~ragnar/ultimate.html
@@ -247,7 +247,7 @@ First, cranking calculations with the "ultimate cranker" (UC) [15,16], based on 
 
 ##### quotation-19
 ```tags
-[claim_type]: result
+[claim-type]: result
 [tags]: particle_rotor_model, wobbling_mode
 [source]: Results.
 [ref]: [17] I. Hamamoto, Phys. Lett. B 193, 399 (1987).
