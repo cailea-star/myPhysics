@@ -7,7 +7,7 @@ description: Ingest one paper into myWIKI. Use when user asks to add a paper by 
 
 ## Rules
 
-Before Gate 1, read both [Vocab Rules](../vocab-rules/SKILL.md) and [Raw Rules](../raw-rules/SKILL.md) completely and apply all rules.
+Before Gate 1, MUST read and follow both [Vocab Rules](../vocab-rules/SKILL.md) and [Raw Rules](../raw-rules/SKILL.md) completely.
 
 ## Gated Workflow
 
@@ -30,21 +30,21 @@ Run gates strictly in order. At the start of each response, state the current ga
 
 ### Gate 3 — Check Tag & Author
 
-- Author: Apply [Vocab Author-Rules](../vocab-rules/SKILL.md#author-rules) to the current Raw JSON.
+- Author: MUST execute every required step in [Vocab Author-Rules](../vocab-rules/SKILL.md#author-rules) for the current Raw JSON.
 - Identify: Apply [Motivation coverage](../../../scripts/add_raw_md.md#motivation); PRINT exactly three core Abstract concepts.
 - Fix: Keep all three for later Abstract coverage; NEVER substitute easier existing tags.
-- Resolve: Process each concept one-by-one through [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules); completion requires verified canonical tags.
+- Resolve: MUST execute every required step in [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules) for each concept one-by-one; completion requires verified canonical tags.
 
 ### Gate 4 — Discuss Quotations
 
-- Draft: Apply [Raw Draft-Rules](../raw-rules/SKILL.md#draft-rules) until every quotation section completes.
+- Draft: MUST execute every required step in [Raw Draft-Rules](../raw-rules/SKILL.md#draft-rules) until every quotation section completes.
 - Advance: Gate 5 begins ONLY after all quotation sections pass Raw verification.
 
 ### Gate 5 — Confirm Wiki
 
 - PRINT: Show the three fixed core TAGs from Abstract and whether each `wiki/TAG.md` exists.
 - Approval: STOP and ask whether to create, update, or skip each Wiki.
-- Route: Approved Wiki work MUST follow [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) before Gate 6; skipped work advances directly.
+- Route: Approved Wiki work MUST execute every required step in [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) before Gate 6; skipped work advances directly.
 
 ### Gate 6 — Summary & Recommend Next Paper(s)
 
