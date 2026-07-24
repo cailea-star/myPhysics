@@ -1,60 +1,59 @@
 import json
-import os
 import re
 import sys
 from pathlib import Path
 
-ROOT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+ROOT_PATH = Path(__file__).resolve().parent.parent
 
 
-def affiliation_names(affiliations):
-    return [item.get("name") if isinstance(item, dict) else str(item) for item in affiliations]
+def resolve_affiliation_names(raw_json_affiliations):
+    return [item.get("name") if isinstance(item, dict) else str(item) for item in raw_json_affiliations]
 
 
-def get_corresponding_authors(raw_data):
+def resolve_corresponding_authors(raw_json_data):
     return [
         {
             "given": corresponding.get("given") or "",
             "family": corresponding.get("family") or "",
-            "affiliation": affiliation_names(corresponding.get("raw_affiliation_strings") or []),
+            "affiliation": resolve_affiliation_names(corresponding.get("raw_affiliation_strings") or []),
             "ORCID": corresponding.get("ORCID") or corresponding.get("raw_orcid"),
         }
-        for corresponding in raw_data.get("author-corresponding-openalex") or []
+        for corresponding in raw_json_data.get("author-corresponding-openalex") or []
     ]
 
 
-def has_author(authors, raw_author):
+def is_recorded_author(vocab_json_authors, raw_json_author):
     name_key = lambda author: re.sub(r"\W+", "", " ".join(filter(None, [author["given"], author["family"]]))).lower()
-    for author in authors:
+    for author in vocab_json_authors:
         if (
-            raw_author["ORCID"] == author["ORCID"]
-            and name_key(raw_author) == name_key(author)
+            raw_json_author["ORCID"] == author["ORCID"]
+            and name_key(raw_json_author) == name_key(author)
         ):
             return True
     return False
 
 
-def main(json_path):
-    raw_data = json.loads(Path(json_path).read_text(encoding="utf-8"))
-    raw_corresponding_authors = get_corresponding_authors(raw_data)
+def main(raw_json_path):
+    raw_json_data = json.loads(Path(raw_json_path).read_text(encoding="utf-8"))
+    raw_json_corresponding_authors = resolve_corresponding_authors(raw_json_data)
 
-    authors_path = Path(os.path.join(ROOT_PATH, "vocab", "authors.json"))
-    authors = json.loads(authors_path.read_text(encoding="utf-8"))
+    vocab_json_authors_path = ROOT_PATH.joinpath("vocab", "authors.json")
+    vocab_json_authors = json.loads(vocab_json_authors_path.read_text(encoding="utf-8"))
 
     changed = False
-    for raw_author in raw_corresponding_authors:
+    for raw_author in raw_json_corresponding_authors:
         if not raw_author["given"] and not raw_author["family"]: 
             print(f"skipping author with no name: {raw_author['raw_author_name']}")
             continue
-        if has_author(authors, raw_author):
+        if is_recorded_author(vocab_json_authors, raw_author):
             print(f"author unchanged: {raw_author['given']} {raw_author['family']}")
             continue
-        authors.append(raw_author)
+        vocab_json_authors.append(raw_author)
         changed = True
         print(f"author added: {raw_author['given']} {raw_author['family']}")
 
     if changed:
-        authors_path.write_text(json.dumps(authors, ensure_ascii=False, indent=4) + "\n", encoding="utf-8")
+        vocab_json_authors_path.write_text(json.dumps(vocab_json_authors, ensure_ascii=False, indent=4) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

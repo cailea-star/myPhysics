@@ -2,7 +2,7 @@ from pathlib import Path
 import re
 import sys
 
-from search_a_tag import summary_split_filename
+from search_a_tag import resolve_filename
 
 
 SECTION_HEADER = re.compile(r"(?m)^### Previous Studies\s*$")
@@ -10,13 +10,13 @@ NEXT_SECTION = re.compile(r"(?m)^###\s+")
 STUDY_HEADER = re.compile(r"(?m)^#####\s+")
 
 
-def match_previous_studies(fullwiki: str) -> str:
-    section = SECTION_HEADER.search(fullwiki)
+def match_previous_studies(wiki_md_str: str) -> str:
+    section = SECTION_HEADER.search(wiki_md_str)
     if not section:
         raise ValueError("Previous Studies section not found")
-    next_section = NEXT_SECTION.search(fullwiki, section.end())
-    section_end = next_section.start() if next_section else len(fullwiki)
-    return fullwiki[section.start():section_end]
+    next_section = NEXT_SECTION.search(wiki_md_str, section.end())
+    section_end = next_section.start() if next_section else len(wiki_md_str)
+    return wiki_md_str[section.start():section_end]
 
 
 def split_studies(studieswiki_str: str) -> list[str]:
@@ -30,12 +30,10 @@ def split_studies(studieswiki_str: str) -> list[str]:
 
 def resolve_filename(study_str: str) -> dict[str, str]:
     references = re.search(r"```references\s*\n(.*?)\n```", study_str, re.S)
-    if not references:
-        raise ValueError("Study has no references block")
+    if not references: raise ValueError("Study has no references block")
     stems = re.findall(r"(?m)^\s*-\s+([^:\r\n]+):", references.group(1))
-    if len(stems) != 1:
-        raise ValueError("Study must reference exactly one Raw paper")
-    filename = summary_split_filename(stems[0].strip())
+    if len(stems) != 1: raise ValueError("Study must reference exactly one Raw paper")
+    filename = resolve_filename(stems[0].strip())
     return {"author": filename["author"], "year": filename["year"]}
 
 
@@ -52,8 +50,7 @@ def main(wikipath: str | Path) -> Path:
     fullwiki = wikipath.read_text(encoding="utf-8")
     studieswiki = match_previous_studies(fullwiki)
     studies = split_studies(studieswiki)
-    if not studies:
-        return wikipath
+    if not studies: return wikipath
 
     prefix = studieswiki[:STUDY_HEADER.search(studieswiki).start()]
     suffix = studieswiki[len(studieswiki.rstrip()):]

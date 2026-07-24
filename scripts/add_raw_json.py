@@ -1,13 +1,14 @@
 import html
 import json
-import os
+from pathlib import Path
 import re
 import sys
 import urllib.parse
 import urllib.request
 
 HEADERS = {"User-Agent": "doi-metadata-script/0.1 (mailto:your@email.com)"}
-ROOT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+ROOT_PATH = Path(__file__).resolve().parent.parent
+RAW_PATH = ROOT_PATH.joinpath("raw")
 
 
 def get_json(url):
@@ -16,7 +17,7 @@ def get_json(url):
         return json.load(r)
 
 
-def metadata_from_CrossRef(doi):
+def load_metadata_from_CrossRef(doi):
     """ get metadata for a DOI from the CrossRef API.
     """
     doi = doi.strip().removeprefix("https://doi.org/")
@@ -24,7 +25,7 @@ def metadata_from_CrossRef(doi):
     return get_json(url)["message"]
 
 
-def metadata_from_Inspire(doi):
+def load_metadata_from_Inspire(doi):
     """ get metadata for a DOI from the INSPIRE API.
     """
     doi = doi.strip().removeprefix("https://doi.org/")
@@ -35,7 +36,7 @@ def metadata_from_Inspire(doi):
         return {}
 
 
-def metadata_from_openAlex(doi):
+def load_metadata_from_openAlex(doi):
     """ get metadata for a DOI from the OpenAlex API.
     """
     doi = doi.strip().removeprefix("https://doi.org/")
@@ -46,47 +47,47 @@ def metadata_from_openAlex(doi):
         return {}
 
 
-def clean_text(text):
+def clean_text(my_str):
     """Strip markup from metadata text.
 
     >>> clean_text("Neutron Radius of<mml:mi>P</mml:mi><mml:mn>208</mml:mn><mml:mi>b</mml:mi>")
     'Neutron Radius of 208Pb'
     """
-    if not text:
+    if not my_str:
         return None
-    text = re.sub(r"<[^>]+>", " ", text)
-    text = html.unescape(text)
-    text = re.sub(r"\s+", " ", text).strip()
-    text = re.sub(r"\b([A-Z])\s+(\d+)\s+([a-z])\b", r"\2\1\3", text)
-    return text or None
+    my_str = re.sub(r"<[^>]+>", " ", my_str)
+    my_str = html.unescape(my_str)
+    my_str = re.sub(r"\s+", " ", my_str).strip()
+    my_str = re.sub(r"\b([A-Z])\s+(\d+)\s+([a-z])\b", r"\2\1\3", my_str)
+    return my_str or None
 
 
-def clean_abstract(text):
-    text = clean_text(text)
-    if not text:
+def clean_abstract(abstract_str):
+    abstract_str = clean_text(abstract_str)
+    if not abstract_str:
         return None
-    text = re.sub(r"^\s*Abstract\s+", "", text, flags=re.I)
-    return text or None
+    abstract_str = re.sub(r"^\s*Abstract\s+", "", abstract_str, flags=re.I)
+    return abstract_str or None
 
 
-def clean_titles(titles):
+def clean_titles(titles_str_list):
     cleaned_titles = []
-    for title in titles or [""]:
+    for title in titles_str_list or [""]:
         cleaned_titles.append(clean_text(title) or "")
     return cleaned_titles
 
 
-def author_corresponding_from_openAlex(data_openAlex, data_CrossRef):
+def resolve_author_corresponding_from_openAlex(metadata_openAlex, metadata_CrossRef):
     name_key = lambda name: re.sub(r"\W+", "", name or "").lower()
     get_CrossRef_authorname = lambda author: " ".join(filter(None, [author.get("given"), author.get("family")]))
     author_corresponding_openalex = []
-    for author_openAlex in data_openAlex.get("authorships") or []:
+    for author_openAlex in metadata_openAlex.get("authorships") or []:
         # only include corresponding authors from OpenAlex
         if not author_openAlex.get("is_corresponding"): continue
         # find the corresponding author in CrossRef by matching names
         authorname_openAlex = author_openAlex.get("raw_author_name")
-        author_CrossRef_target = (data_CrossRef.get("author") or [{}])[0]
-        for author_CrossRef in data_CrossRef.get("author") or []:
+        author_CrossRef_target = (metadata_CrossRef.get("author") or [{}])[0]
+        for author_CrossRef in metadata_CrossRef.get("author") or []:
             authorname_CrossRef = get_CrossRef_authorname(author_CrossRef)
             if name_key(authorname_CrossRef) == name_key(authorname_openAlex):
                 author_CrossRef_target = author_CrossRef
@@ -104,18 +105,18 @@ def author_corresponding_from_openAlex(data_openAlex, data_CrossRef):
     return author_corresponding_openalex
 
 
-def get_abstractdata(doi):
+def load_abstractdata(doi):
     """ get metadata and abstract for a DOI.
     """
-    metadata_CrossRef = metadata_from_CrossRef(doi)
-    metadata_Inspire = metadata_from_Inspire(doi)
-    metadata_openAlex = metadata_from_openAlex(doi)
-    abstract_crossRef = clean_abstract(metadata_CrossRef.get("abstract"))
-    abstract_Inspire = clean_abstract(metadata_Inspire.get("abstracts")[0].get("value") if metadata_Inspire.get("abstracts") else None)
-    abstract_openAlex = clean_abstract(" ".join(word for _, word in sorted(
+    metadata_CrossRef   = load_metadata_from_CrossRef(doi)
+    metadata_Inspire    = load_metadata_from_Inspire(doi)
+    metadata_openAlex   = load_metadata_from_openAlex(doi)
+    abstract_crossRef   = clean_abstract(metadata_CrossRef.get("abstract"))
+    abstract_Inspire    = clean_abstract(metadata_Inspire.get("abstracts")[0].get("value") if metadata_Inspire.get("abstracts") else None)
+    abstract_openAlex   = clean_abstract(" ".join(word for _, word in sorted(
         (i, word) for word, positions in (metadata_openAlex.get("abstract_inverted_index") or {}).items() for i in positions
     )))
-    author_corresponding = author_corresponding_from_openAlex(metadata_openAlex, metadata_CrossRef)
+    author_corresponding = resolve_author_corresponding_from_openAlex(metadata_openAlex, metadata_CrossRef)
     return {
         "source": metadata_CrossRef["source"],
         "language": metadata_CrossRef.get("language"),
@@ -141,7 +142,7 @@ def get_abstractdata(doi):
     }
 
 
-def generate_name(abstractdata):
+def generate_filename(abstractdata):
     """ generate a file name for the DOI based on its metadata.
     """
     author = (abstractdata.get("author-corresponding-openalex") or abstractdata.get("author") or [{}])[0]
@@ -158,12 +159,9 @@ def generate_name(abstractdata):
 
 if __name__ == "__main__":
     doi = sys.argv[1]
-    abstractdata = get_abstractdata(doi)
-    abstractdata["filename"] = generate_name(abstractdata)
+    abstractdata = load_abstractdata(doi)
+    abstractdata["filename"] = generate_filename(abstractdata)
 
-    raw_path = os.path.join(ROOT_PATH, "raw")
-    os.makedirs(raw_path, exist_ok=True)
-    json_path = os.path.join(raw_path, abstractdata["filename"] + ".json")
-
-    with open(json_path, "w", encoding="utf-8") as f:
-        json.dump(abstractdata, f, ensure_ascii=False, indent=2)
+    RAW_PATH.mkdir(exist_ok=True)
+    json_path = RAW_PATH.joinpath(f"{abstractdata['filename']}.json")
+    json_path.write_text(json.dumps(abstractdata, ensure_ascii=False, indent=2), encoding="utf-8")
