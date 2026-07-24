@@ -142,8 +142,8 @@ def load_abstractdata(doi):
     }
 
 
-def generate_filename(abstractdata):
-    """ generate a file name for the DOI based on its metadata.
+def generate_stem(abstractdata):
+    """ generate a file stem for the DOI based on its metadata.
     """
     author = (abstractdata.get("author-corresponding-openalex") or abstractdata.get("author") or [{}])[0]
     author_name = " ".join(filter(None, [author.get("given"), author.get("family")])) or author.get("raw_author_name") or ""
@@ -160,8 +160,8 @@ def generate_filename(abstractdata):
 if __name__ == "__main__":
     doi = sys.argv[1]
     abstractdata = load_abstractdata(doi)
-    abstractdata["filename"] = generate_filename(abstractdata)
+    abstractdata["stem"] = generate_stem(abstractdata)
 
     RAW_PATH.mkdir(exist_ok=True)
-    json_path = RAW_PATH.joinpath(f"{abstractdata['filename']}.json")
+    json_path = RAW_PATH.joinpath(f"{abstractdata['stem']}.json")
     json_path.write_text(json.dumps(abstractdata, ensure_ascii=False, indent=2), encoding="utf-8")

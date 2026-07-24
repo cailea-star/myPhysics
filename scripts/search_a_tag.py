@@ -71,7 +71,7 @@ def resolve_section_quotations(raw_md_path: Path, sectionname: str) -> list[dict
     raw_md_section_str = find_section(raw_md_str, sectionname)
     raw_md_section_quotations_list = split_section_quotations(raw_md_section_str)
     for raw_md_quotation in raw_md_section_quotations_list:
-        raw_md_quotation["filename"] = raw_md_path.stem
+        raw_md_quotation["stem"] = raw_md_path.stem
         raw_md_quotation["source"] = raw_md_path.stem + ": " + raw_md_quotation["source"]
     return raw_md_section_quotations_list
 
@@ -117,32 +117,32 @@ def format_quotations(quotations_list: list[dict]) -> list[str]:
 
 # Collect papers appearing in quotations, and sort them by year and author
 
-def resolve_filename(filename: str) -> dict[str, str]:
+def resolve_stem(stem: str) -> dict[str, str]:
     fields = ("author", "year", "journal", "volume", "number", "page")
     match = re.fullmatch(
         r"(?P<author>.+?)_Y\.(?P<year>[^_]*)_(?P<journal>.*?)_Vol\."
         r"(?P<volume>.*?)Nol\.(?P<number>.*?)P\.(?P<page>.*)",
-        filename,
+        stem,
     )
     return match.groupdict() if match else dict.fromkeys(fields, "")
 
 
-def get_paper_sort_key(filename: str) -> tuple[bool, str, str]:
-    year = resolve_filename(filename)["year"]
-    return year == "", year, filename
+def get_paper_sort_key(stem: str) -> tuple[bool, str, str]:
+    year = resolve_stem(stem)["year"]
+    return year == "", year, stem
 
 
-def format_filenames(quotations_list: list[dict]) -> list[str]:
+def format_stems(quotations_list: list[dict]) -> list[str]:
     papers = {}
     for quote in quotations_list:
-        papers.setdefault(quote["filename"], []).append(quote)
-    lines = ["## Papers", "", "| filename | year | quotes | claim-types | tags |", "|---|---:|---:|---|---|"]
-    for filename in sorted(papers, key=get_paper_sort_key):
-        year = resolve_filename(filename)["year"]
-        quotes = papers[filename]
+        papers.setdefault(quote["stem"], []).append(quote)
+    lines = ["## Papers", "", "| stem | year | quotes | claim-types | tags |", "|---|---:|---:|---|---|"]
+    for stem in sorted(papers, key=get_paper_sort_key):
+        year = resolve_stem(stem)["year"]
+        quotes = papers[stem]
         claim_types = ", ".join(dict.fromkeys(quote["claim_type"] for quote in quotes))
         tags = ", ".join(dict.fromkeys(tag for quote in quotes for tag in quote["tags"]))
-        lines.append(f"| {filename} | {year} | {len(quotes)} | {claim_types} | {tags} |")
+        lines.append(f"| {stem} | {year} | {len(quotes)} | {claim_types} | {tags} |")
     return lines + [""]
 
 
@@ -160,7 +160,7 @@ def main(tagname: str, sectionname: str, outfile_path: str | Path) -> Path:
         one_section_quotations_list = resolve_section_quotations(raw_md_path, sectionname)
         all_section_quotations_list.extend(one_section_quotations_list)
     all_matched_section_quotations_list = match_quotations(all_section_quotations_list, None, [tagname])
-    lines = [f"# {query_name}", ""] + format_filenames(all_matched_section_quotations_list) + format_quotations(all_matched_section_quotations_list)
+    lines = [f"# {query_name}", ""] + format_stems(all_matched_section_quotations_list) + format_quotations(all_matched_section_quotations_list)
     outfile_path = Path(outfile_path)
     outfile_path.parent.mkdir(parents=True, exist_ok=True)
     outfile_path.write_text("\n".join(lines), encoding="utf-8")

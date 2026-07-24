@@ -12,8 +12,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -24,8 +24,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -36,8 +36,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -48,8 +48,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -60,8 +60,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -72,8 +72,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -84,8 +84,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -96,8 +96,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -108,8 +108,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -120,8 +120,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -132,8 +132,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -144,8 +144,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -156,8 +156,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -168,8 +168,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -180,8 +180,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -192,8 +192,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -204,8 +204,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -216,8 +216,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -228,8 +228,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     },
@@ -240,8 +240,8 @@
       "affiliation": [],
       "role": [
         {
-          "role": "author",
-          "vocabulary": "crossref"
+          "vocabulary": "crossref",
+          "role": "author"
         }
       ]
     }
@@ -249,7 +249,7 @@
   "author-corresponding-openalex": [],
   "DOI": "10.1103/physrevlett.86.5866",
   "URL": "https://doi.org/10.1103/physrevlett.86.5866",
-  "is-referenced-by-count": 278,
+  "is-referenced-by-count": 282,
   "reference-count": 18,
   "abstract": "The nucleus (163)Lu has been populated through the fusion-evaporation reaction (139)La((29)Si,5n)(163)Lu with a beam energy of 152 MeV. The electromagnetic properties of several connecting transitions between two presumably triaxial, strongly deformed (TSD) bands have been studied. Evidence is presented for the assignment of the excited TSD band as a wobbling mode built on the yrast TSD band, based on comparisons to new calculations in which an aligned particle is coupled to a strongly deformed triaxial rotor. The wobbling mode is uniquely related to triaxiality in nuclei.",
   "publisher": "American Physical Society (APS)",
@@ -451,5 +451,5 @@
       "journal-title": "Phys. Lett. B"
     }
   ],
-  "filename": "S._W._Ødegård_Y.2001_Phys.Rev.Lett._Vol.86Nol.P.5866-5869"
+  "stem": "S._W._Ødegård_Y.2001_Phys.Rev.Lett._Vol.86Nol.P.5866-5869"
 }

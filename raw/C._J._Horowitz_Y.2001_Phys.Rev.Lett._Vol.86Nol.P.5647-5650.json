@@ -33,7 +33,7 @@
   "author-corresponding-openalex": [],
   "DOI": "10.1103/physrevlett.86.5647",
   "URL": "https://doi.org/10.1103/physrevlett.86.5647",
-  "is-referenced-by-count": 816,
+  "is-referenced-by-count": 822,
   "reference-count": 19,
   "abstract": "We study relationships between the neutron-rich skin of a heavy nucleus and the properties of neutron-star crusts. Relativistic effective field theories with a thicker neutron skin in $^{208}$Pb have a larger electron fraction and a lower liquid-to-solid transition density for neutron-rich matter. These properties are determined by the density dependence of the symmetry energy which we vary by adding nonlinear couplings between isoscalar and isovector mesons. An accurate measurement of the neutron radius in $^{208}$Pb---via parity violating electron scattering---may have important implications for the structure of neutron stars.",
   "publisher": "American Physical Society (APS)",
@@ -247,5 +247,5 @@
       "year": "1994"
     }
   ],
-  "filename": "C._J._Horowitz_Y.2001_Phys.Rev.Lett._Vol.86Nol.P.5647-5650"
+  "stem": "C._J._Horowitz_Y.2001_Phys.Rev.Lett._Vol.86Nol.P.5647-5650"
 }

@@ -2,7 +2,7 @@ from pathlib import Path
 import re
 import sys
 
-from search_a_tag import resolve_filename
+from search_a_tag import resolve_stem
 
 
 SECTION_HEADER = re.compile(r"(?m)^### Previous Studies\s*$")
@@ -28,19 +28,19 @@ def split_studies(studieswiki_str: str) -> list[str]:
     return studies
 
 
-def resolve_filename(study_str: str) -> dict[str, str]:
+def resolve_study(study_str: str) -> dict[str, str]:
     references = re.search(r"```references\s*\n(.*?)\n```", study_str, re.S)
     if not references: raise ValueError("Study has no references block")
     stems = re.findall(r"(?m)^\s*-\s+([^:\r\n]+):", references.group(1))
     if len(stems) != 1: raise ValueError("Study must reference exactly one Raw paper")
-    filename = resolve_filename(stems[0].strip())
-    return {"author": filename["author"], "year": filename["year"]}
+    stem = resolve_stem(stems[0].strip())
+    return {"author": stem["author"], "year": stem["year"]}
 
 
 def sort_studies(studies: list[str]) -> list[str]:
     def sort_key(study: str) -> tuple[bool, str, str]:
-        filename = resolve_filename(study)
-        return filename["year"] == "", filename["year"], filename["author"]
+        study_data = resolve_study(study)
+        return study_data["year"] == "", study_data["year"], study_data["author"]
 
     return sorted(studies, key=sort_key)
 
