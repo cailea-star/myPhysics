@@ -36,7 +36,7 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 
 ### Section-Rules
 
-- Each quotation section MUST contain exactly one `claim-type`, `coverage`, and `quotation` HTML declaration.
+- Each quotation section in the template MUST contain exactly one `claim-type`, `coverage`, and `quotation` HTML declaration.
 - Collective section evidence MUST yield exactly one `pass`, `gap`, or `fix` per applicable target.
 - A `gap` is valid ONLY after full-text review confirms no compliant evidence exists.
 - Any `fix` MUST block section completion and require correction.
@@ -52,7 +52,7 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 
 ### Template-Check
 
-- PRINT: Show current section’s `claim-type`, `quotation`, and `coverage` declarations.
+- PRINT: Before every Draft and Re-review, MUST read [scripts/add_raw_md.md](../../../scripts/add_raw_md.md) and print the current section’s `claim-type`, `coverage`, and `quotation` HTML declarations verbatim; NEVER source or infer them from `raw/*.md`.
 - Scope: MUST process ONLY one section; review at most four candidate or written quotations per batch.
 - Verdict: MUST expand every applicable target; assign exactly one `pass`, `gap`, or `fix`.
 - Review: MUST apply [Section-Rules](#section-rules) and [Quotation-Rules](#quotation-rules); mark quotations `pass`/`fix`; record valid `gap`s once; fixes MUST STOP.
