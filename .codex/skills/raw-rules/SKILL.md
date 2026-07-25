@@ -61,7 +61,7 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 ## Draft-Rules
 
 - Prepare: MUST execute [Check-Inputs](#check-inputs); any failure MUST STOP.
-- Draft: Follow template order; present at most four candidates for current section per batch.
+- Draft: Follow template order; present at most four candidates, then MUST execute [Template-Check](#template-check).
 - Approval: PRINT exact candidate blocks and gaps; STOP until explicit user approval.
 - Write: Write ONLY exact approved content; MUST then run `python scripts\sort_raw_quotations.py mdfile_path`.
 - Verify: After EVERY write, MUST execute [Template-Check](#template-check); ONLY completed sections advance; incomplete MUST return to [Draft-Rules](#draft-rules).

@@ -66,4 +66,4 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 - Draft: Process ONLY one Tag-mode template-order section or one Raw via [Paper-Rules](#paper-rules), starting with `Previous Studies`.
 - Approve: MUST execute [Template-Check](#template-check); PRINT at most four exact changes; STOP until explicit user approval.
 - Write: ONLY write approved content; `Previous Studies` MUST then run `python scripts\sort_wiki_studies.py wikipath`; NEVER alter unrelated content.
-- Verify: After EVERY write, MUST rerun [Template-Check](#template-check); `pass` advances; `fix` requires another approved batch.
+- Verify: After EVERY write, MUST rerun [Template-Check](#template-check); ONLY `supported`/`not-applicable` advances; `weak`/`missing` requires another approved batch.
