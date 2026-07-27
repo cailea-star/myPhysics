@@ -32,3 +32,13 @@
 [DOI]: 10.1103/physrevlett.86.4488
 [Title]: Rotations in Isospace: A Doorway to the Understanding of Neutron-Proton Superfluidity in N = Z Nuclei
 [Tags]: isocranking_model, isospin_rotation, pairing_correlation, isoscalar, isovector, moment_of_inertia, excitation_energy
+
+## [2026-07-27] | raw/D._S._Delion_Y.2006_Phys.Rev.C_Vol.73Nol.014315P..md
+[DOI]: 10.1103/physrevc.73.014315
+[Title]: Systematics of the α-decay to rotational states
+[Tags]: alpha_clustering, rotational_nuclei, alpha_decay_fine_structure
+
+## [2026-07-27] | raw/Mesut_Karakoç_Y.2023_ComputerPhysicsCommunications_Vol.284Nol.108613P.108613.md
+[DOI]: 10.1016/j.cpc.2022.108613
+[Title]: BiFold: A Python code for the calculation of double-folded (bifold) potentials with density-in/dependent nucleon-nucleon interactions
+[Tags]: double_folding_potential
