@@ -616,5 +616,11 @@
     "definition": "frequency or phonon energy associated with nuclear wobbling motion",
     "types": ["quantity"],
     "aliases": ["wobbling frequency", "wobbling phonon energy", "ω_w"]
+  },
+  {
+    "tag": "m3y_interaction",
+    "definition": "effective nucleon-nucleon interaction used with the Coulomb force to construct the double-folded α-core potential",
+    "types": ["method"],
+    "aliases": ["M3Y"]
   }
 ]

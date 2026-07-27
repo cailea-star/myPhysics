@@ -14,7 +14,7 @@ description: Apply canonical myWIKI vocabulary rules when selecting, drafting, r
 
 - Tags: [vocab/tags.json](../../../vocab/tags.json) defines canonical concepts, types, aliases, and definitions for Raw and Wiki classification.
 - Types: [vocab/types.json](../../../vocab/types.json) defines tag types and their requirements.
-- Resolve: MUST run `python scripts\search_similar_tags.py "CANDIDATE" 3` for each candidate and resolve ONLY from its three printed tags, types, aliases, and definitions; NEVER read [vocab/tags.json](../../../vocab/tags.json) directly.
+- Resolve: MUST run `python scripts\search_similar_tags.py "CANDIDATE" 5` for each candidate and resolve ONLY from its three printed tags, types, aliases, and definitions; NEVER read [vocab/tags.json](../../../vocab/tags.json) directly.
 
 ### Input-Rules
 
