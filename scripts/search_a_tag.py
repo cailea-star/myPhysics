@@ -42,6 +42,7 @@ def split_section_quotations(raw_md_section_str: str) -> list[dict]:
         _, _, body = block.partition("\n")
         # search for the tags block
         tag_block = re.search(r"```tags\s*\n(.*?)\n```", body, re.S)
+        if not tag_block: continue
         # search for claim-type and tags in the tags block
         tag_text = tag_block.group(1)
         claim_match = re.search(r"(?m)^\[claim-type\]:\s*(.+)$", tag_text)
