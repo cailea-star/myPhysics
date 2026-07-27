@@ -104,7 +104,7 @@
   {
     "tag": "double_folding_potential",
     "definition": "nucleus-nucleus interaction potential obtained by folding nuclear densities with an effective nucleon-nucleon interaction, often used as the real part of an optical potential",
-    "types": ["method"],
+    "types": ["quantity", "method"],
     "aliases": ["double folding potential"]
   },
   {
@@ -619,8 +619,32 @@
   },
   {
     "tag": "m3y_interaction",
-    "definition": "effective nucleon-nucleon interaction used with the Coulomb force to construct the double-folded α-core potential",
+    "definition": "effective nucleon-nucleon interaction used to construct double-folded nucleus-nucleus potentials",
     "types": ["method"],
     "aliases": ["M3Y"]
+  },
+  {
+    "tag": "nuclear_matter_density",
+    "definition": "nucleon-density distribution of a projectile or target nucleus used in double-folding calculations",
+    "types": ["quantity"],
+    "aliases": ["nuclear matter density", "nuclear matter densities"]
+  },
+  {
+    "tag": "fourier_transform",
+    "definition": "Fourier-transform method in spherical coordinates used to calculate double-folded potentials while simplifying the sixfold integration",
+    "types": ["method"],
+    "aliases": ["Fourier transform", "Fourier transform method"]
+  },
+  {
+    "tag": "frozen_density_approximation",
+    "definition": "approximation that represents the overlapping density as the sum of projectile and target nuclear matter densities",
+    "types": ["condition"],
+    "aliases": ["frozen density approximation"]
+  },
+  {
+    "tag": "mean_relative_error",
+    "definition": "mean squared relative difference between calculated and reference double-folding potentials over sampled radial points",
+    "types": ["quantity"],
+    "aliases": ["mean relative error", "mre"]
   }
 ]
