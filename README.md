@@ -23,7 +23,7 @@ scripts/
   check_vocab_author.py     # check and add author to vocab/authors.json
   search_a_author.py        # author -> matching raw metadata
   search_a_doi.py           # DOI -> recorded papers and citation links
-  search_a_tag.py           # canonical tag -> tmp/* section quotation slices
+  search_a_tag.py           # current + supporting tags -> one merged tmp/* set
   search_similar_tags.py    # query -> similar canonical tags
   sort_raw_quotations.py    # renumber raw/*.md quotation headings after edits
   sort_wiki_studies.py      # order Previous Studies by publication year
@@ -49,4 +49,10 @@ Sort a wiki's `Previous Studies` after edits:
 
 ```powershell
 python scripts\sort_wiki_studies.py wiki\topic.md
+```
+
+Generate one merged quotation set for a current TAG and optional supporting TAGs (current TAG first):
+
+```powershell
+python scripts\search_a_tag.py alpha_decay alpha_decay_energy alpha_decay_width
 ```
