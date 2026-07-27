@@ -161,37 +161,33 @@ def get_raw_md_paths(raw_dir: str | Path = RAW_PATH) -> list[Path]:
     return sorted(paths)
 
 
-def main(tagname: str, sectionname: str, outfile_path: str | Path) -> Path:
-    all_section_quotations_list = []
-    query_name = f"{tagname}_{sectionname}"
-    for raw_md_path in get_raw_md_paths():
-        one_section_quotations_list = resolve_section_quotations(raw_md_path, sectionname)
-        all_section_quotations_list.extend(one_section_quotations_list)
-    all_matched_section_quotations_list = match_quotations(all_section_quotations_list, None, [tagname])
-    lines = [f"# {query_name}", ""] + format_stems(all_matched_section_quotations_list) + format_quotations(all_matched_section_quotations_list)
-    outfile_path = Path(outfile_path)
-    outfile_path.parent.mkdir(parents=True, exist_ok=True)
-    outfile_path.write_text("\n".join(lines), encoding="utf-8")
-    return outfile_path
+def main(tagnames: list[str]) -> list[Path]:
+    sections = (
+        ("Motivation", "Motivation"),
+        ("Methods", "Methods"),
+        ("Results", "Results"),
+        ("Meanings", "Meanings"),
+        ("Secondary Citations", "Secondary"),
+    )
+    for tagname in tagnames: check_tag(tagname)
+
+    group_name = tagnames[0]
+    output_paths = []
+    for sectionname, suffix in sections:
+        quotations = []
+        for raw_md_path in get_raw_md_paths():
+            quotations.extend(resolve_section_quotations(raw_md_path, sectionname))
+        matched = [quote for quote in quotations if any(tag in quote["tags"] for tag in tagnames)]
+        lines = [f"# {group_name}_{suffix}", ""] + format_stems(matched) + format_quotations(matched)
+        output_path = TMP_PATH.joinpath(f"{group_name}_{suffix}.md")
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text("\n".join(lines), encoding="utf-8")
+        output_paths.append(output_path)
+    return output_paths
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        raise SystemExit("usage: python scripts/search_a_tag.py TAG")
-    tagname = sys.argv[1]
-    check_tag(tagname)
-    motivation_path = TMP_PATH.joinpath(f"{tagname}_Motivation.md")
-    main(tagname, "Motivation", motivation_path)
-    print(motivation_path)
-    methods_path = TMP_PATH.joinpath(f"{tagname}_Methods.md")
-    main(tagname, "Methods", methods_path)
-    print(methods_path)
-    results_path = TMP_PATH.joinpath(f"{tagname}_Results.md")
-    main(tagname, "Results", results_path)
-    print(results_path)
-    meanings_path = TMP_PATH.joinpath(f"{tagname}_Meanings.md")
-    main(tagname, "Meanings", meanings_path)
-    print(meanings_path)
-    secondary_cpath = TMP_PATH.joinpath(f"{tagname}_Secondary.md")
-    main(tagname, "Secondary Citations", secondary_cpath)
-    print(secondary_cpath)
+    if len(sys.argv) < 2:
+        raise SystemExit("usage: python scripts/search_a_tag.py TAG [TAG ...]")
+    for output_path in main(sys.argv[1:]):
+        print(output_path)

@@ -10,9 +10,9 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 ### Quotation-Inputs
 
 - Raw mode MUST use exactly one specified paper’s `raw/*.md`; NEVER treat `tmp/*.md` as evidence.
-- Tag mode MUST use read-only `tmp/*.md` for the user-selected TAG set—one current TAG and optional supporting TAGs—generated ONLY from `raw/*.md`.
+- Tag mode MUST use one read-only grouped `tmp/CURRENT_TAG_*.md` set for the user-selected ordered TAG set—current TAG first, then optional supporting TAGs—generated ONLY from `raw/*.md`.
 - Quotation-Inputs contain ONLY `Motivation`, `Methods`, `Results`, `Meanings`, and `Secondary Citations`; templates determine usage.
-- Tag mode MUST run `python scripts\search_a_tag.py TAG` once per specified TAG before validation.
+- Tag mode MUST run `python scripts\search_a_tag.py CURRENT_TAG [SUPPORTING_TAG ...]` exactly once before validation; the current TAG MUST be first.
 - PRINT: MUST report Wiki template requirements unsupported by selected-mode Quotation-Inputs.
 
 ### Vocab-Inputs
@@ -27,7 +27,7 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 
 - Checkpoint 1: Raw mode MUST run `python scripts\search_a_paper.py DOI`; matching JSON, Markdown, and PDF/TEX MUST exist.
 - Checkpoint 2: ONLY one canonical match passes; failure MUST STOP and execute [Vocab Draft-Rules](../vocab-rules/SKILL.md#draft-rules) completely.
-- Checkpoint 3: Every specified TAG MUST generate matching `tmp/*.md` quotations; failure MUST STOP.
+- Checkpoint 3: The grouped `tmp/CURRENT_TAG_*.md` set MUST exist and contain matching quotations for every specified TAG; failure MUST STOP.
 - Checkpoint 4: Selected-mode Quotation-Inputs MUST cover Wiki needs; failure MUST STOP and execute [Raw Draft-Rules](../raw-rules/SKILL.md#draft-rules) completely.
 - PRINT: MUST validate and report [Quotation-Inputs](#quotation-inputs) and [Vocab-Inputs](#vocab-inputs); failures MUST STOP with recommended solutions.
 
@@ -55,14 +55,14 @@ description: Apply canonical myWIKI wiki synthesis rules when creating, drafting
 ### Template-Check
 
 - PRINT: Show current section’s `claim-type` and `coverage` declarations.
-- Scope: MUST review ONLY one section—Tag mode: specified TAGs’ `tmp/*.md`; Raw mode: one specified `raw/*.md`.
+- Scope: MUST review ONLY one section—Tag mode: grouped `tmp/CURRENT_TAG_*.md`; Raw mode: one specified `raw/*.md`.
 - Verdict: MUST assign exactly one `supported`, `weak`, `missing`, or `not-applicable` to every claim, formula, and target.
 - Review: MUST apply [Section-Rules](#section-rules); Raw mode MUST apply [Paper-Rules](#paper-rules) to `Previous Studies`; `weak`/`missing` MUST STOP.
 - Re-review: After EVERY write, MUST rerun `PRINT`, `Scope`, `Verdict`, and `Review` on persisted section.
 
 ## Draft-Rules
 
-- Prepare: Tag mode MUST use ONLY the TAG set explicitly specified by the user; selected mode MUST execute [Check-Inputs](#check-inputs); approved missing Tag-mode Wiki MUST generate; failures MUST STOP.
+- Prepare: Tag mode MUST use ONLY the user-specified ordered TAG set with current TAG first; selected mode MUST execute [Check-Inputs](#check-inputs); approved missing Tag-mode Wiki MUST generate; failures MUST STOP.
 - Draft: Process ONLY one Tag-mode template-order section or one Raw via [Paper-Rules](#paper-rules), starting with `Previous Studies`.
 - Approve: MUST execute [Template-Check](#template-check); PRINT at most four exact changes; STOP until explicit user approval.
 - Write: ONLY write approved content; `Previous Studies` MUST then run `python scripts\sort_wiki_studies.py wikipath`; NEVER alter unrelated content.

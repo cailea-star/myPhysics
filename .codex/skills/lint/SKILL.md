@@ -14,7 +14,7 @@ Run gates strictly in order. Start every response with the current gate, last co
 ### Gate 1 — Confirm Tag & Prepare Inputs
 
 - Check: Run `git rev-parse --is-inside-work-tree` and `git status --short`; failures or changes MUST STOP and report.
-- Prepare: MUST execute [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) Prepare, including `python scripts\search_a_tag.py TAG`; generated `tmp/*` quotations MUST pass validation.
+- Prepare: MUST execute [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) Prepare, including exactly one `python scripts\search_a_tag.py CURRENT_TAG [SUPPORTING_TAG ...]` call with current TAG first; grouped `tmp/CURRENT_TAG_*.md` quotations MUST pass validation.
 - Mode: Existing `wiki/TAG.md` means update; absence MUST STOP until explicit creation approval under [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules).
 
 ### Gate 2 — Audit Wiki Sections
@@ -24,7 +24,7 @@ Run gates strictly in order. Start every response with the current gate, last co
 
 ### Gate 3 — Scan Papers
 
-- Scan: MUST queue every Raw indexed by `tmp/*_Meanings.md`; missing or duplicate mappings MUST STOP.
+- Scan: MUST queue every Raw indexed by `tmp/CURRENT_TAG_Meanings.md`; missing or duplicate mappings MUST STOP.
 - Review: MUST execute every [Wiki Draft-Rules](../wiki-rules/SKILL.md#draft-rules) paper-mode step for exactly one queued Raw.
 - Approval: Each pass MUST PRINT `git diff -- raw wiki`; STOP until approval; ONLY empty queue advances.
 
