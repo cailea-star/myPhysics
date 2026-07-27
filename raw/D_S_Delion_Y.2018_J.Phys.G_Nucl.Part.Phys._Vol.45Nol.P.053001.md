@@ -288,7 +288,7 @@ S=\frac{\Gamma_{\mathrm{exp}}}{\Gamma_{\mathrm{th}}}
 
 ```tags
 [claim-type]: comparison
-[tags]: coupled_channels_method, semiclassical_method, alpha_decay_branching_ratio
+[tags]: alpha_decay, coupled_channels_method, semiclassical_method, alpha_decay_branching_ratio
 [source]: section 8. Conclusions
 ```
 

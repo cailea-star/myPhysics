@@ -295,7 +295,7 @@ Fig. 6(b) shows substantial increases of the half-lives of 270Hs and 304120 as t
 
 ```tags
 [claim-type]: result
-[tags]: RMF, symmetry_energy, alpha_decay_energy, alpha_decay_half_life
+[tags]: alpha_decay, RMF, symmetry_energy, alpha_decay_energy, alpha_decay_half_life
 [source]: section 4. Summary.
 ```
 
