@@ -1,0 +1,482 @@
+{
+  "source": "Crossref",
+  "language": "en",
+  "title": [
+    "BiFold: A Python code for the calculation of double-folded (bifold) potentials with density-in/dependent nucleon-nucleon interactions"
+  ],
+  "author": [
+    {
+      "given": "Mesut",
+      "family": "Karakoç",
+      "sequence": "first",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    }
+  ],
+  "author-corresponding-openalex": [
+    {
+      "raw_author_name": "Mesut Karakoç",
+      "given": "Mesut",
+      "family": "Karakoç",
+      "raw_orcid": null,
+      "ORCID": "",
+      "raw_affiliation_strings": [
+        "Department of Physics, Faculty of Science, Akdeniz University, TR 07070, Antalya, Türkiye"
+      ],
+      "is_corresponding": true
+    }
+  ],
+  "DOI": "10.1016/j.cpc.2022.108613",
+  "URL": "https://doi.org/10.1016/j.cpc.2022.108613",
+  "is-referenced-by-count": 10,
+  "reference-count": 42,
+  "abstract": "BiFold calculates the density-dependent (DDM3Yn, BDM3Yn, CDM3Yn) or independent double-folded potentials between two colliding spherical nuclei. It is written in a Python package form to give the ability to use the potentials directly in a nuclear reaction/structure code. In addition to using Woods-Saxon/Fermi or Gaussian functions, the code also allows the definition of nuclear matter densities using pre-calculated densities in a data file. The manuscript provides an overview of the double folding model and the use of the code. Program Title: BiFold CPC Library link to program files:https://doi.org/10.17632/rmdx86p9dg.1 Developer's repository link:https://github.com/mkarakoc/BiFold Code Ocean capsule:https://codeocean.com/capsule/5286231 Licensing provisions: GPLv3 Programming language: Python 3.x Nature of problem: BiFold calculates the real part of the nuclear potential between two colliding spherical nuclei by integrating a density-independent/dependent nucleon-nucleon (NN) interaction [1,2,3] over the nuclear matter densities of the two nuclei. The code is based on M3Y Reid/Paris NN interactions [1,2,3] by default, but it is possible to define custom NN interactions when necessary. Solution method: The code uses the Fourier transform method in spherical coordinates to calculate the potential. The method simplifies the sixfold integration [1] and makes the calculation significantly faster. The integration is done by default using Simpson's integration method, but Filon's integration method is also available. [1]G.R. Satchler, W.G. Love, Phys. Rep. 55 (1979) 183.[2]A. Kobos, B. Brown, P. Hodgson, G. Satchler, A. Budzanowski, Nucl. Phys. A 384 (1) (1982) 65–87.[3]D.T. Khoa, W. von Oertzen, H.G. Bohlen, S. Ohkubo, J. Phys. G, Nucl. Part. Phys. 34 (3) (2007) R111–R164.",
+  "publisher": "Elsevier BV",
+  "container-title": [
+    "Computer Physics Communications"
+  ],
+  "short-container-title": [
+    "Computer Physics Communications"
+  ],
+  "type": "journal-article",
+  "volume": "284",
+  "page": "108613",
+  "article-number": "108613",
+  "issued": {
+    "date-parts": [
+      [
+        2023,
+        3
+      ]
+    ]
+  },
+  "ISSN": [
+    "0010-4655"
+  ],
+  "funder": null,
+  "reference": [
+    {
+      "issue": "3",
+      "key": "10.1016/j.cpc.2022.108613_br0010",
+      "doi-asserted-by": "crossref",
+      "first-page": "183",
+      "DOI": "10.1016/0370-1573(79)90081-4",
+      "volume": "55",
+      "author": "Satchler",
+      "year": "1979",
+      "journal-title": "Phys. Rep."
+    },
+    {
+      "issue": "1",
+      "key": "10.1016/j.cpc.2022.108613_br0020",
+      "doi-asserted-by": "crossref",
+      "first-page": "65",
+      "DOI": "10.1016/0375-9474(82)90305-0",
+      "volume": "384",
+      "author": "Kobos",
+      "year": "1982",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "issue": "3",
+      "key": "10.1016/j.cpc.2022.108613_br0030",
+      "doi-asserted-by": "crossref",
+      "first-page": "R111",
+      "DOI": "10.1088/0954-3899/34/3/R01",
+      "volume": "34",
+      "author": "Khoa",
+      "year": "2007",
+      "journal-title": "J. Phys. G, Nucl. Part. Phys."
+    },
+    {
+      "key": "10.1016/j.cpc.2022.108613_br0040",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.73.047601",
+      "volume": "73",
+      "author": "Karakoc",
+      "year": "2006",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.cpc.2022.108613_br0050",
+      "unstructured": "G.R. Satchler, Direct nuclear reactions, Jan 1983."
+    },
+    {
+      "key": "10.1016/j.cpc.2022.108613_br0060",
+      "series-title": "The Alpha-Nucleus Interaction: Proceedings of the 2nd Louvain-Cracow Seminar",
+      "author": "Goldberg",
+      "year": "1978"
+    },
+    {
+      "issue": "2",
+      "key": "10.1016/j.cpc.2022.108613_br0070",
+      "doi-asserted-by": "crossref",
+      "first-page": "125",
+      "DOI": "10.1016/0010-4655(82)90029-7",
+      "volume": "25",
+      "author": "Cook",
+      "year": "1982",
+      "journal-title": "Comput. Phys. Commun."
+    },
+    {
+      "issue": "1",
+      "key": "10.1016/j.cpc.2022.108613_br0080",
+      "doi-asserted-by": "crossref",
+      "first-page": "168",
+      "DOI": "10.1016/j.cpc.2009.09.007",
+      "volume": "181",
+      "author": "Gontchar",
+      "year": "2010",
+      "journal-title": "Comput. Phys. Commun."
+    },
+    {
+      "issue": "1",
+      "key": "10.1016/j.cpc.2022.108613_br0090",
+      "doi-asserted-by": "crossref",
+      "first-page": "6",
+      "DOI": "10.1016/0370-2693(94)01393-Q",
+      "volume": "342",
+      "author": "Khoa",
+      "year": "1995",
+      "journal-title": "Phys. Lett. B"
+    },
+    {
+      "issue": "3",
+      "key": "10.1016/j.cpc.2022.108613_br0100",
+      "doi-asserted-by": "crossref",
+      "first-page": "399",
+      "DOI": "10.1016/0375-9474(77)90392-X",
+      "volume": "284",
+      "author": "Bertsch",
+      "year": "1977",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "issue": "4",
+      "key": "10.1016/j.cpc.2022.108613_br0110",
+      "doi-asserted-by": "crossref",
+      "first-page": "143",
+      "DOI": "10.1016/S0370-1573(96)00048-8",
+      "volume": "285",
+      "author": "Brandan",
+      "year": "1997",
+      "journal-title": "Phys. Rep."
+    },
+    {
+      "issue": "3",
+      "key": "10.1016/j.cpc.2022.108613_br0120",
+      "doi-asserted-by": "crossref",
+      "first-page": "411",
+      "DOI": "10.1016/0003-4916(68)90126-7",
+      "volume": "50",
+      "author": "Reid",
+      "year": "1968",
+      "journal-title": "Ann. Phys."
+    },
+    {
+      "key": "10.1016/j.cpc.2022.108613_br0130",
+      "doi-asserted-by": "crossref",
+      "first-page": "861",
+      "DOI": "10.1103/PhysRevC.21.861",
+      "volume": "21",
+      "author": "Lacombe",
+      "year": "1980",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "issue": "2",
+      "key": "10.1016/j.cpc.2022.108613_br0140",
+      "doi-asserted-by": "crossref",
+      "first-page": "269",
+      "DOI": "10.1016/0375-9474(83)90487-6",
+      "volume": "398",
+      "author": "Anantaraman",
+      "year": "1983",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "issue": "1",
+      "key": "10.1016/j.cpc.2022.108613_br0150",
+      "doi-asserted-by": "crossref",
+      "first-page": "74",
+      "DOI": "10.1016/0375-9474(75)91133-1",
+      "volume": "239",
+      "author": "Love",
+      "year": "1975",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "issue": "4",
+      "key": "10.1016/j.cpc.2022.108613_br0160",
+      "doi-asserted-by": "crossref",
+      "first-page": "2254",
+      "DOI": "10.1103/PhysRevC.49.2254",
+      "volume": "49",
+      "author": "Satchler",
+      "year": "1994",
+      "journal-title": "Phys. Rev. C, Nucl. Phys."
+    },
+    {
+      "issue": "2",
+      "key": "10.1016/j.cpc.2022.108613_br0170",
+      "doi-asserted-by": "crossref",
+      "first-page": "376",
+      "DOI": "10.1016/0375-9474(88)90077-2",
+      "volume": "484",
+      "author": "Khoa",
+      "year": "1988",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "issue": "1",
+      "key": "10.1016/j.cpc.2022.108613_br0180",
+      "doi-asserted-by": "crossref",
+      "first-page": "1",
+      "DOI": "10.1016/0370-1573(75)90011-3",
+      "volume": "20",
+      "author": "Sinha",
+      "year": "1975",
+      "journal-title": "Phys. Rep."
+    },
+    {
+      "issue": "3",
+      "key": "10.1016/j.cpc.2022.108613_br0190",
+      "doi-asserted-by": "crossref",
+      "first-page": "289",
+      "DOI": "10.1016/0370-2693(79)90337-X",
+      "volume": "81",
+      "author": "Sinha",
+      "year": "1979",
+      "journal-title": "Phys. Lett. B"
+    },
+    {
+      "issue": "2",
+      "key": "10.1016/j.cpc.2022.108613_br0200",
+      "doi-asserted-by": "crossref",
+      "first-page": "299",
+      "DOI": "10.1016/0375-9474(77)90322-0",
+      "volume": "291",
+      "author": "Brieva",
+      "year": "1977",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "issue": "2",
+      "key": "10.1016/j.cpc.2022.108613_br0210",
+      "doi-asserted-by": "crossref",
+      "first-page": "317",
+      "DOI": "10.1016/0375-9474(77)90323-2",
+      "volume": "291",
+      "author": "Brieva",
+      "year": "1977",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "issue": "3",
+      "key": "10.1016/j.cpc.2022.108613_br0220",
+      "doi-asserted-by": "crossref",
+      "first-page": "415",
+      "DOI": "10.1016/0375-9474(85)90419-1",
+      "volume": "439",
+      "author": "Chaudhuri",
+      "year": "1985",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "issue": "1",
+      "key": "10.1016/j.cpc.2022.108613_br0230",
+      "doi-asserted-by": "crossref",
+      "first-page": "169",
+      "DOI": "10.1016/0375-9474(86)90350-7",
+      "volume": "455",
+      "author": "Chaudhuri",
+      "year": "1986",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "key": "10.1016/j.cpc.2022.108613_br0240",
+      "doi-asserted-by": "crossref",
+      "first-page": "1093",
+      "DOI": "10.1103/PhysRevC.30.1093",
+      "volume": "30",
+      "author": "Gupta",
+      "year": "1984",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "issue": "3",
+      "key": "10.1016/j.cpc.2022.108613_br0250",
+      "doi-asserted-by": "crossref",
+      "first-page": "263",
+      "DOI": "10.1016/0370-2693(78)90509-9",
+      "volume": "73",
+      "author": "Campi",
+      "year": "1978",
+      "journal-title": "Phys. Lett. B"
+    },
+    {
+      "key": "10.1016/j.cpc.2022.108613_br0260",
+      "series-title": "The Nuclear Many-Body Problem",
+      "first-page": "542",
+      "author": "Ring",
+      "year": "1980"
+    },
+    {
+      "key": "10.1016/j.cpc.2022.108613_br0270",
+      "doi-asserted-by": "crossref",
+      "first-page": "1652",
+      "DOI": "10.1103/PhysRevC.49.1652",
+      "volume": "49",
+      "author": "Khoa",
+      "year": "1994",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.cpc.2022.108613_br0280",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.63.034007",
+      "volume": "63",
+      "author": "Khoa",
+      "year": "2001",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "key": "10.1016/j.cpc.2022.108613_br0290",
+      "doi-asserted-by": "crossref",
+      "first-page": "954",
+      "DOI": "10.1103/PhysRevC.56.954",
+      "volume": "56",
+      "author": "Khoa",
+      "year": "1997",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "issue": "1",
+      "key": "10.1016/j.cpc.2022.108613_br0300",
+      "doi-asserted-by": "crossref",
+      "first-page": "3",
+      "DOI": "10.1016/S0375-9474(99)00680-6",
+      "volume": "668",
+      "author": "Khoa",
+      "year": "2000",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "issue": "1",
+      "key": "10.1016/j.cpc.2022.108613_br0310",
+      "doi-asserted-by": "crossref",
+      "first-page": "8",
+      "DOI": "10.1016/0370-2693(93)91391-Y",
+      "volume": "304",
+      "author": "Khoa",
+      "year": "1993",
+      "journal-title": "Phys. Lett. B"
+    },
+    {
+      "key": "10.1016/j.cpc.2022.108613_br0320",
+      "volume": "74",
+      "author": "Hagino",
+      "year": "2006",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "issue": "2",
+      "key": "10.1016/j.cpc.2022.108613_br0330",
+      "doi-asserted-by": "crossref",
+      "first-page": "205",
+      "DOI": "10.1016/0375-9474(84)90073-3",
+      "volume": "425",
+      "author": "Kobos",
+      "year": "1984",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "issue": "2",
+      "key": "10.1016/j.cpc.2022.108613_br0340",
+      "doi-asserted-by": "crossref",
+      "first-page": "525",
+      "DOI": "10.1016/0375-9474(85)90391-4",
+      "volume": "438",
+      "author": "Farid",
+      "year": "1985",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "key": "10.1016/j.cpc.2022.108613_br0350",
+      "doi-asserted-by": "crossref",
+      "first-page": "34",
+      "DOI": "10.1103/PhysRevLett.74.34",
+      "volume": "74",
+      "author": "Khoa",
+      "year": "1995",
+      "journal-title": "Phys. Rev. Lett."
+    },
+    {
+      "issue": "3",
+      "key": "10.1016/j.cpc.2022.108613_br0360",
+      "doi-asserted-by": "crossref",
+      "first-page": "495",
+      "DOI": "10.1016/0092-640X(87)90013-1",
+      "volume": "36",
+      "author": "De Vries",
+      "year": "1987",
+      "journal-title": "At. Data Nucl. Data Tables"
+    },
+    {
+      "issue": "12",
+      "key": "10.1016/j.cpc.2022.108613_br0370",
+      "doi-asserted-by": "crossref",
+      "first-page": "3107",
+      "DOI": "10.1016/j.nds.2009.10.004",
+      "volume": "110",
+      "author": "Capote",
+      "year": "2009",
+      "journal-title": "Nucl. Data Sheets"
+    },
+    {
+      "key": "10.1016/j.cpc.2022.108613_br0380",
+      "doi-asserted-by": "crossref",
+      "DOI": "10.1103/PhysRevC.75.064312",
+      "volume": "75",
+      "author": "Goriely",
+      "year": "2007",
+      "journal-title": "Phys. Rev. C"
+    },
+    {
+      "issue": "1",
+      "key": "10.1016/j.cpc.2022.108613_br0390",
+      "doi-asserted-by": "crossref",
+      "first-page": "337",
+      "DOI": "10.1016/j.nuclphysa.2003.11.003",
+      "volume": "729",
+      "author": "Audi",
+      "year": "2003",
+      "journal-title": "Nucl. Phys. A"
+    },
+    {
+      "issue": "2",
+      "key": "10.1016/j.cpc.2022.108613_br0400",
+      "doi-asserted-by": "crossref",
+      "first-page": "185",
+      "DOI": "10.1016/j.adt.2004.04.002",
+      "volume": "87",
+      "author": "Angeli",
+      "year": "2004",
+      "journal-title": "At. Data Nucl. Data Tables"
+    },
+    {
+      "key": "10.1016/j.cpc.2022.108613_br0410",
+      "author": "Owens"
+    },
+    {
+      "key": "10.1016/j.cpc.2022.108613_br0420",
+      "author": "Mitchell"
+    }
+  ],
+  "stem": "Mesut_Karakoç_Y.2023_ComputerPhysicsCommunications_Vol.284Nol.108613P.108613"
+}
