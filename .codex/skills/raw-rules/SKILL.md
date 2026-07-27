@@ -18,7 +18,7 @@ description: Apply canonical myWIKI raw evidence rules when creating, drafting, 
 - [vocab/tags.json](../../../vocab/tags.json) and [vocab/types.json](../../../vocab/types.json) are auxiliary inputs.
 - [vocab/tags.json](../../../vocab/tags.json) defines canonical tags, aliases, definitions, and tag types.
 - [vocab/types.json](../../../vocab/types.json) defines claim-type and tag-type requirements.
-- Run `python scripts\search_similar_tags.py QUERY 5` for every proposed tag.
+- Run `python scripts\search_similar_tags.py QUERY 10` for every proposed tag.
 - PRINT: Report every unresolved proposed tag before input validation.
 
 ### Check-Inputs
