@@ -16,10 +16,6 @@ We analyze α decays to rotational states in even-even nuclei by using the stati
 
 ### Motivation
 
-<!-- claim-type: ([claim-type]: motivation is required) and ([claim-type]: definition or [claim-type]: background is required for core-tag coverage; prefer definition) -->
-<!-- coverage: (identify the three most central tags from the Abstract, excluding [tag-type]: method and current-work output [tag-type]: quantity) and (for each identified tag, assign >=1 valid quotation to [claim-type]: definition or [claim-type]: background; otherwise report a gap) -->
-<!-- quotation: (none) -->
-
 ##### quotation-01
 
 ```tags
@@ -69,10 +65,6 @@ In this way we can test to what extent the microscopically computed interfragmen
 ```
 
 ### Methods
-
-<!-- claim-type: ([claim-type]: definition or [claim-type]: background is required for core-method coverage; prefer definition) and ([claim-type]: method is required) and ([claim-type]: comparison is optional) and ([claim-type]: assumption is required if the paper states an explicit assumption) -->
-<!-- coverage: (identify the core [tag-type]: method tags) and (for each identified method, assign >=1 valid quotation to [claim-type]: definition or [claim-type]: background; otherwise report a gap) and (for each identified method, require >=1 valid method-use quotation under its true [claim-type]; otherwise report a gap) -->
-<!-- quotation: (each quotation requires >=1 directly supported [tag-type]: method tag; reject otherwise) -->
 
 ##### quotation-05
 
@@ -174,10 +166,6 @@ We supposed that both fragments were left in rotational states. In our case the 
 ```
 
 ### Results
-
-<!-- claim-type: ([claim-type]: result is required) and ([claim-type]: definition or [claim-type]: background is required if output-quantity coverage has at least one target; prefer definition) and ([claim-type]: comparison is optional) -->
-<!-- coverage: (identify current-work output [tag-type]: quantity tags not defined earlier) and (for each identified quantity, assign >=1 valid quotation to [claim-type]: definition or [claim-type]: background; otherwise report a gap) and (for each figure or table, require >=1 valid complete-sentence quotation using its current-work output quantity tags; otherwise report a gap) -->
-<!-- quotation: (each quotation requires >=1 directly supported current-work output [tag-type]: quantity tag; reject otherwise) and (each quotation not assigned to [claim-type]: definition or [claim-type]: background requires >=1 directly supported [tag-type]: method tag; reject otherwise) -->
 
 ##### quotation-13
 
@@ -344,10 +332,6 @@ The results of our computations are given in Figs. 6 and 7 [...] and in Table I.
 
 ### Meanings
 
-<!-- claim-type: ([claim-type]: comparison is required) and ([claim-type]: innovation is required) -->
-<!-- coverage: (identify supported high-level judgments from the abstract, summary, or conclusion) and (for each identified judgment, require >=1 valid quotation) and (repeat Results only for central-significance claims) and (reject minor results, figure-only details, and claims outside the main message) -->
-<!-- quotation: (each quotation requires >=1 directly supported [tag-type]: method tag; reject otherwise) -->
-
 ##### quotation-26
 
 ```tags
@@ -384,17 +368,21 @@ The advantage of the method used in this article is that we completely decouple 
 However, the α decay is a deep subbarrier process [...]. Thus, α-decay fine structure is potentially a valuable tool to probe the nuclear interaction in the internal region. It is in principle able to improve our knowledge about how the effective nucleon-nucleon potential changes in the presence of α clustering.
 ```
 
+##### quotation-29
 
+```tags
+[claim-type]: result
+[tags]: alpha_decay, alpha_decay_width, coupled_channels_method
+[source]: abstract
+```
 
-
+```quote
+We analyze α decays to rotational states in even-even nuclei by using the stationary coupled channels approach. [...] Concerning the decay widths to J = 4+ states we obtained a good agreement for Z = 90 neutron chain and a satisfactory description for Z = 92, 96, and 98, chains.
+```
 
 ### Secondary Citations
 
-<!-- claim-type: (none: no section-specific [claim-type] is required) and (each quotation must match its explicit primary claim) -->
-<!-- coverage: (identify eligible external citations linked to validated gaps in core method definitions, current-output quantity definitions, or core mechanisms, or to reused external models, formulas, parameter sets, or data sources) and (for each identified citation, require >=1 valid quotation; otherwise report a gap) and (reject generic background citations and citations without a gap or reused-dependency link) -->
-<!-- quotation: (include only quotations dependent on an explicit external citation) and (each quotation requires directly supported tags) and (internal Fig., Table, Eq., or section references do not qualify) -->
-
-##### quotation-29
+##### quotation-30
 
 ```tags
 [claim-type]: background
@@ -408,7 +396,7 @@ However, the α decay is a deep subbarrier process [...]. Thus, α-decay fine st
 In this section we summarize the main theoretical details necessary to compute the decay width within the coupled channels formalism. The main ingredients were already introduced in Ref. [34] to investigate the double fine structure in cold fission.
 ```
 
-##### quotation-30
+##### quotation-31
 
 ```tags
 [claim-type]: method
@@ -422,7 +410,7 @@ In this section we summarize the main theoretical details necessary to compute t
 In our case the density of the daughter nucleus is given by such a distribution, whereas that of the α particle by a Gaussian with standard parameters [29].
 ```
 
-##### quotation-31
+##### quotation-32
 
 ```tags
 [claim-type]: method
@@ -436,7 +424,7 @@ In our case the density of the daughter nucleus is given by such a distribution,
 In our computations we use the M3Y nucleon-nucleon [39] plus Coulomb force. For details see Ref. [38].
 ```
 
-##### quotation-32
+##### quotation-33
 
 ```tags
 [claim-type]: method
