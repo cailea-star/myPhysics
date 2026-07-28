@@ -139,6 +139,50 @@ v(r)
 \tilde v(q)j_0(qr).
 $$
 
+A Yukawa interaction written as
+
+$$
+v(s)
+=
+A\frac{e^{-\mu s}}{\mu s},
+$$
+
+where $\mu$ is the inverse range, has the momentum-space representation
+
+$$
+\tilde v(q)
+=
+4\pi
+\int_0^\infty s^2\,ds\,
+A\frac{e^{-\mu s}}{\mu s}
+j_0(qs)
+=
+\frac{4\pi A}
+{\mu(q^2+\mu^2)}.
+$$
+
+More generally, for a sum of Yukawa terms,
+
+$$
+v(s)
+=
+\sum_i
+A_i\frac{e^{-\mu_i s}}{\mu_i s},
+$$
+
+the Fourier transform is
+
+$$
+\tilde v(q)
+=
+4\pi
+\sum_i
+\frac{A_i}
+{\mu_i(q^2+\mu_i^2)}.
+$$
+
+Therefore, the momentum-space forms of the M3Y-Reid and M3Y-Paris interactions can be obtained analytically by transforming each Yukawa term separately.
+
 Thus, a central interaction remains spherically symmetric in momentum space and depends only on the magnitude $q=|\mathbf q|$.
 
 ### Local Density Approximation
@@ -738,7 +782,248 @@ For an axially symmetric target, only $m=0$ contributes. If the target is also r
 
 When the full angle-dependent $K(\mathbf R)$ is retained, the factor $j_0[K(\mathbf R)s/M]$ couples different multipoles. In that case, the $(l,m)$ components cannot be solved independently without an additional approximation or an explicit angular recoupling.
 
+
+### M3Y Interactions
+
+The M3Y effective nucleon–nucleon interaction contains separate direct and exchange components. Two commonly used parametrizations are M3Y-Reid and M3Y-Paris. The expressions below give the density-independent components $v_0^{\mathrm D}(s)$ and $v_0^{\mathrm E}(s)$ used in the density-dependent interaction.
+
+Here, $s$ is measured in $\mathrm{fm}$, the inverse ranges are measured in $\mathrm{fm}^{-1}$, and the resulting interactions are given in $\mathrm{MeV}$.
+
+##### M3Y-Reid
+
+The direct component is
+
+$$
+v_{0,\mathrm{Reid}}^{\mathrm D}(s)
+=
+7999.0
+\frac{e^{-4.0s}}{4.0s}
+-
+2134.25
+\frac{e^{-2.5s}}{2.5s}.
+$$
+
+The finite-range exchange component is
+
+$$
+v_{0,\mathrm{Reid}}^{\mathrm E}(s)
+=
+4631.38
+\frac{e^{-4.0s}}{4.0s}
+-
+1787.13
+\frac{e^{-2.5s}}{2.5s}
+-
+7.8474
+\frac{e^{-0.7072s}}{0.7072s}.
+$$
+
+##### M3Y-Paris
+
+The direct component is
+
+$$
+v_{0,\mathrm{Paris}}^{\mathrm D}(s)
+=
+11061.625
+\frac{e^{-4.0s}}{4.0s}
+-
+2537.5
+\frac{e^{-2.5s}}{2.5s}.
+$$
+
+The finite-range exchange component is
+
+$$
+v_{0,\mathrm{Paris}}^{\mathrm E}(s)
+=
+-1524.25
+\frac{e^{-4.0s}}{4.0s}
+-
+518.75
+\frac{e^{-2.5s}}{2.5s}
+-
+7.8474
+\frac{e^{-0.7072s}}{0.7072s}.
+$$
+
+Each component is a sum of Yukawa functions. Although the individual terms behave as $1/s$ near $s=0$, they are locally integrable in the three-dimensional folding integral because the radial measure contains $s^2\,ds$. Numerically, the grid may exclude the exact point $s=0$, evaluate the first integration cell analytically, or use an explicitly documented extrapolation. Linear extrapolation at the origin is a numerical prescription rather than part of the M3Y interaction itself.
+
+For a density-dependent M3Y interaction, the corresponding Reid or Paris component is multiplied by the density- and energy-dependent factors:
+
+$$
+v^{X}(\rho,E,s)
+=
+g(E)F(\rho)v_0^{X}(s),
+\qquad
+X\in\{\mathrm D,\mathrm E\}.
+$$
+
+### Density-Dependent Interaction
+
+The density-dependent effective interaction is written as
+
+$$
+v^{X}(\rho,E,s)
+=
+g(E)F(\rho)v_0^{X}(s),
+\qquad
+X\in\{\mathrm D,\mathrm E\},
+$$
+
+where $v_0^{X}(s)$ is the density-independent direct or exchange component of the underlying M3Y interaction. The density-dependent factor is parametrized as
+
+$$
+F(\rho)
+=
+C\left[
+1+\alpha e^{-\beta\rho}-\gamma\rho^n
+\right].
+$$
+
+The parameters $C$, $\alpha$, $\beta$, $\gamma$, and $n$ depend on the selected DDM3Y, BDM3Y, or CDM3Y parametrization and must be used with the corresponding M3Y-Reid or M3Y-Paris interaction.
+
+When an explicit energy dependence is included,
+
+$$
+g(E)
+=
+1-\kappa\frac{E_{\mathrm{lab}}}{A_{\mathrm p}},
+$$
+
+where
+
+$$
+\kappa
+=
+\begin{cases}
+0.002~\mathrm{MeV}^{-1},
+&
+\text{M3Y-Reid},
+\\
+0.003~\mathrm{MeV}^{-1},
+&
+\text{M3Y-Paris}.
+\end{cases}
+$$
+
+For parametrizations without an explicit energy dependence, $g(E)=1$.
+
+##### Frozen-Density Approximation
+
+The density entering $F(\rho)$ is evaluated using the frozen-density approximation. The intrinsic densities of the projectile and target are assumed to remain unchanged during the collision, and the local overlap density is taken as their sum.
+
+For the direct potential,
+
+$$
+\rho_{\mathrm{FDA}}^{\mathrm D}
+(\mathbf r_{\mathrm t},\mathbf r_{\mathrm p})
+=
+\rho_{\mathrm t}(\mathbf r_{\mathrm t})
++
+\rho_{\mathrm p}(r_{\mathrm p}).
+$$
+
+For the exchange potential, the density matrices are evaluated at the midpoint coordinates
+
+$$
+\mathbf u_{\mathrm t}
+=
+\mathbf r_{\mathrm t}
++
+\frac{\mathbf s}{2},
+\qquad
+\mathbf u_{\mathrm p}
+=
+\mathbf r_{\mathrm p}
+-
+\frac{\mathbf s}{2},
+$$
+
+so the corresponding frozen density is
+
+$$
+\rho_{\mathrm{FDA}}^{\mathrm E}
+(\mathbf u_{\mathrm t},\mathbf u_{\mathrm p})
+=
+\rho_{\mathrm t}(\mathbf u_{\mathrm t})
++
+\rho_{\mathrm p}(u_{\mathrm p}).
+$$
+
+The density-dependent factor accounts phenomenologically for medium effects, particularly Pauli blocking and nuclear-matter saturation. It is distinct from the local-density approximation: the frozen-density approximation specifies the density entering the interaction, whereas the local-density approximation replaces the nonlocal one-body density matrices.
+
+In the following algebra, $\rho_{\mathrm t}$ and $\rho_{\mathrm p}$ denote the target and projectile densities evaluated at the coordinates appropriate to the direct or exchange term defined above.
+
+Under the frozen-density approximation,
+
+$$
+\rho_{\mathrm{FDA}}
+=
+\rho_{\mathrm t}
++
+\rho_{\mathrm p},
+$$
+
+and the density-dependent factor becomes
+
+$$
+F(\rho_{\mathrm{FDA}})
+=
+C\left[
+1
++
+\alpha e^{-\beta\rho_{\mathrm t}}
+e^{-\beta\rho_{\mathrm p}}
+-
+\gamma
+(\rho_{\mathrm t}+\rho_{\mathrm p})^n
+\right].
+$$
+
+For an integer $n$, the polynomial term can be expanded as
+
+$$
+(\rho_{\mathrm t}+\rho_{\mathrm p})^n
+=
+\sum_{k=0}^{n}
+\binom{n}{k}
+\rho_{\mathrm t}^{k}
+\rho_{\mathrm p}^{n-k}.
+$$
+
+The density factor appearing in the folding integrand can therefore be written as
+
+$$
+\rho_{\mathrm t}\rho_{\mathrm p}
+F(\rho_{\mathrm{FDA}})
+=
+C\rho_{\mathrm t}\rho_{\mathrm p}
++
+C\alpha
+\left[
+\rho_{\mathrm t}e^{-\beta\rho_{\mathrm t}}
+\right]
+\left[
+\rho_{\mathrm p}e^{-\beta\rho_{\mathrm p}}
+\right]
+-
+C\gamma
+\sum_{k=0}^{n}
+\binom{n}{k}
+\rho_{\mathrm t}^{k+1}
+\rho_{\mathrm p}^{n-k+1}.
+$$
+
+Thus, the density-dependent contribution is reduced to a finite sum of separable products of target and projectile functions. Each product can be Fourier transformed independently and included as a separate momentum-space kernel. The coordinate-independent factor $g(E)$ may be applied after these spatial kernels are assembled.
+
+For a deformed target, each nonlinear target function, such as $\rho_{\mathrm t}^{k+1}$ or $\rho_{\mathrm t}e^{-\beta\rho_{\mathrm t}}$, must be constructed in coordinate space before its spherical-harmonic decomposition. Nonlinear operations on the density generally mix different multipoles.
+
 ### Computational Workflow
+
+The following workflow assumes a density-independent effective interaction.
+
+In a density-dependent calculation, each separable term in $\rho_{\mathrm t}\rho_{\mathrm p}F(\rho_{\mathrm{FDA}})$ must pass through the same workflow independently, after which all contributions are summed to obtain the complete potential.
 
 The calculation consists of two stages. The first stage prepares the momentum-space kernels. The second stage evaluates the direct and exchange potentials at a given $\mathbf R$.
 
