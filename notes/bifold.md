@@ -515,3 +515,377 @@ Because $V^{\mathrm E}$ depends on $K$ and $K$ depends on $V^{\mathrm E}$, the t
 
 ### Partial-Wave Decomposition
 
+Assume a spherical projectile and a deformed target. The projectile density and form factors contain only the monopole component, whereas the target quantities are expanded in spherical harmonics.
+
+##### Direct Potential
+
+For a spherical projectile,
+
+$$
+\rho_{\mathrm p}(\mathbf r_{\mathrm p})
+=
+\rho_{\mathrm p}(r_{\mathrm p}),
+$$
+
+$$
+\tilde\rho_{\mathrm p}(q)
+=
+4\pi
+\int_0^\infty r_{\mathrm p}^2\,dr_{\mathrm p}\,
+\rho_{\mathrm p}(r_{\mathrm p})
+j_0(qr_{\mathrm p}).
+$$
+
+For a deformed target,
+
+$$
+\rho_{\mathrm t}(\mathbf r_{\mathrm t})
+=
+\sum_{l,m}
+\rho_{\mathrm t,lm}(r_{\mathrm t})
+Y_{lm}(\hat{\mathbf r}_{\mathrm t}),
+\qquad
+\rho_{\mathrm t,lm}(r_{\mathrm t})
+=
+\int d\Omega_{\mathrm t}\,
+Y_{lm}^{*}(\hat{\mathbf r}_{\mathrm t})
+\rho_{\mathrm t}(\mathbf r_{\mathrm t}).
+$$
+
+Its momentum-space density is
+
+$$
+\tilde\rho_{\mathrm t}(\mathbf q)
+=
+\sum_{l,m}
+i^{-l}
+\tilde\rho_{\mathrm t,lm}(q)
+Y_{lm}(\hat{\mathbf q}),
+\qquad
+\tilde\rho_{\mathrm t,lm}(q)
+=
+4\pi
+\int_0^\infty r_{\mathrm t}^2\,dr_{\mathrm t}\,
+\rho_{\mathrm t,lm}(r_{\mathrm t})
+j_l(qr_{\mathrm t}).
+$$
+
+Because the spherical projectile density is real and even,
+
+$$
+\tilde\rho_{\mathrm p}(-\mathbf q)
+=
+\tilde\rho_{\mathrm p}(q).
+$$
+
+The direct potential can therefore be expanded as
+
+$$
+V^{\mathrm D}(\mathbf R)
+=
+\sum_{l,m}
+V^{\mathrm D}_{lm}(R)
+Y_{lm}(\hat{\mathbf R}),
+$$
+
+with
+
+$$
+V^{\mathrm D}_{lm}(R)
+=
+\frac{4\pi}{(2\pi)^3}
+\int_0^\infty q^2\,dq\,
+j_l(qR)
+\tilde\rho_{\mathrm t,lm}(q)
+\tilde\rho_{\mathrm p}(q)
+\tilde v^{\mathrm D}(q).
+$$
+
+##### Exchange Potential
+
+For the spherical projectile, define
+
+$$
+f_{\mathrm p}(r_{\mathrm p},s)
+=
+\rho_{\mathrm p}(r_{\mathrm p})
+\hat j_1\left[
+k_{F,\mathrm p}(r_{\mathrm p})s
+\right].
+$$
+
+Its Fourier transform is
+
+$$
+\tilde f_{\mathrm p}(q,s)
+=
+4\pi
+\int_0^\infty r_{\mathrm p}^2\,dr_{\mathrm p}\,
+f_{\mathrm p}(r_{\mathrm p},s)
+j_0(qr_{\mathrm p}).
+$$
+
+For the deformed target,
+
+$$
+f_{\mathrm t}(\mathbf r_{\mathrm t},s)
+=
+\rho_{\mathrm t}(\mathbf r_{\mathrm t})
+\hat j_1\left[
+k_{F,\mathrm t}(\mathbf r_{\mathrm t})s
+\right],
+$$
+
+$$
+f_{\mathrm t}(\mathbf r_{\mathrm t},s)
+=
+\sum_{l,m}
+f_{\mathrm t,lm}(r_{\mathrm t},s)
+Y_{lm}(\hat{\mathbf r}_{\mathrm t}),
+$$
+
+where
+
+$$
+f_{\mathrm t,lm}(r_{\mathrm t},s)
+=
+\int d\Omega_{\mathrm t}\,
+Y_{lm}^{*}(\hat{\mathbf r}_{\mathrm t})
+f_{\mathrm t}(\mathbf r_{\mathrm t},s).
+$$
+
+The corresponding momentum-space expansion is
+
+$$
+\tilde f_{\mathrm t}(\mathbf q,s)
+=
+\sum_{l,m}
+i^{-l}
+\tilde f_{\mathrm t,lm}(q,s)
+Y_{lm}(\hat{\mathbf q}),
+$$
+
+with
+
+$$
+\tilde f_{\mathrm t,lm}(q,s)
+=
+4\pi
+\int_0^\infty r_{\mathrm t}^2\,dr_{\mathrm t}\,
+f_{\mathrm t,lm}(r_{\mathrm t},s)
+j_l(qr_{\mathrm t}).
+$$
+
+The exchange kernel becomes
+
+$$
+G(\mathbf R,s)
+=
+\sum_{l,m}
+G_{lm}(R,s)
+Y_{lm}(\hat{\mathbf R}),
+$$
+
+where
+
+$$
+G_{lm}(R,s)
+=
+\frac{4\pi}{(2\pi)^3}
+\int_0^\infty q^2\,dq\,
+j_l(qR)
+\tilde f_{\mathrm t,lm}(q,s)
+\tilde f_{\mathrm p}(q,s).
+$$
+
+The exchange potential remains
+
+$$
+V^{\mathrm E}(\mathbf R)
+=
+4\pi
+\int_0^\infty s^2\,ds\,
+j_0\left[
+\frac{K(\mathbf R)s}{M}
+\right]
+v^{\mathrm E}(s)
+G(\mathbf R,s).
+$$
+
+If the local wave number is approximated by an angle-independent monopole $K_0(R)$, the exchange multipoles decouple:
+
+$$
+V^{\mathrm E}(\mathbf R)
+=
+\sum_{l,m}
+V^{\mathrm E}_{lm}(R)
+Y_{lm}(\hat{\mathbf R}),
+$$
+
+$$
+V^{\mathrm E}_{lm}(R)
+=
+4\pi
+\int_0^\infty s^2\,ds\,
+j_0\left[
+\frac{K_0(R)s}{M}
+\right]
+v^{\mathrm E}(s)
+G_{lm}(R,s).
+$$
+
+For an axially symmetric target, only $m=0$ contributes. If the target is also reflection symmetric, only even values of $l$ remain.
+
+When the full angle-dependent $K(\mathbf R)$ is retained, the factor $j_0[K(\mathbf R)s/M]$ couples different multipoles. In that case, the $(l,m)$ components cannot be solved independently without an additional approximation or an explicit angular recoupling.
+
+### Computational Workflow
+
+The calculation consists of two stages. The first stage prepares the momentum-space kernels. The second stage evaluates the direct and exchange potentials at a given $\mathbf R$.
+
+##### Momentum-Space Kernels
+
+Transform the direct interaction to momentum space:
+
+$$
+v^{\mathrm D}(s)
+\longrightarrow
+\tilde v^{\mathrm D}(q).
+$$
+
+For a spherical projectile and a deformed target, decompose the target density into spherical harmonics:
+
+$$
+\rho_{\mathrm p}(r),
+\quad
+\rho_{\mathrm t}(\mathbf r)
+\longrightarrow
+\rho_{\mathrm p}(r),
+\quad
+\rho_{\mathrm t,lm}(r).
+$$
+
+Transform the radial density components to momentum space:
+
+$$
+\rho_{\mathrm p}(r),
+\quad
+\rho_{\mathrm t,lm}(r)
+\longrightarrow
+\tilde\rho_{\mathrm p}(q),
+\quad
+\tilde\rho_{\mathrm t,lm}(q).
+$$
+
+Next, construct the local-density form factors:
+
+$$
+f_{\mathrm p}(r,s)
+=
+\rho_{\mathrm p}(r)
+\hat j_1[k_{F,\mathrm p}(r)s],
+\qquad
+f_{\mathrm t}(\mathbf r,s)
+=
+\rho_{\mathrm t}(\mathbf r)
+\hat j_1[k_{F,\mathrm t}(\mathbf r)s].
+$$
+
+Decompose the target form factor into spherical harmonics:
+
+$$
+f_{\mathrm p}(r,s),
+\quad
+f_{\mathrm t}(\mathbf r,s)
+\longrightarrow
+f_{\mathrm p}(r,s),
+\quad
+f_{\mathrm t,lm}(r,s).
+$$
+
+Transform the radial form factors to momentum space:
+
+$$
+f_{\mathrm p}(r,s),
+\quad
+f_{\mathrm t,lm}(r,s)
+\longrightarrow
+\tilde f_{\mathrm p}(q,s),
+\quad
+\tilde f_{\mathrm t,lm}(q,s).
+$$
+
+For each $(l,m)$ and $s$, construct the momentum-space exchange kernel:
+
+$$
+\tilde G_{lm}(q,s)
+=
+\tilde f_{\mathrm t,lm}(q,s)
+\tilde f_{\mathrm p}(q,s).
+$$
+
+The momentum-space direct kernel is
+
+$$
+\tilde V^{\mathrm D}_{lm}(q)
+=
+\tilde\rho_{\mathrm t,lm}(q)
+\tilde\rho_{\mathrm p}(q)
+\tilde v^{\mathrm D}(q).
+$$
+
+At this point, both $\tilde V^{\mathrm D}_{lm}(q)$ and $\tilde G_{lm}(q,s)$ are ready for calculations at any $\mathbf R$.
+
+##### Calculation at a Given Coordinate
+
+For a selected $\mathbf R$, transform the direct kernels to the radial coordinate:
+
+$$
+\tilde V^{\mathrm D}_{lm}(q)
+\longrightarrow
+V^{\mathrm D}_{lm}(R).
+$$
+
+Reconstruct the direct potential at the specified orientation:
+
+$$
+V^{\mathrm D}(\mathbf R)
+=
+\sum_{l,m}
+V^{\mathrm D}_{lm}(R)
+Y_{lm}(\hat{\mathbf R}).
+$$
+
+Transform the exchange kernels to the radial coordinate:
+
+$$
+\tilde G_{lm}(q,s)
+\longrightarrow
+G_{lm}(R,s).
+$$
+
+Reconstruct the full exchange kernel at the specified orientation:
+
+$$
+G_{lm}(R,s)
+\longrightarrow
+G(\mathbf R,s)
+=
+\sum_{l,m}
+G_{lm}(R,s)Y_{lm}(\hat{\mathbf R}).
+$$
+
+Starting from an initial $K(\mathbf R)$, calculate
+
+$$
+V^{\mathrm E}(\mathbf R)
+=
+4\pi
+\int_0^\infty s^2\,ds\,
+j_0\left[
+\frac{K(\mathbf R)s}{M}
+\right]
+v^{\mathrm E}(s)
+G(\mathbf R,s).
+$$
+
+Then update $K(\mathbf R)$ from the local-energy relation and repeat the calculation of $V^{\mathrm E}(\mathbf R)$ until convergence.
