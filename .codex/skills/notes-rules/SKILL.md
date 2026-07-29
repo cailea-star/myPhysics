@@ -10,6 +10,7 @@ description: Apply canonical myWIKI notes rules when creating, drafting, reviewi
 - Write note prose in English.
 - Use `###` for topic sections and `#####` for internal blocks.
 - Use `$...$` for inline mathematics and `$$...$$` for display mathematics. Never use `\begin{aligned}`.
+- Make equations primary and prose secondary; use prose only to define symbols, state assumptions, and connect equations.
 - Give each symbol exactly one meaning. Define every symbol before its first use.
 - Maintain general theory in exactly one canonical note. Link to that note instead of repeating its derivation elsewhere.
 
