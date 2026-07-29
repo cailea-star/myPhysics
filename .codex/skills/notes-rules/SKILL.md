@@ -18,6 +18,6 @@ description: Apply canonical myWIKI notes rules when creating, drafting, reviewi
 Work on exactly one note section at a time.
 
 1. Require the user to determine the section title before drafting. If no title has been determined, ask for it and stop.
-2. Present the complete proposed section as a draft in the conversation. Do not write it to a file.
+2. Present the complete proposed section directly in the conversation without a fenced code block. Do not write it to a file.
 3. Wait for explicit user approval. Treat comments, corrections, and layout changes as requests for a revised draft, not as approval to write.
 4. After approval, reread the latest target file, write only the approved section, and preserve unrelated user changes.
