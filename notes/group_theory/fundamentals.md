@@ -361,22 +361,16 @@ $$
 
 ##### Homomorphisms
 
-Let $G$ and $G'$ be groups with identities $e$ and $e'$. A map
+Let $G$ and $G'$ be groups with identities $e$ and $e'$. A map $\varphi:G\to G'$ is a homomorphism if
 
 $$
-\varphi:G\to G'
-$$
-
-is a group homomorphism if, for all $g_1,g_2\in G$,
-
-$$
-\boxed{\varphi(g_1g_2)=\varphi(g_1)\varphi(g_2)}.
+\boxed{\varphi(g_1g_2)=\varphi(g_1)\varphi(g_2),\qquad \forall g_1,g_2\in G}.
 $$
 
 - Identity
 
 $$
-\varphi(e)=\varphi(ee)=\varphi(e)\varphi(e)\quad\Longrightarrow\quad\boxed{\varphi(e)=e'}.
+\varphi(e)=e'.
 $$
 
 - Inverses
@@ -384,60 +378,20 @@ $$
 For $g\in G$,
 
 $$
-e'=\varphi(e)=\varphi(gg^{-1})=\varphi(g)\varphi(g^{-1}),
+\varphi(g^{-1})=\varphi(g)^{-1}.
 $$
 
-so
-
-$$
-\boxed{\varphi(g^{-1})=\varphi(g)^{-1}}.
-$$
-
-- Injectivity
-
-$$
-\varphi(g_1)=\varphi(g_2)\quad\Longrightarrow\quad g_1=g_2.
-$$
-
-- Surjectivity
-
-$$
-\forall g'\in G',\qquad \exists g\in G:\varphi(g)=g'.
-$$
-
-A homomorphism need not be injective or surjective; distinct elements of $G$ may have the same image.
-
-##### Images and Kernels
-
-Let $\varphi:G\to G'$ be a homomorphism. Its image and kernel are
+- Image and kernel
 
 $$
 \operatorname{Im}\varphi=\{\varphi(g):g\in G\},\qquad \ker\varphi=\{g\in G:\varphi(g)=e'\}.
 $$
 
-- Image
-
-For $g_1,g_2\in G$,
+Then
 
 $$
-\varphi(g_1)\varphi(g_2)^{-1}=\varphi(g_1g_2^{-1})\in\operatorname{Im}\varphi.
+\operatorname{Im}\varphi\leq G'.
 $$
-
-Hence,
-
-$$
-\boxed{\operatorname{Im}\varphi\leq G'}.
-$$
-
-- Kernel
-
-For $h_1,h_2\in\ker\varphi$,
-
-$$
-\varphi(h_1h_2^{-1})=\varphi(h_1)\varphi(h_2)^{-1}=e',
-$$
-
-so $\ker\varphi\leq G$.
 
 For $g\in G$ and $h\in\ker\varphi$,
 
@@ -445,10 +399,10 @@ $$
 \varphi(ghg^{-1})=\varphi(g)e'\varphi(g)^{-1}=e'.
 $$
 
-Therefore,
+Hence,
 
 $$
-\boxed{\ker\varphi\trianglelefteq G}.
+\ker\varphi\trianglelefteq G.
 $$
 
 - Fibers and cosets
@@ -456,134 +410,68 @@ $$
 For $g_1,g_2\in G$,
 
 $$
-\boxed{\varphi(g_1)=\varphi(g_2)\quad\Longleftrightarrow\quad g_1^{-1}g_2\in\ker\varphi\quad\Longleftrightarrow\quad g_1\ker\varphi=g_2\ker\varphi}.
-$$
-
-Thus the elements mapped to $\varphi(g)$ form one coset:
-
-$$
-\{x\in G:\varphi(x)=\varphi(g)\}=g\ker\varphi.
+\varphi(g_1)=\varphi(g_2)\quad\Longleftrightarrow\quad g_1^{-1}g_2\in\ker\varphi\quad\Longleftrightarrow\quad g_1\ker\varphi=g_2\ker\varphi.
 $$
 
 - Injectivity and surjectivity
 
 $$
-\boxed{\varphi\text{ is injective}\quad\Longleftrightarrow\quad\ker\varphi=\{e\}}.
+\varphi\text{ is injective}\quad\Longleftrightarrow\quad\ker\varphi=\{e\}.
 $$
 
 $$
-\boxed{\varphi\text{ is surjective}\quad\Longleftrightarrow\quad\operatorname{Im}\varphi=G'}.
+\varphi\text{ is surjective}\quad\Longleftrightarrow\quad\operatorname{Im}\varphi=G'.
 $$
 
 ##### Isomorphisms
 
-Let $\varphi:G\to G'$ be a homomorphism. It is an isomorphism if it is both injective and surjective.
-
-If such a map exists, $G$ and $G'$ are isomorphic, written
+A bijective homomorphism is an isomorphism. If such a map exists, then
 
 $$
-\boxed{G\cong G'}.
+G\cong G'.
 $$
 
 Equivalently,
 
 $$
-\boxed{\varphi\text{ is an isomorphism}\quad\Longleftrightarrow\quad\ker\varphi=\{e\},\qquad\operatorname{Im}\varphi=G'}.
+\varphi\text{ is an isomorphism}\quad\Longleftrightarrow\quad\ker\varphi=\{e\},\qquad\operatorname{Im}\varphi=G'.
 $$
 
-Isomorphic groups have the same multiplication structure up to a relabeling of their elements.
-
-- Inverse map
-
-If $\varphi$ is an isomorphism, then $\varphi^{-1}:G'\to G$ is also an isomorphism. For $g_1'=\varphi(g_1)$ and $g_2'=\varphi(g_2)$,
-
-$$
-\varphi^{-1}(g_1'g_2')=\varphi^{-1}(\varphi(g_1g_2))=\varphi^{-1}(g_1')\varphi^{-1}(g_2').
-$$
-
-- Preserved structure
-
-For every $g\in G$,
-
-$$
-\operatorname{ord}(\varphi(g))=\operatorname{ord}(g).
-$$
-
-Moreover,
-
-$$
-|G|=|G'|,
-$$
-
-$$
-G\text{ is Abelian}\quad\Longleftrightarrow\quad G'\text{ is Abelian}.
-$$
-
-The identity map, inverse maps, and compositions of isomorphisms are isomorphisms. Hence isomorphism is an equivalence relation among groups.
+Isomorphic groups have the same multiplication structure up to relabeling.
 
 ##### First Isomorphism Theorem
 
-Let $\varphi:G\to G'$ be a homomorphism. Then
-
-$$
-\boxed{G/\ker\varphi\cong\operatorname{Im}\varphi}.
-$$
-
-Let $K=\ker\varphi$. Since $K\trianglelefteq G$, define
+Let $\varphi:G\to G'$ be a homomorphism and $K=\ker\varphi$. Define
 
 $$
 \overline{\varphi}:G/K\to\operatorname{Im}\varphi,\qquad \overline{\varphi}(gK)=\varphi(g).
 $$
 
-- Well-definedness
-
-For $g_1,g_2\in G$,
+Since
 
 $$
-g_1K=g_2K\quad\Longleftrightarrow\quad\varphi(g_1)=\varphi(g_2).
+g_1K=g_2K\quad\Longleftrightarrow\quad\varphi(g_1)=\varphi(g_2),
 $$
 
-Hence $\overline{\varphi}(gK)$ does not depend on the representative $g$.
-
-- Homomorphism
+the map $\overline{\varphi}$ is a well-defined isomorphism. Therefore,
 
 $$
-\overline{\varphi}((g_1K)(g_2K))=\overline{\varphi}(g_1g_2K)=\varphi(g_1)\varphi(g_2).
+\boxed{G/\ker\varphi\cong\operatorname{Im}\varphi}.
 $$
 
-- Injectivity
+For finite $G$,
 
 $$
-\overline{\varphi}(g_1K)=\overline{\varphi}(g_2K)\quad\Longrightarrow\quad g_1K=g_2K.
-$$
-
-- Surjectivity
-
-For every $y\in\operatorname{Im}\varphi$, there exists $g\in G$ such that
-
-$$
-y=\varphi(g)=\overline{\varphi}(gK).
-$$
-
-Therefore, $\overline{\varphi}$ is an isomorphism.
-
-- Finite groups
-
-If $G$ is finite, then
-
-$$
-\boxed{|G|=|\ker\varphi|\,|\operatorname{Im}\varphi|}.
+|G|=|\ker\varphi|\,|\operatorname{Im}\varphi|.
 $$
 
 - Natural projection
 
-For $H\trianglelefteq G$, define
+For $H\trianglelefteq G$,
 
 $$
 \pi:G\to G/H,\qquad \pi(g)=gH.
 $$
-
-Then
 
 $$
 \ker\pi=H,\qquad\operatorname{Im}\pi=G/H.
@@ -593,13 +481,17 @@ Thus every normal subgroup is the kernel of a surjective homomorphism.
 
 ### Direct Products
 
+An external direct product constructs a new group, while an internal direct product decomposes an existing group into subgroups.
+
+##### External Direct Products
+
 Let $G_1$ and $G_2$ be groups with identities $e_1$ and $e_2$. Their direct product is
 
 $$
-G_1\times G_2=\{(g_1,g_2):g_1\in G_1,\ g_2\in G_2\},
+G_1\times G_2=\{(g_1,g_2):g_1\in G_1,\ g_2\in G_2\}.
 $$
 
-with componentwise multiplication
+For $(g_1,g_2),(h_1,h_2)\in G_1\times G_2$,
 
 $$
 \boxed{(g_1,g_2)(h_1,h_2)=(g_1h_1,g_2h_2)}.
@@ -614,12 +506,12 @@ $$
 For finite groups,
 
 $$
-\boxed{|G_1\times G_2|=|G_1||G_2|}.
+|G_1\times G_2|=|G_1||G_2|.
 $$
 
-- Internal direct products
+##### Internal Direct Products
 
-Let $H_1,H_2\leq G$, and define
+Let $G$ be a group with identity $e$, and let $H_1,H_2\leq G$. Define
 
 $$
 H_1H_2=\{h_1h_2:h_1\in H_1,\ h_2\in H_2\}.
@@ -639,7 +531,7 @@ $$
 G=H_1H_2.
 $$
 
-Every $g\in G$ then has a unique expression $g=h_1h_2$. Indeed,
+Every $g\in G$ then has a unique expression $g=h_1h_2$. For $h_i,k_i\in H_i$,
 
 $$
 h_1h_2=k_1k_2\quad\Longrightarrow\quad k_1^{-1}h_1=k_2h_2^{-1}\in H_1\cap H_2=\{e\}.
@@ -666,5 +558,5 @@ $$
 For finite $G$,
 
 $$
-\boxed{|G|=|H_1||H_2|}.
+|G|=|H_1||H_2|.
 $$
