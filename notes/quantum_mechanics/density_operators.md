@@ -157,3 +157,55 @@ Then
 $$
 \hat\rho_A=\hat\rho_B=\frac12\hat I_2,\qquad\operatorname{Tr}\hat\rho_A^2=\operatorname{Tr}\hat\rho_B^2=\frac12<1.
 $$
+
+##### Open-System Evolution
+
+Let $A$ be the system and $B$ its environment. Assume that their initial state is uncorrelated:
+
+$$
+\hat\rho_{AB}(t_0)=\hat\rho_A(t_0)\otimes\hat\rho_B(t_0).
+$$
+
+If the composite system evolves under $\hat U_{AB}(t,t_0)$, then
+
+$$
+\boxed{\hat\rho_A(t)=\operatorname{Tr}_B\!\left[\hat U_{AB}(t,t_0)\bigl(\hat\rho_A(t_0)\otimes\hat\rho_B(t_0)\bigr)\hat U_{AB}^\dagger(t,t_0)\right]\equiv\mathcal E_{t,t_0}[\hat\rho_A(t_0)]}.
+$$
+
+The first expression retains the environment explicitly, while $\mathcal E_{t,t_0}$ describes its net effect on system $A$. This reduced map is completely positive and trace-preserving.
+
+Let the environment state have the spectral decomposition
+
+$$
+\hat\rho_B(t_0)=\sum_s q_s|s\rangle_B\langle s|,\qquad q_s\geq0,\qquad\sum_s q_s=1.
+$$
+
+For an orthonormal basis $\{|r\rangle_B\}$ of $\mathcal H_B$, define the operators on $\mathcal H_A$
+
+$$
+\boxed{\hat K_{rs}(t,t_0)=\sqrt{q_s}\,{}_B\langle r|\hat U_{AB}(t,t_0)|s\rangle_B}.
+$$
+
+The partial matrix element removes the environment states and leaves an operator acting only on system $A$. Writing $\alpha=(r,s)$ as a single index gives the Kraus representation
+
+$$
+\boxed{\mathcal E_{t,t_0}(\hat\rho)=\sum_\alpha\hat K_\alpha(t,t_0)\hat\rho\hat K_\alpha^\dagger(t,t_0),\qquad\sum_\alpha\hat K_\alpha^\dagger(t,t_0)\hat K_\alpha(t,t_0)=\hat I_A}.
+$$
+
+Each Kraus operator represents an unresolved environmental transition. Individual $\hat K_\alpha$ need not be unitary, and the Kraus representation is not unique; only the resulting map $\mathcal E_{t,t_0}$ is physical.
+
+If $\hat\rho_{AB}(t_0)$ contains system-environment correlations, the reduced evolution is generally not determined by $\hat\rho_A(t_0)$ alone.
+
+The Kraus operators describe a finite-time map. To obtain its continuous-time Markovian generator, consider a short interval $\Delta t$. Let $\hat H_A$ be the system Hamiltonian, $\hat L_\mu$ operators on $\mathcal H_A$, and $\gamma_\mu\geq0$ rates. To leading order,
+
+$$
+\hat K_0(\Delta t)=\hat I_A-\left(\frac{i}{\hbar}\hat H_A+\frac12\sum_\mu\gamma_\mu\hat L_\mu^\dagger\hat L_\mu\right)\Delta t,\qquad\hat K_\mu(\Delta t)=\sqrt{\gamma_\mu\Delta t}\,\hat L_\mu\quad(\mu\geq1).
+$$
+
+Thus, $\hat L_\mu$ is the leading operator associated with the $\mu$th nonunitary Kraus channel as $\Delta t\to0$. Substituting these operators into the Kraus representation and using $\{\hat X,\hat Y\}=\hat X\hat Y+\hat Y\hat X$ gives
+
+$$
+\boxed{\frac{d\hat\rho_A}{dt}=-\frac{i}{\hbar}[\hat H_A,\hat\rho_A]+\sum_\mu\gamma_\mu\left(\hat L_\mu\hat\rho_A\hat L_\mu^\dagger-\frac12\{\hat L_\mu^\dagger\hat L_\mu,\hat\rho_A\}\right)}.
+$$
+
+The operators $\hat L_\mu$ encode dissipative channels such as relaxation or dephasing. They need not be Hermitian and are not unique. Lindblad evolution preserves Hermiticity, positivity, and trace, but need not preserve the eigenvalues or purity of $\hat\rho_A$.
