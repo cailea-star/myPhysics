@@ -22,10 +22,12 @@ description: Refactor rule-heavy SKILL.md files without losing semantics or cons
 
 ## Output
 
-Before proposing or applying changes, print the resulting one-way workflow once, then one exact minimal comparison per independent change:
+Before proposing or applying changes, select exactly one current section, print the one-way workflow once, then show one exact minimal comparison per independent change:
 
 ```text
 Workflow: ...
+
+Current Section：## Parent → ### Target
 
 Original1：...
 Modified1：...

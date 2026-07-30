@@ -2,15 +2,43 @@
 
 ### Axioms of Quantum Mechanics
 
-- The state of a microscopic system is described by a vector in a complex Hilbert space. The Hilbert space provides:
-  - a complex linear structure for superposition;
-  - a positive-definite inner product defining norms, normalization, and orthogonality;
-  - completeness under the norm induced by the inner product;
-  - a natural correspondence between vectors and dual vectors, together with adjoint operations on linear operators.
-- An observable of a microscopic system is described by a self-adjoint operator on the Hilbert space.
-- Canonical equal-time quantization is specified by the commutation relations between position and momentum.
-- The system evolves according to the Schrödinger equation.
-- For identical particles, the many-particle wave function must be either symmetric or antisymmetric.
+- A pure state is a ray in a complex Hilbert space $\mathcal H$, represented by a normalized ket:
+
+$$
+\langle\psi|\psi\rangle=1, \qquad |\psi\rangle\sim e^{i\alpha}|\psi\rangle, \qquad \alpha\in\mathbb R.
+$$
+
+General states are described by [density operators](density_operators.md).
+
+- An observable is represented by a self-adjoint operator:
+
+$$
+\hat A^\dagger=\hat A.
+$$
+
+- For the spectral projector $\hat P_a$ associated with outcome $a$, the Born probability and post-measurement state are
+
+$$
+\boxed{p(a)=\langle\psi|\hat P_a|\psi\rangle, \qquad |\psi\rangle\longrightarrow\frac{\hat P_a|\psi\rangle}{\sqrt{p(a)}}\quad\bigl(p(a)>0\bigr)}.
+$$
+
+- A closed system evolves according to the Schrödinger equation:
+
+$$
+\boxed{i\hbar\frac{\partial}{\partial t}|\psi(t)\rangle=\hat H(t)|\psi(t)\rangle}.
+$$
+
+- The Hilbert space of a composite system is the tensor product of its subsystems:
+
+$$
+\mathcal H=\bigotimes_k\mathcal H_k.
+$$
+
+For identical particles, let $\hat\Pi_{ij}$ exchange particles $i$ and $j$. Bosonic and fermionic states satisfy
+
+$$
+\hat\Pi_{ij}|\psi\rangle=|\psi\rangle\quad\text{(bosons)}, \qquad \hat\Pi_{ij}|\psi\rangle=-|\psi\rangle\quad\text{(fermions)}.
+$$
 
 ### States
 
@@ -21,48 +49,33 @@ Let $\mathcal H$ be a complete complex inner-product space, with $|\phi\rangle,|
 - Conjugate symmetry:
 
 $$
-\langle\phi|\psi\rangle
-=
-\langle\psi|\phi\rangle^*.
+\langle\phi|\psi\rangle = \langle\psi|\phi\rangle^*.
 $$
 
 - Linearity in the second argument:
 
 $$
-\langle\chi|a\psi+b\phi\rangle
-=
-a\langle\chi|\psi\rangle
-+
-b\langle\chi|\phi\rangle.
+\langle\chi|a\psi+b\phi\rangle = a\langle\chi|\psi\rangle + b\langle\chi|\phi\rangle.
 $$
 
 - Positive definiteness:
 
 $$
-\langle\phi|\phi\rangle\geq0,
-\qquad
-\langle\phi|\phi\rangle=0
-\iff
-|\phi\rangle=0.
+\langle\phi|\phi\rangle\geq0, \qquad \langle\phi|\phi\rangle=0 \iff |\phi\rangle=0.
 $$
 
 - Norm:
 
 $$
-\lVert\phi\rVert
-=
-\sqrt{\langle\phi|\phi\rangle}.
+\lVert\phi\rVert = \sqrt{\langle\phi|\phi\rangle}.
 $$
 
-Completeness means that every Cauchy sequence under this norm converges to a vector in $\mathcal H$.
+Completeness means that every Cauchy sequence under this norm converges in $\mathcal H$.
 
 - Cauchy–Schwarz inequality:
 
 $$
-|\langle\phi|\psi\rangle|^2
-\leq
-\langle\phi|\phi\rangle
-\langle\psi|\psi\rangle.
+|\langle\phi|\psi\rangle|^2 \leq \langle\phi|\phi\rangle \langle\psi|\psi\rangle.
 $$
 
 ##### Orthonormality
@@ -70,189 +83,103 @@ $$
 Let $\{|\phi_i\rangle\}$ be an orthonormal and complete basis, $\delta_{ij}$ the Kronecker delta, and $\hat I$ the identity operator:
 
 $$
-\langle\phi_i|\phi_j\rangle
-=
-\delta_{ij},
-\qquad
-\sum_i
-|\phi_i\rangle\langle\phi_i|
-=
-\hat I.
+\langle\phi_i|\phi_j\rangle = \delta_{ij}, \qquad \sum_i |\phi_i\rangle\langle\phi_i| = \hat I.
 $$
 
 Any nonzero vector may be normalized:
 
 $$
-|\phi\rangle
-\longrightarrow
-\frac{|\phi\rangle}{\lVert\phi\rVert}.
+|\phi\rangle \longrightarrow \frac{|\phi\rangle}{\lVert\phi\rVert}.
 $$
-
-The Gram–Schmidt procedure converts a linearly independent set into an orthonormal set.
 
 ##### Dual Space
 
-Let $\mathcal H^*$ be the dual space of $\mathcal H$. The inner product associates each ket with a bra:
+The inner product associates each ket in $\mathcal H$ with a bra in the dual space $\mathcal H^*$:
 
 $$
-\langle\phi|
-=
-\left(
-|\phi\rangle
-\right)^\dagger.
+\langle\phi| = \left( |\phi\rangle \right)^\dagger.
 $$
 
-Let $\hat A$ be a linear operator and $\hat A^\dagger$ its adjoint. If
+For a linear operator $\hat A$, its adjoint $\hat A^\dagger$ is defined by
 
 $$
-\hat A|\phi\rangle
-=
-|\eta\rangle,
-$$
-
-then
-
-$$
-\langle\phi|\hat A^\dagger
-=
-\langle\eta|.
-$$
-
-Equivalently,
-
-$$
-\langle\phi|\hat A^\dagger|\psi\rangle
-=
-\langle\psi|\hat A|\phi\rangle^*.
+\langle\phi|\hat A^\dagger|\psi\rangle = \langle\psi|\hat A|\phi\rangle^*.
 $$
 
 ### Operators
 
 ##### Self-Adjoint Operator
 
-Let $\hat A$ be a linear operator on $\mathcal H$. It is self-adjoint when
+A linear operator $\hat A$ on $\mathcal H$ is self-adjoint when
 
 $$
 \hat A^\dagger=\hat A.
 $$
 
-For a normalized state $|\phi\rangle$,
+For a normalized state $|\phi\rangle$, its expectation value is real:
 
 $$
-\langle\hat A\rangle_\phi
-=
-\langle\phi|\hat A|\phi\rangle
-=
-\langle\phi|\hat A|\phi\rangle^*.
+\langle\hat A\rangle_\phi=\langle\phi|\hat A|\phi\rangle=\langle\phi|\hat A|\phi\rangle^*.
 $$
 
-The eigenvalue equation is
+Its eigenvalues are also real:
 
 $$
-\hat A|a_i\rangle
-=
-a_i|a_i\rangle,
-\qquad
-a_i=a_i^*.
+\hat A|a_i\rangle=a_i|a_i\rangle, \qquad a_i=a_i^*.
 $$
 
 ##### Orthonormal Eigenbasis
 
-For a discrete spectrum,
+For a self-adjoint operator with a discrete spectrum, its eigenstates may be chosen orthonormally:
 
 $$
-\langle a_i|a_j\rangle
-=
-\delta_{ij},
-\qquad
-\sum_i|a_i\rangle\langle a_i|
-=
-\hat I.
+\langle a_i|a_j\rangle=\delta_{ij}, \qquad \sum_i|a_i\rangle\langle a_i|=\hat I.
 $$
 
-Within a degenerate eigenspace, the eigenstates may be chosen orthonormally and distinguished by additional commuting operators.
+The spectral decomposition is
 
 $$
-\hat A
-=
-\sum_i
-a_i|a_i\rangle\langle a_i|.
+\boxed{\hat A=\sum_i a_i|a_i\rangle\langle a_i|}.
 $$
 
 ##### Projection Operator
 
-Define
+For the eigenstate $|a_i\rangle$, define
 
 $$
-\hat P_i
-=
-|a_i\rangle\langle a_i|.
+\hat P_i=|a_i\rangle\langle a_i|.
 $$
 
-Then
+The projectors satisfy
 
 $$
-\hat P_i\hat P_j
-=
-\delta_{ij}\hat P_i,
-\qquad
-\sum_i\hat P_i
-=
-\hat I.
+\hat P_i\hat P_j=\delta_{ij}\hat P_i, \qquad \sum_i\hat P_i=\hat I.
 $$
 
-An orthogonal projector satisfies
+A general orthogonal projector satisfies
 
 $$
-\hat P^\dagger=\hat P,
-\qquad
-\hat P^2=\hat P.
+\hat P^\dagger=\hat P, \qquad \hat P^2=\hat P.
 $$
 
 For a normalized state $|\psi\rangle$,
 
 $$
-p_i
-=
-\langle\psi|\hat P_i|\psi\rangle,
-\qquad
-\langle\hat A\rangle
-=
-\sum_i p_i a_i.
+p_i=\langle\psi|\hat P_i|\psi\rangle, \qquad \langle\hat A\rangle=\sum_i p_i a_i.
 $$
 
 ##### Operator Function
 
-If
+For a power series
 
 $$
-f(z)
-=
-\sum_{n=0}^{\infty}c_nz^n,
+f(z)=\sum_{n=0}^{\infty}c_nz^n,
 $$
 
-then
+the corresponding operator function is
 
 $$
-f(\hat A)
-=
-\sum_{n=0}^{\infty}c_n\hat A^n
-=
-\sum_i f(a_i)\hat P_i.
-$$
-
-For an analytic $f(z)$ and a contour $\Gamma$ enclosing the spectrum of $\hat A$,
-
-$$
-f(\hat A)
-=
-\frac{1}{2\pi i}
-\int_\Gamma
-dz\,
-f(z)
-\left(
-z\hat I-\hat A
-\right)^{-1}.
+f(\hat A)=\sum_{n=0}^{\infty}c_n\hat A^n=\sum_i f(a_i)\hat P_i.
 $$
 
 ### Canonical Quantization
@@ -262,149 +189,71 @@ $$
 For operators $\hat A$, $\hat B$, and $\hat C$, define
 
 $$
-[\hat A,\hat B]
-=
-\hat A\hat B-\hat B\hat A,
-\qquad
-\{\hat A,\hat B\}
-=
-\hat A\hat B+\hat B\hat A.
+[\hat A,\hat B]=\hat A\hat B-\hat B\hat A.
 $$
 
-Useful identities are
+A useful product rule is
 
 $$
-[\hat A\hat B,\hat C]
-=
-\hat A[\hat B,\hat C]
-+
-[\hat A,\hat C]\hat B,
-$$
-
-$$
-\{\hat A\hat B,\hat C\}
-=
-\hat A\{\hat B,\hat C\}
--
-[\hat A,\hat C]\hat B.
+[\hat A\hat B,\hat C]=\hat A[\hat B,\hat C]+[\hat A,\hat C]\hat B.
 $$
 
 For Cartesian canonical coordinates,
 
 $$
-[\hat x_i,\hat p_j]
-=
-i\hbar\delta_{ij}\hat I.
+\boxed{[\hat x_i,\hat x_j]=0, \qquad [\hat p_i,\hat p_j]=0, \qquad [\hat x_i,\hat p_j]=i\hbar\delta_{ij}\hat I}.
 $$
 
 The position and momentum operators are self-adjoint:
 
 $$
-\hat x|x\rangle=x|x\rangle,
-\qquad
-\hat p|p\rangle=p|p\rangle.
+\hat x^\dagger=\hat x, \qquad \hat p^\dagger=\hat p.
 $$
 
 Their generalized eigenstates satisfy
 
 $$
-\langle x|x'\rangle
-=
-\delta(x-x'),
-\qquad
-\int dx\,|x\rangle\langle x|
-=
-\hat I,
+\hat x|x\rangle=x|x\rangle, \qquad \hat p|p\rangle=p|p\rangle.
 $$
 
 $$
-\langle p|p'\rangle
-=
-\delta(p-p'),
-\qquad
-\int dp\,|p\rangle\langle p|
-=
-\hat I.
+\langle x|x'\rangle=\delta(x-x'), \qquad \int dx\,|x\rangle\langle x|=\hat I.
 $$
 
-##### Commutators and Conserved Quantities
-
-The Baker-Campbell-Hausdorff expansion gives
-
 $$
-e^{\hat A}\hat B e^{-\hat A}
-=
-\hat B
-+
-[\hat A,\hat B]
-+
-\frac{1}{2!}
-[\hat A,[\hat A,\hat B]]
-+\cdots.
+\langle p|p'\rangle=\delta(p-p'), \qquad \int dp\,|p\rangle\langle p|=\hat I.
 $$
 
-If $[\hat A,\hat B]=c\hat I$ for a scalar $c$, then
+In $d$ spatial dimensions,
 
 $$
-e^{\hat A}\hat B e^{-\hat A}
-=
-\hat B+c\hat I.
+\boxed{\langle\mathbf x|\mathbf p\rangle=\frac{1}{(2\pi\hbar)^{d/2}}\exp\left(\frac{i\mathbf p\cdot\mathbf x}{\hbar}\right)}.
 $$
-
-For a Hamiltonian $\hat H$ and an operator $\hat O$,
-
-$$
-\frac{d\hat O}{dt}
-=
-\frac{\partial\hat O}{\partial t}
-+
-\frac{i}{\hbar}
-[\hat H,\hat O].
-$$
-
-Thus, if $\partial_t\hat O=0$ and $[\hat H,\hat O]=0$, then $\hat O$ is conserved.
 
 ##### Translation Operator
+
+The Hadamard lemma is
+
+$$
+e^{\hat A}\hat B e^{-\hat A}=\hat B+[\hat A,\hat B]+\frac{1}{2!}[\hat A,[\hat A,\hat B]]+\cdots.
+$$
 
 For a displacement $x_0$, define
 
 $$
-\hat T(x_0)
-=
-\exp\left(
--\frac{ix_0\hat p}{\hbar}
-\right).
+\hat T(x_0)=\exp\left(-\frac{ix_0\hat p}{\hbar}\right).
 $$
 
-Then
+Using the canonical commutation relation,
 
 $$
-\hat T^\dagger(x_0)
-\hat x
-\hat T(x_0)
-=
-\hat x+x_0\hat I,
+\boxed{\hat T^\dagger(x_0)\hat x\hat T(x_0)=\hat x+x_0\hat I}.
 $$
 
-$$
-\hat T(x_0)|x\rangle
-=
-|x+x_0\rangle,
-\qquad
-\hat T(x_0)|p\rangle
-=
-e^{-ix_0p/\hbar}|p\rangle.
-$$
-
-For $d$ spatial dimensions,
+Its action on the position and momentum eigenstates is
 
 $$
-\langle\mathbf x|\mathbf p\rangle
-=
-\frac{1}{(2\pi\hbar)^{d/2}}
-\exp\left(
-\frac{i\mathbf p\cdot\mathbf x}{\hbar}
-\right).
+\hat T(x_0)|x\rangle=|x+x_0\rangle, \qquad \hat T(x_0)|p\rangle=e^{-ix_0p/\hbar}|p\rangle.
 $$
 
 ##### Uncertainty Relation
@@ -412,75 +261,32 @@ $$
 Let $\hat A$ and $\hat B$ be self-adjoint operators and $|\psi\rangle$ a normalized state. Define
 
 $$
-\langle\hat A\rangle
-=
-\langle\psi|\hat A|\psi\rangle,
-\qquad
-\Delta A
-=
-\sqrt{
-\langle\psi|
-\left(
-\hat A-\langle\hat A\rangle
-\right)^2
-|\psi\rangle
-}.
+\langle\hat A\rangle=\langle\psi|\hat A|\psi\rangle, \qquad \Delta A=\sqrt{\langle\psi|(\hat A-\langle\hat A\rangle)^2|\psi\rangle},
 $$
 
-The uncertainty relation is
+and similarly for $\Delta B$. For a real parameter $\xi$, define
 
 $$
-\Delta A\,\Delta B
-\geq
-\frac{1}{2}
-\left|
-\langle\psi|
-i[\hat A,\hat B]
-|\psi\rangle
-\right|.
+|\Phi(\xi)\rangle=\left[\xi(\hat A-\langle\hat A\rangle)+i(\hat B-\langle\hat B\rangle)\right]|\psi\rangle.
 $$
 
-For a real parameter $\xi$, define
+Positivity gives
 
 $$
-|\Phi(\xi)\rangle
-=
-\left[
-\xi
-\left(
-\hat A-\langle\hat A\rangle
-\right)
-+
-i
-\left(
-\hat B-\langle\hat B\rangle
-\right)
-\right]
-|\psi\rangle.
+\langle\Phi(\xi)|\Phi(\xi)\rangle=(\Delta A)^2\xi^2+\langle\psi|i[\hat A,\hat B]|\psi\rangle\xi+(\Delta B)^2\geq0.
 $$
 
-Then
+Therefore,
 
 $$
-\langle\Phi(\xi)|\Phi(\xi)\rangle
-=
-(\Delta A)^2\xi^2
-+
-\langle\psi|i[\hat A,\hat B]|\psi\rangle\xi
-+
-(\Delta B)^2
-\geq0,
+\boxed{\Delta A\,\Delta B\geq\frac{1}{2}\left|\langle\psi|[\hat A,\hat B]|\psi\rangle\right|}.
 $$
 
-which gives the uncertainty relation. In particular,
+In particular,
 
 $$
-\Delta x\,\Delta p
-\geq
-\frac{\hbar}{2}.
+\boxed{\Delta x\,\Delta p\geq\frac{\hbar}{2}}.
 $$
-
-Commuting self-adjoint operators admit a common eigenbasis; see [Orthonormal Eigenbasis](#orthonormal-eigenbasis).
 
 ### Representations and Unitary Transformations
 
@@ -488,43 +294,24 @@ Commuting self-adjoint operators admit a common eigenbasis; see [Orthonormal Eig
 
 A state and an operator are independent of the chosen basis. Let $\{|a\rangle\}$ and $\{|b\rangle\}$ be orthonormal and complete bases.
 
-In the $a$ representation,
+In the $a$ representation, the state and operator are
 
 $$
-|\psi\rangle
-=
-\sum_a
-|a\rangle\langle a|\psi\rangle,
+|\psi\rangle=\sum_a|a\rangle\langle a|\psi\rangle.
 $$
 
 $$
-\hat O
-=
-\sum_{a,a'}
-|a\rangle
-\langle a|\hat O|a'\rangle
-\langle a'|.
+\hat O=\sum_{a,a'}|a\rangle\langle a|\hat O|a'\rangle\langle a'|.
 $$
 
-The state components transform as
+Their components in the $b$ representation are
 
 $$
-\langle b|\psi\rangle
-=
-\sum_a
-\langle b|a\rangle
-\langle a|\psi\rangle.
+\langle b|\psi\rangle=\sum_a\langle b|a\rangle\langle a|\psi\rangle.
 $$
 
-The operator matrix elements transform as
-
 $$
-\langle b|\hat O|b'\rangle
-=
-\sum_{a,a'}
-\langle b|a\rangle
-\langle a|\hat O|a'\rangle
-\langle a'|b'\rangle.
+\langle b|\hat O|b'\rangle=\sum_{a,a'}\langle b|a\rangle\langle a|\hat O|a'\rangle\langle a'|b'\rangle.
 $$
 
 For continuous bases, the sums are replaced by integrals.
@@ -534,113 +321,47 @@ For continuous bases, the sums are replaced by integrals.
 An operator $\hat U$ is unitary if
 
 $$
-\hat U^\dagger\hat U
-=
-\hat U\hat U^\dagger
-=
-\hat I.
+\hat U^\dagger\hat U=\hat U\hat U^\dagger=\hat I.
 $$
 
 It preserves inner products:
 
 $$
-\langle\phi|
-\hat U^\dagger\hat U
-|\psi\rangle
-=
-\langle\phi|\psi\rangle.
+\langle\phi|\hat U^\dagger\hat U|\psi\rangle=\langle\phi|\psi\rangle.
 $$
 
 For two indexed orthonormal bases $\{|a_n\rangle\}$ and $\{|b_n\rangle\}$, define
 
 $$
-\hat U
-=
-\sum_n
-|b_n\rangle\langle a_n|.
+\hat U=\sum_n|b_n\rangle\langle a_n|.
 $$
 
 Then
 
 $$
-\hat U|a_n\rangle
-=
-|b_n\rangle,
-\qquad
-\langle b_n|\psi\rangle
-=
-\langle a_n|
-\hat U^\dagger
-|\psi\rangle.
+\hat U|a_n\rangle=|b_n\rangle, \qquad \langle b_n|\psi\rangle=\langle a_n|\hat U^\dagger|\psi\rangle.
 $$
 
 Under an active unitary transformation,
 
 $$
-|\psi\rangle
-\longrightarrow
-\hat U|\psi\rangle,
-\qquad
-\hat O
-\longrightarrow
-\hat U\hat O\hat U^\dagger.
+\boxed{|\psi\rangle\longrightarrow\hat U|\psi\rangle, \qquad \hat O\longrightarrow\hat U\hat O\hat U^\dagger}.
 $$
-
-In an infinite-dimensional space, $\hat U^\dagger\hat U=\hat I$ alone is insufficient. For
-
-$$
-\hat S
-=
-\sum_{n=0}^{\infty}
-|n+1\rangle\langle n|,
-$$
-
-one has
-
-$$
-\hat S^\dagger\hat S
-=
-\hat I,
-\qquad
-\hat S\hat S^\dagger
-=
-\hat I-|0\rangle\langle0|.
-$$
-
-Thus, $\hat S$ is an isometry but not a unitary operator.
 
 For a unitary operator with a discrete spectrum,
 
 $$
-\hat U|c_n\rangle
-=
-\lambda_n|c_n\rangle,
-\qquad
-|\lambda_n|=1,
-\qquad
-\lambda_n=e^{i\theta_n},
+\hat U|c_n\rangle=\lambda_n|c_n\rangle, \qquad |\lambda_n|=1, \qquad \lambda_n=e^{i\theta_n}, \qquad \theta_n\in\mathbb R.
 $$
 
-where $\theta_n\in\mathbb R$. Therefore,
+Define the self-adjoint generator
 
 $$
-\hat U
-=
-\sum_n
-e^{i\theta_n}
-|c_n\rangle\langle c_n|
-=
-e^{i\hat G},
+\hat G=\sum_n\theta_n|c_n\rangle\langle c_n|, \qquad \hat G^\dagger=\hat G.
 $$
 
-with the self-adjoint generator
+Then
 
 $$
-\hat G
-=
-\sum_n
-\theta_n
-|c_n\rangle\langle c_n|,
-\qquad
-\hat G^\dagger=\hat G.
+\boxed{\hat U=\sum_n e^{i\theta_n}|c_n\rangle\langle c_n|=e^{i\hat G}}.
 $$
