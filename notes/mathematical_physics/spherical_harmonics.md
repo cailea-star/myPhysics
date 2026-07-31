@@ -78,7 +78,7 @@ $$
 
 Let $\hat{\mathbf S}$ act on the vector index and define $\hat{\mathbf J}=\hat{\mathbf L}+\hat{\mathbf S}$. The vector spherical harmonics satisfy:
 
-- Angular-momentum eigenvalue equations
+- Eigenvalue equations
 
   $$
   \hat{\mathbf J}^2\mathbf Y_{JlM}=\hbar^2J(J+1)\mathbf Y_{JlM},\qquad \hat J_z\mathbf Y_{JlM}=\hbar M\mathbf Y_{JlM}.
@@ -123,3 +123,79 @@ $$
 $$
 
 For $J\geq1$, the two bases span the same three-dimensional space and are related by a unitary change of basis. For $J=0$, only $\mathbf Y_{00}^{(r)}$ remains.
+
+### Spinor Spherical Harmonics
+
+Let $\chi_\mu$ denote the spin-$\frac12$ basis with $\mu=\pm\frac12$:
+
+$$
+\chi_{1/2}=\begin{pmatrix}1\\0\end{pmatrix},\qquad \chi_{-1/2}=\begin{pmatrix}0\\1\end{pmatrix},\qquad \hat S_z\chi_\mu=\hbar\mu\chi_\mu.
+$$
+
+Coupling $Y_{lm}(\Omega)$ to this basis defines
+
+$$
+\boxed{\mathcal Y_{JlM}(\Omega)=\sum_{m=-l}^{l}\sum_{\mu=\pm1/2}\left\langle l,m;\frac12,\mu\middle|J,M\right\rangle Y_{lm}(\Omega)\chi_\mu}.
+$$
+
+Here
+
+$$
+J=l\pm\frac12,\qquad M=-J,\ldots,J,
+$$
+
+with only $J=\frac12$ allowed for $l=0$. Since $M=m+\mu$, the two components are explicitly
+
+$$
+\mathcal Y_{JlM}=\begin{pmatrix}\left\langle l,M-\frac12;\frac12,\frac12\middle|J,M\right\rangle Y_{l,M-1/2}\\\left\langle l,M+\frac12;\frac12,-\frac12\middle|J,M\right\rangle Y_{l,M+1/2}\end{pmatrix}.
+$$
+
+In the Condon–Shortley convention, for $J=l+\frac12$,
+
+$$
+\mathcal Y_{l+1/2,l,M}=\begin{pmatrix}\sqrt{\frac{l+M+1/2}{2l+1}}\,Y_{l,M-1/2}\\\sqrt{\frac{l-M+1/2}{2l+1}}\,Y_{l,M+1/2}\end{pmatrix}.
+$$
+
+For $J=l-\frac12$ with $l\geq1$,
+
+$$
+\mathcal Y_{l-1/2,l,M}=\begin{pmatrix}-\sqrt{\frac{l-M+1/2}{2l+1}}\,Y_{l,M-1/2}\\\sqrt{\frac{l+M+1/2}{2l+1}}\,Y_{l,M+1/2}\end{pmatrix}.
+$$
+
+Let $\hat{\mathbf J}=\hat{\mathbf L}+\hat{\mathbf S}$. The spinor spherical harmonics satisfy:
+
+- Eigenvalue equations
+
+  $$
+  \hat{\mathbf J}^2\mathcal Y_{JlM}=\hbar^2J(J+1)\mathcal Y_{JlM},\qquad \hat J_z\mathcal Y_{JlM}=\hbar M\mathcal Y_{JlM}.
+  $$
+
+  $$
+  \hat{\mathbf L}^2\mathcal Y_{JlM}=\hbar^2l(l+1)\mathcal Y_{JlM},\qquad \hat{\mathbf S}^2\mathcal Y_{JlM}=\frac{3}{4}\hbar^2\mathcal Y_{JlM}.
+  $$
+
+- Conjugation and parity
+
+  Let $\sigma_y=\begin{pmatrix}0&-i\\i&0\end{pmatrix}$. Then
+
+  $$
+  -i\sigma_y\mathcal Y_{JlM}^*(\Omega)=(-1)^{l+J-M}\mathcal Y_{Jl,-M}(\Omega),\qquad \mathcal Y_{JlM}(-\hat{\mathbf r})=(-1)^l\mathcal Y_{JlM}(\hat{\mathbf r}).
+  $$
+
+- Orthonormality and completeness
+
+  $$
+  \int d\Omega\,\mathcal Y_{J'l'M'}^\dagger(\Omega)\mathcal Y_{JlM}(\Omega)=\delta_{JJ'}\delta_{ll'}\delta_{MM'}.
+  $$
+
+  With $\hat I_2$ denoting the two-dimensional identity operator,
+
+  $$
+  \sum_{l=0}^{\infty}\sum_{J=|l-1/2|}^{l+1/2}\sum_{M=-J}^{J}\mathcal Y_{JlM}(\Omega)\mathcal Y_{JlM}^\dagger(\Omega')=\hat I_2\delta(\Omega-\Omega').
+  $$
+
+A two-component field can be expanded as
+
+$$
+\psi(r,\Omega)=\sum_{l=0}^{\infty}\sum_{J=|l-1/2|}^{l+1/2}\sum_{M=-J}^{J}\frac{u_{JlM}(r)}{r}\mathcal Y_{JlM}(\Omega),\qquad u_{JlM}(r)=r\int d\Omega\,\mathcal Y_{JlM}^\dagger(\Omega)\psi(r,\Omega).
+$$
