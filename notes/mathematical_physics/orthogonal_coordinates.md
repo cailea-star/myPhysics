@@ -61,5 +61,3 @@ The scalar Laplacian is
 $$
 \boxed{\nabla^2=\frac{1}{h_1h_2h_3}\left[\frac{\partial}{\partial q_1}\left(\frac{h_2h_3}{h_1}\frac{\partial}{\partial q_1}\right)+\frac{\partial}{\partial q_2}\left(\frac{h_3h_1}{h_2}\frac{\partial}{\partial q_2}\right)+\frac{\partial}{\partial q_3}\left(\frac{h_1h_2}{h_3}\frac{\partial}{\partial q_3}\right)\right]}.
 $$
-
-The specialization to $(r,\theta,\phi)$ is given in [Spherical Coordinates](spherical_coordinates.md).
