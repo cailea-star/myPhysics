@@ -39,13 +39,7 @@ The spherical harmonics satisfy:
 - Addition theorem, where $\cos\gamma=\hat{\mathbf r}\cdot\hat{\mathbf r}'$
 
   $$
-  \boxed{\sum_{m=-l}^{l}Y_{lm}(\Omega)Y_{lm}^*(\Omega')=\frac{2l+1}{4\pi}P_l(\cos\gamma)}.
-  $$
-
-- Rotation law, where $D_{m'm}^{(l)}(\mathcal R)$ is the Wigner rotation matrix
-
-  $$
-  Y_{lm}(\mathcal R^{-1}\hat{\mathbf r})=\sum_{m'=-l}^{l}D_{m'm}^{(l)}(\mathcal R)Y_{lm'}(\hat{\mathbf r}).
+  \sum_{m=-l}^{l}Y_{lm}(\Omega)Y_{lm}^*(\Omega')=\frac{2l+1}{4\pi}P_l(\cos\gamma).
   $$
 
 - Gaunt integral
@@ -59,5 +53,73 @@ The spherical harmonics satisfy:
 A scalar function can be expanded as
 
 $$
-\boxed{f(r,\Omega)=\sum_{l=0}^{\infty}\sum_{m=-l}^{l}\frac{u_{lm}(r)}{r}Y_{lm}(\Omega),\qquad u_{lm}(r)=r\int d\Omega\,Y_{lm}^*(\Omega)f(r,\Omega)}.
+f(r,\Omega)=\sum_{l=0}^{\infty}\sum_{m=-l}^{l}\frac{u_{lm}(r)}{r}Y_{lm}(\Omega),\qquad u_{lm}(r)=r\int d\Omega\,Y_{lm}^*(\Omega)f(r,\Omega).
 $$
+
+### Vector Spherical Harmonics
+
+Let $\mathbf e_0$ and $\mathbf e_\pm$ denote the spherical vector basis,
+
+$$
+\mathbf e_0=\hat{\mathbf z},\qquad \mathbf e_\pm=\mp\frac{\hat{\mathbf x}\pm i\hat{\mathbf y}}{\sqrt2}.
+$$
+
+Coupling $Y_{lm}(\Omega)$ to this spin-$1$ basis defines
+
+$$
+\boxed{\mathbf Y_{JlM}(\Omega)=\sum_{m=-l}^{l}\sum_{\mu=-1}^{1}\langle l,m;1,\mu|J,M\rangle Y_{lm}(\Omega)\mathbf e_\mu},
+$$
+
+where $\langle l,m;1,\mu|J,M\rangle$ is a Clebsch–Gordan coefficient, and $\mathbf e_\mu$ denotes $\mathbf e_0$, $\mathbf e_+$, or $\mathbf e_-$ according to $\mu=0,+1,-1$:
+
+$$
+J=|l-1|,\ldots,l+1,\qquad M=-J,\ldots,J.
+$$
+
+Let $\hat{\mathbf S}$ act on the vector index and define $\hat{\mathbf J}=\hat{\mathbf L}+\hat{\mathbf S}$. The vector spherical harmonics satisfy:
+
+- Angular-momentum eigenvalue equations
+
+  $$
+  \hat{\mathbf J}^2\mathbf Y_{JlM}=\hbar^2J(J+1)\mathbf Y_{JlM},\qquad \hat J_z\mathbf Y_{JlM}=\hbar M\mathbf Y_{JlM}.
+  $$
+
+  $$
+  \hat{\mathbf L}^2\mathbf Y_{JlM}=\hbar^2l(l+1)\mathbf Y_{JlM},\qquad \hat{\mathbf S}^2\mathbf Y_{JlM}=2\hbar^2\mathbf Y_{JlM}.
+  $$
+
+- Conjugation and parity
+
+  $$
+  \mathbf Y_{JlM}^*(\Omega)=(-1)^{J+l+M+1}\mathbf Y_{Jl,-M}(\Omega),\qquad \mathbf Y_{JlM}(-\hat{\mathbf r})=(-1)^l\mathbf Y_{JlM}(\hat{\mathbf r}).
+  $$
+
+  The second relation transforms the argument while keeping the Cartesian basis fixed. A polar vector acquires one additional minus sign under the parity operator.
+
+- Orthonormality and completeness
+
+  $$
+  \int d\Omega\,\mathbf Y_{J'l'M'}^*(\Omega)\cdot\mathbf Y_{JlM}(\Omega)=\delta_{JJ'}\delta_{ll'}\delta_{MM'}.
+  $$
+
+  $$
+  \sum_{l=0}^{\infty}\sum_{J=|l-1|}^{l+1}\sum_{M=-J}^{J}\left[\mathbf Y_{JlM}(\Omega)\right]_a\left[\mathbf Y_{JlM}(\Omega')\right]_b^*=\delta_{ab}\delta(\Omega-\Omega').
+  $$
+
+- For $J\geq1$, an alternative basis adapted to angular differential operators is
+
+  $$
+  \mathbf Y_{JM}^{(r)}=\hat{\mathbf r}Y_{JM},\qquad \mathbf\Psi_{JM}=\frac{\nabla_\Omega Y_{JM}}{\sqrt{J(J+1)}},\qquad \mathbf\Phi_{JM}=\frac{\hat{\mathbf r}\times\nabla_\Omega Y_{JM}}{\sqrt{J(J+1)}}.
+  $$
+
+For fixed $(J,M)$, the coupled and differential basis expansions are
+
+$$
+\mathbf F_{JM}(r,\Omega)=\sum_{l=|J-1|}^{J+1}F_{JlM}(r)\mathbf Y_{JlM}(\Omega).
+$$
+
+$$
+\mathbf F_{JM}(r,\Omega)=F_{JM}^{(r)}(r)\mathbf Y_{JM}^{(r)}(\Omega)+F_{JM}^{(\Psi)}(r)\mathbf\Psi_{JM}(\Omega)+F_{JM}^{(\Phi)}(r)\mathbf\Phi_{JM}(\Omega).
+$$
+
+For $J\geq1$, the two bases span the same three-dimensional space and are related by a unitary change of basis. For $J=0$, only $\mathbf Y_{00}^{(r)}$ remains.
