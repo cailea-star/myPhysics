@@ -99,3 +99,27 @@ $$
 $$
 
 Definitions and further properties are collected in [Spherical Harmonics](spherical_harmonics.md).
+
+### Partial-Wave and Multipole Expansions
+
+##### Plane-Wave Expansion
+
+Let $\mathbf k=k\hat{\mathbf k}$ and $\mathbf r=r\hat{\mathbf r}$. With $j_l(x)$ denoting the spherical Bessel function and $P_l(x)$ the Legendre polynomial,
+
+$$
+\boxed{e^{i\mathbf k\cdot\mathbf r}=\sum_{l=0}^{\infty}(2l+1)i^l j_l(kr)P_l(\hat{\mathbf k}\cdot\hat{\mathbf r})=4\pi\sum_{l=0}^{\infty}\sum_{m=-l}^{l}i^l j_l(kr)Y_{lm}(\hat{\mathbf r})Y_{lm}^*(\hat{\mathbf k})}.
+$$
+
+##### Coulomb-Kernel Expansion
+
+Let $r_i=|\mathbf r_i|$ and define
+
+$$
+r_<=\min(r_1,r_2),\qquad r_>=\max(r_1,r_2),\qquad \cos\gamma_{12}=\hat{\mathbf r}_1\cdot\hat{\mathbf r}_2.
+$$
+
+For $r_</r_><1$,
+
+$$
+\boxed{\frac{1}{|\mathbf r_1-\mathbf r_2|}=\sum_{\lambda=0}^{\infty}\frac{r_<^\lambda}{r_>^{\lambda+1}}P_\lambda(\cos\gamma_{12})=4\pi\sum_{\lambda=0}^{\infty}\sum_{\mu=-\lambda}^{\lambda}\frac{1}{2\lambda+1}\frac{r_<^\lambda}{r_>^{\lambda+1}}Y_{\lambda\mu}(\hat{\mathbf r}_1)Y_{\lambda\mu}^*(\hat{\mathbf r}_2)}.
+$$
