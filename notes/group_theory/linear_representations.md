@@ -356,12 +356,6 @@ $$
 
 Repeating this decomposition yields the direct-sum form above.
 
-- Character decomposition
-
-$$
-\chi_D(g)=\sum_{i=1}^{r}\chi_{D^{(i)}}(g).
-$$
-
 ### Regular Representations
 
 Let $G$ be a finite group of order $n_G=|G|$.
@@ -588,31 +582,21 @@ $$
 \boxed{\sum_{g\in G}\chi_i(g)^*\chi_j(g)=n_G\delta_{ij}}.
 $$
 
-##### Completeness from the Regular Representation
+##### Character Decomposition
 
-Let $\eta_i$ be the multiplicity of the irreducible matrix representation $D^{(i)}$ in a completely reducible representation $D$. Then
-
-$$
-D\simeq\bigoplus_{i=1}^{\ell}\underbrace{\left(D^{(i)}\oplus\cdots\oplus D^{(i)}\right)}_{\eta_i\text{ copies}}.
-$$
-
-Therefore,
+Let $D$ be a finite-dimensional complex representation, and let $\eta_i\in\mathbb N_0$ denote the multiplicity of $D^{(i)}$ in $D$. Complete reducibility gives
 
 $$
 \chi_D(g)=\sum_{i=1}^{\ell}\eta_i\chi_i(g).
 $$
 
-Using character orthogonality,
-
-$$
-\sum_{g\in G}\chi_i(g)^*\chi_D(g)=\sum_{g\in G}\chi_i(g)^*\left(\sum_{j=1}^{\ell}\eta_j\chi_j(g)\right)=\sum_j\eta_j\left(\sum_{g\in G}\chi_i(g)^*\chi_j(g)\right)=n_G\eta_i.
-$$
-
-Hence,
+Character orthogonality gives
 
 $$
 \eta_i=\frac{1}{n_G}\sum_{g\in G}\chi_i(g)^*\chi_D(g).
 $$
+
+##### Completeness from the Regular Representation
 
 For the regular representation,
 
@@ -623,13 +607,13 @@ $$
 Since
 
 $$
-\dim D=\sum_{i=1}^{\ell}\eta_i d_i,\qquad \dim D_{\mathrm{reg}}=\dim\mathbb C[G]=n_G,
+\dim D_{\mathrm{reg}}=\sum_{i=1}^{\ell}\eta_i d_i=n_G,
 $$
 
 we obtain
 
 $$
-\boxed{n_G=\sum_{i=1}^{\ell}\eta_i d_i=\sum_{i=1}^{\ell}d_i^2}.
+\boxed{n_G=\sum_{i=1}^{\ell}d_i^2}.
 $$
 
 ##### Orthogonality and Completeness of Matrix Elements
@@ -684,4 +668,524 @@ The number of inequivalent irreducible representations equals the number of conj
 
 $$
 \ell=k.
+$$
+
+### Direct-Sum Decomposition and Tensor-Product Representations
+
+##### Direct-Sum Decomposition of Representations
+
+Let $D$ be an $N$-dimensional complex representation of the finite group $G$, and let $D^{(1)},\ldots,D^{(k)}$ be all pairwise inequivalent irreducible representations, with
+
+$$
+d_i=\dim D^{(i)},\qquad \chi_i(g)=\operatorname{tr}D^{(i)}(g).
+$$
+
+- Direct-sum decomposition
+
+Let $\eta_i\in\mathbb N_0$ be the multiplicity of $D^{(i)}$ in $D$. Complete reducibility gives an invertible matrix $S$ such that
+
+$$
+\boxed{S^{-1}D(g)S=\bigoplus_{i=1}^{k}\left[I_{\eta_i}\otimes D^{(i)}(g)\right],\qquad \forall g\in G}.
+$$
+
+The dimensions satisfy
+
+$$
+N=\sum_{i=1}^{k}\eta_i d_i.
+$$
+
+- Character decomposition and multiplicity
+
+$$
+\chi_D(g)=\sum_{i=1}^{k}\eta_i\chi_i(g).
+$$
+
+If the conjugacy class $C_\alpha$ has size $n_\alpha$, character orthogonality gives
+
+$$
+\eta_i=\frac{1}{n_G}\sum_{g\in G}\chi_i(g)^*\chi_D(g)=\frac{1}{n_G}\sum_{\alpha=1}^{k}n_\alpha\chi_i(C_\alpha)^*\chi_D(C_\alpha).
+$$
+
+- Equivalence criterion
+
+If $\eta_i'$ is the multiplicity of $D^{(i)}$ in $D'$, then
+
+$$
+D\simeq D'\Longleftrightarrow\eta_i=\eta_i'\ \forall i\Longleftrightarrow\chi_D(g)=\chi_{D'}(g)\ \forall g\in G.
+$$
+
+- Irreducibility criterion
+
+$$
+\frac{1}{n_G}\sum_{g\in G}|\chi_D(g)|^2=\sum_{i=1}^{k}\eta_i^2.
+$$
+
+Therefore,
+
+$$
+D\text{ is irreducible}\Longleftrightarrow\frac{1}{n_G}\sum_{g\in G}|\chi_D(g)|^2=1.
+$$
+
+##### Clebsch-Gordan Decomposition
+
+Let $D^{(i)}$ and $D^{(j)}$ be irreducible representations of $G$. Their tensor-product representation satisfies
+
+$$
+\left(D^{(i)}\otimes D^{(j)}\right)(g)=D^{(i)}(g)\otimes D^{(j)}(g).
+$$
+
+$$
+\dim\left(D^{(i)}\otimes D^{(j)}\right)=d_id_j,\qquad \chi_{i\otimes j}(g)=\chi_i(g)\chi_j(g).
+$$
+
+Let $\eta_r$ be the multiplicity of $D^{(r)}$. The direct-sum multiplicity formula gives
+
+$$
+\eta_r=\frac{1}{n_G}\sum_{g\in G}\chi_r(g)^*\chi_i(g)\chi_j(g),\qquad d_id_j=\sum_{r=1}^{k}\eta_rd_r.
+$$
+
+- Product and coupled bases
+
+$$
+\lvert i,\mu;j,\nu\rangle=\lvert i,\mu\rangle\otimes\lvert j,\nu\rangle,\qquad \lvert r,\tau,\kappa\rangle,
+$$
+
+where $\mu=1,\ldots,d_i$, $\nu=1,\ldots,d_j$, $\tau=1,\ldots,\eta_r$, and $\kappa=1,\ldots,d_r$.
+
+- Clebsch-Gordan coefficients
+
+The Clebsch-Gordan coefficients define the basis transformation:
+
+$$
+\lvert r,\tau,\kappa\rangle=\sum_{\mu=1}^{d_i}\sum_{\nu=1}^{d_j}\lvert i,\mu;j,\nu\rangle[U_{\mathrm{CG}}]_{(\mu,\nu),(r,\tau,\kappa)},\qquad [U_{\mathrm{CG}}]_{(\mu,\nu),(r,\tau,\kappa)}=\langle i,\mu;j,\nu\mid r,\tau,\kappa\rangle.
+$$
+
+- Block diagonalization
+
+$$
+\boxed{U_{\mathrm{CG}}^{-1}\left[D^{(i)}(g)\otimes D^{(j)}(g)\right]U_{\mathrm{CG}}=\bigoplus_{r=1}^{k}\left[I_{\eta_r}\otimes D^{(r)}(g)\right]}.
+$$
+
+##### Reduction by the Commutant
+
+Let
+
+$$
+D(g)\in\mathbb C^{N\times N}
+$$
+
+be a known unitary representation of the finite group $G$.
+
+- Step 1: Construct the commutant
+
+Define
+
+$$
+\mathcal C(D)=\left\{A\in\mathbb C^{N\times N}:AD(g)=D(g)A,\ \forall g\in G\right\}.
+$$
+
+Complete reducibility gives a unitary matrix $S$ such that
+
+$$
+S^\dagger D(g)S=\bigoplus_{i=1}^{k}\left[I_{\eta_i}\otimes D^{(i)}(g)\right].
+$$
+
+By Schur's lemma, every $A\in\mathcal C(D)$ has the corresponding form
+
+$$
+S^\dagger AS=\bigoplus_{i=1}^{k}\left[A_i\otimes I_{d_i}\right],\qquad A_i\in\mathbb C^{\eta_i\times\eta_i}.
+$$
+
+Thus, a commuting matrix acts only on equivalent copies and as the identity within each irreducible representation space. A basis of $\mathcal C(D)$ is obtained by solving
+
+$$
+AD(g)-D(g)A=0,\qquad \forall g\in G.
+$$
+
+- Step 2: Construct a Hermitian commuting matrix
+
+To obtain an orthogonal eigenspace decomposition, choose a generic Hermitian matrix in the commutant. Let $\{A_a\}$ be a basis of $\mathcal C(D)$, and define
+
+$$
+H=\sum_a\left(c_aA_a+c_a^*A_a^\dagger\right).
+$$
+
+Then
+
+$$
+H^\dagger=H,\qquad HD(g)=D(g)H,
+$$
+
+Since $H$ is Hermitian, it is normal and can be unitarily diagonalized. Its eigenspaces are mutually orthogonal and form a complete decomposition of the representation space.
+
+In the irreducible basis,
+
+$$
+S^\dagger HS=\bigoplus_{i=1}^{k}\left[H_i\otimes I_{d_i}\right],\qquad H_i\in\mathbb C^{\eta_i\times\eta_i}.
+$$
+
+For generic coefficients $c_a$, each $H_i$ has distinct eigenvalues $\lambda_{i\tau}$, with no accidental coincidences between different irreducible blocks. Define
+
+$$
+E_{i\tau}=\ker\left(H-\lambda_{i\tau}I_N\right).
+$$
+
+The factor $I_{d_i}$ gives
+
+$$
+\boxed{\dim E_{i\tau}=d_i,\qquad \operatorname{rank}\left(H-\lambda_{i\tau}I_N\right)=N-d_i}.
+$$
+
+For $\boldsymbol v\in E_{i\tau}$,
+
+$$
+H\!\left[D(g)\boldsymbol v\right]=D(g)H\boldsymbol v=\lambda_{i\tau}D(g)\boldsymbol v.
+$$
+
+Hence,
+
+$$
+D(g)E_{i\tau}\subseteq E_{i\tau}.
+$$
+
+- Step 3: Construct and identify the irreducible blocks
+
+Choose an orthonormal basis of $E_{i\tau}$ and arrange it as
+
+$$
+B_{i\tau}=\begin{pmatrix}\boldsymbol b_1&\cdots&\boldsymbol b_{d_i}\end{pmatrix}\in\mathbb C^{N\times d_i}.
+$$
+
+Then
+
+$$
+B_{i\tau}^\dagger B_{i\tau}=I_{d_i},\qquad \operatorname{rank}B_{i\tau}=d_i.
+$$
+
+The representation restricted to $E_{i\tau}$ is
+
+$$
+D^{(i,\tau)}(g)=B_{i\tau}^\dagger D(g)B_{i\tau}\in\mathbb C^{d_i\times d_i}.
+$$
+
+Define
+
+$$
+\chi_{i\tau}(g)=\operatorname{tr}D^{(i,\tau)}(g).
+$$
+
+Irreducibility is checked by
+
+$$
+\frac{1}{n_G}\sum_{g\in G}\left|\chi_{i\tau}(g)\right|^2=1.
+$$
+
+Two irreducible blocks are equivalent exactly when
+
+$$
+\chi_{i\tau}(g)=\chi_{j\sigma}(g),\qquad \forall g\in G.
+$$
+
+- Step 4: Process all eigenvalues
+
+For every distinct eigenvalue of $H$, repeat
+
+$$
+\lambda_{i\tau}\longrightarrow E_{i\tau}\longrightarrow B_{i\tau}\longrightarrow D^{(i,\tau)}(g)\longrightarrow\chi_{i\tau}(g).
+$$
+
+Group blocks with identical characters, retain one representative $D^{(i)}$ from each equivalence class, and let $\eta_i$ be the number of equivalent copies. Arranging all $B_{i\tau}$ as the columns of $S$ gives
+
+$$
+\boxed{S^\dagger D(g)S=\bigoplus_{i=1}^{k}\left[I_{\eta_i}\otimes D^{(i)}(g)\right]}.
+$$
+
+If $D$ is the regular representation, this procedure yields all inequivalent irreducible representations of $G$.
+
+### Projection Operators
+
+Let $P$ be an $N$-dimensional unitary representation of $G$ on $F$, and choose an orthonormal basis $\mathcal E=(\boldsymbol e_1,\ldots,\boldsymbol e_N)$. The operator $P_g:F\to F$ and its matrix $D(g)$ are related by
+
+$$
+P_g\boldsymbol e_a=\sum_{b=1}^{N}\boldsymbol e_bD_{ba}(g),\qquad D(g)=[P_g]_{\mathcal E}\in\mathbb C^{N\times N}.
+$$
+
+Let $D^{(i)}(g)\in\mathbb C^{d_i\times d_i}$ be a known irreducible unitary matrix representation on $V_i$.
+
+If $D^{(i)}$ occurs with multiplicity $\eta_i$, then
+
+$$
+F\simeq\bigoplus_{i=1}^{k}\left(\mathbb C^{\eta_i}\otimes V_i\right).
+$$
+
+Use the irreducible basis
+
+$$
+\lvert i,\tau,\mu\rangle=\lvert\tau\rangle\otimes\lvert i,\mu\rangle,\qquad \tau=1,\ldots,\eta_i,\qquad \mu=1,\ldots,d_i,
+$$
+
+where $i$ labels the irreducible representation, $\tau$ labels equivalent copies, and $\mu$ is the basis index within each copy.
+
+##### Matrix-Element Projection Operators
+
+- Definition
+
+For $\mu,\nu=1,\ldots,d_i$, define the matrix-element projection operator
+
+$$
+\boxed{\mathcal P_{\mu\nu}^{(i)}=\frac{d_i}{n_G}\sum_{g\in G}D_{\mu\nu}^{(i)}(g)^*P_g}:F\to F.
+$$
+
+Its matrix in $\mathcal E$ is
+
+$$
+\Pi_{\mu\nu}^{(i)}=\left[\mathcal P_{\mu\nu}^{(i)}\right]_{\mathcal E}=\frac{d_i}{n_G}\sum_{g\in G}D_{\mu\nu}^{(i)}(g)^*D(g)\in\mathbb C^{N\times N}.
+$$
+
+The indices $\mu,\nu$ label matrix elements of $D^{(i)}(g)$, not rows and columns of $\Pi_{\mu\nu}^{(i)}$.
+
+- Form in the irreducible basis
+
+$$
+\mathcal P_{\mu\nu}^{(i)}\lvert j,\tau,\rho\rangle=\delta_{ij}\delta_{\nu\rho}\lvert i,\tau,\mu\rangle.
+$$
+
+Hence, on the $D^{(i)}$-isotypic subspace $W_i$,
+
+$$
+\left.\mathcal P_{\mu\nu}^{(i)}\right|_{W_i}=I_{\eta_i}\otimes\lvert i,\mu\rangle\langle i,\nu\rvert=\sum_{\tau=1}^{\eta_i}\lvert i,\tau,\mu\rangle\langle i,\tau,\nu\rvert.
+$$
+
+The operator $\mathcal P_{\mu\nu}^{(i)}$ vanishes on $W_j$ for $j\neq i$.
+
+- Matrix-unit relation
+
+$$
+\boxed{\mathcal P_{\mu\nu}^{(i)}\mathcal P_{\rho\sigma}^{(j)}=\delta_{ij}\delta_{\nu\rho}\mathcal P_{\mu\sigma}^{(i)}}.
+$$
+
+In particular,
+
+$$
+\left(\mathcal P_{\mu\mu}^{(i)}\right)^2=\mathcal P_{\mu\mu}^{(i)},\qquad \left(\mathcal P_{\mu\nu}^{(i)}\right)^\dagger=\mathcal P_{\nu\mu}^{(i)}.
+$$
+
+Moreover,
+
+$$
+\left.\mathcal P_{\mu\mu}^{(i)}\right|_{W_i}=I_{\eta_i}\otimes\lvert i,\mu\rangle\langle i,\mu\rvert=\sum_{\tau=1}^{\eta_i}\lvert i,\tau,\mu\rangle\langle i,\tau,\mu\rvert,
+$$
+
+and therefore
+
+$$
+\operatorname{rank}\mathcal P_{\mu\mu}^{(i)}=\operatorname{rank}\Pi_{\mu\mu}^{(i)}=\eta_i.
+$$
+
+Thus, each diagonal operator projects onto one basis component from every equivalent copy; the off-diagonal matrix units transfer that component between irreducible basis directions.
+
+- Transformation
+
+For any $\boldsymbol\psi\in F$,
+
+$$
+P_s\!\left(\mathcal P_{\mu\nu}^{(i)}\boldsymbol\psi\right)=\sum_{\rho=1}^{d_i}\left(\mathcal P_{\rho\nu}^{(i)}\boldsymbol\psi\right)D_{\rho\mu}^{(i)}(s).
+$$
+
+For fixed $\nu$, the vectors $\mathcal P_{\mu\nu}^{(i)}\boldsymbol\psi$ transform under $D^{(i)}$.
+
+##### Character Projection Operators
+
+- Definition
+
+The character projection operator is the sum of the diagonal matrix-element projectors:
+
+$$
+\boxed{\mathcal P^{(i)}=\sum_{\mu=1}^{d_i}\mathcal P_{\mu\mu}^{(i)}=\frac{d_i}{n_G}\sum_{g\in G}\chi_i(g)^*P_g}.
+$$
+
+Its matrix in $\mathcal E$ is
+
+$$
+\Pi^{(i)}=\left[\mathcal P^{(i)}\right]_{\mathcal E}=\sum_{\mu=1}^{d_i}\Pi_{\mu\mu}^{(i)}=\frac{d_i}{n_G}\sum_{g\in G}\chi_i(g)^*D(g)\in\mathbb C^{N\times N}.
+$$
+
+- Form in the irreducible basis
+
+On $W_i$,
+
+$$
+\left.\mathcal P^{(i)}\right|_{W_i}=I_{\eta_i}\otimes I_{d_i}=I_{\eta_i}\otimes\sum_{\mu=1}^{d_i}\lvert i,\mu\rangle\langle i,\mu\rvert=\sum_{\tau=1}^{\eta_i}\sum_{\mu=1}^{d_i}\lvert i,\tau,\mu\rangle\langle i,\tau,\mu\rvert.
+$$
+
+The operator $\mathcal P^{(i)}$ vanishes on $W_j$ for $j\neq i$.
+
+- Orthogonality and completeness
+
+$$
+\mathcal P^{(i)}\mathcal P^{(j)}=\delta_{ij}\mathcal P^{(i)},\qquad \sum_{i=1}^{k}\mathcal P^{(i)}=I_F.
+$$
+
+Therefore,
+
+$$
+F=\bigoplus_{i=1}^{k}W_i,\qquad W_i=\operatorname{im}\mathcal P^{(i)},\qquad \dim W_i=\operatorname{rank}\mathcal P^{(i)}=\operatorname{rank}\Pi^{(i)}=\eta_i d_i.
+$$
+
+The coordinate vectors of $W_i$ form $\operatorname{col}\Pi^{(i)}\subseteq\mathbb C^N$.
+
+Thus, $\mathcal P^{(i)}$ selects the complete $D^{(i)}$-isotypic subspace. If $\eta_i>1$, it selects all equivalent copies together and does not separate them.
+
+##### Reduction by Projection Operators
+
+Assume that the reducible unitary matrix representation
+
+$$
+D(g)\in\mathbb C^{N\times N}
+$$
+
+and the irreducible unitary matrix representations
+
+$$
+D^{(i)}(g)\in\mathbb C^{d_i\times d_i}
+$$
+
+are known. All operations below are performed on matrices in the chosen basis $\mathcal E$.
+
+- Step 1: Determine the multiplicity
+
+Compute
+
+$$
+\chi_D(g)=\operatorname{tr}D(g),\qquad \eta_i=\frac{1}{n_G}\sum_{g\in G}\chi_i(g)^*\chi_D(g).
+$$
+
+The numerical value of $\eta_i$ must agree with a nonnegative integer within tolerance. If $\eta_i=0$, skip $D^{(i)}$.
+
+- Step 2: Construct the seed projector and extract the seeds
+
+Fix an internal basis index
+
+$$
+\nu\in\{1,\ldots,d_i\}.
+$$
+
+Compute the seed projection matrix
+
+$$
+\Pi_{\nu\nu}^{(i)}=\frac{d_i}{n_G}\sum_{g\in G}D_{\nu\nu}^{(i)}(g)^*D(g)\in\mathbb C^{N\times N}.
+$$
+
+Its rank gives the number of equivalent copies:
+
+$$
+\operatorname{rank}\Pi_{\nu\nu}^{(i)}=\eta_i.
+$$
+
+Diagonalize
+
+$$
+\Pi_{\nu\nu}^{(i)}=V\Lambda V^\dagger.
+$$
+
+Its eigenvalues are $0$ or $1$. Select an orthonormal basis of the eigenspace with $\lambda=1$:
+
+$$
+V_{i\nu}=\begin{pmatrix}\boldsymbol v_{\nu1}&\cdots&\boldsymbol v_{\nu\eta_i}\end{pmatrix}\in\mathbb C^{N\times\eta_i},\qquad V_{i\nu}^\dagger V_{i\nu}=I_{\eta_i}.
+$$
+
+Each $\boldsymbol v_{\nu\tau}$ serves as a seed that generates one copy of $D^{(i)}$.
+
+- Step 3: Generate the irreducible bases
+
+For $\mu=1,\ldots,d_i$, compute
+
+$$
+\Pi_{\mu\nu}^{(i)}=\frac{d_i}{n_G}\sum_{g\in G}D_{\mu\nu}^{(i)}(g)^*D(g),
+$$
+
+and apply it to all seeds:
+
+$$
+V_{i\mu}=\Pi_{\mu\nu}^{(i)}V_{i\nu}=\begin{pmatrix}\boldsymbol v_{\mu1}&\cdots&\boldsymbol v_{\mu\eta_i}\end{pmatrix}.
+$$
+
+For fixed $\tau$, the vectors $\boldsymbol v_{\mu\tau}$ transform under $D^{(i)}$:
+
+$$
+D(g)\boldsymbol v_{\mu\tau}=\sum_{\rho=1}^{d_i}\boldsymbol v_{\rho\tau}D_{\rho\mu}^{(i)}(g).
+$$
+
+- Step 4: Assemble and verify
+
+Arrange the basis matrices as
+
+$$
+B_{i\tau}=\begin{pmatrix}\boldsymbol v_{1\tau}&\cdots&\boldsymbol v_{d_i\tau}\end{pmatrix},\qquad B_i=\begin{pmatrix}B_{i1}&\cdots&B_{i\eta_i}\end{pmatrix},\qquad S=\begin{pmatrix}B_1&\cdots&B_k\end{pmatrix}.
+$$
+
+Each irreducible block satisfies
+
+$$
+D(g)B_{i\tau}=B_{i\tau}D^{(i)}(g).
+$$
+
+Hence,
+
+$$
+\boxed{S^\dagger D(g)S=\bigoplus_{i=1}^{k}\left[I_{\eta_i}\otimes D^{(i)}(g)\right]}.
+$$
+
+Verify
+
+$$
+\sum_{i=1}^{k}\eta_i d_i=N,\qquad \left\|S^\dagger S-I_N\right\|\approx0,
+$$
+
+$$
+\max_{g\in G}\left\|D(g)S-S\left[\bigoplus_{i=1}^{k}\left(I_{\eta_i}\otimes D^{(i)}(g)\right)\right]\right\|\approx0.
+$$
+
+### Character Theory
+
+##### Character Tables
+
+Let $G$ be a finite group of order $n_G=|G|$. Let $C_1,\ldots,C_k$ be its conjugacy classes, with $n_\alpha=|C_\alpha|$ and $C_1=\{e\}$. Let $D^{(1)},\ldots,D^{(\ell)}$ be all inequivalent irreducible representations, with $D^{(1)}$ the trivial representation. Define
+
+$$
+d_i=\dim D^{(i)},\qquad \chi_{i\alpha}=\operatorname{tr}D^{(i)}(g)\quad(g\in C_\alpha).
+$$
+
+- Step 1: Determine the table size
+
+The class-function space has dimension $k$, and the irreducible characters form an orthogonal complete basis. Therefore,
+
+$$
+\boxed{\ell=k}.
+$$
+
+The character table is a $k\times k$ matrix, with columns indexed by $C_\alpha$ and rows indexed by $D^{(i)}$.
+
+- Step 2: Determine possible dimensions
+
+$$
+d_1=1,\qquad \sum_{i=1}^{k}d_i^2=n_G.
+$$
+
+Use $n_G$ and $k$ to determine the possible dimension tuples $(d_1,\ldots,d_k)$.
+
+- Step 3: Fill the first row and column
+
+$$
+\chi_{1\alpha}=1,\qquad \chi_{i1}=d_i.
+$$
+
+- Step 4: Complete the remaining entries
+
+$$
+\sum_{\alpha=1}^{k}\frac{n_\alpha}{n_G}\chi_{i\alpha}^*\chi_{j\alpha}=\delta_{ij}.
+$$
+
+$$
+\sum_{i=1}^{k}\frac{\sqrt{n_\alpha n_\beta}}{n_G}\chi_{i\alpha}^*\chi_{i\beta}=\delta_{\alpha\beta}.
 $$
