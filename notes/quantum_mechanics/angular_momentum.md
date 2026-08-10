@@ -135,3 +135,77 @@ $$
 $$
 
 where $\hat I_2$ is the two-dimensional identity operator. The component matrices are $\hbar/2$ times the Pauli matrices.
+
+### Angular Momentum Coupling
+
+Let $\hat{\mathbf J}_1$ and $\hat{\mathbf J}_2$ be independent angular momenta. Define the total angular momentum on $\mathcal H=\mathcal H_{j_1}\otimes\mathcal H_{j_2}$ by
+
+$$
+[\hat J_{1\alpha},\hat J_{2\beta}]=0,\qquad \hat{\mathbf J}_3=\hat{\mathbf J}_1+\hat{\mathbf J}_2,\qquad \alpha,\beta\in\{x,y,z\}.
+$$
+
+The uncoupled basis is
+
+$$
+|j_1m_1;j_2m_2\rangle\equiv|j_1m_1\rangle\otimes|j_2m_2\rangle.
+$$
+
+The three angular momenta satisfy
+
+$$
+\hat J_1^2|j_1m_1;j_2m_2\rangle=\hbar^2j_1(j_1+1)|j_1m_1;j_2m_2\rangle,\qquad \hat J_{1z}|j_1m_1;j_2m_2\rangle=\hbar m_1|j_1m_1;j_2m_2\rangle.
+$$
+
+$$
+\hat J_2^2|j_1m_1;j_2m_2\rangle=\hbar^2j_2(j_2+1)|j_1m_1;j_2m_2\rangle,\qquad \hat J_{2z}|j_1m_1;j_2m_2\rangle=\hbar m_2|j_1m_1;j_2m_2\rangle.
+$$
+
+$$
+\hat J_3^2|(j_1j_2)j_3m_3\rangle=\hbar^2j_3(j_3+1)|(j_1j_2)j_3m_3\rangle,\qquad \hat J_{3z}|(j_1j_2)j_3m_3\rangle=\hbar m_3|(j_1j_2)j_3m_3\rangle.
+$$
+
+The allowed coupled quantum numbers are
+
+$$
+j_3=|j_1-j_2|,|j_1-j_2|+1,\ldots,j_1+j_2,\qquad m_3=-j_3,-j_3+1,\ldots,j_3,
+$$
+
+and a nonzero coupling coefficient requires $m_3=m_1+m_2$. The dimensions satisfy
+
+$$
+(2j_1+1)(2j_2+1)=\sum_{j_3=|j_1-j_2|}^{j_1+j_2}(2j_3+1).
+$$
+
+The uncoupled and coupled bases are related by
+
+$$
+\boxed{|(j_1j_2)j_3m_3\rangle=\sum_{m_1,m_2}|j_1m_1;j_2m_2\rangle\langle j_1m_1;j_2m_2|j_3m_3\rangle}.
+$$
+
+The inverse transformation is
+
+$$
+|j_1m_1;j_2m_2\rangle=\sum_{j_3,m_3}|(j_1j_2)j_3m_3\rangle\langle j_3m_3|j_1m_1;j_2m_2\rangle.
+$$
+
+The Condon–Shortley convention and the orthogonality relations of the Clebsch–Gordan coefficients are collected in [Wigner Symbols](../mathematical_physics/wigner_symbols.md).
+
+Since
+
+$$
+\hat J_3^2=\hat J_1^2+\hat J_2^2+2\hat{\mathbf J}_1\cdot\hat{\mathbf J}_2,
+$$
+
+the scalar coupling operator is
+
+$$
+\boxed{\hat{\mathbf J}_1\cdot\hat{\mathbf J}_2=\frac12\left(\hat J_3^2-\hat J_1^2-\hat J_2^2\right)}.
+$$
+
+Therefore,
+
+$$
+\hat{\mathbf J}_1\cdot\hat{\mathbf J}_2|(j_1j_2)j_3m_3\rangle=\frac{\hbar^2}{2}\left[j_3(j_3+1)-j_1(j_1+1)-j_2(j_2+1)\right]|(j_1j_2)j_3m_3\rangle.
+$$
+
+The specialization $\hat{\mathbf J}_1=\hat{\mathbf L}$, $\hat{\mathbf J}_2=\hat{\mathbf S}$, and $\hat{\mathbf J}_3=\hat{\mathbf J}$ gives the algebraic basis of spin–orbit coupling.

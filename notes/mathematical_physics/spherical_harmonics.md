@@ -64,16 +64,16 @@ $$
 \mathbf e_0=\hat{\mathbf z},\qquad \mathbf e_\pm=\mp\frac{\hat{\mathbf x}\pm i\hat{\mathbf y}}{\sqrt2}.
 $$
 
-Coupling $Y_{lm}(\Omega)$ to this spin-$1$ basis defines
+Coupling $Y_{l m_l}(\Omega)$ to this spin-$1$ basis defines
 
 $$
-\boxed{\mathbf Y_{JlM}(\Omega)=\sum_{m=-l}^{l}\sum_{\mu=-1}^{1}\langle l,m;1,\mu|J,M\rangle Y_{lm}(\Omega)\mathbf e_\mu},
+\boxed{\mathbf Y_{jm}^{l}(\Omega)=\sum_{m_l=-l}^{l}\sum_{\mu=-1}^{1}\langle l,m_l;1,\mu|j,m\rangle Y_{l m_l}(\Omega)\mathbf e_\mu},
 $$
 
-where $\langle l,m;1,\mu|J,M\rangle$ is a Clebsch–Gordan coefficient, and $\mathbf e_\mu$ denotes $\mathbf e_0$, $\mathbf e_+$, or $\mathbf e_-$ according to $\mu=0,+1,-1$:
+where $\langle l,m_l;1,\mu|j,m\rangle$ is a Clebsch–Gordan coefficient, and $\mathbf e_\mu$ denotes $\mathbf e_0$, $\mathbf e_+$, or $\mathbf e_-$ according to $\mu=0,+1,-1$:
 
 $$
-J=|l-1|,\ldots,l+1,\qquad M=-J,\ldots,J.
+j=|l-1|,\ldots,l+1,\qquad m=-j,\ldots,j.
 $$
 
 Let $\hat{\mathbf S}$ act on the vector index and define $\hat{\mathbf J}=\hat{\mathbf L}+\hat{\mathbf S}$. The vector spherical harmonics satisfy:
@@ -81,17 +81,17 @@ Let $\hat{\mathbf S}$ act on the vector index and define $\hat{\mathbf J}=\hat{\
 - Eigenvalue equations
 
   $$
-  \hat{\mathbf J}^2\mathbf Y_{JlM}=\hbar^2J(J+1)\mathbf Y_{JlM},\qquad \hat J_z\mathbf Y_{JlM}=\hbar M\mathbf Y_{JlM}.
+  \hat{\mathbf J}^2\mathbf Y_{jm}^{l}=\hbar^2j(j+1)\mathbf Y_{jm}^{l},\qquad \hat J_z\mathbf Y_{jm}^{l}=\hbar m\mathbf Y_{jm}^{l}.
   $$
 
   $$
-  \hat{\mathbf L}^2\mathbf Y_{JlM}=\hbar^2l(l+1)\mathbf Y_{JlM},\qquad \hat{\mathbf S}^2\mathbf Y_{JlM}=2\hbar^2\mathbf Y_{JlM}.
+  \hat{\mathbf L}^2\mathbf Y_{jm}^{l}=\hbar^2l(l+1)\mathbf Y_{jm}^{l},\qquad \hat{\mathbf S}^2\mathbf Y_{jm}^{l}=2\hbar^2\mathbf Y_{jm}^{l}.
   $$
 
 - Conjugation and parity
 
   $$
-  \mathbf Y_{JlM}^*(\Omega)=(-1)^{J+l+M+1}\mathbf Y_{Jl,-M}(\Omega),\qquad \mathbf Y_{JlM}(-\hat{\mathbf r})=(-1)^l\mathbf Y_{JlM}(\hat{\mathbf r}).
+  \left[\mathbf Y_{jm}^{l}(\Omega)\right]^*=(-1)^{j+l+m+1}\mathbf Y_{j,-m}^{l}(\Omega),\qquad \mathbf Y_{jm}^{l}(-\hat{\mathbf r})=(-1)^l\mathbf Y_{jm}^{l}(\hat{\mathbf r}).
   $$
 
   The second relation transforms the argument while keeping the Cartesian basis fixed. A polar vector acquires one additional minus sign under the parity operator.
@@ -99,36 +99,36 @@ Let $\hat{\mathbf S}$ act on the vector index and define $\hat{\mathbf J}=\hat{\
 - Orthonormality and completeness
 
   $$
-  \int d\Omega\,\mathbf Y_{J'l'M'}^*(\Omega)\cdot\mathbf Y_{JlM}(\Omega)=\delta_{JJ'}\delta_{ll'}\delta_{MM'}.
+  \int d\Omega\,\left[\mathbf Y_{j'm'}^{l'}(\Omega)\right]^*\cdot\mathbf Y_{jm}^{l}(\Omega)=\delta_{jj'}\delta_{ll'}\delta_{mm'}.
   $$
 
   $$
-  \sum_{l=0}^{\infty}\sum_{J=|l-1|}^{l+1}\sum_{M=-J}^{J}\left[\mathbf Y_{JlM}(\Omega)\right]_a\left[\mathbf Y_{JlM}(\Omega')\right]_b^*=\delta_{ab}\delta(\Omega-\Omega').
+  \sum_{l=0}^{\infty}\sum_{j=|l-1|}^{l+1}\sum_{m=-j}^{j}\left[\mathbf Y_{jm}^{l}(\Omega)\right]_a\left[\mathbf Y_{jm}^{l}(\Omega')\right]_b^*=\delta_{ab}\delta(\Omega-\Omega').
   $$
 
 - Ladder relations, with $\hat J_\pm=\hat J_x\pm i\hat J_y$
 
   $$
-  \hat J_\pm\mathbf Y_{JlM}=\hbar\sqrt{J(J+1)-M(M\pm1)}\,\mathbf Y_{Jl,M\pm1}.
+  \hat J_\pm\mathbf Y_{jm}^{l}=\hbar\sqrt{j(j+1)-m(m\pm1)}\,\mathbf Y_{j,m\pm1}^{l}.
   $$
 
-- For $J\geq1$, an alternative basis adapted to angular differential operators is
+- For $j\geq1$, an alternative basis adapted to angular differential operators is
 
   $$
-  \mathbf Y_{JM}^{(r)}=\hat{\mathbf r}Y_{JM},\qquad \mathbf\Psi_{JM}=\frac{\nabla_\Omega Y_{JM}}{\sqrt{J(J+1)}},\qquad \mathbf\Phi_{JM}=\frac{\hat{\mathbf r}\times\nabla_\Omega Y_{JM}}{\sqrt{J(J+1)}}.
+  \mathbf Y_{jm}^{(r)}=\hat{\mathbf r}Y_{jm},\qquad \mathbf\Psi_{jm}=\frac{\nabla_\Omega Y_{jm}}{\sqrt{j(j+1)}},\qquad \mathbf\Phi_{jm}=\frac{\hat{\mathbf r}\times\nabla_\Omega Y_{jm}}{\sqrt{j(j+1)}}.
   $$
 
-For fixed $(J,M)$, the coupled and differential basis expansions are
+For fixed $(j,m)$, the coupled and differential basis expansions are
 
 $$
-\mathbf F_{JM}(r,\Omega)=\sum_{l=|J-1|}^{J+1}F_{JlM}(r)\mathbf Y_{JlM}(\Omega).
+\mathbf F_{jm}(r,\Omega)=\sum_{l=|j-1|}^{j+1}F_{jlm}(r)\mathbf Y_{jm}^{l}(\Omega).
 $$
 
 $$
-\mathbf F_{JM}(r,\Omega)=F_{JM}^{(r)}(r)\mathbf Y_{JM}^{(r)}(\Omega)+F_{JM}^{(\Psi)}(r)\mathbf\Psi_{JM}(\Omega)+F_{JM}^{(\Phi)}(r)\mathbf\Phi_{JM}(\Omega).
+\mathbf F_{jm}(r,\Omega)=F_{jm}^{(r)}(r)\mathbf Y_{jm}^{(r)}(\Omega)+F_{jm}^{(\Psi)}(r)\mathbf\Psi_{jm}(\Omega)+F_{jm}^{(\Phi)}(r)\mathbf\Phi_{jm}(\Omega).
 $$
 
-For $J\geq1$, the two bases span the same three-dimensional space and are related by a unitary change of basis. For $J=0$, only $\mathbf Y_{00}^{(r)}$ remains.
+For $j\geq1$, the two bases span the same three-dimensional space and are related by a unitary change of basis. For $j=0$, only $\mathbf Y_{00}^{(r)}$ remains.
 
 ### Spinor Spherical Harmonics
 
@@ -138,22 +138,22 @@ $$
 \sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix},\qquad \sigma_y=\begin{pmatrix}0&-i\\i&0\end{pmatrix},\qquad \sigma_z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}.
 $$
 
-For $i,j,k\in\{x,y,z\}$,
+For $a,b,c\in\{x,y,z\}$,
 
 $$
-\sigma_i\sigma_j=\delta_{ij}\hat I_2+i\sum_k\epsilon_{ijk}\sigma_k,
+\sigma_a\sigma_b=\delta_{ab}\hat I_2+i\sum_c\epsilon_{abc}\sigma_c,
 $$
 
-where $\delta_{ij}$ and $\epsilon_{ijk}$ are the Kronecker delta and Levi–Civita symbol. The spin-$\frac12$ operators are
+where $\delta_{ab}$ and $\epsilon_{abc}$ are the Kronecker delta and Levi–Civita symbol. The spin-$\frac12$ operators are
 
 $$
-\boxed{\hat S_i=\frac{\hbar}{2}\sigma_i,\qquad \hat{\mathbf S}^2=\frac{3}{4}\hbar^2\hat I_2},
+\boxed{\hat S_a=\frac{\hbar}{2}\sigma_a,\qquad \hat{\mathbf S}^2=\frac{3}{4}\hbar^2\hat I_2},
 $$
 
 and satisfy
 
 $$
-[\hat S_i,\hat S_j]=i\hbar\sum_k\epsilon_{ijk}\hat S_k.
+[\hat S_a,\hat S_b]=i\hbar\sum_c\epsilon_{abc}\hat S_c.
 $$
 
 Let $\chi_\mu$ denote the $\hat S_z$ eigenstate with $\mu=\pm\frac12$:
@@ -168,34 +168,34 @@ $$
 \hat{\mathbf J}=\hat{\mathbf L}\otimes\hat I_2+\hat{\mathbf S}.
 $$
 
-Coupling $Y_{lm}(\Omega)$ to this basis defines
+Coupling $Y_{l m_l}(\Omega)$ to this basis defines
 
 $$
-\boxed{\mathcal Y_{JlM}(\Omega)=\sum_{m=-l}^{l}\sum_{\mu=\pm1/2}\left\langle l,m;\frac12,\mu\middle|J,M\right\rangle Y_{lm}(\Omega)\chi_\mu}.
+\boxed{\mathcal Y_{jm}^{l}(\Omega)=\sum_{m_l=-l}^{l}\sum_{\mu=\pm1/2}\left\langle l,m_l;\frac12,\mu\middle|j,m\right\rangle Y_{l m_l}(\Omega)\chi_\mu}.
 $$
 
-Here $J$ and $M$ are the total angular-momentum quantum numbers:
+Here $j$ and $m$ are the total angular-momentum quantum numbers:
 
 $$
-J=l\pm\frac12,\qquad M=-J,-J+1,\ldots,J,
+j=l\pm\frac12,\qquad m=-j,-j+1,\ldots,j,
 $$
 
-with only $J=\frac12$ allowed for $l=0$. Since $M=m+\mu$, the two components are explicitly
+with only $j=\frac12$ allowed for $l=0$. Since $m=m_l+\mu$, the two components are explicitly
 
 $$
-\mathcal Y_{JlM}=\begin{pmatrix}\left\langle l,M-\frac12;\frac12,\frac12\middle|J,M\right\rangle Y_{l,M-1/2}\\\left\langle l,M+\frac12;\frac12,-\frac12\middle|J,M\right\rangle Y_{l,M+1/2}\end{pmatrix}.
+\mathcal Y_{jm}^{l}=\begin{pmatrix}\left\langle l,m-\frac12;\frac12,\frac12\middle|j,m\right\rangle Y_{l,m-1/2}\\\left\langle l,m+\frac12;\frac12,-\frac12\middle|j,m\right\rangle Y_{l,m+1/2}\end{pmatrix}.
 $$
 
-In the Condon–Shortley convention, for $J=l+\frac12$,
+In the Condon–Shortley convention, for $j=l+\frac12$,
 
 $$
-\mathcal Y_{l+1/2,l,M}=\begin{pmatrix}\sqrt{\frac{l+M+1/2}{2l+1}}\,Y_{l,M-1/2}\\\sqrt{\frac{l-M+1/2}{2l+1}}\,Y_{l,M+1/2}\end{pmatrix}.
+\mathcal Y_{l+1/2,m}^{l}=\begin{pmatrix}\sqrt{\frac{l+m+1/2}{2l+1}}\,Y_{l,m-1/2}\\\sqrt{\frac{l-m+1/2}{2l+1}}\,Y_{l,m+1/2}\end{pmatrix}.
 $$
 
-For $J=l-\frac12$ with $l\geq1$,
+For $j=l-\frac12$ with $l\geq1$,
 
 $$
-\mathcal Y_{l-1/2,l,M}=\begin{pmatrix}-\sqrt{\frac{l-M+1/2}{2l+1}}\,Y_{l,M-1/2}\\\sqrt{\frac{l+M+1/2}{2l+1}}\,Y_{l,M+1/2}\end{pmatrix}.
+\mathcal Y_{l-1/2,m}^{l}=\begin{pmatrix}-\sqrt{\frac{l-m+1/2}{2l+1}}\,Y_{l,m-1/2}\\\sqrt{\frac{l+m+1/2}{2l+1}}\,Y_{l,m+1/2}\end{pmatrix}.
 $$
 
 The spinor spherical harmonics satisfy:
@@ -203,37 +203,37 @@ The spinor spherical harmonics satisfy:
 - Eigenvalue equations
 
   $$
-  \hat{\mathbf J}^2\mathcal Y_{JlM}=\hbar^2J(J+1)\mathcal Y_{JlM},\qquad \hat J_z\mathcal Y_{JlM}=\hbar M\mathcal Y_{JlM}.
+  \hat{\mathbf J}^2\mathcal Y_{jm}^{l}=\hbar^2j(j+1)\mathcal Y_{jm}^{l},\qquad \hat J_z\mathcal Y_{jm}^{l}=\hbar m\mathcal Y_{jm}^{l}.
   $$
 
   $$
-  \hat{\mathbf L}^2\mathcal Y_{JlM}=\hbar^2l(l+1)\mathcal Y_{JlM},\qquad \hat{\mathbf S}^2\mathcal Y_{JlM}=\frac34\hbar^2\mathcal Y_{JlM}.
+  \hat{\mathbf L}^2\mathcal Y_{jm}^{l}=\hbar^2l(l+1)\mathcal Y_{jm}^{l},\qquad \hat{\mathbf S}^2\mathcal Y_{jm}^{l}=\frac34\hbar^2\mathcal Y_{jm}^{l}.
   $$
 
 - Complex conjugation and parity
 
   $$
-  \mathcal Y_{JlM}^*(\Omega)=(-1)^{l+J-M}i\sigma_y\mathcal Y_{Jl,-M}(\Omega),\qquad \mathcal Y_{JlM}(-\hat{\mathbf r})=(-1)^l\mathcal Y_{JlM}(\hat{\mathbf r}).
+  \left[\mathcal Y_{jm}^{l}(\Omega)\right]^*=(-1)^{l+j-m}i\sigma_y\mathcal Y_{j,-m}^{l}(\Omega),\qquad \mathcal Y_{jm}^{l}(-\hat{\mathbf r})=(-1)^l\mathcal Y_{jm}^{l}(\hat{\mathbf r}).
   $$
 
 - Orthonormality and completeness
 
   $$
-  \int d\Omega\,\mathcal Y_{J'l'M'}^\dagger(\Omega)\mathcal Y_{JlM}(\Omega)=\delta_{JJ'}\delta_{ll'}\delta_{MM'}.
+  \int d\Omega\,\left[\mathcal Y_{j'm'}^{l'}(\Omega)\right]^\dagger\mathcal Y_{jm}^{l}(\Omega)=\delta_{jj'}\delta_{ll'}\delta_{mm'}.
   $$
 
   $$
-  \sum_{l=0}^{\infty}\sum_{J=|l-1/2|}^{l+1/2}\sum_{M=-J}^{J}\mathcal Y_{JlM}(\Omega)\mathcal Y_{JlM}^\dagger(\Omega')=\hat I_2\delta(\Omega-\Omega').
+  \sum_{l=0}^{\infty}\sum_{j=|l-1/2|}^{l+1/2}\sum_{m=-j}^{j}\mathcal Y_{jm}^{l}(\Omega)\left[\mathcal Y_{jm}^{l}(\Omega')\right]^\dagger=\hat I_2\delta(\Omega-\Omega').
   $$
 
 - Ladder relations
 
   $$
-  \hat J_\pm\mathcal Y_{JlM}=\hbar\sqrt{J(J+1)-M(M\pm1)}\,\mathcal Y_{Jl,M\pm1}.
+  \hat J_\pm\mathcal Y_{jm}^{l}=\hbar\sqrt{j(j+1)-m(m\pm1)}\,\mathcal Y_{j,m\pm1}^{l}.
   $$
 
 A two-component field can be expanded as
 
 $$
-\psi(r,\Omega)=\sum_{l=0}^{\infty}\sum_{J=|l-1/2|}^{l+1/2}\sum_{M=-J}^{J}\frac{u_{JlM}(r)}{r}\mathcal Y_{JlM}(\Omega),\qquad u_{JlM}(r)=r\int d\Omega\,\mathcal Y_{JlM}^\dagger(\Omega)\psi(r,\Omega).
+\psi(r,\Omega)=\sum_{l=0}^{\infty}\sum_{j=|l-1/2|}^{l+1/2}\sum_{m=-j}^{j}\frac{u_{jlm}(r)}{r}\mathcal Y_{jm}^{l}(\Omega),\qquad u_{jlm}(r)=r\int d\Omega\,\left[\mathcal Y_{jm}^{l}(\Omega)\right]^\dagger\psi(r,\Omega).
 $$
