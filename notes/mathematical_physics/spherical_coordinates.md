@@ -63,13 +63,19 @@ $$
 Let $\Omega=(\theta,\phi)$ denote the angular coordinates. Define
 
 $$
-\nabla_\Omega=\hat{\boldsymbol\theta}\frac{\partial}{\partial\theta}+\hat{\boldsymbol\phi}\frac{1}{\sin\theta}\frac{\partial}{\partial\phi},\qquad\boxed{\nabla=\hat{\mathbf r}\frac{\partial}{\partial r}+\frac{1}{r}\nabla_\Omega}.
+\nabla_\Omega=\hat{\boldsymbol\theta}\frac{\partial}{\partial\theta}+\hat{\boldsymbol\phi}\frac{1}{\sin\theta}\frac{\partial}{\partial\phi},\qquad\nabla=\hat{\mathbf r}\frac{\partial}{\partial r}+\frac{1}{r}\nabla_\Omega.
 $$
 
 Let $\hbar$ be the reduced Planck constant. Then
 
 $$
 \hat{\mathbf L}=-i\hbar\,\hat{\mathbf r}\times\nabla_\Omega,\qquad\nabla_\Omega=-\frac{i}{\hbar}\hat{\mathbf r}\times\hat{\mathbf L},\qquad\hat L_z=-i\hbar\frac{\partial}{\partial\phi}.
+$$
+
+Then the gradient operator can be expressed as:
+
+$$
+\boxed{\nabla = \hat{\mathbf r}\frac{\partial}{\partial r}+\frac{1}{r}\nabla_\Omega = \hat{\mathbf r}\frac{\partial}{\partial r}-\frac{i}{\hbar}\frac{\hat{\mathbf r}\times\hat{\mathbf L}}{r}}.
 $$
 
 The angular Laplacian is
