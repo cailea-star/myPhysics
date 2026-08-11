@@ -157,3 +157,141 @@ Therefore,
 $$
 \boxed{\boldsymbol\sigma\cdot\hat{\mathbf p}\left[\frac{G(r)}{r}\mathcal Y_{\kappa m}\right]=\frac{i\hbar}{r}\left[\frac{dG}{dr}+\frac{\kappa}{r}G(r)\right]\mathcal Y_{-\kappa,m}}.
 $$
+
+### Cylindrical Preliminaries
+
+##### Spinor Azimuthal Harmonics
+
+Using the [azimuthal harmonics](../mathematical_physics/cylindrical_coordinates.md#azimuthal-harmonics),
+
+$$
+\Phi_m(\phi)=\frac{1}{\sqrt{2\pi}}e^{im\phi},\qquad m\in\mathbb Z.
+$$
+
+The spin basis and Pauli matrices are defined in [Spin-$1/2$ in Matrix Form](angular_momentum.md#spin-12-in-matrix-form). The total angular-momentum projection is
+
+$$
+\hat J_z=\hat L_z+\hat S_z=-i\hbar\frac{\partial}{\partial\phi}+\frac{\hbar}{2}\sigma_z.
+$$
+
+For $\Omega\in\mathbb Z+\frac12$, define
+
+$$
+\Xi_{\Omega,+}(\phi)=\Phi_{\Omega-\frac12}(\phi)\chi_+=\frac{1}{\sqrt{2\pi}}\begin{pmatrix}e^{i(\Omega-\frac12)\phi}\\0\end{pmatrix},\qquad \Xi_{\Omega,-}(\phi)=\Phi_{\Omega+\frac12}(\phi)\chi_-=\frac{1}{\sqrt{2\pi}}\begin{pmatrix}0\\e^{i(\Omega+\frac12)\phi}\end{pmatrix}.
+$$
+
+They satisfy
+
+$$
+\hat J_z\Xi_{\Omega,\pm}=\hbar\Omega\Xi_{\Omega,\pm},\qquad \int_0^{2\pi}d\phi\,\Xi_{\Omega,s}^\dagger\Xi_{\Omega',s'}=\delta_{\Omega\Omega'}\delta_{ss'},\qquad s,s'\in\{+,-\}.
+$$
+
+A spinor with fixed $\Omega$ is
+
+$$
+\Psi_\Omega(r_\perp,\phi,z)=f_+(r_\perp,z)\Xi_{\Omega,+}(\phi)+f_-(r_\perp,z)\Xi_{\Omega,-}(\phi)=\frac{1}{\sqrt{2\pi}}\begin{pmatrix}f_+(r_\perp,z)e^{i(\Omega-\frac12)\phi}\\f_-(r_\perp,z)e^{i(\Omega+\frac12)\phi}\end{pmatrix}.
+$$
+
+##### Cylindrical Gradient
+
+The [cylindrical gradient](../mathematical_physics/cylindrical_coordinates.md#differential-operators) can be written as
+
+$$
+\nabla=\hat{\mathbf r}_\perp\frac{\partial}{\partial r_\perp}+\hat{\mathbf z}\frac{\partial}{\partial z}+\frac{i}{\hbar r_\perp}\hat{\boldsymbol\phi}\hat L_z,\qquad \hat L_z=-i\hbar\frac{\partial}{\partial\phi}.
+$$
+
+The operators $\sigma_{r_\perp}$, $\sigma_\phi$, and $\sigma_z$ are defined in [Pauli Operators in Local Frames](angular_momentum.md#pauli-operators-in-local-frames). Hence
+
+$$
+\boxed{\boldsymbol{\sigma}\cdot\nabla=\sigma_{r_\perp}\frac{\partial}{\partial r_\perp}+\sigma_z\frac{\partial}{\partial z}+\frac{i}{\hbar r_\perp}\sigma_\phi\hat L_z}.
+$$
+
+### Cylindrical Spin–Momentum Operator
+
+With $\hat{\mathbf p}=-i\hbar\nabla$,
+
+$$
+\boxed{\boldsymbol\sigma\cdot\hat{\mathbf p}=-i\hbar\left(\sigma_{r_\perp}\frac{\partial}{\partial r_\perp}+\sigma_z\frac{\partial}{\partial z}+\frac{i}{\hbar r_\perp}\sigma_\phi\hat L_z\right)}.
+$$
+
+##### Radial Operator $\sigma_{r_\perp}$
+
+The radial Pauli operator exchanges the two angular spinors:
+
+$$
+\sigma_{r_\perp}\Xi_{\Omega,+}=\frac{1}{\sqrt{2\pi}}\begin{pmatrix}0&e^{-i\phi}\\e^{i\phi}&0\end{pmatrix}\begin{pmatrix}e^{i(\Omega-\frac12)\phi}\\0\end{pmatrix}=\frac{1}{\sqrt{2\pi}}\begin{pmatrix}0\\e^{i(\Omega+\frac12)\phi}\end{pmatrix}=\Xi_{\Omega,-}.
+$$
+
+$$
+\sigma_{r_\perp}\Xi_{\Omega,-}=\frac{1}{\sqrt{2\pi}}\begin{pmatrix}0&e^{-i\phi}\\e^{i\phi}&0\end{pmatrix}\begin{pmatrix}0\\e^{i(\Omega+\frac12)\phi}\end{pmatrix}=\frac{1}{\sqrt{2\pi}}\begin{pmatrix}e^{i(\Omega-\frac12)\phi}\\0\end{pmatrix}=\Xi_{\Omega,+}.
+$$
+
+Therefore,
+
+$$
+\sigma_{r_\perp}\frac{\partial\Psi_\Omega}{\partial r_\perp}=\sigma_{r_\perp}\frac{\partial}{\partial r_\perp}\left(f_+\Xi_{\Omega,+}+f_-\Xi_{\Omega,-}\right)=\frac{\partial f_-}{\partial r_\perp}\Xi_{\Omega,+}+\frac{\partial f_+}{\partial r_\perp}\Xi_{\Omega,-}.
+$$
+
+##### Axial Operator $\sigma_z$
+
+The axial Pauli operator acts diagonally on the two angular spinors:
+
+$$
+\sigma_z\Xi_{\Omega,+}=\frac{1}{\sqrt{2\pi}}\begin{pmatrix}1&0\\0&-1\end{pmatrix}\begin{pmatrix}e^{i(\Omega-\frac12)\phi}\\0\end{pmatrix}=\frac{1}{\sqrt{2\pi}}\begin{pmatrix}e^{i(\Omega-\frac12)\phi}\\0\end{pmatrix}=\Xi_{\Omega,+}.
+$$
+
+$$
+\sigma_z\Xi_{\Omega,-}=\frac{1}{\sqrt{2\pi}}\begin{pmatrix}1&0\\0&-1\end{pmatrix}\begin{pmatrix}0\\e^{i(\Omega+\frac12)\phi}\end{pmatrix}=-\frac{1}{\sqrt{2\pi}}\begin{pmatrix}0\\e^{i(\Omega+\frac12)\phi}\end{pmatrix}=-\Xi_{\Omega,-}.
+$$
+
+Therefore,
+
+$$
+\sigma_z\frac{\partial\Psi_\Omega}{\partial z}=\sigma_z\frac{\partial}{\partial z}\left(f_+\Xi_{\Omega,+}+f_-\Xi_{\Omega,-}\right)=\frac{\partial f_+}{\partial z}\Xi_{\Omega,+}-\frac{\partial f_-}{\partial z}\Xi_{\Omega,-}.
+$$
+
+##### Azimuthal Operator $\sigma_\phi\hat L_z$
+
+The orbital angular momentum acts diagonally on the angular spinors:
+
+$$
+\hat L_z\Xi_{\Omega,+}=\hbar\left(\Omega-\frac12\right)\Xi_{\Omega,+},\qquad \hat L_z\Xi_{\Omega,-}=\hbar\left(\Omega+\frac12\right)\Xi_{\Omega,-}.
+$$
+
+The combined action on $\Xi_{\Omega,+}$ is
+
+$$
+\frac{i}{\hbar r_\perp}\sigma_\phi\hat L_z\Xi_{\Omega,+}=\frac{i(\Omega-\frac12)}{r_\perp\sqrt{2\pi}}\begin{pmatrix}0&-ie^{-i\phi}\\ie^{i\phi}&0\end{pmatrix}\begin{pmatrix}e^{i(\Omega-\frac12)\phi}\\0\end{pmatrix}=-\frac{\Omega-\frac12}{r_\perp\sqrt{2\pi}}\begin{pmatrix}0\\e^{i(\Omega+\frac12)\phi}\end{pmatrix}=-\frac{\Omega-\frac12}{r_\perp}\Xi_{\Omega,-}.
+$$
+
+The combined action on $\Xi_{\Omega,-}$ is
+
+$$
+\frac{i}{\hbar r_\perp}\sigma_\phi\hat L_z\Xi_{\Omega,-}=\frac{i(\Omega+\frac12)}{r_\perp\sqrt{2\pi}}\begin{pmatrix}0&-ie^{-i\phi}\\ie^{i\phi}&0\end{pmatrix}\begin{pmatrix}0\\e^{i(\Omega+\frac12)\phi}\end{pmatrix}=\frac{\Omega+\frac12}{r_\perp\sqrt{2\pi}}\begin{pmatrix}e^{i(\Omega-\frac12)\phi}\\0\end{pmatrix}=\frac{\Omega+\frac12}{r_\perp}\Xi_{\Omega,+}.
+$$
+
+Therefore,
+
+$$
+\frac{i}{\hbar r_\perp}\sigma_\phi\hat L_z\Psi_\Omega=\frac{i}{\hbar r_\perp}\sigma_\phi\hat L_z\left(f_+\Xi_{\Omega,+}+f_-\Xi_{\Omega,-}\right)=\frac{\Omega+\frac12}{r_\perp}f_-\Xi_{\Omega,+}-\frac{\Omega-\frac12}{r_\perp}f_+\Xi_{\Omega,-}.
+$$
+
+##### Combined Action
+
+Combining the radial, axial, and azimuthal contributions,
+
+$$
+\boldsymbol\sigma\cdot\nabla\,\Psi_\Omega=\left(\frac{\partial f_-}{\partial r_\perp}\Xi_{\Omega,+}+\frac{\partial f_+}{\partial r_\perp}\Xi_{\Omega,-}\right)+\left(\frac{\partial f_+}{\partial z}\Xi_{\Omega,+}-\frac{\partial f_-}{\partial z}\Xi_{\Omega,-}\right)+\left(\frac{\Omega+\frac12}{r_\perp}f_-\Xi_{\Omega,+}-\frac{\Omega-\frac12}{r_\perp}f_+\Xi_{\Omega,-}\right).
+$$
+
+Collecting the coefficients of $\Xi_{\Omega,+}$ and $\Xi_{\Omega,-}$ gives
+
+$$
+\boxed{\boldsymbol\sigma\cdot\nabla\,\Psi_\Omega=\left[\frac{\partial f_+}{\partial z}+\left(\frac{\partial}{\partial r_\perp}+\frac{\Omega+\frac12}{r_\perp}\right)f_-\right]\Xi_{\Omega,+}+\left[\left(\frac{\partial}{\partial r_\perp}-\frac{\Omega-\frac12}{r_\perp}\right)f_+-\frac{\partial f_-}{\partial z}\right]\Xi_{\Omega,-}}.
+$$
+
+Therefore,
+
+$$
+\boxed{\boldsymbol\sigma\cdot\hat{\mathbf p}\,\Psi_\Omega=-i\hbar\left\{\left[\frac{\partial f_+}{\partial z}+\left(\frac{\partial}{\partial r_\perp}+\frac{\Omega+\frac12}{r_\perp}\right)f_-\right]\Xi_{\Omega,+}+\left[\left(\frac{\partial}{\partial r_\perp}-\frac{\Omega-\frac12}{r_\perp}\right)f_+-\frac{\partial f_-}{\partial z}\right]\Xi_{\Omega,-}\right\}}.
+$$
