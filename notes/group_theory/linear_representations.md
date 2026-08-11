@@ -202,12 +202,12 @@ $$
 
 ##### Function-Space Realizations
 
-Let $X=\mathbb C^n$ carry an $n$-dimensional matrix representation $D_X$ of $G$.
+Let $X=\mathbb C^n$ carry an $n$-dimensional matrix representation $D^{(X)}$ of $G$.
 
 - Coordinate transformation
 
 $$
-\underline x'=D_X(g)\underline x.
+\underline x'=D^{(X)}(g)\underline x.
 $$
 
 - Scalar-function transformation
@@ -227,7 +227,7 @@ $$
 Equivalently,
 
 $$
-(P_g\psi)(\underline x)=\psi\bigl(D_X(g)^{-1}\underline x\bigr).
+(P_g\psi)(\underline x)=\psi\bigl(D^{(X)}(g)^{-1}\underline x\bigr).
 $$
 
 - Invariant function space
@@ -241,10 +241,10 @@ $$
 then
 
 $$
-(P_g\psi_\mu)(\underline x)=\sum_{\nu=1}^{m}\psi_\nu(\underline x)[D_F(g)]_{\nu\mu}.
+(P_g\psi_\mu)(\underline x)=\sum_{\nu=1}^{m}\psi_\nu(\underline x)D_{\nu\mu}^{(F)}(g).
 $$
 
-The matrices $D_F(g)$ form the matrix representation of $P_g$ on $F$.
+The matrices $D^{(F)}(g)$ form the matrix representation of $P_g$ on $F$.
 
 ### Equivalent and Reducible Representations
 
