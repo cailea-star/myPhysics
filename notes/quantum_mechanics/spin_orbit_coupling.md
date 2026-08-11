@@ -1,40 +1,28 @@
 # Spin–Orbit Coupling
 
-### Preliminaries
+### Spherical Preliminaries
 
 ##### Spinor Spherical Harmonics
 
-Let $\Omega=(\theta,\phi)$, let $Y_{l m_l}(\Omega)$ be a scalar spherical harmonic, and let $\chi_\mu$ be an eigenstate of the spin-$\frac12$ operator $\hat S_z$:
+Let $\Omega=(\theta,\phi)$ and let $Y_{l m_l}(\Omega)$ be a scalar spherical harmonic. The spin-$\frac12$ basis is
 
 $$
 \chi_{1/2}=\begin{pmatrix}1\\0\end{pmatrix},\qquad \chi_{-1/2}=\begin{pmatrix}0\\1\end{pmatrix},\qquad \hat S_z\chi_\mu=\hbar\mu\chi_\mu.
 $$
 
-With $\hat{\mathbf J}=\hat{\mathbf L}+\hat{\mathbf S}$, coupling the orbital and spin degrees of freedom defines
+With $\hat{\mathbf J}=\hat{\mathbf L}+\hat{\mathbf S}$,
 
 $$
 \boxed{\mathcal Y_{jm}^{l}(\Omega)=\sum_{m_l=-l}^{l}\sum_{\mu=\pm1/2}\left\langle l,m_l;\frac12,\mu\middle|j,m\right\rangle Y_{l m_l}(\Omega)\chi_\mu}.
 $$
 
-Here $m=m_l+\mu$ and
+The coupled quantum numbers satisfy
 
 $$
-j=l\pm\frac12,\qquad m=-j,-j+1,\ldots,j,
+j=l\pm\frac12,\qquad m=m_l+\mu,\qquad m=-j,-j+1,\ldots,j,
 $$
 
-with only $j=\frac12$ allowed for $l=0$. In the Condon–Shortley convention, for $j=l+\frac12$,
-
-$$
-\mathcal Y_{l+1/2,m}^{l}=\begin{pmatrix}\sqrt{\frac{l+m+1/2}{2l+1}}\,Y_{l,m-1/2}\\\sqrt{\frac{l-m+1/2}{2l+1}}\,Y_{l,m+1/2}\end{pmatrix}.
-$$
-
-For $j=l-\frac12$ with $l\geq1$,
-
-$$
-\mathcal Y_{l-1/2,m}^{l}=\begin{pmatrix}-\sqrt{\frac{l-m+1/2}{2l+1}}\,Y_{l,m-1/2}\\\sqrt{\frac{l+m+1/2}{2l+1}}\,Y_{l,m+1/2}\end{pmatrix}.
-$$
-
-The spinor spherical harmonics are simultaneous eigenfunctions of $\hat J^2$, $\hat J_z$, $\hat L^2$, and $\hat S^2$:
+with only $j=\frac12$ allowed for $l=0$. The spinor spherical harmonics obey
 
 $$
 \hat J^2\mathcal Y_{jm}^{l}=\hbar^2j(j+1)\mathcal Y_{jm}^{l},\qquad \hat J_z\mathcal Y_{jm}^{l}=\hbar m\mathcal Y_{jm}^{l}.
@@ -74,17 +62,11 @@ $$
 
 The spherical-coordinate conventions and differential operators are collected in [Spherical Coordinates](../mathematical_physics/spherical_coordinates.md#differential-operators).
 
-### Spin–Momentum Operator
+### Spherical Spin–Momentum Operator
 
 ##### Factorization of $\boldsymbol\sigma\cdot\nabla$
 
-Let $\boldsymbol\sigma=(\sigma_x,\sigma_y,\sigma_z)$, let $\hat I_2$ be the two-dimensional identity operator, and let $\mathbf a$ and $\mathbf b$ commute with the Pauli matrices. Then
-
-$$
-(\boldsymbol\sigma\cdot\mathbf a)(\boldsymbol\sigma\cdot\mathbf b)=(\mathbf a\cdot\mathbf b)\hat I_2+i\boldsymbol\sigma\cdot(\mathbf a\times\mathbf b).
-$$
-
-Since $\hat{\mathbf r}\cdot\hat{\mathbf L}=0$,
+The Pauli vector and its product identity are defined in [Spin-$1/2$ in Matrix Form](angular_momentum.md#spin-12-in-matrix-form). Since $\hat{\mathbf r}\cdot\hat{\mathbf L}=0$,
 
 $$
 (\boldsymbol\sigma\cdot\hat{\mathbf r})(\boldsymbol\sigma\cdot\hat{\mathbf L})=i\boldsymbol\sigma\cdot(\hat{\mathbf r}\times\hat{\mathbf L}).
@@ -93,13 +75,7 @@ $$
 Using the spherical gradient,
 
 $$
-\boldsymbol\sigma\cdot\nabla=(\boldsymbol\sigma\cdot\hat{\mathbf r})\frac{\partial}{\partial r}-\frac{i}{\hbar r}\boldsymbol\sigma\cdot(\hat{\mathbf r}\times\hat{\mathbf L}),
-$$
-
-and therefore
-
-$$
-\boxed{\boldsymbol\sigma\cdot\nabla=(\boldsymbol\sigma\cdot\hat{\mathbf r})\left[\frac{\partial}{\partial r}-\frac{1}{\hbar r}\boldsymbol\sigma\cdot\hat{\mathbf L}\right]}.
+\boxed{\boldsymbol\sigma\cdot\nabla=(\boldsymbol\sigma\cdot\hat{\mathbf r})\frac{\partial}{\partial r}-\frac{i}{\hbar r}\boldsymbol\sigma\cdot(\hat{\mathbf r}\times\hat{\mathbf L})=(\boldsymbol\sigma\cdot\hat{\mathbf r})\left[\frac{\partial}{\partial r}-\frac{1}{\hbar r}\boldsymbol\sigma\cdot\hat{\mathbf L}\right]}.
 $$
 
 With $\hat{\mathbf p}=-i\hbar\nabla$,

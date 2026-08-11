@@ -132,46 +132,32 @@ For $j\geq1$, the two bases span the same three-dimensional space and are relate
 
 ### Spinor Spherical Harmonics
 
-Let $\hat I_2$ be the two-dimensional identity operator. The Pauli matrices are
+Let $\hat I_2$ denote the two-dimensional identity operator. The Pauli matrices are
 
 $$
 \sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix},\qquad \sigma_y=\begin{pmatrix}0&-i\\i&0\end{pmatrix},\qquad \sigma_z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}.
 $$
 
-For $a,b,c\in\{x,y,z\}$,
-
 $$
-\sigma_a\sigma_b=\delta_{ab}\hat I_2+i\sum_c\epsilon_{abc}\sigma_c,
+\hat S_a=\frac{\hbar}{2}\sigma_a,\qquad a\in\{x,y,z\}.
 $$
 
-where $\delta_{ab}$ and $\epsilon_{abc}$ are the Kronecker delta and Levi–Civita symbol. The spin-$\frac12$ operators are
+Their $\sigma_z$ eigenvectors are
 
 $$
-\boxed{\hat S_a=\frac{\hbar}{2}\sigma_a,\qquad \hat{\mathbf S}^2=\frac{3}{4}\hbar^2\hat I_2},
+\chi_{1/2}\equiv\chi_+=\begin{pmatrix}1\\0\end{pmatrix},\qquad \chi_{-1/2}\equiv\chi_-=\begin{pmatrix}0\\1\end{pmatrix},\qquad \sigma_z\chi_\pm=\pm\chi_\pm.
 $$
 
-and satisfy
-
-$$
-[\hat S_a,\hat S_b]=i\hbar\sum_c\epsilon_{abc}\hat S_c.
-$$
-
-Let $\chi_\mu$ denote the $\hat S_z$ eigenstate with $\mu=\pm\frac12$:
-
-$$
-\chi_{1/2}=\begin{pmatrix}1\\0\end{pmatrix},\qquad \chi_{-1/2}=\begin{pmatrix}0\\1\end{pmatrix},\qquad \hat S_z\chi_\mu=\hbar\mu\chi_\mu.
-$$
-
-On two-component functions, define the total angular momentum by
+The Pauli algebra is collected in [Spin-$1/2$ in Matrix Form](../quantum_mechanics/angular_momentum.md#spin-12-in-matrix-form). On two-component functions,
 
 $$
 \hat{\mathbf J}=\hat{\mathbf L}\otimes\hat I_2+\hat{\mathbf S}.
 $$
 
-Coupling $Y_{l m_l}(\Omega)$ to this basis defines
+Coupling $Y_{lm_l}(\Omega)$ to the spin basis defines
 
 $$
-\boxed{\mathcal Y_{jm}^{l}(\Omega)=\sum_{m_l=-l}^{l}\sum_{\mu=\pm1/2}\left\langle l,m_l;\frac12,\mu\middle|j,m\right\rangle Y_{l m_l}(\Omega)\chi_\mu}.
+\boxed{\mathcal Y_{jm}^{l}(\Omega)=\sum_{m_l=-l}^{l}\sum_{\mu=\pm1/2}\left\langle l,m_l;\frac12,\mu\middle|j,m\right\rangle Y_{lm_l}(\Omega)\chi_\mu}.
 $$
 
 Here $j$ and $m$ are the total angular-momentum quantum numbers:
