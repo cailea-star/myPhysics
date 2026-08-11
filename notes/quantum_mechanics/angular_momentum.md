@@ -100,7 +100,53 @@ $$
 
 Each $j$ multiplet has dimension $2j+1$.
 
-### Matrix Representation
+### Orbital Angular Momentum in Coordinate Space
+
+For $\psi(\mathbf r)=\langle\mathbf r|\psi\rangle$,
+
+$$
+\hat{\mathbf p}=-i\hbar\nabla,\qquad \hat{\mathbf L}=\mathbf r\times\hat{\mathbf p}=-i\hbar\,\mathbf r\times\nabla.
+$$
+
+Let $r=|\mathbf r|$, $\hat{\mathbf r}=\mathbf r/r$, and $\Omega=(\theta,\phi)$. In spherical coordinates,
+
+$$
+\boxed{\hat L_z=-i\hbar\frac{\partial}{\partial\phi}}.
+$$
+
+The gradient is
+
+$$
+\boxed{\nabla=\hat{\mathbf r}\frac{\partial}{\partial r}-\frac{i}{\hbar r}\hat{\mathbf r}\times\hat{\mathbf L}}.
+$$
+
+The Laplacian is
+
+$$
+\boxed{\nabla^2=\frac{1}{r^2}\left[\frac{\partial}{\partial r}\left(r^2\frac{\partial}{\partial r}\right)-\frac{\hat{\mathbf L}^2}{\hbar^2}\right]}.
+$$
+
+The angular coordinate representation of $|l,m\rangle$ is
+
+$$
+\langle\Omega|l,m\rangle=Y_{lm}(\Omega).
+$$
+
+Therefore,
+
+$$
+\boxed{\hat{\mathbf L}^2Y_{lm}=\hbar^2l(l+1)Y_{lm},\qquad \hat L_zY_{lm}=\hbar mY_{lm}}.
+$$
+
+A wavefunction with fixed $(l,m)$ has the form
+
+$$
+\psi_{lm}(\mathbf r)=R_l(r)Y_{lm}(\Omega).
+$$
+
+The differential identities and properties of $Y_{lm}$ are collected in [Spherical Coordinates](../mathematical_physics/spherical_coordinates.md#differential-operators) and [Spherical Harmonics](../mathematical_physics/spherical_harmonics.md#scalar-spherical-harmonics).
+
+### Angular Momentum in Matrix Form
 
 For fixed $j$, use the ordered basis
 
@@ -124,17 +170,73 @@ $$
 \hat J_x=\frac{\hat J_++\hat J_-}{2},\qquad \hat J_y=\frac{\hat J_+-\hat J_-}{2i}.
 $$
 
-For $j=\frac12$, using the basis $\mathcal B_{1/2}=\{|1/2,1/2\rangle,|1/2,-1/2\rangle\}$,
+### Spin-$1/2$ in Matrix Form
+
+##### Pauli Representation
+
+In the ordered basis $\mathcal B_{1/2}$, let $\hat I_2$ denote the two-dimensional identity operator. The Pauli matrices are
 
 $$
-\hat J_x=\frac{\hbar}{2}\begin{pmatrix}0&1\\1&0\end{pmatrix},\qquad \hat J_y=\frac{\hbar}{2}\begin{pmatrix}0&-i\\i&0\end{pmatrix},\qquad \hat J_z=\frac{\hbar}{2}\begin{pmatrix}1&0\\0&-1\end{pmatrix},
+\sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix},\qquad \sigma_y=\begin{pmatrix}0&-i\\i&0\end{pmatrix},\qquad \sigma_z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}.
 $$
 
+The $\sigma_z$ eigenvectors are
+
 $$
-\hat J^2=\frac{3}{4}\hbar^2\hat I_2,
+\chi_+=\begin{pmatrix}1\\0\end{pmatrix},\qquad \chi_-=\begin{pmatrix}0\\1\end{pmatrix},\qquad \sigma_z\chi_\pm=\pm\chi_\pm.
 $$
 
-where $\hat I_2$ is the two-dimensional identity operator. The component matrices are $\hbar/2$ times the Pauli matrices.
+The spin-$\frac12$ operator is
+
+$$
+\boxed{\hat{\mathbf S}=\frac{\hbar}{2}\boldsymbol{\sigma}},\qquad \boldsymbol{\sigma}=(\sigma_x,\sigma_y,\sigma_z),\qquad \hat S^2=\frac34\hbar^2\hat I_2.
+$$
+
+The Pauli matrices satisfy
+
+$$
+\sigma_i\sigma_j=\delta_{ij}\hat I_2+i\sum_k\epsilon_{ijk}\sigma_k.
+$$
+
+For ordinary vectors $\mathbf a$ and $\mathbf b$,
+
+$$
+\boxed{(\mathbf a\cdot\boldsymbol{\sigma})(\mathbf b\cdot\boldsymbol{\sigma})=(\mathbf a\cdot\mathbf b)\hat I_2+i\boldsymbol{\sigma}\cdot(\mathbf a\times\mathbf b)}.
+$$
+
+##### Pauli Operators in Local Frames
+
+For a local orthonormal basis $\{\hat{\mathbf e}_a\}$, define
+
+$$
+\boxed{\sigma_a=\boldsymbol{\sigma}\cdot\hat{\mathbf e}_a}.
+$$
+
+These are spatial projections of the Cartesian Pauli vector, not new spin-space matrices.
+
+For the local basis of [Spherical Coordinates](../mathematical_physics/spherical_coordinates.md#coordinate-differentials),
+
+$$
+\sigma_r=\begin{pmatrix}\cos\theta&e^{-i\phi}\sin\theta\\e^{i\phi}\sin\theta&-\cos\theta\end{pmatrix},\qquad \sigma_\theta=\begin{pmatrix}-\sin\theta&e^{-i\phi}\cos\theta\\e^{i\phi}\cos\theta&\sin\theta\end{pmatrix},\qquad \sigma_\phi=\begin{pmatrix}0&-ie^{-i\phi}\\ie^{i\phi}&0\end{pmatrix}.
+$$
+
+They satisfy
+
+$$
+\sigma_r\sigma_\theta=i\sigma_\phi,\qquad \sigma_\theta\sigma_\phi=i\sigma_r,\qquad \sigma_\phi\sigma_r=i\sigma_\theta.
+$$
+
+For the local basis of [Cylindrical Coordinates](../mathematical_physics/cylindrical_coordinates.md#coordinate-differentials),
+
+$$
+\sigma_{r_\perp}=\begin{pmatrix}0&e^{-i\phi}\\e^{i\phi}&0\end{pmatrix},\qquad \sigma_\phi=\begin{pmatrix}0&-ie^{-i\phi}\\ie^{i\phi}&0\end{pmatrix},\qquad \sigma_z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}.
+$$
+
+They satisfy
+
+$$
+\sigma_{r_\perp}\sigma_\phi=i\sigma_z,\qquad \sigma_\phi\sigma_z=i\sigma_{r_\perp},\qquad \sigma_z\sigma_{r_\perp}=i\sigma_\phi.
+$$
 
 ### Angular Momentum Coupling
 
