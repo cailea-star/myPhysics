@@ -11,6 +11,7 @@ description: Apply canonical myWIKI notes rules when creating, drafting, reviewi
 
 - Write note prose in English.
 - Use `###` for topic sections and `#####` for internal blocks.
+- Present drafts as rendered Markdown; NEVER wrap note drafts in fenced code blocks.
 - Make equations primary and prose secondary; use prose only to define symbols, state assumptions, and connect equations.
 - Prefer short phrase lists for parallel properties; avoid long prose paragraphs.
 - Maintain general theory in exactly one canonical note. Link to that note instead of repeating its derivation elsewhere.
@@ -31,10 +32,10 @@ description: Apply canonical myWIKI notes rules when creating, drafting, reviewi
 
 ## Section Workflow
 
-Work on exactly one note section at a time.
+Skip approved stages and resume from the relevant stage.
 
-1. Ask whether reference documents exist. If provided, read them before drafting.
-2. Require the user to determine the section title before drafting. If no title has been determined, ask for it and stop.
-3. Present the complete proposed section directly in the conversation without a fenced code block. Do not write it to a file.
-4. Wait for explicit user approval. Treat comments, corrections, and layout changes as requests for a revised draft, not as approval to write.
-5. After approval, reread the latest target file, write only the approved section, and preserve unrelated user changes.
+1. **Reference Confirmation:** Confirm and read all reference materials before planning.
+2. **Section Structure Confirmation:** Confirm the `###` sections and their order.
+3. **Subsection Outline Confirmation:** Confirm each `#####` subsection's scope and formula sequence.
+4. **Draft Confirmation:** Revise the complete subsection draft until explicitly approved.
+5. **Write:** Reread the target file, write only approved content, and verify formatting.
