@@ -152,24 +152,12 @@
 
 ### Reduced Matrix Elements
 
-##### Spherical Tensor Operators
+The definitions of [irreducible tensor operators](../group_theory/so3_su2.md#irreducible-tensor-operators) and the [Wigner–Eckart theorem](../group_theory/so3_su2.md#wignereckart-theorem) are given in [SO(3) and SU(2)](../group_theory/so3_su2.md).
 
-Let $\hat{\mathbf J}$ be the angular-momentum operator defined in [Angular Momentum](../quantum_mechanics/angular_momentum.md), with $\hat J_\pm=\hat J_x\pm i\hat J_y$. An irreducible spherical tensor operator of rank $k$ consists of $2k+1$ components $\hat T_q^{(k)}$, where $q=-k,\ldots,k$, satisfying
-
-$$
-\boxed{[\hat J_z,\hat T_q^{(k)}]=\hbar q\hat T_q^{(k)},\qquad[\hat J_\pm,\hat T_q^{(k)}]=\hbar\sqrt{k(k+1)-q(q\pm1)}\,\hat T_{q\pm1}^{(k)}}.
-$$
-
-A rank-$0$ tensor is a rotational scalar:
+Let $\hat T_q^{(k)}$ be a rank-$k$ irreducible tensor operator and $\hat J_\pm=\hat J_x\pm i\hat J_y$. Then
 
 $$
-[\hat J_i,\hat T_0^{(0)}]=0,\qquad i\in\{x,y,z\}.
-$$
-
-For a vector operator $\hat{\mathbf A}=(\hat A_x,\hat A_y,\hat A_z)$, the rank-$1$ spherical components are
-
-$$
-\hat A_0^{(1)}=\hat A_z,\qquad\hat A_{\pm1}^{(1)}=\mp\frac{\hat A_x\pm i\hat A_y}{\sqrt2}.
+\boxed{[\hat J_z,\hat T_q^{(k)}]=\hbar q\hat T_q^{(k)},\qquad [\hat J_\pm,\hat T_q^{(k)}]=\hbar\sqrt{k(k+1)-q(q\pm1)}\,\hat T_{q\pm1}^{(k)}}.
 $$
 
 A Hermitian spherical tensor satisfies
@@ -178,45 +166,23 @@ $$
 \left(\hat T_q^{(k)}\right)^\dagger=(-1)^q\hat T_{-q}^{(k)}.
 $$
 
-The tensor product of ranks $k_1$ and $k_2$ can be coupled to rank $k$:
+Tensor operators of ranks $k_1$ and $k_2$ couple according to
 
 $$
 \boxed{\left[\hat A^{(k_1)}\otimes\hat B^{(k_2)}\right]_q^{(k)}=\sum_{q_1,q_2}\langle k_1q_1;k_2q_2|kq\rangle\hat A_{q_1}^{(k_1)}\hat B_{q_2}^{(k_2)}}.
 $$
 
-The allowed ranks are
-
 $$
 |k_1-k_2|\leq k\leq k_1+k_2,\qquad q=q_1+q_2.
 $$
 
-##### Wigner–Eckart Theorem
-
-Let $|\alpha_i j_i m_i\rangle$, with $i\in\{1,2\}$, be angular-momentum eigenstates, where $\alpha_i$ denotes all quantum numbers other than $j_i$ and $m_i$. With the conventions above,
+For angular-momentum eigenstates $|\alpha_i j_i m_i\rangle$, the Wigner–Eckart theorem states
 
 $$
 \boxed{\langle\alpha_1j_1m_1|\hat T_q^{(k)}|\alpha_2j_2m_2\rangle=(-1)^{j_1-m_1}\begin{pmatrix}j_1&k&j_2\\-m_1&q&m_2\end{pmatrix}\langle\alpha_1j_1\|\hat T^{(k)}\|\alpha_2j_2\rangle=\frac{\langle j_2m_2;kq|j_1m_1\rangle}{\hat j_1}\langle\alpha_1j_1\|\hat T^{(k)}\|\alpha_2j_2\rangle}.
 $$
 
-The reduced matrix element $\langle\alpha_1j_1\|\hat T^{(k)}\|\alpha_2j_2\rangle$ is independent of $m_1$, $m_2$, and $q$. The angular dependence is entirely contained in the Wigner $3j$ symbol.
-
-The reduced matrix element can be recovered from the full matrix elements:
-
-$$
-\langle\alpha_1j_1\|\hat T^{(k)}\|\alpha_2j_2\rangle=\sum_{m_1,m_2,q}(-1)^{j_1-m_1}\begin{pmatrix}j_1&k&j_2\\-m_1&q&m_2\end{pmatrix}\langle\alpha_1j_1m_1|\hat T_q^{(k)}|\alpha_2j_2m_2\rangle=\frac{1}{\hat j_1}\sum_{m_1,m_2,q}\langle j_2m_2;kq|j_1m_1\rangle\langle\alpha_1j_1m_1|\hat T_q^{(k)}|\alpha_2j_2m_2\rangle.
-$$
-
-The angular-momentum selection rules are
-
-$$
-m_1=m_2+q,\qquad |j_2-k|\leq j_1\leq j_2+k,\qquad j_1+j_2+k\in\mathbb Z.
-$$
-
-For a scalar operator,
-
-$$
-\langle\alpha_1j_1m_1|\hat T_0^{(0)}|\alpha_2j_2m_2\rangle=\frac{\delta_{j_1j_2}\delta_{m_1m_2}}{\hat j_1}\langle\alpha_1j_1\|\hat T^{(0)}\|\alpha_2j_2\rangle.
-$$
+The reduced matrix element is independent of $m_1,m_2$, and $q$.
 
 ### Common Coupling Formulas
 
