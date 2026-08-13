@@ -439,13 +439,43 @@ $$
 D_{\mu\nu}^{(j)}(R)^*=(-1)^{\mu-\nu}D_{-\mu,-\nu}^{(j)}(R).
 $$
 
+Let
+
+$$
+\Omega=(\alpha,\beta,\gamma),\qquad 0\leq\alpha<2\pi,\qquad 0\leq\beta\leq\pi,\qquad 0\leq\gamma<\gamma_{\max}.
+$$
+
+The integration domain is determined by the group:
+
+$$
+\gamma_{\max}=4\pi,\quad j=0,\frac12,1,\ldots\qquad \text{for }SU(2),
+$$
+
+$$
+\gamma_{\max}=2\pi,\quad j=0,1,2,\ldots\qquad \text{for }SO(3).
+$$
+
 - Orthogonality
 
-For the normalized Haar measure $dR$,
+$$
+\frac{1}{4\pi\gamma_{\max}}\int_0^{2\pi}d\alpha\int_0^\pi\sin\beta\,d\beta\int_0^{\gamma_{\max}}d\gamma\,D_{\mu\nu}^{(j)}(\Omega)^*D_{\mu'\nu'}^{(j')}(\Omega)=\frac{\delta_{jj'}\delta_{\mu\mu'}\delta_{\nu\nu'}}{2j+1}.
+$$
+
+- Completeness
+
+For $\Omega'=(\alpha',\beta',\gamma')$,
 
 $$
-\int D_{\mu\nu}^{(j)}(R)^*D_{\mu'\nu'}^{(j')}(R)\,dR=\frac{1}{2j+1}\delta_{jj'}\delta_{\mu\mu'}\delta_{\nu\nu'}.
+\sum_{j}\sum_{\mu,\nu}(2j+1)D_{\mu\nu}^{(j)}(\Omega)^*D_{\mu\nu}^{(j)}(\Omega')=\frac{4\pi\gamma_{\max}}{\sin\beta}\delta_{2\pi}(\alpha-\alpha')\delta(\beta-\beta')\delta_{\gamma_{\max}}(\gamma-\gamma').
 $$
+
+- Triple-product integral
+
+$$
+\frac{1}{4\pi\gamma_{\max}}\int_0^{2\pi}d\alpha\int_0^\pi\sin\beta\,d\beta\int_0^{\gamma_{\max}}d\gamma\,D_{\mu_1\nu_1}^{(j_1)}(\Omega)D_{\mu_2\nu_2}^{(j_2)}(\Omega)D_{\mu_3\nu_3}^{(j_3)}(\Omega)=\begin{pmatrix}j_1&j_2&j_3\\\mu_1&\mu_2&\mu_3\end{pmatrix}\begin{pmatrix}j_1&j_2&j_3\\\nu_1&\nu_2&\nu_3\end{pmatrix}.
+$$
+
+Here $\delta_T$ denotes the periodic delta function with period $T$.
 
 - Spherical harmonics
 
