@@ -2,7 +2,7 @@
 
 ### Time-Evolution Operator
 
-The Hilbert-space and operator conventions used below are defined in [Quantum Formalism](formalism.md).
+The Hilbert-space and operator conventions used below are defined in [Quantum Formalism](quantum_formalism.md).
 
 ##### Schrödinger Equation
 
@@ -40,7 +40,7 @@ $$
 \boxed{\hat U(t_1,t_2)=\hat U^{-1}(t_2,t_1)=\hat U^\dagger(t_2,t_1)}.
 $$
 
-Thus, $\hat U(t_2,t_1)$ is a [unitary operator](formalism.md#unitary-transformation). Its inverse evolves the state backward along the same dynamics and is not, in general, the time-reversal symmetry operator.
+Thus, $\hat U(t_2,t_1)$ is a [unitary operator](quantum_formalism.md#unitary-transformation). Its inverse evolves the state backward along the same dynamics and is not, in general, the time-reversal symmetry operator.
 
 Substitution into the Schrödinger equation gives
 

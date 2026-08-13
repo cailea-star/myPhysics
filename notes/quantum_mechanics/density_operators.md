@@ -54,7 +54,7 @@ $$
 \boxed{\hat\rho_\psi=|\psi\rangle\langle\psi|}.
 $$
 
-It is the [projection operator](formalism.md#projection-operator) onto the subspace spanned by $|\psi\rangle$. Define the purity $\mathcal P$ by
+It is the [projection operator](quantum_formalism.md#projection-operator) onto the subspace spanned by $|\psi\rangle$. Define the purity $\mathcal P$ by
 
 $$
 \mathcal P\equiv\operatorname{Tr}\hat\rho^2.

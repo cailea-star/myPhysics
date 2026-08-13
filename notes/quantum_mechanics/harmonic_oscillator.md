@@ -4,7 +4,7 @@
 
 ##### Harmonic-Oscillator Hamiltonian
 
-For a one-dimensional oscillator with mass $M>0$ and angular frequency $\omega>0$, let $\hat x$ and $\hat p$ be the position and momentum operators; see [Canonical Commutation Relations](formalism.md#canonical-commutation-relations).
+For a one-dimensional oscillator with mass $M>0$ and angular frequency $\omega>0$, let $\hat x$ and $\hat p$ be the position and momentum operators; see [Canonical Commutation Relations](quantum_formalism.md#canonical-commutation-relations).
 
 $$
 \hat H=\frac{\hat p^2}{2M}+\frac{M\omega^2}{2}\hat x^2.
