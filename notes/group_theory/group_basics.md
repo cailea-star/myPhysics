@@ -1,3 +1,5 @@
+# Group Basics
+
 ### Groups and Cayley Tables
 
 ##### Definition of a Group
