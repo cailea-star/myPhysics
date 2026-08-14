@@ -108,6 +108,32 @@ Definitions and further properties are collected in [Spherical Harmonics](spheri
 
 ### Partial-Wave and Multipole Expansions
 
+##### Angular Expansions
+
+A general scalar function on the unit sphere admits the spherical-harmonic expansion
+
+$$
+\boxed{f(\Omega)=\sum_{l=0}^{\infty}\sum_{m=-l}^{l}f_{lm}Y_{lm}(\Omega),\qquad f_{lm}=\int d\Omega\,Y_{lm}^*(\Omega)f(\Omega)}.
+$$
+
+If $f$ is independent of $\phi$, only the $m=0$ components remain:
+
+$$
+\boxed{f(\theta)=\sum_{l=0}^{\infty}a_lP_l(\cos\theta),\qquad a_l=\frac{2l+1}{2}\int_0^\pi d\theta\,\sin\theta\,P_l(\cos\theta)f(\theta)}.
+$$
+
+A rotationally invariant angular kernel depends only on $\cos\gamma=\hat{\mathbf r}'\cdot\hat{\mathbf r}$. Since
+
+$$
+\int d\Omega'\,P_l(\cos\gamma)P_{l'}(\cos\gamma)=\frac{4\pi}{2l+1}\delta_{ll'}.
+$$
+
+its partial-wave expansion is
+
+$$
+\boxed{K(\Omega',\Omega)=\sum_{l=0}^{\infty}\frac{2l+1}{4\pi}K_lP_l(\cos\gamma),\qquad K_l=\int d\Omega'\,P_l(\cos\gamma)K(\cos\gamma)}.
+$$
+
 ##### Plane-Wave Expansion
 
 Let $\mathbf k=k\hat{\mathbf k}$ and $\mathbf r=r\hat{\mathbf r}$. With $j_l(x)$ denoting the spherical Bessel function and $P_l(x)$ the Legendre polynomial,
