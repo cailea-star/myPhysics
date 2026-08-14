@@ -6,8 +6,8 @@ import sys
 import urllib.parse
 import urllib.request
 
-ROOT_PATH = Path(__file__).resolve().parent.parent
-RAW_PATH = ROOT_PATH.joinpath("raw")
+PAPERS_PATH = Path(__file__).resolve().parent.parent
+RAW_PATH = PAPERS_PATH.joinpath("raw")
 HEADERS = {"User-Agent": "doi-metadata-script/0.1"}
 
 
@@ -96,5 +96,5 @@ def main(doi: str) -> None:
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        raise SystemExit("usage: python scripts/search_a_paper.py DOI")
+        raise SystemExit("usage: python papers/scripts/search_a_paper.py DOI")
     main(sys.argv[1])

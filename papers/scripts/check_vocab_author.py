@@ -3,7 +3,7 @@ import re
 import sys
 from pathlib import Path
 
-ROOT_PATH = Path(__file__).resolve().parent.parent
+PAPERS_PATH = Path(__file__).resolve().parent.parent
 
 
 def resolve_affiliation_names(raw_json_affiliations):
@@ -37,7 +37,7 @@ def main(raw_json_path):
     raw_json_data = json.loads(Path(raw_json_path).read_text(encoding="utf-8"))
     raw_json_corresponding_authors = resolve_corresponding_authors(raw_json_data)
 
-    vocab_json_authors_path = ROOT_PATH.joinpath("vocab", "authors.json")
+    vocab_json_authors_path = PAPERS_PATH.joinpath("vocab", "authors.json")
     vocab_json_authors = json.loads(vocab_json_authors_path.read_text(encoding="utf-8"))
 
     changed = False
@@ -58,5 +58,5 @@ def main(raw_json_path):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        raise SystemExit("usage: python scripts/check_vocab_author.py RAW_JSON_PATH")
+        raise SystemExit("usage: python papers/scripts/check_vocab_author.py RAW_JSON_PATH")
     main(sys.argv[1])

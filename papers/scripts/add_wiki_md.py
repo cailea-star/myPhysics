@@ -3,9 +3,9 @@ import re
 import sys
 from pathlib import Path
 
-ROOT_PATH = Path(__file__).resolve().parent.parent
-WIKI_PATH = ROOT_PATH.joinpath("wiki")
-TAGS_PATH = ROOT_PATH.joinpath("vocab", "tags.json")
+PAPERS_PATH = Path(__file__).resolve().parent.parent
+WIKI_PATH = PAPERS_PATH.joinpath("wiki")
+TAGS_PATH = PAPERS_PATH.joinpath("vocab", "tags.json")
 
 
 def check_tag(tag: str) -> dict:
@@ -46,5 +46,5 @@ def main(tag):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        raise SystemExit("usage: python scripts/add_wiki_md.py TAG")
+        raise SystemExit("usage: python papers/scripts/add_wiki_md.py TAG")
     main(sys.argv[1])

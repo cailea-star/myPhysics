@@ -3,8 +3,8 @@ from pathlib import Path
 import re
 import sys
 
-ROOT_PATH = Path(__file__).resolve().parent.parent
-RAW_PATH = ROOT_PATH.joinpath("raw")
+PAPERS_PATH = Path(__file__).resolve().parent.parent
+RAW_PATH = PAPERS_PATH.joinpath("raw")
 
 
 def get_raw_json_paths(raw_dir: str | Path = RAW_PATH) -> list[Path]:
@@ -38,5 +38,5 @@ def main(given_name: str, family_name: str) -> None:
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        raise SystemExit("usage: python scripts/search_a_author.py GIVEN FAMILY")
+        raise SystemExit("usage: python papers/scripts/search_a_author.py GIVEN FAMILY")
     main(sys.argv[1], sys.argv[2])

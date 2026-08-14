@@ -6,8 +6,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 
-ROOT_PATH = Path(__file__).resolve().parent.parent
-TAGS_PATH = ROOT_PATH.joinpath("vocab", "tags.json")
+PAPERS_PATH = Path(__file__).resolve().parent.parent
+TAGS_PATH = PAPERS_PATH.joinpath("vocab", "tags.json")
 
 
 def get_vocab_tags(path: Path = TAGS_PATH) -> list[dict]:
@@ -52,6 +52,6 @@ def main(query: str, number: int) -> int:
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        raise SystemExit("usage: python scripts/search_similar_tags.py QUERY NUMBER")
+        raise SystemExit("usage: python papers/scripts/search_similar_tags.py QUERY NUMBER")
     number = int(sys.argv[2])
     raise SystemExit(main(sys.argv[1], number))

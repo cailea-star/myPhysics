@@ -60,5 +60,5 @@ def main(raw_json_path):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        raise SystemExit("usage: python scripts/add_raw_md.py raw/paper.json")
+        raise SystemExit("usage: python papers/scripts/add_raw_md.py papers/raw/paper.json")
     main(sys.argv[1])
