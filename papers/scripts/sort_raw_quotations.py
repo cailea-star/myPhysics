@@ -31,6 +31,6 @@ def main(raw_md_path: str | Path) -> Path:
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        raise SystemExit("usage: python scripts/sort_raw_quotations.py RAW_MD_PATH")
+        raise SystemExit("usage: python papers/scripts/sort_raw_quotations.py RAW_MD_PATH")
     raw_md_path = main(sys.argv[1])
     print(raw_md_path)

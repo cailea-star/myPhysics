@@ -3,10 +3,10 @@ from pathlib import Path
 import re
 import sys
 
-ROOT_PATH = Path(__file__).resolve().parent.parent
-RAW_PATH = ROOT_PATH.joinpath("raw")
-TMP_PATH = ROOT_PATH.joinpath("tmp")
-TAGS_PATH = ROOT_PATH.joinpath("vocab", "tags.json")
+PAPERS_PATH = Path(__file__).resolve().parent.parent
+RAW_PATH = PAPERS_PATH.joinpath("raw")
+TMP_PATH = PAPERS_PATH.joinpath("tmp")
+TAGS_PATH = PAPERS_PATH.joinpath("vocab", "tags.json")
 
 
 def check_tag(tag: str) -> dict:
@@ -189,6 +189,6 @@ def main(tagnames: list[str]) -> list[Path]:
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        raise SystemExit("usage: python scripts/search_a_tag.py TAG [TAG ...]")
+        raise SystemExit("usage: python papers/scripts/search_a_tag.py TAG [TAG ...]")
     for output_path in main(sys.argv[1:]):
         print(output_path)

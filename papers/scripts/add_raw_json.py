@@ -7,8 +7,8 @@ import urllib.parse
 import urllib.request
 
 HEADERS = {"User-Agent": "doi-metadata-script/0.1 (mailto:your@email.com)"}
-ROOT_PATH = Path(__file__).resolve().parent.parent
-RAW_PATH = ROOT_PATH.joinpath("raw")
+PAPERS_PATH = Path(__file__).resolve().parent.parent
+RAW_PATH = PAPERS_PATH.joinpath("raw")
 
 
 def get_json(url):

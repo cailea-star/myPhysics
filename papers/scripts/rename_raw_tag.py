@@ -4,9 +4,9 @@ import re
 import sys
 
 
-ROOT_PATH = Path(__file__).resolve().parent.parent
-RAW_PATH = ROOT_PATH.joinpath("raw")
-TAGS_PATH = ROOT_PATH.joinpath("vocab", "tags.json")
+PAPERS_PATH = Path(__file__).resolve().parent.parent
+RAW_PATH = PAPERS_PATH.joinpath("raw")
+TAGS_PATH = PAPERS_PATH.joinpath("vocab", "tags.json")
 
 TAGS_LINE = re.compile(r"^([ \t]*\[tags\]:[ \t]*)([^\r\n]*)(\r?\n?)$")
 
@@ -65,7 +65,7 @@ def main(old_tag: str, new_tag: str) -> list[Path]:
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        raise SystemExit("usage: python scripts/rename_raw_tag.py OLD NEW")
+        raise SystemExit("usage: python papers/scripts/rename_raw_tag.py OLD NEW")
     paths = main(sys.argv[1], sys.argv[2])
     for path in paths:
         print(path)
