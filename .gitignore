@@ -7,6 +7,10 @@
 raw/*.pdf
 raw/*.tex
 
+# =========== codes产物 ============
+codes/build*
+codes/.cache
+compile_commands.json
 
 # =========== 临时文件 =============
 tmp/*
