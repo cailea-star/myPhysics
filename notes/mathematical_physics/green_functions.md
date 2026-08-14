@@ -26,28 +26,40 @@ Thus, $G(x,x')$ is the response at $x$ to a unit source at $x'$. It is determine
 
 ##### Poisson Equation
 
-The electrostatic potential satisfies
+In free space, the electrostatic potential satisfies
 
 $$
--\nabla^2\Phi(\mathbf r)=\frac{\rho(\mathbf r)}{\epsilon_0}.
+-\nabla^2\Phi(\mathbf r)=\frac{\rho(\mathbf r)}{\epsilon_0},\qquad \Phi(\mathbf r)\to0\quad(r\to\infty).
 $$
 
-Define the Green function by
+Define the free-space Green function by
 
 $$
--\nabla_{\mathbf r}^2G(\mathbf r,\mathbf r')=\delta^{(3)}(\mathbf r-\mathbf r'),\qquad G(\mathbf r,\mathbf r')=\frac{1}{4\pi|\mathbf r-\mathbf r'|}.
+-\nabla_{\mathbf r}^2G(\mathbf r,\mathbf r')=\delta^{(3)}(\mathbf r-\mathbf r'),\qquad G(\mathbf r,\mathbf r')=G(\mathbf R),\qquad \mathbf R=\mathbf r-\mathbf r'.
 $$
 
-The potential is therefore
+Using the Fourier convention
 
 $$
-\boxed{\Phi(\mathbf r)=\frac{1}{4\pi\epsilon_0}\int d^3\mathbf r'\,\frac{\rho(\mathbf r')}{|\mathbf r-\mathbf r'|}}.
+G(\mathbf R)=\int\frac{d^3q}{(2\pi)^3}\,e^{i\mathbf q\cdot\mathbf R}G(\mathbf q),\qquad \delta^{(3)}(\mathbf R)=\int\frac{d^3q}{(2\pi)^3}\,e^{i\mathbf q\cdot\mathbf R},
 $$
 
-Under the Fourier transform,
+the Green equation becomes
 
 $$
 q^2G(\mathbf q)=1,\qquad G(\mathbf q)=\frac{1}{q^2}.
+$$
+
+Transforming back to coordinate space gives
+
+$$
+\boxed{G(\mathbf R)=\int\frac{d^3q}{(2\pi)^3}\frac{e^{i\mathbf q\cdot\mathbf R}}{q^2}=\frac{1}{4\pi R}}.
+$$
+
+Therefore,
+
+$$
+\boxed{\Phi(\mathbf r)=\frac{1}{4\pi\epsilon_0}\int d^3r'\,\frac{\rho(\mathbf r')}{|\mathbf r-\mathbf r'|}}.
 $$
 
 ##### Quantum Green Function
