@@ -7,7 +7,7 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 
 ## Variable Naming Rules
 
-- `name`: the meaning of the variable.
+- `name`: the actual mathematical or physical meaning of the variable; it MUST match the corresponding formula symbol, such as {$N_x$ → `Nx_I`, $x_i$ → `x_F1D_x`, $H_n(x_i)$ → `H_F2D_n_x`}.
 - `T`: the element type, such as `{int: I, double: F, complex<double>: C, template: T}`.
 - `dD`: the variable rank, such as `{1D, 2D, 3D}`.
 - `_indexes`: the index variables for each dimension, such as `{_x, _x_y, _x_y_z}`.
@@ -65,4 +65,4 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 2. Draft the same-basename formal theory document under `notes-rules`; write each section ONLY after explicit approval.
 3. Propose the API from the approved formal theory; write ONLY function declarations after explicit approval.
 4. Present one function's computation outline at a time; implement ONLY that function after explicit approval.
-5. Run the corresponding test after each implementation; after the module is complete, run `codes\run.bat` and the full CTest suite, and NEVER claim completion if tests fail.
+5. Test each implementation; finally audit code/theory, run `codes\run.bat` and full CTest; NEVER complete if failing.
