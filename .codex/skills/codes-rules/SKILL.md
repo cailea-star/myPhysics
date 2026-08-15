@@ -26,7 +26,7 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 ## Comment Rules
 
 - All comments MUST be written in English.
-- Keep comments concise and use a single line whenever possible.
+- Keep comments concise; trailing comments SHOULD use formulas, such as `Scale: x → x / b`.
 
 ### File Header Comments
 
