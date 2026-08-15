@@ -1,124 +1,126 @@
-# 高斯积分说明
+# Gaussian Quadrature
 
-考虑如下的带权积分:
+### General Theory
 
-$$
-I[f] = \int_{a}^{b} f(x) W(x) dx, W(x) \gt 0
-$$
+##### Weighted Integral
 
-$W(x)$ 是权函数，满足 $W(x) > 0$, 接下来要找到 $n$ 个积分格点 $x_i$ 和对应的权重 $w_i$, 使其精度达到 $2n-1$ 次多项式.
-
-### 正交多项式空间
-
-对于权函数 $W(x)$, 可以构造出一系列的正交多项式 $\{p_i(x)\}$, 其中 $p_i(x)$ 是次数为 $i$ 的多项式，满足:
+Let $f(x)$ be the integrand and $W(x)>0$ the weight function on $[a,b]$. The weighted integral is
 
 $$
-\int_{a}^{b} p_i(x) p_j(x) W(x) dx = \delta_{ij} N_i,
+I[f]=\int_a^b f(x)W(x)\,dx.
 $$
 
-我们将任意一个函数 $f(x)$ 展开在这个正交多项式空间中:
+The goal is to find $n$ nodes $\{x_i\}_{i=1}^n$ and weights $\{w_i\}_{i=1}^n$ such that
 
 $$
-f(x) = \sum_{k=0}^{\infty} c_k p_k(x), \quad c_k = \frac{1}{N_k} \int_{a}^{b} f(x) p_k(x) W(x) dx
+Q[f]=\sum_{i=1}^n f(x_i)w_i
 $$
 
-则积分可以写成:
+is exact for polynomials of the highest possible degree.
+
+##### Interpolation Quadrature
+
+For distinct nodes $\{x_i\}_{i=1}^n$, let $\delta_{ij}$ be the Kronecker delta. The Lagrange basis polynomial is
 
 $$
-I[f] = \sum_{k=0}^{\infty} c_k \int_{a}^{b} p_k(x) W(x) dx = c_0 N_0
+l_i(x)=\prod_{j\ne i}\frac{x-x_j}{x_i-x_j},\qquad l_i(x_j)=\delta_{ij}.
 $$
 
-### 插值积分公式
-
-对于给定的 $n$ 个积分格点 $x_i$, 可以构造出一个插值多项式 $L(x)$, 满足 $L(x_i) = f(x_i)$, 这个插值多项式可以写成拉格朗日插值的形式:
+The interpolation polynomial $L(x)$ has degree $\deg L\leq n-1$ and satisfies
 
 $$
-L(x) = \sum_{i=1}^{n} f(x_i) l_i(x), \quad l_i(x) = \prod_{j \neq i} \frac{x - x_j}{x_i - x_j}
+L(x)=\sum_{i=1}^n f(x_i)l_i(x),\qquad L(x_i)=f(x_i).
 $$
 
-其中 $l_i(x)$ 是拉格朗日基函数，满足 $l_i(x_j) = \delta_{ij}$. 将 $L(x)$ 代入积分中:
+Since $f(x)$ and $L(x)$ agree at every node,
 
 $$
-I[L] = \int_{a}^{b} L(x) W(x) dx = \sum_{i=1}^{n} f(x_i) \int_{a}^{b} l_i(x) W(x) dx = \sum_{i=1}^{n} f(x_i) w_i
+Q[f]=Q[L]=\int_a^b L(x)W(x)\,dx=\sum_{i=1}^n f(x_i)\int_a^b l_i(x)W(x)\,dx=\sum_{i=1}^n f(x_i)w_i.
 $$
 
-其中权重 $w_i$ 定义为:
+Therefore, the quadrature weights are
 
 $$
-w_i = \int_{a}^{b} l_i(x) W(x) dx
+w_i=\int_a^b l_i(x)W(x)\,dx.
 $$
 
-这个积分公式至少对 $n-1$ 次多项式函数 $f(x)$ 是精确的, 因为 $L(x)$ 是一个 $n-1$ 次的多项式.
-
-接下来的任务就是找到合适的积分格点 $x_i$ 和对应的权重 $w_i$, 使得这个插值积分公式对于尽可能高次的多项式函数 $f(x)$ 都是精确的.
-
-### 高斯求积公式
-
-我们将展开最高次幂小于等于 $2n - 1$ 的函数 $f(x)$ 对多项式 $p_k(x)$ 做多项式带余除法, 可以得到:
+If $\deg f\leq n-1$, then $L(x)=f(x)$ and
 
 $$
-f(x) = q(x) p_k(x) + r(x), 
+Q[f]=I[f].
 $$
 
-此处我们有 $\deg(f) = \deg(q) + k$, 积分可以写成:
-- 若 $\deg(f) \le 2n - 1$, 
-- 则 $\deg(r) \le n - 1$ 
-- 且 $\deg(q) \le n - 1$, 
+Thus, interpolation quadrature is exact for polynomials of degree at most $n-1$.
+
+##### Orthogonal Polynomial Space
+
+Let $p_i(x)$ be a polynomial of degree $i$, and let $h_i>0$ be its squared norm. The orthogonal polynomials associated with $W(x)$ satisfy
 
 $$
-I[f] = \int_{a}^{b} q(x) p_k(x) W(x) dx + \int_{a}^{b} r(x) W(x) dx
+\int_a^b p_i(x)p_j(x)W(x)\,dx=h_i\delta_{ij}.
 $$
 
-由于 $\deg(q) \le n - 1$, 总可以利用 $\{p_i(x), i\le n-1\}$展开 $q(x)$ , 所以 $\int_{a}^{b} q(x) p_k(x) W(x) dx = 0$, 因此:
+##### Gaussian Exactness
+
+Choose the nodes $\{x_i\}_{i=1}^n$ as the roots of $p_n(x)$:
 
 $$
-I[f] = \int_{a}^{b} r(x) W(x) dx    
+p_n(x_i)=0.
 $$
 
-由于我们采用的是 $n$ 点插值积分, 因此精度至少有 $n - 1$ 次多项式, 所以可以对 $r(x)$ 进行精确积分.
-
-所以, 只要 $f(x)$ 是小于等于 $2n - 1$ 次的多项式, 就可以通过 Gaussg格点插值积分公式得到精确的结果.
-
-### 高斯积分格点与权重的计算
-
-1. 确定积分区间 $[a, b]$ 与权函数 $W(x)$.
-2. 构造与权函数 $W(x)$ 相关的正交多项式 $p_n(x)$.
-3. 计算 $p_n(x)$ 的 $n$ 个根, 这些根就是积分格点 $x_i$.
-4. 计算权重 $w_i$:
+For any polynomial $f(x)$ with $\deg f\leq 2n-1$, let $q(x)$ and $r(x)$ be the quotient and remainder after division by $p_n(x)$:
 
 $$
-w_i = \int_{a}^{b} l_i(x) W(x) dx,\quad l_i(x) = \prod_{j \neq i} \frac{x - x_j}{x_i - x_j} 
+f(x)=q(x)p_n(x)+r(x),\qquad \deg q\leq n-1,\qquad \deg r\leq n-1.
 $$
 
-### 高斯勒让德积分
-
-- 权函数为 $W(x) = 1$, 积分区间为 $[-1, 1]$.
-- 正交多项式为勒让德多项式 $P_n(x)$.
-- 积分格点为 $P_l(x)$ 的 $l$ 个根.
-- 此处生成广义勒让德多项式 $P_l^m(x)$, 及其归一化系数, 广义勒让德多项式的正交性如下:
+Since $q(x)$ belongs to the space spanned by $\{p_0,\ldots,p_{n-1}\}$,
 
 $$
-\int_{-1}^{1} P_l^m(x) P_k^m(x) \, dx = \frac{2}{2l+1} \frac{(l+m)!}{(l-m)!} \delta_{lk},\quad N_l^m = \sqrt{\frac{2l + 1}{2}}\sqrt{\frac{(l - m)!}{(l + m)!}}
+\int_a^b q(x)p_n(x)W(x)\,dx=0.
 $$
 
-### 高斯拉盖尔积分
-
-- 权函数为 $W(x) = e^{-x}$, 积分区间为 $[0, \infty)$.
-- 正交多项式为拉盖尔多项式 $L_n(x)$.
-- 积分格点为 $L_n(x)$ 的 $n$ 个根.
-- 此处生成广义拉盖尔多项式 $L_n^{(a)}(x)$, 及其归一化系数, 广义拉盖尔多项式的正交性如下:
+Because $\deg r\leq n-1$, interpolation quadrature is exact for $r(x)$. Therefore,
 
 $$
-\int_{0}^{\infty} L_n^{(\alpha)}(x) \, L_m^{(\alpha)}(x) \, x^{\alpha} e^{-x} \, dx = \frac{(n+\alpha)!}{n!} \, \delta_{nm}, \quad N_n^a = \sqrt{\frac{n!}{(n+a)!}}
+I[f]=I[r]=Q[r].
 $$
 
-### 高斯赫尔米特积分
-
-- 权函数为 $W(x) = e^{-x^2}$, 积分区间为 $(-\infty, \infty)$.
-- 正交多项式为赫尔米特多项式 $H_n(x)$.
-- 积分格点为 $H_n(x)$ 的 $n$ 个根.
-- 此处生成赫尔米特多项式 $H_n(x)$, 及其归一化系数, 赫尔米特多项式的正交性如下:
+Since $p_n(x_i)=0$, $f(x_i)=r(x_i)$ at every node and $Q[f]=Q[r]$. Consequently,
 
 $$
-\int_{-\infty}^{\infty} H_n(x) H_m(x) \, e^{-x^2} \, dx = 2^n n! \sqrt{\pi} \, \delta_{nm}, \quad N_n = \frac{1}{\sqrt{2^n n! \sqrt{\pi}}}
-$$  
+\boxed{I[f]=Q[f],\qquad \deg f\leq 2n-1.}
+$$
+
+##### Nodes and Weights
+
+1. Choose the interval $[a,b]$ and weight $W(x)$.
+2. Construct the corresponding orthogonal polynomial $p_n(x)$.
+3. Use the roots of $p_n(x)$ as the nodes $x_i$.
+4. Compute the weights from the Lagrange basis $l_i(x)$.
+
+### Examples
+
+##### Gauss-Hermite
+
+For nonnegative integers $k$ and $j$,
+
+$$
+\int_{-\infty}^{\infty}H_k(x)H_j(x)e^{-x^2}\,dx=2^k k!\sqrt{\pi}\,\delta_{kj},\qquad N_k=\frac{1}{\sqrt{2^k k!\sqrt{\pi}}}.
+$$
+
+##### Gauss-Laguerre
+
+For nonnegative integers $k$ and $j$, and $\alpha>-1$,
+
+$$
+\int_0^\infty L_k^{(\alpha)}(x)L_j^{(\alpha)}(x)x^\alpha e^{-x}\,dx=\frac{\Gamma(k+\alpha+1)}{k!}\delta_{kj},\qquad N_k^\alpha=\sqrt{\frac{k!}{\Gamma(k+\alpha+1)}}.
+$$
+
+##### Gauss-Legendre
+
+For integers $l,k\geq m\geq0$ with fixed $m$,
+
+$$
+\int_{-1}^1P_l^m(x)P_k^m(x)\,dx=\frac{2}{2l+1}\frac{(l+m)!}{(l-m)!}\delta_{lk},\qquad N_l^m=\sqrt{\frac{2l+1}{2}\frac{(l-m)!}{(l+m)!}}.
+$$
