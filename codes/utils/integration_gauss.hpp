@@ -8,6 +8,7 @@
 #pragma once
 #include <Eigen/Core>
 #include <Eigen/Dense>
+#include <cassert>
 #include <cmath>
 #include <unsupported/Eigen/CXX11/Tensor>
 #include <gsl/gsl_integration.h>
@@ -33,6 +34,7 @@ public:
     GaussHermiteMeshes(int nx_points) : x_F1D_x(nx_points), w_F1D_x(nx_points), 
     n_I1D_n(Eigen::VectorXi::Zero(1)), N_F1D_n(Eigen::VectorXd::Zero(1)), 
     H_F2D_n_x(Eigen::MatrixXd::Zero(1, nx_points)) {
+        assert(nx_points > 0);
         // 调用 GSL 生成 Gauss-Hermite 格点和权重
         double a_F = 0.0;           // 中心平移变换 x -> (x-a)
         double b_F = 1.0;           // 尺度缩放变换 x^2 -> x^2 / b 
@@ -47,6 +49,8 @@ public:
 
     GaussHermiteMeshes(const Eigen::VectorXi& n_I1D_n_, int nx_points) : x_F1D_x(nx_points), w_F1D_x(nx_points),
     n_I1D_n(n_I1D_n_), N_F1D_n(n_I1D_n_.size()), H_F2D_n_x(n_I1D_n_.size(), nx_points) {
+        assert(nx_points > 0);
+        assert((n_I1D_n_.array() >= 0).all());
         // 调用 GSL 生成 Gauss-Hermite 格点和权重
         double a_F = 0.0;           // 中心平移变换 x -> (x-a)
         double b_F = 1.0;           // 尺度缩放变换 x^2 -> x^2 / b 
@@ -72,6 +76,7 @@ public:
  * Gauss-Laguerre 积分格点x_i与权重w_i, 
  * 广义拉盖尔多项式 L_n^(a)(x) * N_n^a 在格点x_i 的生成, 
  * 归一化系数的生成 N = sqrt[n! / (n + a)!]
+ * @note w_F1D_x is for e^-x; multiply by x_F1D_x^a for x^a e^-x.
  */
 class GaussLaguerreMeshes {
 public:
@@ -86,6 +91,7 @@ public:
     GaussLaguerreMeshes(int nx_points) : x_F1D_x(nx_points), w_F1D_x(nx_points),
     n_I1D_na(Eigen::VectorXi::Zero(1)), a_F1D_na(Eigen::VectorXd::Zero(1)),
     N_F1D_na(Eigen::VectorXd::Zero(1)), L_F2D_na_x(Eigen::MatrixXd::Zero(1, nx_points)) {
+        assert(nx_points > 0);
         // 调用 GSL 生成 Gauss-Laguerre 格点和权重
         double b_F = 1.0;           // 尺度缩放变换 x -> x / b
         double alpha_F = 0.0;       // 权函数参数 W(x) = x^α * exp(-x / b)
@@ -100,6 +106,10 @@ public:
     GaussLaguerreMeshes(const Eigen::VectorXi& n_I1D_na_, const Eigen::VectorXd& a_F1D_na_, int nx_points) : 
     x_F1D_x(nx_points), w_F1D_x(nx_points), n_I1D_na(n_I1D_na_), a_F1D_na(a_F1D_na_), 
     N_F1D_na(n_I1D_na_.size()), L_F2D_na_x(n_I1D_na_.size(), nx_points) {
+        assert(nx_points > 0);
+        assert(n_I1D_na_.size() == a_F1D_na_.size());
+        assert((n_I1D_na_.array() >= 0).all());
+        assert((a_F1D_na_.array() > -1.0).all());
         // 调用 GSL 生成 Gauss-Laguerre 格点和权重
         double b_F = 1.0;           // 尺度缩放变换 x -> x / b
         double alpha_F = 0.0;       // 权函数参数 W(x) = x^α * exp(-x / b)
@@ -139,6 +149,7 @@ public:
     GaussLegendreMeshes(int nx_points) : x_F1D_x(nx_points), w_F1D_x(nx_points),
     l_I1D_lm(Eigen::VectorXi::Zero(1)), m_I1D_lm(Eigen::VectorXi::Zero(1)),
     N_F1D_lm(Eigen::VectorXd::Zero(1)), P_F2D_lm_x(Eigen::MatrixXd::Zero(1, nx_points)) {
+        assert(nx_points > 0);
         // 调用 GSL 生成 Gauss-Legendre 格点和权重
         double xlo_F = -1.0;        // cos(θ)格点位置的下界, 对应θ=π
         double xup_F = 1.0;         // cos(θ)格点位置的上界, 对应θ=0
@@ -153,6 +164,11 @@ public:
     GaussLegendreMeshes(const Eigen::VectorXi& l_I1D_lm_, const Eigen::VectorXi& m_I1D_lm_, int nx_points) : 
     x_F1D_x(nx_points), w_F1D_x(nx_points), l_I1D_lm(l_I1D_lm_), m_I1D_lm(m_I1D_lm_), 
     N_F1D_lm(l_I1D_lm_.size()), P_F2D_lm_x(l_I1D_lm_.size(), nx_points) {
+        assert(nx_points > 0);
+        assert(l_I1D_lm_.size() == m_I1D_lm_.size());
+        assert((l_I1D_lm_.array() >= 0).all());
+        assert((m_I1D_lm_.array() >= 0).all());
+        assert((m_I1D_lm_.array() <= l_I1D_lm_.array()).all());
         // 调用 GSL 生成 Gauss-Legendre 格点和权重
         double xlo_F = -1.0;        // cos(θ)格点位置的下界, 对应θ=π
         double xup_F = 1.0;         // cos(θ)格点位置的上界, 对应θ=0
@@ -172,4 +188,3 @@ public:
         }
     }
 };
-

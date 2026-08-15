@@ -25,6 +25,9 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 
 ## Comment Rules
 
+- All comments MUST be written in English.
+- Keep comments concise and use a single line whenever possible.
+
 ### File Header Comments
 
 - Every C++ file MUST contain `@file`, `@author`, `@date`, and `@brief`.
@@ -44,17 +47,17 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 ### Function Comments
 
 - Every function declaration MUST be preceded by `@brief`, `@math`, and `@output`.
+- `@math` MUST be a concise equation using Unicode Greek letters where applicable.
+- All explanatory prose beyond `@brief` MUST use `@note`.
+- If a function has no separate declaration, place the comment immediately before its definition.
 
 ```cpp
 /**
  * @brief  Function purpose
- * @math   Core equations
+ * @math   y = αx + β
  * @output Outputs or side effects
  */
 ```
-
-- Keep `@math` concise; use consecutive `@math` lines only when the equations require them.
-- If a function has no separate declaration, place the comment immediately before its definition.
 
 ## Workflow
 
