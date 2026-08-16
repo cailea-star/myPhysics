@@ -2,16 +2,16 @@
 
 ### Clamped Knot Vector
 
-Let $[x_{\min},x_{\max}]$ be a finite interval and $\{x_i\}_{i=0}^{N_x-1}$ its $N_x$ distinct partition points:
+Let $[x_{\min},x_{\max}]$ be a finite interval and $\{x_i\}_{i=1}^{N_x}$ its $N_x$ distinct partition points:
 
 $$
-x_{\min}=x_0<x_1<\cdots<x_{N_x-1}=x_{\max}.
+x_{\min}=x_1<x_2<\cdots<x_{N_x}=x_{\max}.
 $$
 
-Let $p$ be the polynomial degree. The clamped knot vector $\{t_\alpha\}_{\alpha=0}^{N_t-1}$ repeats each endpoint $p+1$ times and includes each interior partition point once:
+Let $p$ be the polynomial degree. The clamped knot vector $\{t_\alpha\}_{\alpha=1}^{N_t}$ repeats each endpoint $p+1$ times and includes each interior partition point once:
 
 $$
-t_0=\cdots=t_p=x_{\min},\qquad t_{p+i}=x_i\ (i=1,\ldots,N_x-2),\qquad t_{p+N_x-1}=\cdots=t_{2p+N_x-1}=x_{\max}.
+t_1=\cdots=t_{p+1}=x_{\min},\qquad t_{p+i}=x_i\ (i=2,\ldots,N_x-1),\qquad t_{p+N_x}=\cdots=t_{N_t}=x_{\max}.
 $$
 
 Let $N_t$ be the number of knots and $N_B$ the number of degree-$p$ B-spline basis functions. Then
@@ -43,13 +43,13 @@ $$
 where a term with a zero denominator is defined as zero. The degree-$p$ basis functions are
 
 $$
-B_i(x)\equiv B_i^{(p)}(x),\qquad i=0,\ldots,N_B-1.
+B_i(x)\equiv B_i^{(p)}(x),\qquad i=1,\ldots,N_B.
 $$
 
 With the explicit right-endpoint convention, the endpoint basis functions satisfy
 
 $$
-B_0(x_{\min})=1,\qquad B_{N_B-1}(x_{\max})=1.
+B_1(x_{\min})=1,\qquad B_{N_B}(x_{\max})=1.
 $$
 
 Each basis function has local support:
@@ -62,28 +62,28 @@ Hence, at most $p+1$ basis functions are nonzero at any position $x$; for cubic 
 
 ### Basis Expansion
 
-Let $\{c_i\}_{i=0}^{N_B-1}$ be the expansion coefficients. A one-dimensional function is represented as
+Let $\{c_i\}_{i=1}^{N_B}$ be the expansion coefficients. A one-dimensional function is represented as
 
 $$
-u(x)=\sum_{i=0}^{N_B-1}c_iB_i(x).
+u(x)=\sum_{i=1}^{N_B}c_iB_i(x).
 $$
 
 For derivative order $q=1,\ldots,p$,
 
 $$
-u^{(q)}(x)=\sum_{i=0}^{N_B-1}c_i\frac{d^qB_i(x)}{dx^q}.
+u^{(q)}(x)=\sum_{i=1}^{N_B}c_i\frac{d^qB_i(x)}{dx^q}.
 $$
 
 The clamped endpoint properties give
 
 $$
-u(x_{\min})=c_0,\qquad u(x_{\max})=c_{N_B-1}.
+u(x_{\min})=c_1,\qquad u(x_{\max})=c_{N_B}.
 $$
 
 Therefore, the homogeneous Dirichlet conditions $u(x_{\min})=u(x_{\max})=0$ are imposed by
 
 $$
-c_0=c_{N_B-1}=0,\qquad u(x)=\sum_{i=1}^{N_B-2}c_iB_i(x).
+c_1=c_{N_B}=0,\qquad u(x)=\sum_{i=2}^{N_B-1}c_iB_i(x).
 $$
 
 ### Matrix Elements in a Non-Orthogonal Basis
@@ -112,4 +112,4 @@ $$
 \boxed{H\boldsymbol{c}=ES\boldsymbol{c}.}
 $$
 
-Under homogeneous Dirichlet boundary conditions, all matrices are restricted to the interior basis indices $i,j=1,\ldots,N_B-2$.
+Under homogeneous Dirichlet boundary conditions, all matrices are restricted to the interior basis indices $i,j=2,\ldots,N_B-1$.
