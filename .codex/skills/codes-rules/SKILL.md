@@ -16,12 +16,15 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 - Multidimensional arrays use `name_TdD_indexes`, such as `{H_F2D_x_n, psi_C2D_x_n}`.
 - Index suffixes MUST match the physical meaning and ordering of the dimensions.
 
-## Formal Theory Document Rules
+## Variable Construction Rules
 
-- A formal theory document MUST share the code file's basename, such as `integration_gauss.hpp` and `integration_gauss.md`.
-- The document MUST follow [notes-rules](../notes-rules/SKILL.md).
-- Keep only the necessary formal theory and make equations primary.
-- NEVER repeat implementation details from the code.
+- Numerical lists, vectors, matrices, and arrays SHOULD use Eigen types whenever practical.
+- Every `Eigen::Tensor` MUST explicitly use `Eigen::ColMajor`.
+
+## Code Formatting Rules
+
+- Every declaration and every function definition signature MUST be written on a single line.
+- Every simple statement MUST occupy exactly one line: NEVER split one statement across multiple lines and NEVER place multiple statements on the same line.
 
 ## Comment Rules
 
@@ -62,7 +65,7 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 ## Workflow
 
 1. Confirm and read the reference code and documentation completely; if either is missing or the scope is unclear, STOP and ask the user.
-2. Draft the same-basename formal theory document under `notes-rules`; write each section ONLY after explicit approval.
+2. Draft same-basename theory under `notes-rules`; keep equations primary; NEVER repeat implementation; write ONLY after approval.
 3. Propose the API from the approved formal theory; write ONLY function declarations after explicit approval.
 4. Present one function's computation outline at a time; implement ONLY that function after explicit approval.
 5. Test each implementation; finally audit code/theory, run `codes\run.bat` and full CTest; NEVER complete if failing.
