@@ -30,6 +30,7 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 
 - All comments MUST be written in English.
 - Keep comments concise; trailing comments SHOULD use formulas, such as `Scale: x → x / b`.
+- Standalone comment lines MAY separate code blocks when necessary.
 
 ### File Header Comments
 
