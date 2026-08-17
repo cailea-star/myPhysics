@@ -15,6 +15,7 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 - Vectors use `name_T1D_index`, such as `{x_F1D_x, n_I1D_n}`.
 - Multidimensional arrays use `name_TdD_indexes`, such as `{H_F2D_x_n, psi_C2D_x_n}`.
 - Index suffixes MUST match the physical meaning and ordering of the dimensions.
+- Before every code write, MUST list all added or renamed variables in a change table; write ONLY after explicit approval.
 
 ## Variable Construction Rules
 
@@ -25,6 +26,8 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 
 - Every declaration and every function definition signature MUST be written on a single line.
 - Every simple statement MUST occupy exactly one line: NEVER split one statement across multiple lines and NEVER place multiple statements on the same line.
+- Single-statement `if` or `for` blocks MAY remain inline: `if (...) {...}`, `for (...) {...}`.
+- Developer-facing numerical preconditions MUST use single-line `assert`; recoverable runtime failures MUST use explicit handling.
 
 ## Comment Rules
 
