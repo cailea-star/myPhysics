@@ -9,6 +9,7 @@
 
 #include <Eigen/Dense>
 #include <algorithm>
+#include <cassert>
 #include <cmath>
 #include <functional>
 #include <iomanip>
@@ -60,12 +61,12 @@ double Ylm_product(int l1_I, int m1_I, int l2_I, int m2_I, double theta_F, doubl
 }
 
 /**
- * @brief  Print representative integration results.
+ * @brief  Test Gauss-Kronrod, Simpson, trapezoidal, and spherical quadrature.
  * @math   ∫V'(x) dx = V(x_max) - V(x_min), ∫Y_lm Y_l'm' dΩ
- * @output Printed one-dimensional errors and spherical overlap matrix.
+ * @output Prints labeled integration results and matrix corners; asserts key errors.
  */
 int main() {
-    std::cout << std::scientific << std::setprecision(4) << std::left;
+    // Function usage.
     double xmin_F = 0.0;
     double xmax_F = 100.0; // x_max ≈ ∞.
     int Nx_I = 1001;
@@ -75,32 +76,55 @@ int main() {
         f_F1D_x(x_I) = dWS_func(x_F1D_x(x_I));
     }
 
-    std::cout << "\n Testing integrate_qag with f(x) = dWS_func(x):\n";
     double integralExact_F = WS_func(xmax_F) - WS_func(xmin_F); // ∫V'(x) dx = V(x_max) - V(x_min).
     double integralQag_F = integrate_qag(dWS_func, xmin_F, xmax_F);
     double integralSimpson_F = integrate_simpson(f_F1D_x, x_F1D_x);
     double integralTrapezoidal_F = integrate_trapezoidal(f_F1D_x, x_F1D_x);
-    std::cout << std::setw(30) << "integral_exact" << std::setw(15) << integralExact_F << "\n";
-    std::cout << std::setw(30) << "integrate_qag" << std::setw(15) << integralQag_F;
-    std::cout << std::setw(30) << "error_qag" << std::setw(15) << integralQag_F - integralExact_F << "\n";
-    std::cout << std::setw(30) << "integrate_simpson" << std::setw(15) << integralSimpson_F;
-    std::cout << std::setw(30) << "error_simpson" << std::setw(15) << integralSimpson_F - integralExact_F << "\n";
-    std::cout << std::setw(30) << "integrate_trapezoidal" << std::setw(15) << integralTrapezoidal_F;
-    std::cout << std::setw(30) << "error_trapezoidal" << std::setw(15) << integralTrapezoidal_F - integralExact_F << "\n";
-
-    std::cout << std::right << "\n integrand of [Ylm * Yl'm']:\n";
+    int Nlm_I = 12;
+    int i_I = 0;
+    int j_I = 0;
+    Eigen::MatrixXd M_F2D_i_j = Eigen::MatrixXd::Zero(Nlm_I, Nlm_I);
+    Eigen::MatrixXd Mref_F2D_i_j = Eigen::MatrixXd::Zero(Nlm_I, Nlm_I);
     for (int l1_I = 3; l1_I <= 6; ++l1_I) {
         for (int m1_I = 0; m1_I <= l1_I / 2; ++m1_I) {
+            j_I = 0;
             for (int l2_I = 3; l2_I <= 6; ++l2_I) {
                 for (int m2_I = 0; m2_I <= l2_I / 2; ++m2_I) {
                     RealRealToRealFunc f_Func = std::bind(Ylm_product, l1_I, m1_I, l2_I, m2_I, std::placeholders::_1, std::placeholders::_2);
                     int Nphi_I = std::max(2 * (m1_I + m2_I) + 1, 2);
                     int Ntheta_I = (l1_I + l2_I) / 2 + 1;
                     double integral_F = integrate_spherical(f_Func, Ntheta_I, Nphi_I);
-                    std::cout << std::setw(10) << std::to_string(integral_F);
+                    M_F2D_i_j(i_I, j_I) = integral_F;
+                    Mref_F2D_i_j(i_I, j_I) = l1_I == l2_I && m1_I == m2_I ? (m1_I == 0 ? 1.0 : 0.5) : 0.0;
+                    ++j_I;
                 }
             }
-            std::cout << "\n";
+            ++i_I;
         }
     }
+    double tol_F = 1.0e-4;
+
+    // Labeled input and output.
+    std::cout << std::scientific << std::setprecision(4) << std::left;
+    std::cout << "[Input] x bounds = [" << xmin_F << ", " << xmax_F << "], Nx = " << Nx_I << "\n";
+    std::cout << "[Reference] Woods-Saxon derivative integral = " << integralExact_F << "\n";
+    std::cout << "[Computed] QAG = " << integralQag_F << ", error = " << integralQag_F - integralExact_F << "\n";
+    std::cout << "[Computed] Simpson = " << integralSimpson_F << ", error = " << integralSimpson_F - integralExact_F << "\n";
+    std::cout << "[Computed] trapezoidal = " << integralTrapezoidal_F << ", error = " << integralTrapezoidal_F - integralExact_F << "\n";
+    std::cout << "[Input] spherical states = " << Nlm_I << "\n";
+    std::cout << "[Reference] spherical overlap M\n";
+    for (int i_I = 0; i_I < 5; ++i_I) {std::cout << Mref_F2D_i_j.block(i_I, 0, 1, 5) << " ... " << Mref_F2D_i_j.block(i_I, Nlm_I - 5, 1, 5) << "\n";}
+    std::cout << "...\n";
+    for (int i_I = Nlm_I - 5; i_I < Nlm_I; ++i_I) {std::cout << Mref_F2D_i_j.block(i_I, 0, 1, 5) << " ... " << Mref_F2D_i_j.block(i_I, Nlm_I - 5, 1, 5) << "\n";}
+    std::cout << "[Computed] spherical overlap M\n";
+    for (int i_I = 0; i_I < 5; ++i_I) {std::cout << M_F2D_i_j.block(i_I, 0, 1, 5) << " ... " << M_F2D_i_j.block(i_I, Nlm_I - 5, 1, 5) << "\n";}
+    std::cout << "...\n";
+    for (int i_I = Nlm_I - 5; i_I < Nlm_I; ++i_I) {std::cout << M_F2D_i_j.block(i_I, 0, 1, 5) << " ... " << M_F2D_i_j.block(i_I, Nlm_I - 5, 1, 5) << "\n";}
+
+    // Acceptance asserts.
+    assert(std::abs(integralQag_F - integralExact_F) < tol_F);
+    assert(std::abs(integralSimpson_F - integralExact_F) < tol_F);
+    assert(std::abs(integralTrapezoidal_F - integralExact_F) < tol_F);
+    assert((M_F2D_i_j - Mref_F2D_i_j).cwiseAbs().maxCoeff() < tol_F);
+    return 0;
 }
