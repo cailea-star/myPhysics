@@ -74,7 +74,7 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 - Every test MUST print the labeled reference result first—an analytic solution or copied reference value—then print the computed result.
 - Vectors and tables MUST print first five, ellipsis, last five; print all when $N \leq 10$.
 - Matrices MUST print four $5\times5$ corner blocks joined by ellipses; print all when each dimension is at most 10.
-- Tests MUST remain linear; NEVER add fixtures or wrappers; MUST report files exceeding 100 lines.
+- Tests MUST remain linear; NEVER add fixtures or wrappers; MUST report files exceeding 120 lines.
 - Prints NEVER determine success; use one-to-five single-line asserts on key values with explicit tolerances.
 
 ## Workflow
