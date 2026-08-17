@@ -53,16 +53,18 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 
 ### Function Comments
 
-- Every function declaration MUST be preceded by `@brief`, `@math`, and `@output`.
+- `@brief`, `@math`, and `@output` MUST immediately precede each declaration or declarationless definition.
+- `@brief` MUST name any numerical algorithm that determines behavior or accuracy.
 - `@math` MUST be a concise equation using Unicode Greek letters where applicable.
 - All explanatory prose beyond `@brief` MUST use `@note`.
-- If a function has no separate declaration, place the comment immediately before its definition.
+- `@note` MUST state any required algorithm dependency, assumption, or limitation.
 
 ```cpp
 /**
- * @brief  Function purpose
- * @math   y = αx + β
- * @output Outputs or side effects
+ * @brief  Integrate sampled data using Simpson quadrature.
+ * @math   I ≈ Q_S[f]
+ * @output Approximate integral.
+ * @note   Requires an odd, panelwise-uniform grid.
  */
 ```
 
