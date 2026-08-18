@@ -3,17 +3,17 @@
 The R-matrix maps the internal interval $x\in[x_{\min},x_{\max}]$ to its boundary response. Define
 
 $$
-C_\mu=\frac{\hbar^2}{2\mu},\qquad T=-C_\mu\frac{d^2}{dx^2},\qquad H=T+V,
+h_\mu=\frac{\hbar^2}{2\mu},\qquad T=-h_\mu\frac{d^2}{dx^2},\qquad H=T+V,
 $$
 
-where $C_\mu$ is the kinetic coefficient for the reduced mass $\mu$, and $V$ is Hermitian in channel space.
+where $h_\mu$ is the kinetic coefficient for the reduced mass $\mu$, and $V$ is Hermitian in channel space.
 
 ##### Hermiticity on a Finite Interval
 
 Since $V$ is Hermitian, the finite-interval residual comes from the kinetic term. Integration by parts gives
 
 $$
-\langle f|T|g\rangle=C_\mu\int_{x_{\min}}^{x_{\max}}f'^*(x)g'(x)\,dx-C_\mu\left[f^*(x)g'(x)\right]_{x_{\min}}^{x_{\max}}.
+\langle f|T|g\rangle=h_\mu\int_{x_{\min}}^{x_{\max}}f'^*(x)g'(x)\,dx-h_\mu\left[f^*(x)g'(x)\right]_{x_{\min}}^{x_{\max}}.
 $$
 
 Define the Wronskian at $x$ by
@@ -31,7 +31,7 @@ $$
 Therefore,
 
 $$
-\boxed{\langle f|H|g\rangle-\langle g|H|f\rangle^*=-C_\mu W(x_{\max};f,g)+C_\mu W(x_{\min};f,g)}.
+\boxed{\langle f|H|g\rangle-\langle g|H|f\rangle^*=-h_\mu W(x_{\max};f,g)+h_\mu W(x_{\min};f,g)}.
 $$
 
 Thus, $H$ is not Hermitian on the finite interval when the boundary Wronskians are nonzero.
@@ -47,13 +47,13 @@ $$
 For each endpoint $s\in\{x_{\min},x_{\max}\}$, define the Bloch surface operator
 
 $$
-\mathcal L_s(x)=n_s C_\mu\delta(x-s)\frac{d}{dx}.
+\mathcal L_s(x)=n_s h_\mu\delta(x-s)\frac{d}{dx}.
 $$
 
 Its Hermitian residual is
 
 $$
-\langle f|\mathcal L_s|g\rangle-\langle g|\mathcal L_s|f\rangle^*=n_s C_\mu W(s;f,g).
+\langle f|\mathcal L_s|g\rangle-\langle g|\mathcal L_s|f\rangle^*=n_s h_\mu W(s;f,g).
 $$
 
 Summing over both endpoints cancels the boundary residual of $H$. Define
@@ -65,7 +65,7 @@ $$
 The kinetic contribution becomes
 
 $$
-\langle f|T+\mathcal L_{x_{\min}}+\mathcal L_{x_{\max}}|g\rangle=C_\mu\int_{x_{\min}}^{x_{\max}}f'^*(x)g'(x)\,dx.
+\langle f|T+\mathcal L_{x_{\min}}+\mathcal L_{x_{\max}}|g\rangle=h_\mu\int_{x_{\min}}^{x_{\max}}f'^*(x)g'(x)\,dx.
 $$
 
 Thus, $H_{\mathrm B}$ is Hermitian on the finite interval without imposing vanishing boundary Wronskians.
@@ -107,13 +107,13 @@ $$
 The surface delta functions give
 
 $$
-u_\alpha(x)=\sum_{s\in\{x_{\min},x_{\max}\}}\sum_\beta n_s C_\mu G_{\alpha\beta}(x,s;E)u'_\beta(s).
+u_\alpha(x)=\sum_{s\in\{x_{\min},x_{\max}\}}\sum_\beta n_s h_\mu G_{\alpha\beta}(x,s;E)u'_\beta(s).
 $$
 
 Define the R-matrix response kernel
 
 $$
-\boxed{R_{\alpha\beta}(x,s;E)=C_\mu G_{\alpha\beta}(x,s;E)}.
+\boxed{R_{\alpha\beta}(x,s;E)=h_\mu G_{\alpha\beta}(x,s;E)}.
 $$
 
 Therefore,
@@ -133,13 +133,13 @@ $$
 Since $n_{x_{\min}}=-1$, the inner Bloch source becomes
 
 $$
-\mathcal L_{x_{\min}}(x)u(x)=-C_\mu\Lambda_{x_{\min}}\delta(x-x_{\min})u(x_{\min}).
+\mathcal L_{x_{\min}}(x)u(x)=-h_\mu\Lambda_{x_{\min}}\delta(x-x_{\min})u(x_{\min}).
 $$
 
 Define the inner-boundary self-energy
 
 $$
-\boxed{\Sigma_{x_{\min}}(x)=-C_\mu\Lambda_{x_{\min}}\delta(x-x_{\min})}.
+\boxed{\Sigma_{x_{\min}}(x)=-h_\mu\Lambda_{x_{\min}}\delta(x-x_{\min})}.
 $$
 
 Moving this term to the left leaves only the outer-boundary source:
@@ -151,7 +151,7 @@ $$
 Define the modified Green operator and R-matrix response:
 
 $$
-G_\Sigma(E)=(H_{\mathrm B}-\Sigma_{x_{\min}}-E)^{-1},\qquad R_{\alpha\beta}(x,x_{\max};E)=C_\mu G_{\Sigma,\alpha\beta}(x,x_{\max};E).
+G_\Sigma(E)=(H_{\mathrm B}-\Sigma_{x_{\min}}-E)^{-1},\qquad R_{\alpha\beta}(x,x_{\max};E)=h_\mu G_{\Sigma,\alpha\beta}(x,x_{\max};E).
 $$
 
 Therefore,
