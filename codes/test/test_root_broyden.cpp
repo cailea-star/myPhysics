@@ -1,5 +1,5 @@
 /**
- * @file    root_broyden_test.cpp
+ * @file    test_root_broyden.cpp
  * @author  cailea
  * @date    2026-05-14
  * @brief   Acceptance test for the modified Broyden fixed-point iterator.

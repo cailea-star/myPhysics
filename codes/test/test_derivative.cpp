@@ -1,5 +1,5 @@
 /**
- * @file    derivative_test.cpp
+ * @file    test_derivative.cpp
  * @author  cailea
  * @date    2026-08-17
  * @brief   Tests for numerical derivative utilities.

@@ -1,5 +1,5 @@
 /**
- * @file    spherical_fourier_test.cpp
+ * @file    test_spherical_fourier.cpp
  * @author  cailea
  * @date    2026-08-17
  * @brief   Tests for spherical Fourier transforms.

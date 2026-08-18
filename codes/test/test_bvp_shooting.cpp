@@ -1,5 +1,5 @@
 /**
- * @file    bvp_shooting_test.cpp
+ * @file    test_bvp_shooting.cpp
  * @author  cailea
  * @date    2026-08-18
  * @brief   Acceptance test for Numerov and RK4 shooting methods.

@@ -1,5 +1,5 @@
 /**
- * @file    gauss_hermite_test.cpp
+ * @file    test_integration_gauss_hermite.cpp
  * @author  cailea
  * @date    2026-04-27
  * @brief   Orthogonality test for Gauss-Hermite meshes and polynomials.

@@ -1,5 +1,5 @@
 /**
- * @file    root_test.cpp
+ * @file    test_root.cpp
  * @author  cailea
  * @date    2026-01-29
  * @brief   Test scalar root-finding algorithms.

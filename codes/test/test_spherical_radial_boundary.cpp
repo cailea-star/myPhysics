@@ -1,5 +1,5 @@
 /**
- * @file    spherical_radial_boundary_test.cpp
+ * @file    test_spherical_radial_boundary.cpp
  * @author  cailea
  * @date    2026-08-18
  * @brief   Validate regular and Coulomb-Hankel spherical radial boundaries.

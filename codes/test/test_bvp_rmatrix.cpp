@@ -1,5 +1,5 @@
 /**
- * @file    bvp_rmatrix_test.cpp
+ * @file    test_bvp_rmatrix.cpp
  * @author  cailea
  * @date    2026-08-18
  * @brief   Validate the B-spline R-matrix against a constant two-channel solution.

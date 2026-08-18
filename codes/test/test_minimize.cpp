@@ -1,5 +1,5 @@
 /**
- * @file    minimize_test.cpp
+ * @file    test_minimize.cpp
  * @author  cailea
  * @date    2026-01-07
  * @brief   Test scalar minimization algorithms.
