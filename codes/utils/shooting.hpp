@@ -45,7 +45,8 @@ public:
      * @output Initialized potential mesh and shooting configuration.
      * @note   Boundary functions have the form B(x,E) = (y,y').
      */
-    ShootingProblem(const ShootingPotentialFunc& V_Func_, const ShootingBoundaryFunc& Bin_Func_, const ShootingBoundaryFunc& Bout_Func_, const Eigen::Ref<const Eigen::VectorXd>& x_F1D_x_, int node_I_, double hmass_F_, int xmatch_I_, double tol_F_ = 1.0e-8) : V_Func(V_Func_), Bin_Func(Bin_Func_), Bout_Func(Bout_Func_), x_F1D_x(x_F1D_x_), V_F1D_x(x_F1D_x_.size()), node_I(node_I_), hmass_F(hmass_F_), xmatch_I(xmatch_I_), tol_F(tol_F_) {
+    ShootingProblem(const ShootingPotentialFunc& V_Func_, const ShootingBoundaryFunc& Bin_Func_, const ShootingBoundaryFunc& Bout_Func_, const Eigen::Ref<const Eigen::VectorXd>& x_F1D_x_, int node_I_, double hmass_F_, int xmatch_I_, double tol_F_ = 1.0e-8)
+    : V_Func(V_Func_), Bin_Func(Bin_Func_), Bout_Func(Bout_Func_), x_F1D_x(x_F1D_x_), V_F1D_x(x_F1D_x_.size()), node_I(node_I_), hmass_F(hmass_F_), xmatch_I(xmatch_I_), tol_F(tol_F_) {
         assert(x_F1D_x.size() >= 3);
         assert(node_I >= 0);
         assert(std::isfinite(hmass_F) && hmass_F > 0.0);
