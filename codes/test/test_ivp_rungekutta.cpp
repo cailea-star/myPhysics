@@ -1,5 +1,5 @@
 /**
- * @file    rungekutta_test.cpp
+ * @file    test_ivp_rungekutta.cpp
  * @author  cailea
  * @date    2026-08-17
  * @brief   Test scalar and vector fourth-order Runge-Kutta propagation.

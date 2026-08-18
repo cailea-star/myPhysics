@@ -52,7 +52,7 @@ add_custom_target(copy_compile_commands ALL                                     
 
 
 # ==================== 编译可执行文件 ====================
-file(GLOB TEST_CPPS CONFIGURE_DEPENDS "test/*_test.cpp")                                # 收集测试源文件
+file(GLOB TEST_CPPS CONFIGURE_DEPENDS "test/test_*.cpp")                                # 收集测试源文件
 foreach(TEST_FILE ${TEST_CPPS})                                                         # 遍历每个测试源文件
     get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)                              # 提取测试文件名(NAME_WE模式)->TEST_NAME
     add_executable(${TEST_NAME} ${TEST_FILE})                                           # 配置可执行文件目标

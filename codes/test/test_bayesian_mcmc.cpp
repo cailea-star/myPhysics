@@ -1,5 +1,5 @@
 /**
- * @file    mcmc_test.cpp
+ * @file    test_bayesian_mcmc.cpp
  * @author  cailea
  * @date    2026-05-27
  * @brief   Random-walk Metropolis test for a standard Gaussian target.

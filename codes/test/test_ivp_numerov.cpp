@@ -1,5 +1,5 @@
 /**
- * @file    numerov_test.cpp
+ * @file    test_ivp_numerov.cpp
  * @author  cailea
  * @date    2026-08-17
  * @brief   Test scalar, vector, and matrix Numerov propagation.

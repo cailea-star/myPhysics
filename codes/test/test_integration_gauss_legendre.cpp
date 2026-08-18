@@ -1,5 +1,5 @@
 /**
- * @file    gauss_legendre_test.cpp
+ * @file    test_integration_gauss_legendre.cpp
  * @author  cailea
  * @date    2026-04-27
  * @brief   Orthogonality test for Gauss-Legendre meshes and polynomials.

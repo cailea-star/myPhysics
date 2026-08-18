@@ -1,5 +1,5 @@
 /**
- * @file    spherical_harmonics_test.cpp
+ * @file    test_spherical_harmonics.cpp
  * @author  cailea
  * @date    2026-08-17
  * @brief   Tests for real spherical-harmonic expansion utilities.

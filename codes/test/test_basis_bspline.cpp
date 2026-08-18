@@ -1,5 +1,5 @@
 /**
- * @file    basis_bspline_test.cpp
+ * @file    test_basis_bspline.cpp
  * @author  cailea
  * @date    2026-08-17
  * @brief   Tests for the cubic B-spline basis.

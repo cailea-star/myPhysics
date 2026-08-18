@@ -1,5 +1,5 @@
 /**
- * @file    gauss_laguerre_test.cpp
+ * @file    test_integration_gauss_laguerre.cpp
  * @author  cailea
  * @date    2026-04-27
  * @brief   Orthogonality test for Gauss-Laguerre meshes and polynomials.

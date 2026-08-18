@@ -1,5 +1,5 @@
 /**
- * @file    integration_test.cpp
+ * @file    test_integration.cpp
  * @author  cailea
  * @date    2026-08-17
  * @brief   Manual checks for numerical integration utilities.
