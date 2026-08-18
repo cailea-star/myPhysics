@@ -78,45 +78,54 @@ def _eliminate_sum_symbols(exponent_Expr, zero_conditions, sum_symbols, zero_sym
     return exponent_Expr
 
 
-def _reduce_phase_exponent(exponent_Expr, zero_conditions, integer_conditions, zero_symbols):
+def _reduce_phase_exponent(exponent_Expr, zero_conditions, integer_conditions, constrained_symbols):
     """@math (-1)^(e + 2n) = (-1)^e"""
     exponent_Expr = expand(exponent_Expr)
-    solve_symbols = sorted(exponent_Expr.free_symbols & zero_symbols, key=str)
+
+    # e(m) -> e(m(m_free)).
+    solve_symbols = sorted(exponent_Expr.free_symbols & constrained_symbols, key=str)
     solutions = solve(zero_conditions, solve_symbols, dict=True) if solve_symbols else []
     substitutions = solutions[0] if solutions else {}
     exponent_Expr = expand(exponent_Expr.subs(substitutions))
     integer_conditions = [expand(condition_Expr.subs(substitutions)) for condition_Expr in integer_conditions]
-    symbols_S1D = sorted(set().union(exponent_Expr.free_symbols, *(condition_Expr.free_symbols for condition_Expr in integer_conditions)), key=str)
-    coefficients_I1D = [int(exponent_Expr.coeff(symbol_S)) for symbol_S in symbols_S1D]
-    rows_I2D = list(dict.fromkeys(tuple(int(condition_Expr.coeff(symbol_S)) % 2 for symbol_S in symbols_S1D) for condition_Expr in integer_conditions))
-    rows_I2D = [list(row_I1D) for row_I1D in rows_I2D if any(row_I1D)]
+
     # c = (c mod 2) + 2b (mod 4), b in GF(2).
-    bits_I1D = [(coefficient_I % 4) // 2 for coefficient_I in coefficients_I1D]
-    pivot_I = 0
-    for symbol_I in range(len(symbols_S1D)):
-        row_I = next((row_I for row_I in range(pivot_I, len(rows_I2D)) if rows_I2D[row_I][symbol_I]), None)
-        if row_I is None: continue
-        rows_I2D[pivot_I], rows_I2D[row_I] = rows_I2D[row_I], rows_I2D[pivot_I]
-        for row_I in range(len(rows_I2D)):
-            if row_I != pivot_I and rows_I2D[row_I][symbol_I]: rows_I2D[row_I] = [value_I ^ pivot_value_I for value_I, pivot_value_I in zip(rows_I2D[row_I], rows_I2D[pivot_I])]
-        if bits_I1D[symbol_I]: bits_I1D = [value_I ^ pivot_value_I for value_I, pivot_value_I in zip(bits_I1D, rows_I2D[pivot_I])]
-        pivot_I += 1
-        if pivot_I == len(rows_I2D): break
-    residues_I1D = [(coefficient_I % 2 + 2 * bit_I) % 4 for coefficient_I, bit_I in zip(coefficients_I1D, bits_I1D)]
-    residues_I1D = [-1 if residue_I == 3 else residue_I for residue_I in residues_I1D]
+    symbols_S1D = sorted(set().union(exponent_Expr.free_symbols, *(condition_Expr.free_symbols for condition_Expr in integer_conditions)), key=str)
+    coeff_Expr1D = [exponent_Expr.coeff(symbol_S) for symbol_S in symbols_S1D]
+    assert all(coeff_Expr.is_integer is True for coeff_Expr in coeff_Expr1D)
+    coeff_I1D = [int(coeff_Expr) for coeff_Expr in coeff_Expr1D]
+    constraint_I2D = list(dict.fromkeys(tuple(int(condition_Expr.coeff(symbol_S)) % 2 for symbol_S in symbols_S1D) for condition_Expr in integer_conditions))
+    constraint_I2D = [list(constraint_I1D) for constraint_I1D in constraint_I2D if any(constraint_I1D)]
+    highbit_I1D = [(coeff_I % 4) // 2 for coeff_I in coeff_I1D]
+    pivotrow_I = 0
+    # A -> RREF_GF(2)(A), b -> b xor A_pivot.
+    for column_I in range(len(symbols_S1D)):
+        swaprow_I = next((row_I for row_I in range(pivotrow_I, len(constraint_I2D)) if constraint_I2D[row_I][column_I]), None)
+        if swaprow_I is None: continue
+        constraint_I2D[pivotrow_I], constraint_I2D[swaprow_I] = constraint_I2D[swaprow_I], constraint_I2D[pivotrow_I]
+        for row_I in range(len(constraint_I2D)):
+            if row_I != pivotrow_I and constraint_I2D[row_I][column_I]: constraint_I2D[row_I] = [bit_I ^ pivotbit_I for bit_I, pivotbit_I in zip(constraint_I2D[row_I], constraint_I2D[pivotrow_I])]
+        if highbit_I1D[column_I]: highbit_I1D = [bit_I ^ pivotbit_I for bit_I, pivotbit_I in zip(highbit_I1D, constraint_I2D[pivotrow_I])]
+        pivotrow_I += 1
+        if pivotrow_I == len(constraint_I2D): break
+
+    # c -> {-1, 0, 1, 2} (mod 4).
+    residue_I1D = [(coeff_I % 2 + 2 * highbit_I) % 4 for coeff_I, highbit_I in zip(coeff_I1D, highbit_I1D)]
+    residue_I1D = [-1 if residue_I == 3 else residue_I for residue_I in residue_I1D]
     constant_Expr = exponent_Expr.subs({symbol_S: 0 for symbol_S in symbols_S1D})
-    return expand(int(constant_Expr) % 2 + sum(residue_I * symbol_S for residue_I, symbol_S in zip(residues_I1D, symbols_S1D)))
+    assert constant_Expr.is_integer is True
+    return expand(int(constant_Expr) % 2 + sum(residue_I * symbol_S for residue_I, symbol_S in zip(residue_I1D, symbols_S1D)))
 
 
 def simplify_phase(expr_Expr, zero_conditions, integer_conditions, eliminate_symbols=()):
     """@math (-1)^(e + 2n) = (-1)^e"""
     expr_Expr = powsimp(expr_Expr, force=True)
-    zero_symbols = set().union(*(condition_Expr.free_symbols for condition_Expr in zero_conditions))
+    constrained_symbols = set().union(*(condition_Expr.free_symbols for condition_Expr in zero_conditions))
 
     def simplify_power(power_Expr):
         """@math (-1)^e = (-1)^e'"""
-        exponent_Expr = _reduce_phase_exponent(power_Expr.exp, zero_conditions, integer_conditions, zero_symbols)
-        exponent_Expr = _eliminate_sum_symbols(exponent_Expr, zero_conditions, eliminate_symbols, zero_symbols)
+        exponent_Expr = _reduce_phase_exponent(power_Expr.exp, zero_conditions, integer_conditions, constrained_symbols)
+        exponent_Expr = _eliminate_sum_symbols(exponent_Expr, zero_conditions, eliminate_symbols, constrained_symbols)
         return (-1) ** exponent_Expr
 
     expr_Expr = expr_Expr.replace(lambda value_Expr: value_Expr.is_Pow and value_Expr.base == -1, simplify_power)
@@ -261,83 +270,82 @@ def _print_latex_case(case_text, input_text, reference_Expr, computed_Expr, late
         print(f"[{label}]\n$$\n{body}\n$$")
 
 if __name__ == "__main__":
-    s_S, ms_S, sp_S, msp_S = symbols("s ms sp msp")
-    l_S, ml_S, lp_S, mlp_S = symbols("l ml lp mlp")
-    j_S, mj_S, jp_S, mjp_S = symbols("j mj jp mjp")
-    lamb_S, mu_S = symbols("lamb mu")
-    lambs_S, mus_S, lambl_S, mul_S = symbols("lambs mus lambl mul")
-    Bred_S = symbols("Bred")
+    j1_S, m1_S, j1p_S, m1p_S = symbols("j1 m1 j1p m1p")
+    j2_S, m2_S, j2p_S, m2p_S = symbols("j2 m2 j2p m2p")
+    J_S, M_S, Jp_S, Mp_S = symbols("J M Jp Mp")
+    k_S, q_S = symbols("k q")
+    k1_S, q1_S, k2_S, q2_S = symbols("k1 q1 k2 q2")
+    A1red_S, B2red_S = symbols("A1red B2red")
     latex_symbol_names = {
-        ms_S: r"m_s",
-        sp_S: r"s'",
-        msp_S: r"m_{s'}",
-        ml_S: r"m_l",
-        lp_S: r"l'",
-        mlp_S: r"m_{l'}",
-        mj_S: r"m_j",
-        jp_S: r"j'",
-        mjp_S: r"m_{j'}",
-        lamb_S: r"\lambda",
-        mu_S: r"\mu",
-        lambs_S: r"\lambda_s",
-        mus_S: r"\mu_s",
-        lambl_S: r"\lambda_l",
-        mul_S: r"\mu_l",
-        Bred_S: r"\langle l\|B^{(\lambda)}\|l'\rangle",
+        j1_S: r"j_1", m1_S: r"m_1",
+        j2_S: r"j_2", m2_S: r"m_2",
+        j1p_S: r"j_1'", m1p_S: r"m_1'",
+        j2p_S: r"j_2'", m2p_S: r"m_2'",
+        Jp_S: r"J'", Mp_S: r"M'",
+        k1_S: r"k_1", q1_S: r"q_1",
+        k2_S: r"k_2", q2_S: r"q_2",
+        A1red_S: r"\langle j_1\|A(1)\|j_1'\rangle",
+        B2red_S: r"\langle j_2\|B(2)\|j_2'\rangle",
     }
 
     scalar_input_Expr = (
-        CG(s_S, ms_S, l_S, ml_S, j_S, mj_S)
-        * CG(sp_S, msp_S, lp_S, mlp_S, jp_S, mjp_S)
-        * (-1) ** (l_S - ml_S)
-        * Wigner3j(l_S, -ml_S, lamb_S, -mu_S, lp_S, mlp_S)
-        * (-1) ** (s_S - ms_S)
-        * Wigner3j(s_S, -ms_S, lamb_S, mu_S, sp_S, msp_S)
-        * (-1) ** (lamb_S - mu_S)
-        / sqrt(2 * lamb_S + 1)
+        CG(j1_S, m1_S, j2_S, m2_S, J_S, M_S)
+        * CG(j1p_S, m1p_S, j2p_S, m2p_S, Jp_S, Mp_S)
+        * (-1) ** (j2_S - m2_S)
+        * Wigner3j(j2_S, -m2_S, k_S, -q_S, j2p_S, m2p_S)
+        * (-1) ** (j1_S - m1_S)
+        * Wigner3j(j1_S, -m1_S, k_S, q_S, j1p_S, m1p_S)
+        * (-1) ** (k_S - q_S)
+        / sqrt(2 * k_S + 1)
+        * A1red_S
+        * B2red_S
     )
-    scalar_sum_symbols = (ms_S, ml_S, msp_S, mlp_S, mu_S)
+    scalar_sum_symbols = (m1_S, m2_S, m1p_S, m2p_S, q_S)
     scalar_reduced_symbols, scalar_reduced_Expr = FOUR_3J_SUM_5_TO_ONE_6J.apply_wigner_reduction(scalar_sum_symbols, scalar_input_Expr)
-    scalar_reference_Expr = (-1) ** (jp_S + l_S + lamb_S + sp_S) * sqrt(2 * jp_S + 1) * KroneckerDelta(j_S, jp_S) * KroneckerDelta(mj_S, mjp_S) * Wigner6j(l_S, s_S, j_S, sp_S, lp_S, lamb_S) / sqrt((2 * j_S + 1) * (2 * lamb_S + 1))
-    _print_latex_case(r"\langle (sl)jm_j | [A_\lambda(s)B_\lambda(l)]_{00} | (s'l')j'm_j' \rangle", r"\sum_{" + ",".join(latex(symbol_S, symbol_names=latex_symbol_names) for symbol_S in scalar_sum_symbols) + r"} \langle j m_j\mid s m_s,l m_l\rangle\langle s'm_{s'},l'm_{l'}\mid j'm_{j'}\rangle\;" + latex(scalar_input_Expr / (CG(s_S, ms_S, l_S, ml_S, j_S, mj_S) * CG(sp_S, msp_S, lp_S, mlp_S, jp_S, mjp_S)), symbol_names=latex_symbol_names), scalar_reference_Expr, scalar_reduced_Expr, latex_symbol_names)
+    scalar_reference_Expr = (-1) ** (Jp_S + j2_S + k_S + j1p_S) * sqrt(2 * Jp_S + 1) * KroneckerDelta(J_S, Jp_S) * KroneckerDelta(M_S, Mp_S) * Wigner6j(j2_S, j1_S, J_S, j1p_S, j2p_S, k_S) * A1red_S * B2red_S / sqrt((2 * J_S + 1) * (2 * k_S + 1))
+    _print_latex_case(r"\langle (j_1j_2)JM | [A_k(j_1)B_k(j_2)]_{00} | (j_1'j_2')J'M' \rangle", r"\sum_{" + ",".join(latex(symbol_S, symbol_names=latex_symbol_names) for symbol_S in scalar_sum_symbols) + r"} \langle JM\mid j_1m_1,j_2m_2\rangle\langle j_1'm_1',j_2'm_2'\mid J'M'\rangle\;" + latex(scalar_input_Expr / (CG(j1_S, m1_S, j2_S, m2_S, J_S, M_S) * CG(j1p_S, m1p_S, j2p_S, m2p_S, Jp_S, Mp_S)), symbol_names=latex_symbol_names), scalar_reference_Expr, scalar_reduced_Expr, latex_symbol_names)
     assert scalar_reduced_symbols == () and scalar_reduced_Expr == scalar_reference_Expr
 
     tensor_input_Expr = (
-        CG(s_S, ms_S, l_S, ml_S, j_S, mj_S)
-        * CG(sp_S, msp_S, lp_S, mlp_S, jp_S, mjp_S)
-        * CG(lambs_S, mus_S, lambl_S, mul_S, lamb_S, mu_S)
-        * (-1) ** (l_S - ml_S)
-        * Wigner3j(l_S, -ml_S, lambl_S, mul_S, lp_S, mlp_S)
-        * (-1) ** (s_S - ms_S)
-        * Wigner3j(s_S, -ms_S, lambs_S, mus_S, sp_S, msp_S)
+        CG(j1_S, m1_S, j2_S, m2_S, J_S, M_S)
+        * CG(j1p_S, m1p_S, j2p_S, m2p_S, Jp_S, Mp_S)
+        * CG(k1_S, q1_S, k2_S, q2_S, k_S, q_S)
+        * (-1) ** (j2_S - m2_S)
+        * Wigner3j(j2_S, -m2_S, k2_S, q2_S, j2p_S, m2p_S)
+        * (-1) ** (j1_S - m1_S)
+        * Wigner3j(j1_S, -m1_S, k1_S, q1_S, j1p_S, m1p_S)
+        * A1red_S
+        * B2red_S
     )
-    tensor_sum_symbols = (ms_S, ml_S, msp_S, mlp_S, mus_S, mul_S)
+    tensor_sum_symbols = (m1_S, m2_S, m1p_S, m2p_S, q1_S, q2_S)
     tensor_reduced_symbols, tensor_reduced_Expr = FIVE_3J_SUM_6_TO_ONE_9J_ONE_3J.apply_wigner_reduction(tensor_sum_symbols, tensor_input_Expr)
     tensor_reduced_Expr = simplify_wigner9j_phase(tensor_reduced_Expr)
-    tensor_reference_Expr = (-1) ** (j_S - mj_S) * sqrt((2 * j_S + 1) * (2 * jp_S + 1) * (2 * lamb_S + 1)) * Wigner3j(lamb_S, mu_S, jp_S, mjp_S, j_S, -mj_S) * Wigner9j(j_S, lamb_S, jp_S, l_S, lambl_S, lp_S, s_S, lambs_S, sp_S)
-    _print_latex_case(r"\langle (sl)jm_j | [A_{\lambda_s}(s)B_{\lambda_l}(l)]_{\lambda\mu} | (s'l')j'm_j' \rangle", r"\sum_{" + ",".join(latex(symbol_S, symbol_names=latex_symbol_names) for symbol_S in tensor_sum_symbols) + r"} \langle j m_j\mid s m_s,l m_l\rangle\langle s'm_{s'},l'm_{l'}\mid j'm_{j'}\rangle\langle\lambda_s\mu_s,\lambda_l\mu_l\mid\lambda\mu\rangle\;" + latex(tensor_input_Expr / (CG(s_S, ms_S, l_S, ml_S, j_S, mj_S) * CG(sp_S, msp_S, lp_S, mlp_S, jp_S, mjp_S) * CG(lambs_S, mus_S, lambl_S, mul_S, lamb_S, mu_S)), symbol_names=latex_symbol_names), tensor_reference_Expr, tensor_reduced_Expr, latex_symbol_names)
+    tensor_reduced_Expr = tensor_reduced_Expr.xreplace({Wigner3j(J_S, M_S, Jp_S, -Mp_S, k_S, -q_S): Wigner3j(k_S, q_S, Jp_S, Mp_S, J_S, -M_S), Wigner9j(J_S, Jp_S, k_S, j1_S, j1p_S, k1_S, j2_S, j2p_S, k2_S): Wigner9j(J_S, k_S, Jp_S, j2_S, k2_S, j2p_S, j1_S, k1_S, j1p_S)})
+    tensor_reduced_Expr = simplify_phase(powsimp(tensor_reduced_Expr, force=True), *wigner3j_constraints(tensor_reduced_Expr.atoms(Wigner3j)))
+    tensor_reference_Expr = (-1) ** (J_S - M_S) * sqrt((2 * J_S + 1) * (2 * Jp_S + 1) * (2 * k_S + 1)) * Wigner3j(k_S, q_S, Jp_S, Mp_S, J_S, -M_S) * Wigner9j(J_S, k_S, Jp_S, j2_S, k2_S, j2p_S, j1_S, k1_S, j1p_S) * A1red_S * B2red_S
+    _print_latex_case(r"\langle (j_1j_2)JM | [A_{k_1}(j_1)B_{k_2}(j_2)]_{kq} | (j_1'j_2')J'M' \rangle", r"\sum_{" + ",".join(latex(symbol_S, symbol_names=latex_symbol_names) for symbol_S in tensor_sum_symbols) + r"} \langle JM\mid j_1m_1,j_2m_2\rangle\langle j_1'm_1',j_2'm_2'\mid J'M'\rangle\langle k_1q_1,k_2q_2\mid kq\rangle\;" + latex(tensor_input_Expr / (CG(j1_S, m1_S, j2_S, m2_S, J_S, M_S) * CG(j1p_S, m1p_S, j2p_S, m2p_S, Jp_S, Mp_S) * CG(k1_S, q1_S, k2_S, q2_S, k_S, q_S)), symbol_names=latex_symbol_names), tensor_reference_Expr, tensor_reduced_Expr, latex_symbol_names)
     assert tensor_reduced_symbols == () and tensor_reduced_Expr == tensor_reference_Expr
 
     subsystem_input_Expr = (
-        CG(s_S, ms_S, l_S, ml_S, j_S, mj_S)
-        * CG(s_S, ms_S, lp_S, mlp_S, jp_S, mjp_S)
-        * (-1) ** (l_S - ml_S)
-        * Wigner3j(l_S, -ml_S, lamb_S, mu_S, lp_S, mlp_S)
-        * KroneckerDelta(s_S, sp_S)
-        * Bred_S
+        CG(j1_S, m1_S, j2_S, m2_S, J_S, M_S)
+        * CG(j1p_S, m1p_S, j2_S, m2_S, Jp_S, Mp_S)
+        * (-1) ** (j1_S - m1_S)
+        * Wigner3j(j1_S, -m1_S, k_S, q_S, j1p_S, m1p_S)
+        * KroneckerDelta(j2_S, j2p_S)
+        * A1red_S
     )
-    subsystem_sum_symbols = (ms_S, ml_S, mlp_S)
+    subsystem_sum_symbols = (m1_S, m2_S, m1p_S)
     subsystem_reduced_symbols, subsystem_reduced_Expr = THREE_3J_SUM_3_TO_ONE_6J_ONE_3J.apply_wigner_reduction(subsystem_sum_symbols, subsystem_input_Expr)
-    subsystem_reduced_Expr = subsystem_reduced_Expr.xreplace({Wigner3j(lamb_S, -mu_S, jp_S, -mjp_S, j_S, mj_S): (-1) ** (lamb_S + jp_S + j_S) * Wigner3j(j_S, -mj_S, lamb_S, mu_S, jp_S, mjp_S), Wigner6j(lamb_S, jp_S, j_S, s_S, l_S, lp_S): Wigner6j(l_S, j_S, s_S, jp_S, lp_S, lamb_S)})
+    subsystem_reduced_Expr = subsystem_reduced_Expr.xreplace({Wigner3j(k_S, -q_S, Jp_S, -Mp_S, J_S, M_S): (-1) ** (k_S + Jp_S + J_S) * Wigner3j(J_S, -M_S, k_S, q_S, Jp_S, Mp_S), Wigner6j(k_S, Jp_S, J_S, j2_S, j1_S, j1p_S): Wigner6j(j1_S, J_S, j2_S, Jp_S, j1p_S, k_S)})
     subsystem_reduced_Expr = simplify_phase(powsimp(subsystem_reduced_Expr, force=True), *wigner3j_constraints(subsystem_reduced_Expr.atoms(Wigner3j)))
     subsystem_reference_Expr = (
-        (-1) ** (j_S - mj_S)
-        * Wigner3j(j_S, -mj_S, lamb_S, mu_S, jp_S, mjp_S)
-        * KroneckerDelta(s_S, sp_S)
-        * (-1) ** (s_S + lp_S + j_S + lamb_S)
-        * sqrt((2 * j_S + 1) * (2 * jp_S + 1))
-        * Wigner6j(l_S, j_S, s_S, jp_S, lp_S, lamb_S)
-        * Bred_S
+        (-1) ** (J_S - M_S)
+        * Wigner3j(J_S, -M_S, k_S, q_S, Jp_S, Mp_S)
+        * KroneckerDelta(j2_S, j2p_S)
+        * (-1) ** (j1_S + j2_S + Jp_S + k_S)
+        * sqrt((2 * J_S + 1) * (2 * Jp_S + 1))
+        * Wigner6j(j1_S, J_S, j2_S, Jp_S, j1p_S, k_S)
+        * A1red_S
     )
-    _print_latex_case(r"\langle (sl)jm_j | B_{\lambda\mu}(l) | (s'l')j'm_j' \rangle", r"\sum_{" + ",".join(latex(symbol_S, symbol_names=latex_symbol_names) for symbol_S in subsystem_sum_symbols) + r"} \langle j m_j\mid s m_s,l m_l\rangle\langle s m_s,l'm_{l'}\mid j'm_{j'}\rangle\;" + latex(subsystem_input_Expr / (CG(s_S, ms_S, l_S, ml_S, j_S, mj_S) * CG(s_S, ms_S, lp_S, mlp_S, jp_S, mjp_S)), symbol_names=latex_symbol_names), subsystem_reference_Expr, subsystem_reduced_Expr, latex_symbol_names)
+    _print_latex_case(r"\langle (j_1j_2)JM | A_q^{(k)}(1) | (j_1'j_2')J'M' \rangle", r"\sum_{" + ",".join(latex(symbol_S, symbol_names=latex_symbol_names) for symbol_S in subsystem_sum_symbols) + r"} \langle JM\mid j_1m_1,j_2m_2\rangle\langle j_1'm_1',j_2m_2\mid J'M'\rangle\;" + latex(subsystem_input_Expr / (CG(j1_S, m1_S, j2_S, m2_S, J_S, M_S) * CG(j1p_S, m1p_S, j2_S, m2_S, Jp_S, Mp_S)), symbol_names=latex_symbol_names), subsystem_reference_Expr, subsystem_reduced_Expr, latex_symbol_names)
     assert subsystem_reduced_symbols == () and simplify_phase(powsimp(subsystem_reduced_Expr / subsystem_reference_Expr, force=True), *wigner3j_constraints(subsystem_reference_Expr.atoms(Wigner3j))) == 1

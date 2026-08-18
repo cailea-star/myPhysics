@@ -21,6 +21,7 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 ## Code Formatting Rules
 
 - Within each class access section, declare data members first; define constructors inline before member functions.
+- Constructor initializer lists MUST occupy one separate line: `: member(...), member(...), ...`.
 - Declarations, function signatures, and simple statements MUST each occupy one line and NEVER share lines.
 - Single-statement `if` or `for` blocks MAY remain inline but MUST retain braces: `if (...) {...}`, `for (...) {...}`.
 - Developer-facing numerical preconditions MUST use single-line `assert`; recoverable runtime failures MUST use explicit handling.
