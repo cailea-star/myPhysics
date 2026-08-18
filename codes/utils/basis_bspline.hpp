@@ -1,5 +1,5 @@
 /**
- * @file    b_spline_basis.hpp
+ * @file    basis_bspline.hpp
  * @author  cailea
  * @date    2026-06-04
  * @brief   Cubic clamped B-spline basis on a finite interval.

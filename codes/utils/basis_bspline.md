@@ -113,3 +113,4 @@ $$
 $$
 
 Under homogeneous Dirichlet boundary conditions, all matrices are restricted to the interior basis indices $i,j=2,\ldots,N_B-1$.
+

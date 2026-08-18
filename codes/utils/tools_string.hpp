@@ -1,5 +1,5 @@
 /**
- * @file    string_tools.hpp
+ * @file    tools_string.hpp
  * @author  cailea
  * @date    2026-01-29
  * @brief   String replacement and splitting utilities.

@@ -1,5 +1,5 @@
 /**
- * @file    b_spline_basis_test.cpp
+ * @file    basis_bspline_test.cpp
  * @author  cailea
  * @date    2026-08-17
  * @brief   Tests for the cubic B-spline basis.
@@ -13,7 +13,7 @@
 #include <Eigen/Core>
 #include <Eigen/Dense>
 #include <Eigen/Eigenvalues>
-#include "b_spline_basis.hpp"
+#include "basis_bspline.hpp"
 
 /**
  * @brief  Evaluate the analytic harmonic-oscillator energy.
