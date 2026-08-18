@@ -38,9 +38,8 @@ public:
      * @math   W(x) = e^-x²
      * @output Nodes and weights.
      */
-    GaussHermiteMeshes(int Nx_I) : x_F1D_x(Nx_I), w_F1D_x(Nx_I),
-    n_I1D_n(Eigen::VectorXi::Zero(1)), N_F1D_n(Eigen::VectorXd::Zero(1)),
-    H_F2D_n_x(Eigen::MatrixXd::Zero(1, Nx_I)) {
+    GaussHermiteMeshes(int Nx_I)
+    : x_F1D_x(Nx_I), w_F1D_x(Nx_I), n_I1D_n(Eigen::VectorXi::Zero(1)), N_F1D_n(Eigen::VectorXd::Zero(1)), H_F2D_n_x(Eigen::MatrixXd::Zero(1, Nx_I)) {
         assert(Nx_I > 0);
         double a_F = 0.0;           // x -> x - a.
         double b_F = 1.0;           // x² -> x² / b.
@@ -58,8 +57,8 @@ public:
      * @math   ∫N_nH_nN_mH_m e^-x² dx = δ_nm
      * @output Nodes, weights, normalizations, and polynomials.
      */
-    GaussHermiteMeshes(const Eigen::VectorXi& n_I1D_n_, int Nx_I) : x_F1D_x(Nx_I), w_F1D_x(Nx_I),
-    n_I1D_n(n_I1D_n_), N_F1D_n(n_I1D_n_.size()), H_F2D_n_x(n_I1D_n_.size(), Nx_I) {
+    GaussHermiteMeshes(const Eigen::VectorXi& n_I1D_n_, int Nx_I)
+    : x_F1D_x(Nx_I), w_F1D_x(Nx_I), n_I1D_n(n_I1D_n_), N_F1D_n(n_I1D_n_.size()), H_F2D_n_x(n_I1D_n_.size(), Nx_I) {
         assert(Nx_I > 0);
         assert((n_I1D_n_.array() >= 0).all());
         double a_F = 0.0;           // x -> x - a.
@@ -107,9 +106,8 @@ public:
      * @math   W(x) = e^-x
      * @output Nodes and weights.
      */
-    GaussLaguerreMeshes(int Nx_I) : x_F1D_x(Nx_I), w_F1D_x(Nx_I),
-    n_I1D_na(Eigen::VectorXi::Zero(1)), alpha_F1D_na(Eigen::VectorXd::Zero(1)),
-    N_F1D_na(Eigen::VectorXd::Zero(1)), L_F2D_na_x(Eigen::MatrixXd::Zero(1, Nx_I)) {
+    GaussLaguerreMeshes(int Nx_I)
+    : x_F1D_x(Nx_I), w_F1D_x(Nx_I), n_I1D_na(Eigen::VectorXi::Zero(1)), alpha_F1D_na(Eigen::VectorXd::Zero(1)), N_F1D_na(Eigen::VectorXd::Zero(1)), L_F2D_na_x(Eigen::MatrixXd::Zero(1, Nx_I)) {
         assert(Nx_I > 0);
         double b_F = 1.0;           // x -> x / b.
         double weightAlpha_F = 0.0; // W(x) = x^α e^(-x/b).
@@ -126,9 +124,8 @@ public:
      * @math   ∫N_nL_n^αN_mL_m^α x^αe^-x dx = δ_nm
      * @output Nodes, weights, normalizations, and polynomials.
      */
-    GaussLaguerreMeshes(const Eigen::VectorXi& n_I1D_na_, const Eigen::VectorXd& alpha_F1D_na_, int Nx_I) :
-    x_F1D_x(Nx_I), w_F1D_x(Nx_I), n_I1D_na(n_I1D_na_), alpha_F1D_na(alpha_F1D_na_),
-    N_F1D_na(n_I1D_na_.size()), L_F2D_na_x(n_I1D_na_.size(), Nx_I) {
+    GaussLaguerreMeshes(const Eigen::VectorXi& n_I1D_na_, const Eigen::VectorXd& alpha_F1D_na_, int Nx_I)
+    : x_F1D_x(Nx_I), w_F1D_x(Nx_I), n_I1D_na(n_I1D_na_), alpha_F1D_na(alpha_F1D_na_), N_F1D_na(n_I1D_na_.size()), L_F2D_na_x(n_I1D_na_.size(), Nx_I) {
         assert(Nx_I > 0);
         assert(n_I1D_na_.size() == alpha_F1D_na_.size());
         assert((n_I1D_na_.array() >= 0).all());
@@ -175,9 +172,8 @@ public:
      * @math   W(x) = 1, x ∈ [-1, 1]
      * @output Nodes and weights.
      */
-    GaussLegendreMeshes(int Nx_I) : x_F1D_x(Nx_I), w_F1D_x(Nx_I),
-    l_I1D_lm(Eigen::VectorXi::Zero(1)), m_I1D_lm(Eigen::VectorXi::Zero(1)),
-    N_F1D_lm(Eigen::VectorXd::Zero(1)), P_F2D_lm_x(Eigen::MatrixXd::Zero(1, Nx_I)) {
+    GaussLegendreMeshes(int Nx_I)
+    : x_F1D_x(Nx_I), w_F1D_x(Nx_I), l_I1D_lm(Eigen::VectorXi::Zero(1)), m_I1D_lm(Eigen::VectorXi::Zero(1)), N_F1D_lm(Eigen::VectorXd::Zero(1)), P_F2D_lm_x(Eigen::MatrixXd::Zero(1, Nx_I)) {
         assert(Nx_I > 0);
         double xmin_F = -1.0;       // x_min = -1 = cos π.
         double xmax_F = 1.0;        // x_max = 1 = cos 0.
@@ -194,9 +190,8 @@ public:
      * @math   ∫N_lmP_l^mN_kmP_k^m dx = δ_lk
      * @output Nodes, weights, normalizations, and polynomials.
      */
-    GaussLegendreMeshes(const Eigen::VectorXi& l_I1D_lm_, const Eigen::VectorXi& m_I1D_lm_, int Nx_I) :
-    x_F1D_x(Nx_I), w_F1D_x(Nx_I), l_I1D_lm(l_I1D_lm_), m_I1D_lm(m_I1D_lm_),
-    N_F1D_lm(l_I1D_lm_.size()), P_F2D_lm_x(l_I1D_lm_.size(), Nx_I) {
+    GaussLegendreMeshes(const Eigen::VectorXi& l_I1D_lm_, const Eigen::VectorXi& m_I1D_lm_, int Nx_I)
+    : x_F1D_x(Nx_I), w_F1D_x(Nx_I), l_I1D_lm(l_I1D_lm_), m_I1D_lm(m_I1D_lm_), N_F1D_lm(l_I1D_lm_.size()), P_F2D_lm_x(l_I1D_lm_.size(), Nx_I) {
         assert(Nx_I > 0);
         assert(l_I1D_lm_.size() == m_I1D_lm_.size());
         assert((l_I1D_lm_.array() >= 0).all());

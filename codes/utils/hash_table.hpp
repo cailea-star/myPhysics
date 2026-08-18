@@ -34,7 +34,8 @@ public:
      * @output Empty hash table with configured bounds and default value.
      * @note   Requires valid nonempty bounds and a packed-key range within uint64_t.
      */
-    MyHashTable(const std::vector<int>& keymin_I1D_i, const std::vector<int>& keymax_I1D_i, const Value_T& defaultvalue_T = Value_T{}) : keymin_I1D_i(keymin_I1D_i), keymax_I1D_i(keymax_I1D_i), keystride_I1D_i(keymin_I1D_i.size(), 1), defaultvalue_T(defaultvalue_T) {
+    MyHashTable(const std::vector<int>& keymin_I1D_i, const std::vector<int>& keymax_I1D_i, const Value_T& defaultvalue_T = Value_T{})
+    : keymin_I1D_i(keymin_I1D_i), keymax_I1D_i(keymax_I1D_i), keystride_I1D_i(keymin_I1D_i.size(), 1), defaultvalue_T(defaultvalue_T) {
         // dim(keymin) = dim(keymax) > 0.
         assert(keymin_I1D_i.size() == keymax_I1D_i.size());
         assert(!keymin_I1D_i.empty());

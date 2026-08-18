@@ -34,16 +34,8 @@ public:
      * @math   r_0 = G(x_0) - x_0, x_1 = x_0 + α r_0
      * @output Initial x_1, r_1, and an empty secant history.
      */
-    BroydenIterator(int Nh_I, const Vec2VecFunc& G_Func, double alpha_F, const Eigen::VectorXd& x0_F1D_i, const Eigen::VectorXd& G0_F1D_i) :
-        Nh_I(Nh_I), hnew_I(-1),
-        xcurr_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())),
-        rcurr_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())),
-        xnext_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())),
-        rnext_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())),
-        gamma_F1D_h(Eigen::VectorXd::Zero(Nh_I)),
-        Sinv2_F1D_h(Eigen::VectorXd::Zero(Nh_I)),
-        dX_F2D_i_h(Eigen::MatrixXd::Zero(x0_F1D_i.size(), Nh_I)),
-        dR_F2D_i_h(Eigen::MatrixXd::Zero(x0_F1D_i.size(), Nh_I)) {
+    BroydenIterator(int Nh_I, const Vec2VecFunc& G_Func, double alpha_F, const Eigen::VectorXd& x0_F1D_i, const Eigen::VectorXd& G0_F1D_i)
+    : Nh_I(Nh_I), hnew_I(-1), xcurr_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())), rcurr_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())), xnext_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())), rnext_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())), gamma_F1D_h(Eigen::VectorXd::Zero(Nh_I)), Sinv2_F1D_h(Eigen::VectorXd::Zero(Nh_I)), dX_F2D_i_h(Eigen::MatrixXd::Zero(x0_F1D_i.size(), Nh_I)), dR_F2D_i_h(Eigen::MatrixXd::Zero(x0_F1D_i.size(), Nh_I)) {
         // r_0 = G(x_0) - x_0, x_1 = x_0 + α r_0.
         rcurr_F1D_i.noalias() = G0_F1D_i - x0_F1D_i;
         xnext_F1D_i.noalias() = x0_F1D_i + alpha_F * rcurr_F1D_i;

@@ -28,7 +28,10 @@ public:
      * @output Initialized inverse Green matrix.
      * @note   Requires the complete endpoint-retaining B-spline basis.
      */
-    RMatrix(const BSplineBasis& b_basis_, const Real2CMatFunc& F_Func, const Eigen::Ref<const Eigen::VectorXcd>& kxmin_C1D_ch, const Eigen::Ref<const Eigen::VectorXcd>& kxmax_C1D_ch) : b_basis(b_basis_) {update_Ginv(F_Func, kxmin_C1D_ch, kxmax_C1D_ch);}
+    RMatrix(const BSplineBasis& b_basis_, const Real2CMatFunc& F_Func, const Eigen::Ref<const Eigen::VectorXcd>& kxmin_C1D_ch, const Eigen::Ref<const Eigen::VectorXcd>& kxmax_C1D_ch)
+    : b_basis(b_basis_) {
+        update_Ginv(F_Func, kxmin_C1D_ch, kxmax_C1D_ch);
+    }
 
     /**
      * @brief  Assemble the inverse Green matrix by B-spline Galerkin quadrature.

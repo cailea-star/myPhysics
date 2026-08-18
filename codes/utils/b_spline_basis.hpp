@@ -54,8 +54,8 @@ public:
      * @math   N_B = N_x + p - 1
      * @output Initialized knot vector and basis definition.
      */
-    BSplineBasisFunction(const Eigen::VectorXd& x_F1D_x_) :
-    x_F1D_x(x_F1D_x_) {
+    BSplineBasisFunction(const Eigen::VectorXd& x_F1D_x_)
+    : x_F1D_x(x_F1D_x_) {
         fill_clamped_knots();
     }
 
@@ -119,7 +119,8 @@ public:
      * @output Quadrature grid, weights, basis values, and derivatives.
      * @note   isZeroBound_B selects the complete or homogeneous-Dirichlet basis space.
      */
-    BSplineBasis(const BSplineBasisFunction& b_basis_func_, int nquad_I, bool isZeroBound_B): b_funcs(b_basis_func_) {
+    BSplineBasis(const BSplineBasisFunction& b_basis_func_, int nquad_I, bool isZeroBound_B)
+    : b_funcs(b_basis_func_) {
         assert(nquad_I > 0);
         
         const int Nseg_I = static_cast<int>(b_basis_func_.x_F1D_x.size()) - 1;

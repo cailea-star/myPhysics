@@ -43,16 +43,8 @@ public:
      * @math   x₀ = (x_min + x_max) / 2, s = x_max - x_min
      * @output Initializes the chain state, proposal scale, and sample statistics.
      */
-    MCMCSampler(const Vec2RealFunc& logp_Func, const Eigen::VectorXd& min_F1D_x, const Eigen::VectorXd& max_F1D_x) :
-        avg_F1D_x(Eigen::VectorXd::Zero(min_F1D_x.size())),
-        cov_F2D_x_x(Eigen::MatrixXd::Zero(min_F1D_x.size(), min_F1D_x.size())),
-        logp_Func(logp_Func),
-        min_F1D_x(min_F1D_x),
-        max_F1D_x(max_F1D_x),
-        step_F1D_x(max_F1D_x - min_F1D_x),
-        current_F1D_x(0.5 * (min_F1D_x + max_F1D_x)),
-        current_logp_F(logp_Func(current_F1D_x)),
-        random_Generator(static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count())) {
+    MCMCSampler(const Vec2RealFunc& logp_Func, const Eigen::VectorXd& min_F1D_x, const Eigen::VectorXd& max_F1D_x)
+    : avg_F1D_x(Eigen::VectorXd::Zero(min_F1D_x.size())), cov_F2D_x_x(Eigen::MatrixXd::Zero(min_F1D_x.size(), min_F1D_x.size())), logp_Func(logp_Func), min_F1D_x(min_F1D_x), max_F1D_x(max_F1D_x), step_F1D_x(max_F1D_x - min_F1D_x), current_F1D_x(0.5 * (min_F1D_x + max_F1D_x)), current_logp_F(logp_Func(current_F1D_x)), random_Generator(static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count())) {
         assert(min_F1D_x.size() > 0);
         assert(min_F1D_x.size() == max_F1D_x.size());
         assert(min_F1D_x.allFinite() && max_F1D_x.allFinite());
