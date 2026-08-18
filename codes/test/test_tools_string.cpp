@@ -12,21 +12,21 @@ int main() {
     std::cout << "Original head line: " << head_line << "\n";
     std::cout << "Original data line: " << data_line << "\n";
 
-    // 替换逗号为分号
-    replace_all(head_line, " ", ""); // 去除空格
-    replace_all(head_line, "\t", ""); // 去除制表符
-    replace_all(head_line, "[", ","); // 替换左括号为逗号
-    replace_all(head_line, "]", ","); // 替换右括号为逗号
-    // 同样处理数据行
-    replace_all(data_line, " ", ""); // 去除空格
-    replace_all(data_line, "\t", ""); // 去除制表符
-    replace_all(data_line, "[", ","); // 替换左括号为逗号
-    replace_all(data_line, "]", ","); // 替换右括号为逗号
+    // head_line → normalized comma-separated text.
+    replace_all(head_line, " ", ""); // Remove spaces.
+    replace_all(head_line, "\t", ""); // Remove tabs.
+    replace_all(head_line, "[", ","); // [ → ,.
+    replace_all(head_line, "]", ","); // ] → ,.
+    // data_line → normalized comma-separated text.
+    replace_all(data_line, " ", ""); // Remove spaces.
+    replace_all(data_line, "\t", ""); // Remove tabs.
+    replace_all(data_line, "[", ","); // [ → ,.
+    replace_all(data_line, "]", ","); // ] → ,.
 
     std::cout << "Modified head line: " << head_line << "\n";
     std::cout << "Modified data line: " << data_line << "\n";
 
-    // 分割字符串
+    // text → tokens.
     std::vector<std::string> head_tokens = split(head_line, ',');
     std::vector<std::string> data_tokens = split(data_line, ',');
 
@@ -43,4 +43,3 @@ int main() {
 
     return 0;
 }
-
