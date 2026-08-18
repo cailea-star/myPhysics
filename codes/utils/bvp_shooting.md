@@ -77,3 +77,4 @@ The scaling ensures continuity of the function value, while $R(E_n)=0$ ensures c
 $$
 \mathrm{Norm}=\sqrt{\int_{x_{\min}}^{x_{\max}}|y(x)|^2\,dx},\qquad y(x)\rightarrow\frac{y(x)}{\mathrm{Norm}}.
 $$
+

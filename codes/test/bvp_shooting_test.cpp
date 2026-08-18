@@ -1,5 +1,5 @@
 /**
- * @file    shooting_test.cpp
+ * @file    bvp_shooting_test.cpp
  * @author  cailea
  * @date    2026-08-18
  * @brief   Acceptance test for Numerov and RK4 shooting methods.
@@ -12,7 +12,7 @@
 #include <iostream>
 #include <Eigen/Dense>
 #include "integration.hpp"
-#include "shooting.hpp"
+#include "bvp_shooting.hpp"
 #include "spherical_radial_boundary.hpp"
 
 /**

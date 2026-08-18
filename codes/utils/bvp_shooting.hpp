@@ -1,5 +1,5 @@
 /**
- * @file    shooting.hpp
+ * @file    bvp_shooting.hpp
  * @author  cailea
  * @date    2026-01-29
  * @brief   Bound-state shooting methods for eigenenergies and wave functions.
