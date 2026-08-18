@@ -1,13 +1,10 @@
-# =========== 编译产物 =============
-*.pyc
-
-
 # =========== papers 产物 ============
 papers/raw/*.pdf
 papers/raw/*.tex
 papers/tmp/*
 
-# =========== codes 产物 ============
-codes/build*
-codes/.cache
+# =========== 编译 产物 ===========
+__pycache__/
+.cache/
+build*/
 compile_commands.json
