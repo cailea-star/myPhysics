@@ -12,66 +12,66 @@
 #include <functional>
 
 namespace {
-    /**
-    * @brief  Validate a uniform mesh and return its spacing.
-    * @math   h = x_{i+1} - x_i != 0
-    * @output Uniform mesh spacing.
-    */
-    template<typename T>
-    inline double assert_uniform_mesh(const Eigen::Vector<T, Eigen::Dynamic>& f_T1D_x, const Eigen::VectorXd& x_F1D_x, Eigen::Index Nx_min_I) {
-        assert(f_T1D_x.size() == x_F1D_x.size());
-        assert(x_F1D_x.size() >= Nx_min_I);
+/**
+* @brief  Validate a uniform mesh and return its spacing.
+* @math   h = x_{i+1} - x_i != 0
+* @output Uniform mesh spacing.
+*/
+template<typename T>
+inline double assert_uniform_mesh(const Eigen::Vector<T, Eigen::Dynamic>& f_T1D_x, const Eigen::VectorXd& x_F1D_x, Eigen::Index Nx_min_I) {
+    assert(f_T1D_x.size() == x_F1D_x.size());
+    assert(x_F1D_x.size() >= Nx_min_I);
 
-        double dx_F = x_F1D_x(1) - x_F1D_x(0);
-        assert(std::isfinite(dx_F));
-        assert(dx_F != 0.0);
-        double tol_F = 1.0e-10 * std::abs(dx_F);
-        for (Eigen::Index x_I = 1; x_I < x_F1D_x.size() - 1; ++x_I) {
-            double step_F = x_F1D_x(x_I + 1) - x_F1D_x(x_I);
-            assert(std::isfinite(step_F));
-            assert(step_F != 0.0);
-            assert(std::abs(step_F - dx_F) <= tol_F);
-        }
-        return dx_F;
+    double dx_F = x_F1D_x(1) - x_F1D_x(0);
+    assert(std::isfinite(dx_F));
+    assert(dx_F != 0.0);
+    double tol_F = 1.0e-10 * std::abs(dx_F);
+    for (Eigen::Index x_I = 1; x_I < x_F1D_x.size() - 1; ++x_I) {
+        double step_F = x_F1D_x(x_I + 1) - x_F1D_x(x_I);
+        assert(std::isfinite(step_F));
+        assert(step_F != 0.0);
+        assert(std::abs(step_F - dx_F) <= tol_F);
     }
+    return dx_F;
+}
 
-    /**
-    * @brief  Compute the first derivative on a validated uniform mesh.
-    * @math   f'(x_i) ≈ D_h f_i
-    * @output First derivative at x_i.
-    */
-    template<typename T>
-    T derivative1_impl(const Eigen::Vector<T, Eigen::Dynamic>& f_T1D_x, double dx_F, Eigen::Index x_I) {
-        Eigen::Index Nx_I = f_T1D_x.size();
-        if (x_I == 0) {
-            return (f_T1D_x(1) - f_T1D_x(0)) / dx_F;
-        } else if (x_I == Nx_I - 1) {
-            return (f_T1D_x(Nx_I - 1) - f_T1D_x(Nx_I - 2)) / dx_F;
-        } else if (x_I == 1 || x_I == Nx_I - 2) {
-            return (f_T1D_x(x_I + 1) - f_T1D_x(x_I - 1)) / (2.0 * dx_F);
-        } else {
-            return (T(8.0) * (f_T1D_x(x_I + 1) - f_T1D_x(x_I - 1)) - (f_T1D_x(x_I + 2) - f_T1D_x(x_I - 2))) / (12.0 * dx_F);
-        }
+/**
+* @brief  Compute the first derivative on a validated uniform mesh.
+* @math   f'(x_i) ≈ D_h f_i
+* @output First derivative at x_i.
+*/
+template<typename T>
+T derivative1_impl(const Eigen::Vector<T, Eigen::Dynamic>& f_T1D_x, double dx_F, Eigen::Index x_I) {
+    Eigen::Index Nx_I = f_T1D_x.size();
+    if (x_I == 0) {
+        return (f_T1D_x(1) - f_T1D_x(0)) / dx_F;
+    } else if (x_I == Nx_I - 1) {
+        return (f_T1D_x(Nx_I - 1) - f_T1D_x(Nx_I - 2)) / dx_F;
+    } else if (x_I == 1 || x_I == Nx_I - 2) {
+        return (f_T1D_x(x_I + 1) - f_T1D_x(x_I - 1)) / (2.0 * dx_F);
+    } else {
+        return (T(8.0) * (f_T1D_x(x_I + 1) - f_T1D_x(x_I - 1)) - (f_T1D_x(x_I + 2) - f_T1D_x(x_I - 2))) / (12.0 * dx_F);
     }
+}
 
-    /**
-    * @brief  Compute the second derivative on a validated uniform mesh.
-    * @math   f''(x_i) ≈ D_h^2 f_i
-    * @output Second derivative at x_i.
-    */
-    template<typename T>
-    T derivative2_impl(const Eigen::Vector<T, Eigen::Dynamic>& f_T1D_x, double dx_F, Eigen::Index x_I) {
-        Eigen::Index Nx_I = f_T1D_x.size();
-        if (x_I == 0) {
-            return (T(2.0) * f_T1D_x(0) - T(5.0) * f_T1D_x(1) + T(4.0) * f_T1D_x(2) - f_T1D_x(3)) / (dx_F * dx_F);
-        } else if (x_I == Nx_I - 1) {
-            return (T(2.0) * f_T1D_x(Nx_I - 1) - T(5.0) * f_T1D_x(Nx_I - 2) + T(4.0) * f_T1D_x(Nx_I - 3) - f_T1D_x(Nx_I - 4)) / (dx_F * dx_F);
-        } else if (x_I == 1 || x_I == Nx_I - 2) {
-            return (f_T1D_x(x_I + 1) - T(2.0) * f_T1D_x(x_I) + f_T1D_x(x_I - 1)) / (dx_F * dx_F);
-        } else {
-            return (T(16.0) * (f_T1D_x(x_I + 1) + f_T1D_x(x_I - 1)) - (f_T1D_x(x_I + 2) + f_T1D_x(x_I - 2)) - T(30.0) * f_T1D_x(x_I)) / (12.0 * dx_F * dx_F);
-        }
+/**
+* @brief  Compute the second derivative on a validated uniform mesh.
+* @math   f''(x_i) ≈ D_h^2 f_i
+* @output Second derivative at x_i.
+*/
+template<typename T>
+T derivative2_impl(const Eigen::Vector<T, Eigen::Dynamic>& f_T1D_x, double dx_F, Eigen::Index x_I) {
+    Eigen::Index Nx_I = f_T1D_x.size();
+    if (x_I == 0) {
+        return (T(2.0) * f_T1D_x(0) - T(5.0) * f_T1D_x(1) + T(4.0) * f_T1D_x(2) - f_T1D_x(3)) / (dx_F * dx_F);
+    } else if (x_I == Nx_I - 1) {
+        return (T(2.0) * f_T1D_x(Nx_I - 1) - T(5.0) * f_T1D_x(Nx_I - 2) + T(4.0) * f_T1D_x(Nx_I - 3) - f_T1D_x(Nx_I - 4)) / (dx_F * dx_F);
+    } else if (x_I == 1 || x_I == Nx_I - 2) {
+        return (f_T1D_x(x_I + 1) - T(2.0) * f_T1D_x(x_I) + f_T1D_x(x_I - 1)) / (dx_F * dx_F);
+    } else {
+        return (T(16.0) * (f_T1D_x(x_I + 1) + f_T1D_x(x_I - 1)) - (f_T1D_x(x_I + 2) + f_T1D_x(x_I - 2)) - T(30.0) * f_T1D_x(x_I)) / (12.0 * dx_F * dx_F);
     }
+}
 }
 
 /**
