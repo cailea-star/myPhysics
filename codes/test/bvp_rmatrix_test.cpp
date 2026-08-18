@@ -1,5 +1,5 @@
 /**
- * @file    r_matrix_test.cpp
+ * @file    bvp_rmatrix_test.cpp
  * @author  cailea
  * @date    2026-08-18
  * @brief   Validate the B-spline R-matrix against a constant two-channel solution.
@@ -11,7 +11,7 @@
 #include <iomanip>
 #include <iostream>
 #include <Eigen/Dense>
-#include "r_matrix.hpp"
+#include "bvp_rmatrix.hpp"
 
 /**
  * @brief  Evaluate the analytic constant-region scattering amplitude.

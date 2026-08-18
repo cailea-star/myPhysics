@@ -1,5 +1,5 @@
 /**
- * @file    r_matrix.hpp
+ * @file    bvp_rmatrix.hpp
  * @author  cailea
  * @date    2026-06-26
  * @brief   B-spline R-matrix boundary-response tools.
