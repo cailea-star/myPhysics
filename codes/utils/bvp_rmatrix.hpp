@@ -12,7 +12,7 @@
 #include <Eigen/Core>
 #include <Eigen/Dense>
 #include <unsupported/Eigen/CXX11/Tensor>
-#include "b_spline_basis.hpp"
+#include "basis_bspline.hpp"
 
 using Real2CMatFunc = std::function<Eigen::MatrixXcd(double)>;
 

@@ -1,5 +1,5 @@
 /**
- * @file    hash_table.hpp
+ * @file    tools_hashtable.hpp
  * @author  cailea
  * @date    2026-05-22
  * @brief   Sparse hash table for bounded integer-key tuples.
