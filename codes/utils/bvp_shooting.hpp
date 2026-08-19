@@ -181,11 +181,9 @@ inline ShootingSolution shooting_match_numerov(const ShootingProblem& problem, d
  */
 inline ShootingSolution shooting_match_rk4(const ShootingProblem& problem, double E_F) {
     // y'' → (y, y')'.
-    TVec2TVecFunc<doubleC> ode_Func = [&](double x_F, const Eigen::Ref<const Eigen::VectorXcd>& ydy_C1D_ydy) {
-        Eigen::VectorXcd dydx_C1D_ydy(2);
+    TVec2TVecFunc<doubleC> ode_Func = [&](double x_F, const Eigen::Ref<const Eigen::VectorXcd>& ydy_C1D_ydy, Eigen::Ref<Eigen::VectorXcd> dydx_C1D_ydy) {
         dydx_C1D_ydy(0) = ydy_C1D_ydy(1);
         dydx_C1D_ydy(1) = (problem.V_Func(x_F) - E_F) * ydy_C1D_ydy(0) / problem.hmass_F;
-        return dydx_C1D_ydy;
     };
 
     int Nx_I = static_cast<int>(problem.x_F1D_x.size());
@@ -197,12 +195,12 @@ inline ShootingSolution shooting_match_rk4(const ShootingProblem& problem, doubl
     yout0_C1D_ydy << Bout_C1D_ydy.first, Bout_C1D_ydy.second;
 
     // x_min → x_match.
-    Eigen::MatrixXcd yin_C2D_ydy_x = ivp_rk4_vec<doubleC>(ode_Func, yin0_C1D_ydy, problem.x_F1D_x);
+    Eigen::MatrixXcd yin_C2D_ydy_x = ivp_rk4_vec<doubleC>(ode_Func, problem.x_F1D_x, yin0_C1D_ydy);
     Eigen::VectorXcd yin_C1D_x = yin_C2D_ydy_x.row(0).transpose();
 
     // x_max → x_match.
     Eigen::VectorXd xrev_F1D_x = problem.x_F1D_x.reverse().eval();
-    Eigen::MatrixXcd youtRev_C2D_ydy_x = ivp_rk4_vec<doubleC>(ode_Func, yout0_C1D_ydy, xrev_F1D_x);
+    Eigen::MatrixXcd youtRev_C2D_ydy_x = ivp_rk4_vec<doubleC>(ode_Func, xrev_F1D_x, yout0_C1D_ydy);
     Eigen::VectorXcd yout_C1D_x = youtRev_C2D_ydy_x.row(0).reverse().transpose().eval();
     Eigen::VectorXcd dyout_C1D_x = youtRev_C2D_ydy_x.row(1).reverse().transpose().eval();
 

@@ -24,13 +24,11 @@ double sinfFunc(double x_F, double y_F) {
 /**
  * @brief  Evaluate the two-channel initial-value equation used by vector RK4.
  * @math   (y₁',y₂')=(y₂,y₁)
- * @output Two-channel derivative vector.
+ * @output Writes the two-channel derivative vector.
  */
-Eigen::VectorXd expfFunc(double x_F, const Eigen::VectorXd& y_F1D_ch) {
-    Eigen::VectorXd dydx(2);
-    dydx(0) = y_F1D_ch(1);
-    dydx(1) = y_F1D_ch(0);
-    return dydx;
+void expfFunc(double x_F, const Eigen::Ref<const Eigen::VectorXd>& y_F1D_ch, Eigen::Ref<Eigen::VectorXd> dydx_F1D_ch) {
+    dydx_F1D_ch(0) = y_F1D_ch(1);
+    dydx_F1D_ch(1) = y_F1D_ch(0);
 }
 
 /**
@@ -70,8 +68,8 @@ int main() {
     assert(err_sin_F1D_x.cwiseAbs().maxCoeff() < tol_F);
 
     // Vector RK4 propagation.
-    Eigen::MatrixXd yexpp_F2D_ch_x = ivp_rk4_vec<double>(expfFunc, yexppvec0_F1D_ch, x_F1D_x);
-    Eigen::MatrixXd yexpn_F2D_ch_x = ivp_rk4_vec<double>(expfFunc, yexpnvec0_F1D_ch, x_F1D_x);
+    Eigen::MatrixXd yexpp_F2D_ch_x = ivp_rk4_vec<double>(expfFunc, x_F1D_x, yexppvec0_F1D_ch);
+    Eigen::MatrixXd yexpn_F2D_ch_x = ivp_rk4_vec<double>(expfFunc, x_F1D_x, yexpnvec0_F1D_ch);
     Eigen::VectorXd err_expp_F1D_x = yexpp_F2D_ch_x.row(0) - expp_F1D_x.transpose();
     Eigen::VectorXd err_expn_F1D_x = yexpn_F2D_ch_x.row(0) - expn_F1D_x.transpose();
     std::cout << "\n[INPUT][vector RK4] y0+=[" << yexppvec0_F1D_ch.transpose() << "], y0-=[" << yexpnvec0_F1D_ch.transpose() << "]\n";
