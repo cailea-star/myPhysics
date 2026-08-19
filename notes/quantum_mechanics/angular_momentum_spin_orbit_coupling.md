@@ -32,7 +32,7 @@ $$
 \hat L^2\mathcal Y_{jm}^{l}=\hbar^2l(l+1)\mathcal Y_{jm}^{l},\qquad \hat S^2\mathcal Y_{jm}^{l}=\frac34\hbar^2\mathcal Y_{jm}^{l}.
 $$
 
-Definitions and further properties are collected in [Spherical Harmonics](../mathematical_physics/spherical_harmonics.md#spinor-spherical-harmonics).
+Definitions and further properties are collected in [Spherical Harmonics](../mathematical_physics/specialfunction_spherical_harmonics.md#spinor-spherical-harmonics).
 
 ##### Spherical Gradient
 
@@ -60,7 +60,7 @@ $$
 \boxed{\nabla=\hat{\mathbf r}\frac{\partial}{\partial r}-\frac{i}{\hbar r}\hat{\mathbf r}\times\hat{\mathbf L}}.
 $$
 
-The spherical-coordinate conventions and differential operators are collected in [Spherical Coordinates](../mathematical_physics/spherical_coordinates.md#differential-operators).
+The spherical-coordinate conventions and differential operators are collected in [Spherical Coordinates](../mathematical_physics/coordinate_spherical.md#differential-operators).
 
 ### Spherical Spin–Momentum Operator
 
@@ -162,7 +162,7 @@ $$
 
 ##### Spinor Azimuthal Harmonics
 
-Using the [azimuthal harmonics](../mathematical_physics/cylindrical_coordinates.md#azimuthal-harmonics),
+Using the [azimuthal harmonics](../mathematical_physics/coordinate_cylindrical.md#azimuthal-harmonics),
 
 $$
 \Phi_m(\phi)=\frac{1}{\sqrt{2\pi}}e^{im\phi},\qquad m\in\mathbb Z.
@@ -194,7 +194,7 @@ $$
 
 ##### Cylindrical Gradient
 
-The [cylindrical gradient](../mathematical_physics/cylindrical_coordinates.md#differential-operators) can be written as
+The [cylindrical gradient](../mathematical_physics/coordinate_cylindrical.md#differential-operators) can be written as
 
 $$
 \nabla=\hat{\mathbf r}_\perp\frac{\partial}{\partial r_\perp}+\hat{\mathbf z}\frac{\partial}{\partial z}+\frac{i}{\hbar r_\perp}\hat{\boldsymbol\phi}\hat L_z,\qquad \hat L_z=-i\hbar\frac{\partial}{\partial\phi}.

@@ -19,7 +19,7 @@ $$
 
 ## Spherical Harmonic Decomposition
 
-The spherical-coordinate conventions used below are defined in [Spherical Coordinates](spherical_coordinates.md).
+The spherical-coordinate conventions used below are defined in [Spherical Coordinates](coordinate_spherical.md).
 
 Expand the coordinate-space function in spherical harmonics:
 

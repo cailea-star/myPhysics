@@ -144,7 +144,7 @@ $$
 \psi_{lm}(\mathbf r)=R_l(r)Y_{lm}(\Omega).
 $$
 
-The differential identities and properties of $Y_{lm}$ are collected in [Spherical Coordinates](../mathematical_physics/spherical_coordinates.md#differential-operators) and [Spherical Harmonics](../mathematical_physics/spherical_harmonics.md#scalar-spherical-harmonics).
+The differential identities and properties of $Y_{lm}$ are collected in [Spherical Coordinates](../mathematical_physics/coordinate_spherical.md#differential-operators) and [Spherical Harmonics](../mathematical_physics/specialfunction_spherical_harmonics.md#scalar-spherical-harmonics).
 
 ### Angular Momentum in Matrix Form
 
@@ -214,7 +214,7 @@ $$
 
 These are spatial projections of the Cartesian Pauli vector, not new spin-space matrices.
 
-For the local basis of [Spherical Coordinates](../mathematical_physics/spherical_coordinates.md#coordinate-differentials),
+For the local basis of [Spherical Coordinates](../mathematical_physics/coordinate_spherical.md#coordinate-differentials),
 
 $$
 \sigma_r=\begin{pmatrix}\cos\theta&e^{-i\phi}\sin\theta\\e^{i\phi}\sin\theta&-\cos\theta\end{pmatrix},\qquad \sigma_\theta=\begin{pmatrix}-\sin\theta&e^{-i\phi}\cos\theta\\e^{i\phi}\cos\theta&\sin\theta\end{pmatrix},\qquad \sigma_\phi=\begin{pmatrix}0&-ie^{-i\phi}\\ie^{i\phi}&0\end{pmatrix}.
@@ -226,7 +226,7 @@ $$
 \sigma_r\sigma_\theta=i\sigma_\phi,\qquad \sigma_\theta\sigma_\phi=i\sigma_r,\qquad \sigma_\phi\sigma_r=i\sigma_\theta.
 $$
 
-For the local basis of [Cylindrical Coordinates](../mathematical_physics/cylindrical_coordinates.md#coordinate-differentials),
+For the local basis of [Cylindrical Coordinates](../mathematical_physics/coordinate_cylindrical.md#coordinate-differentials),
 
 $$
 \sigma_{r_\perp}=\begin{pmatrix}0&e^{-i\phi}\\e^{i\phi}&0\end{pmatrix},\qquad \sigma_\phi=\begin{pmatrix}0&-ie^{-i\phi}\\ie^{i\phi}&0\end{pmatrix},\qquad \sigma_z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}.

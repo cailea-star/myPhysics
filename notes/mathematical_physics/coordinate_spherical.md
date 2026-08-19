@@ -1,6 +1,6 @@
 # Spherical Coordinates
 
-Spherical coordinates specialize the general framework of [Orthogonal Curvilinear Coordinates](orthogonal_coordinates.md).
+Spherical coordinates specialize the general framework of [Orthogonal Curvilinear Coordinates](coordinate_orthogonal.md).
 
 ### Coordinate Differentials
 
@@ -104,7 +104,7 @@ $$
 \boxed{\nabla^2\left[\frac{u_{lm}(r)}{r}Y_{lm}(\Omega)\right]=\frac{1}{r}\left[\frac{d^2}{dr^2}-\frac{l(l+1)}{r^2}\right]u_{lm}(r)Y_{lm}(\Omega)}.
 $$
 
-Definitions and further properties are collected in [Spherical Harmonics](spherical_harmonics.md).
+Definitions and further properties are collected in [Spherical Harmonics](specialfunction_spherical_harmonics.md).
 
 ### Partial-Wave and Multipole Expansions
 
@@ -136,7 +136,7 @@ $$
 
 ##### Plane-Wave Expansion
 
-Let $\mathbf k=k\hat{\mathbf k}$ and $\mathbf r=r\hat{\mathbf r}$. With $j_l(x)$ denoting the spherical Bessel function and $P_l(x)$ the [Legendre polynomial](associated_legendre_polynomials.md),
+Let $\mathbf k=k\hat{\mathbf k}$ and $\mathbf r=r\hat{\mathbf r}$. With $j_l(x)$ denoting the spherical Bessel function and $P_l(x)$ the [Legendre polynomial](specialfunction_associated_legendre_polynomials.md),
 
 $$
 \boxed{e^{i\mathbf k\cdot\mathbf r}=\sum_{l=0}^{\infty}(2l+1)i^l j_l(kr)P_l(\hat{\mathbf k}\cdot\hat{\mathbf r})=4\pi\sum_{l=0}^{\infty}\sum_{m=-l}^{l}i^l j_l(kr)Y_{lm}(\hat{\mathbf r})Y_{lm}^*(\hat{\mathbf k})}.

@@ -334,7 +334,7 @@ $$
 S_E(\hat{\mathbf k}',\hat{\mathbf k})=\delta(\Omega'-\Omega)-2\pi i\,T_E(\hat{\mathbf k}',\hat{\mathbf k}).
 $$
 
-For a central potential, the fixed-energy kernels are rotationally invariant. Using the [angular expansions](../mathematical_physics/spherical_coordinates.md#angular-expansions),
+For a central potential, the fixed-energy kernels are rotationally invariant. Using the [angular expansions](../mathematical_physics/coordinate_spherical.md#angular-expansions),
 
 $$
 S_E(\hat{\mathbf k}',\hat{\mathbf k})=\sum_{l=0}^{\infty}\frac{2l+1}{4\pi}S_l(E)P_l(\cos\theta),\qquad T_E(\hat{\mathbf k}',\hat{\mathbf k})=\sum_{l=0}^{\infty}\frac{2l+1}{4\pi}T_l(E)P_l(\cos\theta),
@@ -364,7 +364,7 @@ $$
 \boxed{f(\theta)=\frac{1}{2ik}\sum_{l=0}^{\infty}(2l+1)\left[e^{2i\delta_l(E)}-1\right]P_l(\cos\theta)}.
 $$
 
-Using $d\sigma/d\Omega=|f(\theta)|^2$ and the [Legendre orthogonality relation](../mathematical_physics/associated_legendre_polynomials.md#orthogonality-and-normalization), the total cross section decomposes into independent partial waves:
+Using $d\sigma/d\Omega=|f(\theta)|^2$ and the [Legendre orthogonality relation](../mathematical_physics/specialfunction_associated_legendre_polynomials.md#orthogonality-and-normalization), the total cross section decomposes into independent partial waves:
 
 $$
 \sigma_{\mathrm{tot}}=\int d\Omega\,|f(\theta)|^2=4\pi\sum_{l=0}^{\infty}(2l+1)|f_l(k)|^2\equiv\sum_{l=0}^{\infty}\sigma_l.

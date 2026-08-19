@@ -66,7 +66,7 @@ Thus, a higher-order folding integral can be constructed recursively, reducing o
 
 ### Fourier Transform
 
-See [Fourier Transform](mathematical_physics/fourier_transform.md).
+See [Fourier Transform](../mathematical_physics/transform_fourier.md).
 
 ##### Fourier Decomposition of a Density
 
