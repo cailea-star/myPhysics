@@ -181,7 +181,7 @@ inline ShootingSolution shooting_match_numerov(const ShootingProblem& problem, d
  */
 inline ShootingSolution shooting_match_rk4(const ShootingProblem& problem, double E_F) {
     // y'' → (y, y')'.
-    TVec2TVecFunc<doubleC> ode_Func = [&](double x_F, const Eigen::Ref<const Eigen::VectorXcd>& ydy_C1D_ydy, Eigen::Ref<Eigen::VectorXcd> dydx_C1D_ydy) {
+    RealTVec2TVecFunc<doubleC> ode_Func = [&](double x_F, const Eigen::Ref<const Eigen::VectorXcd>& ydy_C1D_ydy, Eigen::Ref<Eigen::VectorXcd> dydx_C1D_ydy) {
         dydx_C1D_ydy(0) = ydy_C1D_ydy(1);
         dydx_C1D_ydy(1) = (problem.V_Func(x_F) - E_F) * ydy_C1D_ydy(0) / problem.hmass_F;
     };

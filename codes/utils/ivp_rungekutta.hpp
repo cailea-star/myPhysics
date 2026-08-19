@@ -14,61 +14,86 @@
 #include <Eigen/Dense>
 
 template<typename T> using RealT2TFunc = std::function<T(double, T)>;
-template<typename T> using TVec2TVecFunc = std::function<void(double, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, 1>>&, Eigen::Ref<Eigen::Matrix<T, Eigen::Dynamic, 1>>)>;
+template<typename T> using RealTVec2TVecFunc = std::function<void(double, const Eigen::Ref<const Eigen::Vector<T, Eigen::Dynamic>>&, Eigen::Ref<Eigen::Vector<T, Eigen::Dynamic>>)>;
 
-// ==================== Internal vector RK4 interface ====================
+// ==================== Vector RK4 state ====================
 
-namespace rk4_detail {
-
-/**
- * @brief  Advance one vector initial-value problem with reusable RK4 buffers.
- * @math   yₙ₊₁=yₙ+h(k₁+2k₂+2k₃+k₄)/6
- * @output Writes yₙ₊₁ to ynext_T1D_ch.
- * @note   rkwork_T2D_ch_1234tmp stores {k₁,k₂,k₃,k₄,y_tmp}.
- */
 template<typename T>
-void ivp_rk4_vec_step(const TVec2TVecFunc<T>& f_Func, double t_F, double dt_F, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, 1>>& y_T1D_ch, Eigen::Ref<Eigen::Matrix<T, Eigen::Dynamic, 1>> ynext_T1D_ch, Eigen::Ref<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> rkwork_T2D_ch_1234tmp) {
-    int Nch_I = static_cast<int>(y_T1D_ch.size());
-    assert(Nch_I > 0 && ynext_T1D_ch.size() == Nch_I);
-    assert(rkwork_T2D_ch_1234tmp.rows() == Nch_I && rkwork_T2D_ch_1234tmp.cols() == 5);
-    assert(std::isfinite(t_F) && std::isfinite(dt_F) && dt_F != 0.0);
+class IVP_RK4State {
+public:
+    double tcurr_F;
+private:
+    RealTVec2TVecFunc<T> f_Func;
+    Eigen::Vector<T, Eigen::Dynamic> ycurr_T1D_i;
+    Eigen::Vector<T, Eigen::Dynamic> k1_T1D_i;
+    Eigen::Vector<T, Eigen::Dynamic> k2_T1D_i;
+    Eigen::Vector<T, Eigen::Dynamic> k3_T1D_i;
+    Eigen::Vector<T, Eigen::Dynamic> k4_T1D_i;
+    Eigen::Vector<T, Eigen::Dynamic> ytmp_T1D_i;
+
+public:
+    /**
+     * @brief  Initialize a vector RK4 recurrence.
+     * @math   {t₀,y₀}
+     * @output Initialized RK4 state.
+     */
+    IVP_RK4State(const RealTVec2TVecFunc<T>& f_Func, double t0_F, const Eigen::Ref<const Eigen::Vector<T, Eigen::Dynamic>>& y0_T1D_i)
+    : f_Func(f_Func), tcurr_F(t0_F), ycurr_T1D_i(y0_T1D_i), k1_T1D_i(y0_T1D_i.size()), k2_T1D_i(y0_T1D_i.size()), k3_T1D_i(y0_T1D_i.size()), k4_T1D_i(y0_T1D_i.size()), ytmp_T1D_i(y0_T1D_i.size()) {
+        assert(f_Func);
+        assert(std::isfinite(t0_F));
+        assert(y0_T1D_i.size() > 0 && y0_T1D_i.allFinite());
+    }
+
+    /**
+     * @brief  Advance the vector state by one RK4 step.
+     * @math   yₙ₊₁=yₙ+dt(k₁+2k₂+2k₃+k₄)/6
+     * @output Mutable reference to the updated state yₙ₊₁.
+     * @note   The returned reference is owned by this state.
+     */
+    Eigen::Vector<T, Eigen::Dynamic>& step(double tnext_F);
+};
+
+template<typename T>
+Eigen::Vector<T, Eigen::Dynamic>& IVP_RK4State<T>::step(double tnext_F) {
+    double dt_F = tnext_F - tcurr_F;
+    assert(std::isfinite(tnext_F) && std::isfinite(dt_F) && dt_F != 0.0);
 
     // k₁ = f(tₙ, yₙ).
-    f_Func(t_F, y_T1D_ch, rkwork_T2D_ch_1234tmp.col(0));
+    f_Func(tcurr_F, ycurr_T1D_i, k1_T1D_i);
 
-    // k₂ = f(tₙ + h/2, yₙ + hk₁/2).
-    rkwork_T2D_ch_1234tmp.col(4) = y_T1D_ch + 0.5 * dt_F * rkwork_T2D_ch_1234tmp.col(0);
-    f_Func(t_F + 0.5 * dt_F, rkwork_T2D_ch_1234tmp.col(4), rkwork_T2D_ch_1234tmp.col(1));
+    // k₂ = f(tₙ + dt/2, yₙ + dt k₁/2).
+    ytmp_T1D_i = ycurr_T1D_i + 0.5 * dt_F * k1_T1D_i;
+    f_Func(tcurr_F + 0.5 * dt_F, ytmp_T1D_i, k2_T1D_i);
 
-    // k₃ = f(tₙ + h/2, yₙ + hk₂/2).
-    rkwork_T2D_ch_1234tmp.col(4) = y_T1D_ch + 0.5 * dt_F * rkwork_T2D_ch_1234tmp.col(1);
-    f_Func(t_F + 0.5 * dt_F, rkwork_T2D_ch_1234tmp.col(4), rkwork_T2D_ch_1234tmp.col(2));
+    // k₃ = f(tₙ + dt/2, yₙ + dt k₂/2).
+    ytmp_T1D_i = ycurr_T1D_i + 0.5 * dt_F * k2_T1D_i;
+    f_Func(tcurr_F + 0.5 * dt_F, ytmp_T1D_i, k3_T1D_i);
 
-    // k₄ = f(tₙ + h, yₙ + hk₃).
-    rkwork_T2D_ch_1234tmp.col(4) = y_T1D_ch + dt_F * rkwork_T2D_ch_1234tmp.col(2);
-    f_Func(t_F + dt_F, rkwork_T2D_ch_1234tmp.col(4), rkwork_T2D_ch_1234tmp.col(3));
+    // k₄ = f(tₙ + dt, yₙ + dt k₃).
+    ytmp_T1D_i = ycurr_T1D_i + dt_F * k3_T1D_i;
+    f_Func(tnext_F, ytmp_T1D_i, k4_T1D_i);
 
-    // yₙ₊₁ = yₙ + h(k₁ + 2k₂ + 2k₃ + k₄)/6.
-    ynext_T1D_ch = y_T1D_ch + (dt_F / 6.0) * (rkwork_T2D_ch_1234tmp.col(0) + T(2.0) * rkwork_T2D_ch_1234tmp.col(1) + T(2.0) * rkwork_T2D_ch_1234tmp.col(2) + rkwork_T2D_ch_1234tmp.col(3));
-}
-
+    // yₙ₊₁ = yₙ + dt(k₁ + 2k₂ + 2k₃ + k₄)/6.
+    ycurr_T1D_i += (dt_F / 6.0) * (k1_T1D_i + T(2.0) * k2_T1D_i + T(2.0) * k3_T1D_i + k4_T1D_i);
+    tcurr_F = tnext_F;
+    return ycurr_T1D_i;
 }
 
 // ==================== Scalar RK4 interface ====================
 
 /**
  * @brief  Advance one scalar initial-value problem by one RK4 step.
- * @math   yₙ₊₁=yₙ+h(k₁+2k₂+2k₃+k₄)/6
+ * @math   yₙ₊₁=yₙ+dt(k₁+2k₂+2k₃+k₄)/6
  * @output Scalar value yₙ₊₁.
  */
 template<typename T>
-T ivp_rk4_step(const RealT2TFunc<T>& f_Func, double t_F, T y_T, double h_F) {
-    assert(std::isfinite(t_F) && std::isfinite(h_F) && h_F != 0.0);
+T ivp_rk4_step(const RealT2TFunc<T>& f_Func, double t_F, T y_T, double dt_F) {
+    assert(std::isfinite(t_F) && std::isfinite(dt_F) && dt_F != 0.0);
     T k1_T = f_Func(t_F, y_T);
-    T k2_T = f_Func(t_F + 0.5 * h_F, y_T + 0.5 * h_F * k1_T);
-    T k3_T = f_Func(t_F + 0.5 * h_F, y_T + 0.5 * h_F * k2_T);
-    T k4_T = f_Func(t_F + h_F, y_T + h_F * k3_T);
-    return y_T + (h_F / 6.0) * (k1_T + T(2.0) * k2_T + T(2.0) * k3_T + k4_T);
+    T k2_T = f_Func(t_F + 0.5 * dt_F, y_T + 0.5 * dt_F * k1_T);
+    T k3_T = f_Func(t_F + 0.5 * dt_F, y_T + 0.5 * dt_F * k2_T);
+    T k4_T = f_Func(t_F + dt_F, y_T + dt_F * k3_T);
+    return y_T + (dt_F / 6.0) * (k1_T + T(2.0) * k2_T + T(2.0) * k3_T + k4_T);
 }
 
 /**
@@ -77,14 +102,14 @@ T ivp_rk4_step(const RealT2TFunc<T>& f_Func, double t_F, T y_T, double h_F) {
  * @output Scalar solution y_T1D_t on t_F1D_t.
  */
 template<typename T>
-Eigen::Matrix<T, Eigen::Dynamic, 1> ivp_rk4(const RealT2TFunc<T>& f_Func, T y0_T, const Eigen::Ref<const Eigen::VectorXd>& t_F1D_t) {
+Eigen::Vector<T, Eigen::Dynamic> ivp_rk4(const RealT2TFunc<T>& f_Func, T y0_T, const Eigen::Ref<const Eigen::VectorXd>& t_F1D_t) {
     int Nt_I = static_cast<int>(t_F1D_t.size());
     assert(Nt_I >= 2 && t_F1D_t.allFinite());
-    Eigen::Matrix<T, Eigen::Dynamic, 1> y_T1D_t(Nt_I);
+    Eigen::Vector<T, Eigen::Dynamic> y_T1D_t(Nt_I);
     y_T1D_t(0) = y0_T;
     for (int t_I = 0; t_I < Nt_I - 1; ++t_I) {
-        double h_F = t_F1D_t(t_I + 1) - t_F1D_t(t_I);
-        y_T1D_t(t_I + 1) = ivp_rk4_step(f_Func, t_F1D_t(t_I), y_T1D_t(t_I), h_F);
+        double dt_F = t_F1D_t(t_I + 1) - t_F1D_t(t_I);
+        y_T1D_t(t_I + 1) = ivp_rk4_step(f_Func, t_F1D_t(t_I), y_T1D_t(t_I), dt_F);
     }
     return y_T1D_t;
 }
@@ -92,35 +117,19 @@ Eigen::Matrix<T, Eigen::Dynamic, 1> ivp_rk4(const RealT2TFunc<T>& f_Func, T y0_T
 // ==================== Vector RK4 interface ====================
 
 /**
- * @brief  Advance one vector initial-value problem by one RK4 step.
- * @math   yₙ₊₁=yₙ+h(k₁+2k₂+2k₃+k₄)/6
- * @output Channel vector yₙ₊₁.
- */
-template<typename T>
-void ivp_rk4_vec_step(const TVec2TVecFunc<T>& f_Func, double t_F, double dt_F, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, 1>>& y_T1D_ch, Eigen::Ref<Eigen::Matrix<T, Eigen::Dynamic, 1>> ynext_T1D_ch) {
-    int Nch_I = static_cast<int>(y_T1D_ch.size());
-    assert(ynext_T1D_ch.size() == Nch_I);
-    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> rkwork_T2D_ch_1234tmp(Nch_I, 5);
-    rk4_detail::ivp_rk4_vec_step<T>(f_Func, t_F, dt_F, y_T1D_ch, ynext_T1D_ch, rkwork_T2D_ch_1234tmp);
-}
-
-/**
  * @brief  Solve a vector initial-value problem on a prescribed grid with RK4.
  * @math   y(t₀)=y₀, y(tᵢ₊₁)=RK4[f,tᵢ,y(tᵢ),tᵢ₊₁-tᵢ]
- * @output Channel-by-grid solution y_T2D_ch_t.
+ * @output State-by-grid solution y_T2D_i_t.
  */
 template<typename T>
-Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> ivp_rk4_vec(const TVec2TVecFunc<T>& f_Func, const Eigen::Ref<const Eigen::VectorXd>& t_F1D_t, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, 1>>& y0_T1D_ch) {
+Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> ivp_rk4_vec(const RealTVec2TVecFunc<T>& f_Func, const Eigen::Ref<const Eigen::VectorXd>& t_F1D_t, const Eigen::Ref<const Eigen::Vector<T, Eigen::Dynamic>>& y0_T1D_i) {
     int Nt_I = static_cast<int>(t_F1D_t.size());
-    int Nch_I = static_cast<int>(y0_T1D_ch.size());
+    int Ni_I = static_cast<int>(y0_T1D_i.size());
     assert(Nt_I >= 2 && t_F1D_t.allFinite());
-    assert(Nch_I > 0 && y0_T1D_ch.allFinite());
-    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> y_T2D_ch_t(Nch_I, Nt_I);
-    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> rkwork_T2D_ch_1234tmp(Nch_I, 5);
-    y_T2D_ch_t.col(0) = y0_T1D_ch;
-    for (int t_I = 0; t_I < Nt_I - 1; ++t_I) {
-        double h_F = t_F1D_t(t_I + 1) - t_F1D_t(t_I);
-        rk4_detail::ivp_rk4_vec_step<T>(f_Func, t_F1D_t(t_I), h_F, y_T2D_ch_t.col(t_I), y_T2D_ch_t.col(t_I + 1), rkwork_T2D_ch_1234tmp);
-    }
-    return y_T2D_ch_t;
+    assert(Ni_I > 0 && y0_T1D_i.allFinite());
+    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> y_T2D_i_t(Ni_I, Nt_I);
+    IVP_RK4State<T> rk4_State(f_Func, t_F1D_t(0), y0_T1D_i);
+    y_T2D_i_t.col(0) = y0_T1D_i;
+    for (int t_I = 0; t_I < Nt_I - 1; ++t_I) {y_T2D_i_t.col(t_I + 1) = rk4_State.step(t_F1D_t(t_I + 1));}
+    return y_T2D_i_t;
 }

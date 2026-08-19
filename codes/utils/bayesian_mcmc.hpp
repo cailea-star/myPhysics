@@ -31,6 +31,8 @@ private:
     const Eigen::VectorXd max_F1D_x;
     Eigen::VectorXd step_F1D_x;
     Eigen::VectorXd current_F1D_x;
+    Eigen::VectorXd proposal_F1D_x;
+    Eigen::VectorXd delta_F1D_x;
     double current_logp_F;
     int accepted_I = 0;
     std::mt19937 random_Generator;
@@ -44,7 +46,7 @@ public:
      * @output Initializes the chain state, proposal scale, and sample statistics.
      */
     MCMCSampler(const Vec2RealFunc& logp_Func, const Eigen::VectorXd& min_F1D_x, const Eigen::VectorXd& max_F1D_x)
-    : avg_F1D_x(Eigen::VectorXd::Zero(min_F1D_x.size())), cov_F2D_x_x(Eigen::MatrixXd::Zero(min_F1D_x.size(), min_F1D_x.size())), logp_Func(logp_Func), min_F1D_x(min_F1D_x), max_F1D_x(max_F1D_x), step_F1D_x(max_F1D_x - min_F1D_x), current_F1D_x(0.5 * (min_F1D_x + max_F1D_x)), current_logp_F(logp_Func(current_F1D_x)), random_Generator(static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count())) {
+    : avg_F1D_x(Eigen::VectorXd::Zero(min_F1D_x.size())), cov_F2D_x_x(Eigen::MatrixXd::Zero(min_F1D_x.size(), min_F1D_x.size())), logp_Func(logp_Func), min_F1D_x(min_F1D_x), max_F1D_x(max_F1D_x), step_F1D_x(max_F1D_x - min_F1D_x), current_F1D_x(0.5 * (min_F1D_x + max_F1D_x)), proposal_F1D_x(min_F1D_x.size()), delta_F1D_x(min_F1D_x.size()), current_logp_F(logp_Func(current_F1D_x)), random_Generator(static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count())) {
         assert(min_F1D_x.size() > 0);
         assert(min_F1D_x.size() == max_F1D_x.size());
         assert(min_F1D_x.allFinite() && max_F1D_x.allFinite());
@@ -57,10 +59,13 @@ public:
      */
     void add_sample(const Eigen::VectorXd& sample_F1D_x) {
         assert(sample_F1D_x.size() == avg_F1D_x.size());
-        const Eigen::VectorXd delta_F1D_x = sample_F1D_x - avg_F1D_x;
+        delta_F1D_x = sample_F1D_x - avg_F1D_x;
         const int n_I = static_cast<int>(samples_F2D_h_x.size());
         avg_F1D_x += delta_F1D_x / (n_I + 1);
-        if (n_I > 0) {cov_F2D_x_x = static_cast<double>(n_I - 1) / n_I * cov_F2D_x_x + (delta_F1D_x * delta_F1D_x.transpose()) / (n_I + 1);}
+        if (n_I > 0) {
+            cov_F2D_x_x *= static_cast<double>(n_I - 1) / n_I;
+            cov_F2D_x_x.noalias() += delta_F1D_x * delta_F1D_x.transpose() / (n_I + 1);
+        }
         samples_F2D_h_x.push_back(sample_F1D_x);
     }
 
@@ -82,7 +87,7 @@ public:
      * @output Updates the current state and optionally records it.
      */
     void step(bool recordSample_B) {
-        Eigen::VectorXd proposal_F1D_x = current_F1D_x;
+        proposal_F1D_x = current_F1D_x;
         for (int x_I = 0; x_I < proposal_F1D_x.size(); ++x_I) {proposal_F1D_x(x_I) += step_F1D_x(x_I) * normal_Distribution(random_Generator);}
         use_reflect_bound(proposal_F1D_x);
         const double proposalLogp_F = logp_Func(proposal_F1D_x);

@@ -43,7 +43,7 @@ int main() {
     Eigen::Matrix2cd F_C2D_ch_ch;
     F_C2D_ch_ch.noalias() = U_C2D_ch_mode * Fdiag_C2D_mode_mode * U_C2D_ch_mode.adjoint();
     Eigen::Matrix2cd Y0_C2D_ch_ch = Eigen::Matrix2cd::Zero();
-    Real2TMatFunc<doubleC> F_Func = [&](double x_F) {return F_C2D_ch_ch;};
+    Real2TMatFunc<doubleC> F_Func = [&](double, Eigen::Ref<Eigen::MatrixXcd> Fout_C2D_ch_ch) {Fout_C2D_ch_ch = F_C2D_ch_ch;};
 
     // Y(x) = U diag(κ tanh(κx)) U†.
     Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Y_C3D_ch_ch_x = ivp_logderiv_rk4<doubleC>(F_Func, Y0_C2D_ch_ch, x_F1D_x);
