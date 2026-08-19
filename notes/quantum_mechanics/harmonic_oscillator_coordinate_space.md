@@ -44,7 +44,7 @@ $$
 h''(\xi)-2\xi h'(\xi)+(2\epsilon-1)h(\xi)=0.
 $$
 
-The polynomial solution is the physicists' [Hermite polynomial](../mathematical_physics/hermite_polynomials.md):
+The polynomial solution is the physicists' [Hermite polynomial](../mathematical_physics/specialfunction_hermite_polynomials.md):
 
 $$
 H_n''(\xi)-2\xi H_n'(\xi)+2nH_n(\xi)=0,\qquad n=0,1,2,\ldots.
@@ -148,7 +148,7 @@ $$
 z\frac{d^2}{dz^2}l(z)+(|m|+1-z)\frac{d}{dz}l(z)+\frac{\epsilon-|m|-1}{2}l(z)=0.
 $$
 
-The polynomial solution is the [generalized Laguerre polynomial](../mathematical_physics/generalized_laguerre_polynomials.md):
+The polynomial solution is the [generalized Laguerre polynomial](../mathematical_physics/specialfunction_generalized_laguerre_polynomials.md):
 
 $$
 z\frac{d^2}{dz^2}L_{n_r}^{(|m|)}(z)+(|m|+1-z)\frac{d}{dz}L_{n_r}^{(|m|)}(z)+n_rL_{n_r}^{(|m|)}(z)=0.
@@ -206,7 +206,7 @@ $$
 
 ##### Spherical Dimensionless Schrödinger Equation
 
-Using the conventions and differential operators defined in [Spherical Coordinates](../mathematical_physics/spherical_coordinates.md#differential-operators), the Hamiltonian becomes
+Using the conventions and differential operators defined in [Spherical Coordinates](../mathematical_physics/coordinate_spherical.md#differential-operators), the Hamiltonian becomes
 
 $$
 \hat H=-\frac{\hbar^2}{2M}\frac{1}{r^2}\frac{\partial}{\partial r}\left(r^2\frac{\partial}{\partial r}\right)+\frac{\hat L^2}{2Mr^2}+\frac12M\omega^2r^2.
@@ -262,7 +262,7 @@ $$
 z\frac{d^2}{dz^2}g(z)+\left(l+\frac32-z\right)\frac{d}{dz}g(z)+\frac{\epsilon-l-\frac32}{2}g(z)=0.
 $$
 
-The polynomial solution is the [generalized Laguerre polynomial](../mathematical_physics/generalized_laguerre_polynomials.md):
+The polynomial solution is the [generalized Laguerre polynomial](../mathematical_physics/specialfunction_generalized_laguerre_polynomials.md):
 
 $$
 z\frac{d^2}{dz^2}L_n^{(l+1/2)}(z)+\left(l+\frac32-z\right)\frac{d}{dz}L_n^{(l+1/2)}(z)+nL_n^{(l+1/2)}(z)=0.

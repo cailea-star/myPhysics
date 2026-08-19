@@ -1,6 +1,6 @@
 ### Spherical-Harmonic Expansion
 
-The definitions and conventions are given in [Spherical Harmonics](../../notes/mathematical_physics/spherical_harmonics.md#scalar-spherical-harmonics).
+The definitions and conventions are given in [Spherical Harmonics](../../notes/mathematical_physics/specialfunction_spherical_harmonics.md#scalar-spherical-harmonics).
 
 ##### Real Spherical-Harmonic Expansion
 

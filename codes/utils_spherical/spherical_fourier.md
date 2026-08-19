@@ -1,6 +1,6 @@
 ### Spherical Fourier Transform
 
-The definitions and conventions are given in [Fourier Transform](../../notes/mathematical_physics/fourier_transform.md#spherical-harmonic-decomposition).
+The definitions and conventions are given in [Fourier Transform](../../notes/mathematical_physics/transform_fourier.md#spherical-harmonic-decomposition).
 
 ##### Fourier–Bessel Transform
 
