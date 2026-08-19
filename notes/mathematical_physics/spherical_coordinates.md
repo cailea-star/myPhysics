@@ -136,7 +136,7 @@ $$
 
 ##### Plane-Wave Expansion
 
-Let $\mathbf k=k\hat{\mathbf k}$ and $\mathbf r=r\hat{\mathbf r}$. With $j_l(x)$ denoting the spherical Bessel function and $P_l(x)$ the Legendre polynomial,
+Let $\mathbf k=k\hat{\mathbf k}$ and $\mathbf r=r\hat{\mathbf r}$. With $j_l(x)$ denoting the spherical Bessel function and $P_l(x)$ the [Legendre polynomial](associated_legendre_polynomials.md),
 
 $$
 \boxed{e^{i\mathbf k\cdot\mathbf r}=\sum_{l=0}^{\infty}(2l+1)i^l j_l(kr)P_l(\hat{\mathbf k}\cdot\hat{\mathbf r})=4\pi\sum_{l=0}^{\infty}\sum_{m=-l}^{l}i^l j_l(kr)Y_{lm}(\hat{\mathbf r})Y_{lm}^*(\hat{\mathbf k})}.
