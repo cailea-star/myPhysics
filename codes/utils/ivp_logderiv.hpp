@@ -17,7 +17,7 @@
 
 #include "ivp_rungekutta.hpp"
 
-template<typename T> using Real2TMatFunc = std::function<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>(double)>;
+template<typename T> using Real2TMatFunc = std::function<void(double, Eigen::Ref<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>)>;
 
 /**
  * @brief  Propagate a matrix log derivative by RK4 with stepwise QR reorthogonalization.
@@ -34,29 +34,29 @@ Eigen::Tensor<T, 3, Eigen::ColMajor> ivp_logderiv_rk4(const Real2TMatFunc<T>& F_
     assert(Nch_I > 0 && Y0_T2D_ch_ch.cols() == Nch_I && Y0_T2D_ch_ch.allFinite());
     int Nchsol_I = Nch_I * Nch_I;
     Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> F_T2D_ch_ch(Nch_I, Nch_I);
-    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> rkwork_T2D_2chsol_rk(2 * Nchsol_I, 5);
     Eigen::HouseholderQR<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> qr_(Nch_I, Nch_I);
     Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Q_T2D_ch_sol(Nch_I, Nch_I);
     Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> R_T2D_sol_sol(Nch_I, Nch_I);
     Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> dpsiRinv_T2D_ch_sol(Nch_I, Nch_I);
 
     // u = {vec(Ψ), vec(Ψ')}.
-    Eigen::Matrix<T, Eigen::Dynamic, 1> u_T1D_2chsol(2 * Nchsol_I);
+    Eigen::Vector<T, Eigen::Dynamic> u0_T1D_2chsol(2 * Nchsol_I);
     {
-        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> u_T2D_2ch_sol(u_T1D_2chsol.data(), 2 * Nch_I, Nch_I);
-        u_T2D_2ch_sol.topRows(Nch_I).setIdentity();
-        u_T2D_2ch_sol.bottomRows(Nch_I) = Y0_T2D_ch_ch;
+        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> u0_T2D_2ch_sol(u0_T1D_2chsol.data(), 2 * Nch_I, Nch_I);
+        u0_T2D_2ch_sol.topRows(Nch_I).setIdentity();
+        u0_T2D_2ch_sol.bottomRows(Nch_I) = Y0_T2D_ch_ch;
     }
 
     // u' = {vec(Ψ'), vec(FΨ)}.
-    TVec2TVecFunc<T> dudx_Func = [&](double x_F, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, 1>>& u_T1D_2chsol, Eigen::Ref<Eigen::Matrix<T, Eigen::Dynamic, 1>> dudx_T1D_2chsol) {
+    RealTVec2TVecFunc<T> dudx_Func = [&](double x_F, const Eigen::Ref<const Eigen::Vector<T, Eigen::Dynamic>>& u_T1D_2chsol, Eigen::Ref<Eigen::Vector<T, Eigen::Dynamic>> dudx_T1D_2chsol) {
         Eigen::Map<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> u_T2D_2ch_sol(u_T1D_2chsol.data(), 2 * Nch_I, Nch_I);
-        F_T2D_ch_ch = F_Func(x_F);
-        assert(F_T2D_ch_ch.rows() == Nch_I && F_T2D_ch_ch.cols() == Nch_I && F_T2D_ch_ch.allFinite());
+        F_Func(x_F, F_T2D_ch_ch);
+        assert(F_T2D_ch_ch.allFinite());
         Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> dudx_T2D_2ch_sol(dudx_T1D_2chsol.data(), 2 * Nch_I, Nch_I);
         dudx_T2D_2ch_sol.topRows(Nch_I) = u_T2D_2ch_sol.bottomRows(Nch_I);
         dudx_T2D_2ch_sol.bottomRows(Nch_I).noalias() = F_T2D_ch_ch * u_T2D_2ch_sol.topRows(Nch_I);
     };
+    IVP_RK4State<T> rk4_State(dudx_Func, x_F1D_x(0), u0_T1D_2chsol);
 
     // Y(x₀) = Y₀.
     Eigen::Tensor<T, 3, Eigen::ColMajor> Y_T3D_ch_ch_x(Nch_I, Nch_I, Nx_I);
@@ -65,9 +65,7 @@ Eigen::Tensor<T, 3, Eigen::ColMajor> ivp_logderiv_rk4(const Real2TMatFunc<T>& F_
 
     // {Ψ, Ψ'}ᵢ → {Ψ, Ψ'}ᵢ₊₁.
     for (int x_I = 0; x_I < Nx_I - 1; ++x_I) {
-        double h_F = x_F1D_x(x_I + 1) - x_F1D_x(x_I);
-        assert(std::isfinite(h_F) && h_F != 0.0);
-        rk4_detail::ivp_rk4_vec_step<T>(dudx_Func, x_F1D_x(x_I), h_F, u_T1D_2chsol, u_T1D_2chsol, rkwork_T2D_2chsol_rk);
+        Eigen::Vector<T, Eigen::Dynamic>& u_T1D_2chsol = rk4_State.step(x_F1D_x(x_I + 1));
 
         // Ψ = QR, Ψ' → Ψ'R⁻¹.
         Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> u_T2D_2ch_sol(u_T1D_2chsol.data(), 2 * Nch_I, Nch_I);

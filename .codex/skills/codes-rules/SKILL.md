@@ -17,7 +17,7 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 
 - Numerical lists, vectors, matrices, and arrays SHOULD use Eigen types whenever practical.
 - Every `Eigen::Tensor` MUST explicitly use `Eigen::ColMajor`.
-- Matrix-product assignments MUST use `.noalias()`; aliased products MUST use a temporary.
+- Matrix products MUST use `.noalias()` except when initializing a new variable; aliased products MUST use a temporary.
 - Large numerical buffers MUST be allocated outside loops and reused, such as {Vector, Matrix, Tensor}.
 
 ## Code Formatting Rules

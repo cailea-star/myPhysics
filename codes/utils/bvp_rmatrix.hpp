@@ -81,8 +81,9 @@ inline void RMatrix::update_Ginv(const Real2CMatFunc& F_Func, const Eigen::Ref<c
         }
     }
 
+    Eigen::MatrixXcd F_C2D_ch_ch(Nch_I, Nch_I);
     for (int grid_I = 0; grid_I < Ngrid_I; ++grid_I) {
-        const Eigen::MatrixXcd F_C2D_ch_ch = F_Func(b_basis.x_F1D_grid(grid_I));
+        F_C2D_ch_ch = F_Func(b_basis.x_F1D_grid(grid_I));
         assert(F_C2D_ch_ch.rows() == Nch_I);
         assert(F_C2D_ch_ch.cols() == Nch_I);
         for (int b1_I = 0; b1_I < Nb_I; ++b1_I) {
