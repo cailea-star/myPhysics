@@ -111,7 +111,7 @@ $$
 
 ##### Gauss-Laguerre
 
-For nonnegative integers $n$ and $k$, and $\alpha>-1$,
+For nonnegative integers $n$ and $k$, and $\alpha>-1$, the [generalized Laguerre polynomials](../../notes/mathematical_physics/generalized_laguerre_polynomials.md) satisfy
 
 $$
 \int_0^\infty L_n^{(\alpha)}(x)L_k^{(\alpha)}(x)x^\alpha e^{-x}\,dx=\frac{\Gamma(n+\alpha+1)}{n!}\delta_{nk},\qquad N_n^\alpha=\sqrt{\frac{n!}{\Gamma(n+\alpha+1)}}.
@@ -119,7 +119,7 @@ $$
 
 ##### Gauss-Legendre
 
-For integers $l,k\geq m\geq0$ with fixed $m$,
+For integers $l,k\geq m\geq0$ with fixed $m$, the [associated Legendre functions](../../notes/mathematical_physics/associated_legendre_polynomials.md) satisfy
 
 $$
 \int_{-1}^1P_l^m(x)P_k^m(x)\,dx=\frac{2}{2l+1}\frac{(l+m)!}{(l-m)!}\delta_{lk},\qquad N_l^m=\sqrt{\frac{2l+1}{2}\frac{(l-m)!}{(l+m)!}}.

@@ -364,7 +364,7 @@ $$
 \boxed{f(\theta)=\frac{1}{2ik}\sum_{l=0}^{\infty}(2l+1)\left[e^{2i\delta_l(E)}-1\right]P_l(\cos\theta)}.
 $$
 
-Using $d\sigma/d\Omega=|f(\theta)|^2$ and the [Legendre orthogonality relation](../mathematical_physics/spherical_coordinates.md#angular-expansions), the total cross section decomposes into independent partial waves:
+Using $d\sigma/d\Omega=|f(\theta)|^2$ and the [Legendre orthogonality relation](../mathematical_physics/associated_legendre_polynomials.md#orthogonality-and-normalization), the total cross section decomposes into independent partial waves:
 
 $$
 \sigma_{\mathrm{tot}}=\int d\Omega\,|f(\theta)|^2=4\pi\sum_{l=0}^{\infty}(2l+1)|f_l(k)|^2\equiv\sum_{l=0}^{\infty}\sigma_l.

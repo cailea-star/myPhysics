@@ -4,7 +4,7 @@ The spherical-coordinate conventions, $\Omega=(\theta,\phi)$, and orbital angula
 
 ### Scalar Spherical Harmonics
 
-Let $l=0,1,\ldots$, $m=-l,\ldots,l$, and let $P_l(x)$ and $P_l^m(x)$ denote the Legendre polynomial and associated Legendre function. In the Condon–Shortley convention, for $m\geq0$,
+Let $l=0,1,\ldots$, $m=-l,\ldots,l$, and let $P_l(x)$ and $P_l^m(x)$ denote the [Legendre polynomial and associated Legendre function](associated_legendre_polynomials.md). In the Condon–Shortley convention, for $m\geq0$,
 
 $$
 \boxed{Y_{lm}(\theta,\phi)=\sqrt{\frac{2l+1}{4\pi}\frac{(l-m)!}{(l+m)!}}\,P_l^m(\cos\theta)e^{im\phi}}.
