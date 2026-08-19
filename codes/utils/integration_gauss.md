@@ -103,7 +103,7 @@ $$
 
 ##### Gauss-Hermite
 
-For nonnegative integers $n$ and $k$,
+For nonnegative integers $n$ and $k$, the physicists' [Hermite polynomials](../../notes/mathematical_physics/hermite_polynomials.md) satisfy
 
 $$
 \int_{-\infty}^{\infty}H_n(x)H_k(x)e^{-x^2}\,dx=2^n n!\sqrt{\pi}\,\delta_{nk},\qquad N_n=\frac{1}{\sqrt{2^n n!\sqrt{\pi}}}.
