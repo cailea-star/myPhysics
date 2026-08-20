@@ -1,4 +1,4 @@
-### Spherical Radial Boundary Conditions
+# Spherical Radial Boundary Conditions
 
 Define the reduced-mass kinetic coefficient
 
@@ -20,7 +20,7 @@ $$
 
 where $Z$ is the charge product entering $V_C(r)=Ze^2/r$. The overall normalization of the boundary pair is arbitrary.
 
-##### Regular Origin Boundary
+### Regular Origin Boundary
 
 For a potential less singular than $r^{-2}$ near the origin, the regular solution satisfies
 
@@ -36,7 +36,7 @@ $$
 
 where $A\neq0$ is an arbitrary scale.
 
-##### Bound-State Decaying Boundary
+### Bound-State Decaying Boundary
 
 For $E<0$ and a short-range potential satisfying $V_l(r)\to0$, define
 
@@ -58,7 +58,7 @@ $$
 
 This form assumes a short-range asymptotic potential; a nonzero Coulomb tail requires the corresponding Coulomb bound-state asymptotic function.
 
-##### Coulomb Incoming and Outgoing Boundaries
+### Coulomb Incoming and Outgoing Boundaries
 
 For $E>0$, define the wave number, dimensionless radius, and Sommerfeld parameter by
 

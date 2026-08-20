@@ -1,4 +1,4 @@
-### Shooting Method
+# Shooting Method
 
 Consider the boundary-value problem
 
@@ -14,13 +14,13 @@ $$
 
 Specific boundary conditions are supplied externally; spherical radial boundary conditions are given in [Spherical Radial Boundary Conditions](../utils_spherical/spherical_radial_boundary.md).
 
-##### Bidirectional Propagation
+### Bidirectional Propagation
 
 Choose a matching point $x_m\in(x_{\min},x_{\max})$. Propagate the inner solution $y_{\mathrm{in}}$ from $x_{\min}$ to $x_m$, and the outer solution $y_{\mathrm{out}}$ from $x_{\max}$ to $x_m$.
 
 Both solutions may be propagated using the [Numerov Method](ivp_numerov.md) or a Runge--Kutta method.
 
-##### Matching Condition
+### Matching Condition
 
 At $x_m$, define
 
@@ -42,7 +42,7 @@ $$
 
 The matching point must therefore avoid the nodes of both solutions.
 
-##### Eigenenergy Search
+### Eigenenergy Search
 
 For a real Sturm--Liouville bound-state problem, let $N(E)$ denote the number of nodes. The $n$th state satisfies
 
@@ -58,7 +58,7 @@ $$
 
 For complex boundary conditions, node counting is generally unavailable, and the search interval must be specified independently.
 
-##### Wave-Function Matching and Normalization
+### Wave-Function Matching and Normalization
 
 Scale the outer solution by
 
@@ -77,4 +77,3 @@ The scaling ensures continuity of the function value, while $R(E_n)=0$ ensures c
 $$
 \mathrm{Norm}=\sqrt{\int_{x_{\min}}^{x_{\max}}|y(x)|^2\,dx},\qquad y(x)\rightarrow\frac{y(x)}{\mathrm{Norm}}.
 $$
-

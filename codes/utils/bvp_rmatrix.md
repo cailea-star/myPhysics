@@ -1,4 +1,4 @@
-### R-Matrix Boundary Response
+# R-Matrix Boundary Response
 
 The R-matrix maps the internal interval $x\in[x_{\min},x_{\max}]$ to its boundary response. Define
 
@@ -8,7 +8,7 @@ $$
 
 where $h_\mu$ is the kinetic coefficient for the reduced mass $\mu$, and $V$ is Hermitian in channel space.
 
-##### Hermiticity on a Finite Interval
+### Hermiticity on a Finite Interval
 
 Since $V$ is Hermitian, the finite-interval residual comes from the kinetic term. Integration by parts gives
 
@@ -36,7 +36,7 @@ $$
 
 Thus, $H$ is not Hermitian on the finite interval when the boundary Wronskians are nonzero.
 
-##### Bloch Surface Operator
+### Bloch Surface Operator
 
 Assign the outward-normal signs
 
@@ -70,7 +70,7 @@ $$
 
 Thus, $H_{\mathrm B}$ is Hermitian on the finite interval without imposing vanishing boundary Wronskians.
 
-##### R-Matrix Response
+### R-Matrix Response
 
 The Schrödinger equation becomes
 
@@ -122,7 +122,7 @@ $$
 \boxed{u_\alpha(x)=\sum_{s\in\{x_{\min},x_{\max}\}}\sum_\beta n_sR_{\alpha\beta}(x,s;E)u'_\beta(s)}.
 $$
 
-##### Inner-Boundary Self-Energy
+### Inner-Boundary Self-Energy
 
 Impose the logarithmic derivative directly at the inner boundary:
 
@@ -166,7 +166,7 @@ $$
 \hat S^\dagger\hat S\leq I.
 $$
 
-##### Outer-Boundary S-Matrix Matching
+### Outer-Boundary S-Matrix Matching
 
 Collect the channel solutions into $\hat u$. At the outer boundary,
 
@@ -193,5 +193,4 @@ $$
 $$
 
 where all external-wave matrices are evaluated at $x_{\max}$.
-
 
