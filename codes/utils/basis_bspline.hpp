@@ -17,9 +17,9 @@ public:
     using KnotVectorType = Spline1D::KnotVectorType;
     using BasisDerivativeType = Spline1D::BasisDerivativeType;
 
-    Eigen::VectorXd x_F1D_x;                // {x_i}, including x_min and x_max.
+    Eigen::VectorXd x_F1D_x;                // x_i: interval boundaries from x_min to x_max.
     const int p_I = 3;                      // p = 3, order = p + 1.
-    KnotVectorType x_F1D_t;                 // {t_α}, endpoints repeated p + 1 times.
+    KnotVectorType x_F1D_t;                 // t_α: clamped knot vector with endpoint multiplicity p + 1.
 
 protected:
 
@@ -71,7 +71,7 @@ public:
      * @math   B_i^(q)(x) = d^q B_i(x) / dx^q
      * @output Derivative vector from order 0 through q.
      */
-    Eigen::VectorXd BasisFunction(double x_F, int b_I, int qmax_I = 0) const {
+    Eigen::VectorXd basis_function(double x_F, int b_I, int qmax_I = 0) const {
         assert(b_I >= 0 && b_I < size());
         assert(qmax_I >= 0);
 
@@ -92,13 +92,13 @@ public:
      * @math   u^(q)(x) = Σ_i c_i d^q B_i(x) / dx^q
      * @output Derivative vector from order 0 through q.
      */
-    Eigen::VectorXd WaveFunction(double x_F, const Eigen::VectorXd& coeff_F1D_b, int qmax_I = 0) const {
+    Eigen::VectorXd wave_function(double x_F, const Eigen::VectorXd& coeff_F1D_b, int qmax_I = 0) const {
         assert(coeff_F1D_b.size() == size());
         assert(qmax_I >= 0);
 
         Eigen::VectorXd u_F1D_deriv = Eigen::VectorXd::Zero(qmax_I + 1);
         for (int b_I = 0; b_I < size(); ++b_I) {
-            u_F1D_deriv += coeff_F1D_b(b_I) * BasisFunction(x_F, b_I, qmax_I);
+            u_F1D_deriv += coeff_F1D_b(b_I) * basis_function(x_F, b_I, qmax_I);
         }
         return u_F1D_deriv;
     }
@@ -107,15 +107,17 @@ public:
 
 class BSplineBasis {
 public:
-    BSplineBasisFunction b_funcs;        // Basis functions.
-    Eigen::VectorXd x_F1D_grid;          // {x_g}.
-    Eigen::VectorXd w_F1D_grid;          // {w_g}.
-    Eigen::MatrixXd B_F2D_grid_b;        // B_i(x_g).
-    Eigen::MatrixXd dB_F2D_grid_b;       // B_i'(x_g).
+    BSplineBasisFunction b_funcs;        // B_b(x): clamped cubic basis used for grid tabulation.
+    Eigen::VectorXd x_F1D_grid;          // x_g: Gauss-Legendre nodes mapped to each interval.
+    Eigen::VectorXd w_F1D_grid;          // w_g: mapped Gauss-Legendre weights on each interval.
+    Eigen::MatrixXd B_F2D_grid_b;        // B_gb = B_b(x_g).
+    Eigen::MatrixXd dB_F2D_grid_b;       // dB_gb = ∂_xB_b(x_g).
 
     /**
      * @brief  Build the quadrature grid and tabulate the basis.
-     * @math   x_g = x_c + Jξ_g, w_g = Jω_g; u(x_min) = u(x_max) = 0 ⇒ b = 1,...,N_B-2
+     * @math   ∫_(-1)^1 f(ξ)dξ ≈ Σ_g ω_g f(ξ_g)
+     * @math   x_c = (x_lo+x_up)/2, J = (x_up-x_lo)/2, x_g = x_c+Jξ_g, w_g = Jω_g
+     * @math   u(x_min) = u(x_max) = 0 ⇒ b = 1,...,N_B-2
      * @output Quadrature grid, weights, basis values, and derivatives.
      * @note   isZeroBound_B selects the complete or homogeneous-Dirichlet basis space.
      */
@@ -151,7 +153,7 @@ public:
         for (int g_I = 0; g_I < Ngrid_I; ++g_I) {
             for (int b_I = 0; b_I < Nb_I; ++b_I) {
                 const int b_all_I = b_I + b_offset_I;
-                const Eigen::VectorXd B_F1D_deriv = b_basis_func_.BasisFunction(x_F1D_grid(g_I), b_all_I, 1);
+                const Eigen::VectorXd B_F1D_deriv = b_basis_func_.basis_function(x_F1D_grid(g_I), b_all_I, 1);
                 B_F2D_grid_b(g_I, b_I) = B_F1D_deriv(0);
                 dB_F2D_grid_b(g_I, b_I) = B_F1D_deriv(1);
             }

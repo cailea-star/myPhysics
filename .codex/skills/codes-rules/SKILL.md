@@ -11,6 +11,7 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 - `T` MUST encode the element type using `{int: I, double: F, complex<double>: C, template: T}`.
 - `dD` MUST encode rank when present: scalars use `name_T`, such as `{hbar_F, x_F, i_I}`; vectors use `name_T1D_index`, such as `{x_F1D_x, n_I1D_n}`; multidimensional arrays use `name_TdD_indexes`, such as `{H_F2D_x_n, psi_C2D_x_n}`.
 - `_indexes` MUST list each dimension's physical index in array order, such as `{_x, _x_y, _x_y_z}`.
+- Function names MUST use `snake_case`; mathematical symbols MAY preserve canonical capitalization, such as `{calc_energy, build_tables, read_Gz}`.
 - Before every code write, MUST list all added or renamed variables—or `None`—and write ONLY after explicit approval.
 
 ## Variable Construction Rules
@@ -23,7 +24,7 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 ## Code Formatting Rules
 
 - Within each class access section, declare data members first; define constructors inline before member functions.
-- Constructor initializer lists MUST follow data-member declaration order and occupy one separate line: `: member(...), member(...), ...`.
+- Constructor parameters matching members SHOULD append `_`; initializer lists MUST follow declaration order on one separate line.
 - Declarations, function signatures, and simple statements MUST each occupy one line and NEVER share lines.
 - Single-statement `if` or `for` blocks MAY remain inline but MUST retain braces: `if (...) {...}`, `for (...) {...}`.
 - Developer-facing numerical preconditions MUST use single-line `assert`; recoverable runtime failures MUST use explicit handling.
@@ -32,6 +33,7 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 
 - All comments MUST be written in English and be as concise as possible.
 - Comments SHOULD use formulas or transformations instead of prose whenever possible, such as `x → x / b`.
+- Comments MUST add information; NEVER merely restate symbols, such as `{x_i}`.
 - Every logical computation block MUST begin with one standalone comment line.
 
 ### File Header Comments

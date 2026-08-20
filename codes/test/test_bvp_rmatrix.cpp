@@ -76,7 +76,7 @@ int main() {
         I_C1D_ch(ch_I) = std::exp(-I_C * k_C1D_ch(ch_I) * xmax_F);
         dI_C1D_ch(ch_I) = -I_C * k_C1D_ch(ch_I) * I_C1D_ch(ch_I);
     }
-    Eigen::MatrixXcd Scalc_C2D_ch_ch = r_matrix.calc_SMatrix(O_C1D_ch, dO_C1D_ch, I_C1D_ch, dI_C1D_ch);
+    Eigen::MatrixXcd Scalc_C2D_ch_ch = r_matrix.calc_S_matrix(O_C1D_ch, dO_C1D_ch, I_C1D_ch, dI_C1D_ch);
 
     // S_ref = U diag(S_1, S_2) Uᵀ.
     Eigen::Vector2cd S_C1D_mode;

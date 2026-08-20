@@ -17,7 +17,7 @@
  * @math   y'=cos(x)
  * @output Scalar derivative y'.
  */
-double sinfFunc(double x_F, double y_F) {
+double sin_rhs(double x_F, double y_F) {
     return std::cos(x_F);
 }
 
@@ -26,7 +26,7 @@ double sinfFunc(double x_F, double y_F) {
  * @math   (y₁',y₂')=(y₂,y₁)
  * @output Writes the two-channel derivative vector.
  */
-void expfFunc(double x_F, const Eigen::Ref<const Eigen::VectorXd>& y_F1D_ch, Eigen::Ref<Eigen::VectorXd> dydx_F1D_ch) {
+void exp_rhs(double x_F, const Eigen::Ref<const Eigen::VectorXd>& y_F1D_ch, Eigen::Ref<Eigen::VectorXd> dydx_F1D_ch) {
     dydx_F1D_ch(0) = y_F1D_ch(1);
     dydx_F1D_ch(1) = y_F1D_ch(0);
 }
@@ -57,7 +57,7 @@ int main() {
     std::cout << std::scientific << std::setprecision(4) << std::right;
 
     // Scalar RK4 propagation.
-    Eigen::VectorXd ysin_F1D_x = ivp_rk4<double>(sinfFunc, ysin0_F, x_F1D_x);
+    Eigen::VectorXd ysin_F1D_x = ivp_rk4<double>(sin_rhs, ysin0_F, x_F1D_x);
     Eigen::VectorXd err_sin_F1D_x = ysin_F1D_x - sin_F1D_x;
     std::cout << "\n[INPUT][scalar RK4] x=[" << xmin_F << "," << xmax_F << "], y0=" << ysin0_F << "\n";
     std::cout << "[REFERENCE/COMPUTED][scalar RK4]\n";
@@ -68,8 +68,8 @@ int main() {
     assert(err_sin_F1D_x.cwiseAbs().maxCoeff() < tol_F);
 
     // Vector RK4 propagation.
-    Eigen::MatrixXd yexpp_F2D_ch_x = ivp_rk4_vec<double>(expfFunc, x_F1D_x, yexppvec0_F1D_ch);
-    Eigen::MatrixXd yexpn_F2D_ch_x = ivp_rk4_vec<double>(expfFunc, x_F1D_x, yexpnvec0_F1D_ch);
+    Eigen::MatrixXd yexpp_F2D_ch_x = ivp_rk4_vec<double>(exp_rhs, x_F1D_x, yexppvec0_F1D_ch);
+    Eigen::MatrixXd yexpn_F2D_ch_x = ivp_rk4_vec<double>(exp_rhs, x_F1D_x, yexpnvec0_F1D_ch);
     Eigen::VectorXd err_expp_F1D_x = yexpp_F2D_ch_x.row(0) - expp_F1D_x.transpose();
     Eigen::VectorXd err_expn_F1D_x = yexpn_F2D_ch_x.row(0) - expn_F1D_x.transpose();
     std::cout << "\n[INPUT][vector RK4] y0+=[" << yexppvec0_F1D_ch.transpose() << "], y0-=[" << yexpnvec0_F1D_ch.transpose() << "]\n";

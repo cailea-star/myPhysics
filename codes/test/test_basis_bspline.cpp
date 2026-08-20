@@ -87,7 +87,7 @@ int main() {
         double normNum_F = 0.0;
         double normExact_F = 0.0;
         for (int g_I = 0; g_I < x_F1D_g.size(); ++g_I) {
-            double psi_F = b_basis.b_funcs.WaveFunction(x_F1D_g(g_I), coeff_F1D_b)(0);
+            double psi_F = b_basis.b_funcs.wave_function(x_F1D_g(g_I), coeff_F1D_b)(0);
             double exact_F = harmonic_oscillator_wavefunction(n_I, x_F1D_g(g_I));
             overlap_F += w_F1D_g(g_I) * psi_F * exact_F;
             normNum_F += w_F1D_g(g_I) * psi_F * psi_F;

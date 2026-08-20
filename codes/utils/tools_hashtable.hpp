@@ -10,7 +10,11 @@
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
+#include <istream>
 #include <limits>
+#include <ostream>
+#include <stdexcept>
+#include <type_traits>
 #include <unordered_map>
 #include <vector>
 
@@ -25,17 +29,16 @@ private:
     std::vector<int> keymax_I1D_i;
     std::vector<std::uint64_t> keystride_I1D_i;
     std::unordered_map<std::uint64_t, Value_T> value_T1D_key;
-    Value_T defaultvalue_T;
 
 public:
     /**
      * @brief  Construct a mixed-radix hash table over closed key intervals.
      * @math   stride_i = ∏_{j<i}(keymax_j - keymin_j + 1)
-     * @output Empty hash table with configured bounds and default value.
+     * @output Empty hash table with configured bounds.
      * @note   Requires valid nonempty bounds and a packed-key range within uint64_t.
      */
-    MyHashTable(const std::vector<int>& keymin_I1D_i, const std::vector<int>& keymax_I1D_i, const Value_T& defaultvalue_T = Value_T{})
-    : keymin_I1D_i(keymin_I1D_i), keymax_I1D_i(keymax_I1D_i), keystride_I1D_i(keymin_I1D_i.size(), 1), defaultvalue_T(defaultvalue_T) {
+    MyHashTable(const std::vector<int>& keymin_I1D_i, const std::vector<int>& keymax_I1D_i)
+    : keymin_I1D_i(keymin_I1D_i), keymax_I1D_i(keymax_I1D_i), keystride_I1D_i(keymin_I1D_i.size(), 1) {
         // dim(keymin) = dim(keymax) > 0.
         assert(keymin_I1D_i.size() == keymax_I1D_i.size());
         assert(!keymin_I1D_i.empty());
@@ -77,7 +80,7 @@ public:
      * @note   Requires a stored key inside the configured intervals.
      */
     template <typename Key_T>
-    const Value_T& at(const Key_T& key_I1D_i) const {
+    const Value_T& read(const Key_T& key_I1D_i) const {
         // packedkey(key) → lookup.
         const std::uint64_t packedkey_I = to_packedkey(key_I1D_i);
         const auto entry_ = value_T1D_key.find(packedkey_I);
@@ -87,22 +90,6 @@ public:
 
         // M[packedkey(key)] → value.
         return entry_->second;
-    }
-
-    /**
-     * @brief  Read a stored value or the configured default value.
-     * @math   value = M[packedkey(key)] if packedkey(key) ∈ keys, otherwise defaultvalue
-     * @output Stored value or default value.
-     * @note   Requires a key inside the configured intervals.
-     */
-    template <typename Key_T>
-    Value_T read(const Key_T& key_I1D_i) const {
-        // packedkey(key) → lookup.
-        const std::uint64_t packedkey_I = to_packedkey(key_I1D_i);
-        const auto entry_ = value_T1D_key.find(packedkey_I);
-
-        // M[packedkey(key)] or defaultvalue → value.
-        return (entry_ == value_T1D_key.end()) ? defaultvalue_T : entry_->second;
     }
 
     /**
@@ -131,12 +118,62 @@ public:
     /**
      * @brief  Remove all stored values.
      * @math   M → ∅
-     * @output Empty hash table with unchanged bounds and default value.
+     * @output Empty hash table with unchanged bounds.
      * @note   Reserved buckets may be retained.
      */
     void clear() {
         // M → ∅.
         value_T1D_key.clear();
+    }
+
+    /**
+     * @brief  Serialize trivially copyable hash-table entries to a binary stream.
+     * @math   stream ← N_entry ⊕ {(packedkey,value)}
+     * @output Binary entry sequence written to output_.
+     * @note   Bounds are external metadata; the binary representation is platform-dependent.
+     */
+    void to_stream(std::ostream& output_) const {
+        static_assert(std::is_trivially_copyable_v<Value_T>, "to_stream requires a trivially copyable Value_T");
+
+        // M → N_entry ⊕ {(packedkey,value)}.
+        const std::uint64_t Nentry_I = static_cast<std::uint64_t>(value_T1D_key.size());
+        output_.write(reinterpret_cast<const char*>(&Nentry_I), sizeof(Nentry_I));
+        for (const auto& [packedkey_I, value_T] : value_T1D_key) {
+            output_.write(reinterpret_cast<const char*>(&packedkey_I), sizeof(packedkey_I));
+            output_.write(reinterpret_cast<const char*>(&value_T), sizeof(value_T));
+        }
+
+        // stream = valid.
+        if (!output_) {throw std::runtime_error("[ERROR]: [MyHashTable::to_stream] binary write failed");}
+    }
+
+    /**
+     * @brief  Deserialize trivially copyable hash-table entries from a binary stream.
+     * @math   N_entry ⊕ {(packedkey,value)} → M
+     * @output Hash table replaced by the entries read from input_.
+     * @note   Bounds must match the external metadata used to create the stream.
+     */
+    void from_stream(std::istream& input_) {
+        static_assert(std::is_trivially_copyable_v<Value_T>, "from_stream requires a trivially copyable Value_T");
+
+        // N_entry ← stream.
+        std::uint64_t Nentry_I = 0;
+        input_.read(reinterpret_cast<char*>(&Nentry_I), sizeof(Nentry_I));
+        if (!input_) {throw std::runtime_error("[ERROR]: [MyHashTable::from_stream] binary read failed");}
+
+        // M ← {(packedkey,value)}.
+        const std::uint64_t maxpackedkey_I = to_packedkey(keymax_I1D_i);
+        value_T1D_key.clear();
+        value_T1D_key.reserve(static_cast<std::size_t>(Nentry_I));
+        for (std::uint64_t i_I = 0; i_I < Nentry_I; ++i_I) {
+            std::uint64_t packedkey_I = 0;
+            Value_T value_T{};
+            input_.read(reinterpret_cast<char*>(&packedkey_I), sizeof(packedkey_I));
+            input_.read(reinterpret_cast<char*>(&value_T), sizeof(value_T));
+            if (!input_) {throw std::runtime_error("[ERROR]: [MyHashTable::from_stream] binary read failed");}
+            if (packedkey_I > maxpackedkey_I) {throw std::runtime_error("[ERROR]: [MyHashTable::from_stream] packed key exceeds configured bounds");}
+            value_T1D_key[packedkey_I] = value_T;
+        }
     }
 
 private:
