@@ -88,7 +88,7 @@ public:
 class GaussLaguerreMeshes {
 public:
     Eigen::VectorXi n_I1D_na;       // Orders.
-    Eigen::VectorXd alpha_F1D_na;   // {α}.
+    Eigen::VectorXd alpha_F1D_na;   // α_na: generalized-Laguerre parameters.
     Eigen::VectorXd N_F1D_na;       // Normalizations.
     Eigen::VectorXd x_F1D_x;        // Nodes.
     Eigen::VectorXd w_F1D_x;        // Weights.

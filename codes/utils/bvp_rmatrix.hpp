@@ -47,7 +47,7 @@ public:
      * @output Coordinate-space Green matrix.
      * @note   G equals the R-matrix response under the normalized convention h_μ = 1.
      */
-    Eigen::MatrixXcd calc_GreenFunction(double x1_F, double x2_F) const;
+    Eigen::MatrixXcd calc_green_function(double x1_F, double x2_F) const;
 
     /**
      * @brief  Compute the scattering matrix by R-matrix matching and full-pivoting LU.
@@ -55,7 +55,7 @@ public:
      * @output Channel-space scattering matrix.
      * @note   Incoming and outgoing asymptotic-wave matrices must be diagonal in channel space.
      */
-    Eigen::MatrixXcd calc_SMatrix(const Eigen::Ref<const Eigen::VectorXcd>& O_C1D_ch, const Eigen::Ref<const Eigen::VectorXcd>& dO_C1D_ch, const Eigen::Ref<const Eigen::VectorXcd>& I_C1D_ch, const Eigen::Ref<const Eigen::VectorXcd>& dI_C1D_ch) const;
+    Eigen::MatrixXcd calc_S_matrix(const Eigen::Ref<const Eigen::VectorXcd>& O_C1D_ch, const Eigen::Ref<const Eigen::VectorXcd>& dO_C1D_ch, const Eigen::Ref<const Eigen::VectorXcd>& I_C1D_ch, const Eigen::Ref<const Eigen::VectorXcd>& dI_C1D_ch) const;
 };
 
 inline void RMatrix::update_Ginv(const Real2CMatFunc& F_Func, const Eigen::Ref<const Eigen::VectorXcd>& kxmin_C1D_ch, const Eigen::Ref<const Eigen::VectorXcd>& kxmax_C1D_ch) {
@@ -103,7 +103,7 @@ inline void RMatrix::update_Ginv(const Real2CMatFunc& F_Func, const Eigen::Ref<c
     }
 }
 
-inline Eigen::MatrixXcd RMatrix::calc_GreenFunction(double x1_F, double x2_F) const {
+inline Eigen::MatrixXcd RMatrix::calc_green_function(double x1_F, double x2_F) const {
     const int Nch_I = static_cast<int>(Ginv_C4D_ch_b_ch_b.dimension(0));
     const int Nb_I = static_cast<int>(b_basis.B_F2D_grid_b.cols());
     assert(Nch_I > 0);
@@ -115,8 +115,8 @@ inline Eigen::MatrixXcd RMatrix::calc_GreenFunction(double x1_F, double x2_F) co
     Eigen::VectorXd Bx1_F1D_b(Nb_I);
     Eigen::VectorXd Bx2_F1D_b(Nb_I);
     for (int b_I = 0; b_I < Nb_I; ++b_I) {
-        Bx1_F1D_b(b_I) = b_basis.b_funcs.BasisFunction(x1_F, b_I)(0);
-        Bx2_F1D_b(b_I) = b_basis.b_funcs.BasisFunction(x2_F, b_I)(0);
+        Bx1_F1D_b(b_I) = b_basis.b_funcs.basis_function(x1_F, b_I)(0);
+        Bx2_F1D_b(b_I) = b_basis.b_funcs.basis_function(x2_F, b_I)(0);
     }
 
     const int Nchb_I = Nch_I * Nb_I;
@@ -134,7 +134,7 @@ inline Eigen::MatrixXcd RMatrix::calc_GreenFunction(double x1_F, double x2_F) co
     return G_C2D_ch_ch;
 }
 
-inline Eigen::MatrixXcd RMatrix::calc_SMatrix(const Eigen::Ref<const Eigen::VectorXcd>& O_C1D_ch, const Eigen::Ref<const Eigen::VectorXcd>& dO_C1D_ch, const Eigen::Ref<const Eigen::VectorXcd>& I_C1D_ch, const Eigen::Ref<const Eigen::VectorXcd>& dI_C1D_ch) const {
+inline Eigen::MatrixXcd RMatrix::calc_S_matrix(const Eigen::Ref<const Eigen::VectorXcd>& O_C1D_ch, const Eigen::Ref<const Eigen::VectorXcd>& dO_C1D_ch, const Eigen::Ref<const Eigen::VectorXcd>& I_C1D_ch, const Eigen::Ref<const Eigen::VectorXcd>& dI_C1D_ch) const {
     const int Nch_I = static_cast<int>(Ginv_C4D_ch_b_ch_b.dimension(0));
     const Eigen::VectorXd& x_F1D_x = b_basis.b_funcs.x_F1D_x;
     assert(O_C1D_ch.size() == Nch_I);
@@ -144,7 +144,7 @@ inline Eigen::MatrixXcd RMatrix::calc_SMatrix(const Eigen::Ref<const Eigen::Vect
     assert(x_F1D_x.size() >= 2);
 
     const double xmax_F = x_F1D_x(x_F1D_x.size() - 1);
-    const Eigen::MatrixXcd R_C2D_ch_ch = calc_GreenFunction(xmax_F, xmax_F);
+    const Eigen::MatrixXcd R_C2D_ch_ch = calc_green_function(xmax_F, xmax_F);
     Eigen::MatrixXcd Zout_C2D_ch_ch = -R_C2D_ch_ch * dO_C1D_ch.asDiagonal();
     Eigen::MatrixXcd Zin_C2D_ch_ch = -R_C2D_ch_ch * dI_C1D_ch.asDiagonal();
     Zout_C2D_ch_ch.diagonal() += O_C1D_ch;

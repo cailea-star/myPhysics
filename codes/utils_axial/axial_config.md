@@ -42,13 +42,13 @@ $$
 N_\alpha=n_{z,\alpha}+2n_{r,\alpha}+\Lambda_\alpha,\qquad \Omega_\alpha=\Lambda_\alpha+\Sigma_\alpha,\qquad \pi_\alpha=(-1)^{n_{z,\alpha}+\Lambda_\alpha}.
 $$
 
-To avoid half-integer comparisons, introduce
+For each positive half-integer $\Omega$, the two orbital projections are
 
 $$
-\Omega_2=2\Omega=2\Lambda\pm1,\qquad \Lambda_\uparrow=\frac{\Omega_2-1}{2},\qquad \Lambda_\downarrow=\frac{\Omega_2+1}{2}.
+\Lambda_\uparrow=\Omega-\frac12,\qquad \Lambda_\downarrow=\Omega+\frac12.
 $$
 
-Only positive odd values $\Omega_2\in\{1,3,5,\ldots\}$ are retained explicitly. The labels are enumerated in the order
+Only positive values $\Omega\in\{\frac12,\frac32,\frac52,\ldots\}$ are retained explicitly. The labels are enumerated in the order
 
 $$
 \Omega\rightarrow\pi\rightarrow n_r\rightarrow n_z\rightarrow\Lambda_\pm\rightarrow\Sigma_\pm.

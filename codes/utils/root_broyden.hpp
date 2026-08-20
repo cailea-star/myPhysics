@@ -17,16 +17,16 @@ using Vec2VecFunc = std::function<void(const Eigen::VectorXd&, Eigen::VectorXd&)
 
 class BroydenIterator {
 protected:
-    Eigen::VectorXd xcurr_F1D_i;         // x_h.
+    Eigen::VectorXd xcurr_F1D_i;         // x_h: accepted current iterate.
     Eigen::VectorXd rcurr_F1D_i;         // r_h = G(x_h) - x_h.
-    Eigen::VectorXd gamma_F1D_h;         // γ = {γ_h}.
-    Eigen::VectorXd Sinv2_F1D_h;         // {S_h^(-2)}.
+    Eigen::VectorXd gamma_F1D_h;         // γ = (ΔR^TΔR)^(-1)ΔR^Tr_h.
+    Eigen::VectorXd Sinv2_F1D_h;         // S_h^(-2): truncated inverse squared singular values.
     Eigen::JacobiSVD<Eigen::MatrixXd, Eigen::ComputeThinU | Eigen::ComputeThinV> dR_SVD; // ΔR = USV^T.
 
 public:
-    int Nh_I;                            // N_h.
+    int Nh_I;                            // N_h: maximum retained history length.
     int hnew_I;                          // h_new = -1: history = ∅.
-    Eigen::VectorXd xnext_F1D_i;         // x_{h+1}.
+    Eigen::VectorXd xnext_F1D_i;         // x_{h+1} = x_h + Δx_h.
     Eigen::VectorXd rnext_F1D_i;         // r_{h+1} = G(x_{h+1}) - x_{h+1}.
     Eigen::MatrixXd dX_F2D_i_h;          // ΔX = [Δx_1, ..., Δx_{N_h}].
     Eigen::MatrixXd dR_F2D_i_h;          // ΔR = [Δr_1, ..., Δr_{N_h}].
