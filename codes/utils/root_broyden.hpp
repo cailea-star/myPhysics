@@ -9,6 +9,7 @@
 #include <Eigen/Core>
 #include <Eigen/Dense>
 #include <Eigen/SVD>
+#include <cassert>
 #include <cmath>
 #include <functional>
 
@@ -20,12 +21,13 @@ protected:
     Eigen::VectorXd rcurr_F1D_i;         // r_h = G(x_h) - x_h.
     Eigen::VectorXd gamma_F1D_h;         // γ = {γ_h}.
     Eigen::VectorXd Sinv2_F1D_h;         // {S_h^(-2)}.
+    Eigen::JacobiSVD<Eigen::MatrixXd, Eigen::ComputeThinU | Eigen::ComputeThinV> dR_SVD; // ΔR = USV^T.
 
 public:
-    Eigen::VectorXd xnext_F1D_i;         // x_{h+1}.
-    Eigen::VectorXd rnext_F1D_i;         // r_{h+1} = G(x_{h+1}) - x_{h+1}.
     int Nh_I;                            // N_h.
     int hnew_I;                          // h_new = -1: history = ∅.
+    Eigen::VectorXd xnext_F1D_i;         // x_{h+1}.
+    Eigen::VectorXd rnext_F1D_i;         // r_{h+1} = G(x_{h+1}) - x_{h+1}.
     Eigen::MatrixXd dX_F2D_i_h;          // ΔX = [Δx_1, ..., Δx_{N_h}].
     Eigen::MatrixXd dR_F2D_i_h;          // ΔR = [Δr_1, ..., Δr_{N_h}].
 
@@ -35,7 +37,9 @@ public:
      * @output Initial x_1, r_1, and an empty secant history.
      */
     BroydenIterator(int Nh_I, const Vec2VecFunc& G_Func, double alpha_F, const Eigen::VectorXd& x0_F1D_i, const Eigen::VectorXd& G0_F1D_i)
-    : Nh_I(Nh_I), hnew_I(-1), xcurr_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())), rcurr_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())), xnext_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())), rnext_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())), gamma_F1D_h(Eigen::VectorXd::Zero(Nh_I)), Sinv2_F1D_h(Eigen::VectorXd::Zero(Nh_I)), dX_F2D_i_h(Eigen::MatrixXd::Zero(x0_F1D_i.size(), Nh_I)), dR_F2D_i_h(Eigen::MatrixXd::Zero(x0_F1D_i.size(), Nh_I)) {
+    : xcurr_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())), rcurr_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())), gamma_F1D_h(Eigen::VectorXd::Zero(Nh_I)), Sinv2_F1D_h(Eigen::VectorXd::Zero(Nh_I)), dR_SVD(x0_F1D_i.size(), Nh_I), Nh_I(Nh_I), hnew_I(-1), xnext_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())), rnext_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())), dX_F2D_i_h(Eigen::MatrixXd::Zero(x0_F1D_i.size(), Nh_I)), dR_F2D_i_h(Eigen::MatrixXd::Zero(x0_F1D_i.size(), Nh_I)) {
+        assert(Nh_I > 0 && Nh_I <= x0_F1D_i.size());
+
         // r_0 = G(x_0) - x_0, x_1 = x_0 + α r_0.
         rcurr_F1D_i.noalias() = G0_F1D_i - x0_F1D_i;
         xnext_F1D_i.noalias() = x0_F1D_i + alpha_F * rcurr_F1D_i;
@@ -66,7 +70,7 @@ public:
         }
 
         // ΔR = USV^T, (ΔR^T ΔR)^(-1) = VS^(-2)V^T.
-        Eigen::JacobiSVD<Eigen::MatrixXd> dR_SVD(dR_F2D_i_h, Eigen::ComputeThinU | Eigen::ComputeThinV);
+        dR_SVD.compute(dR_F2D_i_h);
         const auto& S_F1D_h = dR_SVD.singularValues();
         const auto& V_F2D_h_h = dR_SVD.matrixV();
         const double tol_F = 1.0e-12;
@@ -74,12 +78,14 @@ public:
 
         // γ = (ΔR^T ΔR)^(-1) ΔR^T r_h, Δx_h = α r_h - (ΔX + α ΔR) γ.
         gamma_F1D_h.noalias() = V_F2D_h_h * Sinv2_F1D_h.asDiagonal() * V_F2D_h_h.transpose() * (dR_F2D_i_h.transpose() * rcurr_F1D_i);
-        xnext_F1D_i.noalias() = alpha_F * rcurr_F1D_i - (dX_F2D_i_h + alpha_F * dR_F2D_i_h) * gamma_F1D_h;
+        xnext_F1D_i.noalias() = dX_F2D_i_h * gamma_F1D_h;
+        xnext_F1D_i.noalias() += alpha_F * dR_F2D_i_h * gamma_F1D_h;
+        xnext_F1D_i = alpha_F * rcurr_F1D_i - xnext_F1D_i;
         const double condition_F = rcurr_F1D_i.dot(xnext_F1D_i);
         if (condition_F <= -1.0) {xnext_F1D_i.noalias() = 0.5 * alpha_F * rcurr_F1D_i;} // Δx_h = α r_h / 2.
+        xnext_F1D_i.noalias() += xcurr_F1D_i; // x_{h+1} = x_h + Δx_h.
 
-        // x_{h+1} = x_h + Δx_h, r_{h+1} = G(x_{h+1}) - x_{h+1}.
-        xnext_F1D_i.noalias() += xcurr_F1D_i;
+        // r_{h+1} = G(x_{h+1}) - x_{h+1}.
         G_Func(xnext_F1D_i, rnext_F1D_i);
         rnext_F1D_i.noalias() -= xnext_F1D_i;
 
