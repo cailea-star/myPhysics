@@ -4,50 +4,42 @@ An axial harmonic-oscillator configuration specifies the coordinate scales, fini
 
 ##### Coordinate Scales
 
-Let $z$ and $r_\perp$ denote the axial and transverse coordinates. The oscillator lengths $b_z$ and $b_\perp$ define
+Let $z$ and $r$ denote the axial and radial coordinates. The oscillator lengths $b_z$ and $b_r$ define
 
 $$
-\zeta=\frac{z}{b_z},\qquad \eta=\left(\frac{r_\perp}{b_\perp}\right)^2.
+\zeta=\frac{z}{b_z},\qquad \eta=\left(\frac{r}{b_r}\right)^2.
 $$
 
 The corresponding measures are
 
 $$
-dz=b_z\,d\zeta,\qquad r_\perp dr_\perp=\frac{b_\perp^2}{2}\,d\eta.
+dz=b_z\,d\zeta,\qquad r\,dr=\frac{b_r^2}{2}\,d\eta.
 $$
 
-Let $b_0$ be the mean oscillator length and $\beta_{20}$ the quadrupole deformation. Define
+Let $b_0$ be the mean oscillator length and $\beta_{20}$ the quadrupole deformation. The deformed lengths and volume conservation are
 
 $$
-\alpha=\sqrt{\frac{5}{16\pi}},\qquad q=\exp(3\alpha\beta_{20}).
-$$
-
-The deformed lengths and volume conservation are
-
-$$
-b_z=b_0q^{1/3},\qquad b_\perp=b_0q^{-1/6},\qquad b_\perp^2b_z=b_0^3.
+b_z=b_0\exp\left(\sqrt{\frac{5}{16\pi}}\beta_{20}\right),\qquad b_r=b_0\exp\left(-\frac12\sqrt{\frac{5}{16\pi}}\beta_{20}\right),\qquad b_r^2b_z=b_0^3.
 $$
 
 The inverse transformation is
 
 $$
-b_0=(b_\perp^2b_z)^{1/3},\qquad \beta_{20}=\frac{2}{3\alpha}\log\frac{b_z}{b_\perp}.
+b_0=(b_r^2b_z)^{1/3},\qquad \beta_{20}=\frac{8}{3}\sqrt{\frac{\pi}{5}}\log\frac{b_z}{b_r}.
 $$
 
 ##### Single-Particle Labels
 
-Let $n_z$ and $n_r$ be nonnegative axial and radial quantum numbers. Let $\Lambda$ denote the $z$ projection of orbital angular momentum and $\Sigma=\pm\frac12$ the $z$ projection of spin.
-
-Define
+Let $n_z$ and $n_r$ be nonnegative axial and radial quantum numbers. Let $\Lambda$ denote the $z$ projection of orbital angular momentum and $\Sigma=\pm\frac12$ the $z$ projection of spin. A single-particle state is labeled by
 
 $$
-N=n_z+2n_r+\Lambda,\qquad \Omega=\Lambda+\Sigma,\qquad \pi=(-1)^{n_z+\Lambda}.
+\alpha\equiv(n_z,n_r,\Lambda,\Sigma).
 $$
 
-A single-particle state is labeled by
+Its derived quantum numbers are
 
 $$
-\xi=(N,n_z,n_r,\Lambda,\Omega,\Sigma,\pi).
+N_\alpha=n_{z,\alpha}+2n_{r,\alpha}+\Lambda_\alpha,\qquad \Omega_\alpha=\Lambda_\alpha+\Sigma_\alpha,\qquad \pi_\alpha=(-1)^{n_{z,\alpha}+\Lambda_\alpha}.
 $$
 
 To avoid half-integer comparisons, introduce
@@ -62,26 +54,24 @@ $$
 \Omega\rightarrow\pi\rightarrow n_r\rightarrow n_z\rightarrow\Lambda_\pm\rightarrow\Sigma_\pm.
 $$
 
-Time reversal maps
+The time-reversed partner is
 
 $$
-(\Lambda,\Sigma,\Omega)\rightarrow(-\Lambda,-\Sigma,-\Omega)
+\bar\alpha=(n_{z,\alpha},n_{r,\alpha},-\Lambda_\alpha,-\Sigma_\alpha),\qquad \Omega_{\bar\alpha}=-\Omega_\alpha,qquad \pi_{\bar\alpha}=\pi_\alpha.
 $$
-
-without changing $N$, $n_z$, $n_r$, or $\pi$.
 
 ##### Symmetry Blocks
 
 Axial symmetry conserves $\Omega$. Without reflection symmetry, the single-particle space decomposes as
 
 $$
-\mathcal B_\Omega=\{\xi:\Omega_\xi=\Omega\}.
+\mathcal B_\Omega=\{\alpha:\Omega_\alpha=\Omega\}.
 $$
 
 When reflection symmetry is imposed, parity is also conserved:
 
 $$
-\mathcal B_{\Omega,\pi}=\{\xi:\Omega_\xi=\Omega,\ \pi_\xi=\pi\}.
+\mathcal B_{\Omega,\pi}=\{\alpha:\Omega_\alpha=\Omega,\ \pi_\alpha=\pi\}.
 $$
 
 The positive-$\Omega$ blocks contain one representative of each time-reversal pair. Reflection symmetry also permits subsequent coordinate-space quadrature on the half-space $z\geq0$.
@@ -91,19 +81,19 @@ The positive-$\Omega$ blocks contain one representative of each time-reversal pa
 Let $m$ be the particle mass. The axial and transverse oscillator energies are
 
 $$
-\hbar\omega_z=\frac{\hbar^2}{mb_z^2},\qquad \hbar\omega_\perp=\frac{\hbar^2}{mb_\perp^2}.
+\hbar\omega_z=\frac{\hbar^2}{mb_z^2},\qquad \hbar\omega_r=\frac{\hbar^2}{mb_r^2}.
 $$
 
-Define the transverse oscillator quantum number $n_\perp$ and the single-particle energy by
+Define the transverse oscillator quantum number $\nu$ and the single-particle energy by
 
 $$
-n_\perp=2n_r+\Lambda,\qquad E(n_z,n_\perp)=\hbar\omega_z\left(n_z+\frac12\right)+\hbar\omega_\perp(n_\perp+1).
+\nu=2n_r+\Lambda,\qquad E(n_z,\nu)=\hbar\omega_z\left(n_z+\frac12\right)+\hbar\omega_r(\nu+1).
 $$
 
-For fixed $n_\perp$, the allowed radial quantum numbers and their multiplicity are
+For fixed $\nu$, the allowed radial quantum numbers and their multiplicity are
 
 $$
-n_r=0,\ldots,\left\lfloor\frac{n_\perp}{2}\right\rfloor,\qquad d_{n_\perp}=\left\lfloor\frac{n_\perp}{2}\right\rfloor+1.
+n_r=0,\ldots,\left\lfloor\frac{\nu}{2}\right\rfloor,\qquad d_\nu=\left\lfloor\frac{\nu}{2}\right\rfloor+1.
 $$
 
 Let $N_{\rm shell}$ be the largest retained spherical oscillator shell. The corresponding number of spatial states is
@@ -112,7 +102,7 @@ $$
 N_{\rm HO}=\sum_{N=0}^{N_{\rm shell}}\frac{(N+1)(N+2)}{2}=\frac{(N_{\rm shell}+1)(N_{\rm shell}+2)(N_{\rm shell}+3)}{6}.
 $$
 
-Candidate pairs $(n_z,n_\perp)$ are sorted by energy. Their multiplicities $d_{n_\perp}$ are accumulated until the count exceeds $N_{\rm HO}/2$; the current energy defines $E_{\rm cut}$. Every valid positive-$\Omega$ state with $E\leq E_{\rm cut}$ is retained. In the spherical limit, this reproduces the ordering by $N=n_z+n_\perp$.
+Candidate pairs $(n_z,\nu)$ are sorted by energy. Their multiplicities $d_\nu$ are accumulated until the count exceeds $N_{\rm HO}/2$; the current energy defines $E_{\rm cut}$. Every valid positive-$\Omega$ state with $E\leq E_{\rm cut}$ is retained. In the spherical limit, this reproduces the ordering by $N=n_z+\nu$.
 
 ##### Quadrature Orders
 

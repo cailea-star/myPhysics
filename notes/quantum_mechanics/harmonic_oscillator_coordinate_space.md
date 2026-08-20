@@ -12,22 +12,22 @@ $$
 \hat H=-\frac{\hbar^2}{2M}\frac{d^2}{dx^2}+\frac12M\omega^2x^2.
 $$
 
-Define the characteristic length $x_0$, dimensionless coordinate $\xi$, and dimensionless energy $\epsilon$ by
+Define the characteristic length $x_0$, dimensionless coordinate $\zeta$, and dimensionless energy $\epsilon$ by
 
 $$
-\boxed{x_0=\sqrt{\frac{\hbar}{M\omega}},\qquad \xi=\frac{x}{x_0},\qquad \epsilon=\frac{E}{\hbar\omega}}.
+\boxed{x_0=\sqrt{\frac{\hbar}{M\omega}},\qquad \zeta=\frac{x}{x_0},\qquad \epsilon=\frac{E}{\hbar\omega}}.
 $$
 
 Write the normalized coordinate wave function as
 
 $$
-\psi(x)=\frac{1}{\sqrt{x_0}}\widetilde{\psi}(\xi),\qquad \int_{-\infty}^{\infty}|\widetilde{\psi}(\xi)|^2\,d\xi=1.
+\psi(x)=\frac{1}{\sqrt{x_0}}\widetilde{\psi}(\zeta),\qquad \int_{-\infty}^{\infty}|\widetilde{\psi}(\zeta)|^2\,d\zeta=1.
 $$
 
 The stationary Schrödinger equation becomes
 
 $$
-\left[-\frac12\frac{d^2}{d\xi^2}+\frac12\xi^2\right]\widetilde{\psi}(\xi)=\epsilon\widetilde{\psi}(\xi).
+\left[-\frac12\frac{d^2}{d\zeta^2}+\frac12\zeta^2\right]\widetilde{\psi}(\zeta)=\epsilon\widetilde{\psi}(\zeta).
 $$
 
 ##### Hermite Solution and Energy Spectrum
@@ -35,19 +35,19 @@ $$
 Normalizability requires Gaussian decay. Write
 
 $$
-\widetilde{\psi}(\xi)=e^{-\xi^2/2}h(\xi).
+\widetilde{\psi}(\zeta)=e^{-\zeta^2/2}h(\zeta).
 $$
 
 The reduced function satisfies
 
 $$
-h''(\xi)-2\xi h'(\xi)+(2\epsilon-1)h(\xi)=0.
+h''(\zeta)-2\zeta h'(\zeta)+(2\epsilon-1)h(\zeta)=0.
 $$
 
 The polynomial solution is the physicists' [Hermite polynomial](../mathematical_physics/specialfunction_hermite_polynomials.md):
 
 $$
-H_n''(\xi)-2\xi H_n'(\xi)+2nH_n(\xi)=0,\qquad n=0,1,2,\ldots.
+H_n''(\zeta)-2\zeta H_n'(\zeta)+2nH_n(\zeta)=0,\qquad n=0,1,2,\ldots.
 $$
 
 Polynomial termination therefore gives
@@ -59,7 +59,7 @@ $$
 The Hermite normalization coefficient and dimensionless eigenfunctions are
 
 $$
-\boxed{N_n=\frac{1}{\sqrt{2^n n!\sqrt\pi}},\qquad \widetilde{\psi}_n(\xi)=N_nH_n(\xi)e^{-\xi^2/2}}.
+\boxed{N_n=\frac{1}{\sqrt{2^n n!\sqrt\pi}},\qquad \widetilde{\psi}_n(\zeta)=N_nH_n(\zeta)e^{-\zeta^2/2}}.
 $$
 
 The physical eigenfunctions and energy spectrum are
@@ -74,7 +74,7 @@ $$
 \int_{-\infty}^{\infty}\psi_m^*(x)\psi_n(x)\,dx=\delta_{mn},\qquad \sum_{n=0}^{\infty}\psi_n(x)\psi_n^*(x')=\delta(x-x').
 $$
 
-Since $H_n(-\xi)=(-1)^nH_n(\xi)$,
+Since $H_n(-\zeta)=(-1)^nH_n(\zeta)$,
 
 $$
 \boxed{\psi_n(-x)=(-1)^n\psi_n(x)}.
@@ -139,19 +139,19 @@ $$
 Regularity at $\rho=0$ and normalizability require
 
 $$
-R_m(\rho)=\rho^{|m|}e^{-\rho^2/2}l(z),\qquad z=\rho^2.
+R_m(\rho)=\rho^{|m|}e^{-\eta/2}l(\eta),\qquad \eta=\rho^2.
 $$
 
 The reduced function satisfies
 
 $$
-z\frac{d^2}{dz^2}l(z)+(|m|+1-z)\frac{d}{dz}l(z)+\frac{\epsilon-|m|-1}{2}l(z)=0.
+\eta\frac{d^2}{d\eta^2}l(\eta)+(|m|+1-\eta)\frac{d}{d\eta}l(\eta)+\frac{\epsilon-|m|-1}{2}l(\eta)=0.
 $$
 
 The polynomial solution is the [generalized Laguerre polynomial](../mathematical_physics/specialfunction_generalized_laguerre_polynomials.md):
 
 $$
-z\frac{d^2}{dz^2}L_{n_r}^{(|m|)}(z)+(|m|+1-z)\frac{d}{dz}L_{n_r}^{(|m|)}(z)+n_rL_{n_r}^{(|m|)}(z)=0.
+\eta\frac{d^2}{d\eta^2}L_{n_r}^{(|m|)}(\eta)+(|m|+1-\eta)\frac{d}{d\eta}L_{n_r}^{(|m|)}(\eta)+n_rL_{n_r}^{(|m|)}(\eta)=0.
 $$
 
 Polynomial termination therefore gives
