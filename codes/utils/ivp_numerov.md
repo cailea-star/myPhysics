@@ -1,4 +1,4 @@
-### Numerov Method
+# Numerov Method
 
 Consider the coupled second-order differential equation
 

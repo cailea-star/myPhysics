@@ -2,7 +2,7 @@
 
 ### General Theory
 
-##### Weighted Integral
+### Weighted Integral
 
 Let $f(x)$ be the integrand and $W(x)>0$ the weight function on $[a,b]$. The weighted integral is
 
@@ -18,7 +18,7 @@ $$
 
 is exact for polynomials of the highest possible degree.
 
-##### Interpolation Quadrature
+### Interpolation Quadrature
 
 For distinct nodes $\{x_i\}_{i=1}^{N_x}$, let $\delta_{ij}$ be the Kronecker delta. The Lagrange basis polynomial is
 
@@ -52,7 +52,7 @@ $$
 
 Thus, interpolation quadrature is exact for polynomials of degree at most $N_x-1$.
 
-##### Orthogonal Polynomial Space
+### Orthogonal Polynomial Space
 
 Let $p_i(x)$ be a polynomial of degree $i$, and let $h_i>0$ be its squared norm. The orthogonal polynomials associated with $W(x)$ satisfy
 
@@ -60,7 +60,7 @@ $$
 \int_a^b p_i(x)p_j(x)W(x)\,dx=h_i\delta_{ij}.
 $$
 
-##### Gaussian Exactness
+### Gaussian Exactness
 
 Choose the nodes $\{x_i\}_{i=1}^{N_x}$ as the roots of $p_{N_x}(x)$:
 
@@ -92,7 +92,7 @@ $$
 \boxed{I[f]=Q[f],\qquad \deg f\leq 2N_x-1.}
 $$
 
-##### Nodes and Weights
+### Nodes and Weights
 
 1. Choose the interval $[a,b]$ and weight $W(x)$.
 2. Construct the corresponding orthogonal polynomial $p_{N_x}(x)$.
@@ -101,7 +101,7 @@ $$
 
 ### Examples
 
-##### Gauss-Hermite
+### Gauss-Hermite
 
 For nonnegative integers $n$ and $k$, the physicists' [Hermite polynomials](../../notes/mathematical_physics/specialfunction_hermite_polynomials.md) satisfy
 
@@ -109,7 +109,7 @@ $$
 \int_{-\infty}^{\infty}H_n(x)H_k(x)e^{-x^2}\,dx=2^n n!\sqrt{\pi}\,\delta_{nk},\qquad N_n=\frac{1}{\sqrt{2^n n!\sqrt{\pi}}}.
 $$
 
-##### Gauss-Laguerre
+### Gauss-Laguerre
 
 For nonnegative integers $n$ and $k$, and $\alpha>-1$, the [generalized Laguerre polynomials](../../notes/mathematical_physics/specialfunction_generalized_laguerre_polynomials.md) satisfy
 
@@ -117,7 +117,7 @@ $$
 \int_0^\infty L_n^{(\alpha)}(x)L_k^{(\alpha)}(x)x^\alpha e^{-x}\,dx=\frac{\Gamma(n+\alpha+1)}{n!}\delta_{nk},\qquad N_n^\alpha=\sqrt{\frac{n!}{\Gamma(n+\alpha+1)}}.
 $$
 
-##### Gauss-Legendre
+### Gauss-Legendre
 
 For integers $l,k\geq m\geq0$ with fixed $m$, the [associated Legendre functions](../../notes/mathematical_physics/specialfunction_associated_legendre_polynomials.md) satisfy
 

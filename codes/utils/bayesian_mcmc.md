@@ -1,4 +1,4 @@
-### Bayesian Target
+# Bayesian Target
 
 For parameters $\mathbf x\in\mathbb R^d$ and data $\mathcal D$, the joint distribution has two factorizations:
 

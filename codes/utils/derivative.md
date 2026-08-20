@@ -1,4 +1,4 @@
-### Finite-Difference Derivatives
+# Finite-Difference Derivatives
 
 Let $f(x)$ be a smooth function, $\Delta x$ a displacement from $x$, and $f^{(k)}(x)$ its $k$-th derivative. The Taylor expansion is
 

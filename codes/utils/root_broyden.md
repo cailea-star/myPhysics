@@ -54,7 +54,7 @@ $$
 4. Compute $\Delta\vec f_h=\vec f_{h+1}-\vec f_h$ and update $\hat H_{h+1}$ using the inverse Broyden formula.
 5. Repeat Steps 2–4 until convergence.
 
-# Modified Broyden Method
+### Modified Broyden Method
 
 For large systems, storing the full inverse-Jacobian approximation is expensive. The modified Broyden method stores only a short history
 
@@ -110,7 +110,7 @@ $$
 4. Construct $\Delta\hat X$ and $\Delta\hat F$ from the history, then compute $\vec\gamma$ and $\vec x_{h+1}$ using the modified Broyden formula.
 5. Compute $\vec f_{h+1}$, store $(\Delta\vec x_h,\Delta\vec f_h)$, discard the oldest pair when the history exceeds $N_h$, and repeat Steps 4–5 until convergence.
 
-# Fixed Points for Large-Scale Iterations
+### Fixed Points for Large-Scale Iterations
 
 A fixed point $\vec x^*$ of the map $G:\mathbb R^n\to\mathbb R^n$ satisfies
 

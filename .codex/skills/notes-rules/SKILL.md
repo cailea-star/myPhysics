@@ -10,7 +10,7 @@ description: Apply canonical myWIKI notes rules when creating, drafting, reviewi
 ### Text Rules
 
 - Write note prose in English.
-- Use `###` for topic sections and `#####` for internal blocks.
+- Use `#` for the document title and `###` for topic sections.
 - Present drafts as rendered Markdown; NEVER wrap note drafts in fenced code blocks.
 - Make equations primary and prose secondary; use prose only to define symbols, state assumptions, and connect equations.
 - Prefer short phrase lists for parallel properties; avoid long prose paragraphs.
@@ -35,7 +35,7 @@ description: Apply canonical myWIKI notes rules when creating, drafting, reviewi
 Skip approved stages and resume from the relevant stage.
 
 1. **Reference Confirmation:** Confirm and read all reference materials before planning.
-2. **Section Structure Confirmation:** Confirm the `###` sections and their order.
-3. **Subsection Outline Confirmation:** Confirm each `#####` subsection's scope and formula sequence.
+2. **Section Structure Confirmation:** Confirm the document `#` title and the `###` sections in their order.
+3. **Subsection Outline Confirmation:** Confirm each `###` section's scope and formula sequence.
 4. **Draft Confirmation:** Revise the complete subsection draft until explicitly approved.
 5. **Write:** Reread the target file, write only approved content, and verify formatting.

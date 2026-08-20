@@ -1,8 +1,8 @@
-### Spherical Fourier Transform
+# Spherical Fourier Transform
 
 The definitions and conventions are given in [Fourier Transform](../../notes/mathematical_physics/transform_fourier.md#spherical-harmonic-decomposition).
 
-##### Fourier–Bessel Transform
+### Fourier–Bessel Transform
 
 Let $f_{lm}(r)$ and $F_{lm}(k)$ be the radial components in coordinate and momentum space, respectively. Their transform pair is
 

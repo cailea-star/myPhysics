@@ -1,4 +1,4 @@
-### Log-Derivative Propagation
+# Log-Derivative Propagation
 
 Consider the fundamental matrix equation
 

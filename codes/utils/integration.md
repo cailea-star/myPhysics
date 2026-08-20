@@ -2,7 +2,7 @@
 
 ### Interpolation Quadrature
 
-##### Theoretical Basis
+### Theoretical Basis
 
 For distinct nodes $\{x_i\}_{i=1}^{N_x}$, let $\delta_{ij}$ be the Kronecker delta. The Lagrange basis polynomial is
 
@@ -36,7 +36,7 @@ $$
 
 Thus, interpolation quadrature is exact for polynomials of degree at most $N_x-1$.
 
-##### Examples
+### Examples
 
 **Trapezoidal Rule.** Let $f_i=f(x_i)$ and $h_i=x_{i+1}-x_i$. The linear interpolation polynomial on $[x_i,x_{i+1}]$ is
 
