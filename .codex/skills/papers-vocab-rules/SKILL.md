@@ -1,6 +1,6 @@
 ---
 name: papers-vocab-rules
-description: Apply canonical myWIKI vocabulary rules when selecting, drafting, reviewing, adding, updating, merging, or reusing tags, types, aliases, or authors in vocab files, raw quotations, papers-ingest, or papers-lint workflows.
+description: Apply canonical vocabulary rules when selecting, drafting, reviewing, adding, updating, merging, or reusing tags, types, aliases, or authors in vocab files, raw quotations, papers-ingest, or papers-lint workflows.
 ---
 
 # Papers Vocab Rules

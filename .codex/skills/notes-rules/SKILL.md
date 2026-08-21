@@ -1,6 +1,6 @@
 ---
 name: notes-rules
-description: Apply canonical myWIKI notes rules when creating, drafting, reviewing, or updating personal notes and sections under notes/, including English prose, heading levels, mathematical formatting, symbol definitions, canonical links, and approval-gated writing.
+description: Apply canonical notes rules when creating, drafting, reviewing, or updating personal notes and sections under notes/, including English prose, heading levels, mathematical formatting, symbol definitions, canonical links, and approval-gated writing.
 ---
 
 # Notes Rules
