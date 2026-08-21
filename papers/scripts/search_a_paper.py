@@ -55,14 +55,6 @@ def find_recorded(doi: str, raw_json_data: dict) -> str | None:
     return raw_stem
 
 
-def find_json_reference(doi: str, raw_json_data: dict) -> None:
-    raw_stem = raw_json_data["stem"]
-    for ref in raw_json_data.get("reference") or []:
-        ref_doi = (ref.get("DOI") or "").strip().lower()
-        if ref_doi == doi:
-            print(f"json reference: {raw_stem}: {ref.get('key') or ref_doi}")
-
-
 def split_doi_line(line: str) -> list[str]:
     match = re.match(r"\[doi\]:\s*(.+)$", line.strip(), re.I)
     if not match: return []
@@ -88,7 +80,6 @@ def main(doi: str) -> None:
     for raw_json_path in get_raw_json_paths():
         raw_json_data = json.loads(raw_json_path.read_text(encoding="utf-8"))
         find_recorded(doi, raw_json_data)
-        find_json_reference(doi, raw_json_data)
 
     for raw_md_path in get_raw_md_paths():
         find_md_secondary(doi, raw_md_path)
