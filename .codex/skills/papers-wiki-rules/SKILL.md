@@ -1,6 +1,6 @@
 ---
 name: papers-wiki-rules
-description: Apply canonical myWIKI wiki synthesis rules when creating, drafting, reviewing, or validating wiki files, sections, templates, claims, formulas, references, tags, or evidence coverage in papers-lint or other wiki workflows.
+description: Apply canonical wiki synthesis rules when creating, drafting, reviewing, or validating wiki files, sections, templates, claims, formulas, references, tags, or evidence coverage in papers-lint or other wiki workflows.
 ---
 
 # Papers Wiki Rules

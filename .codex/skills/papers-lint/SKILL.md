@@ -1,6 +1,6 @@
 ---
 name: papers-lint
-description: Audit and update myWIKI from tagged quotations. Use when checking wiki coverage, backfilling missing evidence into raw, or reconciling wiki conclusions with vocab tags.
+description: Audit and update the literature workspace from tagged quotations. Use when checking wiki coverage, backfilling missing evidence into raw, or reconciling wiki conclusions with vocab tags.
 ---
 
 # Papers Lint

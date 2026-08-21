@@ -1,6 +1,6 @@
 ---
 name: papers-raw-rules
-description: Apply canonical myWIKI raw evidence rules when creating, drafting, reviewing, sorting, or validating raw files, quotation sections, claim types, evidence links, templates, or tagged quotations in papers-ingest or papers-lint workflows.
+description: Apply canonical raw evidence rules when creating, drafting, reviewing, sorting, or validating raw files, quotation sections, claim types, evidence links, templates, or tagged quotations in papers-ingest or papers-lint workflows.
 ---
 
 # Papers Raw Rules
