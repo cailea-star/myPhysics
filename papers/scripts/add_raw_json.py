@@ -137,8 +137,6 @@ def load_abstractdata(doi):
         "article-number": metadata_CrossRef.get("article-number"),
         "issued": metadata_CrossRef.get("issued"),
         "ISSN": metadata_CrossRef.get("ISSN"),
-        "funder": metadata_CrossRef.get("funder"),
-        "reference": metadata_CrossRef.get("reference"),   
     }
 
 
