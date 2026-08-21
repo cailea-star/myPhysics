@@ -1,6 +1,6 @@
 ---
 name: codes-rules
-description: Establishes theory-document, variable-naming, comment, API-design, implementation-approval, and testing rules for C++ numerical tools under codes/. Use when adding, migrating, modifying, or reviewing code under codes/.
+description: Establishes variable-naming, construction, formatting, comment, API-design, and implementation-approval rules for C++ numerical tools under codes/. Use when adding, migrating, modifying, or reviewing functional code under codes/.
 ---
 
 # Codes Rules
@@ -70,47 +70,10 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
  */
 ```
 
-## Testing Rules
-
-### Structure
-
-- Tests MUST remain linear; NEVER use fixtures or wrappers; report files exceeding 120 lines.
-- Tests MUST sequentially stream: standard inputs → function usage → labeled prints → acceptance asserts.
-- Prints MUST follow: inputs → reference outputs → computed outputs → errors.
-- Reference outputs MUST be analytic solutions or copied reference values.
-- Use one-to-five single-line asserts with explicit tolerances; prints NEVER determine success.
-
-### Printing
-
-- Vectors MUST print horizontally: first five, ellipsis, last five.
-- Tables MUST print labeled columns vertically: first five rows, standalone ellipsis, last five rows.
-- Matrices MUST print four $5\times5$ corner blocks joined by ellipses.
-- Print all entries when every relevant dimension is at most 10.
-
-```text
-[Input] x = 0, 1, 2, 3, 4, ..., 96, 97, 98, 99, 100
-[Reference] I = 3.141593
-[Computed] I = 3.141592
-[Computed] f(x):
-x    f
-0    0.000000
-1    0.099833
-2    0.198669
-3    0.295520
-4    0.389418
-...  ...
-96  -0.174327
-97  -0.271761
-98  -0.366479
-99  -0.457536
-100 -0.544021
-[Error] |I - I_ref| = 1.000000e-6
-```
-
 ## Workflow
 
-1. Confirm and read the reference code, theory, target files, and direct callers completely; if anything is missing or the scope is unclear, STOP and ask the user.
-2. Draft same-basename theory under `notes-rules`; keep equations primary; NEVER repeat implementation; write ONLY after approval.
-3. Propose the API from the approved formal theory; write ONLY approved API declarations, while constructors MUST include their approved inline definitions.
-4. Present one function's computation outline at a time; implement ONLY that function after explicit approval.
-5. After each write, review the diff and run focused tests; finally audit code/theory, run `codes\run.bat` and full CTest; NEVER complete if failing.
+1. MUST validate user-approved [Reference Code] and theory dependencies; reproduce ONLY the smallest independently verifiable module.
+2. MUST draft same-basename theory via `$notes-rules`; prioritize equations; NEVER duplicate implementation; write ONLY after approval.
+3. MUST derive APIs ONLY from approved theory; write ONLY approved declarations and inline constructor definitions.
+4. Present one function's computation outline; implement ONLY that function after explicit approval.
+5. MUST post-write review/test via `$codes-debug`, audit code/theory, run `codes\run.bat` plus full CTest; NEVER finish failing.
