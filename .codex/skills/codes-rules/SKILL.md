@@ -27,6 +27,7 @@ description: Establishes theory-document, variable-naming, comment, API-design, 
 - Constructor parameters matching members SHOULD append `_`; initializer lists MUST follow declaration order on one separate line.
 - Declarations, function signatures, and simple statements MUST each occupy one line and NEVER share lines.
 - Single-statement `if` or `for` blocks MAY remain inline but MUST retain braces: `if (...) {...}`, `for (...) {...}`.
+- Floating-point-to-integer conversion MUST use `std::floor` or `std::ceil`.
 - Developer-facing numerical preconditions MUST use single-line `assert`; recoverable runtime failures MUST use explicit handling.
 
 ## Comment Rules
