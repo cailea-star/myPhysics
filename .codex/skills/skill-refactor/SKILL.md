@@ -5,31 +5,34 @@ description: Refactor rule-heavy SKILL.md files without losing semantics or cons
 
 # Skill Refactor
 
-## Workflow
-
-1. Confirm the minimal gate workflow with the user.
-2. Present one gate's core cautions at a time; use at most five items.
-3. Map current rules to each gate; show the user differences and redundancies against core cautions.
-4. Use gate-led decisions to deprecate, merge, or delete rules.
-
-## Checks
+## Refactoring Constraints
 
 - Separate mechanical moves from semantic edits; NEVER shorten commands, paths, formats, or required semantics.
 - Format: Checkpoints, commands, paths, fields, and templates MUST NOT change.
-- Constraints: Preserve and prefer `MUST`, `NEVER`, and `ONLY`.
-- Align static Rules with Gates; allow three subsections, five rules each, fifteen words per rule.
-- Strengthen constraints; close gaps; require inputs → validation → STOP → approval → write boundaries → post-write review.
+- Modal force MUST remain; NEVER change `MUST`, `NEVER`, or `ONLY` without approval.
+- Align Rules with Gates; maximum three subsections, five rules each, fifteen words each.
+- Report gaps; NEVER write semantic changes before approval; verify approved scope afterward.
 
-## Output
+## Workflow
 
-Before proposing or applying changes, select exactly one current section, print the one-way workflow once, then show one exact minimal comparison per independent change:
+1. Confirm the minimal workflow with the user; select exactly one current gate.
+2. Present the current gate's existing rules; propose at most three changes using the required format.
+3. Obtain the user's decision; semantic changes MUST receive explicit approval.
+4. Apply approved deprecations, merges, or deletions; complete post-write review.
 
-```text
+### Required Comparison Format
+
+````text
 Workflow: ...
+
+Current Gate: ...
 
 Current Section：## Parent → ### Target
 
-Current Section Content：...
+Current Section Content：
+```text
+...
+```
 
 Original1：...
 Modified1：...
@@ -38,4 +41,4 @@ Reason1：...
 Original2：...
 Modified2：...
 Reason2：...
-```
+````
