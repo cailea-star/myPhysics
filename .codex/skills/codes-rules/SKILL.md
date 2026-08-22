@@ -16,10 +16,10 @@ description: Establishes variable-naming, construction, formatting, comment, API
 
 ## Variable Construction Rules
 
-- Numerical lists, vectors, matrices, and arrays SHOULD use Eigen types whenever practical.
-- Every `Eigen::Tensor` MUST explicitly use `Eigen::ColMajor`.
+- Numerical containers SHOULD use Eigen when practical; every `Eigen::Tensor` MUST explicitly use `Eigen::ColMajor`.
 - Matrix products MUST use `.noalias()` except when initializing a new variable; aliased products MUST use a temporary.
 - Large numerical buffers MUST be allocated outside loops and reused, such as {Vector, Matrix, Tensor}.
+- Numerical computation blocks MUST NOT use runtime conditional branches; exceptions require explicit approval.
 
 ## Code Formatting Rules
 
@@ -76,4 +76,4 @@ description: Establishes variable-naming, construction, formatting, comment, API
 2. MUST draft same-basename theory via `$notes-rules`; prioritize equations; NEVER duplicate implementation; write ONLY after approval.
 3. MUST derive APIs ONLY from approved theory; write ONLY approved declarations and inline constructor definitions.
 4. Present one function's computation outline; implement ONLY that function after explicit approval.
-5. MUST post-write review/test via `$codes-debug`, audit code/theory, run `codes\run.bat` plus full CTest; NEVER finish failing.
+5. MUST get approval before `$codes-debug` creates test files. Post-write, MUST audit code/theory, run `codes\run.bat` and full CTest; NEVER finish failing.
