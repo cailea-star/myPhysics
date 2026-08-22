@@ -15,7 +15,7 @@
 #include "derivative.hpp"
 
 using RealToRealFunc = std::function<double(double)>;
-using RealRealRealToRealFunc = std::function<double(double, double, double)>;
+using RealReal2RealFunc = std::function<double(double, double)>;
 
 /**
  * @brief  Compute an angular-density local Fermi momentum using fourth-order five-point central differences.
@@ -23,42 +23,37 @@ using RealRealRealToRealFunc = std::function<double(double, double, double)>;
  * @output Local Fermi momentum.
  * @note   Uses fixed coordinate steps and clamps r to 4Δr before differentiating.
  */
-inline double calc_fermik(const RealRealRealToRealFunc& rho_Func, double r_F, double theta_F, double phi_F, double Cs_F = 1.0 / 36.0) {
+inline double calc_fermik(const RealReal2RealFunc& rho_Func, double r_F, double theta_F, double Cs_F = 1.0 / 36.0) {
     assert(static_cast<bool>(rho_Func));
     assert(std::isfinite(r_F));
     assert(r_F >= 0.0);
     assert(std::isfinite(theta_F));
     assert(theta_F >= 0.0 && theta_F <= std::numbers::pi);
-    assert(std::isfinite(phi_F));
     assert(std::isfinite(Cs_F));
     assert(Cs_F >= 0.0);
 
-    // Δr = 10⁻³ fm; Δθ = 10⁻³π rad; Δφ = 2 × 10⁻³π rad; r → max(r, 4Δr).
+    // Δr = 10⁻³ fm; Δθ = 10⁻³π rad; r → max(r, 4Δr).
     double dr_F = 1.0e-3; // Radial step in fm.
     double dtheta_F = 1.0e-3 * std::numbers::pi; // Polar-angle step in rad.
-    double dphi_F = 2.0e-3 * std::numbers::pi; // Azimuthal-angle step in rad.
     double denominator_epsilon_F = 1.0e-10; // Denominator regularizer.
     r_F = std::fmax(r_F, 4.0 * dr_F);
 
-    // ρ_r(r′) = ρ(r′, θ, φ); ρ_θ(θ′) = ρ(r, θ′, φ); ρ_φ(φ′) = ρ(r, θ, φ′).
-    auto rho_r_Func = [&](double r_F) { return rho_Func(r_F, theta_F, phi_F); };
-    auto rho_theta_Func = [&](double theta_F) { return rho_Func(r_F, theta_F, phi_F); };
-    auto rho_phi_Func = [&](double phi_F) { return rho_Func(r_F, theta_F, phi_F); };
-    double rho_F = rho_Func(r_F, theta_F, phi_F); // Local density.
+    // ρ_r(r′) = ρ(r′, θ); ρ_θ(θ′) = ρ(r, θ′).
+    auto rhor_Func = [&](double r_F) { return rho_Func(r_F, theta_F); };
+    auto rhotheta_Func = [&](double theta_F) { return rho_Func(r_F, theta_F); };
+    double rho_F = rho_Func(r_F, theta_F); // Local density.
     assert(std::isfinite(rho_F));
     assert(rho_F >= 0.0);
 
     // ∂ρ, ∂²ρ ← D_h[ρ].
-    double drho_dr_F = derivative1(rho_r_Func, r_F, dr_F);
-    double d2rho_dr2_F = derivative2(rho_r_Func, r_F, dr_F);
-    double drho_dtheta_F = derivative1(rho_theta_Func, theta_F, dtheta_F);
-    double d2rho_dtheta2_F = derivative2(rho_theta_Func, theta_F, dtheta_F);
-    double drho_dphi_F = derivative1(rho_phi_Func, phi_F, dphi_F);
-    double d2rho_dphi2_F = derivative2(rho_phi_Func, phi_F, dphi_F);
+    double drho_dr_F = derivative1(rhor_Func, r_F, dr_F);
+    double d2rho_dr2_F = derivative2(rhor_Func, r_F, dr_F);
+    double drho_dtheta_F = derivative1(rhotheta_Func, theta_F, dtheta_F);
+    double d2rho_dtheta2_F = derivative2(rhotheta_Func, theta_F, dtheta_F);
 
-    // (∂_rρ, ∂_θρ, ∂_φρ) → (|∇ρ|², ∇²ρ).
-    double grad_rho2_F = drho_dr_F * drho_dr_F + drho_dtheta_F * drho_dtheta_F / (r_F * r_F + denominator_epsilon_F) + drho_dphi_F * drho_dphi_F / (r_F * r_F * std::sin(theta_F) * std::sin(theta_F) + denominator_epsilon_F);
-    double laplacian_rho_F = d2rho_dr2_F + 2.0 * drho_dr_F / (r_F + denominator_epsilon_F) + (d2rho_dtheta2_F + drho_dtheta_F / (std::tan(theta_F) + denominator_epsilon_F)) / (r_F * r_F + denominator_epsilon_F) + d2rho_dphi2_F / (r_F * r_F * std::sin(theta_F) * std::sin(theta_F) + denominator_epsilon_F);
+    // (∂_rρ, ∂_θρ) → (|∇ρ|², ∇²ρ).
+    double grad_rho2_F = drho_dr_F * drho_dr_F + drho_dtheta_F * drho_dtheta_F / (r_F * r_F + denominator_epsilon_F);
+    double laplacian_rho_F = d2rho_dr2_F + 2.0 * drho_dr_F / (r_F + denominator_epsilon_F) + (d2rho_dtheta2_F + drho_dtheta_F / (std::tan(theta_F) + denominator_epsilon_F)) / (r_F * r_F + denominator_epsilon_F);
 
     // k_F² = term₁ + term₂ + term₃ → max(k_F², 0).
     double term1_F = std::pow(1.5 * std::numbers::pi * std::numbers::pi * rho_F, 2.0 / 3.0);
@@ -85,14 +80,14 @@ inline double calc_fermik(const RealToRealFunc& rho_Func, double r_F, double Cs_
     double dr_F = 1.0e-3; // Radial step in fm.
     double denominator_epsilon_F = 1.0e-10; // Denominator regularizer.
     r_F = std::fmax(r_F, 4.0 * dr_F);
-    auto rho_r_Func = [&](double r_F) { return rho_Func(r_F); };
+    auto rhor_Func = [&](double r_F) { return rho_Func(r_F); };
     double rho_F = rho_Func(r_F); // Local density.
     assert(std::isfinite(rho_F));
     assert(rho_F >= 0.0);
 
     // (∂_rρ, ∂²_rρ) → (|∇ρ|², ∇²ρ).
-    double drho_dr_F = derivative1(rho_r_Func, r_F, dr_F);
-    double d2rho_dr2_F = derivative2(rho_r_Func, r_F, dr_F);
+    double drho_dr_F = derivative1(rhor_Func, r_F, dr_F);
+    double d2rho_dr2_F = derivative2(rhor_Func, r_F, dr_F);
     double grad_rho2_F = drho_dr_F * drho_dr_F;
     double laplacian_rho_F = d2rho_dr2_F + 2.0 * drho_dr_F / (r_F + denominator_epsilon_F);
 
