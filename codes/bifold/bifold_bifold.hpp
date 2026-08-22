@@ -17,7 +17,7 @@
 
 #include "bifold_density.hpp"
 #include "bifold_fermik.hpp"
-#include "bifold_vm3y.hpp"
+#include "bifold_m3y_v.hpp"
 #include "integration_gauss.hpp"
 #include "spherical_fourier.hpp"
 #include "spherical_harmonics.hpp"
@@ -31,9 +31,9 @@ public:
     double Ecm_F = 0.0; // Center-of-mass energy, MeV.
     double Ze2_F = 0.0; // Coulomb coupling, MeV fm.
     double Cs_F = 1.0 / 36.0; // Extended Thomas-Fermi gradient coefficient.
-    VnnFunctions vnn_functions; // {v_C, v_D, v_E, v_E^ZR, g(E)}.
-    DensityInfoProjec density_projec; // {A_p, Z_p, ρ_p}.
-    DensityInfoTarget density_target; // {A_t, Z_t, ρ_t}.
+    M3YFunctions m3y_functions; // {v_C, v_D, v_E, v_E^ZR, g(E)}.
+    DensityProjec density_projec; // {A_p, Z_p, ρ_p}.
+    DensityTarget density_target; // {A_t, Z_t, ρ_t}.
     int Nlambda_I = 4; // λ ∈ {0, 2, 4, 6}.
     Eigen::VectorXi lambda_I1D_lambda = Eigen::VectorXi::LinSpaced(Nlambda_I, 0, 6); // Multipole values.
 
@@ -50,19 +50,19 @@ public:
      * @output Initialized folding model.
      * @note   Uses fixed 201-point Simpson grids.
      */
-    Bifold(double hmass_F_, double Ecm_F_, double Ze2_F_, VnnFunctions vnn_functions_, DensityInfoProjec density_projec_, DensityInfoTarget density_target_, double Cs_F_ = 1.0 / 36.0)
-        : hmass_F(hmass_F_), Ecm_F(Ecm_F_), Ze2_F(Ze2_F_), Cs_F(Cs_F_), vnn_functions(std::move(vnn_functions_)), density_projec(std::move(density_projec_)), density_target(std::move(density_target_)), rp_F1D_rp(Eigen::VectorXd::LinSpaced(Nr_I, 1.0e-10, density_projec.rmax_F)), rt_F1D_rt(Eigen::VectorXd::LinSpaced(Nr_I, 1.0e-10, density_target.rmax_F)) {
+    Bifold(double hmass_F_, double Ecm_F_, double Ze2_F_, M3YFunctions m3y_functions_, DensityProjec density_projec_, DensityTarget density_target_, double Cs_F_ = 1.0 / 36.0)
+        : hmass_F(hmass_F_), Ecm_F(Ecm_F_), Ze2_F(Ze2_F_), Cs_F(Cs_F_), m3y_functions(std::move(m3y_functions_)), density_projec(std::move(density_projec_)), density_target(std::move(density_target_)), rp_F1D_rp(Eigen::VectorXd::LinSpaced(Nr_I, 1.0e-10, density_projec.rmax_F)), rt_F1D_rt(Eigen::VectorXd::LinSpaced(Nr_I, 1.0e-10, density_target.rmax_F)) {
         assert(hmass_F > 0.0);
         assert(Ecm_F >= 0.0);
         assert(Ze2_F >= 0.0);
         assert(Cs_F >= 0.0);
         assert(density_projec.rmax_F > 0.0);
         assert(density_target.rmax_F > 0.0);
-        assert(static_cast<bool>(vnn_functions.vcoul_k_Func));
-        assert(static_cast<bool>(vnn_functions.vnnd_k_Func));
-        assert(static_cast<bool>(vnn_functions.vnne_r_Func));
-        assert(static_cast<bool>(vnn_functions.vnne_zr_Func));
-        assert(static_cast<bool>(vnn_functions.gE_Func));
+        assert(static_cast<bool>(m3y_functions.vcoul_k_Func));
+        assert(static_cast<bool>(m3y_functions.vnnd_k_Func));
+        assert(static_cast<bool>(m3y_functions.vnne_r_Func));
+        assert(static_cast<bool>(m3y_functions.vnne_zr_Func));
+        assert(static_cast<bool>(m3y_functions.gE_Func));
         ft_F3D_lambda_s_k.setZero();
 
         // {λ, m = 0} → {w_θ, Y_λ0(θ), ρ̃, f̃}.
@@ -86,21 +86,21 @@ public:
      * @math   𝒱 → 𝒱′
      * @output Updated interaction kernels.
      */
-    virtual void update_potentials(const VnnFunctions& vnn_functions_);
+    virtual void update_potentials(const M3YFunctions& m3y_functions_);
 
     /**
      * @brief  Recompute all projectile tables.
      * @math   ρ_p → {ρ̃_p, ρ̃_{p,c}, f̃_p}
      * @output Updated projectile tables.
      */
-    virtual void update_density_projec(const DensityInfoProjec& density_projec_);
+    virtual void update_density_projec(const DensityProjec& density_projec_);
 
     /**
      * @brief  Recompute all target tables.
      * @math   ρ_t → {ρ̃_{tλ}, ρ̃_{tλ,c}, f̃_{tλ}}
      * @output Updated target tables.
      */
-    virtual void update_density_target(const DensityInfoTarget& density_target_);
+    virtual void update_density_target(const DensityTarget& density_target_);
 
     /**
      * @brief  Map an even multipole to storage.
@@ -262,8 +262,8 @@ inline double Bifold::calc_fp(const Real2RealFunc& rhop_Func, double rp_F, doubl
     return rhop_F * calc_hatj1(kFp_F * s_F); // f_p(r_p,s).
 }
 
-inline void Bifold::update_potentials(const VnnFunctions& vnn_functions_) {
-    vnn_functions = vnn_functions_; // 𝒱 → 𝒱′.
+inline void Bifold::update_potentials(const M3YFunctions& m3y_functions_) {
+    m3y_functions = m3y_functions_; // 𝒱 → 𝒱′.
 }
 
 inline void Bifold::fill_fp(const Real2RealFunc& rhop_Func, Eigen::MatrixXd& fp_F2D_s_k_) {
@@ -292,7 +292,7 @@ inline void Bifold::fill_rhop(const Real2RealFunc& rhop_Func, Eigen::VectorXd& r
     }
 }
 
-inline void Bifold::update_density_projec(const DensityInfoProjec& density_projec_) {
+inline void Bifold::update_density_projec(const DensityProjec& density_projec_) {
     // ρ_p → {r_p, ρ̃_{p,m}, ρ̃_{p,c}, f̃_p}.
     density_projec = density_projec_;
     rp_F1D_rp = Eigen::VectorXd::LinSpaced(Nr_I, 1.0e-10, density_projec.rmax_F);
@@ -335,7 +335,7 @@ inline void Bifold::fill_rhot(const RealReal2RealFunc& rhot_Func, Eigen::MatrixX
     }
 }
 
-inline void Bifold::update_density_target(const DensityInfoTarget& density_target_) {
+inline void Bifold::update_density_target(const DensityTarget& density_target_) {
     // ρ_t → {r_t, ρ̃_{tλ,m}, ρ̃_{tλ,c}, f̃_{tλ}}.
     density_target = density_target_;
     rt_F1D_rt = Eigen::VectorXd::LinSpaced(Nr_I, 1.0e-10, density_target.rmax_F);
@@ -370,17 +370,17 @@ inline double Bifold::Unn_lambda(double r_F, int lambda_I, const Real2RealFunc& 
 }
 
 inline double Bifold::Ud_lambda(double r_F, int lambda_I) const {
-    auto vnnd_k_Func = [&](double k_F) { return vnn_functions.vnnd_k_Func(k_F) * vnn_functions.gE_Func(Ecm_F, density_projec.Ap_I); }; // ṽ_D(k)g(E).
+    auto vnnd_k_Func = [&](double k_F) { return m3y_functions.vnnd_k_Func(k_F) * m3y_functions.gE_Func(Ecm_F, density_projec.Ap_I); }; // ṽ_D(k)g(E).
     return Unn_lambda(r_F, lambda_I, vnnd_k_Func); // U_λ^D(r).
 }
 
 inline double Bifold::Uexzr_lambda(double r_F, int lambda_I) const {
-    auto vnne_zr_k_Func = [&](double) { return vnn_functions.vnne_zr_Func(Ecm_F, density_projec.Ap_I) * vnn_functions.gE_Func(Ecm_F, density_projec.Ap_I); }; // J₀₀(E)g(E).
+    auto vnne_zr_k_Func = [&](double) { return m3y_functions.vnne_zr_Func(Ecm_F, density_projec.Ap_I) * m3y_functions.gE_Func(Ecm_F, density_projec.Ap_I); }; // J₀₀(E)g(E).
     return Unn_lambda(r_F, lambda_I, vnne_zr_k_Func); // U_λ^{E,ZR}(r).
 }
 
 inline double Bifold::Ucoul_lambda(double r_F, int lambda_I) const {
-    auto vcoul_k_Func = [&](double k_F) { return vnn_functions.vcoul_k_Func(k_F, Ze2_F); }; // ṽ_C(k; Ze²).
+    auto vcoul_k_Func = [&](double k_F) { return m3y_functions.vcoul_k_Func(k_F, Ze2_F); }; // ṽ_C(k; Ze²).
     return calc_Ud_lambda(r_F, lambda_I, rhopc_F1D_k, rhotc_F2D_lambda_k, vcoul_k_Func); // U_λ^C(r).
 }
 
@@ -426,7 +426,7 @@ inline double Bifold::iterate_Uex(double r_F, const Eigen::VectorXd& Uc_F1D_lamb
     G_F2D_theta_s.noalias() = Y_F2D_lambda_theta.transpose() * G_F2D_lambda_s;
 
     // G(r,θ,s)v_E(s)g(E) → U^E(r,θ).
-    auto vnne_r_Func = [&](double s_F) { return vnn_functions.vnne_r_Func(s_F) * vnn_functions.gE_Func(Ecm_F, density_projec.Ap_I); };
+    auto vnne_r_Func = [&](double s_F) { return m3y_functions.vnne_r_Func(s_F) * m3y_functions.gE_Func(Ecm_F, density_projec.Ap_I); };
     for (int s_I = 0; s_I < Ns_I; ++s_I) {
         G_F2D_theta_s.col(s_I) *= vnne_r_Func(s_F1D_s(s_I));
     }

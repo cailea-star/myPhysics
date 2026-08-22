@@ -23,7 +23,7 @@ using RealReal2RealFunc = std::function<double(double, double)>;
 /**
  * @brief Store a normalized spherical projectile density and its nuclear data.
  */
-class DensityInfoProjec {
+class DensityProjec {
 public:
     int Ap_I = 0; // Projectile mass number.
     int Zp_I = 0; // Projectile proton number.
@@ -35,7 +35,7 @@ public:
      * @math   𝓡_p = ∅
      * @output Empty projectile-density bundle.
      */
-    DensityInfoProjec() = default;
+    DensityProjec() = default;
 
     /**
      * @brief  Construct a projectile-density bundle using a trapezoidal radial-cutoff search.
@@ -43,7 +43,7 @@ public:
      * @output Initialized projectile-density bundle.
      * @note   Requires A_p > 0, 0 <= Z_p <= A_p, and a normalized density reaching 0.999.
      */
-    DensityInfoProjec(int Ap_I_, int Zp_I_, Real2RealFunc rho_Func_)
+    DensityProjec(int Ap_I_, int Zp_I_, Real2RealFunc rho_Func_)
         : Ap_I(Ap_I_), Zp_I(Zp_I_), rmax_F(0.0), rho_Func(std::move(rho_Func_)) {
         assert(Ap_I > 0);
         assert(Zp_I >= 0);
@@ -90,7 +90,7 @@ public:
 /**
  * @brief Store a normalized angular target density and its nuclear data.
  */
-class DensityInfoTarget {
+class DensityTarget {
 public:
     int At_I = 0; // Target mass number.
     int Zt_I = 0; // Target proton number.
@@ -102,7 +102,7 @@ public:
      * @math   𝓡_t = ∅
      * @output Empty target-density bundle.
      */
-    DensityInfoTarget() = default;
+    DensityTarget() = default;
 
     /**
      * @brief  Construct a target-density bundle using spherical and trapezoidal radial-cutoff quadrature.
@@ -110,7 +110,7 @@ public:
      * @output Initialized target-density bundle.
      * @note   Requires A_t > 0, 0 <= Z_t <= A_t, and a normalized density reaching 0.999.
      */
-    DensityInfoTarget(int At_I_, int Zt_I_, RealReal2RealFunc rho_Func_)
+    DensityTarget(int At_I_, int Zt_I_, RealReal2RealFunc rho_Func_)
         : At_I(At_I_), Zt_I(Zt_I_), rmax_F(0.0), rho_Func(std::move(rho_Func_)) {
         assert(At_I > 0);
         assert(Zt_I >= 0);

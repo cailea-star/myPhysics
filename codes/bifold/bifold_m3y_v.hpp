@@ -1,5 +1,5 @@
 /**
- * @file    bifold_vm3y.hpp
+ * @file    bifold_m3y_v.hpp
  * @author  cailea
  * @date    2026-08-22
  * @brief   M3Y-Reid and M3Y-Paris interaction kernels.
@@ -170,7 +170,7 @@ using RealInt2RealFunc = std::function<double(double, int)>;
 /**
  * @brief Bundle the kernels and energy factor for one M3Y parameterization.
  */
-class VnnFunctions {
+class M3YFunctions {
 public:
     RealReal2RealFunc vcoul_k_Func;
     Real2RealFunc vnnd_k_Func;
@@ -183,14 +183,14 @@ public:
      * @math   𝒱 = ∅
      * @output Empty callable bundle.
      */
-    VnnFunctions() = default;
+    M3YFunctions() = default;
 
     /**
      * @brief  Construct an interaction bundle from callable kernels.
      * @math   𝒱 = {v_C, v_D, v_E, v_E^ZR, g(E)}
      * @output Initialized callable bundle.
      */
-    VnnFunctions(RealReal2RealFunc vcoul_k_Func_, Real2RealFunc vnnd_k_Func_, Real2RealFunc vnne_r_Func_, RealInt2RealFunc vnne_zr_Func_, RealInt2RealFunc gE_Func_)
+    M3YFunctions(RealReal2RealFunc vcoul_k_Func_, Real2RealFunc vnnd_k_Func_, Real2RealFunc vnne_r_Func_, RealInt2RealFunc vnne_zr_Func_, RealInt2RealFunc gE_Func_)
         : vcoul_k_Func(std::move(vcoul_k_Func_)), vnnd_k_Func(std::move(vnnd_k_Func_)), vnne_r_Func(std::move(vnne_r_Func_)), vnne_zr_Func(std::move(vnne_zr_Func_)), gE_Func(std::move(gE_Func_)) {}
 };
 
@@ -247,5 +247,5 @@ inline double v_paris_ex_zr(double Elab_F, int Ap_I) {
 }
 
 // Bind each parameterization to its interaction kernels.
-inline const VnnFunctions reid_functions(v_coulomb_k, v_reid_d_k, v_reid_ex_s, v_reid_ex_zr, reid_gE);
-inline const VnnFunctions paris_functions(v_coulomb_k, v_paris_d_k, v_paris_ex_s, v_paris_ex_zr, paris_gE);
+inline const M3YFunctions reid_functions(v_coulomb_k, v_reid_d_k, v_reid_ex_s, v_reid_ex_zr, reid_gE);
+inline const M3YFunctions paris_functions(v_coulomb_k, v_paris_d_k, v_paris_ex_s, v_paris_ex_zr, paris_gE);
