@@ -163,20 +163,20 @@ inline double v_paris_ex_s(double r_F) {
     return term1_F + term2_F + term3_F;
 }
 
-using BifoldRealToRealFunc = std::function<double(double)>;
-using BifoldRealRealToRealFunc = std::function<double(double, double)>;
-using BifoldRealIntToRealFunc = std::function<double(double, int)>;
+using Real2RealFunc = std::function<double(double)>;
+using RealReal2RealFunc = std::function<double(double, double)>;
+using RealInt2RealFunc = std::function<double(double, int)>;
 
 /**
  * @brief Bundle the kernels and energy factor for one M3Y parameterization.
  */
 class VnnFunctions {
 public:
-    BifoldRealRealToRealFunc vcoul_k_Func;
-    BifoldRealToRealFunc vnnd_k_Func;
-    BifoldRealToRealFunc vnne_r_Func;
-    BifoldRealIntToRealFunc vnne_zr_Func;
-    BifoldRealIntToRealFunc gE_Func;
+    RealReal2RealFunc vcoul_k_Func;
+    Real2RealFunc vnnd_k_Func;
+    Real2RealFunc vnne_r_Func;
+    RealInt2RealFunc vnne_zr_Func;
+    RealInt2RealFunc gE_Func;
 
     /**
      * @brief  Construct an empty interaction bundle.
@@ -190,7 +190,7 @@ public:
      * @math   𝒱 = {v_C, v_D, v_E, v_E^ZR, g(E)}
      * @output Initialized callable bundle.
      */
-    VnnFunctions(BifoldRealRealToRealFunc vcoul_k_Func_, BifoldRealToRealFunc vnnd_k_Func_, BifoldRealToRealFunc vnne_r_Func_, BifoldRealIntToRealFunc vnne_zr_Func_, BifoldRealIntToRealFunc gE_Func_)
+    VnnFunctions(RealReal2RealFunc vcoul_k_Func_, Real2RealFunc vnnd_k_Func_, Real2RealFunc vnne_r_Func_, RealInt2RealFunc vnne_zr_Func_, RealInt2RealFunc gE_Func_)
         : vcoul_k_Func(std::move(vcoul_k_Func_)), vnnd_k_Func(std::move(vnnd_k_Func_)), vnne_r_Func(std::move(vnne_r_Func_)), vnne_zr_Func(std::move(vnne_zr_Func_)), gE_Func(std::move(gE_Func_)) {}
 };
 

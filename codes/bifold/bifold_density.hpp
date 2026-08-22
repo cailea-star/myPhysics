@@ -17,25 +17,25 @@
 
 #include "integration.hpp"
 
-using BifoldRadialDensityFunc = std::function<double(double)>;
-using BifoldAngularDensityFunc = std::function<double(double, double, double)>;
+using Real2RealFunc = std::function<double(double)>;
+using RealReal2RealFunc = std::function<double(double, double)>;
 
 /**
  * @brief Store a normalized spherical projectile density and its nuclear data.
  */
-class ProjectileDensityInfo {
+class DensityInfoProjec {
 public:
     int Ap_I = 0; // Projectile mass number.
     int Zp_I = 0; // Projectile proton number.
     double rmax_F = 0.0; // Smallest 0.1-grid cutoff enclosing 99.9% of the density.
-    BifoldRadialDensityFunc rho_Func; // 4π ∫₀^∞ r_p² ρ_p(r_p) dr_p = 1.
+    Real2RealFunc rho_Func; // 4π ∫₀^∞ r_p² ρ_p(r_p) dr_p = 1.
 
     /**
      * @brief  Construct an empty projectile-density bundle.
      * @math   𝓡_p = ∅
      * @output Empty projectile-density bundle.
      */
-    ProjectileDensityInfo() = default;
+    DensityInfoProjec() = default;
 
     /**
      * @brief  Construct a projectile-density bundle using a trapezoidal radial-cutoff search.
@@ -43,7 +43,7 @@ public:
      * @output Initialized projectile-density bundle.
      * @note   Requires A_p > 0, 0 <= Z_p <= A_p, and a normalized density reaching 0.999.
      */
-    ProjectileDensityInfo(int Ap_I_, int Zp_I_, BifoldRadialDensityFunc rho_Func_)
+    DensityInfoProjec(int Ap_I_, int Zp_I_, Real2RealFunc rho_Func_)
         : Ap_I(Ap_I_), Zp_I(Zp_I_), rmax_F(0.0), rho_Func(std::move(rho_Func_)) {
         assert(Ap_I > 0);
         assert(Zp_I >= 0);
@@ -90,41 +90,41 @@ public:
 /**
  * @brief Store a normalized angular target density and its nuclear data.
  */
-class TargetDensityInfo {
+class DensityInfoTarget {
 public:
     int At_I = 0; // Target mass number.
     int Zt_I = 0; // Target proton number.
     double rmax_F = 0.0; // Smallest 0.1-grid cutoff enclosing 99.9% of the density.
-    BifoldAngularDensityFunc rho_Func; // ∫₀^∞ r_t² dr_t ∫ dΩ_t ρ_t(r_t, Ω_t) = 1.
+    RealReal2RealFunc rho_Func; // 2π ∫₀^∞ r_t² dr_t ∫₀^π ρ_t(r_t, θ_t) sin(θ_t) dθ_t = 1.
 
     /**
      * @brief  Construct an empty target-density bundle.
      * @math   𝓡_t = ∅
      * @output Empty target-density bundle.
      */
-    TargetDensityInfo() = default;
+    DensityInfoTarget() = default;
 
     /**
      * @brief  Construct a target-density bundle using spherical and trapezoidal radial-cutoff quadrature.
-     * @math   ∫₀^∞ r_t² dr_t ∫ dΩ_t ρ_t(r_t, θ_t, φ_t) = 1
+     * @math   2π ∫₀^∞ r_t² dr_t ∫₀^π ρ_t(r_t, θ_t) sin(θ_t) dθ_t = 1
      * @output Initialized target-density bundle.
      * @note   Requires A_t > 0, 0 <= Z_t <= A_t, and a normalized density reaching 0.999.
      */
-    TargetDensityInfo(int At_I_, int Zt_I_, BifoldAngularDensityFunc rho_Func_)
+    DensityInfoTarget(int At_I_, int Zt_I_, RealReal2RealFunc rho_Func_)
         : At_I(At_I_), Zt_I(Zt_I_), rmax_F(0.0), rho_Func(std::move(rho_Func_)) {
         assert(At_I > 0);
         assert(Zt_I >= 0);
         assert(Zt_I <= At_I);
         assert(static_cast<bool>(rho_Func));
 
-        // ∫₀^r_max r² dr ∫ dΩ ρ_t(r, Ω) → 0.999.
+        // 2π ∫₀^r_max r² dr ∫₀^π ρ_t(r, θ) sin(θ) dθ → 0.999.
         double dr_F = 0.1; // Radial search step.
         double integral_F = 0.0; // Enclosed density normalization.
         auto radial_integrand_Func = [&](double r_F) {
-            auto angular_integrand_Func = [&](double theta_F, double phi_F) {
-                return rho_Func(r_F, theta_F, phi_F);
+            auto angular_integrand_Func = [&](double theta_F, double) {
+                return rho_Func(r_F, theta_F);
             };
-            return integrate_spherical(angular_integrand_Func) * r_F * r_F;
+            return integrate_spherical(angular_integrand_Func, 7, 1) * r_F * r_F;
         };
         while (integral_F < 0.999) {
             integral_F += 0.5 * (radial_integrand_Func(rmax_F) + radial_integrand_Func(rmax_F + dr_F)) * dr_F;
@@ -134,33 +134,33 @@ public:
 
     /**
      * @brief  Evaluate the target matter density.
-     * @math   ρ_{t,m}(r_t, θ_t, φ_t) = A_t ρ_t(r_t, θ_t, φ_t)
+     * @math   ρ_{t,m}(r_t, θ_t) = A_t ρ_t(r_t, θ_t)
      * @output Target matter density.
      * @note   Requires r_t >= 0.
      */
-    double rho_matter(double r_F, double theta_F, double phi_F) const {
+    double rho_matter(double r_F, double theta_F) const {
         assert(r_F >= 0.0);
         assert(static_cast<bool>(rho_Func));
-        return rho_Func(r_F, theta_F, phi_F) * At_I;
+        return rho_Func(r_F, theta_F) * At_I;
     }
 
     /**
      * @brief  Evaluate the target charge density.
-     * @math   ρ_{t,c}(r_t, θ_t, φ_t) = Z_t ρ_t(r_t, θ_t, φ_t)
+     * @math   ρ_{t,c}(r_t, θ_t) = Z_t ρ_t(r_t, θ_t)
      * @output Target charge density.
      * @note   Requires r_t >= 0.
      */
-    double rho_charge(double r_F, double theta_F, double phi_F) const {
+    double rho_charge(double r_F, double theta_F) const {
         assert(r_F >= 0.0);
         assert(static_cast<bool>(rho_Func));
-        return rho_Func(r_F, theta_F, phi_F) * Zt_I;
+        return rho_Func(r_F, theta_F) * Zt_I;
     }
 };
 
 /**
  * @brief Represent a normalized spherical Gaussian density.
  */
-class GaussianDensity {
+class DensityGaussian {
 protected:
     double norm_F = 1.0; // Numerical density normalization.
 
@@ -173,7 +173,7 @@ public:
      * @output Normalized Gaussian density profile.
      * @note   Requires a > 0 and uses the legacy radial interval [0, 100].
      */
-    explicit GaussianDensity(double a_F_)
+    explicit DensityGaussian(double a_F_)
         : norm_F(1.0), a_F(a_F_) {
         assert(a_F > 0.0);
 
@@ -199,7 +199,7 @@ public:
 /**
  * @brief Represent a normalized axially deformed Fermi density.
  */
-class FermiDensity {
+class DensityFermi {
 protected:
     double norm_F = 1.0; // Numerical density normalization.
 
@@ -215,17 +215,17 @@ public:
      * @output Normalized Fermi density profile.
      * @note   Uses the legacy radial interval [0, 100] and the default spherical grid.
      */
-    FermiDensity(double R0_F_, double a0_F_, double beta2_F_ = 0.0, double beta4_F_ = 0.0)
+    DensityFermi(double R0_F_, double a0_F_, double beta2_F_ = 0.0, double beta4_F_ = 0.0)
         : norm_F(1.0), R0_F(R0_F_), a0_F(a0_F_), beta2_F(beta2_F_), beta4_F(beta4_F_) {
         assert(R0_F > 0.0);
         assert(a0_F > 0.0);
 
-        // 𝒩 = ∫₀¹⁰⁰ r² dr ∫ dΩ ρ(r, θ, φ).
+        // 𝒩 = 2π ∫₀¹⁰⁰ r² dr ∫₀^π ρ(r, θ) sin(θ) dθ.
         auto radial_integrand_Func = [&](double r_F) {
-            auto angular_integrand_Func = [&](double theta_F, double phi_F) {
-                return density(r_F, theta_F, phi_F);
+            auto angular_integrand_Func = [&](double theta_F, double) {
+                return density(r_F, theta_F);
             };
-            return integrate_spherical(angular_integrand_Func) * r_F * r_F;
+            return integrate_spherical(angular_integrand_Func, 7, 1) * r_F * r_F;
         };
         norm_F = integrate_qag(radial_integrand_Func, 0.0, 100.0);
     }
@@ -234,11 +234,11 @@ public:
      * @brief  Evaluate the deformed Fermi density with GSL normalized spherical associated Legendre functions.
      * @math   R(θ) = R₀[1 + β₂Y₂₀(θ) + β₄Y₄₀(θ)]; ρ(r, θ) = {1 + exp[(r - R(θ))/a₀]}⁻¹ / 𝒩
      * @output Normalized Fermi density.
-     * @note   The axial profile is independent of the azimuthal angle.
+     * @note   Requires r >= 0 and 0 <= θ <= π.
      */
-    double density(double r_F, double theta_F, double phi_F) const {
+    double density(double r_F, double theta_F) const {
         assert(r_F >= 0.0);
-        static_cast<void>(phi_F);
+        assert(theta_F >= 0.0 && theta_F <= std::numbers::pi);
 
         // R(θ) → ρ(r, θ).
         double Y20_F = gsl_sf_legendre_sphPlm(2, 0, std::cos(theta_F));
