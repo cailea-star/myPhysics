@@ -16,10 +16,10 @@ description: Establishes variable-naming, construction, formatting, comment, API
 
 ## Variable Construction Rules
 
-- Numerical lists, vectors, matrices, and arrays SHOULD use Eigen types whenever practical.
-- Every `Eigen::Tensor` MUST explicitly use `Eigen::ColMajor`.
+- Numerical containers SHOULD use Eigen when practical; every `Eigen::Tensor` MUST explicitly use `Eigen::ColMajor`.
 - Matrix products MUST use `.noalias()` except when initializing a new variable; aliased products MUST use a temporary.
 - Large numerical buffers MUST be allocated outside loops and reused, such as {Vector, Matrix, Tensor}.
+- Numerical computation blocks MUST NOT use runtime conditional branches; exceptions require explicit approval.
 
 ## Code Formatting Rules
 
