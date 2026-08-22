@@ -35,7 +35,7 @@ description: Establishes variable-naming, construction, formatting, comment, API
 - All comments MUST be concise English.
 - Comments SHOULD prefer formulas or transformations over prose, such as `x → x / b`.
 - Comments MUST add information and NEVER merely restate symbols, such as `{x_i}`.
-- Standalone comments MUST begin and delimit every logical computation block.
+- Standalone comments MUST begin and delimit logical computation blocks containing at least four code lines.
 - End-of-line comments MUST state variable meaning, units, normalization, or domain.
 
 ### File Header Comments
