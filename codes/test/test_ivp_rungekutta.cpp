@@ -34,9 +34,10 @@ void exp_rhs(double x_F, const Eigen::Ref<const Eigen::VectorXd>& y_F1D_ch, Eige
 /**
  * @brief  Test scalar and vector fourth-order Runge-Kutta propagation.
  * @math   y_{n+1}=RK4[f,x_n,y_n,h]
- * @output Process exit status.
+ * @output Zero after scalar and vector error assertions.
  */
 int main() {
+    // {x_i} → scalar/vector analytic references.
     int Nx_I = 100;
     double xmin_F = 0.0;
     double xmax_F = 10.0;
@@ -56,7 +57,7 @@ int main() {
     Eigen::VectorXd expn_F1D_x = (-x_F1D_x).array().exp();
     std::cout << std::scientific << std::setprecision(4) << std::right;
 
-    // Scalar RK4 propagation.
+    // y' = cos x → y = sin x.
     Eigen::VectorXd ysin_F1D_x = ivp_rk4<double>(sin_rhs, ysin0_F, x_F1D_x);
     Eigen::VectorXd err_sin_F1D_x = ysin_F1D_x - sin_F1D_x;
     std::cout << "\n[INPUT][scalar RK4] x=[" << xmin_F << "," << xmax_F << "], y0=" << ysin0_F << "\n";
@@ -67,7 +68,7 @@ int main() {
     for (int x_I = Nx_I - 5; x_I < Nx_I; ++x_I) {std::cout << std::setw(15) << x_F1D_x(x_I) << std::setw(15) << sin_F1D_x(x_I) << std::setw(15) << ysin_F1D_x(x_I) << std::setw(15) << err_sin_F1D_x(x_I) << "\n";}
     assert(err_sin_F1D_x.cwiseAbs().maxCoeff() < tol_F);
 
-    // Vector RK4 propagation.
+    // (y₁',y₂')=(y₂,y₁), (1,±1) → e^{±x}(1,±1).
     Eigen::MatrixXd yexpp_F2D_ch_x = ivp_rk4_vec<double>(exp_rhs, x_F1D_x, yexppvec0_F1D_ch);
     Eigen::MatrixXd yexpn_F2D_ch_x = ivp_rk4_vec<double>(exp_rhs, x_F1D_x, yexpnvec0_F1D_ch);
     Eigen::VectorXd err_expp_F1D_x = yexpp_F2D_ch_x.row(0) - expp_F1D_x.transpose();
@@ -78,6 +79,7 @@ int main() {
     for (int x_I = 0; x_I < 5; ++x_I) {std::cout << std::setw(15) << x_F1D_x(x_I) << std::setw(15) << expp_F1D_x(x_I) << std::setw(15) << yexpp_F2D_ch_x(0, x_I) << std::setw(15) << err_expp_F1D_x(x_I) << std::setw(15) << expn_F1D_x(x_I) << std::setw(15) << yexpn_F2D_ch_x(0, x_I) << std::setw(15) << err_expn_F1D_x(x_I) << "\n";}
     std::cout << "...\n";
     for (int x_I = Nx_I - 5; x_I < Nx_I; ++x_I) {std::cout << std::setw(15) << x_F1D_x(x_I) << std::setw(15) << expp_F1D_x(x_I) << std::setw(15) << yexpp_F2D_ch_x(0, x_I) << std::setw(15) << err_expp_F1D_x(x_I) << std::setw(15) << expn_F1D_x(x_I) << std::setw(15) << yexpn_F2D_ch_x(0, x_I) << std::setw(15) << err_expn_F1D_x(x_I) << "\n";}
+    // max(|Δy_+/y_+|,|Δy_-|) < ε.
     assert((err_expp_F1D_x.array() / expp_F1D_x.array()).abs().maxCoeff() < tol_F && err_expn_F1D_x.cwiseAbs().maxCoeff() < tol_F);
     return 0;
 }

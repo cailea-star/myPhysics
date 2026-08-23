@@ -20,7 +20,7 @@
 template<typename T> using Real2TMatFunc = std::function<void(double, Eigen::Ref<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>)>;
 
 /**
- * @brief  Propagate a matrix log derivative by RK4 with stepwise QR reorthogonalization.
+ * @brief  Propagate Y by RK4 with QR reorthogonalization.
  * @math   Ψ''=FΨ, Y=Ψ'Ψ⁻¹
  * @output Log-derivative tensor Y_T3D_ch_ch_x on the input grid.
  * @note   Uses Ψ(x₀)=I and Ψ'(x₀)=Y₀.
@@ -28,6 +28,7 @@ template<typename T> using Real2TMatFunc = std::function<void(double, Eigen::Ref
  */
 template<typename T>
 Eigen::Tensor<T, 3, Eigen::ColMajor> ivp_logderiv_rk4(const Real2TMatFunc<T>& F_Func, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& Y0_T2D_ch_ch, const Eigen::Ref<const Eigen::VectorXd>& x_F1D_x) {
+    // (N_x,N_ch) → reusable RK4/QR buffers.
     int Nx_I = static_cast<int>(x_F1D_x.size());
     int Nch_I = static_cast<int>(Y0_T2D_ch_ch.rows());
     assert(Nx_I >= 2 && x_F1D_x.allFinite());
@@ -63,7 +64,7 @@ Eigen::Tensor<T, 3, Eigen::ColMajor> ivp_logderiv_rk4(const Real2TMatFunc<T>& F_
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> Yx_T2D_ch_ch(Y_T3D_ch_ch_x.data(), Nch_I, Nch_I);
     Yx_T2D_ch_ch = Y0_T2D_ch_ch;
 
-    // {Ψ, Ψ'}ᵢ → {Ψ, Ψ'}ᵢ₊₁.
+    // (Ψ_i,Ψ'_i) → (Ψ_{i+1},Ψ'_{i+1}) → Y_{i+1}.
     for (int x_I = 0; x_I < Nx_I - 1; ++x_I) {
         Eigen::Vector<T, Eigen::Dynamic>& u_T1D_2chsol = rk4_State.step(x_F1D_x(x_I + 1));
 

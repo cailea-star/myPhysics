@@ -19,10 +19,12 @@
  * @output Prints labeled matrices and asserts the maximum orthogonality error.
  */
 int main() {
+    // α ∈ {0,1,5,10} → max|M(α)-I|.
     double errMax_F = 0.0;
     double tol_F = 1.0e-10;
     std::cout << std::scientific << std::setprecision(4) << std::right;
 
+    // (α,{n_i}) → M_ij(α) → stdout.
     for (double a_F : {0.0, 1.0, 5.0, 10.0}) {
         int nmax_I = 6;
         int Nx_I = nmax_I + std::ceil(a_F / 2.0) + 1;

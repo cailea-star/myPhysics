@@ -31,12 +31,13 @@ void F_mat(double, Eigen::Ref<Eigen::MatrixXd> F_F2D_ch_ch) {
 }
 
 /**
- * @brief  Test scalar, vector, and matrix Numerov propagation against analytic solutions.
+ * @brief  Test scalar and matrix Numerov analytic propagation.
  * @math   y''(x)=F(x)y(x)
- * @output Process exit status.
+ * @output Zero after scalar and matrix error assertions.
  * @note   Forward Numerov propagation is unstable for exponentially decaying modes.
  */
 int main() {
+    // {x_i} → scalar/matrix analytic references.
     int Nx_I = 100;
     double xmin_F = 0.0;
     double xmax_F = 10.0;
@@ -56,7 +57,7 @@ int main() {
     Eigen::VectorXd yexpn_F1D_x = (-x_F1D_x * 2.0).array().exp();
     std::cout << std::scientific << std::setprecision(4) << std::right;
 
-    // Scalar Numerov propagation.
+    // y'' = -4y, (y_0,y_1) = cos(2x_{0,1}).
     Eigen::VectorXd y_F1D_x = ivp_numerov<double>(F_scal, ycos0_F, ycos1_F, x_F1D_x);
     Eigen::VectorXd err_F1D_x = y_F1D_x - ycos_F1D_x;
     std::cout << "\n[INPUT][scalar] F(x)=-4, x=[" << xmin_F << "," << xmax_F << "], y0=" << ycos0_F << ", y1=" << ycos1_F << "\n";
@@ -66,7 +67,7 @@ int main() {
     for (int x_I = Nx_I - 5; x_I < Nx_I; ++x_I) {std::cout << std::setw(15) << x_F1D_x(x_I) << std::setw(15) << ycos_F1D_x(x_I) << std::setw(15) << y_F1D_x(x_I) << std::setw(15) << err_F1D_x(x_I) << "\n";}
     assert(err_F1D_x.cwiseAbs().maxCoeff() < tol_F);
 
-    // Matrix Numerov propagation with Nsol = 1.
+    // Y'' = diag(-4,4)Y, N_sol = 1.
     Eigen::MatrixXd y0one_F2D_ch_sol(2, 1);
     Eigen::MatrixXd y1one_F2D_ch_sol(2, 1);
     y0one_F2D_ch_sol << ycos0_F, yexpp0_F;
@@ -81,9 +82,10 @@ int main() {
     for (int x_I = 0; x_I < 5; ++x_I) {std::cout << std::setw(15) << x_F1D_x(x_I) << std::setw(15) << ycos_F1D_x(x_I) << std::setw(15) << yexpp_F1D_x(x_I) << std::setw(15) << yone_F2D_ch_x(0, x_I) << std::setw(15) << yone_F2D_ch_x(1, x_I) << std::setw(15) << errone_F2D_ch_x(0, x_I) << std::setw(15) << errone_F2D_ch_x(1, x_I) << "\n";}
     std::cout << "...\n";
     for (int x_I = Nx_I - 5; x_I < Nx_I; ++x_I) {std::cout << std::setw(15) << x_F1D_x(x_I) << std::setw(15) << ycos_F1D_x(x_I) << std::setw(15) << yexpp_F1D_x(x_I) << std::setw(15) << yone_F2D_ch_x(0, x_I) << std::setw(15) << yone_F2D_ch_x(1, x_I) << std::setw(15) << errone_F2D_ch_x(0, x_I) << std::setw(15) << errone_F2D_ch_x(1, x_I) << "\n";}
+    // max(|Δy_osc|,|Δy_grow/y_grow|) < ε.
     assert(errone_F2D_ch_x.row(0).cwiseAbs().maxCoeff() < tol_F && (errone_F2D_ch_x.row(1).array() / yexpp_F1D_x.transpose().array()).abs().maxCoeff() < tol_F);
 
-    // Matrix Numerov propagation.
+    // Y'' = diag(-4,4)Y, N_sol = 2.
     Eigen::MatrixXd y0_F2D_ch_sol(2, 2);
     Eigen::MatrixXd y1_F2D_ch_sol(2, 2);
     y0_F2D_ch_sol << ycos0_F, ysin0_F, yexpn0_F, yexpp0_F;
@@ -96,6 +98,7 @@ int main() {
         errmat_F3D_ch_sol_x(1, 0, x_I) = ymat_F3D_ch_sol_x(1, 0, x_I) - yexpn_F1D_x(x_I);
         errmat_F3D_ch_sol_x(1, 1, x_I) = ymat_F3D_ch_sol_x(1, 1, x_I) - yexpp_F1D_x(x_I);
     }
+    // (Y_ref(0),Y(0),Y_ref(x_max),Y(x_max),ΔY(x_max)) → stdout.
     std::cout << "\n[INPUT][matrix y0]\n" << y0_F2D_ch_sol << "\n";
     std::cout << "[INPUT][matrix y1]\n" << y1_F2D_ch_sol << "\n";
     std::cout << "[REFERENCE][matrix x=0]\n" << y0_F2D_ch_sol << "\n";
@@ -111,6 +114,7 @@ int main() {
     std::cout << "[ERROR][matrix x=Nx-1]\n";
     std::cout << errmat_F3D_ch_sol_x(0, 0, Nx_I - 1) << " " << errmat_F3D_ch_sol_x(0, 1, Nx_I - 1) << "\n";
     std::cout << errmat_F3D_ch_sol_x(1, 0, Nx_I - 1) << " " << errmat_F3D_ch_sol_x(1, 1, Nx_I - 1) << "\n";
+    // (|Δy_decay|,|Δy_osc|,|Δy_grow/y_grow|) < ε.
     assert(std::abs(errmat_F3D_ch_sol_x(1, 0, Nx_I - 1)) < tol_F);
     assert(std::abs(errmat_F3D_ch_sol_x(0, 0, Nx_I - 1)) < tol_F && std::abs(errmat_F3D_ch_sol_x(0, 1, Nx_I - 1)) < tol_F && std::abs(errmat_F3D_ch_sol_x(1, 1, Nx_I - 1) / yexpp_F1D_x(Nx_I - 1)) < tol_F);
 }

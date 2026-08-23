@@ -14,9 +14,10 @@
 /**
  * @brief  Test Gauss-Hermite polynomial orthogonality.
  * @math   M_ij = ∑_x N_i H_i(x) w_x H_j(x) N_j = δ_ij
- * @output Prints labeled matrix corners and asserts the maximum orthogonality error.
+ * @output Labeled matrix corners and maximum-error assertion.
  */
 int main() {
+    // {n_i} → M_ij → max|M-I|.
     int nmax_I = 10;
     int Nx_I = nmax_I + 1;
     double tol_F = 1.0e-10;
@@ -30,6 +31,7 @@ int main() {
     Eigen::MatrixXd Mref_F2D_i_j = Eigen::MatrixXd::Identity(M_F2D_i_j.rows(), M_F2D_i_j.cols());
     double errMax_F = (M_F2D_i_j - Mref_F2D_i_j).cwiseAbs().maxCoeff();
 
+    // (I,M) → matrix corners → stdout.
     std::cout << std::scientific << std::setprecision(4) << std::right;
     std::cout << "\nGauss-Hermite\n";
     std::cout << "Input: nmax = " << nmax_I << ", Nx = " << Nx_I << "\n";
