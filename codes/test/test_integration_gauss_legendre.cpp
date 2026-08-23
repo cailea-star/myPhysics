@@ -18,10 +18,12 @@
  * @output Prints labeled matrices and asserts the maximum orthogonality error.
  */
 int main() {
+    // (m,{l_i}) → M_ij → max|M-I|.
     double errMax_F = 0.0;
     double tol_F = 1.0e-10;
     std::cout << std::scientific << std::setprecision(4) << std::right;
 
+    // (l,m,N_x)=(0:8,0,9) → M → max|M-I|.
     {
         int lmin_I = 0;
         int lmax_I = 8;
@@ -44,6 +46,7 @@ int main() {
         std::cout << "Computed: M\n" << M_F2D_i_j << "\n";
     }
 
+    // (l,m,N_x)=(3:11,3,12) → M → max|M-I|.
     {
         int lmin_I = 3;
         int lmax_I = 11;

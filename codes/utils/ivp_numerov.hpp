@@ -15,8 +15,6 @@
 
 template<typename T> using Real2TMatFunc = std::function<void(double, Eigen::Ref<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>)>;
 
-// ==================== Matrix Numerov state ====================
-
 template<typename T>
 class IVP_NumerovState {
 private:
@@ -37,11 +35,12 @@ private:
 public:
     /**
      * @brief  Initialize a matrix Numerov recurrence.
-     * @math   {F,x₀,x₁,Y₀,Y₁}
+     * @math   h=x₁-x₀, (F₀,F₁)=(F(x₀),F(x₁))
      * @output Initialized Numerov state at x₁.
      */
-    IVP_NumerovState(const Real2TMatFunc<T>& F_Func, double x0_F, double x1_F, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& y0_T2D_ch_sol, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& y1_T2D_ch_sol)
-    : F_Func(F_Func), xcurr_F(x1_F), dx_F(x1_F - x0_F), dx2_F(dx_F * dx_F), Fprev_T2D_ch_ch(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.rows()), Fcurr_T2D_ch_ch(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.rows()), Fnext_T2D_ch_ch(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.rows()), yprev_T2D_ch_sol(y0_T2D_ch_sol), ycurr_T2D_ch_sol(y1_T2D_ch_sol), ynext_T2D_ch_sol(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.cols()), lhs_T2D_ch_ch(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.rows()), rhs_T2D_ch_sol(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.cols()), lhs_LU(y0_T2D_ch_sol.rows()) {
+    IVP_NumerovState(const Real2TMatFunc<T>& F_Func_, double x0_F, double x1_F, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& y0_T2D_ch_sol, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& y1_T2D_ch_sol)
+    : F_Func(F_Func_), xcurr_F(x1_F), dx_F(x1_F - x0_F), dx2_F(dx_F * dx_F), Fprev_T2D_ch_ch(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.rows()), Fcurr_T2D_ch_ch(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.rows()), Fnext_T2D_ch_ch(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.rows()), yprev_T2D_ch_sol(y0_T2D_ch_sol), ycurr_T2D_ch_sol(y1_T2D_ch_sol), ynext_T2D_ch_sol(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.cols()), lhs_T2D_ch_ch(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.rows()), rhs_T2D_ch_sol(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.cols()), lhs_LU(y0_T2D_ch_sol.rows()) {
+        // (F,x_0,x_1,Y_0,Y_1) → (F_0,F_1,h).
         assert(this->F_Func);
         assert(std::isfinite(x0_F) && std::isfinite(x1_F) && std::isfinite(dx_F) && dx_F != 0.0);
         assert(y0_T2D_ch_sol.rows() > 0 && y0_T2D_ch_sol.cols() > 0);
@@ -66,16 +65,16 @@ const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>& IVP_NumerovState<T>::ste
     F_Func(xnext_F, Fnext_T2D_ch_ch);
     assert(Fnext_T2D_ch_ch.allFinite());
 
-    // lhs = I - dx² Fₙ₊₁ / 12.
+    // A_{n+1} = I - h²F_{n+1}/12.
     lhs_T2D_ch_ch = -dx2_F * Fnext_T2D_ch_ch / T(12.0);
     lhs_T2D_ch_ch.diagonal().array() += T(1.0);
 
-    // rhs = 5 dx² Fₙ Yₙ / 6 + dx² Fₙ₋₁ Yₙ₋₁ / 12 + 2 Yₙ - Yₙ₋₁.
+    // b_{n+1} = 2Y_n - Y_{n-1} + 5h²F_nY_n/6 + h²F_{n-1}Y_{n-1}/12.
     rhs_T2D_ch_sol.noalias() = T(5.0) * dx2_F * Fcurr_T2D_ch_ch * ycurr_T2D_ch_sol / T(6.0);
     rhs_T2D_ch_sol.noalias() += dx2_F * Fprev_T2D_ch_ch * yprev_T2D_ch_sol / T(12.0);
     rhs_T2D_ch_sol += T(2.0) * ycurr_T2D_ch_sol - yprev_T2D_ch_sol;
 
-    // lhs Yₙ₊₁ = rhs.
+    // A_{n+1}Y_{n+1} = b_{n+1}.
     lhs_LU.compute(lhs_T2D_ch_ch);
     ynext_T2D_ch_sol = lhs_LU.solve(rhs_T2D_ch_sol);
 
@@ -94,6 +93,7 @@ const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>& IVP_NumerovState<T>::ste
  * @output Uniform grid spacing.
  */
 inline double ivp_numerov_assert_uniform_grid(const Eigen::Ref<const Eigen::VectorXd>& x_F1D_x) {
+    // {x_i} → h; Δx_i-h → 0.
     int Nx_I = static_cast<int>(x_F1D_x.size());
     assert(Nx_I >= 2);
     double dx_F = x_F1D_x(1) - x_F1D_x(0);
@@ -102,8 +102,6 @@ inline double ivp_numerov_assert_uniform_grid(const Eigen::Ref<const Eigen::Vect
     return dx_F;
 }
 
-// ==================== Scalar Numerov solver ====================
-
 /**
  * @brief  Perform one scalar Numerov step.
  * @math   (1-h²F_{n+1}/12)y_{n+1}=2(1+5h²F_n/12)y_n-(1-h²F_{n-1}/12)y_{n-1}
@@ -111,6 +109,7 @@ inline double ivp_numerov_assert_uniform_grid(const Eigen::Ref<const Eigen::Vect
  */
 template<typename T>
 T ivp_numerov_step(T Fprev_T, T Fcurr_T, T Fnext_T, T yprev_T, T ycurr_T, double dx_F) {
+    // (F_{n-1},F_n,F_{n+1},y_{n-1},y_n) → y_{n+1}.
     assert(std::isfinite(dx_F) && dx_F != 0.0);
     double dx2_F = dx_F * dx_F;
     T lhs_T = T(1.0) - dx2_F * Fnext_T / T(12.0);
@@ -126,10 +125,12 @@ T ivp_numerov_step(T Fprev_T, T Fcurr_T, T Fnext_T, T yprev_T, T ycurr_T, double
  */
 template<typename T>
 Eigen::Matrix<T, Eigen::Dynamic, 1> ivp_numerov(const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, 1>>& F_F1D_x, T y0_T, T y1_T, const Eigen::Ref<const Eigen::VectorXd>& x_F1D_x) {
+    // ({F_i},{x_i}) → (N_x,h).
     int Nx_I = static_cast<int>(x_F1D_x.size());
     double dx_F = ivp_numerov_assert_uniform_grid(x_F1D_x);
     assert(F_F1D_x.size() == Nx_I);
 
+    // (F_{n-1},F_n,y_{n-1},y_n) → y_{n+1}.
     Eigen::Matrix<T, Eigen::Dynamic, 1> y_T1D_x(Nx_I);
     y_T1D_x(0) = y0_T;
     y_T1D_x(1) = y1_T;
@@ -151,13 +152,12 @@ Eigen::Matrix<T, Eigen::Dynamic, 1> ivp_numerov(const Eigen::Ref<const Eigen::Ma
  */
 template<typename T>
 Eigen::Matrix<T, Eigen::Dynamic, 1> ivp_numerov(const std::function<T(double)>& F_Func, T y0_T, T y1_T, const Eigen::Ref<const Eigen::VectorXd>& x_F1D_x) {
+    // F(x_i) → {F_i} → {y_i}.
     int Nx_I = static_cast<int>(x_F1D_x.size());
     Eigen::Matrix<T, Eigen::Dynamic, 1> F_F1D_x(Nx_I);
     for (int x_I = 0; x_I < Nx_I; ++x_I) {F_F1D_x(x_I) = F_Func(x_F1D_x(x_I));}
     return ivp_numerov<T>(F_F1D_x, y0_T, y1_T, x_F1D_x);
 }
-
-// ==================== Matrix Numerov solver ====================
 
 /**
  * @brief  Solve matrix Numerov equations from F(x).
@@ -166,6 +166,7 @@ Eigen::Matrix<T, Eigen::Dynamic, 1> ivp_numerov(const std::function<T(double)>& 
  */
 template<typename T>
 Eigen::Tensor<T, 3, Eigen::ColMajor> ivp_numerov_mat(const Real2TMatFunc<T>& F_Func, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& y0_T2D_ch_sol, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& y1_T2D_ch_sol, const Eigen::Ref<const Eigen::VectorXd>& x_F1D_x) {
+    // ({x_i},Y_0,Y_1) → (N_x,N_ch,N_sol).
     int Nx_I = static_cast<int>(x_F1D_x.size());
     int Nch_I = static_cast<int>(y0_T2D_ch_sol.rows());
     int Nsol_I = static_cast<int>(y0_T2D_ch_sol.cols());
@@ -173,6 +174,7 @@ Eigen::Tensor<T, 3, Eigen::ColMajor> ivp_numerov_mat(const Real2TMatFunc<T>& F_F
     assert(Nch_I > 0 && Nsol_I > 0);
     assert(y1_T2D_ch_sol.rows() == Nch_I && y1_T2D_ch_sol.cols() == Nsol_I);
 
+    // (Y_0,Y_1) → {Y_i}.
     Eigen::Tensor<T, 3, Eigen::ColMajor> y_T3D_ch_sol_x(Nch_I, Nsol_I, Nx_I);
     Eigen::TensorMap<Eigen::Tensor<const T, 2, Eigen::ColMajor>> y0map_T2D_ch_sol(y0_T2D_ch_sol.data(), Nch_I, Nsol_I);
     Eigen::TensorMap<Eigen::Tensor<const T, 2, Eigen::ColMajor>> y1map_T2D_ch_sol(y1_T2D_ch_sol.data(), Nch_I, Nsol_I);
