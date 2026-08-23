@@ -37,6 +37,7 @@ file(GLOB UTILS_SPHERICAL_CPPS CONFIGURE_DEPENDS "utils_spherical/*.cpp")
 add_library(mylib INTERFACE)                                        # 添加库目标, INTERFACE or SHARED 模式
 target_include_directories(mylib INTERFACE utils)                   # Propagate general utility headers
 target_include_directories(mylib INTERFACE utils_spherical)         # Propagate spherical utility headers
+target_include_directories(mylib INTERFACE utils_axial)             # Propagate axial utility headers
 target_link_libraries(mylib INTERFACE Eigen3::Eigen)                # 传递依赖库, INTERFACE or PUBLIC 模式
 target_link_libraries(mylib INTERFACE GSL::gsl GSL::gslcblas)       # 传递依赖库, INTERFACE or PUBLIC 模式
 target_link_libraries(mylib INTERFACE OpenMP::OpenMP_CXX)           # 传递依赖库, INTERFACE or PUBLIC 模式

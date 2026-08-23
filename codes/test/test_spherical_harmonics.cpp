@@ -20,6 +20,7 @@
  * @note   Uses the real cosine sector.
  */
 double ReYlm(int l_I, int m_I, double theta_F, double phi_F) {
+    // (l,m,θ,φ) → P_l^{|m|}(cos θ)cos(mφ).
     return gsl_sf_legendre_sphPlm(l_I, std::abs(m_I), std::cos(theta_F)) * std::cos(m_I * phi_F);
 }
 
@@ -27,15 +28,17 @@ double ReYlm(int l_I, int m_I, double theta_F, double phi_F) {
  * @brief  Test Gauss-Legendre/trapezoidal projection and direct reconstruction.
  * @math   P_ij = ⟨Re Y_i, Re Y_j⟩, R_ij = ⟨Re Y_i, reconstruct(P_ij Re Y_j)⟩
  * @output Labeled matrix corners with acceptance assertions.
- * @note   Uses 4 ≤ l ≤ 6 and 0 ≤ m ≤ l/2 in the real cosine sector.
+ * @note   4≤l≤6, 0≤m≤l/2; cosine sector.
  */
 int main() {
+    // (N_lm,ε) → (P,R,I).
     const int Nlm_I = 10;
     const double tol_F = 1.0e-12;
     Eigen::MatrixXd P_F2D_i_j(Nlm_I, Nlm_I);
     Eigen::MatrixXd R_F2D_i_j(Nlm_I, Nlm_I);
     Eigen::MatrixXd Ref_F2D_i_j = Eigen::MatrixXd::Zero(Nlm_I, Nlm_I);
 
+    // (Y_i,Y_j) → (P_ij,R_ij).
     int i_I = 0;
     for (int l1_I = 4; l1_I <= 6; ++l1_I) {
         for (int m1_I = 0; m1_I <= l1_I / 2; ++m1_I) {
@@ -60,6 +63,7 @@ int main() {
         }
     }
 
+    // (I,P,R) → stdout.
     std::cout << std::scientific << std::setprecision(3) << std::right;
     std::cout << "\nInput: Re Y_lm, 4 <= l <= 6, 0 <= m <= l/2\n";
     std::cout << "Reference:\n" << Ref_F2D_i_j << "\n";

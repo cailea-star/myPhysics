@@ -43,6 +43,7 @@ double dWS_func(double x_F) {
  * @output V''(x).
  */
 double ddWS_func(double x_F) {
+    // z=(x-R_0)/a_0 → (e^z,V''_1,V''_2).
     double exp_F = std::exp((x_F - R0_F) / a0_F);
     double term1_F = V0_F * (-2) * (-1) * std::pow(1 + exp_F, -3) * std::pow(exp_F, 2) * std::pow(1 / a0_F, 2);
     double term2_F = V0_F * (-1) * std::pow(1 + exp_F, -2) * exp_F * std::pow(1 / a0_F, 2);
@@ -56,6 +57,7 @@ double ddWS_func(double x_F) {
  * @note   Grid endpoints use the lower-order stencils defined by derivative.hpp.
  */
 int main() {
+    // (grid,V) → ({V_i},{V'_i},{V''_i}).
     int Nx_I = 100;
     double xmin_F = 1.0e-10;
     double xmax_F = 15.0;
@@ -67,6 +69,7 @@ int main() {
     Eigen::VectorXd dydx_F1D_x = derivative1<double>(y_F1D_x, x_F1D_x);
     Eigen::VectorXd d2ydx2_F1D_x = derivative2<double>(y_F1D_x, x_F1D_x);
 
+    // (V',V'',errors) → stdout; errors < tolerances.
     std::cout << std::scientific << std::setprecision(2);
     std::cout << "\nInput: Woods-Saxon potential, x in [1e-10, 15], N = 100\n";
     std::cout << "Reference/Computed: callable and uniform-grid derivatives\n";
@@ -91,6 +94,7 @@ int main() {
         assert(std::abs(err2Vec_F) < tol2_F);
     }
 
+    // f(x)=(1+i)x² → f''(x)=2(1+i).
     int Nx_check_I = 7;
     Eigen::VectorXd x_check_F1D_x = Eigen::VectorXd::LinSpaced(Nx_check_I, -1.0, 1.0);
     Eigen::VectorXcd f_check_C1D_x(Nx_check_I);
@@ -99,11 +103,13 @@ int main() {
     Eigen::VectorXcd d2f_check_C1D_x = derivative2(f_check_C1D_x, x_check_F1D_x);
     std::complex<double> d2f_expected_C = 2.0 * coeff_C;
 
+    // (x_i, f''_i, 2(1+i)) → stdout.
     std::cout << "\nInput: f(x) = (1+i)x^2, x in [-1, 1], N = 7\n";
     std::cout << "Reference/Computed: complex uniform-grid second derivative\n";
     std::cout << std::setw(15) << "x" << std::setw(25) << "d2f_reference" << std::setw(25) << "d2f_computed" << "\n";
     for (int x_I = 0; x_I < Nx_check_I; ++x_I) {std::cout << std::setw(15) << x_check_F1D_x(x_I) << std::setw(25) << d2f_expected_C << std::setw(25) << d2f_check_C1D_x(x_I) << "\n";}
 
+    // ||D_h²f - 2(1+i)||∞ < 10⁻¹².
     for (int x_I = 0; x_I < Nx_check_I; ++x_I) {assert(std::abs(d2f_check_C1D_x(x_I) - d2f_expected_C) < 1.0e-12 && std::abs(derivative2(f_check_C1D_x, x_check_F1D_x, x_I) - d2f_expected_C) < 1.0e-12);}
     return 0;
 }
