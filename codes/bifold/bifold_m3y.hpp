@@ -1,5 +1,5 @@
 /**
- * @file    bifold_m3y_v.hpp
+ * @file    bifold_m3y.hpp
  * @author  cailea
  * @date    2026-08-22
  * @brief   M3Y-Reid and M3Y-Paris interaction kernels.

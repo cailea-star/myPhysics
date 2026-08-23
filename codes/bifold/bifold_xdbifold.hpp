@@ -1,5 +1,5 @@
 /**
- * @file    bifold_bifold_xd.hpp
+ * @file    bifold_xdbifold.hpp
  * @author  cailea
  * @date    2026-08-22
  * @brief   Density-dependent XDM3Y double-folding potentials.
@@ -16,34 +16,41 @@
 #include <unsupported/Eigen/CXX11/Tensor>
 
 #include "bifold_bifold.hpp"
-#include "bifold_m3y_xd.hpp"
+#include "bifold_xdm3y.hpp"
 
 /**
  * @brief Precompute density-dependent XDM3Y folding kernels.
  */
-class BifoldXD : public Bifold {
+class XDBifold : public Bifold {
 public:
     XDM3YParameters xdm3y_parameters; // {C, α, β, γ, n, K}.
 
-    /**
-     * @brief  Construct an empty XDM3Y folding model.
-     * @math   𝓑_X = ∅
-     * @output Empty XDM3Y folding model.
-     */
-    BifoldXD() {
-        ftexp_F3D_lambda_s_k.setZero();
-        ft2_F3D_lambda_s_k.setZero();
-        ft3_F3D_lambda_s_k.setZero();
-        ft4_F3D_lambda_s_k.setZero();
-    }
+protected:
+    Eigen::VectorXd rhopmexp_F1D_k = Eigen::VectorXd::Zero(Nk_I); // ℱ₀[ρ_{p,m}e⁻ᵝρᵖᵐ].
+    Eigen::VectorXd rhopm2_F1D_k = Eigen::VectorXd::Zero(Nk_I); // ℱ₀[ρ_{p,m}²].
+    Eigen::VectorXd rhopm3_F1D_k = Eigen::VectorXd::Zero(Nk_I); // ℱ₀[ρ_{p,m}³].
+    Eigen::VectorXd rhopm4_F1D_k = Eigen::VectorXd::Zero(Nk_I); // ℱ₀[ρ_{p,m}⁴].
+    Eigen::MatrixXd rhotmexp_F2D_lambda_k = Eigen::MatrixXd::Zero(Nlambda_I, Nk_I); // ℱ_λ[ρ_{t,m}e⁻ᵝρᵗᵐ].
+    Eigen::MatrixXd rhotm2_F2D_lambda_k = Eigen::MatrixXd::Zero(Nlambda_I, Nk_I); // ℱ_λ[ρ_{t,m}²].
+    Eigen::MatrixXd rhotm3_F2D_lambda_k = Eigen::MatrixXd::Zero(Nlambda_I, Nk_I); // ℱ_λ[ρ_{t,m}³].
+    Eigen::MatrixXd rhotm4_F2D_lambda_k = Eigen::MatrixXd::Zero(Nlambda_I, Nk_I); // ℱ_λ[ρ_{t,m}⁴].
+    Eigen::MatrixXd fpexp_F2D_s_k = Eigen::MatrixXd::Zero(Ns_I, Nk_I); // f̃_p[ρ_{p,m}e⁻ᵝρᵖᵐ].
+    Eigen::MatrixXd fp2_F2D_s_k = Eigen::MatrixXd::Zero(Ns_I, Nk_I); // f̃_p[ρ_{p,m}²].
+    Eigen::MatrixXd fp3_F2D_s_k = Eigen::MatrixXd::Zero(Ns_I, Nk_I); // f̃_p[ρ_{p,m}³].
+    Eigen::MatrixXd fp4_F2D_s_k = Eigen::MatrixXd::Zero(Ns_I, Nk_I); // f̃_p[ρ_{p,m}⁴].
+    Eigen::Tensor<double, 3, Eigen::ColMajor> ftexp_F3D_lambda_s_k = Eigen::Tensor<double, 3, Eigen::ColMajor>(Nlambda_I, Ns_I, Nk_I); // f̃_{tλ}[ρ_{t,m}e⁻ᵝρᵗᵐ].
+    Eigen::Tensor<double, 3, Eigen::ColMajor> ft2_F3D_lambda_s_k = Eigen::Tensor<double, 3, Eigen::ColMajor>(Nlambda_I, Ns_I, Nk_I); // f̃_{tλ}[ρ_{t,m}²].
+    Eigen::Tensor<double, 3, Eigen::ColMajor> ft3_F3D_lambda_s_k = Eigen::Tensor<double, 3, Eigen::ColMajor>(Nlambda_I, Ns_I, Nk_I); // f̃_{tλ}[ρ_{t,m}³].
+    Eigen::Tensor<double, 3, Eigen::ColMajor> ft4_F3D_lambda_s_k = Eigen::Tensor<double, 3, Eigen::ColMajor>(Nlambda_I, Ns_I, Nk_I); // f̃_{tλ}[ρ_{t,m}⁴].
 
+public:
     /**
      * @brief  Construct and precompute an XDM3Y folding model.
      * @math   ρ_pρ_tF(ρ_p+ρ_t) → {ρ̃, f̃}
      * @output Initialized XDM3Y folding model.
      * @note   Supports γ = 0 or n ∈ {1, 2, 3}.
      */
-    BifoldXD(double hmass_F_, double Ecm_F_, double Ze2_F_, XDM3YFunctions xdm3y_functions_, DensityProjec density_projec_, DensityTarget density_target_, double Cs_F_ = 1.0 / 36.0)
+    XDBifold(double hmass_F_, double Ecm_F_, double Ze2_F_, XDM3YFunctions xdm3y_functions_, DensityProjec density_projec_, DensityTarget density_target_, double Cs_F_ = 1.0 / 36.0)
         : Bifold(hmass_F_, Ecm_F_, Ze2_F_, std::move(xdm3y_functions_.m3y_functions), std::move(density_projec_), std::move(density_target_), Cs_F_), xdm3y_parameters(std::move(xdm3y_functions_.xdm3y_parameters)) {
         assert(xdm3y_parameters.gamma_F == 0.0 || xdm3y_parameters.n_F == 1.0 || xdm3y_parameters.n_F == 2.0 || xdm3y_parameters.n_F == 3.0);
 
@@ -89,22 +96,6 @@ public:
     double Unn_lambda(double r_F, int lambda_I, const Real2RealFunc& vnn_k_Func) const override;
 
 protected:
-    Eigen::VectorXd rhopmexp_F1D_k = Eigen::VectorXd::Zero(Nk_I); // ℱ₀[ρ_{p,m}e⁻ᵝρᵖᵐ].
-    Eigen::VectorXd rhopm2_F1D_k = Eigen::VectorXd::Zero(Nk_I); // ℱ₀[ρ_{p,m}²].
-    Eigen::VectorXd rhopm3_F1D_k = Eigen::VectorXd::Zero(Nk_I); // ℱ₀[ρ_{p,m}³].
-    Eigen::VectorXd rhopm4_F1D_k = Eigen::VectorXd::Zero(Nk_I); // ℱ₀[ρ_{p,m}⁴].
-    Eigen::MatrixXd rhotmexp_F2D_lambda_k = Eigen::MatrixXd::Zero(Nlambda_I, Nk_I); // ℱ_λ[ρ_{t,m}e⁻ᵝρᵗᵐ].
-    Eigen::MatrixXd rhotm2_F2D_lambda_k = Eigen::MatrixXd::Zero(Nlambda_I, Nk_I); // ℱ_λ[ρ_{t,m}²].
-    Eigen::MatrixXd rhotm3_F2D_lambda_k = Eigen::MatrixXd::Zero(Nlambda_I, Nk_I); // ℱ_λ[ρ_{t,m}³].
-    Eigen::MatrixXd rhotm4_F2D_lambda_k = Eigen::MatrixXd::Zero(Nlambda_I, Nk_I); // ℱ_λ[ρ_{t,m}⁴].
-    Eigen::MatrixXd fpexp_F2D_s_k = Eigen::MatrixXd::Zero(Ns_I, Nk_I); // f̃_p[ρ_{p,m}e⁻ᵝρᵖᵐ].
-    Eigen::MatrixXd fp2_F2D_s_k = Eigen::MatrixXd::Zero(Ns_I, Nk_I); // f̃_p[ρ_{p,m}²].
-    Eigen::MatrixXd fp3_F2D_s_k = Eigen::MatrixXd::Zero(Ns_I, Nk_I); // f̃_p[ρ_{p,m}³].
-    Eigen::MatrixXd fp4_F2D_s_k = Eigen::MatrixXd::Zero(Ns_I, Nk_I); // f̃_p[ρ_{p,m}⁴].
-    Eigen::Tensor<double, 3, Eigen::ColMajor> ftexp_F3D_lambda_s_k = Eigen::Tensor<double, 3, Eigen::ColMajor>(Nlambda_I, Ns_I, Nk_I); // f̃_{tλ}[ρ_{t,m}e⁻ᵝρᵗᵐ].
-    Eigen::Tensor<double, 3, Eigen::ColMajor> ft2_F3D_lambda_s_k = Eigen::Tensor<double, 3, Eigen::ColMajor>(Nlambda_I, Ns_I, Nk_I); // f̃_{tλ}[ρ_{t,m}²].
-    Eigen::Tensor<double, 3, Eigen::ColMajor> ft3_F3D_lambda_s_k = Eigen::Tensor<double, 3, Eigen::ColMajor>(Nlambda_I, Ns_I, Nk_I); // f̃_{tλ}[ρ_{t,m}³].
-    Eigen::Tensor<double, 3, Eigen::ColMajor> ft4_F3D_lambda_s_k = Eigen::Tensor<double, 3, Eigen::ColMajor>(Nlambda_I, Ns_I, Nk_I); // f̃_{tλ}[ρ_{t,m}⁴].
 
     /**
      * @brief  Transform the projectile exponential FDA factor.
@@ -145,7 +136,7 @@ protected:
     Eigen::VectorXd G_lambda(double r_F, int lambda_I) const override;
 };
 
-inline void BifoldXD::fill_projec_exp(const DensityProjec& density_projec_, double beta_F) {
+inline void XDBifold::fill_projec_exp(const DensityProjec& density_projec_, double beta_F) {
     auto rhopmexp_Func = [&](double rp_F) {
         double rhopm_F = density_projec_.rho_matter(rp_F);
         return rhopm_F * std::exp(-beta_F * rhopm_F);
@@ -154,7 +145,7 @@ inline void BifoldXD::fill_projec_exp(const DensityProjec& density_projec_, doub
     fill_fp(rhopmexp_Func, fpexp_F2D_s_k);
 }
 
-inline void BifoldXD::fill_projec_power(const DensityProjec& density_projec_, int n_I, Eigen::VectorXd& rhopm_power_F1D_k_, Eigen::MatrixXd& fp_power_F2D_s_k_) {
+inline void XDBifold::fill_projec_power(const DensityProjec& density_projec_, int n_I, Eigen::VectorXd& rhopm_power_F1D_k_, Eigen::MatrixXd& fp_power_F2D_s_k_) {
     assert(n_I >= 1 && n_I <= 3);
     auto rhopm_power_Func = [&](double rp_F) {
         double rhopm_F = density_projec_.rho_matter(rp_F);
@@ -164,7 +155,7 @@ inline void BifoldXD::fill_projec_power(const DensityProjec& density_projec_, in
     fill_fp(rhopm_power_Func, fp_power_F2D_s_k_);
 }
 
-inline void BifoldXD::update_density_projec(const DensityProjec& density_projec_) {
+inline void XDBifold::update_density_projec(const DensityProjec& density_projec_) {
     // ρ_p → {ρ̃_p, ρ̃_p^{exp}, ρ̃_p², ρ̃_p³, ρ̃_p⁴, f̃_p}.
     Bifold::update_density_projec(density_projec_);
     fill_projec_exp(density_projec, xdm3y_parameters.beta_F);
@@ -173,7 +164,7 @@ inline void BifoldXD::update_density_projec(const DensityProjec& density_projec_
     fill_projec_power(density_projec, 3, rhopm4_F1D_k, fp4_F2D_s_k);
 }
 
-inline void BifoldXD::fill_target_exp(const DensityTarget& density_target_, double beta_F) {
+inline void XDBifold::fill_target_exp(const DensityTarget& density_target_, double beta_F) {
     auto rhotmexp_Func = [&](double rt_F, double theta_F) {
         double rhotm_F = density_target_.rho_matter(rt_F, theta_F);
         return rhotm_F * std::exp(-beta_F * rhotm_F);
@@ -182,7 +173,7 @@ inline void BifoldXD::fill_target_exp(const DensityTarget& density_target_, doub
     fill_ft(rhotmexp_Func, ftexp_F3D_lambda_s_k);
 }
 
-inline void BifoldXD::fill_target_power(const DensityTarget& density_target_, int n_I, Eigen::MatrixXd& rhotm_power_F2D_lambda_k_, Eigen::Tensor<double, 3, Eigen::ColMajor>& ft_power_F3D_lambda_s_k_) {
+inline void XDBifold::fill_target_power(const DensityTarget& density_target_, int n_I, Eigen::MatrixXd& rhotm_power_F2D_lambda_k_, Eigen::Tensor<double, 3, Eigen::ColMajor>& ft_power_F3D_lambda_s_k_) {
     assert(n_I >= 1 && n_I <= 3);
     auto rhotm_power_Func = [&](double rt_F, double theta_F) {
         double rhotm_F = density_target_.rho_matter(rt_F, theta_F);
@@ -192,7 +183,7 @@ inline void BifoldXD::fill_target_power(const DensityTarget& density_target_, in
     fill_ft(rhotm_power_Func, ft_power_F3D_lambda_s_k_);
 }
 
-inline void BifoldXD::update_density_target(const DensityTarget& density_target_) {
+inline void XDBifold::update_density_target(const DensityTarget& density_target_) {
     // ρ_t → {ρ̃_{tλ}, ρ̃_{tλ}^{exp}, ρ̃_{tλ}², ρ̃_{tλ}³, ρ̃_{tλ}⁴, f̃_{tλ}}.
     Bifold::update_density_target(density_target_);
     fill_target_exp(density_target, xdm3y_parameters.beta_F);
@@ -201,7 +192,7 @@ inline void BifoldXD::update_density_target(const DensityTarget& density_target_
     fill_target_power(density_target, 3, rhotm4_F2D_lambda_k, ft4_F3D_lambda_s_k);
 }
 
-inline void BifoldXD::update_potentials(const XDM3YFunctions& xdm3y_functions_) {
+inline void XDBifold::update_potentials(const XDM3YFunctions& xdm3y_functions_) {
     assert(xdm3y_functions_.xdm3y_parameters.gamma_F == 0.0 || xdm3y_functions_.xdm3y_parameters.n_F == 1.0 || xdm3y_functions_.xdm3y_parameters.n_F == 2.0 || xdm3y_functions_.xdm3y_parameters.n_F == 3.0);
     Bifold::update_potentials(xdm3y_functions_.m3y_functions);
     xdm3y_parameters = xdm3y_functions_.xdm3y_parameters;
@@ -209,7 +200,7 @@ inline void BifoldXD::update_potentials(const XDM3YFunctions& xdm3y_functions_) 
     fill_target_exp(density_target, xdm3y_parameters.beta_F);
 }
 
-inline double BifoldXD::Unn_lambda(double r_F, int lambda_I, const Real2RealFunc& vnn_k_Func) const {
+inline double XDBifold::Unn_lambda(double r_F, int lambda_I, const Real2RealFunc& vnn_k_Func) const {
     double Up1t1_F = calc_Ud_lambda(r_F, lambda_I, rhopm_F1D_k, rhotm_F2D_lambda_k, vnn_k_Func); // ρ_pρ_t → U_{p1t1}.
     double Uexp_F = calc_Ud_lambda(r_F, lambda_I, rhopmexp_F1D_k, rhotmexp_F2D_lambda_k, vnn_k_Func);
     Up1t1_F += xdm3y_parameters.alpha_F * Uexp_F;
@@ -238,7 +229,7 @@ inline double BifoldXD::Unn_lambda(double r_F, int lambda_I, const Real2RealFunc
     return xdm3y_parameters.C_F * Up1t1_F;
 }
 
-inline Eigen::VectorXd BifoldXD::G_lambda(double r_F, int lambda_I) const {
+inline Eigen::VectorXd XDBifold::G_lambda(double r_F, int lambda_I) const {
     Eigen::VectorXd Gp1t1_F1D_s = calc_G_lambda(r_F, lambda_I, fp_F2D_s_k, ft_F3D_lambda_s_k); // ρ_pρ_t → G_{p1t1}.
     Eigen::VectorXd Gexp_F1D_s = calc_G_lambda(r_F, lambda_I, fpexp_F2D_s_k, ftexp_F3D_lambda_s_k);
     Gp1t1_F1D_s += xdm3y_parameters.alpha_F * Gexp_F1D_s;
