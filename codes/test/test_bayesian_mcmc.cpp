@@ -22,12 +22,12 @@ double gaussian_logp(const Eigen::VectorXd& x_F1D_x) {
 }
 
 /**
- * @brief  Test random-walk Metropolis sampling of a standard Gaussian target.
+ * @brief  Test standard-Gaussian random-walk Metropolis sampling.
  * @math   x_h ∼ N(0, I)
  * @output Prints labeled samples and statistics; asserts key sampling accuracy.
  */
 int main() {
-    // Function usage.
+    // (log p, x_min, x_max, N_warm, N_sample) → {x_h}.
     Eigen::VectorXd min_F1D_x(2);
     Eigen::VectorXd max_F1D_x(2);
     min_F1D_x << -4.0, -4.0;
@@ -41,9 +41,13 @@ int main() {
     MCMCSampler sampler(gaussian_logp, min_F1D_x, max_F1D_x);
     sampler.run(Nwarm_I, thinWarm_I);
     sampler.run(Nsample_I, thin_I);
+
+    // a = N(x_h != x_{h-1}) / (N - 1).
     double acceptance_F = 0.0;
     for (int h_I = 1; h_I < Nsample_I; ++h_I) {acceptance_F += (sampler.samples_F2D_h_x[h_I] - sampler.samples_F2D_h_x[h_I - 1]).squaredNorm() > 0.0;}
     acceptance_F /= Nsample_I - 1;
+
+    // {x_h} ⊂ [x_min, x_max].
     bool inside_B = true;
     for (const Eigen::VectorXd& sample_F1D_x : sampler.samples_F2D_h_x) {
         if ((sample_F1D_x.array() < min_F1D_x.array()).any() || (sample_F1D_x.array() > max_F1D_x.array()).any()) {
@@ -52,7 +56,7 @@ int main() {
         }
     }
 
-    // Labeled input and output.
+    // ({x_h}, x̄, C, a) → stdout.
     std::cout << std::scientific << std::setprecision(6);
     std::cout << "[Input] minimum bounds = " << min_F1D_x.transpose() << "\n";
     std::cout << "[Input] maximum bounds = " << max_F1D_x.transpose() << "\n";
@@ -70,7 +74,7 @@ int main() {
     std::cout << "[Computed] Gaussian posterior covariance =\n";
     std::cout << sampler.cov_F2D_x_x << "\n";
 
-    // Acceptance asserts.
+    // (|x̄|∞, ||C - I||∞, a) < tolerances.
     assert(sampler.samples_F2D_h_x.size() == static_cast<std::size_t>(Nsample_I));
     assert(inside_B);
     assert(acceptance_F > 0.1 && acceptance_F < 0.4);

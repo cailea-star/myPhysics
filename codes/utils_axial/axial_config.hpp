@@ -38,6 +38,7 @@ public:
  * @output True for a valid retained label.
  */
 inline bool is_valid(int nz_I, int nr_I, int Lambda_I, int twoOmega_I, int twoSigma_I, bool isParityPositive_B) {
+    // (n_z,n_r,Λ,2Ω,2Σ,π) → valid(α).
     const bool nzisNonnegative_B = nz_I >= 0;
     const bool nrisNonnegative_B = nr_I >= 0;
     const bool LambdaisNonnegative_B = Lambda_I >= 0;
@@ -45,7 +46,7 @@ inline bool is_valid(int nz_I, int nr_I, int Lambda_I, int twoOmega_I, int twoSi
     const bool twoSigmaisValid_B = std::abs(twoSigma_I) == 1;
     const bool twoOmegaisConsistent_B = twoOmega_I == 2 * Lambda_I + twoSigma_I;
     const bool parityisConsistent_B = ((nz_I + Lambda_I) % 2 == 0) == isParityPositive_B;
-    return nzisNonnegative_B && nrisNonnegative_B && LambdaisNonnegative_B && twoOmegaisPositive_B && twoSigmaisValid_B && twoOmegaisConsistent_B && parityisConsistent_B;
+    return nzisNonnegative_B & nrisNonnegative_B & LambdaisNonnegative_B & twoOmegaisPositive_B & twoSigmaisValid_B & twoOmegaisConsistent_B & parityisConsistent_B;
 }
 
 class AxialConfig {
@@ -67,12 +68,11 @@ public:
      */
     AxialConfig(double bz_F_, double br_F_, int Nshell_I_, bool useReflection_B_)
     : Nshell_I(Nshell_I_), Nz_I(0), Nr_I(0), bz_F(bz_F_), br_F(br_F_), useReflection_B(useReflection_B_) {
-        // b_z,b_r > 0, N_shell ≥ 0
         assert(std::isfinite(bz_F) && bz_F > 0.0);
         assert(std::isfinite(br_F) && br_F > 0.0);
         assert(Nshell_I >= 0);
 
-        // (N_shell,b_z,b_r) → {α_sp}
+        // (N_shell,b_z,b_r,reflection) → ({α_sp},{α_block},{sp_block}).
         fill_labels();
         assert(!labels_S1D_sp.empty());
 
@@ -86,20 +86,19 @@ public:
             LambdaMax_I = std::max(LambdaMax_I, label_.Lambda_I);
         }
 
-        // deg_v = 14
         Nz_I = 2 * nzMax_I + 8;
         Nr_I = 2 * nrMax_I + LambdaMax_I + 8;
     }
 
     /**
-     * @brief  Convert the mean oscillator length and deformation to axial lengths.
+     * @brief  Map (b₀,β₂₀) to axial oscillator lengths.
      * @math   b_z = b_0 exp[√(5/(16π))β_20], b_r = b_0 exp[-√(5/(16π))β_20/2]
      * @output {b_z,b_r}.
      */
     static std::pair<double, double> b0beta20_to_bzbr(double b0_F, double beta20_F);
 
     /**
-     * @brief  Convert axial oscillator lengths to the mean length and deformation.
+     * @brief  Map axial oscillator lengths to (b₀,β₂₀).
      * @math   b_0 = (b_r²b_z)^(1/3), β_20 = (8/3)√(π/5)log(b_z/b_r)
      * @output {b_0,β_20}.
      */
@@ -155,7 +154,7 @@ inline double AxialConfig::calc_epsilon(int nz_I, int nr_I, int Lambda_I) const 
 }
 
 inline double AxialConfig::calc_Ecut() const {
-    // N_HO = Σ_(N=0)^N_shell (N+1)(N+2)/2 = (N_shell+1)(N_shell+2)(N_shell+3)/6
+    // N_HO=Σ_{N=0}^{N_shell}(N+1)(N+2)/2; n_z^cut=ν^cut=N_HO/2.
     const int NHO_I = (Nshell_I + 1) * (Nshell_I + 2) * (Nshell_I + 3) / 6;
     const int nzCut_I = NHO_I / 2;
     const int nuCut_I = NHO_I / 2;
@@ -165,8 +164,7 @@ inline double AxialConfig::calc_Ecut() const {
     candidates_I2D_candidate_field.reserve((nzCut_I + 1) * (nuCut_I + 1));
     for (int nz_I = 0; nz_I <= nzCut_I; ++nz_I) {
         for (int nrml_I = 0; nrml_I <= nuCut_I; ++nrml_I) {
-            // n_r^max = floor(ν / 2)
-            const int nrMax_I = static_cast<int>(std::floor(nrml_I / 2.0));
+            const int nrMax_I = static_cast<int>(std::floor(nrml_I / 2.0)); // n_r^max = floor(ν/2).
             candidates_I2D_candidate_field.push_back({nz_I, nrml_I, nrMax_I + 1});
         }
     }
@@ -190,13 +188,13 @@ inline double AxialConfig::calc_Ecut() const {
 }
 
 inline void AxialConfig::fill_labels() {
-    // Search bounds and reduced cutoff energy
+    // (N_shell,b_z,b_r) → (bounds,E_cut).
     const int NHO_I = (Nshell_I + 1) * (Nshell_I + 2) * (Nshell_I + 3) / 6;
     const int nzCut_I = NHO_I / 2;
     const int nuCut_I = NHO_I / 2;
     const double Ecut_F = calc_Ecut();
 
-    // Reset α_sp, α_(block,spb), and sp(block,spb)
+    // ({α_sp},{α_block},{sp_block}) ← ∅.
     labels_S1D_sp.clear();
     labels_S2D_block_spb.clear();
     indices_I2D_block_spb.clear();

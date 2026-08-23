@@ -19,7 +19,6 @@
  * @note   An empty from_Str leaves text_Str unchanged.
  */
 inline void replace_all(std::string& text_Str, const std::string& from_Str, const std::string& to_Str) {
-    // from_Str = ∅ → text_Str unchanged.
     if (from_Str.empty()) {return;}
 
     // text_Str[position_I:] : from_Str → to_Str.
@@ -34,7 +33,8 @@ inline void replace_all(std::string& text_Str, const std::string& from_Str, cons
  * @brief  Split a string with std::getline delimiter semantics.
  * @math   tokens = Split(text_Str, delimiter)
  * @output Delimiter-separated tokens.
- * @note   Leading and interior empty tokens are preserved; a trailing empty token is omitted, and empty input returns no tokens.
+ * @note   Preserves leading and interior empty tokens.
+ * @note   Omits trailing empties; empty input yields none.
  */
 inline std::vector<std::string> split(const std::string& text_Str, char delimiter) {
     // text_Str → token_0, token_1, ….

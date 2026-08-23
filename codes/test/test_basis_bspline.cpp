@@ -30,6 +30,7 @@ double harmonic_oscillator_energy(int n_I) {
  * @note   Uses the physicists' Hermite-polynomial convention.
  */
 double harmonic_oscillator_wavefunction(int n_I, double x_F) {
+    // n → (n!,H_n,N_n) → ψ_n(x).
     double factorial_F = 1.0;
     for (int i_I = 2; i_I <= n_I; ++i_I) {factorial_F *= static_cast<double>(i_I);}
     double Hprev_F = 1.0;
@@ -45,12 +46,13 @@ double harmonic_oscillator_wavefunction(int n_I, double x_F) {
 }
 
 /**
- * @brief  Test a cubic B-spline Gauss-quadrature basis with a generalized eigensolver.
+ * @brief  Test cubic B-spline Gauss quadrature and generalized eigensolver.
  * @math   Hc = ESc, V(x) = x²/2
  * @output Labeled energies and wave-function overlaps with acceptance assertions.
  * @note   Uses homogeneous-Dirichlet basis functions for the eigensystem.
  */
 int main() {
+    // (grid,basis) → (x_g,w_g,N_b).
     int Nx_I = 121;
     int Nquad_I = 5;
     int Ncheck_I = 4;
@@ -66,6 +68,7 @@ int main() {
     int Nb_I = b_basis_func.size();
     int Nb_inner_I = Nb_I - 2;
 
+    // (B_gb,w_g,V_g) → (S,H) → {E_n,c_bn}.
     Eigen::VectorXd one_F1D_g = Eigen::VectorXd::Ones(x_F1D_g.size());
     Eigen::VectorXd half_F1D_g = Eigen::VectorXd::Constant(x_F1D_g.size(), 0.5);
     Eigen::VectorXd V_F1D_g = (0.5 * x_F1D_g.array().square()).matrix();
@@ -75,6 +78,7 @@ int main() {
     Eigen::MatrixXd H_F2D_i_j = T_F2D_i_j + V_F2D_i_j;
     Eigen::GeneralizedSelfAdjointEigenSolver<Eigen::MatrixXd> solver(H_F2D_i_j, S_F2D_i_j);
 
+    // ({E_n},{c_bn}) → maximum energy/overlap errors.
     Eigen::VectorXd E_F1D_n = solver.eigenvalues().head(Ncheck_I);
     Eigen::VectorXd overlap_F1D_n(Ncheck_I);
     double errEmax_F = 0.0;
@@ -97,6 +101,7 @@ int main() {
         errPsimax_F = std::max(errPsimax_F, 1.0 - overlap_F1D_n(n_I));
     }
 
+    // (E_ref,E,overlap) → stdout.
     std::cout << std::scientific << std::setprecision(6) << std::left;
     std::cout << "\nInput: cubic B-spline basis, x in [-8, 8], N = 121, Nquad = 5\n";
     std::cout << "Reference/Computed: harmonic-oscillator energies\n";
@@ -112,6 +117,7 @@ int main() {
         std::cout << std::setw(10) << n_I << std::setw(18) << 1.0 << std::setw(18) << overlap_F1D_n(n_I) << std::setw(18) << 1.0 - overlap_F1D_n(n_I) << "\n";
     }
 
+    // (N_b,error_E,error_ψ) < tolerances.
     assert(b_basis.B_F2D_grid_b.cols() == Nb_inner_I && b_basis_full.B_F2D_grid_b.cols() == Nb_I);
     assert(solver.info() == Eigen::Success);
     assert(errEmax_F < 5.0e-4);
