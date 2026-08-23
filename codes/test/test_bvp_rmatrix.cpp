@@ -20,6 +20,7 @@
  * @note   Assumes x_min = 0 and ψ′(0) = -ikψ(0).
  */
 std::complex<double> constant_region_S(double k_F, double q_F, double L_F) {
+    // (k,q,L) → (ρ,λ) → S.
     const std::complex<double> I_C(0.0, 1.0);
     const std::complex<double> rho_C = (q_F - k_F) / (q_F + k_F);
     const std::complex<double> exp_p_C = std::exp(I_C * q_F * L_F);
@@ -34,33 +35,36 @@ std::complex<double> constant_region_S(double k_F, double q_F, double L_F) {
  * @output Labeled reference and computed scattering matrices.
  */
 int main() {
+    // (N_x,N_quad,x_min,x_max,k) → inputs.
     const int Nx_I = 81;
     const int Nquad_I = 5;
     const double xmin_F = 0.0;
     const double xmax_F = 8.0;
     const double k_F = 1.1;
 
-    // B_i(x): cubic B-spline basis on [x_min, x_max].
+    // B_b(x): cubic B-spline basis on [x_min,x_max].
     Eigen::VectorXd x_F1D_x = Eigen::VectorXd::LinSpaced(Nx_I, xmin_F, xmax_F);
     BSplineBasisFunction b_basis_func(x_F1D_x);
     BSplineBasis b_basis(b_basis_func, Nquad_I, false);
 
-    // q_mode = {q_1, q_2}: internal constant-region wave numbers.
+    // q_mode = (q₁,q₂): internal wave numbers.
     Eigen::VectorXcd k_C1D_ch = Eigen::VectorXcd::Constant(2, k_F);
     Eigen::Vector2d q_F1D_mode;
     q_F1D_mode << 0.7, 1.5;
 
-    // U: channel-to-mode rotation.
+    // U: channel → mode.
     const double theta_F = 0.35;
     Eigen::Matrix2d U_F2D_ch_mode;
     U_F2D_ch_mode << std::cos(theta_F), -std::sin(theta_F), std::sin(theta_F), std::cos(theta_F);
 
-    // F = -U diag(q_1², q_2²) Uᵀ.
+    // F = -U diag(q₁²,q₂²)Uᵀ.
     Eigen::Matrix2cd q2_C2D_mode_mode = q_F1D_mode.array().square().matrix().asDiagonal().toDenseMatrix().cast<std::complex<double>>();
     Eigen::MatrixXcd F0_C2D_ch_ch = -U_F2D_ch_mode.cast<std::complex<double>>() * q2_C2D_mode_mode * U_F2D_ch_mode.transpose().cast<std::complex<double>>();
-    auto F_Func = [F0_C2D_ch_ch](double) {return F0_C2D_ch_ch;};
+    auto F_Func = [F0_C2D_ch_ch](double) {
+        return F0_C2D_ch_ch;
+    };
 
-    // Σ_xmin = -ik, Σ_xmax = 0.
+    // (Σ_xmin,Σ_xmax) = (-ik,0).
     Eigen::VectorXcd kzero_C1D_ch = Eigen::VectorXcd::Zero(k_C1D_ch.size());
     RMatrix r_matrix(b_basis, F_Func, k_C1D_ch, kzero_C1D_ch);
 
@@ -91,7 +95,6 @@ int main() {
     std::cout << "[Computed] S =\n" << Scalc_C2D_ch_ch << "\n";
     std::cout << "[Computed] max |S - S_ref| = " << Serror_F << "\n";
 
-    // ||S - S_ref||_max < ε.
     assert(Serror_F < 1.0e-5);
     return 0;
 }

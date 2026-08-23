@@ -38,6 +38,7 @@ add_library(mylib INTERFACE)                                        # 添加库�
 target_include_directories(mylib INTERFACE utils)                   # Propagate general utility headers
 target_include_directories(mylib INTERFACE utils_spherical)         # Propagate spherical utility headers
 target_include_directories(mylib INTERFACE bifold)                  # Propagate double-folding headers
+target_include_directories(mylib INTERFACE utils_axial)             # Propagate axial utility headers
 target_link_libraries(mylib INTERFACE Eigen3::Eigen)                # 传递依赖库, INTERFACE or PUBLIC 模式
 target_link_libraries(mylib INTERFACE GSL::gsl GSL::gslcblas)       # 传递依赖库, INTERFACE or PUBLIC 模式
 target_link_libraries(mylib INTERFACE OpenMP::OpenMP_CXX)           # 传递依赖库, INTERFACE or PUBLIC 模式

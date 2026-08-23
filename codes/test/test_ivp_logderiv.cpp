@@ -21,10 +21,10 @@ using doubleC = std::complex<double>;
 /**
  * @brief  Test QR-stabilized RK4 propagation against a coupled analytic solution.
  * @math   F=U diag(κ²)U†, Y=U diag(κ tanh(κx))U†
- * @output Process exit status.
+ * @output Zero after matrix-error assertions.
  */
 int main() {
-    // Standard coupled complex input.
+    // F = U diag(κ²)U†, Y(0) = 0.
     int Nx_I = 4001;
     double xmin_F = 0.0;
     double xmax_F = 4.0;
@@ -43,7 +43,9 @@ int main() {
     Eigen::Matrix2cd F_C2D_ch_ch;
     F_C2D_ch_ch.noalias() = U_C2D_ch_mode * Fdiag_C2D_mode_mode * U_C2D_ch_mode.adjoint();
     Eigen::Matrix2cd Y0_C2D_ch_ch = Eigen::Matrix2cd::Zero();
-    Real2TMatFunc<doubleC> F_Func = [&](double, Eigen::Ref<Eigen::MatrixXcd> Fout_C2D_ch_ch) {Fout_C2D_ch_ch = F_C2D_ch_ch;};
+    Real2TMatFunc<doubleC> F_Func = [&](double, Eigen::Ref<Eigen::MatrixXcd> Fout_C2D_ch_ch) {
+        Fout_C2D_ch_ch = F_C2D_ch_ch;
+    };
 
     // Y(x) = U diag(κ tanh(κx)) U†.
     Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Y_C3D_ch_ch_x = ivp_logderiv_rk4<doubleC>(F_Func, Y0_C2D_ch_ch, x_F1D_x);
@@ -60,7 +62,7 @@ int main() {
     Eigen::Map<const Eigen::Matrix2cd> Yfinal_C2D_ch_ch(Y_C3D_ch_ch_x.data() + 4 * (Nx_I - 1));
     double initialerror_F = (Y0calc_C2D_ch_ch - Y0_C2D_ch_ch).cwiseAbs().maxCoeff();
 
-    // Inputs → reference → computed → errors.
+    // (x,F,Y(0),Y_ref(x_max),Y(x_max),δ0,δmax) → stdout.
     std::cout << std::scientific << std::setprecision(6);
     std::cout << "[Input] x = [" << xmin_F << ", " << xmax_F << "], Nx = " << Nx_I << ", kappa = " << k_F1D_mode.transpose() << "\n";
     std::cout << "[Input] F =\n" << F_C2D_ch_ch << "\n";
@@ -70,7 +72,7 @@ int main() {
     std::cout << "[Error] initial max error = " << initialerror_F << "\n";
     std::cout << "[Error] global max error = " << maxerror_F << "\n";
 
-    // Acceptance.
+    // ||Y - Y_ref||∞ < ε.
     assert(initialerror_F < tol_F);
     assert(maxerror_F < tol_F);
     return 0;

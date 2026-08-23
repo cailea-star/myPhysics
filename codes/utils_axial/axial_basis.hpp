@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <vector>
@@ -38,15 +39,14 @@ public:
      */
     AxialHermiteBasis(double bz_F_, int Nz_I_, const std::vector<AxialSPLabel>& labels_S1D_sp_, bool useHalf_B = false)
     : bz_F(bz_F_), labels_S1D_sp(labels_S1D_sp_), z_F1D_z(Nz_I_), w_F1D_z(Nz_I_), zeta_F1D_z(Nz_I_), phi_F2D_sp_z(labels_S1D_sp_.size(), Nz_I_), dphi_F2D_sp_z(labels_S1D_sp_.size(), Nz_I_), ddphi_F2D_sp_z(labels_S1D_sp_.size(), Nz_I_) {
-        // Validate mesh parameters.
         assert(std::isfinite(bz_F_) && bz_F_ > 0.0);
         assert(Nz_I_ > 0);
 
-        // {α_sp} -> {n_z,sp}.
+        // {α_sp} → {n_{z,sp}}.
         Eigen::VectorXi nz_I1D_sp(labels_S1D_sp.size());
         for (int sp_I = 0; sp_I < labels_S1D_sp.size(); ++sp_I) {nz_I1D_sp(sp_I) = labels_S1D_sp[sp_I].nz_I;}
 
-        // (-∞, ∞) -> (0, ∞).
+        // (-∞,∞) → (0,∞).
         if (useHalf_B) {
             GaussHermiteMeshes gh_meshes(nz_I1D_sp, 2 * Nz_I_);
             fill_grid(gh_meshes);
@@ -90,17 +90,16 @@ public:
      */
     AxialLaguerreBasis(double br_F_, int Nr_I_, const std::vector<AxialSPLabel>& labels_S1D_sp_)
     : br_F(br_F_), labels_S1D_sp(labels_S1D_sp_), r_F1D_r(Nr_I_), w_F1D_r(Nr_I_), eta_F1D_r(Nr_I_), phi_F2D_sp_r(labels_S1D_sp_.size(), Nr_I_), dphi_F2D_sp_r(labels_S1D_sp_.size(), Nr_I_), ddphi_F2D_sp_r(labels_S1D_sp_.size(), Nr_I_) {
-        // Validate mesh parameters.
         assert(std::isfinite(br_F_) && br_F_ > 0.0);
         assert(Nr_I_ > 0);
 
-        // {α_sp} -> {(n_r,sp, Λ_sp)}.
+        // {α_sp} → {(n_{r,sp},Λ_sp)}.
         Eigen::VectorXi nr_I1D_sp(labels_S1D_sp.size());
         Eigen::VectorXd Lambda_F1D_sp(labels_S1D_sp.size());
         for (int sp_I = 0; sp_I < labels_S1D_sp.size(); ++sp_I) {nr_I1D_sp(sp_I) = labels_S1D_sp[sp_I].nr_I;}
         for (int sp_I = 0; sp_I < labels_S1D_sp.size(); ++sp_I) {Lambda_F1D_sp(sp_I) = labels_S1D_sp[sp_I].Lambda_I;}
 
-        // {(n_r,sp, Λ_sp)} -> GL mesh.
+        // {(n_{r,sp},Λ_sp)} → {η_j,w_j,L_{n_r}^{Λ}(η_j)}.
         GaussLaguerreMeshes gl_meshes(nr_I1D_sp, Lambda_F1D_sp, Nr_I_);
         fill_grid(gl_meshes);
     }
@@ -141,16 +140,13 @@ public:
      */
     AxialBasis(const AxialConfig& axialconfig, const std::vector<AxialSPLabel>& labels_S1D_sp_)
     : br_F(axialconfig.br_F), bz_F(axialconfig.bz_F), labels_S1D_sp(labels_S1D_sp_), twoSigma_I1D_sp(labels_S1D_sp_.size()) {
-        // (n_r, Λ) -> radial basis.
+        // config → (rBasis,zBasis,{2Σ_sp}) → basis.
         AxialLaguerreBasis rBasis(axialconfig.br_F, axialconfig.Nr_I, labels_S1D_sp_);
 
-        // n_z -> axial basis.
         AxialHermiteBasis zBasis(axialconfig.bz_F, axialconfig.Nz_I, labels_S1D_sp_, axialconfig.useReflection_B);
 
-        // {α_sp} -> {2Σ_sp}.
         for (int sp_I = 0; sp_I < labels_S1D_sp.size(); ++sp_I) {twoSigma_I1D_sp(sp_I) = labels_S1D_sp[sp_I].twoSigma_I;}
 
-        // φ_nz(z) ⊗ φ_nr^Λ(r) -> φ_sp(z,r).
         fill_from_separable_basis(zBasis, rBasis);
     }
 
@@ -164,13 +160,13 @@ private:
 };
 
 inline void AxialHermiteBasis::fill_grid(const GaussHermiteMeshes& gh_meshes) {
-    // ζ -> z; dζ -> dz / b_z.
+    // ζ=z/b_z; dz=b_z dζ.
     const double jacobian_F = bz_F;
     zeta_F1D_z = gh_meshes.x_F1D_x;
     z_F1D_z = bz_F * zeta_F1D_z;
     w_F1D_z = jacobian_F * gh_meshes.w_F1D_x;
 
-    // Read dimensions and normalizations.
+    // (n,N_n,H_n,{ζ_i}) → work arrays.
     const int Nsp_I = gh_meshes.n_I1D_n.size();
     const int Nz_I = gh_meshes.x_F1D_x.size();
     const double norm_F = 1.0 / std::sqrt(bz_F);
@@ -182,29 +178,27 @@ inline void AxialHermiteBasis::fill_grid(const GaussHermiteMeshes& gh_meshes) {
     Eigen::MatrixXd dH_F2D_sp_z = Eigen::MatrixXd::Zero(Nsp_I, Nz_I);
     for (int sp_I = 0; sp_I < Nsp_I; ++sp_I) {
         const int nz_I = gh_meshes.n_I1D_n(sp_I);
-        const int nzm1_I = nz_I - 1;
-        if (nzm1_I < 0) {continue;}
+        const int nzm1_I = std::max(nz_I - 1, 0);
+        const double hasLowerOrder_F = static_cast<double>(nz_I > 0);
         for (int z_I = 0; z_I < Nz_I; ++z_I) {
             const double zeta_F = zeta_F1D_z(z_I);
-            dH_F2D_sp_z(sp_I, z_I) = 2.0 * nz_I * gsl_sf_hermite(nzm1_I, zeta_F);
+            dH_F2D_sp_z(sp_I, z_I) = 2.0 * nz_I * hasLowerOrder_F * gsl_sf_hermite(nzm1_I, zeta_F);
         }
     }
 
-    // ∂_ζ²H_n = 2ζ∂_ζH_n - 2nH_n.
+    // (H,H',ζ,n) → (H'',H'-ζH,H''-2ζH'+(ζ²-1)H).
     const Eigen::MatrixXd ddH_F2D_sp_z = 2.0 * dH_F2D_sp_z * zeta_F1D_z.asDiagonal() - 2.0 * nz_F1D_sp.asDiagonal() * H_F2D_sp_z;
 
-    // ∂_ζ[H_ne^(-ζ²/2)].
     const Eigen::MatrixXd dHterm_F2D_sp_z = dH_F2D_sp_z - H_F2D_sp_z * zeta_F1D_z.asDiagonal();
 
-    // ∂_ζ²[H_ne^(-ζ²/2)].
     const Eigen::MatrixXd ddHterm_F2D_sp_z = ddH_F2D_sp_z - 2.0 * dH_F2D_sp_z * zeta_F1D_z.asDiagonal() + H_F2D_sp_z * (zeta_F1D_z.array().square() - 1.0).matrix().asDiagonal();
 
-    // {H_n, ∂_ζH_n, ∂_ζ²H_n} -> {φ_n, ∂_zφ_n, ∂_z²φ_n} without e^(-ζ²/2).
+    // {H_n,∂_ζH_n,∂²_ζH_n} → e^{ζ²/2}{φ_n,∂_zφ_n,∂²_zφ_n}.
     phi_F2D_sp_z.noalias() = N_F1D_sp.asDiagonal() * H_F2D_sp_z;
     dphi_F2D_sp_z.noalias() = N_F1D_sp.asDiagonal() * dHterm_F2D_sp_z / bz_F;
     ddphi_F2D_sp_z.noalias() = N_F1D_sp.asDiagonal() * ddHterm_F2D_sp_z / (bz_F * bz_F);
 
-    // Restore e^(-ζ²/2) in φ and remove e^(-ζ²) from w.
+    // {φ,∂φ,∂²φ} × e^(-ζ²/2); w ÷ e^(-ζ²).
     const Eigen::VectorXd expHalf_F1D_z = (-0.5 * zeta_F1D_z.array().square()).exp();
     w_F1D_z.array() /= expHalf_F1D_z.array().square();
     phi_F2D_sp_z.array().rowwise() *= expHalf_F1D_z.transpose().array();
@@ -213,13 +207,13 @@ inline void AxialHermiteBasis::fill_grid(const GaussHermiteMeshes& gh_meshes) {
 }
 
 inline void AxialLaguerreBasis::fill_grid(const GaussLaguerreMeshes& gl_meshes) {
-    // η -> r; dη -> 2r dr / b_r².
+    // η=(r/b_r)²; r dr=(b_r²/2)dη.
     const double jacobian_F = 0.5 * br_F * br_F;
     eta_F1D_r = gl_meshes.x_F1D_x;
     r_F1D_r = br_F * eta_F1D_r.array().sqrt().matrix();
     w_F1D_r = jacobian_F * gl_meshes.w_F1D_x;
 
-    // Read dimensions and normalizations.
+    // (n,N_n,L_n,{η_i}) → work arrays.
     const int Nr_I = gl_meshes.x_F1D_x.size();
     const int Nsp_I = gl_meshes.n_I1D_na.size();
     const double norm_F = std::sqrt(2.0) / br_F;
@@ -228,7 +222,7 @@ inline void AxialLaguerreBasis::fill_grid(const GaussLaguerreMeshes& gl_meshes) 
     const Eigen::MatrixXd L_F2D_sp_r = gl_meshes.L_F2D_na_x;
     const Eigen::VectorXd N_F1D_sp = norm_F * gl_meshes.N_F1D_na;
 
-    // Evaluate η^(Λ/2), (η-Λ)/η, and [(η-Λ)²-2Λ]/(4η²).
+    // {η^(Λ/2),(η-Λ)/η,[(η-Λ)²-2Λ]/(4η²)}.
     const Eigen::VectorXd I_F1D_sp = Eigen::VectorXd::Ones(Nsp_I);
     Eigen::MatrixXd etaPLambda_F2D_sp_r(Nsp_I, Nr_I);
     Eigen::MatrixXd etaMLambda_F2D_sp_r(Nsp_I, Nr_I);
@@ -240,44 +234,43 @@ inline void AxialLaguerreBasis::fill_grid(const GaussLaguerreMeshes& gl_meshes) 
     // ∂_ηL_nr^Λ = -L_nr-1^(Λ+1).
     Eigen::MatrixXd dL_F2D_sp_r = Eigen::MatrixXd::Zero(Nsp_I, Nr_I);
     for (int sp_I = 0; sp_I < Nsp_I; ++sp_I) {
-        const int nrm1_I = gl_meshes.n_I1D_na(sp_I) - 1;
-        if (nrm1_I < 0) {continue;}
+        const int nrm1_I = std::max(gl_meshes.n_I1D_na(sp_I) - 1, 0);
+        const double hasLowerOrder_F = static_cast<double>(gl_meshes.n_I1D_na(sp_I) > 0);
         const double Lambdap1_F = Lambda_F1D_sp(sp_I) + 1.0;
         for (int r_I = 0; r_I < Nr_I; ++r_I) {
             const double eta_F = eta_F1D_r(r_I);
-            dL_F2D_sp_r(sp_I, r_I) = -gsl_sf_laguerre_n(nrm1_I, Lambdap1_F, eta_F);
+            dL_F2D_sp_r(sp_I, r_I) = -hasLowerOrder_F * gsl_sf_laguerre_n(nrm1_I, Lambdap1_F, eta_F);
         }
     }
 
-    // η∂_η²L = (η-Λ-1)∂_ηL - n_rL.
+    // η∂²_ηL = (η-Λ-1)∂_ηL - n_rL.
     Eigen::MatrixXd ddL_F2D_sp_r = dL_F2D_sp_r * eta_F1D_r.asDiagonal() - (Lambda_F1D_sp.array() + 1.0).matrix().asDiagonal() * dL_F2D_sp_r;
     ddL_F2D_sp_r.noalias() -= nr_F1D_sp.asDiagonal() * L_F2D_sp_r;
     ddL_F2D_sp_r.array().rowwise() /= eta_F1D_r.transpose().array();
 
-    // ∂_η[Lη^(Λ/2)e^(-η/2)] without η^(Λ/2)e^(-η/2).
+    // (L,L',L'',η,Λ) → (u'/w,u''/w), w=η^{Λ/2}e^{-η/2}.
     const Eigen::MatrixXd dLterm_F2D_sp_r = dL_F2D_sp_r.array() - 0.5 * L_F2D_sp_r.array() * etaMLambda_F2D_sp_r.array();
 
-    // ∂_η²[Lη^(Λ/2)e^(-η/2)] without η^(Λ/2)e^(-η/2).
     const Eigen::MatrixXd ddLterm_F2D_sp_r = ddL_F2D_sp_r.array() - dL_F2D_sp_r.array() * etaMLambda_F2D_sp_r.array() + L_F2D_sp_r.array() * etaMLambda2_F2D_sp_r.array();
 
-    // {∂_rη, ∂_r²η} = {2r/b_r², 2/b_r²}.
+    // η=(r/b_r)² → (∂_rη,∂²_rη)=(2r/b_r²,2/b_r²).
     const Eigen::VectorXd deta_F1D_r = 2.0 * r_F1D_r / (br_F * br_F);
     const double ddeta_F = 2.0 / (br_F * br_F);
 
-    // L_nr^Λ -> φ_nr^Λ without e^(-η/2).
+    // NLη^{Λ/2} = e^{η/2}φ.
     phi_F2D_sp_r.noalias() = N_F1D_sp.asDiagonal() * L_F2D_sp_r;
     phi_F2D_sp_r.array() *= etaPLambda_F2D_sp_r.array();
 
-    // ∂_ηφ -> ∂_rφ without e^(-η/2).
+    // e^{η/2}∂_ηφ → e^{η/2}∂_rφ.
     const Eigen::MatrixXd dphiTerm_F2D_sp_r = (N_F1D_sp.asDiagonal() * dLterm_F2D_sp_r).array() * etaPLambda_F2D_sp_r.array();
     dphi_F2D_sp_r.noalias() = dphiTerm_F2D_sp_r * deta_F1D_r.asDiagonal();
 
-    // ∂_η²φ -> ∂_r²φ without e^(-η/2).
+    // e^{η/2}∂²_ηφ → e^{η/2}∂²_rφ.
     const Eigen::MatrixXd ddphiTerm_F2D_sp_r = (N_F1D_sp.asDiagonal() * ddLterm_F2D_sp_r).array() * etaPLambda_F2D_sp_r.array();
     ddphi_F2D_sp_r.noalias() = ddphiTerm_F2D_sp_r * deta_F1D_r.array().square().matrix().asDiagonal();
     ddphi_F2D_sp_r += ddeta_F * dphiTerm_F2D_sp_r;
 
-    // Restore e^(-η/2) in φ and remove e^(-η) from w.
+    // {φ,∂φ,∂²φ} × e^(-η/2); w ÷ e^(-η).
     const Eigen::VectorXd expHalf_F1D_r = (-0.5 * eta_F1D_r.array()).exp();
     w_F1D_r.array() /= expHalf_F1D_r.array().square();
     phi_F2D_sp_r.array().rowwise() *= expHalf_F1D_r.transpose().array();
@@ -286,18 +279,17 @@ inline void AxialLaguerreBasis::fill_grid(const GaussLaguerreMeshes& gl_meshes) 
 }
 
 inline void AxialBasis::fill_from_separable_basis(const AxialHermiteBasis& zBasis, const AxialLaguerreBasis& rBasis) {
-    // Copy one-dimensional meshes.
+    // (z,r,ζ,η,w_z,w_r) ← (zBasis,rBasis).
     z_F1D_z = zBasis.z_F1D_z;
     r_F1D_r = rBasis.r_F1D_r;
     zeta_F1D_z = zBasis.zeta_F1D_z;
     eta_F1D_r = rBasis.eta_F1D_r;
 
-    // Read tensor dimensions.
     const int Nsp_I = labels_S1D_sp.size();
     const int Nz_I = z_F1D_z.size();
     const int Nr_I = r_F1D_r.size();
 
-    // Allocate product weights and basis tensors.
+    // (N_sp,N_z,N_r) → {w,φ,∂φ,∂²φ}.
     w_F2D_z_r.resize(Nz_I, Nr_I);
     phi_F3D_sp_z_r = BasisTensor(Nsp_I, Nz_I, Nr_I);
     dphidr_F3D_sp_z_r = BasisTensor(Nsp_I, Nz_I, Nr_I);
@@ -305,7 +297,7 @@ inline void AxialBasis::fill_from_separable_basis(const AxialHermiteBasis& zBasi
     ddphidr_F3D_sp_z_r = BasisTensor(Nsp_I, Nz_I, Nr_I);
     ddphidz_F3D_sp_z_r = BasisTensor(Nsp_I, Nz_I, Nr_I);
 
-    // φ_sp(z,r) = φ_nz(z)φ_nr^Λ(r) / √(2π).
+    // (φ_z,φ_r)/√(2π) → {φ,∂_rφ,∂_zφ,∂²_rφ,∂²_zφ}; w=2πw_zw_r.
     const double pi_F = std::acos(-1.0);
     const double Nphi_F = 1.0 / std::sqrt(2.0 * pi_F);
     for (int r_I = 0; r_I < Nr_I; ++r_I) {
