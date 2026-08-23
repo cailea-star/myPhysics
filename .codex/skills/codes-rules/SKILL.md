@@ -23,7 +23,7 @@ description: Establishes variable-naming, construction, formatting, comment, API
 
 ## Code Formatting Rules
 
-- Within each class access section, declare data members first; define constructors inline before member functions.
+- Members MUST follow: public data, protected data, private data, public functions, protected functions, private functions.
 - Constructor parameters matching members SHOULD append `_`; initializer lists MUST follow declaration order on one separate line.
 - Declarations, function signatures, and simple statements MUST each occupy one line and NEVER share lines.
 - Single-statement `if` or `for` blocks MAY remain inline but MUST retain braces: `if (...) {...}`, `for (...) {...}`.
