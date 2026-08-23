@@ -65,7 +65,7 @@ int main() {
     }
     double tol_F = 1.0e-4;
 
-    // Input → reference → computed.
+    // (M_ref,M) → matrix corners.
     std::cout << std::scientific << std::setprecision(4) << std::left;
     std::cout << "[Input] spherical states = " << Nlm_I << "\n";
     std::cout << "[Reference] spherical overlap M\n";
@@ -77,7 +77,6 @@ int main() {
     std::cout << "...\n";
     for (int i_I = Nlm_I - 5; i_I < Nlm_I; ++i_I) {std::cout << M_F2D_i_j.block(i_I, 0, 1, 5) << " ... " << M_F2D_i_j.block(i_I, Nlm_I - 5, 1, 5) << "\n";}
 
-    // max|M - M_ref| < tol.
     assert((M_F2D_i_j - Mref_F2D_i_j).cwiseAbs().maxCoeff() < tol_F);
     return 0;
 }

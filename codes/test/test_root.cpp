@@ -41,15 +41,16 @@ double square_func(double x_F) {
 /**
  * @brief  Test bisection, safeguarded Newton, and Brent root finding.
  * @math   f(x^*)=0
- * @output Process exit status.
+ * @output Labeled roots with acceptance assertions.
  */
 int main() {
+    // ([x_lo,x_up],ε) → root-finding inputs.
     double xlo_F = -1.0;
     double xup_F = 20.0;
     double tol_F = 1e-6;
     std::cout << std::scientific << std::setprecision(6) << std::left;
 
-    // Bisection method.
+    // f(x*) = 0, x* ∈ [x_lo,x_up].
     double xroot1_F = root_bisection(polynomial_func, xlo_F, xup_F, tol_F);
     double xroot2_F = root_bisection(exponential_func, xlo_F, xup_F, tol_F);
     std::cout << "\n[INPUT][bisection] x=[" << xlo_F << "," << xup_F << "], tol=" << tol_F << "\n";
@@ -58,7 +59,7 @@ int main() {
     std::cout << "[COMPUTED][bisection] " << std::setw(22) << "root of 2^x-4" << "x=" << xroot2_F << ", f(x)=" << exponential_func(xroot2_F) << "\n";
     assert(std::abs(polynomial_func(xroot1_F)) < 10.0 * tol_F && std::abs(exponential_func(xroot2_F)) < 10.0 * tol_F);
 
-    // Safeguarded Newton method.
+    // x_{h+1} = x_h - f(x_h)/f'(x_h).
     xroot1_F = root_newton(polynomial_func, xlo_F, xup_F, tol_F);
     xroot2_F = root_newton(exponential_func, xlo_F, xup_F, tol_F);
     std::cout << "\n[INPUT][Newton] x=[" << xlo_F << "," << xup_F << "], tol=" << tol_F << "\n";
@@ -67,7 +68,7 @@ int main() {
     std::cout << "[COMPUTED][Newton] " << std::setw(22) << "root of 2^x-4" << "x=" << xroot2_F << ", f(x)=" << exponential_func(xroot2_F) << "\n";
     assert(std::abs(polynomial_func(xroot1_F)) < tol_F && std::abs(exponential_func(xroot2_F)) < tol_F);
 
-    // Brent method.
+    // f(x*) = 0, x* ∈ [x_lo,x_up].
     xroot1_F = root_brent(polynomial_func, xlo_F, xup_F, tol_F);
     xroot2_F = root_brent(exponential_func, xlo_F, xup_F, tol_F);
     std::cout << "\n[INPUT][Brent] x=[" << xlo_F << "," << xup_F << "], tol=" << tol_F << "\n";
@@ -76,7 +77,7 @@ int main() {
     std::cout << "[COMPUTED][Brent] " << std::setw(22) << "root of 2^x-4" << "x=" << xroot2_F << ", f(x)=" << exponential_func(xroot2_F) << "\n";
     assert(std::abs(polynomial_func(xroot1_F)) < tol_F && std::abs(exponential_func(xroot2_F)) < tol_F);
 
-    // Recoverable Brent failure without a sign change.
+    // f(x_lo)f(x_up) > 0 → NaN.
     double xroot3_F = root_brent(square_func, xlo_F, xup_F, tol_F);
     std::cout << "\n[INPUT][Brent unbracketed] f(x)=x^2, x=[" << xlo_F << "," << xup_F << "], tol=" << tol_F << "\n";
     std::cout << "[REFERENCE][Brent unbracketed] x=nan, f(x)=nan\n";

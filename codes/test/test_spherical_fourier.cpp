@@ -31,12 +31,13 @@ double gaussian_k(double k_F) {
 }
 
 /**
- * @brief  Test spherical Fourier transforms using GSL QAG and composite Simpson quadrature.
+ * @brief  Test GSL-QAG and Simpson spherical Fourier transforms.
  * @math   f(r) = exp(-r²/2) ↔ F(k) = (2π)^{3/2} exp(-k²/2)
  * @output Labeled transform comparisons with acceptance assertions.
  * @note   Uses the l = 0 Gaussian transform pair on uniform grids.
  */
 int main() {
+    // (l,{r_i},{k_i}) → Gaussian transform references.
     int l_I = 0;
     int Ngrid_I = 1001;
     double kmin_F = 0.0;
@@ -52,6 +53,7 @@ int main() {
         F_F1D_k(grid_I) = gaussian_k(k_F1D_k(grid_I));
     }
 
+    // f_l(r) → {F_l(k_i)}_{Simpson,QAG}.
     Eigen::VectorXd F_simpson_F1D_k(Ngrid_I);
     Eigen::VectorXd F_qag_F1D_k(Ngrid_I);
     for (int k_I = 0; k_I < Ngrid_I; ++k_I) {
@@ -59,6 +61,7 @@ int main() {
         F_qag_F1D_k(k_I) = spherical_FT_r2k(gaussian_r, k_F1D_k(k_I), l_I, rmin_F, rmax_F);
     }
 
+    // F_l(k) → {f_l(r_i)}_{Simpson,QAG}.
     Eigen::VectorXd f_simpson_F1D_r(Ngrid_I);
     Eigen::VectorXd f_qag_F1D_r(Ngrid_I);
     for (int r_I = 0; r_I < Ngrid_I; ++r_I) {
@@ -66,6 +69,7 @@ int main() {
         f_qag_F1D_r(r_I) = spherical_FT_k2r(gaussian_k, r_F1D_r(r_I), l_I, kmin_F, kmax_F);
     }
 
+    // ({F_ref},{F_QAG},{F_S}) → stdout.
     std::cout << std::scientific << std::setprecision(4);
 
     std::cout << "\nInput: f_l(r) = exp(-r^2/2), l = 0, r in [0, 20], N = 1001\n";
@@ -77,6 +81,7 @@ int main() {
         std::cout << std::setw(20) << k_F1D_k(k_I) << std::setw(20) << F_F1D_k(k_I) << std::setw(20) << F_qag_F1D_k(k_I) << std::setw(20) << F_simpson_F1D_k(k_I) << std::setw(20) << F_qag_F1D_k(k_I) - F_F1D_k(k_I) << std::setw(20) << F_simpson_F1D_k(k_I) - F_F1D_k(k_I) << "\n";
     }
 
+    // ({f_ref},{f_QAG},{f_S}) → stdout.
     std::cout << "\nInput: F_l(k) = (2pi)^(3/2) exp(-k^2/2), l = 0, k in [0, 20], N = 1001\n";
     std::cout << "Reference/Computed: f_l(r), QAG and Simpson\n";
     std::cout << std::setw(20) << "r_F" << std::setw(20) << "IFT_reference" << std::setw(20) << "IFT_qag" << std::setw(20) << "IFT_simpson" << std::setw(20) << "err_qag" << std::setw(20) << "err_simpson" << "\n";
@@ -86,6 +91,7 @@ int main() {
         std::cout << std::setw(20) << r_F1D_r(r_I) << std::setw(20) << f_F1D_r(r_I) << std::setw(20) << f_qag_F1D_r(r_I) << std::setw(20) << f_simpson_F1D_r(r_I) << std::setw(20) << f_qag_F1D_r(r_I) - f_F1D_r(r_I) << std::setw(20) << f_simpson_F1D_r(r_I) - f_F1D_r(r_I) << "\n";
     }
 
+    // max transform errors < ε.
     assert((F_qag_F1D_k - F_F1D_k).cwiseAbs().maxCoeff() < 1.0e-8);
     assert((F_simpson_F1D_k - F_F1D_k).cwiseAbs().maxCoeff() < 1.0e-8);
     assert((f_qag_F1D_r - f_F1D_r).cwiseAbs().maxCoeff() < 1.0e-8);
