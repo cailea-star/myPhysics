@@ -19,7 +19,7 @@ description: Establishes variable-naming, construction, formatting, comment, API
 - Constructors MUST be inline before other member functions; matching-member parameters SHOULD append `_`.
 - Initializer lists MUST follow declaration order on one separate line.
 - Single-statement `if` or `for` blocks MAY remain inline but MUST retain braces.
-- Declarations, function signatures, and simple statements MUST occupy separate lines.
+- Every declaration, signature, and simple statement MUST exclusively occupy one complete physical line.
 
 
 ## Comment Rules
