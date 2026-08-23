@@ -46,4 +46,4 @@ x    f
 2. MUST map the [Reference Code] [Computational Data Flow] upstream-to-downstream, e.g., grid -> potential -> wave function.
 3. MUST build `tools_debug.hpp/tools_debug.cpp` upstream-to-downstream using the Print Rules above.
 4. MUST verify upstream values against [Reference Code]; proceed downstream ONLY after they match.
-5. MUST report data flow using `| Data Name | Physical Meaning | Matching Error with the Reference Code Output |`.
+5. MUST get approval before `$codes-debug` creates test files. Post-write, MUST audit code/theory, run `codes\run.bat` and full CTest; NEVER finish failing.

@@ -22,12 +22,13 @@ using SphericalRadialBoundary = std::pair<doubleC, doubleC>;
 using SphericalRadialBoundaryFunc = std::function<SphericalRadialBoundary(double r_F, int l_I, double hmass_F, double Ze2_F, double E_F)>;
 
 /**
- * @brief  Generate the regular origin boundary by the analytic power law.
+ * @brief  Generate regular boundary by analytic power law.
  * @math   u_l(r) = A r^{l+1}, u_l'(r) = A(l+1)r^l
  * @output Boundary pair (u_l, u_l').
- * @note   hmass_F, Ze2_F, and E_F are unused by this common callback signature.
+ * @note   hmass_F, Ze2_F, and E_F are callback-only.
  */
 inline SphericalRadialBoundary spherical_radial_boundary_regular(double r_F, int l_I, double hmass_F, double Ze2_F, double E_F) {
+    // (r,l) → (u_l,u_l').
     assert(std::isfinite(r_F) && r_F > 0.0);
     assert(l_I >= 0);
     (void) hmass_F;
@@ -44,9 +45,10 @@ inline SphericalRadialBoundary spherical_radial_boundary_regular(double r_F, int
  * @math   H_l^(±) = G_l ± iF_l, dH_l^(±)/dr = k(dG_l/dρ ± i dF_l/dρ)
  * @output Commonly scaled boundary pair (H_l^(±), dH_l^(±)/dr).
  * @note   Requires E_F > 0; sign_I = ±1 selects H_l^(±).
- * @note   A common GSL exponential scale is removed to prevent overflow.
+ * @note   Removes common GSL scale to prevent overflow.
  */
 inline SphericalRadialBoundary spherical_radial_boundary_coulomb_hankel(double r_F, int l_I, double hmass_F, double Ze2_F, double E_F, int sign_I) {
+    // (r,l,h_μ,Ze²,E,sign) → (k,η,ρ).
     assert(std::isfinite(r_F) && r_F > 0.0);
     assert(l_I >= 0);
     assert(std::isfinite(hmass_F) && hmass_F > 0.0);
@@ -56,6 +58,8 @@ inline SphericalRadialBoundary spherical_radial_boundary_coulomb_hankel(double r
     double eta_F = Ze2_F / (2.0 * hmass_F * k_F);
     double rho_F = k_F * r_F;
     double sign_F = static_cast<double>(sign_I);
+
+    // (η,ρ,l) → (F_l,F_l',G_l,G_l').
     gsl_sf_result F_GSL;
     gsl_sf_result dFdrho_GSL;
     gsl_sf_result G_GSL;
@@ -66,6 +70,7 @@ inline SphericalRadialBoundary spherical_radial_boundary_coulomb_hankel(double r
     int status_I = gsl_sf_coulomb_wave_FG_e(eta_F, rho_F, static_cast<double>(l_I), 0, &F_GSL, &dFdrho_GSL, &G_GSL, &dGdrho_GSL, &expF_F, &expG_F);
     if (status_I != GSL_SUCCESS && status_I != GSL_EOVRFLW) {throw std::runtime_error("GSL Coulomb-Hankel evaluation failed");}
 
+    // (F_l,F_l',G_l,G_l') → e^{-s}(F_l,F_l',G_l,G_l') → (H_l^{±},∂_rH_l^{±}).
     double expScale_F = std::max(expF_F, expG_F);
     double F_F = F_GSL.val * std::exp(expF_F - expScale_F);
     double dFdrho_F = dFdrho_GSL.val * std::exp(expF_F - expScale_F);

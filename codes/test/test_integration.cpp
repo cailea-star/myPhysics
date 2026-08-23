@@ -44,7 +44,7 @@ double dWS_func(double x_F) {
  * @output Labeled integrals and acceptance assertions.
  */
 int main() {
-    // Function usage.
+    // (V', [x_min,x_max]) → {I_QAG,I_S,I_T}.
     double xmin_F = 0.0;
     double xmax_F = 100.0; // x_max ≈ ∞.
     int Nx_I = 1001;
@@ -60,7 +60,7 @@ int main() {
     double integralTrapezoidal_F = integrate_trapezoidal(f_F1D_x, x_F1D_x);
     double tol_F = 1.0e-4;
 
-    // Labeled input and output.
+    // (I_ref,I_QAG,I_S,I_T) → stdout.
     std::cout << std::scientific << std::setprecision(4) << std::left;
     std::cout << "[Input] x bounds = [" << xmin_F << ", " << xmax_F << "], Nx = " << Nx_I << "\n";
     std::cout << "[Reference] Woods-Saxon derivative integral = " << integralExact_F << "\n";
@@ -68,7 +68,7 @@ int main() {
     std::cout << "[Computed] Simpson = " << integralSimpson_F << ", error = " << integralSimpson_F - integralExact_F << "\n";
     std::cout << "[Computed] trapezoidal = " << integralTrapezoidal_F << ", error = " << integralTrapezoidal_F - integralExact_F << "\n";
 
-    // Acceptance asserts.
+    // {|I_QAG-I_ref|,|I_S-I_ref|,|I_T-I_ref|} < tolerances.
     assert(std::abs(integralQag_F - integralExact_F) < tol_F);
     assert(std::abs(integralSimpson_F - integralExact_F) < tol_F);
     assert(std::abs(integralTrapezoidal_F - integralExact_F) < tol_F);

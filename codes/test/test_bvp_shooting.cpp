@@ -16,11 +16,12 @@
 #include "spherical_radial_boundary.hpp"
 
 /**
- * @brief  Compare Numerov and RK4 shooting for a spherical Woods-Saxon well.
+ * @brief  Compare Numerov and RK4 Woods-Saxon shooting.
  * @math   h_μ u''(r) = [V(r) - E]u(r)
  * @output Labeled reference and computed eigenstate diagnostics.
  */
 int main() {
+    // (grid,l,n,h_μ,Z e²,V_0,a_0,R_0) → inputs.
     int Nx_I = 1201;
     int l_I = 0;
     int node_I = 2;
@@ -35,7 +36,8 @@ int main() {
     double R0_F = 1.25 * std::pow(40.0, 1.0 / 3.0);
     Eigen::VectorXd x_F1D_x = Eigen::VectorXd::LinSpaced(Nx_I, xmin_F, xmax_F);
 
-    // V = V_WS + V_C + h_μ l(l + 1) / r².
+    // V(r) = -V₀/[1 + e^((r-R₀)/a₀)] + V_C(r) + h_μl(l+1)/r².
+    // V_C(r<R₀)=Ze²(3-r²/R₀²)/(2R₀); V_C(r≥R₀)=Ze²/r.
     ShootingPotentialFunc V_Func = [=](double x_F) {
         double Vws_F = -V0_F / (1.0 + std::exp((x_F - R0_F) / a0_F));
         double ratio_F = x_F / R0_F;
@@ -45,7 +47,9 @@ int main() {
     };
 
     // B_in = B_reg, B_out = (exp(-κx), -κ exp(-κx)).
-    ShootingBoundaryFunc Bin_Func = [=](double x_F, double E_F) {return spherical_radial_boundary_regular(x_F, l_I, hmass_F, Ze2_F, E_F);};
+    ShootingBoundaryFunc Bin_Func = [=](double x_F, double E_F) {
+        return spherical_radial_boundary_regular(x_F, l_I, hmass_F, Ze2_F, E_F);
+    };
     ShootingBoundaryFunc Bout_Func = [](double x_F, double E_F) {
         (void) E_F;
         double k_F = 0.6;
@@ -53,10 +57,9 @@ int main() {
         return ShootingBoundary{y_C, -k_F * y_C};
     };
 
-    // (V, B_in, B_out, x) → problem.
+    // (V,B_in,B_out,{x_i},n,h_μ,i_m,ε) → problem.
     ShootingProblem problem(V_Func, Bin_Func, Bout_Func, x_F1D_x, node_I, hmass_F, xmatch_I, tol_F);
 
-    // E_ref = {E_Numerov, E_RK4}.
     double ErefNumerov_F = -8.929844e-1;
     double ErefRk4_F = -8.938847e-1;
 

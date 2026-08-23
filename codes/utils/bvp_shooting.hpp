@@ -8,6 +8,7 @@
 #pragma once
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <cmath>
 #include <complex>
@@ -47,6 +48,7 @@ public:
      */
     ShootingProblem(const ShootingPotentialFunc& V_Func_, const ShootingBoundaryFunc& Bin_Func_, const ShootingBoundaryFunc& Bout_Func_, const Eigen::Ref<const Eigen::VectorXd>& x_F1D_x_, int node_I_, double hmass_F_, int xmatch_I_, double tol_F_ = 1.0e-8)
     : V_Func(V_Func_), Bin_Func(Bin_Func_), Bout_Func(Bout_Func_), x_F1D_x(x_F1D_x_), V_F1D_x(x_F1D_x_.size()), node_I(node_I_), hmass_F(hmass_F_), xmatch_I(xmatch_I_), tol_F(tol_F_) {
+        // (V,{x_i}) → {V_i}.
         assert(x_F1D_x.size() >= 3);
         assert(node_I >= 0);
         assert(std::isfinite(hmass_F) && hmass_F > 0.0);
@@ -68,11 +70,12 @@ using ShootingMatchFunc = std::function<ShootingSolution(double)>;
 namespace shooting_detail {
 
 /**
- * @brief  Locate the energy interval with the requested Sturm--Liouville node count by bisection.
+ * @brief  Bracket the requested node count by bisection.
  * @math   N(E_n) = n
  * @output Energy interval containing the requested state.
  */
 inline std::pair<double, double> search_node_interval(const ShootingProblem& problem, const ShootingMatchFunc& match_Func, double Elo_F, double Eup_F) {
+    // (V_min,V_max,L,n) → [E_lo,E_up].
     double Vmin_F = problem.V_F1D_x.minCoeff();
     double Vmax_F = problem.V_F1D_x.maxCoeff();
     double L_F = problem.x_F1D_x(problem.x_F1D_x.size() - 1) - problem.x_F1D_x(0);
@@ -82,8 +85,13 @@ inline std::pair<double, double> search_node_interval(const ShootingProblem& pro
     Elo_F = std::isfinite(Elo_F) ? Elo_F : Vmin_F - margin_F;
     Eup_F = std::isfinite(Eup_F) ? Eup_F : Vmax_F + margin_F + 4.0 * Ekin_F;
 
-    Real2RealFunc Nlo_Func = [&](double E_F) {return match_Func(E_F).node_I - problem.node_I + 0.5;};
-    Real2RealFunc Nup_Func = [&](double E_F) {return match_Func(E_F).node_I - problem.node_I - 0.5;};
+    // N(E) → [E_n^lo,E_n^up].
+    Real2RealFunc Nlo_Func = [&](double E_F) {
+        return match_Func(E_F).node_I - problem.node_I + 0.5;
+    };
+    Real2RealFunc Nup_Func = [&](double E_F) {
+        return match_Func(E_F).node_I - problem.node_I - 0.5;
+    };
     double Enlo_F = problem.node_I == 0 ? Elo_F : root_bisection(Nlo_Func, Elo_F, Eup_F, problem.tol_F);
     double Enup_F = root_bisection(Nup_Func, Enlo_F, Eup_F, problem.tol_F);
     return {Enlo_F, Enup_F};
@@ -91,18 +99,21 @@ inline std::pair<double, double> search_node_interval(const ShootingProblem& pro
 
 /**
  * @brief  Count nodes from real-part sign changes.
- * @math   N = #{x_i : y(x_{i-1})y(x_i) < 0}
+ * @math   N = # sign changes in {Re y_i : Re y_i ≠ 0}
  * @output Number of nodes.
- * @note   Node counting is restricted to real Sturm--Liouville bound states.
+ * @note   Restricted to real Sturm--Liouville bound states.
  */
 inline int count_nodes(const Eigen::Ref<const Eigen::VectorXcd>& y_C1D_x) {
+    // {Re y_i ≠ 0} → N_sign.
     assert(y_C1D_x.size() >= 2);
     int node_I = 0;
     double yprev_F = y_C1D_x(0).real();
     for (int x_I = 1; x_I < y_C1D_x.size(); ++x_I) {
         double ycurr_F = y_C1D_x(x_I).real();
-        if (yprev_F * ycurr_F < 0.0) {++node_I;}
-        if (ycurr_F != 0.0) {yprev_F = ycurr_F;}
+        int isSignChange_I = static_cast<int>(yprev_F * ycurr_F < 0.0);
+        double isNonzero_F = static_cast<double>(ycurr_F != 0.0);
+        node_I += isSignChange_I;
+        yprev_F = std::array<double, 2>{yprev_F, ycurr_F}[static_cast<std::size_t>(isNonzero_F)];
     }
     return node_I;
 }
@@ -113,6 +124,7 @@ inline int count_nodes(const Eigen::Ref<const Eigen::VectorXcd>& y_C1D_x) {
  * @output Complex matching error.
  */
 inline doubleC match_error(const ShootingBoundary& yin_C1D_ydy, const ShootingBoundary& yout_C1D_ydy) {
+    // (y_in,y'_in,y_out,y'_out) → W/(y_in y_out).
     doubleC W_C = yin_C1D_ydy.second * yout_C1D_ydy.first - yin_C1D_ydy.first * yout_C1D_ydy.second;
     doubleC yinout_C = yin_C1D_ydy.first * yout_C1D_ydy.first;
     if (std::abs(yinout_C) <= 1.0e-300) {return doubleC(std::numeric_limits<double>::max(), 0.0);}
@@ -125,6 +137,7 @@ inline doubleC match_error(const ShootingBoundary& yin_C1D_ydy, const ShootingBo
  * @output Normalized wave function.
  */
 inline void normalize(Eigen::VectorXcd& y_C1D_x, const Eigen::Ref<const Eigen::VectorXd>& x_F1D_x) {
+    // {y_i} → Norm → {y_i/Norm}.
     Eigen::VectorXd density_F1D_x = y_C1D_x.cwiseAbs2();
     double norm_F = std::sqrt(integrate_trapezoidal(density_F1D_x, x_F1D_x));
     assert(std::isfinite(norm_F) && norm_F > 0.0);
@@ -134,24 +147,25 @@ inline void normalize(Eigen::VectorXcd& y_C1D_x, const Eigen::Ref<const Eigen::V
 }
 
 /**
- * @brief  Match inward and outward solutions propagated by the Numerov method.
+ * @brief  Match Numerov solutions inward and outward.
  * @math   h_μ y''(x) = [V(x) - E]y(x), R(E) = y'_in/y_in - y'_out/y_out
  * @output Matched and normalized solution at E.
  * @note   Requires a uniform grid.
  */
 inline ShootingSolution shooting_match_numerov(const ShootingProblem& problem, double E_F) {
+    // (B_in(E),B_out(E)) → (y₀,y₁,y_{N-1},y_{N-2}).
     int Nx_I = static_cast<int>(problem.x_F1D_x.size());
     ShootingBoundary Bin0_C1D_ydy = problem.Bin_Func(problem.x_F1D_x(0), E_F);
     ShootingBoundary Bin1_C1D_ydy = problem.Bin_Func(problem.x_F1D_x(1), E_F);
     ShootingBoundary Bout1_C1D_ydy = problem.Bout_Func(problem.x_F1D_x(Nx_I - 1), E_F);
     ShootingBoundary Bout2_C1D_ydy = problem.Bout_Func(problem.x_F1D_x(Nx_I - 2), E_F);
 
-    // x_min → x_match.
+    // x_min → {y_in(x_i)}.
     Eigen::VectorXcd F_C1D_x(Nx_I);
     for (int x_I = 0; x_I < Nx_I; ++x_I) {F_C1D_x(x_I) = doubleC((problem.V_F1D_x(x_I) - E_F) / problem.hmass_F, 0.0);}
     Eigen::VectorXcd yin_C1D_x = ivp_numerov<doubleC>(F_C1D_x, Bin0_C1D_ydy.first, Bin1_C1D_ydy.first, problem.x_F1D_x);
 
-    // x_max → x_match.
+    // x_max → {y_out(x_i)}.
     Eigen::VectorXd xrev_F1D_x = problem.x_F1D_x.reverse().eval();
     Eigen::VectorXcd Frev_C1D_x = F_C1D_x.reverse().eval();
     Eigen::VectorXcd youtRev_C1D_x = ivp_numerov<doubleC>(Frev_C1D_x, Bout1_C1D_ydy.first, Bout2_C1D_ydy.first, xrev_F1D_x);
@@ -175,7 +189,7 @@ inline ShootingSolution shooting_match_numerov(const ShootingProblem& problem, d
 }
 
 /**
- * @brief  Match inward and outward solutions propagated by the fourth-order Runge--Kutta method.
+ * @brief  Match RK4 solutions inward and outward.
  * @math   y' = z, h_μ z' = [V(x) - E]y
  * @output Matched and normalized solution at E.
  */
@@ -186,6 +200,7 @@ inline ShootingSolution shooting_match_rk4(const ShootingProblem& problem, doubl
         dydx_C1D_ydy(1) = (problem.V_Func(x_F) - E_F) * ydy_C1D_ydy(0) / problem.hmass_F;
     };
 
+    // (B_in(E),B_out(E)) → (y_in,y′_in,y_out,y′_out).
     int Nx_I = static_cast<int>(problem.x_F1D_x.size());
     ShootingBoundary Bin_C1D_ydy = problem.Bin_Func(problem.x_F1D_x(0), E_F);
     ShootingBoundary Bout_C1D_ydy = problem.Bout_Func(problem.x_F1D_x(Nx_I - 1), E_F);
@@ -194,11 +209,11 @@ inline ShootingSolution shooting_match_rk4(const ShootingProblem& problem, doubl
     yin0_C1D_ydy << Bin_C1D_ydy.first, Bin_C1D_ydy.second;
     yout0_C1D_ydy << Bout_C1D_ydy.first, Bout_C1D_ydy.second;
 
-    // x_min → x_match.
+    // x_min → {(y_in(x_i),y′_in(x_i))}.
     Eigen::MatrixXcd yin_C2D_ydy_x = ivp_rk4_vec<doubleC>(ode_Func, problem.x_F1D_x, yin0_C1D_ydy);
     Eigen::VectorXcd yin_C1D_x = yin_C2D_ydy_x.row(0).transpose();
 
-    // x_max → x_match.
+    // x_max → {(y_out(x_i),y′_out(x_i))}.
     Eigen::VectorXd xrev_F1D_x = problem.x_F1D_x.reverse().eval();
     Eigen::MatrixXcd youtRev_C2D_ydy_x = ivp_rk4_vec<doubleC>(ode_Func, xrev_F1D_x, yout0_C1D_ydy);
     Eigen::VectorXcd yout_C1D_x = youtRev_C2D_ydy_x.row(0).reverse().transpose().eval();
@@ -222,37 +237,45 @@ inline ShootingSolution shooting_match_rk4(const ShootingProblem& problem, doubl
 }
 
 /**
- * @brief  Solve a bound-state shooting problem using Numerov propagation and Brent minimization.
+ * @brief  Solve Numerov shooting by Brent minimization.
  * @math   E_n = arg min_E |R(E)|, N(E) = n
  * @output Eigenenergy and normalized matched solution.
  */
 inline ShootingSolution shooting_numerov(const ShootingProblem& problem, double Elo_F = NAN, double Eup_F = NAN) {
-    ShootingMatchFunc match_Func = [&](double E_F) {return shooting_match_numerov(problem, E_F);};
+    ShootingMatchFunc match_Func = [&](double E_F) {
+        return shooting_match_numerov(problem, E_F);
+    };
 
-    // [E_lo, E_up] → [E_n^lo, E_n^up].
+    // [E_lo,E_up] → [E_n^lo,E_n^up]; ¬finite(E_bound) → E=0.
     std::pair<double, double> Ebound_F1D_bound = shooting_detail::search_node_interval(problem, match_Func, Elo_F, Eup_F);
     if (!std::isfinite(Ebound_F1D_bound.first) || !std::isfinite(Ebound_F1D_bound.second)) {return match_Func(0.0);}
 
     // E_n = argmin_E |R(E)|.
-    Real2RealFunc Rabs_Func = [&](double E_F) {return std::abs(match_Func(E_F).R_C);};
+    Real2RealFunc Rabs_Func = [&](double E_F) {
+        return std::abs(match_Func(E_F).R_C);
+    };
     double E_F = minimize_brent(Rabs_Func, Ebound_F1D_bound.first, Ebound_F1D_bound.second, problem.tol_F);
     return match_Func(E_F);
 }
 
 /**
- * @brief  Solve a bound-state shooting problem using fourth-order Runge--Kutta propagation and Brent minimization.
+ * @brief  Solve RK4 shooting by Brent minimization.
  * @math   E_n = arg min_E |R(E)|, N(E) = n
  * @output Eigenenergy and normalized matched solution.
  */
 inline ShootingSolution shooting_rk4(const ShootingProblem& problem, double Elo_F = NAN, double Eup_F = NAN) {
-    ShootingMatchFunc match_Func = [&](double E_F) {return shooting_match_rk4(problem, E_F);};
+    ShootingMatchFunc match_Func = [&](double E_F) {
+        return shooting_match_rk4(problem, E_F);
+    };
 
-    // [E_lo, E_up] → [E_n^lo, E_n^up].
+    // [E_lo,E_up] → [E_n^lo,E_n^up]; ¬finite(E_bound) → E=0.
     std::pair<double, double> Ebound_F1D_bound = shooting_detail::search_node_interval(problem, match_Func, Elo_F, Eup_F);
     if (!std::isfinite(Ebound_F1D_bound.first) || !std::isfinite(Ebound_F1D_bound.second)) {return match_Func(0.0);}
 
     // E_n = argmin_E |R(E)|.
-    Real2RealFunc Rabs_Func = [&](double E_F) {return std::abs(match_Func(E_F).R_C);};
+    Real2RealFunc Rabs_Func = [&](double E_F) {
+        return std::abs(match_Func(E_F).R_C);
+    };
     double E_F = minimize_brent(Rabs_Func, Ebound_F1D_bound.first, Ebound_F1D_bound.second, problem.tol_F);
     return match_Func(E_F);
 }

@@ -18,6 +18,7 @@
  * @output Labeled reference and computed boundary pairs.
  */
 int main() {
+    // (r,l,h_μ,Z e²,E,ε) → boundary inputs.
     double r_F = 2.0;
     int l_I = 0;
     double hmass_F = 1.0;
@@ -25,11 +26,11 @@ int main() {
     double E_F = 4.0;
     double tol_F = 1.0e-11;
 
-    // k = sqrt(E / h_mu), ρ = kr.
+    // k = √(E/h_μ), ρ = kr.
     double k_F = std::sqrt(E_F / hmass_F);
     double rho_F = k_F * r_F;
 
-    // B_reg = (r, 1).
+    // B_reg = (r,1).
     SphericalRadialBoundary Breg_ref_C1D_ydy = {doubleC(r_F, 0.0), doubleC(1.0, 0.0)};
     SphericalRadialBoundary Breg_C1D_ydy = spherical_radial_boundary_regular(r_F, l_I, hmass_F, Ze2_F, E_F);
 
@@ -39,7 +40,7 @@ int main() {
     SphericalRadialBoundary Bplus_C1D_ydy = spherical_radial_boundary_coulomb_hplus(r_F, l_I, hmass_F, Ze2_F, E_F);
     SphericalRadialBoundary Bminus_C1D_ydy = spherical_radial_boundary_coulomb_hminus(r_F, l_I, hmass_F, Ze2_F, E_F);
 
-    // (r, l, h_mu, Ze2, E) → B_ref, B.
+    // (r,l,h_μ,Ze²,E) → (B_ref,B).
     std::cout << std::scientific << std::setprecision(6);
     std::cout << "[Input] r = " << r_F << ", l = " << l_I << ", h_mu = " << hmass_F << ", Ze2 = " << Ze2_F << ", E = " << E_F << "\n";
     std::cout << "[Reference] B_reg = " << Breg_ref_C1D_ydy.first << "  " << Breg_ref_C1D_ydy.second << "\n";
