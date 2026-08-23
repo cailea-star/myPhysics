@@ -5,7 +5,7 @@ description: Establishes variable-naming, construction, formatting, comment, API
 
 # Codes Rules
 
-## Identifier Naming Rules
+## Naming Rules
 
 - `name` MUST encode the mathematical or physical meaning and match its formula symbol, such as {$N_x$ → `Nx_I`, $x_i$ → `x_F1D_x`, $H_n(x_i)$ → `H_F2D_n_x`}.
 - `T` MUST encode the element type using `{int: I, double: F, complex<double>: C, template: T}`.
@@ -13,39 +13,21 @@ description: Establishes variable-naming, construction, formatting, comment, API
 - `_indexes` MUST list each dimension's physical index in array order, such as `{_x, _x_y, _x_y_z}`.
 - Function names MUST use `snake_case`; mathematical symbols MAY preserve canonical capitalization, such as `{calc_energy, build_tables, read_Gz}`.
 
-## Numerical Implementation Rules
-
-- Numerical containers SHOULD use Eigen when practical; every `Eigen::Tensor` MUST explicitly use `Eigen::ColMajor`.
-- Matrix products MUST use `.noalias()` except when initializing a new variable; aliased products MUST use a temporary.
-- Large numerical buffers MUST be allocated outside loops and reused, such as {Vector, Matrix, Tensor}.
-- Numerical computation blocks MUST NOT use runtime conditional branches; exceptions require explicit approval.
-
-
-## Code Formatting Rules
-
-### Class Formatting Rules
+## Formatting Rules
 
 - Members MUST follow: public data, protected data, private data, public functions, protected functions, private functions.
 - Constructors MUST be inline before other member functions; matching-member parameters SHOULD append `_`.
 - Initializer lists MUST follow declaration order on one separate line.
-
-### Statement Formatting Rules
-
 - Single-statement `if` or `for` blocks MAY remain inline but MUST retain braces.
 - Declarations, function signatures, and simple statements MUST occupy separate lines.
-
-### Numerical Safety Rules
-
-- Floating-point-to-integer conversions MUST use `std::floor` or `std::ceil`.
-- Developer-facing numerical preconditions MUST use single-line `assert`.
 
 
 ## Comment Rules
 
 - Comments MUST use symbols, equations, or transformations whenever possible.
-- Comment prose MUST use fewer than ten English words per line, ONLY when formulas fail.
-- Comments MUST add information and NEVER restate code or symbols.
-- Standalone comments MUST delimit blocks of at least four lines; otherwise use end-of-line comments.
+- English prose MUST inform under ten words/line, appear ONLY when formulas fail; NEVER repeat code/symbols.
+- Numerical lines >100 characters or logical blocks >3 lines MUST have standalone comments.
+- Comments explaining one code line of at most 100 characters MUST be end-of-line.
 
 ### File Header Comments
 
@@ -80,6 +62,19 @@ description: Establishes variable-naming, construction, formatting, comment, API
  */
 ```
 
+## Numerical Rules
+
+### Implementation Rules
+
+- Numerical containers SHOULD use Eigen when practical; every `Eigen::Tensor` MUST explicitly use `Eigen::ColMajor`.
+- Matrix products MUST use `.noalias()` except when initializing a new variable; aliased products MUST use a temporary.
+- Large numerical buffers MUST be allocated outside loops and reused, such as {Vector, Matrix, Tensor}.
+- Numerical computation blocks MUST NOT use runtime conditional branches; exceptions require explicit approval.
+
+### Safety Rules
+
+- Floating-point-to-integer conversions MUST use `std::floor` or `std::ceil`.
+- Developer-facing numerical preconditions MUST use single-line `assert`.
 
 ## Workflow
 

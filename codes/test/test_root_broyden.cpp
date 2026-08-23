@@ -30,6 +30,7 @@ Eigen::Vector2d target_x() {
  * @note   Requires x_F1D_i.size() = 2.
  */
 void fixed_point_func(const Eigen::VectorXd& x_F1D_i, Eigen::VectorXd& G_F1D_i) {
+    // x-x* → G(x)-x*.
     Eigen::Vector2d xstar_F1D_i = target_x();
     Eigen::Vector2d y_F1D_i = x_F1D_i - xstar_F1D_i;
     G_F1D_i.resize(2);
@@ -43,6 +44,7 @@ void fixed_point_func(const Eigen::VectorXd& x_F1D_i, Eigen::VectorXd& G_F1D_i) 
  * @output Prints labeled inputs and outputs and asserts convergence accuracy.
  */
 int main() {
+    // (N_h,α,ε,x_0,G_0) → Broyden iterates.
     int Nh_I = 2;
     int Nitermax_I = 30;
     double alpha_F = 1.0;
@@ -60,6 +62,7 @@ int main() {
     }
     Eigen::Vector2d xstar_F1D_i = target_x();
     Eigen::VectorXd err_F1D_i = solver.xnext_F1D_i - xstar_F1D_i;
+    // (inputs,x*,x_h,r_h) → stdout.
     std::cout << std::scientific << std::setprecision(6) << std::left;
     std::cout << "Input:\n";
     std::cout << std::setw(18) << "history length" << Nh_I << "\n";

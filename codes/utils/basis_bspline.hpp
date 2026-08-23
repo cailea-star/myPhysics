@@ -6,6 +6,7 @@
  */
 
 #pragma once
+#include <algorithm>
 #include <cassert>
 #include <Eigen/Core>
 #include <unsupported/Eigen/Splines>
@@ -21,14 +22,72 @@ public:
     const int p_I = 3;                      // p = 3, order = p + 1.
     KnotVectorType x_F1D_t;                 // t_α: clamped knot vector with endpoint multiplicity p + 1.
 
-protected:
+    /**
+     * @brief  Construct a cubic clamped B-spline basis.
+     * @math   N_B = N_x + p - 1
+     * @output Initialized knot vector and basis definition.
+     */
+    BSplineBasisFunction(const Eigen::VectorXd& x_F1D_x_)
+    : x_F1D_x(x_F1D_x_) {
+        fill_clamped_knots();
+    }
 
+    /**
+     * @brief  Return the number of basis functions.
+     * @math   N_B = N_t - p - 1
+     * @output Basis count.
+     */
+    int size() const {
+        return static_cast<int>(x_F1D_t.size()) - p_I - 1;
+    }
+
+    /**
+     * @brief  Evaluate one basis function and its derivatives.
+     * @math   B_i^(q)(x) = d^q B_i(x) / dx^q
+     * @output Derivative vector from order 0 through q.
+     */
+    Eigen::VectorXd basis_function(double x_F, int b_I, int qmax_I = 0) const {
+        // (x,b,{q}) → {B_b^{(q)}(x)}.
+        assert(b_I >= 0 && b_I < size());
+        assert(qmax_I >= 0);
+
+        Eigen::VectorXd B_F1D_deriv = Eigen::VectorXd::Zero(qmax_I + 1);
+        int span_I = static_cast<int>(Spline1D::Span(x_F, p_I, x_F1D_t));
+        int b_local_I = b_I - (span_I - p_I);
+        int bSafe_I = std::clamp(b_local_I, 0, p_I);
+        double isSupported_F = static_cast<double>((b_local_I >= 0) & (b_local_I <= p_I));
+        BasisDerivativeType B_F2D_deriv_b = Spline1D::BasisFunctionDerivatives(x_F, qmax_I, p_I, x_F1D_t);
+        for (int deriv_I = 0; deriv_I < B_F2D_deriv_b.rows(); ++deriv_I) {
+            B_F1D_deriv(deriv_I) = isSupported_F * B_F2D_deriv_b(deriv_I, bSafe_I);
+        }
+        return B_F1D_deriv;
+    }
+
+    /**
+     * @brief  Evaluate a B-spline expansion and its derivatives.
+     * @math   u^(q)(x) = Σ_i c_i d^q B_i(x) / dx^q
+     * @output Derivative vector from order 0 through q.
+     */
+    Eigen::VectorXd wave_function(double x_F, const Eigen::VectorXd& coeff_F1D_b, int qmax_I = 0) const {
+        // ({c_b},x) → {u^{(q)}(x)}.
+        assert(coeff_F1D_b.size() == size());
+        assert(qmax_I >= 0);
+
+        Eigen::VectorXd u_F1D_deriv = Eigen::VectorXd::Zero(qmax_I + 1);
+        for (int b_I = 0; b_I < size(); ++b_I) {
+            u_F1D_deriv += coeff_F1D_b(b_I) * basis_function(x_F, b_I, qmax_I);
+        }
+        return u_F1D_deriv;
+    }
+
+protected:
     /**
      * @brief  Fill the clamped knot vector.
      * @math   t_0 = ... = t_p = x_min, t_{N_t-p-1} = ... = t_{N_t-1} = x_max
      * @output Updates x_F1D_t.
      */
     void fill_clamped_knots() {
+        // {x_i} → {t_α}; t_edge repeated p+1.
         assert(x_F1D_x.size() >= 2);
         int Nx_I = static_cast<int>(x_F1D_x.size());
         int Nt_I = Nx_I + 2 * p_I;
@@ -48,61 +107,6 @@ protected:
         }
     }
 
-public:
-    /**
-     * @brief  Construct a cubic clamped B-spline basis.
-     * @math   N_B = N_x + p - 1
-     * @output Initialized knot vector and basis definition.
-     */
-    BSplineBasisFunction(const Eigen::VectorXd& x_F1D_x_)
-    : x_F1D_x(x_F1D_x_) {
-        fill_clamped_knots();
-    }
-
-    /**
-     * @brief  Return the number of basis functions.
-     * @math   N_B = N_t - p - 1
-     * @output Basis count.
-     */
-    int size() const { return static_cast<int>(x_F1D_t.size()) - p_I - 1; }
-
-    /**
-     * @brief  Evaluate one basis function and its derivatives.
-     * @math   B_i^(q)(x) = d^q B_i(x) / dx^q
-     * @output Derivative vector from order 0 through q.
-     */
-    Eigen::VectorXd basis_function(double x_F, int b_I, int qmax_I = 0) const {
-        assert(b_I >= 0 && b_I < size());
-        assert(qmax_I >= 0);
-
-        Eigen::VectorXd B_F1D_deriv = Eigen::VectorXd::Zero(qmax_I + 1);
-        int span_I = static_cast<int>(Spline1D::Span(x_F, p_I, x_F1D_t));
-        int b_local_I = b_I - (span_I - p_I);
-        if (b_local_I < 0 || b_local_I > p_I) return B_F1D_deriv;
-
-        BasisDerivativeType B_F2D_deriv_b = Spline1D::BasisFunctionDerivatives(x_F, qmax_I, p_I, x_F1D_t);
-        for (int deriv_I = 0; deriv_I < B_F2D_deriv_b.rows(); ++deriv_I) {
-            B_F1D_deriv(deriv_I) = B_F2D_deriv_b(deriv_I, b_local_I);
-        }
-        return B_F1D_deriv;
-    }
-
-    /**
-     * @brief  Evaluate a B-spline expansion and its derivatives.
-     * @math   u^(q)(x) = Σ_i c_i d^q B_i(x) / dx^q
-     * @output Derivative vector from order 0 through q.
-     */
-    Eigen::VectorXd wave_function(double x_F, const Eigen::VectorXd& coeff_F1D_b, int qmax_I = 0) const {
-        assert(coeff_F1D_b.size() == size());
-        assert(qmax_I >= 0);
-
-        Eigen::VectorXd u_F1D_deriv = Eigen::VectorXd::Zero(qmax_I + 1);
-        for (int b_I = 0; b_I < size(); ++b_I) {
-            u_F1D_deriv += coeff_F1D_b(b_I) * basis_function(x_F, b_I, qmax_I);
-        }
-        return u_F1D_deriv;
-    }
-
 };
 
 class BSplineBasis {
@@ -114,7 +118,7 @@ public:
     Eigen::MatrixXd dB_F2D_grid_b;       // dB_gb = ∂_xB_b(x_g).
 
     /**
-     * @brief  Build the quadrature grid and tabulate the basis.
+     * @brief  Build Gauss-Legendre grid and tabulate cubic B-splines.
      * @math   ∫_(-1)^1 f(ξ)dξ ≈ Σ_g ω_g f(ξ_g)
      * @math   x_c = (x_lo+x_up)/2, J = (x_up-x_lo)/2, x_g = x_c+Jξ_g, w_g = Jω_g
      * @math   u(x_min) = u(x_max) = 0 ⇒ b = 1,...,N_B-2
@@ -124,7 +128,8 @@ public:
     BSplineBasis(const BSplineBasisFunction& b_basis_func_, int nquad_I, bool isZeroBound_B)
     : b_funcs(b_basis_func_) {
         assert(nquad_I > 0);
-        
+
+        // {[x_i,x_{i+1}]} → {x_g,w_g}.
         const int Nseg_I = static_cast<int>(b_basis_func_.x_F1D_x.size()) - 1;
         GaussLegendreMeshes gauss_meshes(nquad_I);
         x_F1D_grid.resize(Nseg_I * nquad_I);
@@ -143,11 +148,13 @@ public:
             w_F1D_grid.segment(offset_I, nquad_I) = jac_F * gauss_meshes.w_F1D_x;
         }
 
+        // b ∈ [b_offset,b_offset+N_b) → {B_gb,B'_gb}.
         const int Ngrid_I = static_cast<int>(x_F1D_grid.size());
         const int Nb_all_I = b_basis_func_.size();
         assert(!isZeroBound_B || Nb_all_I > 2);
-        const int b_offset_I = isZeroBound_B ? 1 : 0;
-        const int Nb_I = isZeroBound_B ? Nb_all_I - 2 : Nb_all_I;
+        const int isZeroBound_I = static_cast<int>(isZeroBound_B);
+        const int b_offset_I = isZeroBound_I;
+        const int Nb_I = Nb_all_I - 2 * isZeroBound_I;
         B_F2D_grid_b.resize(Ngrid_I, Nb_I);
         dB_F2D_grid_b.resize(Ngrid_I, Nb_I);
         for (int g_I = 0; g_I < Ngrid_I; ++g_I) {
@@ -166,6 +173,7 @@ public:
      * @output Local-operator matrix M.
      */
     Eigen::MatrixXd calc_B_O_B(const Eigen::VectorXd& O_F1D_grid) const {
+        // (w_g,O_g,B_gi) → M_ij.
         assert(w_F1D_grid.size() == O_F1D_grid.size());
         assert(B_F2D_grid_b.rows() == O_F1D_grid.size());
 
@@ -179,6 +187,7 @@ public:
      * @output Derivative-form matrix K.
      */
     Eigen::MatrixXd calc_dB_O_dB(const Eigen::VectorXd& O_F1D_grid) const {
+        // (w_g,O_g,B'_gi) → K_ij.
         assert(w_F1D_grid.size() == O_F1D_grid.size());
         assert(dB_F2D_grid_b.rows() == O_F1D_grid.size());
 
