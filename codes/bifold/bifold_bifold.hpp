@@ -17,7 +17,7 @@
 
 #include "bifold_density.hpp"
 #include "bifold_fermik.hpp"
-#include "bifold_m3y_v.hpp"
+#include "bifold_m3y.hpp"
 #include "integration_gauss.hpp"
 #include "spherical_fourier.hpp"
 #include "spherical_harmonics.hpp"
@@ -37,12 +37,25 @@ public:
     int Nlambda_I = 4; // λ ∈ {0, 2, 4, 6}.
     Eigen::VectorXi lambda_I1D_lambda = Eigen::VectorXi::LinSpaced(Nlambda_I, 0, 6); // Multipole values.
 
-    /**
-     * @brief  Construct an empty folding model.
-     * @math   𝓑 = ∅
-     * @output Empty folding model.
-     */
-    Bifold() {ft_F3D_lambda_s_k.setZero();}
+protected:
+    int Nr_I = 201; // N_{r_p} = N_{r_t}.
+    int Nk_I = 201; // Momentum-grid size.
+    int Ns_I = 201; // Exchange-separation-grid size.
+    Eigen::VectorXd rp_F1D_rp = Eigen::VectorXd::LinSpaced(Nr_I, 1.0e-10, 50.0); // r_p, fm.
+    Eigen::VectorXd rt_F1D_rt = Eigen::VectorXd::LinSpaced(Nr_I, 1.0e-10, 50.0); // r_t, fm.
+    Eigen::VectorXd k_F1D_k = Eigen::VectorXd::LinSpaced(Nk_I, 1.0e-10, 5.0); // k, fm⁻¹.
+    Eigen::VectorXd s_F1D_s = Eigen::VectorXd::LinSpaced(Ns_I, 1.0e-10, 5.0); // s, fm.
+    Eigen::VectorXd rhopm_F1D_k = Eigen::VectorXd::Zero(Nk_I); // ρ̃_{p,m}(k).
+    Eigen::VectorXd rhopc_F1D_k = Eigen::VectorXd::Zero(Nk_I); // ρ̃_{p,c}(k).
+    Eigen::MatrixXd rhotm_F2D_lambda_k = Eigen::MatrixXd::Zero(Nlambda_I, Nk_I); // ρ̃_{tλ,m}(k).
+    Eigen::MatrixXd rhotc_F2D_lambda_k = Eigen::MatrixXd::Zero(Nlambda_I, Nk_I); // ρ̃_{tλ,c}(k).
+    Eigen::MatrixXd fp_F2D_s_k = Eigen::MatrixXd::Zero(Ns_I, Nk_I); // f̃_p(s, k).
+    Eigen::Tensor<double, 3, Eigen::ColMajor> ft_F3D_lambda_s_k = Eigen::Tensor<double, 3, Eigen::ColMajor>(Nlambda_I, Ns_I, Nk_I); // f̃_{tλ}(s, k).
+    int Ntheta_I = 10; // Gauss-Legendre angular size.
+    Eigen::VectorXd w_F1D_theta = Eigen::VectorXd::Zero(Ntheta_I); // w_θ.
+    Eigen::MatrixXd Y_F2D_lambda_theta = Eigen::MatrixXd::Zero(Nlambda_I, Ntheta_I); // Y_λ0(θ).
+
+public:
 
     /**
      * @brief  Construct and precompute a folding model.
@@ -86,7 +99,7 @@ public:
      * @math   𝒱 → 𝒱′
      * @output Updated interaction kernels.
      */
-    virtual void update_potentials(const M3YFunctions& m3y_functions_);
+    void update_potentials(const M3YFunctions& m3y_functions_);
 
     /**
      * @brief  Recompute all projectile tables.
@@ -146,43 +159,6 @@ public:
     Eigen::VectorXd Uex(double r_F) const;
 
 protected:
-    int Nr_I = 201; // N_{r_p} = N_{r_t}.
-    int Nk_I = 201; // Momentum-grid size.
-    int Ns_I = 201; // Exchange-separation-grid size.
-    Eigen::VectorXd rp_F1D_rp = Eigen::VectorXd::LinSpaced(Nr_I, 1.0e-10, 50.0); // r_p, fm.
-    Eigen::VectorXd rt_F1D_rt = Eigen::VectorXd::LinSpaced(Nr_I, 1.0e-10, 50.0); // r_t, fm.
-    Eigen::VectorXd k_F1D_k = Eigen::VectorXd::LinSpaced(Nk_I, 1.0e-10, 5.0); // k, fm⁻¹.
-    Eigen::VectorXd s_F1D_s = Eigen::VectorXd::LinSpaced(Ns_I, 1.0e-10, 5.0); // s, fm.
-    Eigen::VectorXd rhopm_F1D_k = Eigen::VectorXd::Zero(Nk_I); // ρ̃_{p,m}(k).
-    Eigen::VectorXd rhopc_F1D_k = Eigen::VectorXd::Zero(Nk_I); // ρ̃_{p,c}(k).
-    Eigen::MatrixXd rhotm_F2D_lambda_k = Eigen::MatrixXd::Zero(Nlambda_I, Nk_I); // ρ̃_{tλ,m}(k).
-    Eigen::MatrixXd rhotc_F2D_lambda_k = Eigen::MatrixXd::Zero(Nlambda_I, Nk_I); // ρ̃_{tλ,c}(k).
-    Eigen::MatrixXd fp_F2D_s_k = Eigen::MatrixXd::Zero(Ns_I, Nk_I); // f̃_p(s, k).
-    Eigen::Tensor<double, 3, Eigen::ColMajor> ft_F3D_lambda_s_k = Eigen::Tensor<double, 3, Eigen::ColMajor>(Nlambda_I, Ns_I, Nk_I); // f̃_{tλ}(s, k).
-    int Ntheta_I = 10; // Gauss-Legendre angular size.
-    Eigen::VectorXd w_F1D_theta = Eigen::VectorXd::Zero(Ntheta_I); // w_θ.
-    Eigen::MatrixXd Y_F2D_lambda_theta = Eigen::MatrixXd::Zero(Nlambda_I, Ntheta_I); // Y_λ0(θ).
-
-    /**
-     * @brief  Project a target density by spherical quadrature.
-     * @math   ρ_{tλ}(r_t) = ∫Y*_{λ0}(Ω_t)ρ_t(r_t, Ω_t)dΩ_t
-     * @output Target-density multipole.
-     */
-    double calc_rhot_lambda(const RealReal2RealFunc& rhot_Func, double rt_F, int lambda_I) const;
-
-    /**
-     * @brief  Project a target exchange factor.
-     * @math   f_{tλ}(r_t,s) = ∫Y*_{λ0}ρ_tĵ₁(k_{F,t}s)dΩ_t
-     * @output Target exchange-factor multipole.
-     */
-    double calc_ft_lambda(const RealReal2RealFunc& rhot_Func, double rt_F, double s_F, int lambda_I) const;
-
-    /**
-     * @brief  Evaluate the projectile exchange factor.
-     * @math   f_p(r_p,s) = ρ_p(r_p)ĵ₁(k_{F,p}s)
-     * @output Projectile exchange factor.
-     */
-    double calc_fp(const Real2RealFunc& rhop_Func, double rp_F, double s_F) const;
 
     /**
      * @brief  Transform projectile exchange factors.
@@ -238,29 +214,8 @@ protected:
      * @math   U_n^E → k_eff → U_{n+1}^E
      * @output L¹ multipole update, MeV.
      */
-    double iterate_Uex(double r_F, const Eigen::VectorXd& Uc_F1D_lambda, const Eigen::VectorXd& Ud_F1D_lambda, Eigen::VectorXd& Ue_F1D_lambda) const;
+    double iterate_Uex(const Eigen::MatrixXd& G_F2D_theta_s, const Eigen::VectorXd& Uc_F1D_lambda, const Eigen::VectorXd& Ud_F1D_lambda, Eigen::VectorXd& Ue_F1D_lambda) const;
 };
-
-inline double Bifold::calc_rhot_lambda(const RealReal2RealFunc& rhot_Func, double rt_F, int lambda_I) const {
-    auto rhot_Omega_Func = [&](double theta_F, double) { return rhot_Func(rt_F, theta_F); }; // ρ_t(r_t, θ_t).
-    return spherical_Omega2lm(rhot_Omega_Func, lambda_I); // ρ_{tλ}(r_t).
-}
-
-inline double Bifold::calc_ft_lambda(const RealReal2RealFunc& rhot_Func, double rt_F, double s_F, int lambda_I) const {
-    // ρ_t(r_t, Ω_t) → ρ_tĵ₁(k_{F,t}s) → f_{tλ}(r_t,s).
-    auto ft_Omega_Func = [&](double theta_F, double) {
-        double rhot_F = rhot_Func(rt_F, theta_F);
-        double kFt_F = calc_fermik(rhot_Func, rt_F, theta_F, Cs_F);
-        return rhot_F * calc_hatj1(kFt_F * s_F);
-    };
-    return spherical_Omega2lm(ft_Omega_Func, lambda_I);
-}
-
-inline double Bifold::calc_fp(const Real2RealFunc& rhop_Func, double rp_F, double s_F) const {
-    double rhop_F = rhop_Func(rp_F); // ρ_p(r_p).
-    double kFp_F = calc_fermik(rhop_Func, rp_F, Cs_F); // k_{F,p}(r_p).
-    return rhop_F * calc_hatj1(kFp_F * s_F); // f_p(r_p,s).
-}
 
 inline void Bifold::update_potentials(const M3YFunctions& m3y_functions_) {
     m3y_functions = m3y_functions_; // 𝒱 → 𝒱′.
@@ -270,8 +225,10 @@ inline void Bifold::fill_fp(const Real2RealFunc& rhop_Func, Eigen::MatrixXd& fp_
     // f_p(r_p,s) → f̃_p(s,k).
     Eigen::MatrixXd fp_F2D_rp_s(Nr_I, Ns_I);
     for (int rp_I = 0; rp_I < Nr_I; ++rp_I) {
+        double rhop_F = rhop_Func(rp_F1D_rp(rp_I));
+        double kFp_F = calc_fermik(rhop_Func, rp_F1D_rp(rp_I), Cs_F);
         for (int s_I = 0; s_I < Ns_I; ++s_I) {
-            fp_F2D_rp_s(rp_I, s_I) = calc_fp(rhop_Func, rp_F1D_rp(rp_I), s_F1D_s(s_I));
+            fp_F2D_rp_s(rp_I, s_I) = rhop_F * calc_hatj1(kFp_F * s_F1D_s(s_I));
         }
     }
     for (int k_I = 0; k_I < Nk_I; ++k_I) {
@@ -304,13 +261,33 @@ inline void Bifold::update_density_projec(const DensityProjec& density_projec_) 
 }
 
 inline void Bifold::fill_ft(const RealReal2RealFunc& rhot_Func, Eigen::Tensor<double, 3, Eigen::ColMajor>& ft_F3D_lambda_s_k_) {
-    // f_{tλ}(r_t,s) → f̃_{tλ}(s,k).
+    // {ρ_t(r_t,θ), k_{F,t}(r_t,θ)} → f̃_{tλ}(s,k).
+    int Ntheta_ft_I = 7;
+    GaussLegendreMeshes spherical_meshes(lambda_I1D_lambda, Eigen::VectorXi::Zero(Nlambda_I), Ntheta_ft_I);
+    Eigen::MatrixXd Y_F2D_lambda_theta = std::sqrt(0.5 / std::numbers::pi) * spherical_meshes.N_F1D_lm.asDiagonal() * spherical_meshes.P_F2D_lm_x;
+    Eigen::MatrixXd rhot_F2D_rt_theta(Nr_I, Ntheta_ft_I);
+    Eigen::MatrixXd kFt_F2D_rt_theta(Nr_I, Ntheta_ft_I);
+    for (int rt_I = 0; rt_I < Nr_I; ++rt_I) {
+        for (int theta_I = 0; theta_I < Ntheta_ft_I; ++theta_I) {
+            double theta_F = std::acos(spherical_meshes.x_F1D_x(theta_I));
+            rhot_F2D_rt_theta(rt_I, theta_I) = rhot_Func(rt_F1D_rt(rt_I), theta_F);
+            kFt_F2D_rt_theta(rt_I, theta_I) = calc_fermik(rhot_Func, rt_F1D_rt(rt_I), theta_F, Cs_F);
+        }
+    }
+
+    // f_t(r_t,θ,s) → f_{tλ}(r_t,s) → f̃_{tλ}(s,k).
     Eigen::MatrixXd ft_F2D_rt_s(Nr_I, Ns_I);
     for (int lambda_index_I = 0; lambda_index_I < Nlambda_I; ++lambda_index_I) {
         int lambda_I = lambda_I1D_lambda(lambda_index_I);
         for (int rt_I = 0; rt_I < Nr_I; ++rt_I) {
             for (int s_I = 0; s_I < Ns_I; ++s_I) {
-                ft_F2D_rt_s(rt_I, s_I) = calc_ft_lambda(rhot_Func, rt_F1D_rt(rt_I), s_F1D_s(s_I), lambda_I);
+                double ft_F = 0.0;
+                for (int theta_I = 0; theta_I < Ntheta_ft_I; ++theta_I) {
+                    double rhot_F = rhot_F2D_rt_theta(rt_I, theta_I);
+                    double kFt_F = kFt_F2D_rt_theta(rt_I, theta_I);
+                    ft_F += spherical_meshes.w_F1D_x(theta_I) * rhot_F * calc_hatj1(kFt_F * s_F1D_s(s_I)) * Y_F2D_lambda_theta(lambda_index_I, theta_I) * 2.0 * std::numbers::pi;
+                }
+                ft_F2D_rt_s(rt_I, s_I) = ft_F;
             }
         }
         for (int k_I = 0; k_I < Nk_I; ++k_I) {
@@ -327,7 +304,8 @@ inline void Bifold::fill_rhot(const RealReal2RealFunc& rhot_Func, Eigen::MatrixX
     for (int lambda_index_I = 0; lambda_index_I < Nlambda_I; ++lambda_index_I) {
         int lambda_I = lambda_I1D_lambda(lambda_index_I);
         for (int rt_I = 0; rt_I < Nr_I; ++rt_I) {
-            rhot_F1D_rt(rt_I) = calc_rhot_lambda(rhot_Func, rt_F1D_rt(rt_I), lambda_I);
+            auto rhot_Omega_Func = [&](double theta_F, double) { return rhot_Func(rt_F1D_rt(rt_I), theta_F); };
+            rhot_F1D_rt(rt_I) = spherical_Omega2lm(rhot_Omega_Func, lambda_I);
         }
         for (int k_I = 0; k_I < Nk_I; ++k_I) {
             rhot_F2D_lambda_k_(lambda_index_I, k_I) = spherical_FT_r2k(rhot_F1D_rt, rt_F1D_rt, k_F1D_k(k_I), lambda_I);
@@ -402,9 +380,10 @@ inline Eigen::VectorXd Bifold::G_lambda(double r_F, int lambda_I) const {
     return calc_G_lambda(r_F, lambda_I, fp_F2D_s_k, ft_F3D_lambda_s_k); // G_λ[ρ_p,ρ_t].
 }
 
-inline double Bifold::iterate_Uex(double r_F, const Eigen::VectorXd& Uc_F1D_lambda, const Eigen::VectorXd& Ud_F1D_lambda, Eigen::VectorXd& Ue_F1D_lambda) const {
+inline double Bifold::iterate_Uex(const Eigen::MatrixXd& G_F2D_theta_s, const Eigen::VectorXd& Uc_F1D_lambda, const Eigen::VectorXd& Ud_F1D_lambda, Eigen::VectorXd& Ue_F1D_lambda) const {
     assert(Uc_F1D_lambda.size() == Nlambda_I);
     assert(Ud_F1D_lambda.size() == Nlambda_I);
+    assert(G_F2D_theta_s.rows() == Ntheta_I && G_F2D_theta_s.cols() == Ns_I);
     assert(Ue_F1D_lambda.size() == Nlambda_I);
 
     // {U_λ^C,U_λ^D,U_λ^E} → k_eff²(θ).
@@ -417,19 +396,7 @@ inline double Bifold::iterate_Uex(double r_F, const Eigen::VectorXd& Uc_F1D_lamb
     keff2_F1D_theta.noalias() = Y_F2D_lambda_theta.transpose() * keff2_F1D_lambda;
     Eigen::VectorXd keff_F1D_theta = keff2_F1D_theta.cwiseMax(0.0).cwiseSqrt();
 
-    // G_λ(r,s) → G(r,θ,s).
-    Eigen::MatrixXd G_F2D_lambda_s(Nlambda_I, Ns_I);
-    for (int lambda_index_I = 0; lambda_index_I < Nlambda_I; ++lambda_index_I) {
-        G_F2D_lambda_s.row(lambda_index_I) = G_lambda(r_F, lambda_I1D_lambda(lambda_index_I)).transpose();
-    }
-    Eigen::MatrixXd G_F2D_theta_s(Ntheta_I, Ns_I);
-    G_F2D_theta_s.noalias() = Y_F2D_lambda_theta.transpose() * G_F2D_lambda_s;
-
     // G(r,θ,s)v_E(s)g(E) → U^E(r,θ).
-    auto vnne_r_Func = [&](double s_F) { return m3y_functions.vnne_r_Func(s_F) * m3y_functions.gE_Func(Ecm_F, density_projec.Ap_I); };
-    for (int s_I = 0; s_I < Ns_I; ++s_I) {
-        G_F2D_theta_s.col(s_I) *= vnne_r_Func(s_F1D_s(s_I));
-    }
     Eigen::VectorXd Uex_F1D_theta = Eigen::VectorXd::Zero(Ntheta_I);
     for (int theta_I = 0; theta_I < Ntheta_I; ++theta_I) {
         Uex_F1D_theta(theta_I) = spherical_FT_r2k(G_F2D_theta_s.row(theta_I), s_F1D_s, keff_F1D_theta(theta_I), 0);
@@ -460,8 +427,20 @@ inline Eigen::VectorXd Bifold::Uex(double r_F) const {
         Ud_F1D_lambda(lambda_index_I) = Ud_lambda(r_F, lambda_I);
         Ue_F1D_lambda(lambda_index_I) = Uexzr_lambda(r_F, lambda_I);
     }
+
+    // G_λ(r,s) → G(r,θ,s)v_E(s)g(E).
+    Eigen::MatrixXd G_F2D_lambda_s(Nlambda_I, Ns_I);
+    for (int lambda_index_I = 0; lambda_index_I < Nlambda_I; ++lambda_index_I) {
+        G_F2D_lambda_s.row(lambda_index_I) = G_lambda(r_F, lambda_I1D_lambda(lambda_index_I)).transpose();
+    }
+    Eigen::MatrixXd G_F2D_theta_s(Ntheta_I, Ns_I);
+    G_F2D_theta_s.noalias() = Y_F2D_lambda_theta.transpose() * G_F2D_lambda_s;
+    double gE_F = m3y_functions.gE_Func(Ecm_F, density_projec.Ap_I);
+    for (int s_I = 0; s_I < Ns_I; ++s_I) {
+        G_F2D_theta_s.col(s_I) *= m3y_functions.vnne_r_Func(s_F1D_s(s_I)) * gE_F;
+    }
     for (int iter_I = 0; iter_I < Niter_I; ++iter_I) {
-        double error_F = iterate_Uex(r_F, Uc_F1D_lambda, Ud_F1D_lambda, Ue_F1D_lambda);
+        double error_F = iterate_Uex(G_F2D_theta_s, Uc_F1D_lambda, Ud_F1D_lambda, Ue_F1D_lambda);
         if (error_F < tolerance_F) { break; }
     }
     return Ue_F1D_lambda;

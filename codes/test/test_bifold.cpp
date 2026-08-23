@@ -14,7 +14,7 @@
 
 #include <Eigen/Core>
 
-#include "bifold_bifold_xd.hpp"
+#include "bifold_xdbifold.hpp"
 
 /**
  * @brief  Evaluate Reid and Paris BDM3Y1 potentials on a uniform radial grid.
@@ -39,8 +39,8 @@ int main() {
     auto rhoCa40_Func = [&](double r_F, double theta_F) {return Ca40_density.density(r_F, theta_F);};
     DensityProjec density_projec(Ap_I, Zp_I, rhoa_Func);
     DensityTarget density_target(At_I, Zt_I, rhoCa40_Func);
-    BifoldXD bifold_reid(hmass_F, Ecm_F, Ze2_F, reid_bdm3y1, density_projec, density_target, 0.25);
-    BifoldXD bifold_paris = bifold_reid;
+    XDBifold bifold_reid(hmass_F, Ecm_F, Ze2_F, reid_bdm3y1, density_projec, density_target, 0.25);
+    XDBifold bifold_paris = bifold_reid;
     bifold_paris.update_potentials(paris_bdm3y1);
 
     int Nr_I = 201;

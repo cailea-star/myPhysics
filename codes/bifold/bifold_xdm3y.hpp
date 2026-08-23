@@ -1,5 +1,5 @@
 /**
- * @file    bifold_m3y_xd.hpp
+ * @file    bifold_xdm3y.hpp
  * @author  cailea
  * @date    2026-08-22
  * @brief   XDM3Y density-dependence parameter sets.
@@ -11,7 +11,7 @@
 #include <cassert>
 #include <utility>
 
-#include "bifold_m3y_v.hpp"
+#include "bifold_m3y.hpp"
 
 /**
  * @brief Store one XDM3Y density-dependence parameterization.
