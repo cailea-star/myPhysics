@@ -18,8 +18,8 @@ description: Establishes variable-naming, construction, formatting, comment, API
 - Members MUST follow: public data, protected data, private data, public functions, protected functions, private functions.
 - Constructors MUST be inline before other member functions; matching-member parameters SHOULD append `_`.
 - Initializer lists MUST follow declaration order on one separate line.
-- Single-statement `if` or `for` blocks MAY remain inline but MUST retain braces.
 - Every declaration, signature, and simple statement MUST exclusively occupy one complete physical line.
+- Sole exception: single-statement `if`/`for`, braces, and body MUST share one physical line.
 
 
 ## Comment Rules
