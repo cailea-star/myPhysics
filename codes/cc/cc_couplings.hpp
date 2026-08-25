@@ -193,16 +193,17 @@ inline Eigen::MatrixXcd calc_coupled_F_matrix(double r_F, const CCParams& params
  * @math   d(u,u')/dr = (u',Fu)
  * @output Coupled first-order state derivative.
  */
-inline Eigen::MatrixXcd calc_coupled_rk4_derivative(double r_F, const CCParams& params, int L_I, const Eigen::Ref<const Eigen::MatrixXcd>& y_C2D_state_sol)
+inline Eigen::MatrixXcd calc_coupled_rk4_derivative(double r_F, const CCParams& params, int L_I, const Eigen::Ref<const Eigen::MatrixXcd>& y_C2D_ch_2sol)
 {
     assert(std::isfinite(r_F) && r_F > 0.0 && L_I >= 0);
     int Nch_I = static_cast<int>(params.channel_1D_ch.size());
-    assert(y_C2D_state_sol.rows() == 2 * Nch_I && y_C2D_state_sol.cols() == Nch_I);
-    Eigen::MatrixXcd u_C2D_ch_sol = y_C2D_state_sol.topRows(Nch_I);
-    Eigen::MatrixXcd dudr_C2D_ch_sol = y_C2D_state_sol.bottomRows(Nch_I);
+    int Nsol_I = static_cast<int>(y_C2D_ch_2sol.cols() / 2);
+    assert(y_C2D_ch_2sol.rows() == Nch_I && y_C2D_ch_2sol.cols() == 2 * Nsol_I && Nsol_I > 0);
+    auto u_C2D_ch_sol = y_C2D_ch_2sol.leftCols(Nsol_I);
+    auto dudr_C2D_ch_sol = y_C2D_ch_2sol.rightCols(Nsol_I);
     Eigen::MatrixXcd F_C2D_ch_ch = calc_coupled_F_matrix(r_F, params, L_I);
-    Eigen::MatrixXcd dy_C2D_state_sol(2 * Nch_I, Nch_I);
-    dy_C2D_state_sol.topRows(Nch_I) = dudr_C2D_ch_sol;
-    dy_C2D_state_sol.bottomRows(Nch_I).noalias() = F_C2D_ch_ch * u_C2D_ch_sol;
-    return dy_C2D_state_sol;
+    Eigen::MatrixXcd dydr_C2D_ch_2sol(Nch_I, 2 * Nsol_I);
+    dydr_C2D_ch_2sol.leftCols(Nsol_I) = dudr_C2D_ch_sol;
+    dydr_C2D_ch_2sol.rightCols(Nsol_I).noalias() = F_C2D_ch_ch * u_C2D_ch_sol;
+    return dydr_C2D_ch_2sol;
 }
