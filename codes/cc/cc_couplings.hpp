@@ -1,5 +1,5 @@
 /**
- * @file    cc1_couplings.hpp
+ * @file    cc_couplings.hpp
  * @author  cailea
  * @date    2026-08-23
  * @brief   Coupled-channel operators, potentials, and radial equations.
@@ -18,7 +18,7 @@
 
 #include <gsl/gsl_sf_coupling.h>
 
-#include "cc0_params.hpp"
+#include "cc_params.hpp"
 
 /**
  * @brief  Evaluate reduced spherical harmonics via Wigner 3j.

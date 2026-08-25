@@ -1,5 +1,5 @@
 /**
- * @file    cc0_potentials.hpp
+ * @file    cc_potentials.hpp
  * @author  cailea
  * @date    2026-08-22
  * @brief   Coupled-channels nuclear, Coulomb, and centrifugal potentials.

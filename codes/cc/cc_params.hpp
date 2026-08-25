@@ -1,5 +1,5 @@
 /**
- * @file    cc0_params.hpp
+ * @file    cc_params.hpp
  * @author  cailea
  * @date    2026-08-23
  * @brief   Coupled-channels parameters, validation, and barrier search.
@@ -20,7 +20,7 @@
 #include <tuple>
 #include <vector>
 
-#include "cc0_potentials.hpp"
+#include "cc_potentials.hpp"
 #include "minimize.hpp"
 #include "root.hpp"
 
