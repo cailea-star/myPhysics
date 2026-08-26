@@ -1,0 +1,206 @@
+/* `:root`：整个文档的根节点，通常用来保存全局变量，如颜色、字号和页面尺寸 */
+:root {
+  --slide-width: 1600px;
+  --slide-height: 900px;
+
+  /* 标尺：页面长度与宽度的 1% */
+  --length-1pct: calc(var(--slide-width) / 100);
+  --width-1pct: calc(var(--slide-height) / 100);
+
+  --white: #fff;
+
+  /* 页面正文颜色和字体大小 */
+  --body-color: #174994;
+  --body-size: calc(var(--width-1pct) * 4);
+  --body-line-gap: var(--width-1pct);
+
+  /* 标题颜色和字体大小 */
+  --title-color: #174994;
+  --title-size: calc(var(--width-1pct) * 10);
+
+  /* 目录字号和行间隔 */
+  --toc-size: calc(var(--width-1pct) * 5);
+  --toc-line-gap: calc(var(--width-1pct) * 10);
+  --toc-number-size: calc(var(--width-1pct) * 5);
+
+  /* 字体栈 */
+  --font-stack: "Times New Roman", KaiTi, STKaiti, "Kaiti SC", serif;
+}
+
+/* `*`：通配选择器，对页面中的所有 HTML 元素应用统一的基础规则 */
+* {
+  box-sizing: border-box; /* 设置所有元素的盒模型为 border-box，方便布局计算 */
+}
+
+/* `html`：整个 HTML 文档的最外层元素，用来设置幻灯片之外的页面背景 */
+html {
+  background: #000000; /* 设置幻灯片外的页面背景为黑色 */
+}
+
+/* `body`：网页正文容器，负责屏幕预览留白、文字颜色和全局字体 */
+body {
+  margin: 0; /* 移除浏览器默认外边距 */
+  padding: calc(var(--width-1pct) * 32 / 9) 0; /* 在屏幕预览时保留上下间距 */
+  color: var(--body-color); /* 设置页面文字颜色 */
+  font-family: var(--font-stack); /* 设置中英文统一字体栈 */
+}
+
+/* `.deck`：整套幻灯片的外层容器，负责在浏览器中放置和居中单页 */
+.deck {
+  display: flex; /* 使用弹性布局承载幻灯片 */
+  flex-direction: column; /* 将多张幻灯片纵向排列 */
+  align-items: center; /* 将幻灯片水平居中 */
+  gap: calc(var(--width-1pct) * 4); /* 在相邻幻灯片之间保留预览间距 */
+}
+
+/* `.slide`：每一张幻灯片的公共页面容器，负责固定尺寸、白底和分页 */
+.slide {
+  width: var(--slide-width); /* 固定单页宽度为 1600px */
+  height: var(--slide-height); /* 固定单页高度为 900px */
+  overflow: hidden; /* 隐藏超出页面边界的内容，禁止页内滚动 */
+  background: var(--white); /* 设置每张幻灯片为白底 */
+  break-after: page; /* 打印时在每张幻灯片后分页 */
+}
+
+/* `.title-slide`：标题页及其内部元素的全部样式 */
+.title-slide {
+  position: relative; /* 为标题页左右角标志提供定位基准 */
+  display: grid; /* 使用网格布局划分标题页纵向区域 */
+  grid-template-rows:
+    calc(var(--width-1pct) * 30) /* 标志区域 30%：5% 留白、20% 标志、5% 留白 */
+    calc(var(--width-1pct) * 10) /* 标题区域 10% */
+    calc(var(--width-1pct) * 20) /* 标题与正文之间空白 20% */
+    calc(var(--width-1pct) * 20) /* 四行正文区域 20% */
+    calc(var(--width-1pct) * 20); /* 底部空白 20% */
+  text-align: center; /* 标题页文字水平居中 */
+
+  /* `& .title-corner-logo`：标题页左右角共用的圆形标志样式 */
+  & .title-corner-logo {
+    position: absolute; /* 将标志固定在标题页角落，不参与纵向网格排版 */
+    top: calc(var(--width-1pct) * 5); /* 标志距页面顶部 5% */
+    width: calc(var(--width-1pct) * 20); /* 标志直径为页面高度的 20% */
+    height: calc(var(--width-1pct) * 20); /* 标志直径为页面高度的 20% */
+    object-fit: contain; /* 保持标志原始纵横比 */
+  }
+
+  /* `& .title-corner-logo-left`：标题页左上角的近代物理所标志 */
+  & .title-corner-logo-left {
+    left: calc(var(--width-1pct) * 5); /* 标志距页面左边缘 5% */
+  }
+
+  /* `& .title-corner-logo-right`：标题页右上角的中国科学院院徽 */
+  & .title-corner-logo-right {
+    right: calc(var(--width-1pct) * 5); /* 标志距页面右边缘 5% */
+  }
+
+  /* `& h1`：选择当前标题页内部的主标题 */
+  & h1 {
+    display: flex; /* 使用弹性布局控制标题在网格内的位置 */
+    grid-row: 2; /* 将标题放在第二个网格区域 */
+    align-items: center; /* 将标题在区域内垂直居中 */
+    justify-content: center; /* 将标题在区域内水平居中 */
+    margin: 0; /* 移除标题默认外边距 */
+    color: var(--title-color); /* 设置标题文字颜色 */
+    font-size: var(--title-size); /* 标题字号为页面高度的 10% */
+    line-height: var(--title-size); /* 标题行高严格等于标题字号 */
+  }
+
+  /* `& .title-meta`：选择当前标题页内部的四行信息区域 */
+  & .title-meta {
+    display: grid; /* 使用网格布局排列四行标题页信息 */
+    grid-row: 4; /* 将信息区域放在第四个网格区域 */
+    grid-template-rows: repeat(4, calc(var(--width-1pct) * 5)); /* 每行占页面高度的 5% */
+    font-size: var(--body-size); /* 正文字号为页面高度的 4% */
+  }
+
+  /* `& .title-meta p`：选择标题页信息区域中的每一行正文 */
+  & .title-meta p {
+    margin: 0; /* 移除段落默认外边距 */
+    padding-bottom: var(--body-line-gap); /* 每行文字下方保留 1% 间距 */
+    line-height: var(--body-size); /* 正文行高严格等于正文字号 */
+  }
+}
+
+/* `.toc-slide`：目录页及其内部元素的全部样式 */
+.toc-slide {
+  display: grid; /* 使用网格布局划分左右区域 */
+  grid-template-columns: 42% 58%; /* 左侧品牌区 42%，右侧目录区 58% */
+
+  /* `& .toc-brand`：选择目录页左侧的蓝色品牌区域 */
+  & .toc-brand {
+    display: grid; /* 使用网格布局安排标识和目录标题 */
+    grid-template-rows:
+      calc(var(--width-1pct) * 20) /* 研究所标识区域 20% */
+      calc(var(--width-1pct) * 23) /* 上部空白 23% */
+      calc(var(--width-1pct) * 10) /* 英文标题区域 10% */
+      calc(var(--width-1pct) * 5) /* 英文与中文标题之间空白 5% */
+      calc(var(--width-1pct) * 10) /* 中文标题区域 10% */
+      calc(var(--width-1pct) * 32); /* 底部空白 32% */
+    margin: 0; /* 移除 aside 的默认外边距 */
+    color: var(--white); /* 设置品牌区域文字为白色 */
+    background: var(--title-color); /* 使用标题蓝作为品牌区域背景 */
+    text-align: center; /* 将品牌区域内容水平居中 */
+  }
+
+  /* `& .toc-logo`：选择品牌区域顶部的研究所标识 */
+  & .toc-logo {
+    grid-row: 1; /* 将研究所标识放在第一行 */
+    align-self: center; /* 将标识在所在区域内垂直居中 */
+    justify-self: center; /* 将标识在所在区域内水平居中 */
+    width: calc(var(--length-1pct) * 28); /* 将标识宽度设置为页面长度的 28% */
+    height: auto; /* 保持标识原始纵横比 */
+  }
+
+  /* `& .toc-english`：选择左侧的英文目录标题 */
+  & .toc-english {
+    grid-row: 3; /* 将英文标题放在第三行 */
+    margin: 0; /* 移除段落默认外边距 */
+    font-size: calc(var(--width-1pct) * 10); /* 英文标题字号为页面高度的 10% */
+    line-height: calc(var(--width-1pct) * 10); /* 英文标题行高严格等于字号 */
+  }
+
+  /* `& .toc-chinese`：选择左侧的中文目录标题 */
+  & .toc-chinese {
+    grid-row: 5; /* 将中文标题放在第五行 */
+    margin: 0; /* 移除段落默认外边距 */
+    font-size: calc(var(--width-1pct) * 10); /* 中文标题字号与英文标题一致，均为页面高度的 10% */
+    line-height: calc(var(--width-1pct) * 10); /* 中文标题行高严格等于字号 */
+  }
+
+  /* `& .toc-list`：选择目录页右侧的四项目录区域 */
+  & .toc-list {
+    display: grid; /* 使用四行网格排列目录项 */
+    grid-template-rows: repeat(4, calc(var(--toc-size) + var(--toc-line-gap))); /* 每项占 5% 字号和 10% 间隔 */
+    justify-self: center; /* 将四项目录作为整体放在右侧区域中央 */
+    width: max-content; /* 以最长目录项确定整体宽度，保持内部左对齐 */
+    padding: calc(var(--width-1pct) * 20) 0; /* 目录区域上下各留 20%，不增加左右偏移 */
+  }
+
+  /* `& .toc-item`：选择右侧的单个目录项 */
+  & .toc-item {
+    display: grid; /* 使用网格对齐圆形编号和目录文字 */
+    grid-template-columns:
+      calc(var(--width-1pct) * 8)
+      1fr; /* 依次设置编号和文字区域 */
+    column-gap: calc(var(--length-1pct) * 3); /* 编号与文字之间保留页面长度的 3% */
+    align-items: center; /* 将编号和文字在每行内垂直居中对齐 */
+    color: var(--body-color); /* 设置目录文字颜色 */
+    text-align: left; /* 将各项目录文字统一左对齐 */
+    font-size: var(--toc-size); /* 目录字号为页面高度的 5% */
+    line-height: var(--toc-size); /* 目录行高严格等于目录字号 */
+  }
+
+  /* `& .toc-number`：选择目录项中的圆形编号 */
+  & .toc-number {
+    display: flex; /* 使用弹性布局居中编号 */
+    align-items: center; /* 将编号垂直居中 */
+    justify-content: center; /* 将编号水平居中 */
+    width: calc(var(--width-1pct) * 8); /* 编号圆直径为页面高度的 8% */
+    height: calc(var(--width-1pct) * 8); /* 编号圆直径为页面高度的 8% */
+    border-radius: 50%; /* 将编号背景设置为圆形 */
+    color: var(--white); /* 设置编号文字为白色 */
+    background: var(--title-color); /* 设置编号圆背景为标题蓝 */
+    font-size: var(--toc-number-size); /* 编号字号为页面高度的 5% */
+    line-height: var(--toc-number-size); /* 编号行高严格等于字号 */
+  }
+}

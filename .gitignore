@@ -8,3 +8,6 @@ __pycache__/
 .cache/
 build*/
 compile_commands.json
+
+# =========== PPT 产物 ===========
+*.png
