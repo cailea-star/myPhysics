@@ -3,28 +3,416 @@
   --slide-width: 1600px;
   --slide-height: 900px;
 
-  /* 标尺：页面长度与宽度的 1% */
-  --length-1pct: calc(var(--slide-width) / 100);
-  --width-1pct: calc(var(--slide-height) / 100);
+  /* 标尺：页面宽度与高度的 1% */
+  --width-1pct: calc(var(--slide-width) / 100);
+  --height-1pct: calc(var(--slide-height) / 100);
 
   --white: #fff;
 
-  /* 页面正文颜色和字体大小 */
+  /* 正文文字样式 */
   --body-color: #174994;
-  --body-size: calc(var(--width-1pct) * 4);
-  --body-line-gap: var(--width-1pct);
+  --body-size: calc(var(--height-1pct) * 4);
+  --body-line-panel: var(--height-1pct);
 
-  /* 标题颜色和字体大小 */
-  --title-color: #174994;
-  --title-size: calc(var(--width-1pct) * 10);
+  /* 公式区域样式 */
+  --formula-size: calc(var(--height-1pct) * 3);
+  --formula-size-long: calc(var(--height-1pct) * 2.5);
+  --formula-content-width: calc(var(--width-1pct) * 80);
+  --formula-content-height: calc(var(--height-1pct) * 10);
+  --formula-content-panel: var(--height-1pct);
 
-  /* 目录字号和行间隔 */
-  --toc-size: calc(var(--width-1pct) * 5);
-  --toc-line-gap: calc(var(--width-1pct) * 10);
-  --toc-number-size: calc(var(--width-1pct) * 5);
+  /* 公式插入区域样式 */
+  --formula-insert-width: calc(var(--width-1pct) * 5);
+  --formula-insert-height: calc(var(--height-1pct) * 10);
+  --formula-insert-line-width: var(--content-line-width);
+  --formula-insert-arrow-size: var(--height-1pct);
+  --formula-insert-offset-center: var(--formula-size);
+  --formula-insert-offset-branch: var(--height-1pct);
+  --formula-insert-offset-stem: calc(var(--formula-insert-width) / 4);
+
+  /* 数值计算流程图样式 */
+  --workflow-node-height: calc(var(--height-1pct) * 8);
+  --workflow-arrow-height: calc(var(--height-1pct) * 2.5);
+  --workflow-arrow-line-width: calc(var(--height-1pct) * 0.25);
+  --workflow-arrow-size: var(--height-1pct);
+  --workflow-font-size: calc(var(--height-1pct) * 2.5);
+  --workflow-step-size: calc(var(--height-1pct) * 5);
+  --workflow-node-background: #f6f9fe;
+  --workflow-node-emphasis-background: #e6eefb;
 
   /* 字体栈 */
   --font-stack: "Times New Roman", KaiTi, STKaiti, "Kaiti SC", serif;
+
+  /* 标题颜色和字体大小 */
+  --title-color: var(--body-color);
+  --title-size: calc(var(--height-1pct) * 10);
+
+  /* 目录标题、目录项字号和间隔 */
+  --toc-title-size: calc(var(--height-1pct) * 10);
+  --toc-title-panel: calc(var(--height-1pct) * 5);
+  --toc-size: calc(var(--height-1pct) * 5);
+  --toc-line-panel: calc(var(--height-1pct) * 10);
+
+  /* 内容页线条样式 */
+  --content-line-width: calc(var(--height-1pct) * 0.5);
+  --content-line-panel: calc(var(--height-1pct) * 0.5);
+
+  /* 内容页头样式 */
+  --content-head-height: calc(var(--height-1pct) * 12);
+  --content-head-title-size: calc(var(--height-1pct) * 8);
+  --content-head-title-panel: calc(var(--height-1pct) * 2);
+
+  /* 内容页块标题样式 */
+  --content-block-title-size: calc(var(--height-1pct) * 4);
+  --content-block-title-panel: calc(var(--height-1pct) * 2);
+  --content-block-panel-horizontal: calc(var(--width-1pct) * 2);
+  --content-block-panel-vertical: calc(var(--height-1pct) * 2);
+
+  /* 内容页块边框样式 */
+  --content-block-border-color: #5d7fbb;
+  --content-block-border-width: calc(var(--height-1pct) * 0.25);
+  --content-block-border-radius: var(--height-1pct);
+
+  /* 分栏图片页的统一媒体区高度 */
+  --content-figure-media-height-two-column: calc(var(--height-1pct) * 55);
+  --content-figure-media-height-three-column: calc(var(--height-1pct) * 48);
+  --content-figure-caption-size: calc(var(--height-1pct) * 3);
+
+  /* 内容页脚样式 */
+  --content-footer-height: calc(var(--height-1pct) * 6);
+  --content-footer-line-length: calc(var(--width-1pct) * 25);
+  --content-footer-line-width: calc(var(--height-1pct) * 0.2);
+  --content-footer-line-panel: var(--height-1pct);
+  --content-footer-text-size: calc(var(--height-1pct) * 2.5);
+  --content-footer-panel-horizontal: calc(var(--width-1pct) * 2);
+  --content-footer-panel-vertical: calc(var(--height-1pct) * 2);
+}
+
+/* `.content-head-block`：正文页共用的 12% 页头块，集中管理标题、logo 与分隔线 */
+.content-head-block {
+  display: grid; /* 使用纵向网格排列页头和分隔线区域 */
+  grid-template-columns: 1fr; /* 标题块只使用一个显式主列 */
+  grid-template-rows:
+    var(--content-head-title-panel)
+    calc(var(--height-1pct) * 8)
+    var(--content-line-panel)
+    var(--content-line-width); /* 依次为 2% 空白、8% 标题、0.5% 空白和 0.5% 分隔线 */
+  height: var(--content-head-height); /* 页头总高度为页面高度的 12% */
+
+  /* `& .content-header`：包含左右 logo 和中央标题的页头 */
+  & .content-header {
+    display: grid; /* 使用三列网格排列左 logo、标题和右 logo */
+    grid-column: 1; /* 将页头固定在标题块主列 */
+    grid-row: 1 / 5; /* 让页头覆盖标题块的全部四行 */
+    grid-template-columns:
+      calc(var(--width-1pct) * 12)
+      1fr
+      calc(var(--width-1pct) * 12); /* 左右各使用页面长度的 12% 作为 logo 区域 */
+    grid-template-rows:
+      var(--content-head-title-panel)
+      calc(var(--height-1pct) * 8)
+      var(--content-line-panel)
+      var(--content-line-width); /* 中央标题使用与标题块一致的纵向标尺 */
+    align-items: center; /* 将各元素在所属区域内垂直居中 */
+    height: var(--content-head-height); /* 页头总高度为页面高度的 12% */
+    padding: 0; /* logo 与页头同高，因此不再设置上下内边距 */
+  }
+
+  /* `& .content-header-logo`：页头左右共用的 logo */
+  & .content-header-logo {
+    grid-row: 1 / 5; /* 让左右 logo 跨满整个 12% 标题块 */
+    justify-self: center; /* 将 logo 在左右区域内水平居中 */
+    width: calc(var(--height-1pct) * 12); /* logo 宽度为页面宽度的 12% */
+    height: calc(var(--height-1pct) * 12); /* logo 高度为页面宽度的 12% */
+    object-fit: contain; /* 保持 logo 原始纵横比 */
+  }
+
+  /* `& .content-header-logo:first-child`：将左侧 logo 固定在第一列 */
+  & .content-header-logo:first-child {
+    grid-column: 1; /* 使用页头左列 */
+    width: calc(var(--height-1pct) * 13); /* 对横向留白较多的研究所标志做 13% 光学校正 */
+    height: calc(var(--height-1pct) * 13); /* 保持光学校正后的正方形占位区域 */
+  }
+
+  /* `& .content-header-logo:last-child`：将右侧 logo 固定在第三列 */
+  & .content-header-logo:last-child {
+    grid-column: 3; /* 使用页头右列 */
+  }
+
+  /* `& h2`：页头中央的小标题 */
+  & h2 {
+    grid-column: 2; /* 将标题放在中央列 */
+    grid-row: 2; /* 将标题放在 8% 标题区域 */
+    margin: 0; /* 移除标题默认外边距 */
+    color: var(--title-color); /* 使用统一标题颜色 */
+    text-align: center; /* 将小标题在页头中央水平居中 */
+    font-size: var(--content-head-title-size); /* 正文页小标题字号为页面高度的 8% */
+    line-height: var(--content-head-title-size); /* 标题行高严格等于字号 */
+    height: var(--content-head-title-size); /* 标题高度严格等于 8% */
+  }
+
+  /* `& .content-divider`：页头下方从 10% 延伸到 90% 的点虚线 */
+  & .content-divider {
+    grid-column: 1; /* 将分隔线固定在标题块主列 */
+    grid-row: 4; /* 将分隔线放在最后 1% 区域 */
+    justify-self: center; /* 将点虚线在页面中水平居中 */
+    align-self: end; /* 将分隔线放在最后 1% 区域内 */
+    width: calc(var(--width-1pct) * 80); /* 左右各留 10%，点虚线实际长度为页面的 80% */
+    height: 0; /* 不额外占用线条以外的高度 */
+    border-top: var(--content-line-width) dotted var(--title-color); /* 使用页面高度 0.5% 的标题蓝点虚线 */
+  }
+}
+
+/* `.content-footer-block`：统一显示正文页左下角署名和右下角页码的底部信息组件 */
+.content-footer-block {
+  position: absolute; /* 将底部信息组件固定在页面底部 */
+  left: var(--content-footer-panel-horizontal); /* 距页面左侧保留 2% */
+  right: var(--content-footer-panel-horizontal); /* 距页面右侧保留 2% */
+  bottom: var(--content-footer-panel-vertical); /* 距页面底部保留 2% */
+  display: flex; /* 将左侧署名与右侧页码排列在同一行 */
+  align-items: center; /* 将两端文字垂直居中 */
+  justify-content: space-between; /* 将署名固定在左侧、页码固定在右侧 */
+  color: var(--body-color); /* 使用统一正文蓝色 */
+  font-size: var(--content-footer-text-size); /* 页脚字号使用页面高度 2.5% */
+  line-height: var(--content-footer-text-size); /* 行高严格等于页脚字号 */
+
+  /* `&::before`：在左侧署名上方绘制 25% 长度的点虚线 */
+  &::before {
+    position: absolute; /* 将装饰线固定在页脚左上方 */
+    left: 0; /* 与左侧署名的起点对齐 */
+    top: calc(-1 * var(--content-footer-line-panel)); /* 在线条与署名之间保留 1% 纵向 panel */
+    width: var(--content-footer-line-length); /* 装饰线长度为页面宽度的 25% */
+    border-top: var(--content-footer-line-width) dotted var(--body-color); /* 使用页面高度 0.2% 的正文蓝点虚线 */
+    content: ""; /* 生成装饰线伪元素 */
+  }
+
+  /* `& .content-page-author`：显示正文页左下角的汇报人与单位 */
+  & .content-page-author {
+    text-align: left; /* 署名从页面左侧向右排列 */
+  }
+
+  /* `& .content-page-number`：显示正文页右下角的当前页与总页数 */
+  & .content-page-number {
+    text-align: right; /* 页码贴近页面右侧排列 */
+  }
+}
+
+/* `.content-block-title`：内容块共用标题，内部上下各含 2% panel，标题本身占 4% */
+.content-block-title {
+  display: flex; /* 使用弹性布局对齐装饰条和标题文字 */
+  align-items: center; /* 将装饰条与标题文字垂直居中 */
+  gap: var(--height-1pct); /* 装饰条与标题文字之间保留 1% 间距 */
+  height: calc(var(--content-block-title-panel) * 2 + var(--content-block-title-size)); /* 块标题区域总高为 8% */
+  margin: 0; /* 移除标题默认外边距 */
+  padding: var(--content-block-title-panel) 0 var(--content-block-title-panel) 5%; /* 标题内部上下各保留 2%，并在列内向右缩进 5% */
+  color: var(--title-color); /* 使用统一标题颜色 */
+  font-size: var(--content-block-title-size); /* 块标题字号为页面高度的 4% */
+  line-height: var(--content-block-title-size); /* 块标题行高严格等于字号 */
+}
+
+/* `.content-block-arrow`：内容块标题前的 CSS 箭头标志容器 */
+.content-block-arrow {
+  position: relative; /* 为上下两个三角形提供定位基准 */
+  width: calc(var(--height-1pct) * 5); /* 箭头整体宽度为页面宽度的 5% */
+  height: calc(var(--height-1pct) * 5); /* 箭头整体高度为页面宽度的 5% */
+  flex: 0 0 auto; /* 固定箭头尺寸 */
+
+  /* `& .content-block-arrow-outline`：绘制箭头上半部分的蓝色三角轮廓 */
+  & .content-block-arrow-outline {
+    position: absolute; /* 将上半部分固定在箭头容器内 */
+    inset: 0; /* 让轮廓层覆盖整个箭头容器 */
+    background: var(--title-color); /* 使用统一标题蓝 */
+    clip-path: polygon(0 0, 100% 50%, 34% 50%); /* 绘制上半部分外三角形 */
+
+    /* `&::after`：用白色内三角形成空心轮廓 */
+    &::after {
+      position: absolute; /* 将白色内三角叠加在蓝色外三角上 */
+      inset: 0; /* 使用与外三角相同的坐标系 */
+      background: var(--white); /* 使用页面白色挖空箭头上半部分 */
+      clip-path: polygon(11% 13%, 82% 47%, 39% 44%); /* 保留均匀的蓝色三角轮廓 */
+      content: ""; /* 仅绘制图形，不插入文本 */
+    }
+  }
+
+  /* `& .content-block-arrow-fill`：绘制箭头下半部分的实心蓝色三角形 */
+  & .content-block-arrow-fill {
+    position: absolute; /* 将下半部分固定在箭头容器内 */
+    inset: 0; /* 让实心层覆盖整个箭头容器 */
+    background: var(--title-color); /* 使用统一标题蓝 */
+    clip-path: polygon(0 100%, 100% 50%, 34% 50%); /* 绘制下半部分实心三角形 */
+  }
+}
+
+/* `.content-block-figure`：图片内容块，按标题区和图片区纵向排列 */
+.content-block-figure {
+  display: grid; /* 使用纵向网格排列块标题和块内容 */
+  grid-template-rows:
+    calc(var(--content-block-title-panel) * 2 + var(--content-block-title-size))
+    minmax(0, 1fr); /* 第一行固定为 8% 块标题区，其余空间用于图片 */
+  height: auto; /* 让图片块按标题和图片的实际高度排列 */
+  min-width: 0; /* 防止图片撑开等宽分栏 */
+  min-height: 0; /* 防止图片撑高固定画布 */
+
+  /* `& img`：为图片本身添加统一边框 */
+  & img {
+    box-sizing: border-box; /* 将边框计入图片原有尺寸 */
+    border: var(--content-block-border-width) solid var(--content-block-border-color); /* 使用统一的 0.25% 内容块边框 */
+    border-radius: var(--content-block-border-radius); /* 使用统一圆角 */
+  }
+}
+
+/* `.content-block-text`：仅包裹文字或公式主体的圆角内容框 */
+.content-block-text {
+  min-width: 0; /* 防止长内容撑开所在布局区域 */
+  min-height: 0; /* 允许内容框在固定画布内收缩 */
+  box-shadow: inset 0 0 0 var(--content-block-border-width) var(--content-block-border-color); /* 在块内绘制圆角边线，避免边线增加外部尺寸 */
+  border-radius: var(--content-block-border-radius); /* 使用页面高度 1% 的圆角 */
+  background: var(--white); /* 保持内容框内部为白色背景 */
+}
+
+/* `.content-block-workflow`：计算流程内容块，独立承载流程标题、节点和连接箭头 */
+.content-block-workflow {
+  display: grid; /* 使用纵向网格排列块标题和计算流程 */
+  grid-template-rows:
+    calc(var(--content-block-title-panel) * 2 + var(--content-block-title-size))
+    auto; /* 第一行固定为 8% 块标题区，流程区按实际内容高度排列 */
+  align-self: center; /* 将标题与完整流程作为整体在所在列内垂直居中 */
+  height: auto; /* 高度仅由标题和流程内容共同决定 */
+  min-width: 0; /* 防止流程节点撑开内容区域 */
+  min-height: 0; /* 允许流程在固定画布内收缩 */
+
+  /* `& .workflow`：纵向排列计算步骤和箭头 */
+  & .workflow {
+    display: flex; /* 使用纵向弹性布局排列流程节点 */
+    flex-direction: column; /* 从上到下展示计算流程 */
+    align-items: center; /* 将流程节点水平居中 */
+    justify-content: flex-start; /* 让第一个流程节点紧接 block 标题区域 */
+    min-height: 0; /* 允许流程在固定区域内收缩 */
+  }
+
+  /* `& .workflow-node`：单个流程步骤 */
+  & .workflow-node {
+    display: grid; /* 使用编号列和文字列组织流程节点 */
+    grid-template-columns: var(--workflow-step-size) minmax(0, 1fr); /* 左侧固定步骤圆标，右侧承载说明文字 */
+    column-gap: var(--content-block-panel-horizontal); /* 编号与文字之间保留统一横向 panel */
+    align-items: center; /* 垂直居中 */
+    width: 90%; /* 节点左右保留少量空间 */
+    height: var(--workflow-node-height); /* 每个节点固定占页面高度 8% */
+    padding-inline: var(--content-block-panel-horizontal); /* 节点文字与边框之间保留横向空间 */
+    border-radius: var(--content-block-border-radius); /* 使用统一圆角 */
+    box-shadow: inset 0 0 0 var(--content-block-border-width) var(--content-block-border-color); /* 使用统一的内容块内描边 */
+    color: var(--body-color); /* 使用正文蓝色 */
+    background: var(--workflow-node-background); /* 使用浅色背景增强流程层级 */
+    font-size: var(--workflow-font-size); /* 使用流程图专用字号 */
+    text-align: left; /* 所有步骤说明使用统一阅读起点 */
+  }
+
+  /* `& .workflow-node-emphasis`：突出流程中的关键计算步骤 */
+  & .workflow-node-emphasis {
+    background: var(--workflow-node-emphasis-background); /* 使用更深的浅蓝色强调关键节点 */
+  }
+
+  /* `& .workflow-step`：流程节点左侧的步骤编号圆标 */
+  & .workflow-step {
+    display: flex; /* 将步骤编号放在圆标中心 */
+    align-items: center; /* 垂直居中编号 */
+    justify-content: center; /* 水平居中编号 */
+    width: var(--workflow-step-size); /* 圆标宽度为页面高度 5% */
+    height: var(--workflow-step-size); /* 圆标高度为页面高度 5% */
+    border-radius: 50%; /* 将步骤编号背景绘制为圆形 */
+    color: var(--white); /* 使用白色编号 */
+    background: var(--body-color); /* 使用正文蓝色圆标 */
+    line-height: var(--workflow-font-size); /* 编号行高与流程字号一致 */
+  }
+
+  /* `& .workflow-label`：流程节点中的步骤说明 */
+  & .workflow-label {
+    min-width: 0; /* 允许长文字在固定节点宽度内排版 */
+  }
+
+  /* `& .workflow-arrow`：连接相邻流程节点的向下箭头 */
+  & .workflow-arrow {
+    position: relative; /* 为箭头尖提供定位基准 */
+    width: var(--workflow-arrow-line-width); /* 使用页面高度 0.25% 的箭杆 */
+    height: var(--workflow-arrow-height); /* 箭头连接区占页面高度 2.5% */
+    background: var(--body-color); /* 绘制竖直箭杆 */
+
+    /* `&::after`：绘制流程箭头尖 */
+    &::after {
+      position: absolute; /* 将箭头尖固定在连接区底端 */
+      left: calc(var(--workflow-arrow-line-width) / 2 - var(--workflow-arrow-size) / 2); /* 让箭头尖与箭杆居中 */
+      bottom: 0; /* 放在连接区底部 */
+      width: 0; /* 使用边框构造三角形 */
+      height: 0; /* 使用边框构造三角形 */
+      border-inline: calc(var(--workflow-arrow-size) / 2) solid transparent; /* 形成两侧斜边 */
+      border-top: var(--workflow-arrow-size) solid var(--body-color); /* 形成向下箭头尖 */
+      content: ""; /* 生成伪元素 */
+    }
+  }
+}
+
+/* `.formula-insert`：外部公式插入工具，将公式左端固定在 block 水平中心 */
+.formula-insert {
+  position: relative; /* 为公式左端的绝对锚定提供定位基准 */
+  justify-content: initial; /* 不再使用 flex 对公式进行水平定位 */
+
+  /* `& .formula-insert-content`：集中承载插入公式与左侧箭头包装 */
+  & .formula-insert-content {
+    position: absolute; /* 将公式包装层从 flex 排版中移出 */
+    top: 50%; /* 将公式包装层放在 10% 行高的垂直中心 */
+    left: calc(50% - var(--formula-insert-offset-center)); /* 让水平中心落在右侧公式约第二个字符处 */
+    display: inline-flex; /* 宽度只由公式决定，箭头不参与公式排版 */
+    align-items: center; /* 保持公式在原有 10% 行内垂直居中 */
+    justify-content: flex-start; /* 让公式从左端锚点向右展开 */
+    width: max-content; /* 包装宽度严格等于公式实际宽度 */
+    max-width: none; /* 允许长公式继续向右展开 */
+    margin: 0; /* 移除所有可能改变锚点的外边距 */
+    transform: translateY(-50%); /* 只校正垂直位置，不改变水平锚点 */
+
+    /* `& > mjx-container[display="true"]`：让 MathJax 容器按公式实际宽度收缩 */
+    & > mjx-container[display="true"] {
+      display: inline-block; /* 取消显示公式默认的整行 block 宽度 */
+      width: max-content; /* 让容器左端与 P_lambda 的实际左端一致 */
+      max-width: none; /* 不在容器内部重新居中公式 */
+      margin: 0; /* 移除 MathJax 显示公式的默认外边距 */
+      text-align: left; /* 让公式从锚点向右展开 */
+    }
+  }
+
+  /* `& .formula-insert-marker`：绝对定位在公式左侧的两岔箭头，不参与布局计算 */
+  & .formula-insert-marker {
+    position: absolute; /* 将箭头从公式排版流中完全移除 */
+    top: 50%; /* 让箭头中心与公式中心对齐 */
+    right: 100%; /* 让横向分岔线恰好连接公式左侧 */
+    width: var(--formula-insert-width); /* 使用页面宽度 5% 的箭头区域 */
+    height: var(--formula-insert-height); /* 连同箭头尖的总高度固定为页面高度 10% */
+    transform: translateY(-50%); /* 按自身高度校正垂直中心 */
+    background: linear-gradient(var(--body-color), var(--body-color)) var(--formula-insert-offset-stem) calc(50% - var(--formula-insert-offset-branch)) / calc(100% - var(--formula-insert-offset-stem)) var(--formula-insert-line-width) no-repeat; /* 箭头横线保持上移 1%，不参与公式对齐 */
+    pointer-events: none; /* 装饰符号不拦截交互 */
+
+    /* `&::before`：绘制两岔箭头的竖直箭杆 */
+    &::before {
+      position: absolute; /* 将箭杆固定在装饰区域内 */
+      top: 0; /* 从装饰区域顶部开始 */
+      bottom: var(--formula-insert-arrow-size); /* 为底部箭头留出空间 */
+      left: var(--formula-insert-offset-stem); /* 按竖直箭杆的横向偏移定位 */
+      width: var(--formula-insert-line-width); /* 使用公式插入工具的统一线宽 */
+      background: var(--body-color); /* 使用正文蓝色 */
+      content: ""; /* 生成伪元素 */
+    }
+
+    /* `&::after`：绘制两岔箭头底部的箭头尖 */
+    &::after {
+      position: absolute; /* 将箭头尖固定在竖直箭杆底端 */
+      left: calc(var(--formula-insert-offset-stem) - var(--formula-insert-arrow-size) / 2 + var(--formula-insert-line-width) / 2); /* 让箭头尖中心与箭杆重合 */
+      bottom: 0; /* 放在装饰区域底部 */
+      width: 0; /* 使用边框构造三角形 */
+      height: 0; /* 使用边框构造三角形 */
+      border-inline: calc(var(--formula-insert-arrow-size) / 2) solid transparent; /* 形成箭头两侧斜边 */
+      border-top: var(--formula-insert-arrow-size) solid var(--body-color); /* 形成向下箭头尖 */
+      content: ""; /* 生成伪元素 */
+    }
+  }
 }
 
 /* `*`：通配选择器，对页面中的所有 HTML 元素应用统一的基础规则 */
@@ -40,7 +428,7 @@ html {
 /* `body`：网页正文容器，负责屏幕预览留白、文字颜色和全局字体 */
 body {
   margin: 0; /* 移除浏览器默认外边距 */
-  padding: calc(var(--width-1pct) * 32 / 9) 0; /* 在屏幕预览时保留上下间距 */
+  padding: calc(var(--height-1pct) * 32 / 9) 0; /* 在屏幕预览时保留上下间距 */
   color: var(--body-color); /* 设置页面文字颜色 */
   font-family: var(--font-stack); /* 设置中英文统一字体栈 */
 }
@@ -50,11 +438,12 @@ body {
   display: flex; /* 使用弹性布局承载幻灯片 */
   flex-direction: column; /* 将多张幻灯片纵向排列 */
   align-items: center; /* 将幻灯片水平居中 */
-  gap: calc(var(--width-1pct) * 4); /* 在相邻幻灯片之间保留预览间距 */
+  gap: calc(var(--height-1pct) * 4); /* 在相邻幻灯片之间保留预览间距 */
 }
 
 /* `.slide`：每一张幻灯片的公共页面容器，负责固定尺寸、白底和分页 */
 .slide {
+  position: relative; /* 为右下角页码提供统一定位基准 */
   width: var(--slide-width); /* 固定单页宽度为 1600px */
   height: var(--slide-height); /* 固定单页高度为 900px */
   overflow: hidden; /* 隐藏超出页面边界的内容，禁止页内滚动 */
@@ -67,30 +456,30 @@ body {
   position: relative; /* 为标题页左右角标志提供定位基准 */
   display: grid; /* 使用网格布局划分标题页纵向区域 */
   grid-template-rows:
-    calc(var(--width-1pct) * 30) /* 标志区域 30%：5% 留白、20% 标志、5% 留白 */
-    calc(var(--width-1pct) * 10) /* 标题区域 10% */
-    calc(var(--width-1pct) * 20) /* 标题与正文之间空白 20% */
-    calc(var(--width-1pct) * 20) /* 四行正文区域 20% */
-    calc(var(--width-1pct) * 20); /* 底部空白 20% */
+    calc(var(--height-1pct) * 30) /* 标志区域 30%：5% 留白、20% 标志、5% 留白 */
+    calc(var(--height-1pct) * 10) /* 标题区域 10% */
+    calc(var(--height-1pct) * 15) /* 标题与正文之间空白 15% */
+    calc(var(--height-1pct) * 25) /* 补充信息区域 25% */
+    calc(var(--height-1pct) * 20); /* 底部空白 20% */
   text-align: center; /* 标题页文字水平居中 */
 
   /* `& .title-corner-logo`：标题页左右角共用的圆形标志样式 */
   & .title-corner-logo {
     position: absolute; /* 将标志固定在标题页角落，不参与纵向网格排版 */
-    top: calc(var(--width-1pct) * 5); /* 标志距页面顶部 5% */
-    width: calc(var(--width-1pct) * 20); /* 标志直径为页面高度的 20% */
-    height: calc(var(--width-1pct) * 20); /* 标志直径为页面高度的 20% */
+    top: calc(var(--height-1pct) * 5); /* 标志距页面顶部 5% */
+    width: calc(var(--height-1pct) * 20); /* 标志直径为页面高度的 20% */
+    height: calc(var(--height-1pct) * 20); /* 标志直径为页面高度的 20% */
     object-fit: contain; /* 保持标志原始纵横比 */
   }
 
   /* `& .title-corner-logo-left`：标题页左上角的近代物理所标志 */
   & .title-corner-logo-left {
-    left: calc(var(--width-1pct) * 5); /* 标志距页面左边缘 5% */
+    left: calc(var(--height-1pct) * 5); /* 标志距页面左边缘 5% */
   }
 
   /* `& .title-corner-logo-right`：标题页右上角的中国科学院院徽 */
   & .title-corner-logo-right {
-    right: calc(var(--width-1pct) * 5); /* 标志距页面右边缘 5% */
+    right: calc(var(--height-1pct) * 5); /* 标志距页面右边缘 5% */
   }
 
   /* `& h1`：选择当前标题页内部的主标题 */
@@ -105,18 +494,18 @@ body {
     line-height: var(--title-size); /* 标题行高严格等于标题字号 */
   }
 
-  /* `& .title-meta`：选择当前标题页内部的四行信息区域 */
+  /* `& .title-meta`：标题页的补充信息区域 */
   & .title-meta {
-    display: grid; /* 使用网格布局排列四行标题页信息 */
+    display: grid; /* 使用固定高度网格排列标题页补充信息 */
     grid-row: 4; /* 将信息区域放在第四个网格区域 */
-    grid-template-rows: repeat(4, calc(var(--width-1pct) * 5)); /* 每行占页面高度的 5% */
+    grid-template-rows: repeat(5, calc(var(--height-1pct) * 5)); /* 每行占页面高度的 5% */
     font-size: var(--body-size); /* 正文字号为页面高度的 4% */
   }
 
   /* `& .title-meta p`：选择标题页信息区域中的每一行正文 */
   & .title-meta p {
     margin: 0; /* 移除段落默认外边距 */
-    padding-bottom: var(--body-line-gap); /* 每行文字下方保留 1% 间距 */
+    padding-bottom: var(--body-line-panel); /* 每行文字下方保留 1% panel */
     line-height: var(--body-size); /* 正文行高严格等于正文字号 */
   }
 }
@@ -130,12 +519,12 @@ body {
   & .toc-brand {
     display: grid; /* 使用网格布局安排标识和目录标题 */
     grid-template-rows:
-      calc(var(--width-1pct) * 20) /* 研究所标识区域 20% */
-      calc(var(--width-1pct) * 23) /* 上部空白 23% */
-      calc(var(--width-1pct) * 10) /* 英文标题区域 10% */
-      calc(var(--width-1pct) * 5) /* 英文与中文标题之间空白 5% */
-      calc(var(--width-1pct) * 10) /* 中文标题区域 10% */
-      calc(var(--width-1pct) * 32); /* 底部空白 32% */
+      calc(var(--height-1pct) * 20) /* 研究所标识区域 20% */
+      calc(var(--height-1pct) * 23) /* 上部空白 23% */
+      var(--toc-title-size) /* 英文标题区域 10% */
+      var(--toc-title-panel) /* 英文与中文标题之间空白 5% */
+      var(--toc-title-size) /* 中文标题区域 10% */
+      calc(var(--height-1pct) * 32); /* 底部空白 32% */
     margin: 0; /* 移除 aside 的默认外边距 */
     color: var(--white); /* 设置品牌区域文字为白色 */
     background: var(--title-color); /* 使用标题蓝作为品牌区域背景 */
@@ -147,7 +536,7 @@ body {
     grid-row: 1; /* 将研究所标识放在第一行 */
     align-self: center; /* 将标识在所在区域内垂直居中 */
     justify-self: center; /* 将标识在所在区域内水平居中 */
-    width: calc(var(--length-1pct) * 28); /* 将标识宽度设置为页面长度的 28% */
+    width: calc(var(--width-1pct) * 28); /* 将标识宽度设置为页面长度的 28% */
     height: auto; /* 保持标识原始纵横比 */
   }
 
@@ -155,34 +544,34 @@ body {
   & .toc-english {
     grid-row: 3; /* 将英文标题放在第三行 */
     margin: 0; /* 移除段落默认外边距 */
-    font-size: calc(var(--width-1pct) * 10); /* 英文标题字号为页面高度的 10% */
-    line-height: calc(var(--width-1pct) * 10); /* 英文标题行高严格等于字号 */
+    font-size: var(--toc-title-size); /* 英文标题使用目录标题统一字号 */
+    line-height: var(--toc-title-size); /* 英文标题行高严格等于字号 */
   }
 
   /* `& .toc-chinese`：选择左侧的中文目录标题 */
   & .toc-chinese {
     grid-row: 5; /* 将中文标题放在第五行 */
     margin: 0; /* 移除段落默认外边距 */
-    font-size: calc(var(--width-1pct) * 10); /* 中文标题字号与英文标题一致，均为页面高度的 10% */
-    line-height: calc(var(--width-1pct) * 10); /* 中文标题行高严格等于字号 */
+    font-size: var(--toc-title-size); /* 中文标题字号与英文标题一致 */
+    line-height: var(--toc-title-size); /* 中文标题行高严格等于字号 */
   }
 
   /* `& .toc-list`：选择目录页右侧的四项目录区域 */
   & .toc-list {
     display: grid; /* 使用四行网格排列目录项 */
-    grid-template-rows: repeat(4, calc(var(--toc-size) + var(--toc-line-gap))); /* 每项占 5% 字号和 10% 间隔 */
+    grid-template-rows: repeat(4, calc(var(--toc-size) + var(--toc-line-panel))); /* 每项占 5% 字号和 10% panel */
     justify-self: center; /* 将四项目录作为整体放在右侧区域中央 */
     width: max-content; /* 以最长目录项确定整体宽度，保持内部左对齐 */
-    padding: calc(var(--width-1pct) * 20) 0; /* 目录区域上下各留 20%，不增加左右偏移 */
+    padding: calc(var(--height-1pct) * 20) 0; /* 目录区域上下各留 20%，不增加左右偏移 */
   }
 
   /* `& .toc-item`：选择右侧的单个目录项 */
   & .toc-item {
     display: grid; /* 使用网格对齐圆形编号和目录文字 */
     grid-template-columns:
-      calc(var(--width-1pct) * 8)
+      calc(var(--height-1pct) * 8)
       1fr; /* 依次设置编号和文字区域 */
-    column-gap: calc(var(--length-1pct) * 3); /* 编号与文字之间保留页面长度的 3% */
+    column-gap: calc(var(--width-1pct) * 3); /* 编号与文字之间保留页面长度的 3% */
     align-items: center; /* 将编号和文字在每行内垂直居中对齐 */
     color: var(--body-color); /* 设置目录文字颜色 */
     text-align: left; /* 将各项目录文字统一左对齐 */
@@ -195,12 +584,259 @@ body {
     display: flex; /* 使用弹性布局居中编号 */
     align-items: center; /* 将编号垂直居中 */
     justify-content: center; /* 将编号水平居中 */
-    width: calc(var(--width-1pct) * 8); /* 编号圆直径为页面高度的 8% */
-    height: calc(var(--width-1pct) * 8); /* 编号圆直径为页面高度的 8% */
+    width: calc(var(--height-1pct) * 8); /* 编号圆直径为页面高度的 8% */
+    height: calc(var(--height-1pct) * 8); /* 编号圆直径为页面高度的 8% */
     border-radius: 50%; /* 将编号背景设置为圆形 */
     color: var(--white); /* 设置编号文字为白色 */
     background: var(--title-color); /* 设置编号圆背景为标题蓝 */
-    font-size: var(--toc-number-size); /* 编号字号为页面高度的 5% */
-    line-height: var(--toc-number-size); /* 编号行高严格等于字号 */
+    font-size: var(--toc-size); /* 编号字号与目录文字字号统一 */
+    line-height: var(--toc-size); /* 编号行高严格等于目录字号 */
+  }
+}
+
+/* `.two-column-figure-slide, .three-column-figure-slide`：带统一页头、分隔线和分栏图片的正文页模板 */
+.two-column-figure-slide,
+.three-column-figure-slide {
+  --figure-column-count: 2; /* 默认使用两列图片 */
+  --figure-media-height: var(--content-figure-media-height-two-column); /* 两栏页的媒体区统一占页面高度 55% */
+  display: grid; /* 使用纵向网格排列页头和图片分栏区域 */
+  grid-template-rows:
+    var(--content-head-height)
+    minmax(0, 1fr)
+    var(--content-footer-height); /* 内容严格位于 12% 页头与 6% 页脚区域之间 */
+
+  /* `& .figure-columns`：按模板配置的列数排列图片内容块 */
+  & .figure-columns {
+    display: grid; /* 使用网格放置图片内容块 */
+    grid-template-columns: repeat(var(--figure-column-count), minmax(0, 1fr)); /* 按模板列数等宽分栏 */
+    align-items: start; /* 将各图片块的顶部统一对齐 */
+    align-self: center; /* 将整组图片在剩余内容区内垂直居中 */
+    gap: var(--content-block-panel-horizontal); /* 相邻图片 block 之间强制保留页面宽度 2% 的 panel */
+    justify-self: center; /* 将图片分栏区域在页面内水平居中 */
+    width: calc(var(--width-1pct) * 90); /* 内容区域两侧各留页面宽度的 5% */
+    padding-block: var(--content-block-panel-vertical); /* block 区域上下各强制保留页面高度 2% 的 panel */
+    min-height: 0; /* 允许图片区域在固定画布内正确收缩 */
+  }
+
+  /* `& figure`：单个图片内容块中的媒体容器 */
+  & figure {
+    display: flex; /* 使用弹性布局居中图片 */
+    align-items: flex-start; /* 将图片与容器顶部对齐 */
+    justify-content: center; /* 将图片水平居中 */
+    height: var(--figure-media-height); /* 各列使用统一媒体区高度，图片本身仍保持原始比例 */
+    margin: 0; /* 移除 figure 默认外边距 */
+    min-width: 0; /* 防止图片撑开等宽分栏 */
+    min-height: 0; /* 防止图片撑高固定画布 */
+  }
+
+  /* `& .figure-with-caption`：将媒体区与来源图注纵向排列 */
+  & .figure-with-caption {
+    display: flex; /* 使用纵向弹性布局让图注紧随图片 */
+    flex-direction: column; /* 图片、panel 和图注自上而下排列 */
+    align-items: center; /* 图片与图注整体水平居中 */
+    justify-content: flex-start; /* 内容从媒体区域顶部开始排列 */
+    gap: var(--content-block-panel-vertical); /* 图片与图注之间保留一个统一的 2% panel */
+  }
+
+  /* `& .figure-with-caption img`：限制带图注图片在媒体区域内等比显示 */
+  & .figure-with-caption img {
+    max-height: calc(var(--figure-media-height) - var(--content-figure-caption-size) - var(--content-block-panel-vertical)); /* 为图注和一个 panel 预留高度 */
+  }
+
+  /* `& figcaption`：图片下方的来源说明 */
+  & figcaption {
+    display: flex; /* 让图注在固定区域内垂直居中 */
+    align-items: center; /* 垂直居中图注文字 */
+    justify-content: center; /* 水平居中图注文字 */
+    color: var(--body-color); /* 使用统一正文蓝色 */
+    font-size: var(--content-figure-caption-size); /* 图注字号为页面高度 3% */
+    line-height: var(--content-figure-caption-size); /* 行高严格等于图注字号 */
+    text-align: center; /* 多行图注保持居中 */
+  }
+
+  /* `& img`：图片分栏内的通用媒体样式 */
+  & img {
+    display: block; /* 移除行内图片基线空隙 */
+    max-width: 100%; /* 图片宽度不超过所在分栏 */
+    max-height: 100%; /* 图片高度不超过内容区域 */
+    width: auto; /* 保持图片原始纵横比 */
+    height: auto; /* 保持图片原始纵横比 */
+    object-fit: contain; /* 完整显示图片且不裁切 */
+  }
+}
+
+/* `.three-column-figure-slide`：将通用分栏图片模板切换为三列 */
+.three-column-figure-slide {
+  --figure-column-count: 3; /* 使用三列图片 */
+  --figure-media-height: var(--content-figure-media-height-three-column); /* 三栏页的媒体区统一占页面高度 48% */
+}
+
+/* `.mixed-content-slide`：使用统一页头和双栏异构内容的页面模板 */
+.mixed-content-slide {
+  display: grid; /* 使用纵向网格排列页头和混合内容区域 */
+  grid-template-rows:
+    var(--content-head-height)
+    minmax(0, 1fr)
+    var(--content-footer-height); /* 内容严格位于 12% 页头与 6% 页脚区域之间 */
+
+  /* `& .mixed-content-columns`：并排承载两种内容组件的双栏容器 */
+  & .mixed-content-columns {
+    display: grid; /* 使用两列放置不同类型的内容组件 */
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 两列等宽 */
+    align-items: start; /* 让两栏标题顶部严格对齐 */
+    align-self: center; /* 将双栏整体在页头与页脚之间垂直居中 */
+    gap: var(--content-block-panel-horizontal); /* 两列之间保留 2% 横向 panel */
+    justify-self: center; /* 将双栏整体水平居中 */
+    width: calc(var(--width-1pct) * 90); /* 左右各留页面宽度 5% */
+    padding-block: 0; /* 双栏整体不设置额外的上下 panel */
+    min-height: 0; /* 防止内容撑高固定页面 */
+  }
+
+  /* `& .mixed-content-figure`：与相邻内容组件共同居中的图片块 */
+  & .mixed-content-figure {
+    align-self: start; /* 让图片块标题与相邻内容块标题顶部对齐 */
+    height: auto; /* 高度仅由标题和图片内容共同决定 */
+  }
+
+  /* `& .mixed-content-figure figure`：为图片提供固定高度的居中区域 */
+  & .mixed-content-figure figure {
+    display: flex; /* 居中媒体内容 */
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    height: auto; /* 媒体区高度由图片原始比例决定 */
+    min-height: 0; /* 允许媒体区域收缩 */
+    margin: 0; /* 移除 figure 默认外边距 */
+  }
+
+  /* `& .mixed-content-figure img`：限制图片在固定内容区域内等比显示 */
+  & .mixed-content-figure img {
+    display: block; /* 移除图片基线间隙 */
+    max-width: 100%; /* 不超过右侧 block 宽度 */
+    max-height: 100%; /* 不超过右侧 block 高度 */
+    object-fit: contain; /* 保持纵横比并完整显示图片 */
+  }
+}
+
+/* `.formula-slide`：带统一页头和单列公式内容的正文页模板 */
+.formula-slide {
+  display: grid; /* 使用纵向网格排列页头和公式内容 */
+  grid-template-rows:
+    var(--content-head-height)
+    minmax(0, 1fr)
+    var(--content-footer-height); /* 内容严格位于 12% 页头与 6% 页脚区域之间 */
+
+  /* `& .formula-content`：公式页中央的标题与公式列表容器 */
+  & .formula-content {
+    display: grid; /* 使用网格排列一个或多个公式 block */
+    grid-auto-rows: auto; /* 每个公式 block 均按实际高度排列 */
+    row-gap: 0; /* 相邻公式 block 之间不设置外部 panel */
+    align-self: center; /* 将整组公式在主体区域垂直居中 */
+    justify-self: center; /* 将整组公式在页面内水平居中 */
+    width: var(--formula-content-width); /* 公式内容左右各留页面宽度的 10% */
+    padding-block: 0; /* 公式 block 区域上下不设置外部 panel */
+  }
+
+  /* `& .formula-content-single`：仅含一个公式 block 的内容区域 */
+  & .formula-content-single {
+    grid-template-columns: 1fr; /* 单个 block 使用完整内容宽度 */
+  }
+
+  /* `& .formula-content-wide`：将公式内容区域宽度扩展为页面宽度的 90% */
+  & .formula-content-wide {
+    width: calc(var(--width-1pct) * 90); /* 内容区域两侧各留页面宽度的 5% */
+  }
+
+  /* `& .formula-content-stacked-compact`：无外侧 panel 的紧凑纵向多 block 布局 */
+  & .formula-content-stacked-compact {
+    align-self: center; /* 在页头与页脚之间的主体区域垂直居中 */
+  }
+
+  /* `& .formula-content-columns-4-6`：使用 4:6 比例的双栏公式布局 */
+  & .formula-content-columns-4-6 {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 6fr); /* 左栏占 40%，右栏占 60% */
+    grid-template-rows: auto; /* 两列均按内部公式 block 的实际高度排列 */
+    column-gap: var(--content-block-panel-horizontal); /* 两列之间保留页面宽度 2% 的 panel */
+    width: calc(var(--width-1pct) * 90); /* 整体左右各留页面宽度 5% */
+    padding-block: 0; /* 由两列内部公式高度直接控制纵向占用 */
+
+    /* `& .formula-item`：仅在 4:6 双栏内缩小公式，避免长公式挤压列宽 */
+    & .formula-item {
+      min-width: 0; /* 允许公式项随所在列正常收缩，不裁切公式内容 */
+      font-size: calc(var(--height-1pct) * 2.2); /* 双栏公式字号使用页面高度的 2.2% */
+    }
+  }
+
+  /* `& .formula-content-column`：在单列内纵向排列一个或多个公式 block */
+  & .formula-content-column {
+    display: grid; /* 使用纵向网格排列列内公式 block */
+    grid-auto-rows: auto; /* 列内每个公式 block 按实际高度排列 */
+    row-gap: 0; /* 同列公式 block 之间不设置外部 panel */
+    align-content: center; /* 将整列公式作为整体垂直居中 */
+    min-width: 0; /* 防止长公式撑开等宽分栏 */
+  }
+
+  /* `& .formula-block`：由外部标题和内部公式内容框组成的通用公式块 */
+  & .formula-block {
+    display: grid; /* 使用纵向网格排列 block 标题和公式列表 */
+    grid-template-rows:
+      calc(var(--content-block-title-panel) * 2 + var(--content-block-title-size))
+      auto; /* 第一行是 8% block 标题，第二行是圆角公式内容框 */
+  }
+
+  /* `& .formula-list`：默认包含三行内容的公式列表 */
+  & .formula-list {
+    display: grid; /* 使用三行网格排列公式 */
+    grid-template-rows: repeat(3, var(--formula-content-height)); /* 每个公式框最高占页面高度的 10% */
+    row-gap: var(--formula-content-panel); /* 相邻公式之间保留 1% panel */
+    padding-bottom: 0; /* 所有公式列表末尾不再额外添加底部 panel */
+  }
+
+  /* `& .formula-list-six`：六行固定高度的内容列表 */
+  & .formula-list-six {
+    grid-template-rows: repeat(6, var(--formula-content-height)); /* 六个公式行严格各占页面高度的 10% */
+  }
+
+  /* `& .formula-list-four`：四行固定高度的内容列表 */
+  & .formula-list-four {
+    grid-template-rows: repeat(4, var(--formula-content-height)); /* 四个公式行严格各占页面高度的 10% */
+  }
+
+  /* `& .formula-list-two`：两行固定高度的内容列表 */
+  & .formula-list-two {
+    grid-template-rows: repeat(2, var(--formula-content-height)); /* 两个公式行严格各占页面高度的 10% */
+  }
+
+  /* `& .formula-list-five`：五行固定高度的混合内容列表 */
+  & .formula-list-five {
+    grid-template-rows: repeat(5, var(--formula-content-height)); /* 五个内容行严格各占页面高度的 10% */
+
+    /* `& .formula-transition-note`：公式列表中的正文说明行 */
+    & .formula-transition-note {
+      justify-content: flex-start; /* 覆盖普通公式的水平居中 */
+      padding-left: calc(var(--width-1pct) * 5); /* 将说明文字整体向右缩进页面宽度的 5% */
+      font-size: var(--body-size); /* 使用统一正文字号 4% */
+      line-height: var(--body-size); /* 行高严格等于正文字号 */
+    }
+  }
+
+  /* `& .formula-item`：单组居中公式 */
+  & .formula-item {
+    position: relative; /* 为公式说明提供定位基准 */
+    display: flex; /* 使用弹性布局居中公式 */
+    align-items: center; /* 将公式垂直居中 */
+    justify-content: center; /* 将公式水平居中 */
+    min-width: 0; /* 允许公式项在网格或分栏内正确收缩 */
+    color: var(--body-color); /* 使用正文蓝色 */
+    font-size: var(--formula-size); /* 公式字号使用 root 中的统一设置 */
+  }
+
+  /* `& .formula-item-long`：仅用于需要压缩横向占用的长公式 */
+  & .formula-item-long {
+    font-size: var(--formula-size-long); /* 长公式字号局部调整为页面高度 2.5% */
+  }
+
+  /* `& mjx-container[display="true"]`：移除 MathJax 独立公式的默认外边距 */
+  & mjx-container[display="true"] {
+    margin: 0; /* 由公式行统一控制间距 */
   }
 }
