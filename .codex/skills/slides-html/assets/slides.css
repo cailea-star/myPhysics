@@ -1,0 +1,204 @@
+:root {
+  --slide-width: 1600px;
+  --slide-height: 900px;
+  --text: #174994;
+  --accent: #2c67c5;
+  --white: #fff;
+  --border-width: 2px;
+  --radius: 6px;
+  --split-gap: 48px;
+  --deck-title-size: 72px;
+  --slide-title-size: 48px;
+  --panel-title-size: 32px;
+  --body-size: 28px;
+  --small-size: 22px;
+  --formula-size: 34px;
+  --line-height: 1.45;
+  --font-stack: "Times New Roman", KaiTi, STKaiti, "Kaiti SC", serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: #e8edf5;
+}
+
+body {
+  margin: 0;
+  padding: 32px 0;
+  color: var(--text);
+  font-family: var(--font-stack);
+  font-size: var(--body-size);
+  line-height: var(--line-height);
+}
+
+.deck {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.slide {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: var(--slide-width);
+  height: var(--slide-height);
+  padding: 64px 80px;
+  overflow: hidden;
+  background: var(--white);
+  break-after: page;
+}
+
+.slide h1,
+.slide h2,
+.slide h3,
+.slide p,
+.slide ul,
+.slide ol {
+  margin-top: 0;
+}
+
+.slide h1 {
+  margin-bottom: 32px;
+  font-size: var(--deck-title-size);
+  line-height: 1.18;
+}
+
+.slide > h2 {
+  margin-bottom: 40px;
+  font-size: var(--slide-title-size);
+  line-height: 1.2;
+}
+
+.slide h3,
+.panel-title {
+  font-size: var(--panel-title-size);
+  line-height: 1.25;
+}
+
+.slide ul,
+.slide ol {
+  padding-left: 1.4em;
+}
+
+.slide li + li {
+  margin-top: 14px;
+}
+
+.title-slide {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.title-slide .subtitle {
+  max-width: 1200px;
+  font-size: 34px;
+}
+
+.columns,
+.rows {
+  display: grid;
+  flex: 1;
+  gap: var(--split-gap);
+  min-height: 0;
+}
+
+.columns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.rows {
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: var(--border-width) solid var(--accent);
+  border-radius: var(--radius);
+}
+
+.panel-title {
+  margin: 0;
+  padding: 14px 22px;
+  color: var(--white);
+  text-align: center;
+  background: var(--accent);
+}
+
+.panel-body {
+  flex: 1;
+  padding: 28px 32px;
+}
+
+.formula-stack {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+  min-height: 0;
+}
+
+.formula-item {
+  font-size: var(--formula-size);
+  text-align: center;
+}
+
+.bottom-note {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: var(--border-width) solid var(--accent);
+  font-size: 24px;
+}
+
+.small-text {
+  font-size: var(--small-size);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.framed-image {
+  border: var(--border-width) solid var(--accent);
+  border-radius: var(--radius);
+}
+
+@media print {
+  @page {
+    size: 16in 9in;
+    margin: 0;
+  }
+
+  html,
+  body {
+    background: var(--white);
+  }
+
+  body {
+    padding: 0;
+  }
+
+  .deck {
+    display: block;
+  }
+
+  .slide {
+    width: 16in;
+    height: 9in;
+  }
+}
