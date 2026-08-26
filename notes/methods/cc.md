@@ -5,7 +5,7 @@
 母核态 $P$ 的总角动量、投影和宇称为 $(J,M,\pi_P)$；子核态 $D$ 的相应量为 $(I,M_I,\pi_I)$；$\alpha$ 粒子处于 $0^+$ 基态。相对运动的轨道角动量量子数为 $(l,m)$。
 
 $$
-P(J^{\pi_P}M)\rightarrow D(I^{\pi_I}M_I)+\alpha(0^+;lm).
+P(J^{\pi_P})\rightarrow D(I^{\pi_I})+\alpha(0^+;l).
 $$
 
 设 $\mathbf r_\alpha$ 和 $\mathbf r_D$ 为两个碎片的质心坐标，则
