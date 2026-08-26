@@ -401,7 +401,7 @@ $$
 对于 $r\geq r_D$，定义
 
 $$
-Q_{\lambda\mu}^D=eZ_D\int d^3r_D'\,\rho_D(\mathbf r_D')r_D^\lambda Y_{\lambda\mu}(\hat{\mathbf r}_D').
+V^{\prime C}(\mathbf r')=\frac{eZ_\alpha}{4\pi\epsilon_0}\sum_{\lambda,\mu}\frac{4\pi}{2\lambda+1}\frac{Q_{\lambda\mu}^D}{r^{\lambda+1}}Y_{\lambda\mu}^*(\hat{\mathbf r}')\qquad Q_{\lambda\mu}^D=eZ_D\int d^3r_D'\,\rho_D(\mathbf r_D')r_D^\lambda Y_{\lambda\mu}(\hat{\mathbf r}_D').
 $$
 
 因此
@@ -423,7 +423,7 @@ $$
 完成径向积分并保留形变参数的一阶项，
 
 $$
-Q_{\lambda0}^D\simeq eZ_D\frac{3}{4\pi}(R_0^D)^\lambda\left[\frac{\sqrt{4\pi}}{\lambda+3}\delta_{\lambda0}+\beta_{\lambda0}^D\right].
+Q_{\lambda0}^D\simeq eZ_D\frac{3}{4\pi}(R_0^D)^\lambda\left[\frac{\sqrt{4\pi}}{3}\delta_{\lambda0}+\beta_{\lambda0}^D\right].
 $$
 
 对于 $\lambda>0$，
