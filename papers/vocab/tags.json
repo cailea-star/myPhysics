@@ -646,5 +646,35 @@
     "definition": "mean squared relative difference between calculated and reference double-folding potentials over sampled radial points",
     "types": ["quantity"],
     "aliases": ["mean relative error", "mre"]
+  },
+  {
+    "tag": "superheavy_nuclei_island_of_stability",
+    "definition": "region of superheavy nuclei with shell-induced enhanced stability near predicted magic proton and neutron numbers",
+    "types": ["condition"],
+    "aliases": ["island of stability", "islands of stability"]
+  },
+  {
+    "tag": "nuclear_shell_effect",
+    "definition": "large-scale non-uniformity in the distribution of single-particle energies near the Fermi energy that contributes to nuclear binding and stability",
+    "types": ["phenomenon"],
+    "aliases": ["shell effect", "shell effects", "nuclear shell effect", "nuclear shell effects"]
+  },
+  {
+    "tag": "complete_fusion_reaction",
+    "definition": "reaction method in which projectile and target form a compound nucleus that de-excites by emitting neutrons and gamma rays to produce an evaporation residue",
+    "types": ["method"],
+    "aliases": ["complete-fusion reaction", "complete-fusion reactions"]
+  },
+  {
+    "tag": "gas_filled_recoil_separator",
+    "definition": "experimental method that magnetically separates evaporation residues from beam particles and unwanted reaction products in a low-pressure gas-filled chamber",
+    "types": ["method"],
+    "aliases": ["gas-filled recoil separator", "Dubna gas-filled recoil separator", "DGFRS"]
+  },
+  {
+    "tag": "genetic_alpha_particle_correlation",
+    "definition": "nuclear-identification method that links newly observed nuclei to known descendants through energy- and time-correlated alpha-decay chains",
+    "types": ["method"],
+    "aliases": ["genetic α-particle correlations", "genetic relation between ancestor and descendant"]
   }
 ]
