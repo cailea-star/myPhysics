@@ -65,7 +65,7 @@
 > 4. 总波函数为所有允许通道分量之和：
 >
 > \[
-> \boxed{\Psi_{JM}=\sum_{c\in\mathcal C_{J\pi_P}}\Psi_{JM}^{(c)}}.
+> \boxed{\Psi_{JM}=\sum_c a^{(c)}\Psi_{JM}^{(c)}}.
 > \]
 >
 > 5. 体系哈密顿量包括子核、α 粒子、相对运动和相互作用：

@@ -43,7 +43,7 @@ $$
 总波函数为
 
 $$
-\boxed{\Psi_{JM}=\sum_{c\in\mathcal C_{J\pi_P}}\Psi_{JM}^{(c)}}.
+\boxed{\Psi_{JM}=\sum_c a^{(c)}\Psi_{JM}^{(c)}}.
 $$
 
 径向坐标保持显式，不包含在通道标记 $c$ 中。
