@@ -1,0 +1,94 @@
+{
+  "source": "Crossref",
+  "language": null,
+  "title": [
+    "Superheavy nuclei: from predictions to discovery"
+  ],
+  "author": [
+    {
+      "given": "Yu Ts",
+      "family": "Oganessian",
+      "sequence": "first",
+      "affiliation": [
+        {
+          "name": "Joint Institute for Nuclear Research, 141980 Dubna,"
+        },
+        {
+          "name": "National University ‘Dubna’"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "A",
+      "family": "Sobiczewski",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "National Centre for Nuclear Research, Hoża 69, 00-681 Warsaw,"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "G M",
+      "family": "Ter-Akopian",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "Joint Institute for Nuclear Research, 141980 Dubna,"
+        },
+        {
+          "name": "National University ‘Dubna’"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    }
+  ],
+  "author-corresponding-openalex": [],
+  "DOI": "10.1088/1402-4896/aa53c1",
+  "URL": "https://doi.org/10.1088/1402-4896/aa53c1",
+  "is-referenced-by-count": 159,
+  "reference-count": 121,
+  "abstract": "A fundamental outcome of modern nuclear microscopic theory is the prediction of the ‘islands of stability’ in the region of hypothetical superheavy elements (SHEs). In a heavy nucleus, going through the large-scale deformation on the way to fission, the motion of single nucleons is coupled with the collective degrees of freedom of the whole system. The most striking effect of this coupling is obtained for the case of fission of the heaviest nuclei, whose existence is defined entirely by the nuclear structure, i.e. by the shell effect. From this point of view, the synthesis and study of properties of superheavy nuclei (SHN) is a direct way for checking the basic statements of the microscopic nuclear theory. On the nuclide map, SHN outline the border of the heaviest nuclear masses. SHN set the limits of the periodic system of chemical elements. The study of possible existence of SHN in nature offers a way for testing different scenarios of astrophysical nucleosynthesis. The paper elucidates experimental approaches, used for testing the theory predictions made about the SHN, and presents the results of the discovery of the ‘stability island’ of SHEs.",
+  "publisher": "IOP Publishing",
+  "container-title": [
+    "Physica Scripta"
+  ],
+  "short-container-title": [
+    "Phys. Scr."
+  ],
+  "type": "journal-article",
+  "volume": "92",
+  "page": "023003",
+  "article-number": null,
+  "issued": {
+    "date-parts": [
+      [
+        2017,
+        1,
+        9
+      ]
+    ]
+  },
+  "ISSN": [
+    "0031-8949",
+    "1402-4896"
+  ],
+  "stem": "Yu_Ts_Oganessian_Y.2017_Phys.Scr._Vol.92Nol.P.023003"
+}
