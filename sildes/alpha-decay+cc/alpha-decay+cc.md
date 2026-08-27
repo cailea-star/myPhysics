@@ -71,7 +71,7 @@
 > 5. 体系哈密顿量包括子核、α 粒子、相对运动和相互作用：
 >
 > \[
-> \hat H=\hat H_D+\hat H_\alpha+\hat T_r+\hat V.
+> \hat H=\hat H_D+\hat H_\alpha+\hat T_r+\hat V({\bf r}).
 > \]
 >
 > 6. 定义通道间的耦合势矩阵元：
@@ -79,7 +79,7 @@
 > \[
 > V_{cc'}^{JM}(r)
 > =\left\langle\mathcal Y_{JM}^{(c)}
-> \middle|\hat V\middle|
+> \middle|\hat V({\bf r})\middle|
 > \mathcal Y_{JM}^{(c')}\right\rangle_{\hat{\mathbf r},\xi_D,\xi_\alpha}.
 > \]
 >
@@ -110,7 +110,7 @@
 > 1. 以 \(\lambda\) 和 \(\mu\) 表示多极阶数及其分量，相互作用展开为：
 >
 > \[
-> \hat V
+> \hat V({\bf r})
 > =\sum_{\lambda,\mu}\hat V_{\lambda\mu}(r)Y_{\lambda\mu}^{*}(\hat{\mathbf r})
 > =\sum_{\lambda,\mu}(-1)^\mu\hat V_{\lambda\mu}(r)Y_{\lambda,-\mu}(\hat{\mathbf r}).
 > \]
@@ -603,5 +603,5 @@
 
 ##### 2. 下一步工作
 
-> - 结合投影壳模型，引入角动量投影与 \(K\) 混合，改进当前耦合道方法中固定 \(M\)、\(K\) 的近似处理；
+> - 结合投影壳模型，引入角动量投影与 \(K\) 混合，改进当前耦合道方法中固定 \(K\) 的近似处理；
 > - 将现有理论框架推广至奇 \(A\) 核和奇奇核，发展相应的耦合道计算方法。

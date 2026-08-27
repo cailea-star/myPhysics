@@ -50,10 +50,10 @@ $$
 
 ### 耦合道薛定谔方程
 
-以 $\hat H_D$、$\hat H_\alpha$、$\hat T_r$ 和 $\hat V$ 分别表示子核内部哈密顿量、$\alpha$ 粒子内部哈密顿量、相对运动动能和碎片间相互作用，则
+以 $\hat H_D$、$\hat H_\alpha$、$\hat T_r$ 和 $\hat V({\bf r})$ 分别表示子核内部哈密顿量、$\alpha$ 粒子内部哈密顿量、相对运动动能和碎片间相互作用，则
 
 $$
-\hat H=\hat H_D(\xi_D)+\hat H_\alpha(\xi_\alpha)+\hat T_r(\mathbf r)+\hat V(\mathbf r,\xi_D,\xi_\alpha).
+\hat H=\hat H_D(\xi_D)+\hat H_\alpha(\xi_\alpha)+\hat T_r(\mathbf r)+\hat V({\bf r}).
 $$
 
 子核态与 $\alpha$ 粒子态的本征能量分别为 $E_I$ 和 $E_\alpha$：
@@ -83,7 +83,7 @@ $$
 对于通道 $c=(I,l)$ 和 $c'=(I',l')$，定义耦合势矩阵元
 
 $$
-V^{JM}_{cc'}(r)\equiv\big\langle \mathcal Y_{JM}^{(c)}\big|\hat V\big|\mathcal Y_{JM}^{(c')}\big\rangle_{\hat{\mathbf r},\xi_D,\xi_\alpha}.
+V^{JM}_{cc'}(r)\equiv\big\langle \mathcal Y_{JM}^{(c)}\big|\hat V({\bf r})\big|\mathcal Y_{JM}^{(c')}\big\rangle_{\hat{\mathbf r},\xi_D,\xi_\alpha}.
 $$
 
 定义通道能量
@@ -103,7 +103,7 @@ $$
 以 $\lambda$ 和 $\mu$ 表示多极阶数及其分量，$\hat V_{\lambda\mu}(r,\xi_D,\xi_\alpha)$ 表示作用于碎片内部空间的球张量分量。相互作用展开为
 
 $$
-\hat V=\sum_{\lambda,\mu}\hat V_{\lambda\mu}(r)Y_{\lambda\mu}^*(\hat{\mathbf r})=\sum_{\lambda,\mu}(-1)^\mu\hat V_{\lambda\mu}(r)Y_{\lambda,-\mu}(\hat{\mathbf r}).
+\hat V({\bf r})=\sum_{\lambda,\mu}\hat V_{\lambda\mu}(r)Y_{\lambda\mu}^*(\hat{\mathbf r})=\sum_{\lambda,\mu}(-1)^\mu\hat V_{\lambda\mu}(r)Y_{\lambda,-\mu}(\hat{\mathbf r}).
 $$
 
 对于 $c=(I,l)$ 和 $c'=(I',l')$，耦合势矩阵元为
