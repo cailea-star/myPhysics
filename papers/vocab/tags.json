@@ -646,5 +646,95 @@
     "definition": "mean squared relative difference between calculated and reference double-folding potentials over sampled radial points",
     "types": ["quantity"],
     "aliases": ["mean relative error", "mre"]
+  },
+  {
+    "tag": "superheavy_nuclei_island_of_stability",
+    "definition": "region of superheavy nuclei with shell-induced enhanced stability near predicted magic proton and neutron numbers",
+    "types": ["condition"],
+    "aliases": ["island of stability", "islands of stability"]
+  },
+  {
+    "tag": "nuclear_shell_effect",
+    "definition": "large-scale non-uniformity in the distribution of single-particle energies near the Fermi energy that contributes to nuclear binding and stability",
+    "types": ["phenomenon"],
+    "aliases": ["shell effect", "shell effects", "nuclear shell effect", "nuclear shell effects"]
+  },
+  {
+    "tag": "complete_fusion_reaction",
+    "definition": "reaction method in which projectile and target form a compound nucleus that de-excites by emitting neutrons and gamma rays to produce an evaporation residue",
+    "types": ["method"],
+    "aliases": ["complete-fusion reaction", "complete-fusion reactions"]
+  },
+  {
+    "tag": "gas_filled_recoil_separator",
+    "definition": "experimental method that magnetically separates evaporation residues from beam particles and unwanted reaction products in a low-pressure gas-filled chamber",
+    "types": ["method"],
+    "aliases": ["gas-filled recoil separator", "Dubna gas-filled recoil separator", "DGFRS"]
+  },
+  {
+    "tag": "genetic_alpha_particle_correlation",
+    "definition": "nuclear-identification method that links newly observed nuclei to known descendants through energy- and time-correlated alpha-decay chains",
+    "types": ["method"],
+    "aliases": ["genetic α-particle correlations", "genetic relation between ancestor and descendant"]
+  },
+  {
+    "tag": "fission_barrier_height",
+    "definition": "height of the nuclear potential-energy barrier against spontaneous fission",
+    "types": ["quantity"],
+    "aliases": ["fission barrier height", "fission barrier heights"]
+  },
+  {
+    "tag": "spontaneous_fission_half_life",
+    "definition": "partial or total half-life of a nucleus with respect to spontaneous fission",
+    "types": ["quantity"],
+    "aliases": ["spontaneous fission half-life", "spontaneous fission half-lives", "SF half-lives"]
+  },
+  {
+    "tag": "shell_correction_energy",
+    "definition": "microscopic shell-correction contribution to the nuclear macroscopic potential energy",
+    "types": ["quantity"],
+    "aliases": ["shell correction", "shell corrections", "ΔEshell"]
+  },
+  {
+    "tag": "production_cross_section",
+    "definition": "cross section for producing a specified evaporation residue or isotope in a nuclear reaction",
+    "types": ["quantity"],
+    "aliases": ["production cross section", "production cross sections"]
+  },
+  {
+    "tag": "excitation_function",
+    "definition": "production cross section of a reaction channel as a function of excitation or projectile energy",
+    "types": ["quantity"],
+    "aliases": ["excitation function", "excitation functions"]
+  },
+  {
+    "tag": "alpha_particle_energy_spectrum",
+    "definition": "distribution of detected alpha-particle counts as a function of alpha-particle energy",
+    "types": ["quantity"],
+    "aliases": ["α-particle energy spectra", "α-particle spectrum"]
+  },
+  {
+    "tag": "fission_fragment_total_kinetic_energy",
+    "definition": "sum of the kinetic energies of fragments produced in spontaneous fission",
+    "types": ["quantity"],
+    "aliases": ["total kinetic energy", "TKE", "total kinetic energy of SF fragments"]
+  },
+  {
+    "tag": "macroscopic_microscopic_method",
+    "definition": "method that adds shell-effect corrections to macroscopic liquid-drop nuclear energies or masses to calculate heavy- and superheavy-nucleus properties",
+    "types": ["method"],
+    "aliases": ["macroscopic–microscopic approach", "macro–micro approach", "macroscopic–microscopic method", "macro–microscopic theory"]
+  },
+  {
+    "tag": "nuclear_potential_energy_surface",
+    "definition": "nuclear potential energy calculated and plotted as a function of nuclear deformation coordinates",
+    "types": ["quantity"],
+    "aliases": ["potential-energy map", "contour map of the potential energy"]
+  },
+  {
+    "tag": "decay_mode_branching_ratio",
+    "definition": "fraction or percentage of nuclear decays proceeding through a specified decay mode, such as alpha decay or spontaneous fission",
+    "types": ["quantity"],
+    "aliases": ["Decay mode, branch (%)", "spontaneous-fission branch", "α-decay branch"]
   }
 ]
