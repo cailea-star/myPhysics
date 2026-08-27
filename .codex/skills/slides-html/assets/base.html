@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>耦合道方法研究 α-衰变</title>
-  <link rel="stylesheet" href="slides.css?v=20260826-16">
+  <title>使用耦合道方法研究 \(\alpha\)-衰变</title>
+  <link rel="stylesheet" href="slides.css">
   <script>
     window.MathJax = {
       tex: {
@@ -20,10 +20,9 @@
     <section class="slide title-slide" aria-label="标题页">
       <img class="title-corner-logo title-corner-logo-left" src="imp_logo_short.png" alt="中国科学院近代物理研究所标志">
       <img class="title-corner-logo title-corner-logo-right" src="ucas_logo_short.png" alt="中国科学院大学校徽">
-      <h1>耦合道方法研究 \(\alpha\)-衰变</h1>
+      <h1>使用耦合道方法研究 \(\alpha\)-衰变</h1>
       <div class="title-meta">
         <p>中国科学院近代物理研究所</p>
-        <p>核物理中心理论物理室</p>
         <p>汇报人：吴国庆</p>
         <p>导师：董建敏</p>
         <p>2026-08-27</p>
@@ -45,51 +44,51 @@
       </div>
     </section>
 
-    <section class="slide two-column-figure-slide" aria-label="研究背景">
-      <div class="content-head-block">
-        <header class="content-header">
+    <section class="slide content-slide multi-column-slide two-column-layout" aria-label="研究背景">
+      <div class="content-block-header">
+        <header class="content-header-main">
           <img class="content-header-logo" src="imp_logo_short.png" alt="中国科学院近代物理研究所标志">
           <h2>研究背景</h2>
           <img class="content-header-logo" src="ucas_logo_short.png" alt="中国科学院大学校徽">
         </header>
         <div class="content-divider" aria-hidden="true"></div>
       </div>
-      <div class="figure-columns">
-        <div class="content-block-figure">
-          <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>壳修正能量</h3>
-          <figure class="figure-with-caption">
-            <img src="10.1088_0034-4885_78_3_036301.png" alt="超重核壳修正能分布">
-            <figcaption>来源：Rep. Prog. Phys. 78 (2015) 036301.</figcaption>
-          </figure>
-        </div>
-        <div class="content-block-figure">
+      <div class="multi-column-content">
+        <div class="content-block-group content-block-figure">
           <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>新元素的合成</h3>
           <figure class="figure-with-caption">
             <img src="10.1088_1402-4896_aa53c1.png" alt="已知最重核素及其衰变模式">
             <figcaption>来源：Phys. Scr. 92 (2017) 023003.</figcaption>
           </figure>
         </div>
+        <div class="content-block-group content-block-figure">
+          <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>壳修正能量</h3>
+          <figure class="figure-with-caption">
+            <img src="10.1088_0034-4885_78_3_036301.png" alt="超重核壳修正能分布">
+            <figcaption>来源：Rep. Prog. Phys. 78 (2015) 036301.</figcaption>
+          </figure>
+        </div>
       </div>
     </section>
 
-    <section class="slide two-column-figure-slide" aria-label="α 衰变研究背景">
-      <div class="content-head-block">
-        <header class="content-header">
+    <section class="slide content-slide multi-column-slide two-column-layout" aria-label="α-衰变研究背景">
+      <div class="content-block-header">
+        <header class="content-header-main">
           <img class="content-header-logo" src="imp_logo_short.png" alt="中国科学院近代物理研究所标志">
           <h2>研究背景</h2>
           <img class="content-header-logo" src="ucas_logo_short.png" alt="中国科学院大学校徽">
         </header>
         <div class="content-divider" aria-hidden="true"></div>
       </div>
-      <div class="figure-columns">
-        <div class="content-block-figure">
-          <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>α 衰变势垒</h3>
+      <div class="multi-column-content">
+        <div class="content-block-group content-block-figure">
+          <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>\(\alpha\)-衰变势垒</h3>
           <figure class="figure-with-caption">
-            <img src="10.1016_j.ppnp.2018.11.003.png" alt="α 衰变势垒示意图">
+            <img src="10.1016_j.ppnp.2018.11.003.png" alt="α-衰变势垒示意图">
             <figcaption>来源：Prog. Part. Nucl. Phys. 105 (2019) 214.</figcaption>
           </figure>
         </div>
-        <div class="content-block-figure">
+        <div class="content-block-group content-block-figure">
           <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>超重核半衰期</h3>
           <figure class="figure-with-caption">
             <img src="10.1103_RevModPhys.72.3.png" alt="超重核半衰期与衰变模式分布">
@@ -99,64 +98,64 @@
       </div>
     </section>
 
-    <section class="slide three-column-figure-slide" aria-label="现有研究方法与耦合道动机">
-      <div class="content-head-block">
-        <header class="content-header">
+    <section class="slide content-slide multi-column-slide three-column-layout" aria-label="现有研究方法与耦合道动机">
+      <div class="content-block-header">
+        <header class="content-header-main">
           <img class="content-header-logo" src="imp_logo_short.png" alt="中国科学院近代物理研究所标志">
           <h2>研究背景</h2>
           <img class="content-header-logo" src="ucas_logo_short.png" alt="中国科学院大学校徽">
         </header>
         <div class="content-divider" aria-hidden="true"></div>
       </div>
-      <div class="figure-columns">
-        <div class="content-block-figure">
+      <div class="multi-column-content">
+        <div class="content-block-group content-block-figure">
           <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>微观 α 形成振幅</h3>
           <figure class="figure-with-caption">
             <img src="10.1103_PhysRevLett.110.242502.png" alt="α 形成振幅与配对能隙">
             <figcaption>来源：Phys. Rev. Lett. 110 (2013) 242502.</figcaption>
           </figure>
         </div>
-        <div class="content-block-figure">
+        <div class="content-block-group content-block-figure">
           <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>宏观系统学</h3>
           <figure class="figure-with-caption">
-            <img src="10.1103_PhysRevC.80.044326.png" alt="α 衰变宏观系统学">
+            <img src="10.1103_PhysRevC.80.044326.png" alt="α-衰变宏观系统学">
             <figcaption>来源：Phys. Rev. C 80 (2009) 044326.</figcaption>
           </figure>
         </div>
-        <div class="content-block-figure">
+        <div class="content-block-group content-block-figure">
           <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>耦合道分支比</h3>
           <figure class="figure-with-caption">
-            <img src="10.1103_PhysRevC.86.054608.png" alt="耦合道方法计算 α 衰变分支比">
+            <img src="10.1103_PhysRevC.86.054608.png" alt="耦合道方法计算 α-衰变分支比">
             <figcaption>来源：Phys. Rev. C 86 (2012) 054608.</figcaption>
           </figure>
         </div>
       </div>
     </section>
 
-    <section class="slide formula-slide" aria-label="体系与通道基">
-      <div class="content-head-block">
-        <header class="content-header">
+    <section class="slide content-slide multi-row-slide two-row-layout auto-row-layout" aria-label="体系与通道基">
+      <div class="content-block-header">
+        <header class="content-header-main">
           <img class="content-header-logo" src="imp_logo_short.png" alt="中国科学院近代物理研究所标志">
           <h2>耦合道形式理论</h2>
           <img class="content-header-logo" src="ucas_logo_short.png" alt="中国科学院大学校徽">
         </header>
         <div class="content-divider" aria-hidden="true"></div>
       </div>
-      <div class="formula-content formula-content-stacked-compact">
-        <div class="formula-block">
+      <div class="multi-row-content">
+        <div class="content-block-group">
           <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>体系与通道基</h3>
-          <div class="content-block-text">
-            <div class="formula-list">
-            <div class="formula-item">
-              \[P(J^{\pi_P})\rightarrow D(I^{\pi_I})+\alpha(0^+;l)\]
+          <div class="content-block-formula">
+            <div class="content-formula-block">
+            <div class="content-formula-line">
+              \[P(J^{\pi_P})\rightarrow D(I^{\pi_I})+\alpha(0^+;l)\qquad c=\{l,I\}.\]
             </div>
-            <div class="formula-item">
+            <div class="content-formula-line">
               \[\mathcal Y_{JM}^{(c)}
               =\big[Y_l\otimes\Phi_I\big]_{JM}\Phi_\alpha
               =\sum_{m,M_I}\langle lm;IM_I|JM\rangle
               Y_{lm}(\hat{\mathbf r})\Phi_{IM_I}(\xi_D)\Phi_\alpha(\xi_\alpha)\]
             </div>
-            <div class="formula-item">
+            <div class="content-formula-line">
               \[\Psi_{JM}^{(c)}(\mathbf r,\xi_D,\xi_\alpha)
               =\frac{u_c(r)}{r}\mathcal Y_{JM}^{(c)}(\hat{\mathbf r},\xi_D,\xi_\alpha),\qquad
               \Psi_{JM}=\sum_{c\in\mathcal C_{J\pi_P}}\Psi_{JM}^{(c)}.\]
@@ -164,21 +163,21 @@
             </div>
           </div>
         </div>
-        <div class="formula-block">
+        <div class="content-block-group">
           <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>哈密顿量</h3>
-          <div class="content-block-text">
-            <div class="formula-list">
-            <div class="formula-item">
+          <div class="content-block-formula">
+            <div class="content-formula-block">
+            <div class="content-formula-line">
               \[\hat H=\hat H_D+\hat H_\alpha+\hat T_r+\hat V.\]
             </div>
-            <div class="formula-item">
+            <div class="content-formula-line">
               \[V_{cc'}^{JM}(r)
               =\left\langle\mathcal Y_{JM}^{(c)}
               \middle|\hat V\middle|
               \mathcal Y_{JM}^{(c')}\right\rangle_{\hat{\mathbf r},\xi_D,\xi_\alpha},\qquad
               E_c\equiv E-E_I-E_\alpha.\]
             </div>
-            <div class="formula-item">
+            <div class="content-formula-line">
               \[\boxed{
               \sum_{c'}\left[
               -\frac{\hbar^2}{2\mu}
@@ -194,43 +193,43 @@
       </div>
     </section>
 
-    <section class="slide formula-slide" aria-label="耦合矩阵元的一般形式">
-      <div class="content-head-block">
-        <header class="content-header">
+    <section class="slide content-slide multi-row-slide two-row-layout auto-row-layout" aria-label="耦合矩阵元的一般形式">
+      <div class="content-block-header">
+        <header class="content-header-main">
           <img class="content-header-logo" src="imp_logo_short.png" alt="中国科学院近代物理研究所标志">
           <h2>耦合道形式理论</h2>
           <img class="content-header-logo" src="ucas_logo_short.png" alt="中国科学院大学校徽">
         </header>
         <div class="content-divider" aria-hidden="true"></div>
       </div>
-      <div class="formula-content formula-content-stacked-compact">
-        <div class="formula-block">
+      <div class="multi-row-content">
+        <div class="content-block-group">
           <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>相互作用与通道矩阵元</h3>
-          <div class="content-block-text">
-            <div class="formula-list">
-            <div class="formula-item">
+          <div class="content-block-formula">
+            <div class="content-formula-block">
+            <div class="content-formula-line">
               \[\hat V=\sum_{\lambda\mu}\hat V_{\lambda\mu}(r)Y_{\lambda\mu}^{*}(\hat{\mathbf r})=\sum_{\lambda\mu}(-1)^\mu\hat V_{\lambda\mu}(r)Y_{\lambda,-\mu}(\hat{\mathbf r}).\]
             </div>
-            <div class="formula-item">
+            <div class="content-formula-line">
               \[V_{cc'}^{JM}(r)=\Big\langle\big[Y_l\otimes\Phi_I\big]_{JM}\Phi_\alpha\Big|\hat V\Big|\big[Y_{l'}\otimes\Phi_{I'}\big]_{JM}\Phi_\alpha\Big\rangle.\]
             </div>
-            <div class="formula-item formula-item-long">
+            <div class="content-formula-line content-formula-line-long">
               \[V_{cc'}^{JM}(r)=\sum_{\lambda\mu}\sum_{mM_I}\sum_{m'M_I'}(-1)^\mu\langle lm;IM_I|JM\rangle\langle l'm';I'M_I'|JM\rangle\big\langle lm\big|Y_{\lambda,-\mu}\big|l'm'\big\rangle\Big\langle\Phi_{IM_I}\Phi_\alpha\Big|\hat V_{\lambda\mu}(r)\Big|\Phi_{I'M_I'}\Phi_\alpha\Big\rangle.\]
             </div>
             </div>
           </div>
         </div>
-        <div class="formula-block">
+        <div class="content-block-group">
           <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>约化矩阵元</h3>
-          <div class="content-block-text">
-            <div class="formula-list">
-            <div class="formula-item">
+          <div class="content-block-formula">
+            <div class="content-formula-block">
+            <div class="content-formula-line">
               \[\Big\langle\Phi_{IM_I}\Phi_\alpha\Big|\hat V_{\lambda\mu}(r)\Big|\Phi_{I'M_I'}\Phi_\alpha\Big\rangle=(-1)^{I-M_I}\begin{pmatrix}I&\lambda&I'\\-M_I&\mu&M_I'\end{pmatrix}\Big\langle\Phi_I\Phi_\alpha\Big\|\hat V_\lambda(r)\Big\|\Phi_{I'}\Phi_\alpha\Big\rangle.\]
             </div>
-            <div class="formula-item">
+            <div class="content-formula-line">
               \[\big\langle lm\big|Y_{\lambda,-\mu}\big|l'm'\big\rangle=(-1)^{l-m}\begin{pmatrix}l&\lambda&l'\\-m&-\mu&m'\end{pmatrix}\big\langle l\big\|Y_\lambda\big\|l'\big\rangle.\]
             </div>
-            <div class="formula-item">
+            <div class="content-formula-line">
               \[\boxed{V_{cc'}^{JM}(r)=\sum_\lambda(-1)^{l'+I+J}\begin{Bmatrix}l&I&J\\I'&l'&\lambda\end{Bmatrix}\big\langle l\big\|Y_\lambda\big\|l'\big\rangle\Big\langle\Phi_I\Phi_\alpha\Big\|\hat V_\lambda(r)\Big\|\Phi_{I'}\Phi_\alpha\Big\rangle}.\]
             </div>
             </div>
@@ -239,33 +238,33 @@
       </div>
     </section>
 
-    <section class="slide formula-slide" aria-label="从内禀系到实验室系的变换">
-      <div class="content-head-block">
-        <header class="content-header">
+    <section class="slide content-slide multi-row-slide one-row-layout" aria-label="从内禀系到实验室系的变换">
+      <div class="content-block-header">
+        <header class="content-header-main">
           <img class="content-header-logo" src="imp_logo_short.png" alt="中国科学院近代物理研究所标志">
           <h2>耦合道形式理论</h2>
           <img class="content-header-logo" src="ucas_logo_short.png" alt="中国科学院大学校徽">
         </header>
         <div class="content-divider" aria-hidden="true"></div>
       </div>
-      <div class="formula-content formula-content-single">
-        <div class="formula-block">
+      <div class="multi-row-content">
+        <div class="content-block-group">
           <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>从内禀系到实验室系的变换</h3>
-          <div class="content-block-text">
-            <div class="formula-list formula-list-six">
-            <div class="formula-item">
+          <div class="content-block-formula">
+            <div class="content-formula-block content-formula-block-six">
+            <div class="content-formula-line">
               \[\cos\theta'=\hat{\mathbf r}'\cdot\hat{\mathbf z}'=\hat{\mathbf r}\cdot\hat{\mathbf n}_D.\]
             </div>
-            <div class="formula-item">
+            <div class="content-formula-line">
               \[\hat V'(\mathbf r')=\sum_\lambda\hat V'_{\lambda0}(r)Y_{\lambda0}(\hat{\mathbf r}')=\sum_\lambda\hat V'_{\lambda0}(r)\sqrt{\frac{2\lambda+1}{4\pi}}P_\lambda(\cos\theta').\]
             </div>
-            <div class="formula-item formula-insert">
-              <div class="formula-insert-content">
-                <span class="formula-insert-marker" aria-hidden="true"></span>
+            <div class="content-formula-line content-formula-insert">
+              <div class="content-formula-insert-content">
+                <span class="content-formula-insert-marker" aria-hidden="true"></span>
                 \[P_\lambda(\hat{\mathbf r}\cdot\hat{\mathbf n}_D)=\frac{4\pi}{2\lambda+1}\sum_\mu Y_{\lambda\mu}^{*}(\hat{\mathbf r})Y_{\lambda\mu}(\hat{\mathbf n}_D).\]
               </div>
             </div>
-            <div class="formula-item">
+            <div class="content-formula-line">
               \[\hat V'(\mathbf r')
               =\sum_{\lambda,\mu}
               \left[
@@ -275,10 +274,10 @@
               \right]
               Y_{\lambda\mu}^{*}(\hat{\mathbf r}).\]
             </div>
-            <div class="formula-item">
+            <div class="content-formula-line">
               \[\hat V(\mathbf r)=\hat V'(\mathbf r')=\sum_{\lambda\mu}\hat V_{\lambda\mu}(r)Y_{\lambda\mu}^{*}(\hat{\mathbf r})=\sum_\lambda\hat V'_{\lambda0}(r)Y_{\lambda0}(\hat{\mathbf r}').\]
             </div>
-            <div class="formula-item">
+            <div class="content-formula-line">
               \[\boxed{\hat V_{\lambda\mu}(r)=\hat V'_{\lambda0}(r)D_{\mu0}^{\lambda *}(\Omega_D)}.\]
             </div>
             </div>
@@ -287,31 +286,31 @@
       </div>
     </section>
 
-    <section class="slide formula-slide" aria-label="内禀系约化矩阵元">
-      <div class="content-head-block">
-        <header class="content-header">
+    <section class="slide content-slide multi-row-slide one-row-layout wide-content-layout" aria-label="内禀系约化矩阵元">
+      <div class="content-block-header">
+        <header class="content-header-main">
           <img class="content-header-logo" src="imp_logo_short.png" alt="中国科学院近代物理研究所标志">
           <h2>耦合道形式理论</h2>
           <img class="content-header-logo" src="ucas_logo_short.png" alt="中国科学院大学校徽">
         </header>
         <div class="content-divider" aria-hidden="true"></div>
       </div>
-      <div class="formula-content formula-content-single formula-content-wide">
-        <div class="formula-block">
+      <div class="multi-row-content">
+        <div class="content-block-group">
           <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>内禀系约化矩阵元</h3>
-          <div class="content-block-text">
-            <div class="formula-list formula-list-five">
-            <div class="formula-item">
+          <div class="content-block-formula">
+            <div class="content-formula-block content-formula-block-five">
+            <div class="content-formula-line">
               \[\Phi_{IM_IK}(\Omega_D,\eta_D)=\sqrt{\frac{2I+1}{16\pi^2}}\left[D_{M_IK}^{I*}(\Omega_D)\chi_K(\eta_D)+(-1)^{I+K}D_{M_I,-K}^{I*}(\Omega_D)\chi_{-K}(\eta_D)\right].\]
             </div>
-            <div class="formula-item formula-item-long">
+            <div class="content-formula-line content-formula-line-long">
               \[\Big\langle\Phi_{IM_IK}\Phi_\alpha\Big|\hat V_{\lambda\mu}(r)\Big|\Phi_{I'M_I'K}\Phi_\alpha\Big\rangle=\frac{\hat I\hat I'}{2}(-1)^{M_I-K}\begin{pmatrix}I&\lambda&I'\\M_I&-\mu&-M_I'\end{pmatrix}\begin{pmatrix}I&\lambda&I'\\K&0&-K\end{pmatrix}\left[V'_{\lambda0;K,K}(r)+(-1)^\lambda V'_{\lambda0;-K,-K}(r)\right].\]
             </div>
-              <div class="formula-item formula-transition-note">若只取 \(\lambda\) 为偶数：</div>
-            <div class="formula-item formula-item-long">
+              <div class="content-formula-line content-formula-note">若只取 \(\lambda\) 为偶数：</div>
+            <div class="content-formula-line content-formula-line-long">
               \[\Big\langle\Phi_{IM_IK}\Phi_\alpha\Big|\hat V_{\lambda\mu}(r)\Big|\Phi_{I'M_I'K}\Phi_\alpha\Big\rangle=\hat I\hat I'(-1)^{I-M_I}\begin{pmatrix}I&\lambda&I'\\-M_I&\mu&M_I'\end{pmatrix}(-1)^{I-K}\begin{pmatrix}I&\lambda&I'\\-K&0&K\end{pmatrix}V'_{\lambda0;K,K}(r).\]
             </div>
-            <div class="formula-item">
+            <div class="content-formula-line">
               \[\boxed{\Big\langle IK\Big\|\hat V_\lambda(r)\Big\|I'K\Big\rangle=\hat I\hat I'(-1)^{I-K}\begin{pmatrix}I&\lambda&I'\\-K&0&K\end{pmatrix}V'_{\lambda0;K,K}(r)}.\]
             </div>
             </div>
@@ -320,72 +319,68 @@
       </div>
     </section>
 
-    <section class="slide formula-slide" aria-label="库仑耦合与核势耦合">
-      <div class="content-head-block">
-        <header class="content-header">
+    <section class="slide content-slide multi-column-slide four-six-column-layout" aria-label="库仑耦合与核势耦合">
+      <div class="content-block-header">
+        <header class="content-header-main">
           <img class="content-header-logo" src="imp_logo_short.png" alt="中国科学院近代物理研究所标志">
           <h2>当前计算结果</h2>
           <img class="content-header-logo" src="ucas_logo_short.png" alt="中国科学院大学校徽">
         </header>
         <div class="content-divider" aria-hidden="true"></div>
       </div>
-      <div class="formula-content formula-content-columns-4-6">
-        <div class="formula-content-column">
-          <div class="formula-block">
+      <div class="multi-column-content">
+          <div class="content-block-group">
             <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>库仑耦合</h3>
-            <div class="content-block-text">
-              <div class="formula-list formula-list-four">
-              <div class="formula-item">
+            <div class="content-block-formula">
+              <div class="content-formula-block content-formula-block-four">
+              <div class="content-formula-line">
                 \[V^{\prime C}(\mathbf r')=\frac{e^2Z_\alpha Z_D}{4\pi\epsilon_0}\int d^3r_D'\,\frac{\rho_D(\mathbf r_D')}{|\mathbf r'-\mathbf r_D'|}.\]
               </div>
-              <div class="formula-item">
+              <div class="content-formula-line">
                 \[\frac{1}{|\mathbf r'-\mathbf r_D'|}=\sum_{\lambda\mu}\frac{4\pi}{2\lambda+1}\frac{r_<^\lambda}{r_>^{\lambda+1}}Y_{\lambda\mu}^{*}(\hat{\mathbf r}')Y_{\lambda\mu}(\hat{\mathbf r}_D').\]
               </div>
-              <div class="formula-item">
+              <div class="content-formula-line">
                 \[Q_{\lambda\mu}^D=eZ_D\int d^3r_D'\,\rho_D(\mathbf r_D')r_D^\lambda Y_{\lambda\mu}(\hat{\mathbf r}_D').\]
               </div>
-              <div class="formula-item">
+              <div class="content-formula-line">
                 \[V^{\prime C}(\mathbf r')=\frac{eZ_\alpha}{4\pi\epsilon_0}\sum_{\lambda\mu}\frac{4\pi}{2\lambda+1}\frac{Q_{\lambda\mu}^D}{r^{\lambda+1}}Y_{\lambda\mu}^{*}(\hat{\mathbf r}').\]
               </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="formula-content-column">
-          <div class="formula-block">
+          <div class="content-block-group">
             <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>核势耦合</h3>
-            <div class="content-block-text">
-              <div class="formula-list formula-list-four">
-              <div class="formula-item">
+            <div class="content-block-formula">
+              <div class="content-formula-block content-formula-block-four">
+              <div class="content-formula-line">
                 \[\hat R_D(\hat{\mathbf r}',\xi_D)=R_0^D\left[1+\sum_{\lambda\mu}\hat a_{\lambda\mu}(\xi_D)Y_{\lambda\mu}^{*}(\hat{\mathbf r}')\right].\]
               </div>
-              <div class="formula-item">
+              <div class="content-formula-line">
                 \[\Big\langle\Phi_{IK}\Big\|\hat R_{D,\lambda}\Big\|\Phi_{I'K'}\Big\rangle=\hat I\hat I'(-1)^{I-K}\begin{pmatrix}I&\lambda&I'\\-K&0&K'\end{pmatrix}\Big\langle\chi_K\Big|\hat R'_{D,\lambda0}\Big|\chi_{K'}\Big\rangle.\]
               </div>
-              <div class="formula-item">
+              <div class="content-formula-line">
                 \[\Big\langle\chi_K\Big|\hat R'_{D,\lambda0}\Big|\chi_{K'}\Big\rangle=\delta_{KK'}R_0^D\left[\sqrt{4\pi}\,\delta_{\lambda0}+\beta_{\lambda0}^D\right].\]
               </div>
-              <div class="formula-item">
+              <div class="content-formula-line">
                 \[\hat V^{\prime N}(\mathbf r')=\frac{V_0}{1+\exp\!\left(\left[r-R_0^\alpha-\hat R_D(\hat{\mathbf r}',\xi_D)\right]/a\right)}.\]
               </div>
               </div>
             </div>
           </div>
-        </div>
       </div>
     </section>
 
-    <section class="slide mixed-content-slide" aria-label="当前的输出结果">
-      <div class="content-head-block">
-        <header class="content-header">
+    <section class="slide content-slide multi-column-slide two-column-layout" aria-label="当前的输出结果">
+      <div class="content-block-header">
+        <header class="content-header-main">
           <img class="content-header-logo" src="imp_logo_short.png" alt="中国科学院近代物理研究所标志">
           <h2>当前计算结果</h2>
           <img class="content-header-logo" src="ucas_logo_short.png" alt="中国科学院大学校徽">
         </header>
         <div class="content-divider" aria-hidden="true"></div>
       </div>
-      <div class="mixed-content-columns">
-        <div class="content-block-workflow">
+      <div class="multi-column-content">
+        <div class="content-block-group content-block-workflow">
           <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>数值计算流程</h3>
           <div class="workflow">
             <div class="workflow-node"><span class="workflow-step">01</span><span class="workflow-label">构造库仑耦合与核势耦合矩阵</span></div>
@@ -399,7 +394,7 @@
             <div class="workflow-node"><span class="workflow-step">05</span><span class="workflow-label">归一化并计算 \(\Gamma_{\mathrm{ch}}\) 与 BR</span></div>
           </div>
         </div>
-        <div class="content-block-figure mixed-content-figure">
+        <div class="content-block-group content-block-figure content-block-figure-auto">
           <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>当前的输出结果</h3>
           <figure>
             <img src="numerical-results-output.png" alt="当前程序输出的势深、匹配误差、分支比和半衰期结果">
@@ -407,16 +402,62 @@
         </div>
       </div>
     </section>
+
+    <section class="slide content-slide multi-row-slide two-row-layout" aria-label="总结与展望">
+      <div class="content-block-header">
+        <header class="content-header-main">
+          <img class="content-header-logo" src="imp_logo_short.png" alt="中国科学院近代物理研究所标志">
+          <h2>总结与展望</h2>
+          <img class="content-header-logo" src="ucas_logo_short.png" alt="中国科学院大学校徽">
+        </header>
+        <div class="content-divider" aria-hidden="true"></div>
+      </div>
+      <div class="multi-row-content">
+        <section class="content-block-group">
+          <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>阶段性总结</h3>
+          <div class="content-block-text multi-row-text">
+            <ul>
+              <li>学习 \(\alpha\)-衰变的耦合道形式理论与从内禀系到实验室系的变换。</li>
+              <li>构造库仑耦合与核势耦合矩阵元，并代入多通道径向薛定谔方程。</li>
+              <li>初步复现数值求解流程，获得 \(\alpha\)-衰变分支比与半衰期计算结果。</li>
+            </ul>
+          </div>
+        </section>
+        <section class="content-block-group">
+          <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>下一步工作</h3>
+          <div class="content-block-text multi-row-text">
+            <ul>
+              <li>结合投影壳模型，引入角动量投影与 \(K\) 混合，改进当前耦合道方法中固定 \(M\)、\(K\) 的近似处理；</li>
+              <li>将现有理论框架推广至奇 \(A\) 核和奇奇核，发展相应的耦合道计算方法。</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="slide acknowledgement-slide" aria-label="致谢页">
+      <img class="acknowledgement-logo acknowledgement-logo-left" src="imp_logo_short.png" alt="中国科学院近代物理研究所标志">
+      <img class="acknowledgement-logo acknowledgement-logo-right" src="ucas_logo_short.png" alt="中国科学院大学校徽">
+      <div class="acknowledgement-content">
+        <h2>感谢聆听</h2>
+        <p>敬请批评指正</p>
+      </div>
+      <div class="acknowledgement-author">
+        <p>中国科学院近代物理研究所</p>
+        <p>汇报人：吴国庆</p>
+        <p>导师：董建敏</p>
+      </div>
+    </section>
   </main>
   <script>
-    const slides = document.querySelectorAll('.slide:not(.title-slide):not(.toc-slide)');
+    const slides = document.querySelectorAll('.content-slide');
 
     slides.forEach((slide, index) => {
       const pageBlock = document.createElement('div');
       const pageAuthor = document.createElement('span');
       const pageNumber = document.createElement('span');
 
-      pageBlock.className = 'content-footer-block';
+      pageBlock.className = 'content-block-footer';
       pageAuthor.className = 'content-page-author';
       pageAuthor.textContent = '吴国庆 中国科学院近代物理研究所';
       pageNumber.className = 'content-page-number';
@@ -427,3 +468,4 @@
   </script>
 </body>
 </html>
+
