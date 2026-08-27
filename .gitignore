@@ -9,5 +9,6 @@ __pycache__/
 build*/
 compile_commands.json
 
-# =========== PPT 产物 ===========
-*.png
+# =========== slides 产物 ===========
+/sildes/*/assets/*.png
+/sildes/*/*.pdf
