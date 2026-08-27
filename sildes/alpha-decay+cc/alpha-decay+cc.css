@@ -830,6 +830,17 @@ body {
       font-size: calc(var(--height-1pct) * 2.2); /* 双栏公式字号为页面高度的 2.2% */
     }
   }
+
+  /* `&.three-seven-column-layout`：使用 3:7 比例的示意图与公式双栏布局 */
+  &.three-seven-column-layout {
+    --multi-column-template: minmax(0, 3fr) minmax(0, 7fr); /* 左栏占 30%，右栏占 70% */
+
+    /* `& .content-formula-line`：在右栏中使用适合长公式的紧凑字号 */
+    & .content-formula-line {
+      min-width: 0; /* 允许长公式随右栏宽度正常收缩 */
+      font-size: calc(var(--height-1pct) * 2.4); /* 保持公式清晰并避免横向溢出 */
+    }
+  }
 }
 
 /* `.multi-row-slide`：统一管理多行 block 的行数、标题对齐和整体居中 */
