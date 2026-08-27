@@ -1,0 +1,76 @@
+{
+  "source": "Crossref",
+  "language": null,
+  "title": [
+    "Super-heavy element research"
+  ],
+  "author": [
+    {
+      "given": "Yu Ts",
+      "family": "Oganessian",
+      "sequence": "first",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "V K",
+      "family": "Utyonkov",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    }
+  ],
+  "author-corresponding-openalex": [
+    {
+      "raw_author_name": "Yu Ts Oganessian",
+      "given": "Yu Ts",
+      "family": "Oganessian",
+      "raw_orcid": null,
+      "ORCID": "",
+      "raw_affiliation_strings": [
+        "Joint Institute for Nuclear Research (JINR), Joliot-Curie 6, RU-141980 Dubna, Russian Federation"
+      ],
+      "is_corresponding": true
+    }
+  ],
+  "DOI": "10.1088/0034-4885/78/3/036301",
+  "URL": "https://doi.org/10.1088/0034-4885/78/3/036301",
+  "is-referenced-by-count": 430,
+  "reference-count": 93,
+  "abstract": "A review of the discovery and investigation of the 'island of stability' of super-heavy nuclei at the separator DGFRS (FLNR, JINR) in the fusion reactions of (48)Ca projectiles with target nuclei (238)U-(249)Cf is presented. The synthesis of the heaviest nuclei, their decay properties, and methods of identification are discussed. The role of shell effects in the stability of super-heavy nuclei is demonstrated by comparison of the experimental data and results of theoretical calculations. The radioactive properties of the new nuclei, the isotopes of elements 112-118 as well as of their decay products, give evidence of the significant increase of the stability of the heavy nuclei with rise of their neutron number and approaching magic number N = 184.",
+  "publisher": "IOP Publishing",
+  "container-title": [
+    "Reports on Progress in Physics"
+  ],
+  "short-container-title": [
+    "Rep. Prog. Phys."
+  ],
+  "type": "journal-article",
+  "volume": "78",
+  "page": "036301",
+  "article-number": null,
+  "issued": {
+    "date-parts": [
+      [
+        2015,
+        2,
+        1
+      ]
+    ]
+  },
+  "ISSN": [
+    "0034-4885",
+    "1361-6633"
+  ],
+  "stem": "Yu_Ts_Oganessian_Y.2015_Rep.Prog.Phys._Vol.78Nol.P.036301"
+}

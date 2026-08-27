@@ -8,3 +8,7 @@ __pycache__/
 .cache/
 build*/
 compile_commands.json
+
+# =========== slides 产物 ===========
+/sildes/*/assets/*.png
+/sildes/*/*.pdf

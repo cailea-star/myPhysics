@@ -20,9 +20,9 @@ template<typename T>
 class IVP_RK4State {
 public:
     double tcurr_F;
+    Eigen::Vector<T, Eigen::Dynamic> ycurr_T1D_i;
 private:
     RealTVec2TVecFunc<T> f_Func;
-    Eigen::Vector<T, Eigen::Dynamic> ycurr_T1D_i;
     Eigen::Vector<T, Eigen::Dynamic> k1_T1D_i;
     Eigen::Vector<T, Eigen::Dynamic> k2_T1D_i;
     Eigen::Vector<T, Eigen::Dynamic> k3_T1D_i;
@@ -31,12 +31,20 @@ private:
 
 public:
     /**
+     * @brief  Initialize an empty vector RK4 recurrence.
+     * @math   dim(y_curr)=0
+     * @output Empty RK4 state.
+     * @note   Requires assignment before stepping.
+     */
+    IVP_RK4State() : tcurr_F(0.0) {}
+
+    /**
      * @brief  Initialize a vector RK4 recurrence.
      * @math   t_curr=t₀, y_curr=y₀
      * @output Initialized RK4 state.
      */
     IVP_RK4State(const RealTVec2TVecFunc<T>& f_Func_, double t0_F, const Eigen::Ref<const Eigen::Vector<T, Eigen::Dynamic>>& y0_T1D_i)
-    : tcurr_F(t0_F), f_Func(f_Func_), ycurr_T1D_i(y0_T1D_i), k1_T1D_i(y0_T1D_i.size()), k2_T1D_i(y0_T1D_i.size()), k3_T1D_i(y0_T1D_i.size()), k4_T1D_i(y0_T1D_i.size()), ytmp_T1D_i(y0_T1D_i.size()) {
+    : tcurr_F(t0_F), ycurr_T1D_i(y0_T1D_i), f_Func(f_Func_), k1_T1D_i(y0_T1D_i.size()), k2_T1D_i(y0_T1D_i.size()), k3_T1D_i(y0_T1D_i.size()), k4_T1D_i(y0_T1D_i.size()), ytmp_T1D_i(y0_T1D_i.size()) {
         assert(this->f_Func);
         assert(std::isfinite(t0_F));
         assert(y0_T1D_i.size() > 0 && y0_T1D_i.allFinite());
@@ -54,6 +62,7 @@ public:
 template<typename T>
 Eigen::Vector<T, Eigen::Dynamic>& IVP_RK4State<T>::step(double tnext_F) {
     // (t_n,y_n) → {k_1,k_2,k_3,k_4} → (t_{n+1},y_{n+1}).
+    assert(f_Func && ycurr_T1D_i.size() > 0);
     double dt_F = tnext_F - tcurr_F;
     assert(std::isfinite(tnext_F) && std::isfinite(dt_F) && dt_F != 0.0);
 
