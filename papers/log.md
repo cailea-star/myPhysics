@@ -42,3 +42,8 @@
 [DOI]: 10.1016/j.cpc.2022.108613
 [Title]: BiFold: A Python code for the calculation of double-folded (bifold) potentials with density-in/dependent nucleon-nucleon interactions
 [Tags]: double_folding_potential
+
+## [2026-08-26] | raw/Yu_Ts_Oganessian_Y.2015_Rep.Prog.Phys._Vol.78Nol.P.036301.md
+[DOI]: 10.1088/0034-4885/78/3/036301
+[Title]: Super-heavy element research
+[Tags]: superheavy_nuclei, superheavy_nuclei_island_of_stability, nuclear_shell_effect
