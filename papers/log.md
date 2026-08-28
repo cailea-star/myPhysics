@@ -67,3 +67,8 @@
 [DOI]: 10.1016/j.ppnp.2018.11.003
 [Title]: Recent developments in radioactive charged-particle emissions and related phenomena
 [Tags]: charged_particle_radioactivity, nuclear_clusterization, proton_radioactivity
+
+## [2026-08-28] | raw/C._Qi_Y.2009_Phys.Rev.C_Vol.80Nol.044326P..md
+[DOI]: 10.1103/physrevc.80.044326
+[Title]: Microscopic mechanism of charged-particle radioactivity and generalization of the Geiger-Nuttall law
+[Tags]: charged_particle_radioactivity, alpha_decay, cluster_radioactivity
