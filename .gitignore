@@ -12,3 +12,6 @@ compile_commands.json
 # =========== slides 产物 ===========
 /sildes/*/assets/*.png
 /sildes/*/*.pdf
+
+# ========== 临时文件 ==========
+tmp/
