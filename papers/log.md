@@ -47,3 +47,23 @@
 [DOI]: 10.1088/0034-4885/78/3/036301
 [Title]: Super-heavy element research
 [Tags]: superheavy_nuclei, superheavy_nuclei_island_of_stability, nuclear_shell_effect
+
+## [2026-08-27] | raw/Yu_Ts_Oganessian_Y.2017_Phys.Scr._Vol.92Nol.P.023003.md
+[DOI]: 10.1088/1402-4896/aa53c1
+[Title]: Superheavy nuclei: from predictions to discovery
+[Tags]: superheavy_nuclei, superheavy_nuclei_island_of_stability, nuclear_shell_effect
+
+## [2026-08-27] | raw/S._Hofmann_Y.2000_Rev.Mod.Phys._Vol.72Nol.P.733-767.md
+[DOI]: 10.1103/revmodphys.72.733
+[Title]: The discovery of the heaviest elements
+[Tags]: superheavy_nuclei, nuclear_shell_effect, alpha_decay
+
+## [2026-08-28] | raw/Dongdong_Ni_Y.2012_Phys.Rev.C_Vol.86Nol.054608P..md
+[DOI]: 10.1103/physrevc.86.054608
+[Title]: Systematic calculation of fine structure in the α decay of heavy odd-mass nuclei
+[Tags]: alpha_decay_fine_structure, odd_mass_nuclei, deformed
+
+## [2026-08-28] | raw/Chong_Qi_Y.2019_ProgressinParticleandNuclearPhysics_Vol.105Nol.P.214-251.md
+[DOI]: 10.1016/j.ppnp.2018.11.003
+[Title]: Recent developments in radioactive charged-particle emissions and related phenomena
+[Tags]: charged_particle_radioactivity, nuclear_clusterization, proton_radioactivity
