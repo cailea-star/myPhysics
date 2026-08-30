@@ -72,3 +72,8 @@
 [DOI]: 10.1103/physrevc.80.044326
 [Title]: Microscopic mechanism of charged-particle radioactivity and generalization of the Geiger-Nuttall law
 [Tags]: charged_particle_radioactivity, alpha_decay, cluster_radioactivity
+
+## [2026-08-30] | raw/A._N._Andreyev_Y.2013_Phys.Rev.Lett._Vol.110Nol.242502P..md
+[DOI]: 10.1103/physrevlett.110.242502
+[Title]: Signatures of the Z = 82 Shell Closure in α-Decay Process
+[Tags]: alpha_decay, alpha_clustering, shell_closure
