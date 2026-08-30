@@ -21,7 +21,7 @@ Theoretical descriptions of $\alpha$ decay include:
 
 ### Relativistic Kinematics
 
-Use natural units with $c=1$. Let $P$, $D$, and $\alpha$ denote the parent nucleus, daughter nucleus, and $\alpha$ particle, with masses $M_P$, $M_D$, and $M_\alpha$. Let $E_D$ and $E_\alpha$ denote the final-state energies, and define the kinetic energies by $T_D=E_D-M_D$ and $T_\alpha=E_\alpha-M_\alpha$.
+Let $P$, $D$, and $\alpha$ denote the parent nucleus, daughter nucleus, and $\alpha$ particle, with masses $M_P$, $M_D$, and $M_\alpha$. Let $E_D$ and $E_\alpha$ denote the final-state energies, and define the kinetic energies by $T_D=E_D-M_Dc^2$ and $T_\alpha=E_\alpha-M_\alpha c^2$.
 
 The decay process is
 
@@ -32,37 +32,37 @@ $$
 The decay energy is
 
 $$
-Q_\alpha=M_P-M_D-M_\alpha=T_D+T_\alpha.
+Q_\alpha=(M_P-M_D-M_\alpha)c^2=T_D+T_\alpha.
 $$
 
 Four-momentum conservation and the on-shell condition are
 
 $$
-p_P^\mu=p_D^\mu+p_\alpha^\mu,\qquad p^\mu p_\mu=E^2-\mathbf p^2=M^2.
+p_P^\mu=p_D^\mu+p_\alpha^\mu,\qquad p^\mu=(E,\mathbf p c),\qquad p^\mu p_\mu=E^2-\mathbf p^2c^2=M^2c^4.
 $$
 
-In the parent-nucleus rest frame, $p_P^\mu=(M_P,\mathbf 0)$. The daughter-nucleus on-shell condition gives
+In the parent-nucleus rest frame, $p_P^\mu=(M_Pc^2,\mathbf 0)$. The daughter-nucleus on-shell condition gives
 
 $$
-M_D^2=p_D^2=(p_P-p_\alpha)^2=M_P^2+M_\alpha^2-2M_PE_\alpha.
+M_D^2c^4=p_D^\mu p_{D\mu}=(p_P-p_\alpha)^2=M_P^2c^4+M_\alpha^2c^4-2M_Pc^2E_\alpha.
 $$
 
 Therefore, the $\alpha$-particle energy is
 
 $$
-E_\alpha=\frac{M_P^2+M_\alpha^2-M_D^2}{2M_P}.
+E_\alpha=\frac{M_P^2+M_\alpha^2-M_D^2}{2M_P}c^2.
 $$
 
 Its kinetic energy is
 
 $$
-T_\alpha=E_\alpha-M_\alpha=\frac{(M_P-M_\alpha)^2-M_D^2}{2M_P}.
+T_\alpha=E_\alpha-M_\alpha c^2=\frac{(M_P-M_\alpha)^2-M_D^2}{2M_P}c^2.
 $$
 
-Using $M_P=Q_\alpha+M_D+M_\alpha$ and $Q_\alpha\ll M_D$,
+Using $M_P=M_D+M_\alpha+Q_\alpha/c^2$ and $Q_\alpha\ll M_Dc^2$,
 
 $$
-\boxed{T_\alpha=\frac{Q_\alpha(Q_\alpha+2M_D)}{2(Q_\alpha+M_D+M_\alpha)}\simeq\frac{M_D}{M_D+M_\alpha}Q_\alpha}.
+\boxed{T_\alpha=\frac{Q_\alpha(Q_\alpha+2M_Dc^2)}{2\left[Q_\alpha+(M_D+M_\alpha)c^2\right]}\simeq\frac{M_D}{M_D+M_\alpha}Q_\alpha}.
 $$
 
 ### Nonrelativistic Kinematics
@@ -101,7 +101,7 @@ $$
 V(r)=\frac{1}{4\pi\epsilon_0}\frac{2Z_De^2}{r}.
 $$
 
-Let $E$ be the emitted $\alpha$-particle energy. The inner and outer classical turning points are $r_1$ and $r_2$, with
+Let $E$ be the emitted $\alpha$-particle kinetic energy. The inner and outer classical turning points are $r_1$ and $r_2$, with
 
 $$
 E=V(r_2)=\frac{1}{4\pi\epsilon_0}\frac{2Z_De^2}{r_2}.
@@ -177,10 +177,10 @@ $$
 \boxed{F=\left|\left\langle\psi_f(A-4)\psi_\alpha(4)\middle|\psi_i(A)\right\rangle\right|^2}.
 $$
 
-**Pairing.** For Hamiltonian $\hat H$ and time $t$, let $J_n$, $T_n$, and $\delta_{n0}$ denote the Bessel function, Chebyshev polynomial, and Kronecker delta:
+**Pairing.** For Hamiltonian $\hat H$ and time $t$, let $J_n$, $T_n$, and $\delta_{n0}$ denote the Bessel function, Chebyshev polynomial, and Kronecker delta. Choose an energy scale $a$ such that the spectrum of $\hat H/a$ lies in $[-1,1]$:
 
 $$
-\exp\left(-\frac{i\hat Ht}{\hbar}\right)=\sum_{n=0}^{\infty}(-i)^n(2-\delta_{n0})J_n(t)T_n\left(\frac{\hat H}{\hbar}\right).
+\exp\left(-\frac{i\hat Ht}{\hbar}\right)=\sum_{n=0}^{\infty}(-i)^n(2-\delta_{n0})J_n\left(\frac{at}{\hbar}\right)T_n\left(\frac{\hat H}{a}\right).
 $$
 
 **References.**

@@ -2,7 +2,7 @@
 
 ### Relativistic Kinematics
 
-Use natural units with $c=1$. Let $P$, $D$, $e^-$, and $\bar\nu_e$ denote the parent nucleus, daughter nucleus, electron, and electron antineutrino, with masses $M_P$, $M_D$, $m_e$, and $m_\nu$.
+Let $P$, $D$, $e^-$, and $\bar\nu_e$ denote the parent nucleus, daughter nucleus, electron, and electron antineutrino, with masses $M_P$, $M_D$, $m_e$, and $m_\nu$.
 
 The decay process is
 
@@ -13,49 +13,49 @@ $$
 For $m_\nu=0$, the decay energy is
 
 $$
-Q_{\beta^-}=M_P-M_D-m_e=T_D+T_e+T_\nu.
+Q_{\beta^-}=(M_P-M_D-m_e)c^2=T_D+T_e+T_\nu.
 $$
 
 Four-momentum conservation and the on-shell condition are
 
 $$
-p_P^\mu=p_D^\mu+p_e^\mu+p_\nu^\mu,\qquad p^\mu p_\mu=E^2-\mathbf p^2=m^2.
+p_P^\mu=p_D^\mu+p_e^\mu+p_\nu^\mu,\qquad p^\mu=(E,\mathbf p c),\qquad p^\mu p_\mu=E^2-\mathbf p^2c^2=m^2c^4.
 $$
 
-In the parent-nucleus rest frame, $p_P^\mu=(M_P,\mathbf 0)$. Define the invariant mass of the daughter nucleus and neutrino by
+In the parent-nucleus rest frame, $p_P^\mu=(M_Pc^2,\mathbf 0)$. Define the squared invariant energy of the daughter nucleus and neutrino by
 
 $$
-s_{D\nu}=(p_D+p_\nu)^2=(p_P-p_e)^2=M_P^2+m_e^2-2M_PE_e.
+s_{D\nu}\equiv(p_D+p_\nu)^2=(p_P-p_e)^2=M_P^2c^4+m_e^2c^4-2M_Pc^2E_e.
 $$
 
 Therefore,
 
 $$
-E_e=\frac{M_P^2+m_e^2-s_{D\nu}}{2M_P}.
+E_e=\frac{M_P^2c^4+m_e^2c^4-s_{D\nu}}{2M_Pc^2}.
 $$
 
 The maximum electron energy occurs at the minimum invariant mass
 
 $$
-s_{D\nu}^{\min}=(M_D+m_\nu)^2.
+s_{D\nu}^{\min}=(M_D+m_\nu)^2c^4.
 $$
 
 For $m_\nu=0$,
 
 $$
-E_e^{\max}=\frac{M_P^2+m_e^2-M_D^2}{2M_P}.
+E_e^{\max}=\frac{M_P^2+m_e^2-M_D^2}{2M_P}c^2.
 $$
 
 The corresponding maximum kinetic energy is
 
 $$
-T_e^{\max}=E_e^{\max}-m_e=\frac{(M_P-m_e)^2-M_D^2}{2M_P}.
+T_e^{\max}=E_e^{\max}-m_ec^2=\frac{(M_P-m_e)^2-M_D^2}{2M_P}c^2.
 $$
 
-Using $M_P=Q_{\beta^-}+M_D+m_e$,
+Using $M_P=M_D+m_e+Q_{\beta^-}/c^2$,
 
 $$
-\boxed{T_e^{\max}=\frac{Q_{\beta^-}(Q_{\beta^-}+2M_D)}{2M_P}\simeq Q_{\beta^-}}.
+\boxed{T_e^{\max}=\frac{Q_{\beta^-}(Q_{\beta^-}+2M_Dc^2)}{2M_Pc^2}\simeq Q_{\beta^-}}.
 $$
 
 The electron kinetic-energy range is
@@ -77,7 +77,7 @@ $$
 For negligible neutrino mass,
 
 $$
-Q_n=m_n-m_p-m_e\simeq0.782\,\mathrm{MeV}.
+Q_n=(m_n-m_p-m_e)c^2\simeq0.782\,\mathrm{MeV}.
 $$
 
 **Beta-minus decay.**
@@ -87,7 +87,7 @@ $$
 $$
 
 $$
-\boxed{Q_{\beta^-}=M_{\mathrm{nuc}}(P)-M_{\mathrm{nuc}}(D)-m_e\simeq M_{\mathrm{atom}}(P)-M_{\mathrm{atom}}(D)}.
+\boxed{Q_{\beta^-}=\left[M_{\mathrm{nuc}}(P)-M_{\mathrm{nuc}}(D)-m_e\right]c^2\simeq\left[M_{\mathrm{atom}}(P)-M_{\mathrm{atom}}(D)\right]c^2}.
 $$
 
 **Beta-plus decay.**
@@ -97,7 +97,7 @@ $$
 $$
 
 $$
-\boxed{Q_{\beta^+}=M_{\mathrm{nuc}}(P)-M_{\mathrm{nuc}}(D)-m_e\simeq M_{\mathrm{atom}}(P)-M_{\mathrm{atom}}(D)-2m_e}.
+\boxed{Q_{\beta^+}=\left[M_{\mathrm{nuc}}(P)-M_{\mathrm{nuc}}(D)-m_e\right]c^2\simeq\left[M_{\mathrm{atom}}(P)-M_{\mathrm{atom}}(D)-2m_e\right]c^2}.
 $$
 
 **Electron capture.** Let $e_x^-$ denote an electron captured from atomic shell $x$, with binding energy $B_x$.
@@ -109,7 +109,7 @@ $$
 The atomic mass difference is
 
 $$
-Q_{\mathrm{EC}}=M_{\mathrm{atom}}(P)-M_{\mathrm{atom}}(D).
+Q_{\mathrm{EC}}=\left[M_{\mathrm{atom}}(P)-M_{\mathrm{atom}}(D)\right]c^2.
 $$
 
 For a daughter-nucleus excitation energy $E_{\mathrm{exc}}$, the neutrino energy is approximately
@@ -134,10 +134,10 @@ $$
 \mathbf p_P=\mathbf p_e+\mathbf p_\nu+\mathbf p_D=\mathbf 0,\qquad E_P=E_e+E_\nu+E_D.
 $$
 
-Neglecting the daughter recoil, $E_D\simeq M_D$. Define
+Neglecting the daughter recoil, $E_D\simeq M_Dc^2$. Define
 
 $$
-E_0=E_e+E_\nu=E_P-E_D\simeq M_P-M_D.
+E_0=E_e+E_\nu=E_P-E_D\simeq(M_P-M_D)c^2.
 $$
 
 For $\beta^-$ decay, let $\nu\equiv\bar\nu_e$. The same phase-space result applies to $\beta^+$ decay under $e^-\rightarrow e^+$ and $\bar\nu_e\rightarrow\nu_e$.
@@ -159,13 +159,13 @@ $$
 For a particle with energy $E$, momentum magnitude $p$, and mass $m$,
 
 $$
-E^2=p^2+m^2,\qquad E\,dE=p\,dp.
+E^2=p^2c^2+m^2c^4,\qquad E\,dE=pc^2\,dp.
 $$
 
 Therefore,
 
 $$
-\int_0^\infty p_\nu^2dp_\nu\,\delta(E_0-E_e-E_\nu)=p_\nu E_\nu,\qquad p_e^2dp_e=p_eE_e\,dE_e.
+\int_0^\infty p_\nu^2dp_\nu\,\delta(E_0-E_e-E_\nu)=\frac{p_\nu E_\nu}{c^2},\qquad p_e^2dp_e=\frac{p_eE_e}{c^2}\,dE_e.
 $$
 
 The spatial and angular integrations are
@@ -177,19 +177,19 @@ $$
 The electron momentum is
 
 $$
-p_e=\sqrt{E_e^2-m_e^2}.
+p_e=\frac{1}{c}\sqrt{E_e^2-m_e^2c^4}.
 $$
 
 Thus,
 
 $$
-dn(e,\nu)=\frac{V^2}{4\pi^4\hbar^6}p_\nu E_\nu\,p_eE_e\,dE_e=\frac{V^2}{4\pi^4\hbar^6}(E_0-E_e)^2\sqrt{1-\frac{m_\nu^2}{(E_0-E_e)^2}}\,p_eE_e\,dE_e.
+dn(e,\nu)=\frac{V^2}{4\pi^4\hbar^6c^4}p_\nu E_\nu\,p_eE_e\,dE_e=\frac{V^2}{4\pi^4\hbar^6c^5}(E_0-E_e)^2\sqrt{1-\frac{m_\nu^2c^4}{(E_0-E_e)^2}}\,p_eE_e\,dE_e.
 $$
 
-Let $\varphi_e$ be the outgoing electron wave function, $Z_D$ the daughter charge number, $\alpha$ the fine-structure constant, and $v_e=p_e/E_e$. In the point-Coulomb approximation, the electron distortion is described by the Fermi function
+Let $\varphi_e$ be the outgoing electron wave function, $Z_D$ the daughter charge number, $\alpha=e^2/(4\pi\epsilon_0\hbar c)$ the fine-structure constant, and $v_e=p_ec^2/E_e$. In the point-Coulomb approximation, the electron distortion is described by the Fermi function
 
 $$
-|\varphi_e(0)|^2\simeq\frac{1}{V}F(Z_D,p_e),\qquad F(Z_D,p_e)=\frac{2\pi\eta}{1-e^{-2\pi\eta}},\qquad \eta=\pm\frac{Z_D\alpha}{v_e}.
+|\varphi_e(0)|^2\simeq\frac{1}{V}F(Z_D,p_e),\qquad F(Z_D,p_e)=\frac{2\pi\eta}{1-e^{-2\pi\eta}},\qquad \eta=\pm\frac{Z_D\alpha c}{v_e}.
 $$
 
 The upper and lower signs correspond to $\beta^-$ and $\beta^+$ decay.
@@ -203,19 +203,19 @@ $$
 The electron energy spectrum is
 
 $$
-\frac{d\lambda_\beta}{dE_e}=\frac{|M_{fi}'|^2}{2\pi^3\hbar^7}F(Z_D,p_e)p_eE_e(E_0-E_e)^2\sqrt{1-\frac{m_\nu^2}{(E_0-E_e)^2}}.
+\frac{d\lambda_\beta}{dE_e}=\frac{|M_{fi}'|^2}{2\pi^3\hbar^7c^5}F(Z_D,p_e)p_eE_e(E_0-E_e)^2\sqrt{1-\frac{m_\nu^2c^4}{(E_0-E_e)^2}}.
 $$
 
 Within the recoil-free approximation,
 
 $$
-m_e\leq E_e\leq E_0-m_\nu.
+m_ec^2\leq E_e\leq E_0-m_\nu c^2.
 $$
 
 The total decay constant and half-life are
 
 $$
-\lambda_\beta=\int_{m_e}^{E_0-m_\nu}\frac{d\lambda_\beta}{dE_e}\,dE_e,\qquad T_{1/2}=\frac{\ln2}{\lambda_\beta}.
+\lambda_\beta=\int_{m_ec^2}^{E_0-m_\nu c^2}\frac{d\lambda_\beta}{dE_e}\,dE_e,\qquad T_{1/2}=\frac{\ln2}{\lambda_\beta}.
 $$
 
 ### Transition Matrix Elements
@@ -448,19 +448,19 @@ Otherwise, several leading-order nuclear operators may contribute, and the trans
 
 ### Beta Decay in the Standard Model
 
-Use $\hbar=c=1$ in this section. Beta decay is mediated by the charged weak current through a virtual $W$ boson:
+Beta decay is mediated by the charged weak current through a virtual $W$ boson:
 
 $$
 d\rightarrow u+W^{-*}\rightarrow u+e^-+\bar\nu_e,\qquad n\rightarrow p+W^{-*}\rightarrow p+e^-+\bar\nu_e.
 $$
 
-Let $q^\mu$ be the transferred four-momentum, $M_W$ the $W$-boson mass, $g_2$ the $SU(2)_L$ gauge coupling, and $G_{\mathrm F}$ the Fermi constant. For nuclear beta decay, $|q^2|\ll M_W^2$, so
+Let $q^\mu=(\Delta E,\mathbf q c)$ be the transferred four-momentum, where $\mathbf q$ is the transferred three-momentum. Let $M_W$ be the $W$-boson mass, $g_2$ the $SU(2)_L$ gauge coupling, and $G_{\mathrm F}$ the Fermi constant in physical units of energy times volume. For nuclear beta decay, $|q^2|\ll(M_Wc^2)^2$, so
 
 $$
-\frac{1}{q^2-M_W^2}\simeq-\frac{1}{M_W^2},\qquad \frac{G_{\mathrm F}}{\sqrt2}=\frac{g_2^2}{8M_W^2}.
+\frac{1}{q^2-(M_Wc^2)^2}\simeq-\frac{1}{(M_Wc^2)^2},\qquad \frac{G_{\mathrm F}}{\sqrt2}=\frac{g_2^2(\hbar c)^3}{8(M_Wc^2)^2}.
 $$
 
-The interaction range $R_W\sim M_W^{-1}$ is much smaller than the nuclear radius. Low-energy $W$ exchange therefore reduces to a local four-fermion interaction.
+The interaction range $R_W\sim\hbar/(M_Wc)$ is much smaller than the nuclear radius. Low-energy $W$ exchange therefore reduces to a local four-fermion interaction.
 
 Let $\gamma^\mu$ be the Dirac matrices,
 
@@ -474,7 +474,7 @@ $$
 \Gamma_{\mathrm S}=1,\qquad \Gamma_{\mathrm P}=\gamma^5,\qquad \Gamma_{\mathrm V}=\gamma^\mu,\qquad \Gamma_{\mathrm A}=\gamma^\mu\gamma^5,\qquad \Gamma_{\mathrm T}=\sigma^{\mu\nu}.
 $$
 
-Let $\psi_n$, $\psi_p$, $\psi_e$, and $\psi_{\nu_e}$ denote the neutron, proton, electron, and electron-neutrino fields, with $\bar\psi\equiv\psi^\dagger\gamma^0$. Let $C_i$ and $C_i'$ be general coupling coefficients, and let $\mathrm{h.c.}$ denote the Hermitian conjugate. A general local Lorentz-invariant beta interaction is
+Let $\psi_n$, $\psi_p$, $\psi_e$, and $\psi_{\nu_e}$ denote the neutron, proton, electron, and electron-neutrino fields, with $\bar\psi\equiv\psi^\dagger\gamma^0$. Let $C_i$ and $C_i'$ be general coupling coefficients, and let $\mathrm{h.c.}$ denote the Hermitian conjugate. A general local Lorentz-invariant beta-interaction Hamiltonian density is
 
 $$
 \mathcal H_\beta^{\mathrm{general}}=\frac{G_{\mathrm F}}{\sqrt2}\sum_{i=\mathrm S,\mathrm P,\mathrm V,\mathrm A,\mathrm T}\left(\bar\psi_p\Gamma_i\psi_n\right)\left[\bar\psi_e\Gamma_i(C_i+C_i'\gamma^5)\psi_{\nu_e}\right]+\mathrm{h.c.}
@@ -504,16 +504,16 @@ $$
 g_{\mathrm F}\equiv\frac{G_{\mathrm F}V_{ud}}{\sqrt2}g_{\mathrm V},\qquad g_{\mathrm{GT}}\equiv\frac{G_{\mathrm F}V_{ud}}{\sqrt2}g_{\mathrm A}.
 $$
 
-Weak-magnetism and induced-pseudoscalar terms are omitted in this leading approximation. The Standard Model effective interaction is
+Weak-magnetism and induced-pseudoscalar terms are omitted in this leading approximation. The Standard Model effective Hamiltonian density is
 
 $$
 \boxed{\mathcal H_\beta^{\mathrm{SM}}=\frac{G_{\mathrm F}V_{ud}}{\sqrt2}J_{\mathrm h}^\mu J_{\ell\mu}+\mathrm{h.c.}}.
 $$
 
-Let $u_e$ and $v_{\bar\nu_e}$ denote the outgoing electron and antineutrino spinors. In relativistic normalization, the $\beta^-$-decay amplitude is
+Let $\varphi_e(\mathbf r)$ and $\varphi_{\bar\nu_e}(\mathbf r)$ be coordinate-space spinor wave functions normalized to one outgoing particle. The $\beta^-$ transition matrix element is
 
 $$
-\boxed{\mathcal M_{fi}=\frac{G_{\mathrm F}V_{ud}}{\sqrt2}\left[\bar u_e\gamma_\mu(1-\gamma^5)v_{\bar\nu_e}\right]\langle\Psi_D|J_{\mathrm h}^\mu|\Psi_P\rangle}.
+\boxed{\mathcal M_{fi}=\frac{G_{\mathrm F}V_{ud}}{\sqrt2}\int d^3\mathbf r\,\left[\bar\varphi_e(\mathbf r)\gamma_\mu(1-\gamma^5)\varphi_{\bar\nu_e}(\mathbf r)\right]\langle\Psi_D|J_{\mathrm h}^\mu(\mathbf r)|\Psi_P\rangle}.
 $$
 
 In the non-relativistic nucleon limit, the leading components of the hadronic current reduce to
