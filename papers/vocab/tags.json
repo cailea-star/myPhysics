@@ -856,5 +856,11 @@
     "definition": "partial or total half-life of a nucleus with respect to emission of a charged fragment heavier than an alpha particle",
     "types": ["quantity"],
     "aliases": ["cluster decay half-lives", "partial half-lives of observed cluster decays"]
+  },
+  {
+    "tag": "alpha_formation_probability",
+    "definition": "squared alpha-particle formation amplitude |R F_alpha(R)|^2 used to quantify alpha-particle clustering and extracted from an alpha-decay half-life",
+    "types": ["quantity"],
+    "aliases": ["alpha-particle formation probability", "α-particle formation probability"]
   }
 ]
