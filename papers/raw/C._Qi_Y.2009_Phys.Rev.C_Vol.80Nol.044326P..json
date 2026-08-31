@@ -1,0 +1,124 @@
+{
+  "source": "Crossref",
+  "language": "en",
+  "title": [
+    "Microscopic mechanism of charged-particle radioactivity and generalization of the Geiger-Nuttall law"
+  ],
+  "author": [
+    {
+      "given": "C.",
+      "family": "Qi",
+      "sequence": "first",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "F. R.",
+      "family": "Xu",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "R. J.",
+      "family": "Liotta",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "R.",
+      "family": "Wyss",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "M. Y.",
+      "family": "Zhang",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "C.",
+      "family": "Asawatangtrakuldee",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "D.",
+      "family": "Hu",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    }
+  ],
+  "author-corresponding-openalex": [],
+  "DOI": "10.1103/physrevc.80.044326",
+  "URL": "https://doi.org/10.1103/physrevc.80.044326",
+  "is-referenced-by-count": 222,
+  "reference-count": 65,
+  "abstract": "A linear relation for charged-particle emissions is presented starting from the microscopic mechanism of the radioactive decay. It relates the logarithms of the decay half-lives with two variables, called $\\chi'$ and $\\rho'$, which depend upon the $Q$-values of the outgoing clusters as well as the masses and charges of the nuclei involved in the decay. This relation explains well all known cluster decays. It is found to be a generalization of the Geiger-Nuttall law in $\\alpha$ radioactivity and therefore we call it the universal decay law. Predictions on the most likely emissions of various clusters are presented by applying the law over the whole nuclear chart. It is seen that the decays of heavier clusters with non-equal proton and neutron numbers are mostly located in the trans-lead region. The emissions of clusters with equal protons and neutrons, like $^{12}$C and $^{16}$O, are possible in some neutron-deficient nuclei with $Z\\geq54$.",
+  "publisher": "American Physical Society (APS)",
+  "container-title": [
+    "Physical Review C"
+  ],
+  "short-container-title": [
+    "Phys. Rev. C"
+  ],
+  "type": "journal-article",
+  "volume": "80",
+  "page": null,
+  "article-number": "044326",
+  "issued": {
+    "date-parts": [
+      [
+        2009,
+        10,
+        23
+      ]
+    ]
+  },
+  "ISSN": [
+    "0556-2813",
+    "1089-490X"
+  ],
+  "stem": "C._Qi_Y.2009_Phys.Rev.C_Vol.80Nol.044326P."
+}
