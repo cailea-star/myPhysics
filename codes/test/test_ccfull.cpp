@@ -52,7 +52,7 @@ std::tuple<double, double, double> fusion_cross_section_grid(const Eigen::Ref<co
  * @math   (σ,⟨L⟩,P₀)=Σ_L R_L
  * @output R-matrix fusion observables.
  */
-std::tuple<double, double, double> fusion_cross_section_rmatrix(const BSplineBasis& b_basis, const CCParams& params) {
+std::tuple<double, double, double> fusion_cross_section_rmatrix(RMatrix& r_matrix, const CCParams& params) {
     double E_F = params.channel_1D_ch[0].Ech_F;
     return fusion_cross_section(params, [&](int L_I) {
         auto [rin_F, rwell_F, rmid_F, rbarrier_F, rout_F] = params.find_barrier(L_I, E_F);
@@ -61,7 +61,7 @@ std::tuple<double, double, double> fusion_cross_section_rmatrix(const BSplineBas
         (void) rbarrier_F;
         (void) rout_F;
         if (rwell_F < 0.0 || params.calc_Vall_scalar(rwell_F) + calc_Vcent(rwell_F, params.Varg_params, L_I) > E_F) {return 0.0;}
-        return fusion_probability_R(b_basis, params, L_I)(0);
+        return fusion_probability_R(params, L_I, r_matrix)(0);
     });
 }
 
@@ -120,8 +120,9 @@ int main() {
     Eigen::VectorXd rR_F1D_r = Eigen::VectorXd::LinSpaced(81, r_F1D_r(0), r_F1D_r(r_F1D_r.size() - 1));
     BSplineBasisFunction b_basis_func(rR_F1D_r);
     BSplineBasis b_basis(b_basis_func, 5, false);
+    RMatrix r_matrix(b_basis, static_cast<int>(params.channel_1D_ch.size()));
     for (const FusionReferencePoint& reference_point : reference_1D_point) {
-        auto [sigma_F, Lavg_F, P0_F] = fusion_cross_section_rmatrix(b_basis, make_params_Func(reference_point.E_F));
+        auto [sigma_F, Lavg_F, P0_F] = fusion_cross_section_rmatrix(r_matrix, make_params_Func(reference_point.E_F));
         std::cout << "R " << std::setw(9) << reference_point.E_F << " | " << std::setw(16) << sigma_F << " | " << std::showpos << std::setw(16) << sigma_F - reference_point.sigma_F << std::noshowpos << " | " << std::setw(14) << Lavg_F << " | " << std::showpos << std::setw(16) << Lavg_F - reference_point.Lavg_F << std::noshowpos << " | " << std::setw(14) << P0_F << " | " << std::showpos << std::setw(16) << P0_F - reference_point.P0_F << std::noshowpos << '\n';
         assert(std::abs(sigma_F - reference_point.sigma_F) < 1.0e-2);
         assert(std::abs(Lavg_F - reference_point.Lavg_F) < 1.0e-3);

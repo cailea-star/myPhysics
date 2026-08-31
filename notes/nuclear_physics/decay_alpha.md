@@ -187,3 +187,75 @@ $$
 
 - *Physical Review Letters* **82**, 4996 (1999)
 - *Physical Review Letters* **126**, 142501 (2021)
+
+### Alpha-Decay Phase Space
+
+Fermi’s golden rule gives
+
+$$
+d\lambda_\alpha=\frac{2\pi}{\hbar}|M_{fi}|^2dn(\alpha),
+$$
+
+where $M_{fi}$ is the transition matrix element and $dn(\alpha)$ is the energy-constrained final-state element.
+
+In the parent-nucleus rest frame,
+
+$$
+\mathbf p_P=\mathbf p_D+\mathbf p_\alpha=\mathbf 0,\qquad E_P=E_D+E_\alpha.
+$$
+
+Define the relative momentum magnitude $p$ by
+
+$$
+\mathbf p_D=-\mathbf p_\alpha,\qquad |\mathbf p_D|=|\mathbf p_\alpha|=p.
+$$
+
+The final-state energies are
+
+$$
+E_D=\sqrt{M_D^2c^4+p^2c^2},\qquad E_\alpha=\sqrt{M_\alpha^2c^4+p^2c^2}.
+$$
+
+Let $p_*>0$ be the energy-conserving momentum, with corresponding energies $E_{D*}$ and $E_{\alpha*}$. They satisfy
+
+$$
+E_{D*}+E_{\alpha*}=M_Pc^2.
+$$
+
+The corresponding Jacobian is
+
+$$
+\left|\frac{d}{dp}\left(M_Pc^2-E_D-E_\alpha\right)\right|_{p=p_*}=\frac{p_*M_Pc^4}{E_{D*}E_{\alpha*}}.
+$$
+
+Therefore,
+
+$$
+\delta\!\left(M_Pc^2-E_D-E_\alpha\right)=\frac{E_{D*}E_{\alpha*}}{p_*M_Pc^4}\delta(p-p_*).
+$$
+
+Let $V$ be the box-normalization volume, $\mathbf r_\alpha$ the $\alpha$-particle position, and $d\Omega_{\mathbf p}$ the solid-angle element of $\mathbf p_\alpha$. The daughter momentum is not an independent integration variable. The final-state element is
+
+$$
+dn(\alpha)\equiv\frac{d^3\mathbf r_\alpha\,d^3\mathbf p_\alpha}{(2\pi\hbar)^3}\delta\!\left(M_Pc^2-E_D-E_\alpha\right).
+$$
+
+The spatial and angular decompositions and the integration over $p$ give
+
+$$
+dn(\alpha)=\frac{Vp^2dp}{(2\pi\hbar)^3}d\Omega_{\mathbf p}\,\delta\!\left(M_Pc^2-E_D-E_\alpha\right)=\frac{V}{(2\pi\hbar)^3}\frac{p_*E_{D*}E_{\alpha*}}{M_Pc^4}\,d\Omega_{\mathbf p}.
+$$
+
+The angular decay distribution is
+
+$$
+\boxed{\frac{d\lambda_\alpha}{d\Omega_{\mathbf p}}=\frac{Vp_*E_{D*}E_{\alpha*}}{4\pi^2\hbar^4M_Pc^4}|M_{fi}|^2}.
+$$
+
+The total decay constant and half-life are
+
+$$
+\boxed{\lambda_\alpha=\frac{Vp_*E_{D*}E_{\alpha*}}{4\pi^2\hbar^4M_Pc^4}\int d\Omega_{\mathbf p}\,|M_{fi}|^2,\qquad T_{1/2}^{\alpha}=\frac{\ln2}{\lambda_\alpha}}.
+$$
+
+The two-body phase space fixes one energy-conserving momentum. Cluster formation and Coulomb–centrifugal barrier penetration remain contained in $M_{fi}$.

@@ -15,9 +15,9 @@
 #include <tuple>
 #include <vector>
 
+#include "basis_bspline.hpp"
 #include "cc_params.hpp"
 #include "cc_decay.hpp"
-#include "minimize.hpp"
 
 /**
  * @brief One alpha-decay reference case.
@@ -37,8 +37,8 @@ struct DecayCase {
 };
 
 /**
- * @brief  Validate alpha decay by Brent mismatch minimization.
- * @math   V₀=argmin e_match; T₁/₂=ℏ ln(2)/Σ_chΓ_ch
+ * @brief  Validate alpha decay by Bloch-determinant bisection.
+ * @math   det H_B(V₀)=0; T₁/₂=ℏ ln(2)/Σ_chΓ_ch
  * @output Reference, computed, and error decay observables.
  * @note   Uses Table I of Phys. Rev. C 81, 064318.
  * @note   Runtime search and tolerance branches are approved.
@@ -49,6 +49,9 @@ int main()
     constexpr double V0min_F = 150.0;
     constexpr double V0max_F = 160.0;
     constexpr double dV0_F = 0.25;
+    constexpr double V0rootTolerance_F = 1.0e-5;
+    constexpr double drR_F = 0.25;
+    constexpr int Nquad_I = 5;
 
     // Table I: even-even actinide alpha decays.
     const std::vector<DecayCase> testCases = {
@@ -105,40 +108,58 @@ int main()
         }
         assert(0.01 < rmatch_F && rmatch_F < testCase.rmax_F);
 
-        // V₀ → e_match(V₀).
+        // r_{i+1}=r_i+min(dr_R,0.1r_i,r_max-r_i).
+        std::vector<double> r_F1D_rStd = {0.01};
+        double r_F = 0.01;
+        while (testCase.rmax_F - r_F > 1.0e-12) {
+            const double dr_F = std::min({drR_F, testCase.rmax_F - r_F, 0.1 * r_F});
+            r_F += dr_F;
+            r_F1D_rStd.push_back(r_F);
+        }
+        Eigen::VectorXd r_F1D_r(static_cast<int>(r_F1D_rStd.size()));
+        for (int r_I = 0; r_I < r_F1D_r.size(); ++r_I) {r_F1D_r(r_I) = r_F1D_rStd[static_cast<std::size_t>(r_I)];}
+        const BSplineBasisFunction b_basis_func(r_F1D_r);
+        const BSplineBasis b_basis(b_basis_func, Nquad_I, false);
+        RMatrix r_matrix(b_basis, static_cast<int>(channels.size()));
+
+        // V₀ → {e_R(V₀),u_R(r)}.
         auto match_Func = [&](double V0trial_F) {
             Varg_params.V0_F = V0trial_F;
-            return decay_match(0.01, rmatch_F, testCase.rmax_F, 0.05, CCParams(testCase.At_I, testCase.Zt_I, 4, 2, 22, Varg_params, channels));
+            return decay_match_R(CCParams(testCase.At_I, testCase.Zt_I, 4, 2, 22, Varg_params, channels), r_matrix);
         };
 
         const Eigen::Vector3i targetNodes_I1D_ch(11, 10, 9);
         auto find_V0_Func = [&]() {
             double V0lo_F = V0min_F;
-            double V0mid_F = V0lo_F + dV0_F;
             double matchErrorLo_F = std::get<0>(match_Func(V0lo_F));
-            double matchErrorMid_F = std::get<0>(match_Func(V0mid_F));
-            for (double V0up_F = V0mid_F + dV0_F; V0up_F <= V0max_F; V0up_F += dV0_F) {
-                double matchErrorUp_F = std::get<0>(match_Func(V0up_F));
-                if (matchErrorMid_F < matchErrorLo_F && matchErrorMid_F < matchErrorUp_F) {
-                    double V0_F = minimize_brent([&](double V0trial_F) {return std::get<0>(match_Func(V0trial_F));}, V0lo_F, V0mid_F, V0up_F, 1.0e-5);
-                    double matchError_F = std::get<0>(match_Func(V0_F));
-                    Eigen::VectorXi nodes_I1D_ch = decay_nodes(0.01, rmatch_F, testCase.rmax_F, 0.05, CCParams(testCase.At_I, testCase.Zt_I, 4, 2, 22, Varg_params, channels));
-                    if (matchError_F < 1.0e-5 && (nodes_I1D_ch.head<3>() - targetNodes_I1D_ch).isZero()) {
-                        return std::tuple{V0_F, matchError_F, nodes_I1D_ch};
+            for (double V0up_F = V0lo_F + dV0_F; V0up_F <= V0max_F; V0up_F += dV0_F) {
+                const double matchErrorUp_F = std::get<0>(match_Func(V0up_F));
+                if (matchErrorLo_F * matchErrorUp_F < 0.0) {
+                    double V0left_F = V0lo_F;
+                    double V0right_F = V0up_F;
+                    double matchErrorLeft_F = matchErrorLo_F;
+                    while (V0right_F - V0left_F > V0rootTolerance_F) {
+                        const double V0mid_F = 0.5 * (V0left_F + V0right_F);
+                        const double matchErrorMid_F = std::get<0>(match_Func(V0mid_F));
+                        if (matchErrorLeft_F * matchErrorMid_F < 0.0) {V0right_F = V0mid_F;}
+                        else {V0left_F = V0mid_F; matchErrorLeft_F = matchErrorMid_F;}
                     }
+                    const double V0_F = 0.5 * (V0left_F + V0right_F);
+                    auto [matchError_F, umatch_C2D_ch_r] = match_Func(V0_F);
+                    const CCParams params(testCase.At_I, testCase.Zt_I, 4, 2, 22, Varg_params, channels);
+                    const Eigen::VectorXi nodes_I1D_ch = decay_nodes(params, umatch_C2D_ch_r);
+                    if (std::abs(matchError_F) < 1.0e-5 && (nodes_I1D_ch.head<3>() - targetNodes_I1D_ch).isZero()) {return std::tuple{V0_F, matchError_F, nodes_I1D_ch, umatch_C2D_ch_r};}
                 }
-                V0lo_F = V0mid_F;
-                matchErrorLo_F = matchErrorMid_F;
-                V0mid_F = V0up_F;
-                matchErrorMid_F = matchErrorUp_F;
+                V0lo_F = V0up_F;
+                matchErrorLo_F = matchErrorUp_F;
             }
-            return std::tuple{std::nan(""), std::nan(""), Eigen::VectorXi()};
+            return std::tuple{std::nan(""), std::nan(""), Eigen::VectorXi(), Eigen::MatrixXcd()};
         };
 
-        auto [V0_F, matchError_F, nodes_I1D_ch] = find_V0_Func();
-        assert(std::isfinite(V0_F) && matchError_F < 1.0e-5);
+        auto [V0_F, matchError_F, nodes_I1D_ch, umatch_C2D_ch_r] = find_V0_Func();
+        assert(std::isfinite(V0_F) && std::abs(matchError_F) < 1.0e-5);
         CCParams params(testCase.At_I, testCase.Zt_I, 4, 2, 22, Varg_params, channels);
-        Eigen::VectorXd Gamma_F1D_ch = decay_width(0.01, rmatch_F, testCase.rmax_F, 0.05, params);
+        Eigen::VectorXd Gamma_F1D_ch = decay_width(params, r_F1D_r, umatch_C2D_ch_r);
         Eigen::VectorXd branchPercent_F1D_ch = 100.0 * Gamma_F1D_ch / Gamma_F1D_ch.sum();
         double halfLife_F = hbar_F * std::log(2.0) / Gamma_F1D_ch.sum();
         Eigen::Vector4d branchTolerance_F1D_ch = testCase.Zt_I == 96 ? Eigen::Vector4d(3.2, 2.6, 2.4, 0.04) : Eigen::Vector4d(1.3, 1.0, 0.55, 0.02);
