@@ -1,0 +1,316 @@
+{
+  "source": "Crossref",
+  "language": "en",
+  "title": [
+    "Signatures of the Z = 82 Shell Closure in α -Decay Process"
+  ],
+  "author": [
+    {
+      "given": "A. N.",
+      "family": "Andreyev",
+      "sequence": "first",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "M.",
+      "family": "Huyse",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "P.",
+      "family": "Van Duppen",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "C.",
+      "family": "Qi",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "R. J.",
+      "family": "Liotta",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "S.",
+      "family": "Antalic",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "D.",
+      "family": "Ackermann",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "S.",
+      "family": "Franchoo",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "F. P.",
+      "family": "Heßberger",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "S.",
+      "family": "Hofmann",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "I.",
+      "family": "Kojouharov",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "B.",
+      "family": "Kindler",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "P.",
+      "family": "Kuusiniemi",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "S. R.",
+      "family": "Lesher",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "B.",
+      "family": "Lommel",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "R.",
+      "family": "Mann",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "K.",
+      "family": "Nishio",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "R. D.",
+      "family": "Page",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "B.",
+      "family": "Streicher",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Š.",
+      "family": "Šáro",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "B.",
+      "family": "Sulignano",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "D.",
+      "family": "Wiseman",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "R. A.",
+      "family": "Wyss",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    }
+  ],
+  "author-corresponding-openalex": [],
+  "DOI": "10.1103/physrevlett.110.242502",
+  "URL": "https://doi.org/10.1103/physrevlett.110.242502",
+  "is-referenced-by-count": 110,
+  "reference-count": 32,
+  "abstract": "In recent experiments at the velocity filter Separator for Heavy Ion reaction Products (SHIP) (GSI, Darmstadt), an extended and improved set of α-decay data for more than 20 of the most neutron-deficient isotopes in the region from lead to thorium was obtained. The combined analysis of this newly available α-decay data, of which the Po186 decay is reported here, allowed us for the first time to clearly show that crossing the Z=82 shell to higher proton numbers strongly accelerates the α decay. From the experimental data, the α-particle formation probabilities are deduced following the Universal Decay Law approach. The formation probabilities are discussed in the framework of the pairing force acting among the protons and the neutrons forming the α particle. A striking resemblance between the phenomenological pairing gap deduced from experimental binding energies and the formation probabilities is noted. These findings support the conjecture that both the N=126 and Z=82 shell closures strongly influence the α-formation probability.",
+  "publisher": "American Physical Society (APS)",
+  "container-title": [
+    "Physical Review Letters"
+  ],
+  "short-container-title": [
+    "Phys. Rev. Lett."
+  ],
+  "type": "journal-article",
+  "volume": "110",
+  "page": null,
+  "article-number": "242502",
+  "issued": {
+    "date-parts": [
+      [
+        2013,
+        6,
+        10
+      ]
+    ]
+  },
+  "ISSN": [
+    "0031-9007",
+    "1079-7114"
+  ],
+  "stem": "A._N._Andreyev_Y.2013_Phys.Rev.Lett._Vol.110Nol.242502P."
+}
