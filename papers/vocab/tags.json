@@ -736,5 +736,131 @@
     "definition": "fraction or percentage of nuclear decays proceeding through a specified decay mode, such as alpha decay or spontaneous fission",
     "types": ["quantity"],
     "aliases": ["Decay mode, branch (%)", "spontaneous-fission branch", "α-decay branch"]
+  },
+  {
+    "tag": "recoil_separator",
+    "definition": "experimental method that uses recoiling fusion products’ ionic charge and momentum with electric and magnetic fields to separate them from projectiles and other reaction products",
+    "types": ["method"],
+    "aliases": ["recoil separator", "recoil separators", "recoil-separation techniques"]
+  },
+  {
+    "tag": "fission_fragment_mass_yield",
+    "definition": "yield or distribution of fission fragments as a function of fragment mass number",
+    "types": ["quantity"],
+    "aliases": ["mass yield distributions", "fission fragment yield"]
+  },
+  {
+    "tag": "nuclear_binding_energy",
+    "definition": "binding energy of a nucleus calculated or inferred from experimental mass-linked decay data",
+    "types": ["quantity"],
+    "aliases": ["nuclear binding energies", "binding energy", "binding energies"]
+  },
+  {
+    "tag": "MCCM",
+    "definition": "coupled-channel model for alpha-decay fine structure based on the coupled-channel Schrödinger equation with outgoing-wave boundary conditions",
+    "types": ["method"],
+    "aliases": ["MCCM"]
+  },
+  {
+    "tag": "first_order_perturbation_theory",
+    "definition": "perturbative method used to estimate unavailable higher excitation energies from known low-lying excitation energies at first order",
+    "types": ["method"],
+    "aliases": ["first-order perturbation theory"]
+  },
+  {
+    "tag": "charged_particle_radioactivity",
+    "definition": "radioactive decay process in which an atomic nucleus emits one or more charged particles, including alpha particles, protons, or heavier clusters",
+    "types": ["phenomenon"],
+    "aliases": ["radioactive charged-particle emissions"]
+  },
+  {
+    "tag": "nuclear_clusterization",
+    "definition": "process in which nucleons form an alpha particle or a heavier cluster within a nucleus before its emission",
+    "types": ["phenomenon"],
+    "aliases": ["nuclear clusterization"]
+  },
+  {
+    "tag": "proton_radioactivity",
+    "definition": "radioactive decay process in which a nucleus emits a proton",
+    "types": ["phenomenon"],
+    "aliases": ["proton radioactivity", "proton emission", "proton decay"]
+  },
+  {
+    "tag": "R_matrix_theory",
+    "definition": "reaction and decay framework that divides the composite-system configuration space into internal and external regions joined at a matching boundary",
+    "types": ["method"],
+    "aliases": ["R-matrix theory", "R-matrix framework"]
+  },
+  {
+    "tag": "shell_model",
+    "definition": "microscopic nuclear-structure framework that represents nuclear wave functions in single-particle configurations and is used to calculate alpha-cluster formation amplitudes",
+    "types": ["method"],
+    "aliases": ["shell model", "shell-model"]
+  },
+  {
+    "tag": "geiger_nuttall_law",
+    "definition": "empirical relation that models the logarithm of the alpha-decay half-life as linear in the inverse square root of the alpha-decay energy",
+    "types": ["method"],
+    "aliases": ["Geiger-Nuttall law", "GN law"]
+  },
+  {
+    "tag": "ground_state_decay_mode",
+    "definition": "categorical assignment of the dominant or secondary radioactive decay channel of a nucleus in its ground state",
+    "types": ["quantity"],
+    "aliases": ["ground-state decay modes"]
+  },
+  {
+    "tag": "spherical_basis_weight",
+    "definition": "squared expansion coefficient giving the weight of a spherical-basis component in a deformed single-particle orbital",
+    "types": ["quantity"],
+    "aliases": ["squares of the expansion coefficients"]
+  },
+  {
+    "tag": "alpha_formation_amplitude",
+    "definition": "overlap amplitude quantifying the alpha-cluster component of the mother-nucleus wave function at the matching radius",
+    "types": ["quantity"],
+    "aliases": ["alpha formation amplitude", "α formation amplitude", "α-particle formation amplitude"]
+  },
+  {
+    "tag": "experimental_to_calculated_ratio",
+    "definition": "dimensionless ratio of an experimental value to the corresponding calculated value",
+    "types": ["quantity"],
+    "aliases": ["discrepancy between experimental and calculated half lives"]
+  },
+  {
+    "tag": "UDL",
+    "definition": "generalized Geiger-Nuttall decay law used to approximate charged-particle decay half-lives across proton, alpha, and heavy-cluster radioactivities",
+    "types": ["method"],
+    "aliases": ["universal decay law", "UDL"]
+  },
+  {
+    "tag": "microscopic_theory",
+    "definition": "nuclear-theory framework that explicitly treats the relevant nucleonic degrees of freedom without absorbing the decay mechanism into ad hoc effective parameters",
+    "types": ["method"],
+    "aliases": ["microscopic description", "microscopic theories", "microscopic treatment"]
+  },
+  {
+    "tag": "cluster_radioactivity",
+    "definition": "radioactive decay process in which a nucleus spontaneously emits a charged fragment heavier than an alpha particle",
+    "types": ["phenomenon"],
+    "aliases": ["cluster decay", "cluster radioactivity"]
+  },
+  {
+    "tag": "cluster_formation_amplitude",
+    "definition": "overlap amplitude between the mother-nucleus wave function and the antisymmetrized tensor product of the daughter and emitted-cluster wave functions at separation radius R",
+    "types": ["quantity"],
+    "aliases": ["cluster formation amplitude", "formation amplitude of the decaying particle"]
+  },
+  {
+    "tag": "cluster_decay_half_life",
+    "definition": "partial or total half-life of a nucleus with respect to emission of a charged fragment heavier than an alpha particle",
+    "types": ["quantity"],
+    "aliases": ["cluster decay half-lives", "partial half-lives of observed cluster decays"]
+  },
+  {
+    "tag": "alpha_formation_probability",
+    "definition": "squared alpha-particle formation amplitude |R F_alpha(R)|^2 used to quantify alpha-particle clustering and extracted from an alpha-decay half-life",
+    "types": ["quantity"],
+    "aliases": ["alpha-particle formation probability", "α-particle formation probability"]
   }
 ]
