@@ -220,21 +220,20 @@ inline Eigen::VectorXd fusion_probability_S(const Eigen::Ref<const Eigen::Vector
  * @output Fusion probability for each incident channel.
  * @note   Requires endpoint-retaining B-splines.
  */
-inline Eigen::VectorXd fusion_probability_R(const BSplineBasis& b_basis, const CCParams& params, int L_I) {
+inline Eigen::VectorXd fusion_probability_R(const CCParams& params, int L_I, RMatrix& r_matrix) {
     int Nch_I = static_cast<int>(params.channel_1D_ch.size());
-    const Eigen::VectorXd& r_F1D_r = b_basis.b_funcs.x_F1D_x;
+    const Eigen::VectorXd& r_F1D_r = r_matrix.b_basis.b_funcs.x_F1D_x;
     assert(Nch_I > 0 && r_F1D_r.size() >= 2 && L_I >= 0);
     double rmin_F = r_F1D_r(0);
     double rmax_F = r_F1D_r(r_F1D_r.size() - 1);
-    Eigen::VectorXcd kmin_C1D_ch(Nch_I);
-    Eigen::VectorXcd kmax_C1D_ch = Eigen::VectorXcd::Zero(Nch_I);
+    Eigen::VectorXcd lambdaIn_C1D_ch(Nch_I);
     Eigen::VectorXd VRmin_F1D_ch = params.calc_Vall_matrix(rmin_F).diagonal().real();
     for (int channel_I = 0; channel_I < Nch_I; ++channel_I) {
         double ERmin_F = params.channel_1D_ch[channel_I].Ech_F - VRmin_F1D_ch(channel_I) - calc_Vcent(rmin_F, params.Varg_params, L_I);
         double k_F = std::sqrt(std::abs(ERmin_F) / params.Varg_params.hmass_F);
-        kmin_C1D_ch(channel_I) = ERmin_F >= 0.0 ? std::complex<double>(k_F, 0.0) : std::complex<double>(0.0, k_F);
+        lambdaIn_C1D_ch(channel_I) = ERmin_F >= 0.0 ? std::complex<double>(0.0, -k_F) : std::complex<double>(k_F, 0.0);
     }
-    RMatrix r_matrix(b_basis, [&](double r_F) {return calc_coupled_F_matrix(r_F, params, L_I);}, kmin_C1D_ch, kmax_C1D_ch);
+    r_matrix.update_Ginv([&](double r_F) {return calc_coupled_F_matrix(r_F, params, L_I);}, lambdaIn_C1D_ch);
     Eigen::VectorXcd Hp_C1D_ch(Nch_I);
     Eigen::VectorXcd dHp_C1D_ch(Nch_I);
     Eigen::VectorXcd Hm_C1D_ch(Nch_I);

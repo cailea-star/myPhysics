@@ -64,12 +64,11 @@ int main() {
         return F0_C2D_ch_ch;
     };
 
-    // (Σ_xmin,Σ_xmax) = (-ik,0).
-    Eigen::VectorXcd kzero_C1D_ch = Eigen::VectorXcd::Zero(k_C1D_ch.size());
-    RMatrix r_matrix(b_basis, F_Func, k_C1D_ch, kzero_C1D_ch);
+    const std::complex<double> I_C(0.0, 1.0);
+    const Eigen::VectorXcd lambdaIn_C1D_ch = -I_C * k_C1D_ch;
+    RMatrix r_matrix(b_basis, F_Func, lambdaIn_C1D_ch);
 
     // O = eⁱᵏˣ, O′ = ikO, I = e⁻ⁱᵏˣ, I′ = -ikI at x_max.
-    const std::complex<double> I_C(0.0, 1.0);
     Eigen::VectorXcd O_C1D_ch(2);
     Eigen::VectorXcd dO_C1D_ch(2);
     Eigen::VectorXcd I_C1D_ch(2);
