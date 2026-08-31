@@ -1,0 +1,64 @@
+{
+  "source": "Crossref",
+  "language": "en",
+  "title": [
+    "Systematic calculation of fine structure in the α decay of heavy odd-mass nuclei"
+  ],
+  "author": [
+    {
+      "given": "Dongdong",
+      "family": "Ni",
+      "sequence": "first",
+      "affiliation": [],
+      "role": [
+        {
+          "role": "author",
+          "vocabulary": "crossref"
+        }
+      ]
+    },
+    {
+      "given": "Zhongzhou",
+      "family": "Ren",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "role": "author",
+          "vocabulary": "crossref"
+        }
+      ]
+    }
+  ],
+  "author-corresponding-openalex": [],
+  "DOI": "10.1103/physrevc.86.054608",
+  "URL": "https://doi.org/10.1103/physrevc.86.054608",
+  "is-referenced-by-count": 34,
+  "reference-count": 37,
+  "abstract": "The newly developed multichannel cluster model (MCCM) based on the coupled-channel Schrödinger equation with outgoing wave boundary conditions is extended to study the α-decay fine structure in heavy odd-A nuclei. More decay channels are considered for convergence in solving the coupled equations. Calculations are performed for 32 deformed nuclei with atomic numbers Z=93–102. The branching ratios for various daughter states are well reproduced without any additional free parameters, and the calculated α-decay half-lives show good agreement with the experimental data. This indicates that the MCCM has universal applicability and equal validity regardless of even-even or odd-A α emitters.",
+  "publisher": "American Physical Society (APS)",
+  "container-title": [
+    "Physical Review C"
+  ],
+  "short-container-title": [
+    "Phys. Rev. C"
+  ],
+  "type": "journal-article",
+  "volume": "86",
+  "page": null,
+  "article-number": "054608",
+  "issued": {
+    "date-parts": [
+      [
+        2012,
+        11,
+        28
+      ]
+    ]
+  },
+  "ISSN": [
+    "0556-2813",
+    "1089-490X"
+  ],
+  "stem": "Dongdong_Ni_Y.2012_Phys.Rev.C_Vol.86Nol.054608P."
+}

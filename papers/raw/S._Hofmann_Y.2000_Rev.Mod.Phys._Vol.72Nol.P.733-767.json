@@ -1,0 +1,64 @@
+{
+  "source": "Crossref",
+  "language": "en",
+  "title": [
+    "The discovery of the heaviest elements"
+  ],
+  "author": [
+    {
+      "given": "S.",
+      "family": "Hofmann",
+      "sequence": "first",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "G.",
+      "family": "Münzenberg",
+      "sequence": "additional",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    }
+  ],
+  "author-corresponding-openalex": [],
+  "DOI": "10.1103/revmodphys.72.733",
+  "URL": "https://doi.org/10.1103/revmodphys.72.733",
+  "is-referenced-by-count": 1427,
+  "reference-count": 138,
+  "abstract": "The nuclear shell model predicts that the next doubly magic shell closure beyond 208Pb is at a proton number between Z=114 and 126 and at a neutron number N=184. The outstanding aim of experimental investigations is the exploration of this region of spherical superheavy elements (SHE’s). This article describes the experimental methods that led to the identification of elements 107 to 112 at GSI, Darmstadt. Excitation functions were measured for the one-neutron evaporation channel of cold-fusion reactions using lead and bismuth targets. The maximum cross section was measured at beam energies well below a fusion barrier estimated in one dimension. These studies indicate that the transfer of nucleons is an important process for the initiation of fusion. The recent efforts at JINR, Dubna, to investigate the hot-fusion reaction for the production of SHE’s using actinide targets are also presented. First results were obtained on the synthesis of neutron-rich isotopes of elements 112 and 114. However, the most surprising result was achieved in 1999 at LBNL, Berkeley. In a study of the reaction 86Kr+208Pb→294118*, three decay chains were measured and assigned to the superheavy nucleus 293118. The decay data reveal that, for the heaviest elements, the dominant decay mode is alpha emission, not fission. The results are discussed in the framework of theoretical models. This article also presents plans for the further development of the experimental setup and the application of new techniques. At a higher sensitivity, the exploration of the region of spherical SHE’s now seems to be feasible, more than 30 years after its prediction.",
+  "publisher": "American Physical Society (APS)",
+  "container-title": [
+    "Reviews of Modern Physics"
+  ],
+  "short-container-title": [
+    "Rev. Mod. Phys."
+  ],
+  "type": "journal-article",
+  "volume": "72",
+  "page": "733-767",
+  "article-number": null,
+  "issued": {
+    "date-parts": [
+      [
+        2000,
+        7,
+        1
+      ]
+    ]
+  },
+  "ISSN": [
+    "0034-6861",
+    "1539-0756"
+  ],
+  "stem": "S._Hofmann_Y.2000_Rev.Mod.Phys._Vol.72Nol.P.733-767"
+}
