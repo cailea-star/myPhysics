@@ -23,7 +23,7 @@ $$
 记 $\Phi_{lm_l}^{(c)}(\mathbf r_\alpha)$ 为通道 $c$ 中的 $\alpha$ 粒子波函数。通道波函数为
 
 $$
-\Psi_{(lI)JM}(\mathbf r_\alpha)\equiv\big[\Phi_l^{(c)}(\mathbf r_\alpha)\otimes\Phi_I(D)\big]_{JM}=\sum_{m_l,M_I}\langle lm_l;IM_I|JM\rangle\Phi_{lm_l}^{(c)}(\mathbf r_\alpha)\Phi_{IM_I}(D).
+\Psi^{(c)}_{JM}(\mathbf r_\alpha)\equiv\big[\Phi_l^{(c)}(\mathbf r_\alpha)\otimes\Phi_I(D)\big]_{JM}=\sum_{m_l,M_I}\langle lm_l;IM_I|JM\rangle\Phi_{lm_l}^{(c)}(\mathbf r_\alpha)\Phi_{IM_I}(D).
 $$
 
 其中 $u_c$ 为约化径向波函数，$Y_{lm_l}$ 为球谐函数：
@@ -35,7 +35,7 @@ $$
 对所有允许通道求和：
 
 $$
-\boxed{\Psi_{JM}(\mathbf r_\alpha)=\sum_{c}\Psi_{(lI)JM}(\mathbf r_\alpha)=\sum_{c}\frac{u_c(r_\alpha)}{r_\alpha}\big[Y_l(\hat{\mathbf r}_\alpha)\otimes\Phi_I(D)\big]_{JM}}.
+\boxed{\Psi_{JM}(\mathbf r_\alpha)=\sum_{c}a_c\Psi_{JM}^{(c)}(\mathbf r_\alpha)=\sum_{c}a_c\frac{u_c(r_\alpha)}{r_\alpha}\big[Y_l(\hat{\mathbf r}_\alpha)\otimes\Phi_I(D)\big]_{JM}}.
 $$
 
 ### 耦合道薛定谔方程
