@@ -174,6 +174,8 @@ $$
 \hat R(E)=\left[R_{\alpha\beta}(x_{\mathrm{out}},x_{\mathrm{out}};E)\right],\qquad \hat u(x_{\mathrm{out}})=\hat R(E)\hat u'(x_{\mathrm{out}}).
 $$
 
+The partial-wave convention relating this boundary form to $S_l=e^{2i\delta_l}$ and the scattering amplitude is given in [Phase-Shift Calculation](../../notes/quantum_mechanics/scattering_theory.md#phase-shift-calculation).
+
 Let $\hat I(x)$ and $\hat O(x)$ denote the incoming- and outgoing-wave matrices:
 
 $$
