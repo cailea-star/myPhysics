@@ -177,16 +177,16 @@ inline std::tuple<double, Eigen::MatrixXcd> decay_match_R(const CCParams& params
     const Eigen::MatrixXcd innerBoundary_C2D_ch_2sol = decay_regular_boundary(rmin_F, params);
     const Eigen::MatrixXcd outerBoundary_C2D_ch_2sol = decay_coulomb_boundary(rmax_F, params);
     const Eigen::VectorXcd lambdaIn_C1D_ch = innerBoundary_C2D_ch_2sol.rightCols(Nch_I).diagonal().array() / innerBoundary_C2D_ch_2sol.leftCols(Nch_I).diagonal().array();
-    const Eigen::VectorXcd lambdaG_C1D_ch = outerBoundary_C2D_ch_2sol.rightCols(Nch_I).diagonal().array() / outerBoundary_C2D_ch_2sol.leftCols(Nch_I).diagonal().array();
+    const Eigen::VectorXcd lambdaOut_C1D_ch = outerBoundary_C2D_ch_2sol.rightCols(Nch_I).diagonal().array() / outerBoundary_C2D_ch_2sol.leftCols(Nch_I).diagonal().array();
 
     // G_Σ⁻¹ → H_B=G_Σ⁻¹-Λ_Gδ_bBδ_b'B.
     const Eigen::Tensor<std::complex<double>, 4, Eigen::ColMajor>& Ginv_C4D_ch_b_ch_b = r_matrix.update_Ginv([&](double r_F) {return calc_coupled_F_matrix(r_F, params);}, lambdaIn_C1D_ch);
     const Eigen::Map<const Eigen::MatrixXcd> Ginv_C2D_chb_chb(Ginv_C4D_ch_b_ch_b.data(), Nchb_I, Nchb_I);
-    const double imagScale_F = std::max({1.0, Ginv_C2D_chb_chb.real().cwiseAbs().maxCoeff(), lambdaG_C1D_ch.real().cwiseAbs().maxCoeff()});
+    const double imagScale_F = std::max({1.0, Ginv_C2D_chb_chb.real().cwiseAbs().maxCoeff(), lambdaOut_C1D_ch.real().cwiseAbs().maxCoeff()});
     assert(Ginv_C2D_chb_chb.imag().cwiseAbs().maxCoeff() <= 1.0e-12 * imagScale_F);
-    assert(lambdaG_C1D_ch.imag().cwiseAbs().maxCoeff() <= 1.0e-12 * imagScale_F);
+    assert(lambdaOut_C1D_ch.imag().cwiseAbs().maxCoeff() <= 1.0e-12 * imagScale_F);
     Eigen::MatrixXd HB_F2D_chb_chb = Ginv_C2D_chb_chb.real();
-    HB_F2D_chb_chb.bottomRightCorner(Nch_I, Nch_I).diagonal() -= lambdaG_C1D_ch.real();
+    HB_F2D_chb_chb.bottomRightCorner(Nch_I, Nch_I).diagonal() -= lambdaOut_C1D_ch.real();
 
     // H_B → sign(det H_B), min|λ_i|, c_ch,b.
     const Eigen::SparseMatrix<double> HB_F2D_chb_chb_sparse = HB_F2D_chb_chb.sparseView(0.0, 0.0);
