@@ -59,3 +59,27 @@ $$
 $$
 
 Parity and angular-projection selection rules follow from the canonical Gaussian matrix elements.
+
+### Kramers-Sector Coulomb Elements
+
+Coulomb contributes only to the proton field $\Gamma$; Coulomb pairing is omitted.
+
+Let $\alpha,\beta,\gamma,\delta$ denote positive-$\Omega$ representatives and barred indices their [Kramers partners](../../notes/methods/hfb_axial.md#kramers-representative-formulation). Define $\sigma_a=2\Sigma_a\in\{-1,+1\}$, $\sigma_{\bar a}=-\sigma_a$, and the Kronecker delta $\delta_{xy}$.
+
+$$
+\bar v_{12;34}=\delta_{\sigma_1\sigma_3}\delta_{\sigma_2\sigma_4}V_{12,34}-\delta_{\sigma_1\sigma_4}\delta_{\sigma_2\sigma_3}V_{12,43}.
+$$
+
+The first sign labels the external $\Gamma$ sector; the second labels the contracted $\rho$ sector.
+
+$$
+\boxed{\bar v^{++}=\bar v_{\alpha\gamma;\beta\delta},\qquad \bar v^{+-}=\bar v_{\alpha\bar\gamma;\beta\bar\delta},\qquad \bar v^{-+}=\bar v_{\bar\alpha\gamma;\bar\beta\delta},\qquad \bar v^{--}=\bar v_{\bar\alpha\bar\gamma;\bar\beta\bar\delta}}.
+$$
+
+For the real Coulomb interaction, simultaneous time reversal gives
+
+$$
+\boxed{\bar v^{-+}=\bar v^{+-},\qquad \bar v^{--}=\bar v^{++}}.
+$$
+
+Density contractions and time-reversal phases follow [Axial HFB](../../notes/methods/hfb_axial.md#representative-gamma-and-delta-fields).
