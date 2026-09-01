@@ -378,23 +378,81 @@ $$
 
 ##### Phase-Shift Calculation
 
-For a short-range central potential, let $u_l(r)$ be the reduced radial wavefunction. Each partial wave satisfies
+For a short-range real central potential, let $u_l(r)$ be the reduced radial wavefunction. Each partial wave satisfies
 
 $$
 \left[-\frac{\hbar^2}{2M}\frac{d^2}{dr^2}+\frac{\hbar^2l(l+1)}{2Mr^2}+V(r)\right]u_l(r)=E\,u_l(r),\qquad u_l(r)\underset{r\to0}{\propto}r^{l+1}.
 $$
 
-Choose a matching radius $r_m$ such that $V(r)\simeq0$ for $r\geq r_m$. Define the Riccati–Bessel functions by
+Choose a matching radius $r_m$ such that $V(r)\simeq0$ for $r\geq r_m$. The exterior equation is
+
+$$
+\left[\frac{d^2}{dr^2}+k^2-\frac{l(l+1)}{r^2}\right]u_l(r)=0,\qquad E=\frac{\hbar^2k^2}{2M}.
+$$
+
+Define the Riccati–Bessel functions by
 
 $$
 \hat j_l(x)=xj_l(x),\qquad \hat n_l(x)=xn_l(x).
 $$
 
-The exterior solution is
+They form two independent real solutions of the exterior equation. Therefore,
 
 $$
-u_l(r)=A_l\left[\cos\delta_l(E)\,\hat j_l(kr)-\sin\delta_l(E)\,\hat n_l(kr)\right]\underset{r\to\infty}{\longrightarrow}A_l\sin\left(kr-\frac{l\pi}{2}+\delta_l(E)\right).
+u_l(r)=C_l(E)\hat j_l(kr)+D_l(E)\hat n_l(kr).
 $$
+
+For a real potential, the regular radial solution may be chosen real. Define the normalization $A_l$ and phase shift $\delta_l$ by
+
+$$
+A_l=\sqrt{C_l^2+D_l^2},\qquad C_l=A_l\cos\delta_l,\qquad D_l=-A_l\sin\delta_l.
+$$
+
+The exterior solution becomes
+
+$$
+u_l(r)=A_l\left[\cos\delta_l(E)\hat j_l(kr)-\sin\delta_l(E)\hat n_l(kr)\right].
+$$
+
+Here, $\delta_l(E)$ is the phase shift relative to the regular free solution.
+
+With the time dependence $e^{-iEt/\hbar}$, define the incoming and outgoing solutions by
+
+$$
+I_l(r)=-i\hat h_l^{(2)}(kr)=-\hat n_l(kr)-i\hat j_l(kr),\qquad O_l(r)=i\hat h_l^{(1)}(kr)=-\hat n_l(kr)+i\hat j_l(kr).
+$$
+
+Define the partial-wave S-matrix by
+
+$$
+S_l(E)=e^{2i\delta_l(E)}.
+$$
+
+The incoming and outgoing solutions satisfy
+
+$$
+I_l(r)-O_l(r)S_l(E)=-2ie^{i\delta_l(E)}\left[\cos\delta_l(E)\hat j_l(kr)-\sin\delta_l(E)\hat n_l(kr)\right].
+$$
+
+Therefore,
+
+$$
+u_l(r)=\frac{iA_l}{2}e^{-i\delta_l(E)}\left[I_l(r)-O_l(r)S_l(E)\right].
+$$
+
+Since the overall radial normalization is arbitrary,
+
+$$
+\boxed{u_l(r)\propto I_l(r)-O_l(r)S_l(E)}.
+$$
+
+For $V=0$, $D_l=0$, $\delta_l=0$, and $S_l=1$, so
+
+$$
+I_l(r)-O_l(r)=-2i\hat j_l(kr),
+$$
+
+which recovers the regular free solution.
 
 Integrate the regular solution outward and define its logarithmic derivative at $r_m$ by
 
@@ -402,7 +460,7 @@ $$
 L_l(E)=\frac{u_l'(r_m)}{u_l(r_m)}.
 $$
 
-Matching the logarithmic derivatives gives
+Matching the internal and exterior logarithmic derivatives gives
 
 $$
 \boxed{\tan\delta_l(E)=\frac{k\hat j_l'(kr_m)-L_l(E)\hat j_l(kr_m)}{k\hat n_l'(kr_m)-L_l(E)\hat n_l(kr_m)}}.
@@ -411,7 +469,7 @@ $$
 Here the primes on $\hat j_l$ and $\hat n_l$ denote derivatives with respect to their arguments. Integration to infinity is unnecessary; the extracted phase shift should be stable under changes of $r_m$ within the exterior region.
 
 $$
-V(r)\longrightarrow u_l(r_m),u_l'(r_m)\longrightarrow\delta_l(E)\longrightarrow S_l(E)\longrightarrow f_l(k)\longrightarrow\sigma_l.
+V(r)\longrightarrow u_l(r_m),u_l'(r_m)\longrightarrow L_l(E)\longrightarrow\delta_l(E)\longrightarrow S_l(E)\longrightarrow f_l(k)\longrightarrow\sigma_l.
 $$
 
 ##### Resonant Scattering
