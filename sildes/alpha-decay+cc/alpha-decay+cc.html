@@ -147,18 +147,19 @@
           <div class="content-block-formula">
             <div class="content-formula-block">
             <div class="content-formula-line">
-              \[P(J^{\pi_P})\rightarrow D(I^{\pi_I})+\alpha(0^+;l)\qquad c=\{l,I\}.\]
+              \[P(J^{\pi_P})\rightarrow D(I^{\pi_D})+\alpha(0^+;l)\qquad c=\{l,I\}.\]
             </div>
             <div class="content-formula-line">
-              \[\mathcal Y_{JM}^{(c)}
-              =\big[Y_l\otimes\Phi_I\big]_{JM}\Phi_\alpha
-              =\sum_{m,M_I}\langle lm;IM_I|JM\rangle
-              Y_{lm}(\hat{\mathbf r})\Phi_{IM_I}(\xi_D)\Phi_\alpha(\xi_\alpha)\]
+              \[\Psi_{JM}^{(c)}(\mathbf r_\alpha)
+              \equiv\big[\Phi_l^{(c)}(\mathbf r_\alpha)\otimes\Phi_I(D)\big]_{JM}
+              =\sum_{m_l,M_I}\langle lm_l;IM_I|JM\rangle
+              \Phi_{lm_l}^{(c)}(\mathbf r_\alpha)\Phi_{IM_I}(D).\]
             </div>
             <div class="content-formula-line">
-              \[\Psi_{JM}^{(c)}(\mathbf r,\xi_D,\xi_\alpha)
-              =\frac{u_c(r)}{r}\mathcal Y_{JM}^{(c)}(\hat{\mathbf r},\xi_D,\xi_\alpha),\qquad
-              \Psi_{JM}=\sum_c a^{(c)}\Psi_{JM}^{(c)}.\]
+              \[\Psi_{JM}(\mathbf r_\alpha)
+              =\sum_c a^{(c)}\Psi_{JM}^{(c)}(\mathbf r_\alpha)
+              =\sum_c a^{(c)}\frac{u_c(r_\alpha)}{r_\alpha}
+              \big[Y_l(\hat{\mathbf r}_\alpha)\otimes\Phi_I(D)\big]_{JM}.\]
             </div>
             </div>
           </div>
@@ -168,23 +169,22 @@
           <div class="content-block-formula">
             <div class="content-formula-block">
             <div class="content-formula-line">
-              \[\hat H=\hat H_D+\hat H_\alpha+\hat T_r+\hat V({\bf r}).\]
+              \[\hat H=\hat H_D+\hat T_\alpha(\mathbf r_\alpha)+\hat V(\mathbf r_\alpha).\]
             </div>
             <div class="content-formula-line">
-              \[V_{cc'}^{JM}(r)
-              =\left\langle\mathcal Y_{JM}^{(c)}
-              \middle|\hat V({\bf r})\middle|
-              \mathcal Y_{JM}^{(c')}\right\rangle_{\hat{\mathbf r},\xi_D,\xi_\alpha},\qquad
-              E_c\equiv E-E_I-E_\alpha.\]
+              \[V_{cc'}^{JM}(r_\alpha)
+              =\left\langle\big[Y_l(\hat{\mathbf r}_\alpha)\otimes\Phi_I(D)\big]_{JM}\right|
+              \hat V(\mathbf r_\alpha)
+              \left|\big[Y_{l'}(\hat{\mathbf r}_\alpha)\otimes\Phi_{I'}(D)\big]_{JM}\right\rangle.\]
             </div>
             <div class="content-formula-line">
               \[\boxed{
               \sum_{c'}\left[
               -\frac{\hbar^2}{2\mu}
-              \left(\frac{d^2}{dr^2}-\frac{l_c(l_c+1)}{r^2}\right)\delta_{cc'}
-              +V_{cc'}^{JM}(r)
-              \right]u_{c'}(r)
-              =E_cu_c(r)
+              \left(\frac{d^2}{dr_\alpha^2}-\frac{l(l+1)}{r_\alpha^2}\right)\delta_{cc'}
+              +V_{cc'}^{JM}(r_\alpha)
+              \right]u_{c'}(r_\alpha)
+              =E_cu_c(r_\alpha)
               }.\]
             </div>
             </div>
@@ -204,17 +204,17 @@
       </div>
       <div class="multi-row-content">
         <div class="content-block-group">
-          <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>相互作用与通道矩阵元</h3>
+          <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>多极势场与通道展开</h3>
           <div class="content-block-formula">
             <div class="content-formula-block">
             <div class="content-formula-line">
-              \[\hat V({\bf r})=\sum_{\lambda\mu}\hat V_{\lambda\mu}(r)Y_{\lambda\mu}^{*}(\hat{\mathbf r})=\sum_{\lambda\mu}(-1)^\mu\hat V_{\lambda\mu}(r)Y_{\lambda,-\mu}(\hat{\mathbf r}).\]
+              \[\hat V(\mathbf r_\alpha)=\sum_{\lambda,\mu}\hat V_{\lambda\mu}(r_\alpha)Y_{\lambda\mu}^{*}(\hat{\mathbf r}_\alpha)=\sum_{\lambda,\mu}(-1)^\mu\hat V_{\lambda\mu}(r_\alpha)Y_{\lambda,-\mu}(\hat{\mathbf r}_\alpha).\]
             </div>
             <div class="content-formula-line">
-              \[V_{cc'}^{JM}(r)=\Big\langle\big[Y_l\otimes\Phi_I\big]_{JM}\Phi_\alpha\Big|\hat V({\bf r})\Big|\big[Y_{l'}\otimes\Phi_{I'}\big]_{JM}\Phi_\alpha\Big\rangle.\]
+              \[V_{cc'}^{JM}(r_\alpha)=\left\langle\big[Y_l(\hat{\mathbf r}_\alpha)\otimes\Phi_I(D)\big]_{JM}\right|\sum_{\lambda,\mu}(-1)^\mu\hat V_{\lambda\mu}(r_\alpha)Y_{\lambda,-\mu}(\hat{\mathbf r}_\alpha)\left|\big[Y_{l'}(\hat{\mathbf r}_\alpha)\otimes\Phi_{I'}(D)\big]_{JM}\right\rangle.\]
             </div>
             <div class="content-formula-line content-formula-line-long">
-              \[V_{cc'}^{JM}(r)=\sum_{\lambda\mu}\sum_{mM_I}\sum_{m'M_I'}(-1)^\mu\langle lm;IM_I|JM\rangle\langle l'm';I'M_I'|JM\rangle\big\langle lm\big|Y_{\lambda,-\mu}\big|l'm'\big\rangle\Big\langle\Phi_{IM_I}\Phi_\alpha\Big|\hat V_{\lambda\mu}(r)\Big|\Phi_{I'M_I'}\Phi_\alpha\Big\rangle.\]
+              \[V_{cc'}^{JM}(r_\alpha)=\sum_{\lambda,\mu}\sum_{m_l,M_I}\sum_{m_l',M_I'}(-1)^\mu\langle JM|lm_l;IM_I\rangle\langle l'm_l';I'M_I'|JM\rangle\langle lm_l|Y_{\lambda,-\mu}|l'm_l'\rangle\left\langle\Phi_{IM_I}(D)\right|\hat V_{\lambda\mu}(r_\alpha)\left|\Phi_{I'M_I'}(D)\right\rangle.\]
             </div>
             </div>
           </div>
@@ -224,13 +224,13 @@
           <div class="content-block-formula">
             <div class="content-formula-block">
             <div class="content-formula-line">
-              \[\Big\langle\Phi_{IM_I}\Phi_\alpha\Big|\hat V_{\lambda\mu}(r)\Big|\Phi_{I'M_I'}\Phi_\alpha\Big\rangle=(-1)^{I-M_I}\begin{pmatrix}I&\lambda&I'\\-M_I&\mu&M_I'\end{pmatrix}\Big\langle\Phi_I\Phi_\alpha\Big\|\hat V_\lambda(r)\Big\|\Phi_{I'}\Phi_\alpha\Big\rangle.\]
+              \[\left\langle\Phi_{IM_I}(D)\right|\hat V_{\lambda\mu}(r_\alpha)\left|\Phi_{I'M_I'}(D)\right\rangle=(-1)^{I-M_I}\begin{pmatrix}I&\lambda&I'\\-M_I&\mu&M_I'\end{pmatrix}\left\langle\Phi_I(D)\right\|\hat V_\lambda(r_\alpha)\left\|\Phi_{I'}(D)\right\rangle.\]
             </div>
             <div class="content-formula-line">
-              \[\big\langle lm\big|Y_{\lambda,-\mu}\big|l'm'\big\rangle=(-1)^{l-m}\begin{pmatrix}l&\lambda&l'\\-m&-\mu&m'\end{pmatrix}\big\langle l\big\|Y_\lambda\big\|l'\big\rangle.\]
+              \[\langle lm_l|Y_{\lambda,-\mu}|l'm_l'\rangle=(-1)^{l-m_l}\begin{pmatrix}l&\lambda&l'\\-m_l&-\mu&m_l'\end{pmatrix}\langle l\|Y_\lambda\|l'\rangle.\]
             </div>
             <div class="content-formula-line">
-              \[\boxed{V_{cc'}^{JM}(r)=\sum_\lambda(-1)^{l'+I+J}\begin{Bmatrix}l&I&J\\I'&l'&\lambda\end{Bmatrix}\big\langle l\big\|Y_\lambda\big\|l'\big\rangle\Big\langle\Phi_I\Phi_\alpha\Big\|\hat V_\lambda(r)\Big\|\Phi_{I'}\Phi_\alpha\Big\rangle}.\]
+              \[\boxed{V_{cc'}^{JM}(r_\alpha)=\sum_\lambda(-1)^{l'+I+J}\begin{Bmatrix}l&I&J\\I'&l'&\lambda\end{Bmatrix}\langle l\|Y_\lambda\|l'\rangle\left\langle\Phi_I(D)\right\|\hat V_\lambda(r_\alpha)\left\|\Phi_{I'}(D)\right\rangle}.\]
             </div>
             </div>
           </div>
@@ -261,32 +261,32 @@
           <div class="content-block-formula">
             <div class="content-formula-block content-formula-block-six">
             <div class="content-formula-line">
-              \[\cos\theta'=\hat{\mathbf r}'\cdot\hat{\mathbf z}'=\hat{\mathbf r}\cdot\hat{\mathbf n}_D.\]
+              \[\cos\theta'=\hat{\mathbf r}_\alpha'\cdot\hat{\mathbf z}'=\hat{\mathbf r}_\alpha\cdot\hat{\mathbf n}_D.\]
             </div>
             <div class="content-formula-line">
-              \[\hat V'(\mathbf r')=\sum_\lambda\hat V'_{\lambda0}(r)Y_{\lambda0}(\hat{\mathbf r}')=\sum_\lambda\hat V'_{\lambda0}(r)\sqrt{\frac{2\lambda+1}{4\pi}}P_\lambda(\cos\theta').\]
+              \[\hat V'(\mathbf r_\alpha')=\sum_\lambda\hat V'_{\lambda0}(r_\alpha)Y_{\lambda0}(\hat{\mathbf r}_\alpha')=\sum_\lambda\hat V'_{\lambda0}(r_\alpha)\sqrt{\frac{2\lambda+1}{4\pi}}P_\lambda(\cos\theta').\]
             </div>
             <div class="content-formula-line content-formula-insert">
               <div class="content-formula-insert-content">
                 <span class="content-formula-insert-marker" aria-hidden="true"></span>
-                \[P_\lambda(\hat{\mathbf r}\cdot\hat{\mathbf n}_D)=\frac{4\pi}{2\lambda+1}\sum_\mu Y_{\lambda\mu}^{*}(\hat{\mathbf r})Y_{\lambda\mu}(\hat{\mathbf n}_D).\]
+                \[P_\lambda(\hat{\mathbf r}_\alpha\cdot\hat{\mathbf n}_D)=\frac{4\pi}{2\lambda+1}\sum_\mu Y_{\lambda\mu}^{*}(\hat{\mathbf r}_\alpha)Y_{\lambda\mu}(\hat{\mathbf n}_D).\]
               </div>
             </div>
             <div class="content-formula-line">
-              \[\hat V'(\mathbf r')
+              \[\hat V'(\mathbf r_\alpha')
               =\sum_{\lambda,\mu}
               \left[
               \sqrt{\frac{4\pi}{2\lambda+1}}
-              \hat V'_{\lambda0}(r)
+              \hat V'_{\lambda0}(r_\alpha)
               Y_{\lambda\mu}(\hat{\mathbf n}_D)
               \right]
-              Y_{\lambda\mu}^{*}(\hat{\mathbf r}).\]
+              Y_{\lambda\mu}^{*}(\hat{\mathbf r}_\alpha).\]
             </div>
             <div class="content-formula-line">
-              \[\hat V(\mathbf r)=\hat V'(\mathbf r')=\sum_{\lambda\mu}\hat V_{\lambda\mu}(r)Y_{\lambda\mu}^{*}(\hat{\mathbf r})=\sum_\lambda\hat V'_{\lambda0}(r)Y_{\lambda0}(\hat{\mathbf r}').\]
+              \[\hat V(\mathbf r_\alpha)=\hat V'(\mathbf r_\alpha')=\sum_{\lambda\mu}\hat V_{\lambda\mu}(r_\alpha)Y_{\lambda\mu}^{*}(\hat{\mathbf r}_\alpha)=\sum_\lambda\hat V'_{\lambda0}(r_\alpha)Y_{\lambda0}(\hat{\mathbf r}_\alpha').\]
             </div>
             <div class="content-formula-line">
-              \[\boxed{\hat V_{\lambda\mu}(r)=\hat V'_{\lambda0}(r)D_{\mu0}^{\lambda *}(\Omega_D)}.\]
+              \[\boxed{\hat V_{\lambda\mu}(r_\alpha)=\hat V'_{\lambda0}(r_\alpha)D_{\mu0}^{\lambda *}(\Omega_D)}.\]
             </div>
             </div>
           </div>
@@ -309,17 +309,17 @@
           <div class="content-block-formula">
             <div class="content-formula-block content-formula-block-five">
             <div class="content-formula-line">
-              \[\Phi_{IM_IK}(\Omega_D,\eta_D)=\sqrt{\frac{2I+1}{16\pi^2}}\left[D_{M_IK}^{I*}(\Omega_D)\chi_K(\eta_D)+(-1)^{I+K}D_{M_I,-K}^{I*}(\Omega_D)\chi_{-K}(\eta_D)\right].\]
+              \[\Phi_{IM_IK}(D)=\sqrt{\frac{2I+1}{16\pi^2}}\left[D_{M_IK}^{I*}(\Omega_D)\chi_K(D)+(-1)^{I+K}D_{M_I,-K}^{I*}(\Omega_D)\chi_{-K}(D)\right].\]
             </div>
             <div class="content-formula-line content-formula-line-long">
-              \[\Big\langle\Phi_{IM_IK}\Phi_\alpha\Big|\hat V_{\lambda\mu}(r)\Big|\Phi_{I'M_I'K}\Phi_\alpha\Big\rangle=\frac{\hat I\hat I'}{2}(-1)^{M_I-K}\begin{pmatrix}I&\lambda&I'\\M_I&-\mu&-M_I'\end{pmatrix}\begin{pmatrix}I&\lambda&I'\\K&0&-K\end{pmatrix}\left[V'_{\lambda0;K,K}(r)+(-1)^\lambda V'_{\lambda0;-K,-K}(r)\right].\]
+              \[\Big\langle\Phi_{IM_IK}(D)\Big|\hat V_{\lambda\mu}(r_\alpha)\Big|\Phi_{I'M_I'K}(D)\Big\rangle=\frac{\hat I\hat I'}{2}(-1)^{M_I-K}\begin{pmatrix}I&\lambda&I'\\M_I&-\mu&-M_I'\end{pmatrix}\begin{pmatrix}I&\lambda&I'\\K&0&-K\end{pmatrix}\left[V'_{\lambda0;K,K}(r_\alpha)+(-1)^\lambda V'_{\lambda0;-K,-K}(r_\alpha)\right].\]
             </div>
-              <div class="content-formula-line content-formula-note">若只取 \(\lambda\) 为偶数：</div>
+              <div class="content-formula-line content-formula-note">若势场具有时间反演对称性、内禀矩阵元取实，并且仅保留偶数 \(\lambda\)：</div>
             <div class="content-formula-line content-formula-line-long">
-              \[\Big\langle\Phi_{IM_IK}\Phi_\alpha\Big|\hat V_{\lambda\mu}(r)\Big|\Phi_{I'M_I'K}\Phi_\alpha\Big\rangle=\hat I\hat I'(-1)^{I-M_I}\begin{pmatrix}I&\lambda&I'\\-M_I&\mu&M_I'\end{pmatrix}(-1)^{I-K}\begin{pmatrix}I&\lambda&I'\\-K&0&K\end{pmatrix}V'_{\lambda0;K,K}(r).\]
+              \[\Big\langle\Phi_{IM_IK}(D)\Big|\hat V_{\lambda\mu}(r_\alpha)\Big|\Phi_{I'M_I'K}(D)\Big\rangle=\hat I\hat I'(-1)^{I-M_I}\begin{pmatrix}I&\lambda&I'\\-M_I&\mu&M_I'\end{pmatrix}(-1)^{I-K}\begin{pmatrix}I&\lambda&I'\\-K&0&K\end{pmatrix}V'_{\lambda0;K,K}(r_\alpha).\]
             </div>
             <div class="content-formula-line">
-              \[\boxed{\Big\langle IK\Big\|\hat V_\lambda(r)\Big\|I'K\Big\rangle=\hat I\hat I'(-1)^{I-K}\begin{pmatrix}I&\lambda&I'\\-K&0&K\end{pmatrix}V'_{\lambda0;K,K}(r)}.\]
+              \[\boxed{\Big\langle\Phi_I(D)\Big\|\hat V_\lambda(r_\alpha)\Big\|\Phi_{I'}(D)\Big\rangle=\hat I\hat I'(-1)^{I-K}\begin{pmatrix}I&\lambda&I'\\-K&0&K\end{pmatrix}V'_{\lambda0;K,K}(r_\alpha)}.\]
             </div>
             </div>
           </div>
@@ -331,7 +331,7 @@
       <div class="content-block-header">
         <header class="content-header-main">
           <img class="content-header-logo" src="assets/imp_logo_short.png" alt="中国科学院近代物理研究所标志">
-          <h2>当前计算结果</h2>
+          <h2>耦合道形式理论</h2>
           <img class="content-header-logo" src="assets/ucas_logo_short.png" alt="中国科学院大学校徽">
         </header>
         <div class="content-divider" aria-hidden="true"></div>
@@ -342,16 +342,16 @@
             <div class="content-block-formula">
               <div class="content-formula-block content-formula-block-four">
               <div class="content-formula-line">
-                \[V^{\prime C}(\mathbf r')=\frac{e^2Z_\alpha Z_D}{4\pi\epsilon_0}\int d^3r_D'\,\frac{\rho_D(\mathbf r_D')}{|\mathbf r'-\mathbf r_D'|}.\]
+                \[V^{\prime C}(\mathbf r_\alpha')=\frac{e^2Z_\alpha Z_D}{4\pi\epsilon_0}\int d^3r_D'\,\frac{\rho_D(\mathbf r_D')}{|\mathbf r_\alpha'-\mathbf r_D'|}.\]
               </div>
               <div class="content-formula-line">
-                \[\frac{1}{|\mathbf r'-\mathbf r_D'|}=\sum_{\lambda\mu}\frac{4\pi}{2\lambda+1}\frac{r_<^\lambda}{r_>^{\lambda+1}}Y_{\lambda\mu}^{*}(\hat{\mathbf r}')Y_{\lambda\mu}(\hat{\mathbf r}_D').\]
+                \[\frac{1}{|\mathbf r_\alpha'-\mathbf r_D'|}=\sum_{\lambda,\mu}\frac{4\pi}{2\lambda+1}\frac{r_<^\lambda}{r_>^{\lambda+1}}Y_{\lambda\mu}^{*}(\hat{\mathbf r}_\alpha')Y_{\lambda\mu}(\hat{\mathbf r}_D').\]
               </div>
               <div class="content-formula-line">
                 \[Q_{\lambda\mu}^D=eZ_D\int d^3r_D'\,\rho_D(\mathbf r_D')r_D^\lambda Y_{\lambda\mu}(\hat{\mathbf r}_D').\]
               </div>
               <div class="content-formula-line">
-                \[V^{\prime C}(\mathbf r')=\frac{eZ_\alpha}{4\pi\epsilon_0}\sum_{\lambda\mu}\frac{4\pi}{2\lambda+1}\frac{Q_{\lambda\mu}^D}{r^{\lambda+1}}Y_{\lambda\mu}^{*}(\hat{\mathbf r}').\]
+                \[V^{\prime C}(\mathbf r_\alpha')=\frac{eZ_\alpha}{4\pi\epsilon_0}\sum_{\lambda,\mu}\frac{4\pi}{2\lambda+1}\frac{Q_{\lambda\mu}^D}{r_\alpha^{\lambda+1}}Y_{\lambda\mu}^{*}(\hat{\mathbf r}_\alpha').\]
               </div>
               </div>
             </div>
@@ -361,16 +361,16 @@
             <div class="content-block-formula">
               <div class="content-formula-block content-formula-block-four">
               <div class="content-formula-line">
-                \[\hat R_D(\hat{\mathbf r}',\xi_D)=R_0^D\left[1+\sum_{\lambda\mu}\hat a_{\lambda\mu}(\xi_D)Y_{\lambda\mu}^{*}(\hat{\mathbf r}')\right].\]
+                \[\hat R(D)=R_0^D\left[1+\sum_{\lambda,\mu}\hat a_{\lambda\mu}Y_{\lambda\mu}^{*}(\hat{\mathbf r}_\alpha')\right].\]
               </div>
               <div class="content-formula-line">
-                \[\Big\langle\Phi_{IK}\Big\|\hat R_{D,\lambda}\Big\|\Phi_{I'K'}\Big\rangle=\hat I\hat I'(-1)^{I-K}\begin{pmatrix}I&\lambda&I'\\-K&0&K'\end{pmatrix}\Big\langle\chi_K\Big|\hat R'_{D,\lambda0}\Big|\chi_{K'}\Big\rangle.\]
+                \[\Big\langle\Phi_{IK}(D)\Big\|\hat R_\lambda(D)\Big\|\Phi_{I'K'}(D)\Big\rangle=\hat I\hat I'(-1)^{I-K}\begin{pmatrix}I&\lambda&I'\\-K&0&K'\end{pmatrix}\Big\langle\chi_K(D)\Big|\hat R'_{\lambda0}(D)\Big|\chi_{K'}(D)\Big\rangle.\]
               </div>
               <div class="content-formula-line">
-                \[\Big\langle\chi_K\Big|\hat R'_{D,\lambda0}\Big|\chi_{K'}\Big\rangle=\delta_{KK'}R_0^D\left[\sqrt{4\pi}\,\delta_{\lambda0}+\beta_{\lambda0}^D\right].\]
+                \[\Big\langle\chi_K(D)\Big|\hat R'_{\lambda0}(D)\Big|\chi_{K'}(D)\Big\rangle=\delta_{KK'}R_0^D\left[\sqrt{4\pi}\,\delta_{\lambda0}+\beta_{\lambda0}^D\right].\]
               </div>
               <div class="content-formula-line">
-                \[\hat V^{\prime N}(\mathbf r')=\frac{V_0}{1+\exp\!\left(\left[r-R_0^\alpha-\hat R_D(\hat{\mathbf r}',\xi_D)\right]/a\right)}.\]
+                \[\hat V^{\prime N}(\mathbf r_\alpha')=\frac{V_0}{1+\exp\!\left(\left[r_\alpha-R_0^\alpha-\hat R(D)\right]/a\right)}.\]
               </div>
               </div>
             </div>

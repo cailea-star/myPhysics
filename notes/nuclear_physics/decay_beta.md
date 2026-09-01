@@ -446,82 +446,132 @@ $$
 
 Otherwise, several leading-order nuclear operators may contribute, and the transition is non-unique. Here, “unique” refers to the leading operator, not to the number of final states.
 
-### Beta Decay in the Standard Model
+### Dirac Vertex Structures
 
-Beta decay is mediated by the charged weak current through a virtual $W$ boson:
+Let $d$, $u$, $n$, $p$, $e^-$, and $\bar\nu_e$ denote the down quark, up quark, neutron, proton, electron, and electron antineutrino. Let $W^{-*}$ denote an off-shell charged weak boson. Beta decay proceeds through
 
 $$
 d\rightarrow u+W^{-*}\rightarrow u+e^-+\bar\nu_e,\qquad n\rightarrow p+W^{-*}\rightarrow p+e^-+\bar\nu_e.
 $$
 
-Let $q^\mu=(\Delta E,\mathbf q c)$ be the transferred four-momentum, where $\mathbf q$ is the transferred three-momentum. Let $M_W$ be the $W$-boson mass, $g_2$ the $SU(2)_L$ gauge coupling, and $G_{\mathrm F}$ the Fermi constant in physical units of energy times volume. For nuclear beta decay, $|q^2|\ll(M_Wc^2)^2$, so
+Let $q^\mu=(\Delta E,\mathbf q c)$ be the transferred four-momentum, $M_W$ the $W$-boson mass, $g_2$ the $SU(2)_{\mathrm L}$ gauge coupling, and $G_{\mathrm F}$ the Fermi constant. Since $|q^2|\ll(M_Wc^2)^2$,
 
 $$
 \frac{1}{q^2-(M_Wc^2)^2}\simeq-\frac{1}{(M_Wc^2)^2},\qquad \frac{G_{\mathrm F}}{\sqrt2}=\frac{g_2^2(\hbar c)^3}{8(M_Wc^2)^2}.
 $$
 
-The interaction range $R_W\sim\hbar/(M_Wc)$ is much smaller than the nuclear radius. Low-energy $W$ exchange therefore reduces to a local four-fermion interaction.
+Low-energy $W$ exchange therefore reduces to a local four-fermion interaction.
 
-Let $\gamma^\mu$ be the Dirac matrices,
+Let $\psi_n$, $\psi_p$, $\psi_e$, and $\psi_{\nu_e}$ denote the neutron, proton, electron, and electron-neutrino fields, with $\bar\psi\equiv\psi^\dagger\gamma^0$. Define
 
 $$
 \gamma^5\equiv i\gamma^0\gamma^1\gamma^2\gamma^3,\qquad \sigma^{\mu\nu}\equiv\frac{i}{2}[\gamma^\mu,\gamma^\nu].
 $$
 
-The independent Lorentz structures are
+The independent Dirac structures are
 
 $$
 \Gamma_{\mathrm S}=1,\qquad \Gamma_{\mathrm P}=\gamma^5,\qquad \Gamma_{\mathrm V}=\gamma^\mu,\qquad \Gamma_{\mathrm A}=\gamma^\mu\gamma^5,\qquad \Gamma_{\mathrm T}=\sigma^{\mu\nu}.
 $$
 
-Let $\psi_n$, $\psi_p$, $\psi_e$, and $\psi_{\nu_e}$ denote the neutron, proton, electron, and electron-neutrino fields, with $\bar\psi\equiv\psi^\dagger\gamma^0$. Let $C_i$ and $C_i'$ be general coupling coefficients, and let $\mathrm{h.c.}$ denote the Hermitian conjugate. A general local Lorentz-invariant beta-interaction Hamiltonian density is
+Let $V_{ud}$ be the CKM matrix element and $C_i,C_i'$ dimensionless coupling coefficients. The general local beta-decay Hamiltonian density is
 
 $$
-\mathcal H_\beta^{\mathrm{general}}=\frac{G_{\mathrm F}}{\sqrt2}\sum_{i=\mathrm S,\mathrm P,\mathrm V,\mathrm A,\mathrm T}\left(\bar\psi_p\Gamma_i\psi_n\right)\left[\bar\psi_e\Gamma_i(C_i+C_i'\gamma^5)\psi_{\nu_e}\right]+\mathrm{h.c.}
+\boxed{\mathcal H_\beta^{\mathrm{general}}=\frac{G_{\mathrm F}V_{ud}}{\sqrt2}\sum_{i=\mathrm S,\mathrm P,\mathrm V,\mathrm A,\mathrm T}\left(\bar\psi_p\Gamma_i\psi_n\right)\left[\bar\psi_e\Gamma_i(C_i+C_i'\gamma^5)\psi_{\nu_e}\right]+\mathrm{h.c.}}
 $$
 
-This expression is a model-independent Lorentz decomposition, not the Standard Model result. In the convention used above, the tree-level Standard Model imposes
+In this convention, the tree-level Standard Model imposes
 
 $$
 C_{\mathrm S}=C_{\mathrm S}'=C_{\mathrm P}=C_{\mathrm P}'=C_{\mathrm T}=C_{\mathrm T}'=0,\qquad C_{\mathrm V}'=-C_{\mathrm V},\qquad C_{\mathrm A}'=-C_{\mathrm A}.
 $$
 
-Let $\psi_u$ and $\psi_d$ denote the up- and down-quark fields, and let $J_q^\mu$ and $J_\ell^\mu$ denote the quark and lepton charged-current operators. The Standard Model fixes their $V-A$ structure:
+Thus, the Standard Model retains only the left-chiral vector and axial-vector interactions.
+
+### Standard-Model Beta-Decay Matrix Element
+
+Let $\psi_u$ and $\psi_d$ denote the up- and down-quark fields. The Standard Model quark and lepton charged-current operators are
 
 $$
 J_q^\mu=\bar\psi_u\gamma^\mu(1-\gamma^5)\psi_d,\qquad J_\ell^\mu=\bar\psi_e\gamma^\mu(1-\gamma^5)\psi_{\nu_e}.
 $$
 
-The coefficients of the vector and axial-vector terms are fixed at the fundamental-field level. The quark current must then be matched onto composite nucleon states. Let $g_{\mathrm V}$ and $g_{\mathrm A}$ be the vector and axial-vector nucleon coupling constants. At small momentum transfer,
+The quark current must be matched onto composite nucleons. Let $M_N$ be the nucleon mass and let $g_{\mathrm V}$, $g_{\mathrm M}$, $g_{\mathrm A}$, and $g_{\mathrm P}$ denote the vector, weak-magnetism, axial-vector, and induced-pseudoscalar form factors. The nucleon current is
 
 $$
-J_q^\mu\quad\xrightarrow{\text{nucleon matching}}\quad J_{\mathrm h}^\mu\simeq\bar\psi_p\gamma^\mu(g_{\mathrm V}-g_{\mathrm A}\gamma^5)\psi_n.
+J_{\mathrm h}^\mu=\bar\psi_p\Gamma_{\mathrm h}^\mu(q)\psi_n,
 $$
 
-Thus, $g_{\mathrm V}$ and $g_{\mathrm A}$ occur in the nucleon current but not in the fundamental quark or lepton currents. Let $V_{ud}$ be the CKM matrix element connecting the $u$ and $d$ quarks. In the low-energy normalization used above,
+with
 
 $$
-g_{\mathrm F}\equiv\frac{G_{\mathrm F}V_{ud}}{\sqrt2}g_{\mathrm V},\qquad g_{\mathrm{GT}}\equiv\frac{G_{\mathrm F}V_{ud}}{\sqrt2}g_{\mathrm A}.
+\Gamma_{\mathrm h}^\mu(q)=g_{\mathrm V}(q^2)\gamma^\mu+\frac{ig_{\mathrm M}(q^2)}{2M_Nc^2}\sigma^{\mu\nu}q_\nu-g_{\mathrm A}(q^2)\gamma^\mu\gamma^5-\frac{g_{\mathrm P}(q^2)}{2M_Nc^2}q^\mu\gamma^5.
 $$
 
-Weak-magnetism and induced-pseudoscalar terms are omitted in this leading approximation. The Standard Model effective Hamiltonian density is
+The weak-magnetism and induced-pseudoscalar terms describe the momentum dependence of the composite-nucleon current. They do not represent fundamental tensor or pseudoscalar four-fermion interactions.
+
+The Standard Model effective Hamiltonian density is
 
 $$
 \boxed{\mathcal H_\beta^{\mathrm{SM}}=\frac{G_{\mathrm F}V_{ud}}{\sqrt2}J_{\mathrm h}^\mu J_{\ell\mu}+\mathrm{h.c.}}.
 $$
 
-Let $\varphi_e(\mathbf r)$ and $\varphi_{\bar\nu_e}(\mathbf r)$ be coordinate-space spinor wave functions normalized to one outgoing particle. The $\beta^-$ transition matrix element is
+Let $\varphi_e(\mathbf r)$ and $\varphi_{\bar\nu_e}(\mathbf r)$ be the outgoing electron and antineutrino spinor wave functions. The corresponding lepton-current matrix element is
 
 $$
-\boxed{\mathcal M_{fi}=\frac{G_{\mathrm F}V_{ud}}{\sqrt2}\int d^3\mathbf r\,\left[\bar\varphi_e(\mathbf r)\gamma_\mu(1-\gamma^5)\varphi_{\bar\nu_e}(\mathbf r)\right]\langle\Psi_D|J_{\mathrm h}^\mu(\mathbf r)|\Psi_P\rangle}.
+j_\ell^\mu(\mathbf r)\equiv\langle e^-,\bar\nu_e|J_\ell^\mu(\mathbf r)|0\rangle=\bar\varphi_e(\mathbf r)\gamma^\mu(1-\gamma^5)\varphi_{\bar\nu_e}(\mathbf r).
 $$
 
-In the non-relativistic nucleon limit, the leading components of the hadronic current reduce to
+Thus, $J_\ell^\mu$ is a field operator, while $j_\ell^\mu$ is a complex four-vector function for specified lepton momenta and spin states. The nuclear beta-decay matrix element is
 
 $$
-\boxed{\int d^3\mathbf r\,J_{\mathrm h}^0\longrightarrow g_{\mathrm V}\hat O_{\mathrm F},\qquad \int d^3\mathbf r\,\mathbf J_{\mathrm h}\longrightarrow-g_{\mathrm A}\hat{\mathbf O}_{\mathrm{GT}}}.
+\boxed{\mathcal M_{fi}=\frac{G_{\mathrm F}V_{ud}}{\sqrt2}\int d^3\mathbf r\,j_{\ell\mu}(\mathbf r)\langle\Psi_D|J_{\mathrm h}^\mu(\mathbf r)|\Psi_P\rangle}.
 $$
 
-Fermi transitions arise from the time component of the vector current, while Gamow--Teller transitions arise from the spatial component of the axial-vector current.
+Let $g_{\mathrm V}\equiv g_{\mathrm V}(0)$ and $g_{\mathrm A}\equiv g_{\mathrm A}(0)$. To leading order in the nucleon velocity and $q/(M_Nc^2)$,
 
-The factor $1-\gamma^5$ selects the left-chiral charged current. In the ultrarelativistic limit, beta decay emits predominantly left-helicity electrons and right-helicity antineutrinos. Since parity interchanges left- and right-chiral components, the $V-A$ interaction violates parity.
+$$
+J_{\mathrm h}^0(\mathbf r)\simeq g_{\mathrm V}\sum_{a=1}^A\tau_\beta(a)\delta^3(\mathbf r-\mathbf r_a),
+$$
+
+$$
+\mathbf J_{\mathrm h}(\mathbf r)\simeq-g_{\mathrm A}\sum_{a=1}^A\boldsymbol\sigma(a)\tau_\beta(a)\delta^3(\mathbf r-\mathbf r_a).
+$$
+
+Using $g_{\mu\nu}=\operatorname{diag}(1,-1,-1,-1)$ gives
+
+$$
+\mathcal M_{fi}\simeq\frac{G_{\mathrm F}V_{ud}}{\sqrt2}\sum_{a=1}^A\left\langle\Psi_D\left|g_{\mathrm V}j_\ell^0(\mathbf r_a)\tau_\beta(a)+g_{\mathrm A}\mathbf j_\ell(\mathbf r_a)\cdot\boldsymbol\sigma(a)\tau_\beta(a)\right|\Psi_P\right\rangle.
+$$
+
+For $qR\ll1$, the lepton current is approximately constant across the nucleus. The matrix element reduces to the Fermi and Gamow--Teller operators defined above:
+
+$$
+\mathcal M_{fi}\simeq\frac{G_{\mathrm F}V_{ud}}{\sqrt2}\left\langle\Psi_D\left|g_{\mathrm V}j_\ell^0\hat O_{\mathrm F}+g_{\mathrm A}\mathbf j_\ell\cdot\hat{\mathbf O}_{\mathrm{GT}}\right|\Psi_P\right\rangle.
+$$
+
+For finite $qR$, the lepton wave functions and nuclear current are expanded into angular-momentum channels. Let
+
+$$
+X\in\{\mathrm V,\mathrm A,\mathrm{WM},\mathrm{IP}\}
+$$
+
+label the vector, axial-vector, weak-magnetism, and induced-pseudoscalar contributions. For each allowed $(L_\beta,S_\beta,J_\beta)$ channel, the nuclear input is
+
+$$
+M_{XJ_\beta}(q)\equiv\langle\Psi_D,J_D\|\hat O_{XJ_\beta}(q)\|\Psi_P,J_P\rangle.
+$$
+
+The orbital and spin labels $L_\beta,S_\beta$ enter the lepton angular functions and their coupling to the nuclear tensor of rank $J_\beta$. For fixed nuclear substates and lepton spin states, write
+
+$$
+\mathcal M_{fi}(M_P,M_D;s_e,s_{\bar\nu})=\sum_{L_\beta,S_\beta,J_\beta,X}\mathcal M_{L_\beta S_\beta J_\beta X}(M_P,M_D;s_e,s_{\bar\nu}).
+$$
+
+For an unpolarized parent and unobserved final spins,
+
+$$
+\boxed{\overline{|\mathcal M_{fi}|^2}=\frac{1}{2J_P+1}\sum_{M_P,M_D}\sum_{s_e,s_{\bar\nu}}\left|\mathcal M_{fi}(M_P,M_D;s_e,s_{\bar\nu})\right|^2}.
+$$
+
+In the massless-neutrino limit, the antineutrino sum contains only the right-helicity state.
