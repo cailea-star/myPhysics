@@ -1,5 +1,5 @@
 /**
- * @file    axial_hfb_block.cpp
+ * @file    hfb_axial_block.cpp
  * @author  cailea
  * @date    2026-05-06
  * @brief   Implement axial HFB block updates.
@@ -10,7 +10,7 @@
 
 #include <Eigen/Eigenvalues>
 
-#include "axial_hfb.hpp"
+#include "hfb_axial.hpp"
 
 void AxialHFBBlock::update_Gamma_Delta_from_field(const AxialHFBField& field_, const AxialBasis& global_basis_) {
     const int Nz_I = static_cast<int>(field_.vcent_F2D_z_r.rows());

@@ -1,5 +1,5 @@
 /**
- * @file    axial_hfb_debug.hpp
+ * @file    hfb_axial_debug.hpp
  * @author  cailea
  * @date    2026-05-05
  * @brief   Print axial HFB diagnostic values.
@@ -18,7 +18,7 @@
 #include <Eigen/Eigenvalues>
 
 #include "axial_basis.hpp"
-#include "axial_hfb.hpp"
+#include "hfb_axial.hpp"
 
 /**
  * @brief Print axial quadrature nodes.

@@ -5,8 +5,8 @@
  * @brief   Validate blocked SkM* HFB against run 000010.
  */
 
-#include "axial_hfb.hpp"
-#include "axial_hfb_observable.hpp"
+#include "hfb_axial.hpp"
+#include "hfb_axial_observable.hpp"
 #include "hfb_edf_skyrme.hpp"
 #include "test_hfb_axial_reference.hpp"
 

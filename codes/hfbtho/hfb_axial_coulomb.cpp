@@ -1,5 +1,5 @@
 /**
- * @file    axial_hfb_coulomb.cpp
+ * @file    hfb_axial_coulomb.cpp
  * @author  cailea
  * @date    2026-05-06
  * @brief   Calculate axial direct and Slater-exchange Coulomb fields.
@@ -12,7 +12,7 @@
 
 #include <gsl/gsl_sf_bessel.h>
 
-#include "axial_hfb.hpp"
+#include "hfb_axial.hpp"
 #include "integration_gauss.hpp"
 
 namespace {

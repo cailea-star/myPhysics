@@ -1,5 +1,5 @@
 /**
- * @file    axial_hfb_field.cpp
+ * @file    hfb_axial_field.cpp
  * @author  cailea
  * @date    2026-05-05
  * @brief   Calculate axial Skyrme and pairing fields.
@@ -7,7 +7,7 @@
 
 #include <cmath>
 
-#include "axial_hfb.hpp"
+#include "hfb_axial.hpp"
 
 namespace {
 
