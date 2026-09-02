@@ -1,11 +1,11 @@
 /**
- * @file    axial_hfb_density.cpp
+ * @file    hfb_axial_density.cpp
  * @author  cailea
  * @date    2026-05-05
  * @brief   Calculate axial HFB coordinate-space densities.
  */
 
-#include "axial_hfb.hpp"
+#include "hfb_axial.hpp"
 
 #include <algorithm>
 #include <cmath>

@@ -1,11 +1,11 @@
 /**
- * @file    axial_hfb_initialize.cpp
+ * @file    hfb_axial_initialize.cpp
  * @author  cailea
  * @date    2026-05-05
  * @brief   Initialize axial HFB Woods-Saxon fields.
  */
 
-#include "axial_hfb.hpp"
+#include "hfb_axial.hpp"
 
 #include <cassert>
 #include <cmath>
@@ -226,4 +226,3 @@ void AxialHFB::initialize_WS_field(int Ntarget_I, int Ztarget_I, double beta2_F,
     std::cout << std::setw(20) << "[Shape] params:" << std::setw(10) << " beta2 =" << std::setw(10) << beta2_F << std::setw(10) << " beta3 =" << std::setw(10) << beta3_F << std::setw(10) << " beta4 =" << std::setw(10) << beta4_F << "\n";
     std::cout << std::setw(20) << "[Shape] derived:" << std::setw(10) << " zcm =" << std::setw(10) << ws_shape_.zcm_F << std::setw(10) << " fac =" << std::setw(10) << ws_shape_.surface_scale0_F << "\n";
 }
-

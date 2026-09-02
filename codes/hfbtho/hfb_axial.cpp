@@ -1,5 +1,5 @@
 /**
- * @file    axial_hfb.cpp
+ * @file    hfb_axial.cpp
  * @author  cailea
  * @date    2026-05-05
  * @brief   Implement axial HFB self-consistent iterations.
@@ -10,8 +10,8 @@
 #include <iomanip>
 #include <iostream>
 
-#include "axial_hfb.hpp"
-#include "axial_hfb_observable.hpp"
+#include "hfb_axial.hpp"
+#include "hfb_axial_observable.hpp"
 #include "root.hpp"
 #include "root_broyden.hpp"
 

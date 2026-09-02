@@ -1,5 +1,5 @@
 /**
- * @file    axial_hfb.hpp
+ * @file    hfb_axial.hpp
  * @author  cailea
  * @date    2026-05-02
  * @brief   Define axial HFB blocks, densities, fields, and solver state.

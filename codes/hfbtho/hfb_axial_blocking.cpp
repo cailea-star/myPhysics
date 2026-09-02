@@ -1,5 +1,5 @@
 /**
- * @file    axial_hfb_blocking.cpp
+ * @file    hfb_axial_blocking.cpp
  * @author  cailea
  * @date    2026-05-06
  * @brief   Implement axial HFB blocking.
@@ -14,7 +14,7 @@
 #include <utility>
 #include <vector>
 
-#include "axial_hfb.hpp"
+#include "hfb_axial.hpp"
 
 /**
  * @brief  Apply equal-filling blocking by maximum overlap.

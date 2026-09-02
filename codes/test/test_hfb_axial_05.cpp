@@ -5,8 +5,8 @@
  * @brief   Validate D1S HFB against HFBTHO run 000005.
  */
 
-#include "axial_hfb.hpp"
-#include "axial_hfb_observable.hpp"
+#include "hfb_axial.hpp"
+#include "hfb_axial_observable.hpp"
 #include "hfb_edf_gogny.hpp"
 #include "test_hfb_axial_reference.hpp"
 

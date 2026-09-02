@@ -1,5 +1,5 @@
 /**
- * @file    axial_hfb_blocklist.cpp
+ * @file    hfb_axial_blocklist.cpp
  * @author  cailea
  * @date    2026-05-06
  * @brief   Implement axial HFB block-list updates.
@@ -11,7 +11,7 @@
 
 #include <Eigen/Eigenvalues>
 
-#include "axial_hfb.hpp"
+#include "hfb_axial.hpp"
 
 /**
  * @brief  Project local fields into every symmetry block.

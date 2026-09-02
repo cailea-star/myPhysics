@@ -1,5 +1,5 @@
 /**
- * @file    axial_hfb_observable.hpp
+ * @file    hfb_axial_observable.hpp
  * @author  cailea
  * @date    2026-05-02
  * @brief   Calculate axial HFB observables.
@@ -11,7 +11,7 @@
 #include <cmath>
 #include <vector>
 
-#include "axial_hfb.hpp"
+#include "hfb_axial.hpp"
 
 class AxialHFB;
 class AxialHFBBlocking;
