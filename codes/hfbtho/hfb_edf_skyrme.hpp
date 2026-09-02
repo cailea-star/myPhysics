@@ -1,5 +1,5 @@
 /**
- * @file    hfb_skyrme_edf.hpp
+ * @file    hfb_edf_skyrme.hpp
  * @author  cailea
  * @date    2026-05-06
  * @brief   Define Skyrme EDF couplings and conversions.
@@ -22,7 +22,7 @@ constexpr double CK_F = 3.6175281560109624; // τ/ρ^(5/3) = CK_F = 3kfconst_F²
 /**
  * @brief Store Skyrme EDF and nuclear-matter parameters.
  */
-struct SkyrmeEDFParams {
+struct EDFParamsSkyrme {
     // t ∈ {0,1}; q ∈ {n,p}; ρ_0 = ρ_p + ρ_n; ρ_1 = ρ_n - ρ_p.
     // 𝓔_even(r) = Σ_{t=0,1}[(C_t^ρ + C_t^{ρ,α}ρ_0^α)ρ_t² + C_t^τρ_tτ_t
     //             + C_t^{Δρ}ρ_tΔρ_t + C_t^{∇J}ρ_t∇·J_t
@@ -158,8 +158,8 @@ namespace HFBfunctionals {
  * @output UNEDF1 EDF parameters.
  * @note   Matches HFBTHO UNE1 parameters.
  */
-inline SkyrmeEDFParams UNEDF1() {
-    SkyrmeEDFParams edf_parameters_;
+inline EDFParamsSkyrme UNEDF1() {
+    EDFParamsSkyrme edf_parameters_;
     edf_parameters_.functionalName_Str = "UNEDF1";
 
     // (ρ,E,K,m_s*,a_sym,L_sym,m_v*) ← UNE1.
@@ -244,8 +244,8 @@ inline SkyrmeEDFParams UNEDF1() {
  * @math   SkM^* → \{C_t\}
  * @output SkM* EDF parameters.
  */
-inline SkyrmeEDFParams SKMstar() {
-    SkyrmeEDFParams edf_parameters_;
+inline EDFParamsSkyrme SKMstar() {
+    EDFParamsSkyrme edf_parameters_;
 
     // {C_t,α,ℏ²/2m,e²,C_ex} ← SkM*.
     edf_parameters_.functionalName_Str = "SKM*";
@@ -296,8 +296,8 @@ inline SkyrmeEDFParams SKMstar() {
  * @math   SLY4 → \{C_t\}
  * @output SLY4 EDF parameters.
  */
-inline SkyrmeEDFParams SLY4() {
-    SkyrmeEDFParams edf_parameters_;
+inline EDFParamsSkyrme SLY4() {
+    EDFParamsSkyrme edf_parameters_;
 
     // {C_t,α,ℏ²/2m,e²,C_ex} ← SLY4.
     edf_parameters_.functionalName_Str = "SLY4";
@@ -371,8 +371,8 @@ struct TParameters {
  * @math   (t_i,x_i,b_4,b_4',t_e,t_o,α) → \{C_t\}
  * @output Skyrme EDF parameters.
  */
-inline SkyrmeEDFParams t_to_C(double t0_F, double t1_F, double t2_F, double t3_F, double x0_F, double x1_F, double x2_F, double x3_F, double b4_F, double b4p_F, double te_F, double to_F, double sigma_F, double CpV0_n_F, double CpV0_p_F, double CpV1_n_F = 0.5, double CpV1_p_F = 0.5) {
-    SkyrmeEDFParams edf_parameters_;
+inline EDFParamsSkyrme t_to_C(double t0_F, double t1_F, double t2_F, double t3_F, double x0_F, double x1_F, double x2_F, double x3_F, double b4_F, double b4p_F, double te_F, double to_F, double sigma_F, double CpV0_n_F, double CpV0_p_F, double CpV1_n_F = 0.5, double CpV1_p_F = 0.5) {
+    EDFParamsSkyrme edf_parameters_;
     edf_parameters_.sigma_F = sigma_F;
 
     // (t_i,x_i,b_4,b_4',t_e,t_o) → time-even couplings.
@@ -423,7 +423,7 @@ inline SkyrmeEDFParams t_to_C(double t0_F, double t1_F, double t2_F, double t3_F
  * @math   \{C_t\} → (t_i,x_i,b_4,b_4',t_e,t_o)
  * @output Skyrme force parameters.
  */
-inline TParameters C_to_t(const SkyrmeEDFParams& edf_parameters_) {
+inline TParameters C_to_t(const EDFParamsSkyrme& edf_parameters_) {
     TParameters t_parameters_;
 
     // C → (t_0,t_1,t_2,t_3).
@@ -455,7 +455,7 @@ inline TParameters C_to_t(const SkyrmeEDFParams& edf_parameters_) {
  * @math   EDF → stdout
  * @output Fixed-precision parameter tables.
  */
-inline void print_edf(const SkyrmeEDFParams& edf_skyrme_) {
+inline void print_edf(const EDFParamsSkyrme& edf_skyrme_) {
     // EDF identifier → table header.
     std::cout << "\n";
     std::cout << "  " << edf_skyrme_.functionalName_Str << " functional\n";
