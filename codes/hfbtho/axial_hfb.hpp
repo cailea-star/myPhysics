@@ -260,21 +260,21 @@ public:
      * @math \bar v_Gρ → (Γ_n,Γ_p)
      * @output Updated particle-hole matrices.
      */
-    void add_Gamma_from_element(const AxialGaussianGogny& gogny_);
+    void add_Gamma_from_Gogny(const AxialGaussianGogny& gogny_);
 
     /**
      * @brief Add finite-range Gogny pairing fields.
      * @math \bar v_Gκ → (Δ_n,Δ_p)
      * @output Updated pairing matrices.
      */
-    void add_Delta_from_element(const AxialGaussianGogny& gogny_);
+    void add_Delta_from_Gogny(const AxialGaussianGogny& gogny_);
 
     /**
      * @brief Add finite-range Coulomb matrix elements.
      * @math \bar v_Cρ_p → Γ_p
      * @output Updated proton particle-hole matrices.
      */
-    void add_coulomb_from_element(const AxialGaussianCoulomb& coulomb_);
+    void add_coulomb_from_Gaussian(const AxialGaussianCoulomb& coulomb_);
 
     /**
      * @brief Apply species-wise Lipkin-Nogami corrections.
@@ -321,10 +321,10 @@ public:
 
     /**
      * @brief Enumerate low-energy blocking candidates.
-     * @math E_{bqp}≤E_{min}+E_{cut} → {B_{blocked}}
+     * @math E_{bqp}>0, |E_{bqp}-E_{min}|≤E_{cut} → {B_{blocked}}
      * @output Ranked blocking candidates.
      */
-    static std::vector<AxialHFBBlocking> list_candidates(const HFBSettings& hfbsettings_, const AxialHFBBlockList& blocklist_, bool isNeutron_B);
+    static std::vector<AxialHFBBlocking> list_candidates(const HFBSettings& hfbsettings_, const AxialHFBBlockList& blocklist_, bool isNeutron_B_);
 };
 
 /**
