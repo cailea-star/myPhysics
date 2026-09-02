@@ -287,6 +287,7 @@ AxialGaussianKernel<Ng_I> AxialGaussianKernel<Ng_I>::from_cache(const std::strin
 template <int Ng_I>
 const typename AxialGaussianKernel<Ng_I>::GValues& AxialGaussianKernel<Ng_I>::read_Gz(int nz1_I, int nz2_I, int nz3_I, int nz4_I) const {
     assert(isBuilt_B);
+    assert((nz1_I + nz2_I + nz3_I + nz4_I) % 2 == 0);
     const GKey key_I1D_q = canonicalize_key(nz1_I, nz2_I, nz3_I, nz4_I);
     return Gz_Table.read(key_I1D_q);
 }
@@ -295,6 +296,7 @@ template <int Ng_I>
 const typename AxialGaussianKernel<Ng_I>::GValues& AxialGaussianKernel<Ng_I>::read_Gr(int nr1_I, int Lambda1_I, int nr2_I, int Lambda2_I, int nr3_I, int Lambda3_I, int nr4_I, int Lambda4_I) const {
     // {(n_ra,Λ_a)} → {k_a} → canonical key.
     assert(isBuilt_B);
+    assert(Lambda1_I + Lambda2_I == Lambda3_I + Lambda4_I);
     const int rkey1_I = pack_rkey(nr1_I, Lambda1_I);
     const int rkey2_I = pack_rkey(nr2_I, Lambda2_I);
     const int rkey3_I = pack_rkey(nr3_I, Lambda3_I);
