@@ -104,8 +104,10 @@ public:
             const int twoSigma4_I = apply_reversal_sign_Func(label4_.twoSigma_I, isReversed4_B);
             const int deltaS_13_24_I = static_cast<int>(twoSigma1_I == twoSigma3_I) * static_cast<int>(twoSigma2_I == twoSigma4_I);
             const int deltaS_14_23_I = static_cast<int>(twoSigma1_I == twoSigma4_I) * static_cast<int>(twoSigma2_I == twoSigma3_I);
-            const double V1234_F = calc_spatial_v(sp1_I, isReversed1_B, sp2_I, isReversed2_B, sp3_I, isReversed3_B, sp4_I, isReversed4_B);
-            const double V1243_F = calc_spatial_v(sp1_I, isReversed1_B, sp2_I, isReversed2_B, sp4_I, isReversed4_B, sp3_I, isReversed3_B);
+            double V1234_F = 0.0;
+            double V1243_F = 0.0;
+            if (deltaS_13_24_I != 0) {V1234_F = calc_spatial_v(sp1_I, isReversed1_B, sp2_I, isReversed2_B, sp3_I, isReversed3_B, sp4_I, isReversed4_B);}
+            if (deltaS_14_23_I != 0) {V1243_F = calc_spatial_v(sp1_I, isReversed1_B, sp2_I, isReversed2_B, sp4_I, isReversed4_B, sp3_I, isReversed3_B);}
             return deltaS_13_24_I * V1234_F - deltaS_14_23_I * V1243_F;
         };
 
@@ -148,9 +150,7 @@ private:
 
         // V = Σ_g W_g G_g^z G_g^r.
         double V_F = 0.0;
-        for (int g_I = 0; g_I < Ng_I; ++g_I) {
-            V_F += expansion.W_F1D_g[g_I] * Gz_F1D_g[g_I] * Gr_F1D_g[g_I];
-        }
+        for (int g_I = 0; g_I < Ng_I; ++g_I) {V_F += expansion.W_F1D_g[g_I] * Gz_F1D_g[g_I] * Gr_F1D_g[g_I];}
         return V_F;
     }
 
