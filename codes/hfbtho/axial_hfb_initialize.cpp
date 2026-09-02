@@ -1,0 +1,229 @@
+/**
+ * @file    axial_hfb_initialize.cpp
+ * @author  cailea
+ * @date    2026-05-05
+ * @brief   Initialize axial HFB Woods-Saxon fields.
+ */
+
+#include "axial_hfb.hpp"
+
+#include <cassert>
+#include <cmath>
+#include <iomanip>
+#include <iostream>
+
+namespace {
+
+struct WSGeometry {
+    double distance_F;
+    double surface_scale_F;
+};
+
+struct WSShapeGeometry {
+    double b2_ws_F;
+    double b3_ws_F;
+    double b4_ws_F;
+    double surface_scale0_F;
+    double zcm_F;
+
+    /**
+     * @brief  Calculate volume-preserving Woods-Saxon geometry.
+     * @math   (β_2,β_3,β_4,b_0,A) → (b_2,b_3,b_4,f_0,z_{cm})
+     * @output Woods-Saxon shape geometry.
+     */
+    static WSShapeGeometry from_beta(double beta2_F, double beta3_F, double beta4_F, double b0_basis_F, double hbzero_F, double Atarget_F) {
+        const double pi_F = std::acos(-1.0);
+        const double b2_F = beta2_F * std::sqrt(5.0 / (4.0 * pi_F));
+        const double b3_F = beta3_F * std::sqrt(7.0 / (4.0 * pi_F));
+        const double b4_F = beta4_F * std::sqrt(9.0 / (4.0 * pi_F));
+        const double b2_squared_F = b2_F * b2_F;
+        const double b2_cubed_F = b2_squared_F * b2_F;
+        const double b3_squared_F = b3_F * b3_F;
+        const double b3_cubed_F = b3_squared_F * b3_F;
+        const double b4_squared_F = b4_F * b4_F;
+        const double b4_cubed_F = b4_squared_F * b4_F;
+
+        // (b_2,b_3,b_4) → f_V.
+        const double volume_factor_F = 2.0 + (2.0 * b4_squared_F) / 3.0 + (40.0 * b2_F * b4_squared_F) / 231.0 + (36.0 * b4_cubed_F) / 1001.0 + (6.0 * b2_squared_F) / 5.0 + (4.0 * b2_cubed_F) / 35.0 + (12.0 * b2_squared_F * b4_F) / 35.0 + (6.0 * b3_squared_F) / 7.0 + (8.0 * b2_F * b3_squared_F) / 35.0 + (12.0 * b3_squared_F * b4_F) / 77.0;
+        const double surface_scale0_F = std::cbrt(2.0 / volume_factor_F);
+
+        // (b_2,b_3,b_4) → P_{cm}.
+        const double zcm_polynomial_F = (72.0 * b2_F * b3_F) / 35.0 + (48.0 * b2_squared_F * b3_F) / 35.0 + (24.0 * b2_cubed_F * b3_F) / 55.0 + (96.0 * b3_cubed_F) / 385.0 + (1656.0 * b2_F * b3_cubed_F) / 5005.0 + (32.0 * b3_F * b4_F) / 21.0 + (2272.0 * b2_F * b3_F * b4_F) / 1155.0 + (1856.0 * b2_squared_F * b3_F * b4_F) / 2145.0 + (3904.0 * b3_cubed_F * b4_F) / 15015.0 + (544.0 * b3_F * b4_squared_F) / 1001.0 + (488.0 * b2_F * b3_F * b4_squared_F) / 715.0 + (512.0 * b3_F * b4_cubed_F) / 2431.0;
+        const double r0_basis_F = (2.0 * hbzero_F / (41.0 * b0_basis_F * b0_basis_F)) * std::cbrt(Atarget_F);
+        const double zcm_F = 3.0 * std::pow(1.0 / volume_factor_F, 4.0 / 3.0) * zcm_polynomial_F * r0_basis_F / (2.0 * std::cbrt(2.0));
+        return {b2_F, b3_F, b4_F, surface_scale0_F, zcm_F};
+    }
+
+    /**
+     * @brief  Evaluate Woods-Saxon geometry at one point.
+     * @math   (r_⊥²,z) → (r,f)
+     * @output Radius and deformed surface scale.
+     */
+    WSGeometry calc_geometry(double r2_F, double z_F) const {
+        const double z_shift_F = z_F - zcm_F;
+        const double z2_F = z_shift_F * z_shift_F;
+        const double distance2_F = r2_F + z2_F;
+        assert(distance2_F > 0.0);
+        const double cos2_F = z2_F / distance2_F;
+        const double abs_cos_F = std::sqrt(cos2_F);
+        const double P2_F = 0.5 * (3.0 * cos2_F - 1.0);
+        const double P3_F = 0.5 * (5.0 * abs_cos_F * abs_cos_F * abs_cos_F - 3.0 * abs_cos_F);
+        const double P4_F = (35.0 * cos2_F * cos2_F - 30.0 * cos2_F + 3.0) / 8.0;
+        const double surface_scale_F = surface_scale0_F * (1.0 + b2_ws_F * P2_F + b3_ws_F * P3_F + b4_ws_F * P4_F);
+        return {std::sqrt(distance2_F), surface_scale_F};
+    }
+};
+
+/**
+ * @brief  Reset one coordinate-space field.
+ * @math   F_q → 0
+ * @output Zeroed field grids.
+ */
+void set_zero(AxialHFBField& field_) {
+    field_.vcent_F2D_z_r.setZero();
+    field_.vmass_F2D_z_r.setZero();
+    field_.vpair_F2D_z_r.setZero();
+    field_.vD2_F2D_z_r.setZero();
+    field_.vDr_F2D_z_r.setZero();
+    field_.vDz_F2D_z_r.setZero();
+    field_.vJzphi_F2D_z_r.setZero();
+    field_.vJphiz_F2D_z_r.setZero();
+    field_.vJphir_F2D_z_r.setZero();
+    field_.vJrphi_F2D_z_r.setZero();
+    field_.vdJ_F2D_z_r.setZero();
+}
+
+} // namespace
+
+double HFBSettings::calc_b0(int Atarget_I) {
+    assert(Atarget_I > 0);
+    const double hbzero_F = EDFParamsSkyrme{}.hbzero_F;
+    const double r0_F = 1.20;
+    const double hbar_omega_F = 41.0 * std::pow(static_cast<double>(Atarget_I), -1.0 / 3.0) * r0_F;
+    return std::sqrt(2.0 * hbzero_F / hbar_omega_F);
+}
+
+EDFParamsSkyrme HFBSettings::make_active_edf(const EDFParamsSkyrme& base_edf_, int Atarget_I) const {
+    assert(Atarget_I > 0);
+    EDFParamsSkyrme active_edf_ = base_edf_;
+    const double cm_factor_F = 1.0 - static_cast<double>(useCmCorrection_B) / static_cast<double>(Atarget_I);
+
+    // C_{kin} → s_{kin}(1-s_{cm}/A)C_{kin}.
+    active_edf_.hbzero_F *= cm_factor_F * static_cast<double>(termSwitches.addKinetic_B);
+    active_edf_.hbzeron_F *= cm_factor_F * static_cast<double>(termSwitches.addKinetic_B);
+    active_edf_.hbzerop_F *= cm_factor_F * static_cast<double>(termSwitches.addKinetic_B);
+
+    // C_i → s_i C_i.
+    active_edf_.Crho_0_F *= static_cast<double>(termSwitches.addLocalRhoRho_B);
+    active_edf_.Crho_1_F *= static_cast<double>(termSwitches.addLocalRhoRho_B);
+    active_edf_.Cdrho_0_F *= static_cast<double>(termSwitches.addLocalRhoAlpha_B);
+    active_edf_.Cdrho_1_F *= static_cast<double>(termSwitches.addLocalRhoAlpha_B);
+    active_edf_.Ctau_0_F *= static_cast<double>(termSwitches.addLocalRhoTau_B);
+    active_edf_.Ctau_1_F *= static_cast<double>(termSwitches.addLocalRhoTau_B);
+    active_edf_.CrDr_0_F *= static_cast<double>(termSwitches.addLocalSurface_B);
+    active_edf_.CrDr_1_F *= static_cast<double>(termSwitches.addLocalSurface_B);
+    active_edf_.Cnrho_0_F *= static_cast<double>(termSwitches.addLocalSurface_B);
+    active_edf_.Cnrho_1_F *= static_cast<double>(termSwitches.addLocalSurface_B);
+    active_edf_.CrdJ_0_F *= static_cast<double>(termSwitches.addLocalSpinOrbit_B);
+    active_edf_.CrdJ_1_F *= static_cast<double>(termSwitches.addLocalSpinOrbit_B);
+    active_edf_.CJdr_0_F *= static_cast<double>(termSwitches.addLocalSpinOrbit_B);
+    active_edf_.CJdr_1_F *= static_cast<double>(termSwitches.addLocalSpinOrbit_B);
+    active_edf_.CJ_0_F *= static_cast<double>(termSwitches.addLocalTensor_B);
+    active_edf_.CJ_1_F *= static_cast<double>(termSwitches.addLocalTensor_B);
+    active_edf_.CJbar_0_F *= static_cast<double>(termSwitches.addLocalTensor_B);
+    active_edf_.CJbar_1_F *= static_cast<double>(termSwitches.addLocalTensor_B);
+    active_edf_.CpV0_0_F *= static_cast<double>(termSwitches.addLocalPair_B);
+    active_edf_.CpV0_1_F *= static_cast<double>(termSwitches.addLocalPair_B);
+    return active_edf_;
+}
+
+void AxialHFB::initialize_WS_field(int Ntarget_I, int Ztarget_I, double beta2_F, double beta3_F, double beta4_F) {
+    assert(Ntarget_I >= 0);
+    assert(Ztarget_I >= 0);
+    assert(Ntarget_I + Ztarget_I > 0);
+
+    // P_{WS} = (V_0,r_0,a_0,V_{LS},r_{LS},a_{LS},κ_V).
+    const double V0WS_F = -71.28;
+    const double r0WS_F = 1.2334;
+    const double a0WS_F = 0.6150;
+    const double V0LS_F = 11.1175;
+    const double r0LS_F = 1.1443;
+    const double a0LS_F = 0.6476;
+    const double akv_F = 0.4616;
+
+    // (ℏc,m_u) in MeV-fm units.
+    const double hbarc_F = 197.32891;
+    const double amu_F = 931.494013;
+
+    // (N,Z) → (A,R_{WS},R_{LS}).
+    const int Nz_I = axialconfig.Nz_I;
+    const int Nr_I = axialconfig.Nr_I;
+    const int Atarget_I = Ntarget_I + Ztarget_I;
+    const double Atarget_F = static_cast<double>(Atarget_I);
+    const EDFParamsSkyrme active_edf_ = hfbsettings.make_active_edf(edf_skyrme, Atarget_I);
+    const double R0WS_F = r0WS_F * std::cbrt(Atarget_F);
+    const double R0LS_F = r0LS_F * std::cbrt(Atarget_F);
+
+    // (b_z,b_r,β_2,β_3,β_4) → G_{WS}.
+    const double b0_basis_F = AxialConfig::bzbr_to_b0beta20(axialconfig.bz_F, axialconfig.br_F).first;
+    const WSShapeGeometry ws_shape_ = WSShapeGeometry::from_beta(beta2_F, beta3_F, beta4_F, b0_basis_F, edf_skyrme.hbzero_F, Atarget_F);
+
+    // I_q = (N_q-N_{ar q})/A.
+    const double asymmetry_n_F = static_cast<double>(Ntarget_I - Ztarget_I) / Atarget_F;
+    const double asymmetry_p_F = static_cast<double>(Ztarget_I - Ntarget_I) / Atarget_F;
+    const double V0WS_n_F = V0WS_F * (1.0 - akv_F * asymmetry_n_F);
+    const double V0WS_p_F = V0WS_F * (1.0 - akv_F * asymmetry_p_F);
+    const double VLS_prefactor_F = 0.5 * std::pow(hbarc_F / amu_F, 2.0);
+    const double V0LS_n_F = VLS_prefactor_F * V0WS_n_F * V0LS_F;
+    const double V0LS_p_F = VLS_prefactor_F * V0WS_p_F * V0LS_F;
+
+    const auto& z_F1D_z = global_basis.z_F1D_z;
+    const auto& r_F1D_r = global_basis.r_F1D_r;
+
+    // (V_0,R_0,a_0,G_{WS}) → (v_{cent},v_{mass},v_{∇J}).
+    auto fill_WS_Func = [&](AxialHFBField& field_, double V0WS_q_F, double hbzero_q_F, double V0LS_q_F) {
+        set_zero(field_);
+        for (int ir_I = 0; ir_I < Nr_I; ++ir_I) {
+            for (int iz_I = 0; iz_I < Nz_I; ++iz_I) {
+                const double r_F = r_F1D_r(ir_I);
+                const double r2_F = r_F * r_F;
+                const double z_F = z_F1D_z(iz_I);
+                const WSGeometry geometry_ = ws_shape_.calc_geometry(r2_F, z_F);
+                const double vcent_F = V0WS_q_F / (1.0 + std::exp((geometry_.distance_F - R0WS_F * geometry_.surface_scale_F) / a0WS_F));
+                const double vdJ_F = -V0LS_q_F / (1.0 + std::exp((geometry_.distance_F - R0LS_F * geometry_.surface_scale_F) / a0LS_F));
+                field_.vmass_F2D_z_r(iz_I, ir_I) = hbzero_q_F;
+                field_.vcent_F2D_z_r(iz_I, ir_I) = vcent_F;
+                field_.vdJ_F2D_z_r(iz_I, ir_I) = vdJ_F;
+            }
+        }
+    };
+    fill_WS_Func(fields.field_n, V0WS_n_F, active_edf_.hbzeron_F, V0LS_n_F);
+    fill_WS_Func(fields.field_p, V0WS_p_F, active_edf_.hbzerop_F, V0LS_p_F);
+
+    // κ_{aux} → Δ_q = -100κ_{aux}.
+    auto fill_pairing_Func = [&](AxialHFBField& field_) {
+        for (int ir_I = 0; ir_I < Nr_I; ++ir_I) {
+            for (int iz_I = 0; iz_I < Nz_I; ++iz_I) {
+                const double r_F = r_F1D_r(ir_I);
+                const double r2_F = r_F * r_F;
+                const double z_F = z_F1D_z(iz_I);
+                const WSGeometry geometry_ = ws_shape_.calc_geometry(r2_F, z_F);
+                const double kappa_aux_F = 5.0e-3 * std::exp((geometry_.distance_F - R0WS_F * geometry_.surface_scale_F) / 2.0);
+                field_.vpair_F2D_z_r(iz_I, ir_I) = -100.0 * kappa_aux_F;
+            }
+        }
+    };
+    fill_pairing_Func(fields.field_n);
+    fill_pairing_Func(fields.field_p);
+
+    // P_{WS} → stdout.
+    std::cout << "[AxialHFB::initialize_WS_field] Woods-Saxon initialization\n";
+    std::cout << std::scientific << std::setprecision(3) << std::right;
+    std::cout << std::setw(20) << "[WS] params:" << std::setw(10) << " V0ws =" << std::setw(10) << V0WS_F << std::setw(10) << " r0ws =" << std::setw(10) << r0WS_F << std::setw(10) << " a0ws =" << std::setw(10) << a0WS_F << "\n";
+    std::cout << std::setw(20) << "[SO] params:" << std::setw(10) << " V0so =" << std::setw(10) << V0LS_F << std::setw(10) << " r0so =" << std::setw(10) << r0LS_F << std::setw(10) << " a0so =" << std::setw(10) << a0LS_F << "\n";
+    std::cout << std::setw(20) << "[Nucleus] params:" << std::setw(10) << " A =" << std::setw(10) << Atarget_I << std::setw(10) << " Z =" << std::setw(10) << Ztarget_I << std::setw(10) << " N =" << std::setw(10) << Ntarget_I << std::setw(10) << " asym_n =" << std::setw(10) << asymmetry_n_F << "\n";
+    std::cout << std::setw(20) << "[Derived] params:" << std::setw(10) << " V0ws_n =" << std::setw(10) << V0WS_n_F << std::setw(10) << " V0ws_p =" << std::setw(10) << V0WS_p_F << std::setw(10) << " V0ls_n =" << std::setw(10) << V0LS_n_F << std::setw(10) << " V0ls_p =" << std::setw(10) << V0LS_p_F << "\n";
+    std::cout << std::setw(20) << "[Shape] params:" << std::setw(10) << " beta2 =" << std::setw(10) << beta2_F << std::setw(10) << " beta3 =" << std::setw(10) << beta3_F << std::setw(10) << " beta4 =" << std::setw(10) << beta4_F << "\n";
+    std::cout << std::setw(20) << "[Shape] derived:" << std::setw(10) << " zcm =" << std::setw(10) << ws_shape_.zcm_F << std::setw(10) << " fac =" << std::setw(10) << ws_shape_.surface_scale0_F << "\n";
+}
+
