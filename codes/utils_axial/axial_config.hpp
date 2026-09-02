@@ -58,8 +58,8 @@ public:
     double br_F;                                         // η = (r / b_r)^2
     bool useReflection_B;                                // z ≥ 0 when true
     std::vector<AxialSPLabel> labels_S1D_sp;             // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp
-    std::vector<std::vector<AxialSPLabel>> labels_S2D_block_spb; // α_(block,spb): labels grouped by Ω or (Ω,π)
-    std::vector<std::vector<int>> indices_I2D_block_spb; // sp(block,spb): global indices of block labels
+    std::vector<std::vector<AxialSPLabel>> labels_S2D_block_bsp; // α_(block,bsp): labels grouped by Ω or (Ω,π)
+    std::vector<std::vector<int>> indices_I2D_block_bsp; // sp(block,bsp): global indices of block labels
 
     /**
      * @brief  Construct an axial harmonic-oscillator configuration.
@@ -196,22 +196,22 @@ inline void AxialConfig::fill_labels() {
 
     // ({α_sp},{α_block},{sp_block}) ← ∅.
     labels_S1D_sp.clear();
-    labels_S2D_block_spb.clear();
-    indices_I2D_block_spb.clear();
+    labels_S2D_block_bsp.clear();
+    indices_I2D_block_bsp.clear();
     labels_S1D_sp.reserve(NHO_I);
 
     // Ω → π → n_r → n_z → Λ_± → Σ_±
     for (int twoOmega_I = 1; twoOmega_I <= 2 * nuCut_I + 1; ++twoOmega_I) {
-        std::vector<AxialSPLabel> labelsOmega_S1D_spb;
-        std::vector<int> indicesOmega_I1D_spb;
+        std::vector<AxialSPLabel> labelsOmega_S1D_bsp;
+        std::vector<int> indicesOmega_I1D_bsp;
         const int LambdaUp_I = (twoOmega_I - 1) / 2;
         const int LambdaDown_I = (twoOmega_I + 1) / 2;
         const int nrMax_I = (nuCut_I - LambdaUp_I + 1) / 2;
         for (bool isParityPositive_B : {true, false}) {
-            std::vector<AxialSPLabel> labelsParity_S1D_spb;
-            std::vector<int> indicesParity_I1D_spb;
-            auto& labelsTarget_S1D_spb = useReflection_B ? labelsParity_S1D_spb : labelsOmega_S1D_spb;
-            auto& indicesTarget_I1D_spb = useReflection_B ? indicesParity_I1D_spb : indicesOmega_I1D_spb;
+            std::vector<AxialSPLabel> labelsParity_S1D_bsp;
+            std::vector<int> indicesParity_I1D_bsp;
+            auto& labelsTarget_S1D_bsp = useReflection_B ? labelsParity_S1D_bsp : labelsOmega_S1D_bsp;
+            auto& indicesTarget_I1D_bsp = useReflection_B ? indicesParity_I1D_bsp : indicesOmega_I1D_bsp;
             for (int nr_I = 0; nr_I <= nrMax_I; ++nr_I) {
                 for (int nz_I = 0; nz_I <= nzCut_I; ++nz_I) {
                     for (int Lambda_I : {LambdaUp_I, LambdaDown_I}) {
@@ -221,16 +221,16 @@ inline void AxialConfig::fill_labels() {
                             const AxialSPLabel label_(nz_I, nr_I, Lambda_I, twoOmega_I);
                             const int sp_I = static_cast<int>(labels_S1D_sp.size());
                             labels_S1D_sp.push_back(label_);
-                            labelsTarget_S1D_spb.push_back(label_);
-                            indicesTarget_I1D_spb.push_back(sp_I);
+                            labelsTarget_S1D_bsp.push_back(label_);
+                            indicesTarget_I1D_bsp.push_back(sp_I);
                         }
                     }
                 }
             }
-            if (useReflection_B && !labelsParity_S1D_spb.empty()) {labels_S2D_block_spb.push_back(std::move(labelsParity_S1D_spb));}
-            if (useReflection_B && !indicesParity_I1D_spb.empty()) {indices_I2D_block_spb.push_back(std::move(indicesParity_I1D_spb));}
+            if (useReflection_B && !labelsParity_S1D_bsp.empty()) {labels_S2D_block_bsp.push_back(std::move(labelsParity_S1D_bsp));}
+            if (useReflection_B && !indicesParity_I1D_bsp.empty()) {indices_I2D_block_bsp.push_back(std::move(indicesParity_I1D_bsp));}
         }
-        if (!useReflection_B && !labelsOmega_S1D_spb.empty()) {labels_S2D_block_spb.push_back(std::move(labelsOmega_S1D_spb));}
-        if (!useReflection_B && !indicesOmega_I1D_spb.empty()) {indices_I2D_block_spb.push_back(std::move(indicesOmega_I1D_spb));}
+        if (!useReflection_B && !labelsOmega_S1D_bsp.empty()) {labels_S2D_block_bsp.push_back(std::move(labelsOmega_S1D_bsp));}
+        if (!useReflection_B && !indicesOmega_I1D_bsp.empty()) {indices_I2D_block_bsp.push_back(std::move(indicesOmega_I1D_bsp));}
     }
 }
