@@ -28,8 +28,8 @@
 template <int Ng_I>
 class AxialGaussianKernel {
 public:
-    using GKey = std::array<int, 4>;
-    using GValues = std::array<double, Ng_I>;
+    using AxialGaussianKey = std::array<int, 4>;
+    using AxialGaussianValues = std::array<double, Ng_I>;
     bool isBuilt_B = false;
     static_assert(Ng_I > 0, "AxialGaussianKernel requires at least one Gaussian.");
 
@@ -43,7 +43,7 @@ protected:
         int nzMax_I;
         int nrMax_I;
         int LambdaMax_I;
-        GValues mu_F1D_g;
+        AxialGaussianValues mu_F1D_g;
 
         /**
          * @brief  Compare cache metadata fieldwise.
@@ -56,8 +56,8 @@ protected:
 
     std::vector<AxialSPLabel> labels_S1D_sp;
     Metadata metadata;
-    MyHashTable<GValues> Gz_Table;
-    MyHashTable<GValues> Gr_Table;
+    PackedHashTable<AxialGaussianValues, 4> Gz_Table;
+    PackedHashTable<AxialGaussianValues, 4> Gr_Table;
 
 public:
     /**
@@ -65,7 +65,7 @@ public:
      * @math   G = G^zG^r.
      * @output Empty configured tables.
      */
-    AxialGaussianKernel(const AxialConfig& config_, const GValues& mu_F1D_g_)
+    AxialGaussianKernel(const AxialConfig& config_, const AxialGaussianValues& mu_F1D_g_)
     : isBuilt_B(false), labels_S1D_sp(config_.labels_S1D_sp), metadata{0x41474b31u, 5, static_cast<std::uint32_t>(Ng_I), config_.br_F, config_.bz_F, 0, 0, 0, mu_F1D_g_}, Gz_Table({0, 0, 0, 0}, {0, 0, 0, 0}), Gr_Table({0, 0, 0, 0}, {0, 0, 0, 0}) {
         assert((std::all_of(metadata.mu_F1D_g.begin(), metadata.mu_F1D_g.end(), [](double mu_F) {
             return std::isfinite(mu_F) && mu_F > 0.0;
@@ -80,8 +80,8 @@ public:
         const int rorderMax_I = pack_rkey(metadata.nrMax_I, metadata.LambdaMax_I);
 
         // (n_z^max,n_r^max,Λ^max) → bounds(G^z,G^r).
-        Gz_Table = MyHashTable<GValues>({0, 0, 0, 0}, {metadata.nzMax_I, metadata.nzMax_I, metadata.nzMax_I, metadata.nzMax_I});
-        Gr_Table = MyHashTable<GValues>({0, 0, 0, 0}, {rorderMax_I, rorderMax_I, rorderMax_I, rorderMax_I});
+        Gz_Table = PackedHashTable<AxialGaussianValues, 4>({0, 0, 0, 0}, {metadata.nzMax_I, metadata.nzMax_I, metadata.nzMax_I, metadata.nzMax_I});
+        Gr_Table = PackedHashTable<AxialGaussianValues, 4>({0, 0, 0, 0}, {rorderMax_I, rorderMax_I, rorderMax_I, rorderMax_I});
     }
 
     /**
@@ -96,7 +96,7 @@ public:
      * @math   file ⊕ config ⊕ {μ_g} → G^z ⊕ G^r.
      * @output Validated built kernel.
      */
-    static AxialGaussianKernel from_cache(const std::string& filepath_Str, const AxialConfig& config_, const GValues& mu_F1D_g_);
+    static AxialGaussianKernel from_cache(const std::string& filepath_Str, const AxialConfig& config_, const AxialGaussianValues& mu_F1D_g_);
 
     /**
      * @brief  Serialize the Gaussian tables.
@@ -110,14 +110,14 @@ public:
      * @math   (n_z1,n_z2,n_z3,n_z4) → {G_g^z}.
      * @output Cached values.
      */
-    const GValues& read_Gz(int nz1_I, int nz2_I, int nz3_I, int nz4_I) const;
+    const AxialGaussianValues& read_Gz(int nz1_I, int nz2_I, int nz3_I, int nz4_I) const;
 
     /**
      * @brief  Read transverse Gaussian elements.
      * @math   {(n_ri,Λ_i)} → {G_g^r}.
      * @output Cached values.
      */
-    const GValues& read_Gr(int nr1_I, int Lambda1_I, int nr2_I, int Lambda2_I, int nr3_I, int Lambda3_I, int nr4_I, int Lambda4_I) const;
+    const AxialGaussianValues& read_Gr(int nr1_I, int Lambda1_I, int nr2_I, int Lambda2_I, int nr3_I, int Lambda3_I, int nr4_I, int Lambda4_I) const;
 
 private:
     /**
@@ -132,7 +132,7 @@ private:
      * @math   k = min{1234,2143,3412,4321}.
      * @output Canonical key.
      */
-    static GKey canonicalize_key(int key1_I, int key2_I, int key3_I, int key4_I);
+    static AxialGaussianKey canonicalize_key(int key1_I, int key2_I, int key3_I, int key4_I);
 
     /**
      * @brief  Evaluate G^1D by the HFBTHO hypergeometric expansion.
@@ -163,28 +163,28 @@ void AxialGaussianKernel<Ng_I>::build_tables() {
     std::cout << "[AxialGaussianKernel]: Building Gaussian tables for " << Ng_I << " Gaussians..." << std::endl;
 
     // n_z1+n_z2+n_z3+n_z4 ≡ 0 (mod 2).
-    std::set<GKey> Gzkeys_Set;
-    std::vector<std::pair<GKey, GValues>> Gzjobs_S1D_job;
+    std::set<AxialGaussianKey> Gzkeys_Set;
+    std::vector<std::pair<AxialGaussianKey, AxialGaussianValues>> Gzjobs_S1D_job;
     for (int nz1_I = 0; nz1_I <= metadata.nzMax_I; ++nz1_I) {
         for (int nz2_I = 0; nz2_I <= metadata.nzMax_I; ++nz2_I) {
             for (int nz3_I = 0; nz3_I <= metadata.nzMax_I; ++nz3_I) {
                 for (int nz4_I = 0; nz4_I <= metadata.nzMax_I; ++nz4_I) {
                     if ((nz1_I + nz2_I + nz3_I + nz4_I) % 2 != 0) {continue;}
-                    const GKey key_I1D_q = canonicalize_key(nz1_I, nz2_I, nz3_I, nz4_I);
+                    const AxialGaussianKey key_I1D_q = canonicalize_key(nz1_I, nz2_I, nz3_I, nz4_I);
                     Gzkeys_Set.insert(key_I1D_q);
                 }
             }
         }
     }
-    for (const GKey& key_I1D_q : Gzkeys_Set) {
-        Gzjobs_S1D_job.push_back({key_I1D_q, GValues{}});
+    for (const AxialGaussianKey& key_I1D_q : Gzkeys_Set) {
+        Gzjobs_S1D_job.push_back({key_I1D_q, AxialGaussianValues{}});
     }
 
     // (key,μ_g) → G_g^z.
     #pragma omp parallel for schedule(dynamic)
     for (int job_I = 0; job_I < static_cast<int>(Gzjobs_S1D_job.size()); ++job_I) {
-        const GKey& key_I1D_q = Gzjobs_S1D_job[job_I].first;
-        GValues& G_F1D_g = Gzjobs_S1D_job[job_I].second;
+        const AxialGaussianKey& key_I1D_q = Gzjobs_S1D_job[job_I].first;
+        AxialGaussianValues& G_F1D_g = Gzjobs_S1D_job[job_I].second;
         for (int g_I = 0; g_I < Ng_I; ++g_I) {
             G_F1D_g[g_I] = calc_G1D(key_I1D_q[0], key_I1D_q[1], key_I1D_q[2], key_I1D_q[3], metadata.mu_F1D_g[g_I], metadata.bz_F);
         }
@@ -203,8 +203,8 @@ void AxialGaussianKernel<Ng_I>::build_tables() {
         nrLambda_Set.insert({label_.nr_I, -label_.Lambda_I});
     }
     // {(n_r,Λ)}^4; Λ_1+Λ_2=Λ_3+Λ_4.
-    std::set<GKey> Grkeys_Set;
-    std::vector<std::pair<GKey, GValues>> Grjobs_S1D_job;
+    std::set<AxialGaussianKey> Grkeys_Set;
+    std::vector<std::pair<AxialGaussianKey, AxialGaussianValues>> Grjobs_S1D_job;
     for (const auto& nrLambda1_I1D_field : nrLambda_Set) {
         for (const auto& nrLambda2_I1D_field : nrLambda_Set) {
             for (const auto& nrLambda3_I1D_field : nrLambda_Set) {
@@ -214,21 +214,21 @@ void AxialGaussianKernel<Ng_I>::build_tables() {
                     const int rkey2_I = pack_rkey(nrLambda2_I1D_field[0], nrLambda2_I1D_field[1]);
                     const int rkey3_I = pack_rkey(nrLambda3_I1D_field[0], nrLambda3_I1D_field[1]);
                     const int rkey4_I = pack_rkey(nrLambda4_I1D_field[0], nrLambda4_I1D_field[1]);
-                    const GKey key_I1D_q = canonicalize_key(rkey1_I, rkey2_I, rkey3_I, rkey4_I);
+                    const AxialGaussianKey key_I1D_q = canonicalize_key(rkey1_I, rkey2_I, rkey3_I, rkey4_I);
                     Grkeys_Set.insert(key_I1D_q);
                 }
             }
         }
     }
-    for (const GKey& key_I1D_q : Grkeys_Set) {
-        Grjobs_S1D_job.push_back({key_I1D_q, GValues{}});
+    for (const AxialGaussianKey& key_I1D_q : Grkeys_Set) {
+        Grjobs_S1D_job.push_back({key_I1D_q, AxialGaussianValues{}});
     }
 
     // (key,μ_g) → G_g^r.
     const int NLambda_I = 2 * metadata.LambdaMax_I + 1;
     #pragma omp parallel for schedule(dynamic)
     for (int job_I = 0; job_I < static_cast<int>(Grjobs_S1D_job.size()); ++job_I) {
-        const GKey& key_I1D_q = Grjobs_S1D_job[job_I].first;
+        const AxialGaussianKey& key_I1D_q = Grjobs_S1D_job[job_I].first;
         const int nr1_I = key_I1D_q[0] / NLambda_I;
         const int nr2_I = key_I1D_q[1] / NLambda_I;
         const int nr3_I = key_I1D_q[2] / NLambda_I;
@@ -237,7 +237,7 @@ void AxialGaussianKernel<Ng_I>::build_tables() {
         const int Lambda2_I = key_I1D_q[1] % NLambda_I - metadata.LambdaMax_I;
         const int Lambda3_I = key_I1D_q[2] % NLambda_I - metadata.LambdaMax_I;
         const int Lambda4_I = key_I1D_q[3] % NLambda_I - metadata.LambdaMax_I;
-        GValues& G_F1D_g = Grjobs_S1D_job[job_I].second;
+        AxialGaussianValues& G_F1D_g = Grjobs_S1D_job[job_I].second;
         for (int g_I = 0; g_I < Ng_I; ++g_I) {
             G_F1D_g[g_I] = calc_Gr(nr1_I, Lambda1_I, nr2_I, Lambda2_I, nr3_I, Lambda3_I, nr4_I, Lambda4_I, metadata.mu_F1D_g[g_I], metadata.br_F);
         }
@@ -266,7 +266,7 @@ void AxialGaussianKernel<Ng_I>::to_cache(const std::string& filepath_Str) {
 }
 
 template <int Ng_I>
-AxialGaussianKernel<Ng_I> AxialGaussianKernel<Ng_I>::from_cache(const std::string& filepath_Str, const AxialConfig& config_, const GValues& mu_F1D_g_) {
+AxialGaussianKernel<Ng_I> AxialGaussianKernel<Ng_I>::from_cache(const std::string& filepath_Str, const AxialConfig& config_, const AxialGaussianValues& mu_F1D_g_) {
     // stream → cache metadata.
     std::ifstream input_(filepath_Str, std::ios::binary);
     if (!input_) {throw std::runtime_error("[ERROR]: [AxialGaussianKernel::from_cache] cannot open " + filepath_Str);}
@@ -285,21 +285,23 @@ AxialGaussianKernel<Ng_I> AxialGaussianKernel<Ng_I>::from_cache(const std::strin
 }
 
 template <int Ng_I>
-const typename AxialGaussianKernel<Ng_I>::GValues& AxialGaussianKernel<Ng_I>::read_Gz(int nz1_I, int nz2_I, int nz3_I, int nz4_I) const {
+const typename AxialGaussianKernel<Ng_I>::AxialGaussianValues& AxialGaussianKernel<Ng_I>::read_Gz(int nz1_I, int nz2_I, int nz3_I, int nz4_I) const {
     assert(isBuilt_B);
-    const GKey key_I1D_q = canonicalize_key(nz1_I, nz2_I, nz3_I, nz4_I);
+    assert((nz1_I + nz2_I + nz3_I + nz4_I) % 2 == 0);
+    const AxialGaussianKey key_I1D_q = canonicalize_key(nz1_I, nz2_I, nz3_I, nz4_I);
     return Gz_Table.read(key_I1D_q);
 }
 
 template <int Ng_I>
-const typename AxialGaussianKernel<Ng_I>::GValues& AxialGaussianKernel<Ng_I>::read_Gr(int nr1_I, int Lambda1_I, int nr2_I, int Lambda2_I, int nr3_I, int Lambda3_I, int nr4_I, int Lambda4_I) const {
+const typename AxialGaussianKernel<Ng_I>::AxialGaussianValues& AxialGaussianKernel<Ng_I>::read_Gr(int nr1_I, int Lambda1_I, int nr2_I, int Lambda2_I, int nr3_I, int Lambda3_I, int nr4_I, int Lambda4_I) const {
     // {(n_ra,Λ_a)} → {k_a} → canonical key.
     assert(isBuilt_B);
+    assert(Lambda1_I + Lambda2_I == Lambda3_I + Lambda4_I);
     const int rkey1_I = pack_rkey(nr1_I, Lambda1_I);
     const int rkey2_I = pack_rkey(nr2_I, Lambda2_I);
     const int rkey3_I = pack_rkey(nr3_I, Lambda3_I);
     const int rkey4_I = pack_rkey(nr4_I, Lambda4_I);
-    const GKey key_I1D_q = canonicalize_key(rkey1_I, rkey2_I, rkey3_I, rkey4_I);
+    const AxialGaussianKey key_I1D_q = canonicalize_key(rkey1_I, rkey2_I, rkey3_I, rkey4_I);
     return Gr_Table.read(key_I1D_q);
 }
 
@@ -309,12 +311,12 @@ int AxialGaussianKernel<Ng_I>::pack_rkey(int nr_I, int Lambda_I) const {
 }
 
 template <int Ng_I>
-typename AxialGaussianKernel<Ng_I>::GKey AxialGaussianKernel<Ng_I>::canonicalize_key(int key1_I, int key2_I, int key3_I, int key4_I) {
+typename AxialGaussianKernel<Ng_I>::AxialGaussianKey AxialGaussianKernel<Ng_I>::canonicalize_key(int key1_I, int key2_I, int key3_I, int key4_I) {
     // (1234,2143,3412,4321) → lexicographic minimum.
-    const GKey key1234_I1D_q{key1_I, key2_I, key3_I, key4_I};
-    const GKey key2143_I1D_q{key2_I, key1_I, key4_I, key3_I};
-    const GKey key3412_I1D_q{key3_I, key4_I, key1_I, key2_I};
-    const GKey key4321_I1D_q{key4_I, key3_I, key2_I, key1_I};
+    const AxialGaussianKey key1234_I1D_q{key1_I, key2_I, key3_I, key4_I};
+    const AxialGaussianKey key2143_I1D_q{key2_I, key1_I, key4_I, key3_I};
+    const AxialGaussianKey key3412_I1D_q{key3_I, key4_I, key1_I, key2_I};
+    const AxialGaussianKey key4321_I1D_q{key4_I, key3_I, key2_I, key1_I};
     return std::min(std::min(key1234_I1D_q, key2143_I1D_q), std::min(key3412_I1D_q, key4321_I1D_q));
 }
 
