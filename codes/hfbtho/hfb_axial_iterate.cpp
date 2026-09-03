@@ -274,7 +274,7 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
 
     // (D_n,D_p) → local coordinate fields.
     const auto add_fields_Func = [&]() {
-        if (hfbsettings.termSwitches.addLocalCoulomb_B) {AxialHFBField::add_coulomb_field(field_p, density_p, coulombField, edfActive_, hfbsettings);}
+        if (hfbsettings.termSwitches.addLocalCoulomb_B) {AxialHFBField::add_coulomb_field(field_p, density_p, coulombField, edfActive_);}
         if (hfbsettings.termSwitches.addLocalPair_B) {AxialHFBField::add_pairing_fields(field_p, field_n, density_p, density_n, edfActive_, hfbsettings, blocklist_n.lambda_F, blocklist_p.lambda_F);}
     };
 
@@ -307,7 +307,7 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
         density_n.update_density(global_basis, blocklist_n);
         field_p.set_zero();
         field_n.set_zero();
-        AxialHFBField::add_nuclei_fields(field_p, field_n, density_p, density_n, edfActive_, hfbsettings);
+        AxialHFBField::add_nuclei_fields(field_p, field_n, density_p, density_n, edfActive_);
         add_fields_Func();
         blocklist_p.set_zero_Gamma_Delta();
         blocklist_n.set_zero_Gamma_Delta();

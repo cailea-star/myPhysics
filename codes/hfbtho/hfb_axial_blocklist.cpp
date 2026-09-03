@@ -211,11 +211,14 @@ void AxialHFBBlockList::add_Delta_from_Gogny(AxialHFBBlockList& blocklist_p_, Ax
                             const int sp3_I = block34n_.indices_I1D_bsp[bsp3_I];
                             const int sp4_I = block34n_.indices_I1D_bsp[bsp4_I];
                             const AxialGaussianGogny::GognyElements gognyElements1234_ = gogny_.read_v(sp1_I, sp2_I, sp3_I, sp4_I);
-                            const double kappa34PosNegn_F = block34n_.kappa_F2D_bsp_bsp(bsp3_I, bsp4_I);
-                            const double kappa34PosNegp_F = block34p_.kappa_F2D_bsp_bsp(bsp3_I, bsp4_I);
-                            const int eta13_I = block12n_.labels_S1D_bsp[bsp1_I].twoSigma_I * block34n_.labels_S1D_bsp[bsp3_I].twoSigma_I;
-                            Delta12n_F += eta13_I * gognyElements1234_.vSamePosNegPosNeg_F * kappa34PosNegn_F;
-                            Delta12p_F += eta13_I * gognyElements1234_.vSamePosNegPosNeg_F * kappa34PosNegp_F;
+                            const double kappa34n_F = block34n_.kappa_F2D_bsp_bsp(bsp3_I, bsp4_I);
+                            const double kappa34p_F = block34p_.kappa_F2D_bsp_bsp(bsp3_I, bsp4_I);
+                            const double kappa43n_F = block34n_.kappa_F2D_bsp_bsp(bsp4_I, bsp3_I);
+                            const double kappa43p_F = block34p_.kappa_F2D_bsp_bsp(bsp4_I, bsp3_I);
+                            const int eta24_I = block12n_.labels_S1D_bsp[bsp2_I].twoSigma_I * block34n_.labels_S1D_bsp[bsp4_I].twoSigma_I;
+                            const int eta23_I = block12n_.labels_S1D_bsp[bsp2_I].twoSigma_I * block34n_.labels_S1D_bsp[bsp3_I].twoSigma_I;
+                            Delta12n_F += 0.5 * (eta24_I * gognyElements1234_.vSamePosNegPosNeg_F * kappa34n_F - eta23_I * gognyElements1234_.vSamePosNegNegPos_F * kappa43n_F);
+                            Delta12p_F += 0.5 * (eta24_I * gognyElements1234_.vSamePosNegPosNeg_F * kappa34p_F - eta23_I * gognyElements1234_.vSamePosNegNegPos_F * kappa43p_F);
                         }
                     }
                 }
