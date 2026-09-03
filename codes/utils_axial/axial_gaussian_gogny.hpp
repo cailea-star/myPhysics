@@ -210,8 +210,10 @@ private:
     static std::string kernel_cache_path(const std::string& forceName_Str_, const AxialConfig& axialconfig_) {
         // (P_G, N_shell, cwd) → cache path.
         const std::string cacheName_Str = "Kernel-" + forceName_Str_ + "-Nshell" + std::to_string(axialconfig_.Nshell_I) + ".cache";
-        const std::filesystem::path cwd_ = std::filesystem::current_path();
-        const std::filesystem::path cacheDir_ = (cwd_.filename() == "build") ? cwd_ : cwd_ / "build";
+        std::filesystem::path projectDir_ = std::filesystem::current_path();
+        if (projectDir_.filename() == "build") {projectDir_ = projectDir_.parent_path();}
+        if (projectDir_.filename() == "codes") {projectDir_ = projectDir_.parent_path();}
+        const std::filesystem::path cacheDir_ = projectDir_ / ".cache" / "axial_gaussian_kernel";
         std::filesystem::create_directories(cacheDir_);
         return (cacheDir_ / cacheName_Str).string();
     }
