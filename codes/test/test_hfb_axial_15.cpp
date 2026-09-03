@@ -35,6 +35,8 @@ int main() {
 
     // S_HFB → S_SLY4+regularized-pairing.
     HFBSettings hfbsettings_ = HFBSettings::setting_skyrme();
+    hfbsettings_.useEspCut_B = true;
+    hfbsettings_.useCmCorrection_B = true;
     hfbsettings_.termSwitches.useLocalPairRegularization_B = true;
     hfbsettings_.EspCut_F = 80.0;
     hfbsettings_.accuracy_F = 1.0e-8;

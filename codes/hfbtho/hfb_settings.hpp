@@ -102,8 +102,10 @@ public:
      */
     static HFBSettings setting_skyrme() {
         HFBSettings hfbsettings_;
-        hfbsettings_.useEspCut_B = true;
-        hfbsettings_.useCmCorrection_B = true;
+        hfbsettings_.EspCut_F = 60.0;
+        hfbsettings_.useEspCut_B = false;
+        hfbsettings_.useLipkinNogami_B = false;
+        hfbsettings_.useCmCorrection_B = false;
         hfbsettings_.termSwitches = HFBTermSwitches::skyrme();
         return hfbsettings_;
     }
@@ -115,7 +117,10 @@ public:
      */
     static HFBSettings setting_gogny() {
         HFBSettings hfbsettings_;
-        hfbsettings_.useCmCorrection_B = true;
+        hfbsettings_.EspCut_F = 60.0;
+        hfbsettings_.useEspCut_B = false;
+        hfbsettings_.useLipkinNogami_B = false;
+        hfbsettings_.useCmCorrection_B = false;
         hfbsettings_.termSwitches = HFBTermSwitches::gogny();
         return hfbsettings_;
     }
