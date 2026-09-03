@@ -93,7 +93,7 @@ struct EDFParamsSkyrme {
     double LASSNM_F = 50.0; // L_sym [MeV].
     double PNM_F = 0.0; // P_sat [MeV fm⁻³].
 
-    std::string functionalName_Str = "Unknown"; // EDF identifier.
+    std::string functionalName_Str{"Unknown"}; // EDF identifier.
 };
 
 namespace SkyrmeINM {

@@ -25,10 +25,10 @@
 template <typename Value_T, std::size_t Rank_I>
 class PackedHashTable {
 private:
-    std::array<int, Rank_I> keymin_I1D_i;
-    std::array<int, Rank_I> keymax_I1D_i;
-    std::array<std::uint64_t, Rank_I> keystride_I1D_i;
-    std::unordered_map<std::uint64_t, Value_T> value_T1D_key;
+    std::array<int, Rank_I> keymin_I1D_i{};
+    std::array<int, Rank_I> keymax_I1D_i{};
+    std::array<std::uint64_t, Rank_I> keystride_I1D_i{};
+    std::unordered_map<std::uint64_t, Value_T> value_T1D_key{};
 
 public:
     /**
@@ -37,8 +37,9 @@ public:
      * @output Empty hash table with configured bounds.
      * @note   Requires nonempty bounds; packed range must fit uint64_t.
      */
-    PackedHashTable(const std::array<int, Rank_I>& keymin_I1D_i_, const std::array<int, Rank_I>& keymax_I1D_i_)
-    : keymin_I1D_i(keymin_I1D_i_), keymax_I1D_i(keymax_I1D_i_), keystride_I1D_i{} {
+    PackedHashTable(const std::array<int, Rank_I>& keymin_I1D_i_, const std::array<int, Rank_I>& keymax_I1D_i_) {
+        keymin_I1D_i = keymin_I1D_i_;
+        keymax_I1D_i = keymax_I1D_i_;
         static_assert(Rank_I > 0, "PackedHashTable requires positive rank.");
 
         // {width_i} → ({stride_i},capacity).

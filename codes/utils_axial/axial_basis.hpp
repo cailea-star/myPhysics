@@ -22,14 +22,14 @@
 /** @brief Axial Hermite basis on a Gauss-Hermite mesh. */
 class AxialHermiteBasis {
 public:
-    double bz_F;                                // b_z = √[ℏ / (mω_z)].
-    std::vector<AxialSPLabel> labels_S1D_sp;    // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp.
-    Eigen::VectorXd z_F1D_z;                    // z_i = b_zζ_i.
-    Eigen::VectorXd w_F1D_z;                    // w_z,i = b_z w_i^GH e^(ζ_i²).
-    Eigen::VectorXd zeta_F1D_z;                 // ζ_i: Gauss-Hermite nodes.
-    Eigen::MatrixXd phi_F2D_sp_z;               // φ_sp,i = φ_nz,sp(z_i).
-    Eigen::MatrixXd dphi_F2D_sp_z;              // dφ_sp,i = ∂_zφ_nz,sp(z_i).
-    Eigen::MatrixXd ddphi_F2D_sp_z;             // ddφ_sp,i = ∂_z²φ_nz,sp(z_i).
+    double bz_F = 0.0;                          // b_z = √[ℏ / (mω_z)].
+    std::vector<AxialSPLabel> labels_S1D_sp{};  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp.
+    Eigen::VectorXd z_F1D_z{};                  // z_i = b_zζ_i.
+    Eigen::VectorXd w_F1D_z{};                  // w_z,i = b_z w_i^GH e^(ζ_i²).
+    Eigen::VectorXd zeta_F1D_z{};               // ζ_i: Gauss-Hermite nodes.
+    Eigen::MatrixXd phi_F2D_sp_z{};             // φ_sp,i = φ_nz,sp(z_i).
+    Eigen::MatrixXd dphi_F2D_sp_z{};            // dφ_sp,i = ∂_zφ_nz,sp(z_i).
+    Eigen::MatrixXd ddphi_F2D_sp_z{};           // ddφ_sp,i = ∂_z²φ_nz,sp(z_i).
 
     /**
      * @brief  Generate an axial Hermite basis by Gauss-Hermite quadrature.
@@ -37,8 +37,15 @@ public:
      * @output Nodes, weights, basis functions, and first two derivatives.
      * @note   useHalf_B retains z > 0 and doubles the weights.
      */
-    AxialHermiteBasis(double bz_F_, int Nz_I_, const std::vector<AxialSPLabel>& labels_S1D_sp_, bool useHalf_B = false)
-    : bz_F(bz_F_), labels_S1D_sp(labels_S1D_sp_), z_F1D_z(Nz_I_), w_F1D_z(Nz_I_), zeta_F1D_z(Nz_I_), phi_F2D_sp_z(labels_S1D_sp_.size(), Nz_I_), dphi_F2D_sp_z(labels_S1D_sp_.size(), Nz_I_), ddphi_F2D_sp_z(labels_S1D_sp_.size(), Nz_I_) {
+    AxialHermiteBasis(double bz_F_, int Nz_I_, const std::vector<AxialSPLabel>& labels_S1D_sp_, bool useHalf_B = false) {
+        bz_F = bz_F_;
+        labels_S1D_sp = labels_S1D_sp_;
+        z_F1D_z.resize(Nz_I_);
+        w_F1D_z.resize(Nz_I_);
+        zeta_F1D_z.resize(Nz_I_);
+        phi_F2D_sp_z.resize(labels_S1D_sp_.size(), Nz_I_);
+        dphi_F2D_sp_z.resize(labels_S1D_sp_.size(), Nz_I_);
+        ddphi_F2D_sp_z.resize(labels_S1D_sp_.size(), Nz_I_);
         assert(std::isfinite(bz_F_) && bz_F_ > 0.0);
         assert(Nz_I_ > 0);
 
@@ -74,22 +81,29 @@ protected:
 /** @brief Radial Laguerre basis on a Gauss-Laguerre mesh. */
 class AxialLaguerreBasis {
 public:
-    double br_F;                                // b_r = √[ℏ / (mω_r)].
-    std::vector<AxialSPLabel> labels_S1D_sp;    // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp.
-    Eigen::VectorXd r_F1D_r;                    // r_j = b_r√η_j.
-    Eigen::VectorXd w_F1D_r;                    // w_r,j = b_r² w_j^GL e^(η_j) / 2.
-    Eigen::VectorXd eta_F1D_r;                  // η_j: Gauss-Laguerre nodes.
-    Eigen::MatrixXd phi_F2D_sp_r;               // φ_sp,j = φ_nr,sp^Λ_sp(r_j).
-    Eigen::MatrixXd dphi_F2D_sp_r;              // dφ_sp,j = ∂_rφ_nr,sp^Λ_sp(r_j).
-    Eigen::MatrixXd ddphi_F2D_sp_r;             // ddφ_sp,j = ∂_r²φ_nr,sp^Λ_sp(r_j).
+    double br_F = 0.0;                          // b_r = √[ℏ / (mω_r)].
+    std::vector<AxialSPLabel> labels_S1D_sp{};  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp.
+    Eigen::VectorXd r_F1D_r{};                  // r_j = b_r√η_j.
+    Eigen::VectorXd w_F1D_r{};                  // w_r,j = b_r² w_j^GL e^(η_j) / 2.
+    Eigen::VectorXd eta_F1D_r{};                // η_j: Gauss-Laguerre nodes.
+    Eigen::MatrixXd phi_F2D_sp_r{};             // φ_sp,j = φ_nr,sp^Λ_sp(r_j).
+    Eigen::MatrixXd dphi_F2D_sp_r{};            // dφ_sp,j = ∂_rφ_nr,sp^Λ_sp(r_j).
+    Eigen::MatrixXd ddphi_F2D_sp_r{};           // ddφ_sp,j = ∂_r²φ_nr,sp^Λ_sp(r_j).
 
     /**
      * @brief  Generate a radial Laguerre basis by Gauss-Laguerre quadrature.
      * @math   η = (r / b_r)²
      * @output Nodes, weights, basis functions, and first two derivatives.
      */
-    AxialLaguerreBasis(double br_F_, int Nr_I_, const std::vector<AxialSPLabel>& labels_S1D_sp_)
-    : br_F(br_F_), labels_S1D_sp(labels_S1D_sp_), r_F1D_r(Nr_I_), w_F1D_r(Nr_I_), eta_F1D_r(Nr_I_), phi_F2D_sp_r(labels_S1D_sp_.size(), Nr_I_), dphi_F2D_sp_r(labels_S1D_sp_.size(), Nr_I_), ddphi_F2D_sp_r(labels_S1D_sp_.size(), Nr_I_) {
+    AxialLaguerreBasis(double br_F_, int Nr_I_, const std::vector<AxialSPLabel>& labels_S1D_sp_) {
+        br_F = br_F_;
+        labels_S1D_sp = labels_S1D_sp_;
+        r_F1D_r.resize(Nr_I_);
+        w_F1D_r.resize(Nr_I_);
+        eta_F1D_r.resize(Nr_I_);
+        phi_F2D_sp_r.resize(labels_S1D_sp_.size(), Nr_I_);
+        dphi_F2D_sp_r.resize(labels_S1D_sp_.size(), Nr_I_);
+        ddphi_F2D_sp_r.resize(labels_S1D_sp_.size(), Nr_I_);
         assert(std::isfinite(br_F_) && br_F_ > 0.0);
         assert(Nr_I_ > 0);
 
@@ -118,28 +132,32 @@ class AxialBasis {
 public:
     using BasisTensor = Eigen::Tensor<double, 3, Eigen::ColMajor>;
 
-    double br_F;                                // b_r = √[ℏ / (mω_r)].
-    double bz_F;                                // b_z = √[ℏ / (mω_z)].
-    std::vector<AxialSPLabel> labels_S1D_sp;    // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp.
-    Eigen::VectorXi twoSigma_I1D_sp;            // 2Σ_sp = 2Ω_sp - 2Λ_sp.
-    Eigen::VectorXd z_F1D_z;                    // z_i = b_zζ_i.
-    Eigen::VectorXd r_F1D_r;                    // r_j = b_r√η_j.
-    Eigen::VectorXd zeta_F1D_z;                 // ζ_i: Gauss-Hermite nodes.
-    Eigen::VectorXd eta_F1D_r;                  // η_j: Gauss-Laguerre nodes.
-    Eigen::MatrixXd w_F2D_z_r;                  // w_ij = 2π w_z,i w_r,j.
-    BasisTensor phi_F3D_sp_z_r;                 // φ_sp(z_i,r_j) = φ_nz(z_i)φ_nr^Λ(r_j) / √(2π).
-    BasisTensor dphidr_F3D_sp_z_r;              // dφ_sp/dr = φ_nz(z_i)∂_rφ_nr^Λ(r_j) / √(2π).
-    BasisTensor dphidz_F3D_sp_z_r;              // dφ_sp/dz = ∂_zφ_nz(z_i)φ_nr^Λ(r_j) / √(2π).
-    BasisTensor ddphidr_F3D_sp_z_r;             // d²φ_sp/dr² = φ_nz(z_i)∂_r²φ_nr^Λ(r_j) / √(2π).
-    BasisTensor ddphidz_F3D_sp_z_r;             // d²φ_sp/dz² = ∂_z²φ_nz(z_i)φ_nr^Λ(r_j) / √(2π).
+    double br_F = 0.0;                          // b_r = √[ℏ / (mω_r)].
+    double bz_F = 0.0;                          // b_z = √[ℏ / (mω_z)].
+    std::vector<AxialSPLabel> labels_S1D_sp{};  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp.
+    Eigen::VectorXi twoSigma_I1D_sp{};          // 2Σ_sp = 2Ω_sp - 2Λ_sp.
+    Eigen::VectorXd z_F1D_z{};                  // z_i = b_zζ_i.
+    Eigen::VectorXd r_F1D_r{};                  // r_j = b_r√η_j.
+    Eigen::VectorXd zeta_F1D_z{};               // ζ_i: Gauss-Hermite nodes.
+    Eigen::VectorXd eta_F1D_r{};                // η_j: Gauss-Laguerre nodes.
+    Eigen::MatrixXd w_F2D_z_r{};                // w_ij = 2π w_z,i w_r,j.
+    BasisTensor phi_F3D_sp_z_r{};               // φ_sp(z_i,r_j) = φ_nz(z_i)φ_nr^Λ(r_j) / √(2π).
+    BasisTensor dphidr_F3D_sp_z_r{};            // dφ_sp/dr = φ_nz(z_i)∂_rφ_nr^Λ(r_j) / √(2π).
+    BasisTensor dphidz_F3D_sp_z_r{};            // dφ_sp/dz = ∂_zφ_nz(z_i)φ_nr^Λ(r_j) / √(2π).
+    BasisTensor ddphidr_F3D_sp_z_r{};           // d²φ_sp/dr² = φ_nz(z_i)∂_r²φ_nr^Λ(r_j) / √(2π).
+    BasisTensor ddphidz_F3D_sp_z_r{};           // d²φ_sp/dz² = ∂_z²φ_nz(z_i)φ_nr^Λ(r_j) / √(2π).
 
     /**
      * @brief  Generate a separable axial harmonic-oscillator basis.
      * @math   φ_sp(z,r) = φ_nz(z)φ_nr^Λ(r) / √(2π)
      * @output Axial basis functions, derivatives, nodes, and weights.
      */
-    AxialBasis(const AxialConfig& axialconfig, const std::vector<AxialSPLabel>& labels_S1D_sp_)
-    : br_F(axialconfig.br_F), bz_F(axialconfig.bz_F), labels_S1D_sp(labels_S1D_sp_), twoSigma_I1D_sp(labels_S1D_sp_.size()) {
+    AxialBasis(const AxialConfig& axialconfig, const std::vector<AxialSPLabel>& labels_S1D_sp_) {
+        br_F = axialconfig.br_F;
+        bz_F = axialconfig.bz_F;
+        labels_S1D_sp = labels_S1D_sp_;
+        twoSigma_I1D_sp.resize(labels_S1D_sp_.size());
+
         // config → (rBasis,zBasis,{2Σ_sp}) → basis.
         AxialLaguerreBasis rBasis(axialconfig.br_F, axialconfig.Nr_I, labels_S1D_sp_);
 

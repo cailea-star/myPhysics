@@ -18,17 +18,17 @@ using Vec2VecFunc = std::function<void(const Eigen::VectorXd&, Eigen::VectorXd&)
 class BroydenIterator {
 public:
     int Nh_I;                            // N_h: maximum retained history length.
-    int hnew_I;                          // h_new = -1: history = ∅.
-    Eigen::VectorXd xnext_F1D_i;         // x_{h+1} = x_h + Δx_h.
-    Eigen::VectorXd rnext_F1D_i;         // r_{h+1} = G(x_{h+1}) - x_{h+1}.
-    Eigen::MatrixXd dX_F2D_i_h;          // ΔX = [Δx_1, ..., Δx_{N_h}].
-    Eigen::MatrixXd dR_F2D_i_h;          // ΔR = [Δr_1, ..., Δr_{N_h}].
+    int hnew_I = -1;                     // h_new = -1: history = ∅.
+    Eigen::VectorXd xnext_F1D_i{};       // x_{h+1} = x_h + Δx_h.
+    Eigen::VectorXd rnext_F1D_i{};       // r_{h+1} = G(x_{h+1}) - x_{h+1}.
+    Eigen::MatrixXd dX_F2D_i_h{};        // ΔX = [Δx_1, ..., Δx_{N_h}].
+    Eigen::MatrixXd dR_F2D_i_h{};        // ΔR = [Δr_1, ..., Δr_{N_h}].
 
 protected:
-    Eigen::VectorXd xcurr_F1D_i;         // x_h: accepted current iterate.
-    Eigen::VectorXd rcurr_F1D_i;         // r_h = G(x_h) - x_h.
-    Eigen::VectorXd gamma_F1D_h;         // γ = (ΔRᵀΔR)⁺ΔRᵀr_h.
-    Eigen::VectorXd Sinv2_F1D_h;         // S_τ⁻²: truncated inverse squared singular values.
+    Eigen::VectorXd xcurr_F1D_i{};       // x_h: accepted current iterate.
+    Eigen::VectorXd rcurr_F1D_i{};       // r_h = G(x_h) - x_h.
+    Eigen::VectorXd gamma_F1D_h{};       // γ = (ΔRᵀΔR)⁺ΔRᵀr_h.
+    Eigen::VectorXd Sinv2_F1D_h{};       // S_τ⁻²: truncated inverse squared singular values.
     Eigen::JacobiSVD<Eigen::MatrixXd, Eigen::ComputeThinU | Eigen::ComputeThinV> dR_SVD; // ΔR = USV^T.
 
 public:
@@ -37,8 +37,27 @@ public:
      * @math   r_0 = G(x_0) - x_0, x_1 = x_0 + α r_0
      * @output Initial x_1, r_1, and an empty secant history.
      */
-    BroydenIterator(int Nh_I_, const Vec2VecFunc& G_Func, double alpha_F, const Eigen::VectorXd& x0_F1D_i, const Eigen::VectorXd& G0_F1D_i)
-    : Nh_I(Nh_I_), hnew_I(-1), xnext_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())), rnext_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())), dX_F2D_i_h(Eigen::MatrixXd::Zero(x0_F1D_i.size(), Nh_I_)), dR_F2D_i_h(Eigen::MatrixXd::Zero(x0_F1D_i.size(), Nh_I_)), xcurr_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())), rcurr_F1D_i(Eigen::VectorXd::Zero(x0_F1D_i.size())), gamma_F1D_h(Eigen::VectorXd::Zero(Nh_I_)), Sinv2_F1D_h(Eigen::VectorXd::Zero(Nh_I_)), dR_SVD(x0_F1D_i.size(), Nh_I_) {
+    BroydenIterator(int Nh_I_, const Vec2VecFunc& G_Func, double alpha_F, const Eigen::VectorXd& x0_F1D_i, const Eigen::VectorXd& G0_F1D_i) {
+        Nh_I = Nh_I_;
+        xnext_F1D_i.resize(x0_F1D_i.size());
+        rnext_F1D_i.resize(x0_F1D_i.size());
+        dX_F2D_i_h.resize(x0_F1D_i.size(), Nh_I_);
+        dR_F2D_i_h.resize(x0_F1D_i.size(), Nh_I_);
+        xcurr_F1D_i.resize(x0_F1D_i.size());
+        rcurr_F1D_i.resize(x0_F1D_i.size());
+        gamma_F1D_h.resize(Nh_I_);
+        Sinv2_F1D_h.resize(Nh_I_);
+
+        xnext_F1D_i.setZero();
+        rnext_F1D_i.setZero();
+        dX_F2D_i_h.setZero();
+        dR_F2D_i_h.setZero();
+        xcurr_F1D_i.setZero();
+        rcurr_F1D_i.setZero();
+        gamma_F1D_h.setZero();
+        Sinv2_F1D_h.setZero();
+
+        dR_SVD = Eigen::JacobiSVD<Eigen::MatrixXd, Eigen::ComputeThinU | Eigen::ComputeThinV>(x0_F1D_i.size(), Nh_I_);
         assert(Nh_I_ > 0 && Nh_I_ <= x0_F1D_i.size());
 
         // r_0 = G(x_0) - x_0, x_1 = x_0 + α r_0.

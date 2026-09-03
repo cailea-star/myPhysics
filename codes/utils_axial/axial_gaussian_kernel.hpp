@@ -35,15 +35,15 @@ public:
 
 protected:
     struct Metadata {
-        std::uint32_t magic_I;
-        std::uint32_t version_I;
-        std::uint32_t Ngcache_I;
-        double br_F;
-        double bz_F;
-        int nzMax_I;
-        int nrMax_I;
-        int LambdaMax_I;
-        AxialGaussianValues mu_F1D_g;
+        std::uint32_t magic_I = 0x41474b31u;
+        std::uint32_t version_I = 5;
+        std::uint32_t Ngcache_I = static_cast<std::uint32_t>(Ng_I);
+        double br_F = 0.0;
+        double bz_F = 0.0;
+        int nzMax_I = 0;
+        int nrMax_I = 0;
+        int LambdaMax_I = 0;
+        AxialGaussianValues mu_F1D_g{};
 
         /**
          * @brief  Compare cache metadata fieldwise.
@@ -54,10 +54,10 @@ protected:
     };
     static_assert(std::is_trivially_copyable_v<Metadata>, "Metadata must be trivially copyable.");
 
-    std::vector<AxialSPLabel> labels_S1D_sp;
-    Metadata metadata;
-    PackedHashTable<AxialGaussianValues, 4> Gz_Table;
-    PackedHashTable<AxialGaussianValues, 4> Gr_Table;
+    std::vector<AxialSPLabel> labels_S1D_sp{};
+    Metadata metadata{};
+    PackedHashTable<AxialGaussianValues, 4> Gz_Table{{0, 0, 0, 0}, {0, 0, 0, 0}};
+    PackedHashTable<AxialGaussianValues, 4> Gr_Table{{0, 0, 0, 0}, {0, 0, 0, 0}};
 
 public:
     /**
@@ -65,8 +65,12 @@ public:
      * @math   G = G^zG^r.
      * @output Empty configured tables.
      */
-    AxialGaussianKernel(const AxialConfig& config_, const AxialGaussianValues& mu_F1D_g_)
-    : isBuilt_B(false), labels_S1D_sp(config_.labels_S1D_sp), metadata{0x41474b31u, 5, static_cast<std::uint32_t>(Ng_I), config_.br_F, config_.bz_F, 0, 0, 0, mu_F1D_g_}, Gz_Table({0, 0, 0, 0}, {0, 0, 0, 0}), Gr_Table({0, 0, 0, 0}, {0, 0, 0, 0}) {
+    AxialGaussianKernel(const AxialConfig& config_, const AxialGaussianValues& mu_F1D_g_) {
+        labels_S1D_sp = config_.labels_S1D_sp;
+        metadata.br_F = config_.br_F;
+        metadata.bz_F = config_.bz_F;
+        metadata.mu_F1D_g = mu_F1D_g_;
+
         assert((std::all_of(metadata.mu_F1D_g.begin(), metadata.mu_F1D_g.end(), [](double mu_F) {
             return std::isfinite(mu_F) && mu_F > 0.0;
         })));

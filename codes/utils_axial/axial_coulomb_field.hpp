@@ -23,10 +23,10 @@ public:
     bool isBuilt_B = false;
 
 private:
-    Eigen::VectorXd z_F1D_z;
-    Eigen::VectorXd r_F1D_r;
-    Eigen::MatrixXd w_F2D_z_r;
-    Eigen::Tensor<double, 4, Eigen::ColMajor> coulomb_F4D_zs_rs_zt_rt;
+    Eigen::VectorXd z_F1D_z{};
+    Eigen::VectorXd r_F1D_r{};
+    Eigen::MatrixXd w_F2D_z_r{};
+    Eigen::Tensor<double, 4, Eigen::ColMajor> coulomb_F4D_zs_rs_zt_rt{};
 
 public:
     /**
@@ -34,8 +34,12 @@ public:
      * @math   (z_i,r_j,w_{ij}) → K_C
      * @output Stored grid and unbuilt kernel.
      */
-    explicit AxialCoulombField(const AxialBasis& basis_)
-    : z_F1D_z(basis_.z_F1D_z), r_F1D_r(basis_.r_F1D_r), w_F2D_z_r(basis_.w_F2D_z_r), coulomb_F4D_zs_rs_zt_rt(z_F1D_z.size(), r_F1D_r.size(), z_F1D_z.size(), r_F1D_r.size()) {}
+    explicit AxialCoulombField(const AxialBasis& basis_) {
+        z_F1D_z = basis_.z_F1D_z;
+        r_F1D_r = basis_.r_F1D_r;
+        w_F2D_z_r = basis_.w_F2D_z_r;
+        coulomb_F4D_zs_rs_zt_rt.resize(z_F1D_z.size(), r_F1D_r.size(), z_F1D_z.size(), r_F1D_r.size());
+    }
 
     /**
      * @brief  Build direct Coulomb by Gauss-Legendre quadrature.

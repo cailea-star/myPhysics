@@ -20,11 +20,11 @@
 /** @brief Gauss-Hermite mesh and polynomials. */
 class GaussHermiteMeshes {
 public:
-    Eigen::VectorXi n_I1D_n;        // n ≥ 0.
-    Eigen::VectorXd x_F1D_x;        // {x_i}: Gauss-Hermite nodes.
-    Eigen::VectorXd N_F1D_n;        // ∫(N_nH_n)²e^-x²dx = 1.
-    Eigen::VectorXd w_F1D_x;        // {w_i}: e^-x² quadrature.
-    Eigen::MatrixXd H_F2D_n_x;      // H_n(x_i).
+    Eigen::VectorXi n_I1D_n{};      // n ≥ 0.
+    Eigen::VectorXd N_F1D_n{};      // ∫(N_nH_n)²e^-x²dx = 1.
+    Eigen::VectorXd x_F1D_x{};      // {x_i}: Gauss-Hermite nodes.
+    Eigen::VectorXd w_F1D_x{};      // {w_i}: e^-x² quadrature.
+    Eigen::MatrixXd H_F2D_n_x{};    // H_n(x_i).
 
     /**
      * @brief  Create an empty mesh.
@@ -39,8 +39,17 @@ public:
      * @output Nodes and weights.
      * @note   N_x>0.
      */
-    GaussHermiteMeshes(int Nx_I)
-    : n_I1D_n(Eigen::VectorXi::Zero(1)), x_F1D_x(Nx_I), N_F1D_n(Eigen::VectorXd::Zero(1)), w_F1D_x(Nx_I), H_F2D_n_x(Eigen::MatrixXd::Zero(1, Nx_I)) {
+    GaussHermiteMeshes(int Nx_I) {
+        n_I1D_n.resize(1);
+        N_F1D_n.resize(1);
+        x_F1D_x.resize(Nx_I);
+        w_F1D_x.resize(Nx_I);
+        H_F2D_n_x.resize(1, Nx_I);
+
+        n_I1D_n.setZero();
+        N_F1D_n.setZero();
+        H_F2D_n_x.setZero();
+
         // (N_x,W) → {x_i,w_i}.
         assert(Nx_I > 0);
         double a_F = 0.0;           // x → x-a.
@@ -60,8 +69,12 @@ public:
      * @output Nodes, weights, normalizations, and polynomials.
      * @note   n_i≥0; N_x>0.
      */
-    GaussHermiteMeshes(const Eigen::VectorXi& n_I1D_n_, int Nx_I)
-    : n_I1D_n(n_I1D_n_), x_F1D_x(Nx_I), N_F1D_n(n_I1D_n_.size()), w_F1D_x(Nx_I), H_F2D_n_x(n_I1D_n_.size(), Nx_I) {
+    GaussHermiteMeshes(const Eigen::VectorXi& n_I1D_n_, int Nx_I) {
+        n_I1D_n = n_I1D_n_;
+        N_F1D_n.resize(n_I1D_n_.size());
+        x_F1D_x.resize(Nx_I);
+        w_F1D_x.resize(Nx_I);
+        H_F2D_n_x.resize(n_I1D_n_.size(), Nx_I);
         // (N_x,W) → {x_i,w_i}.
         assert(Nx_I > 0);
         assert((n_I1D_n_.array() >= 0).all());
@@ -92,12 +105,12 @@ public:
  */
 class GaussLaguerreMeshes {
 public:
-    Eigen::VectorXi n_I1D_na;       // n ≥ 0.
-    Eigen::VectorXd alpha_F1D_na;   // α > -1.
-    Eigen::VectorXd N_F1D_na;       // ∫(N_nL_n^α)²x^αe^-xdx = 1.
-    Eigen::VectorXd x_F1D_x;        // {x_i}: Gauss-Laguerre nodes.
-    Eigen::VectorXd w_F1D_x;        // {w_i}: e^-x quadrature.
-    Eigen::MatrixXd L_F2D_na_x;     // L_n^α(x_i).
+    Eigen::VectorXi n_I1D_na{};     // n ≥ 0.
+    Eigen::VectorXd alpha_F1D_na{}; // α > -1.
+    Eigen::VectorXd N_F1D_na{};     // ∫(N_nL_n^α)²x^αe^-xdx = 1.
+    Eigen::VectorXd x_F1D_x{};      // {x_i}: Gauss-Laguerre nodes.
+    Eigen::VectorXd w_F1D_x{};      // {w_i}: e^-x quadrature.
+    Eigen::MatrixXd L_F2D_na_x{};   // L_n^α(x_i).
 
     /**
      * @brief  Create an empty mesh.
@@ -112,8 +125,19 @@ public:
      * @output Nodes and weights.
      * @note   N_x>0.
      */
-    GaussLaguerreMeshes(int Nx_I)
-    : n_I1D_na(Eigen::VectorXi::Zero(1)), alpha_F1D_na(Eigen::VectorXd::Zero(1)), N_F1D_na(Eigen::VectorXd::Zero(1)), x_F1D_x(Nx_I), w_F1D_x(Nx_I), L_F2D_na_x(Eigen::MatrixXd::Zero(1, Nx_I)) {
+    GaussLaguerreMeshes(int Nx_I) {
+        n_I1D_na.resize(1);
+        alpha_F1D_na.resize(1);
+        N_F1D_na.resize(1);
+        x_F1D_x.resize(Nx_I);
+        w_F1D_x.resize(Nx_I);
+        L_F2D_na_x.resize(1, Nx_I);
+
+        n_I1D_na.setZero();
+        alpha_F1D_na.setZero();
+        N_F1D_na.setZero();
+        L_F2D_na_x.setZero();
+
         // (N_x,W) → {x_i,w_i}.
         assert(Nx_I > 0);
         double b_F = 1.0;           // x → x/b.
@@ -132,8 +156,13 @@ public:
      * @output Nodes, weights, normalizations, and polynomials.
      * @note   n_i≥0, α_i>-1; |n|=|α|; N_x>0.
      */
-    GaussLaguerreMeshes(const Eigen::VectorXi& n_I1D_na_, const Eigen::VectorXd& alpha_F1D_na_, int Nx_I)
-    : n_I1D_na(n_I1D_na_), alpha_F1D_na(alpha_F1D_na_), N_F1D_na(n_I1D_na_.size()), x_F1D_x(Nx_I), w_F1D_x(Nx_I), L_F2D_na_x(n_I1D_na_.size(), Nx_I) {
+    GaussLaguerreMeshes(const Eigen::VectorXi& n_I1D_na_, const Eigen::VectorXd& alpha_F1D_na_, int Nx_I) {
+        n_I1D_na = n_I1D_na_;
+        alpha_F1D_na = alpha_F1D_na_;
+        N_F1D_na.resize(n_I1D_na_.size());
+        x_F1D_x.resize(Nx_I);
+        w_F1D_x.resize(Nx_I);
+        L_F2D_na_x.resize(n_I1D_na_.size(), Nx_I);
         // (N_x,W) → {x_i,w_i}.
         assert(Nx_I > 0);
         assert(n_I1D_na_.size() == alpha_F1D_na_.size());
@@ -163,12 +192,12 @@ public:
 /** @brief Gauss-Legendre mesh and polynomials. */
 class GaussLegendreMeshes {
 public:
-    Eigen::VectorXi l_I1D_lm;       // l ≥ 0.
-    Eigen::VectorXi m_I1D_lm;       // 0 ≤ m ≤ l.
-    Eigen::VectorXd N_F1D_lm;       // ∫(N_lmP_l^m)²dx = 1.
-    Eigen::VectorXd x_F1D_x;        // x_i ∈ [-1,1].
-    Eigen::VectorXd w_F1D_x;        // {w_i}: unit-weight quadrature.
-    Eigen::MatrixXd P_F2D_lm_x;     // P_l^m(x_i).
+    Eigen::VectorXi l_I1D_lm{};     // l ≥ 0.
+    Eigen::VectorXi m_I1D_lm{};     // 0 ≤ m ≤ l.
+    Eigen::VectorXd N_F1D_lm{};     // ∫(N_lmP_l^m)²dx = 1.
+    Eigen::VectorXd x_F1D_x{};      // x_i ∈ [-1,1].
+    Eigen::VectorXd w_F1D_x{};      // {w_i}: unit-weight quadrature.
+    Eigen::MatrixXd P_F2D_lm_x{};   // P_l^m(x_i).
 
     /**
      * @brief  Create an empty mesh.
@@ -183,8 +212,19 @@ public:
      * @output Nodes and weights.
      * @note   N_x>0.
      */
-    GaussLegendreMeshes(int Nx_I)
-    : l_I1D_lm(Eigen::VectorXi::Zero(1)), m_I1D_lm(Eigen::VectorXi::Zero(1)), N_F1D_lm(Eigen::VectorXd::Zero(1)), x_F1D_x(Nx_I), w_F1D_x(Nx_I), P_F2D_lm_x(Eigen::MatrixXd::Zero(1, Nx_I)) {
+    GaussLegendreMeshes(int Nx_I) {
+        l_I1D_lm.resize(1);
+        m_I1D_lm.resize(1);
+        N_F1D_lm.resize(1);
+        x_F1D_x.resize(Nx_I);
+        w_F1D_x.resize(Nx_I);
+        P_F2D_lm_x.resize(1, Nx_I);
+
+        l_I1D_lm.setZero();
+        m_I1D_lm.setZero();
+        N_F1D_lm.setZero();
+        P_F2D_lm_x.setZero();
+
         // (N_x,[-1,1]) → {x_i,w_i}.
         assert(Nx_I > 0);
         double xmin_F = -1.0;       // x_min = -1 = cos π.
@@ -203,8 +243,13 @@ public:
      * @output Nodes, weights, normalizations, and polynomials.
      * @note   l_i≥m_i≥0; |l|=|m|; N_x>0.
      */
-    GaussLegendreMeshes(const Eigen::VectorXi& l_I1D_lm_, const Eigen::VectorXi& m_I1D_lm_, int Nx_I)
-    : l_I1D_lm(l_I1D_lm_), m_I1D_lm(m_I1D_lm_), N_F1D_lm(l_I1D_lm_.size()), x_F1D_x(Nx_I), w_F1D_x(Nx_I), P_F2D_lm_x(l_I1D_lm_.size(), Nx_I) {
+    GaussLegendreMeshes(const Eigen::VectorXi& l_I1D_lm_, const Eigen::VectorXi& m_I1D_lm_, int Nx_I) {
+        l_I1D_lm = l_I1D_lm_;
+        m_I1D_lm = m_I1D_lm_;
+        N_F1D_lm.resize(l_I1D_lm_.size());
+        x_F1D_x.resize(Nx_I);
+        w_F1D_x.resize(Nx_I);
+        P_F2D_lm_x.resize(l_I1D_lm_.size(), Nx_I);
         // (N_x,[-1,1]) → {x_i,w_i}.
         assert(Nx_I > 0);
         assert(l_I1D_lm_.size() == m_I1D_lm_.size());
