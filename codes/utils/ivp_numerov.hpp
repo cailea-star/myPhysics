@@ -22,14 +22,14 @@ private:
     double xcurr_F;
     double dx_F;
     double dx2_F;
-    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Fprev_T2D_ch_ch;
-    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Fcurr_T2D_ch_ch;
-    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Fnext_T2D_ch_ch;
-    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> yprev_T2D_ch_sol;
-    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> ycurr_T2D_ch_sol;
-    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> ynext_T2D_ch_sol;
-    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> lhs_T2D_ch_ch;
-    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> rhs_T2D_ch_sol;
+    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Fprev_T2D_ch_ch{};
+    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Fcurr_T2D_ch_ch{};
+    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Fnext_T2D_ch_ch{};
+    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> yprev_T2D_ch_sol{};
+    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> ycurr_T2D_ch_sol{};
+    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> ynext_T2D_ch_sol{};
+    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> lhs_T2D_ch_ch{};
+    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> rhs_T2D_ch_sol{};
     Eigen::PartialPivLU<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> lhs_LU;
 
 public:
@@ -38,8 +38,20 @@ public:
      * @math   h=x₁-x₀, (F₀,F₁)=(F(x₀),F(x₁))
      * @output Initialized Numerov state at x₁.
      */
-    IVP_NumerovState(const Real2TMatFunc<T>& F_Func_, double x0_F, double x1_F, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& y0_T2D_ch_sol, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& y1_T2D_ch_sol)
-    : F_Func(F_Func_), xcurr_F(x1_F), dx_F(x1_F - x0_F), dx2_F(dx_F * dx_F), Fprev_T2D_ch_ch(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.rows()), Fcurr_T2D_ch_ch(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.rows()), Fnext_T2D_ch_ch(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.rows()), yprev_T2D_ch_sol(y0_T2D_ch_sol), ycurr_T2D_ch_sol(y1_T2D_ch_sol), ynext_T2D_ch_sol(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.cols()), lhs_T2D_ch_ch(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.rows()), rhs_T2D_ch_sol(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.cols()), lhs_LU(y0_T2D_ch_sol.rows()) {
+    IVP_NumerovState(const Real2TMatFunc<T>& F_Func_, double x0_F, double x1_F, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& y0_T2D_ch_sol, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& y1_T2D_ch_sol) {
+        F_Func = F_Func_;
+        xcurr_F = x1_F;
+        dx_F = x1_F - x0_F;
+        dx2_F = dx_F * dx_F;
+        Fprev_T2D_ch_ch.resize(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.rows());
+        Fcurr_T2D_ch_ch.resize(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.rows());
+        Fnext_T2D_ch_ch.resize(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.rows());
+        yprev_T2D_ch_sol = y0_T2D_ch_sol;
+        ycurr_T2D_ch_sol = y1_T2D_ch_sol;
+        ynext_T2D_ch_sol.resize(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.cols());
+        lhs_T2D_ch_ch.resize(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.rows());
+        rhs_T2D_ch_sol.resize(y0_T2D_ch_sol.rows(), y0_T2D_ch_sol.cols());
+        lhs_LU = Eigen::PartialPivLU<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>(y0_T2D_ch_sol.rows());
         // (F,x_0,x_1,Y_0,Y_1) → (F_0,F_1,h).
         assert(this->F_Func);
         assert(std::isfinite(x0_F) && std::isfinite(x1_F) && std::isfinite(dx_F) && dx_F != 0.0);

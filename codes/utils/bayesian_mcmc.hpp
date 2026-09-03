@@ -20,18 +20,18 @@ using Vec2RealFunc = std::function<double(const Eigen::VectorXd&)>;
 
 class MCMCSampler {
 public:
-    std::vector<Eigen::VectorXd> samples_F2D_h_x;
-    Eigen::VectorXd avg_F1D_x;
-    Eigen::MatrixXd cov_F2D_x_x;
+    std::vector<Eigen::VectorXd> samples_F2D_h_x{};
+    Eigen::VectorXd avg_F1D_x{};
+    Eigen::MatrixXd cov_F2D_x_x{};
 
 private:
     Vec2RealFunc logp_Func;
-    const Eigen::VectorXd min_F1D_x;
-    const Eigen::VectorXd max_F1D_x;
-    Eigen::VectorXd step_F1D_x;
-    Eigen::VectorXd current_F1D_x;
-    Eigen::VectorXd proposal_F1D_x;
-    Eigen::VectorXd delta_F1D_x;
+    const Eigen::VectorXd min_F1D_x{};
+    const Eigen::VectorXd max_F1D_x{};
+    Eigen::VectorXd step_F1D_x{};
+    Eigen::VectorXd current_F1D_x{};
+    Eigen::VectorXd proposal_F1D_x{};
+    Eigen::VectorXd delta_F1D_x{};
     double current_logp_F;
     int accepted_I = 0;
     std::mt19937 random_Generator;
@@ -46,7 +46,20 @@ public:
      * @note   Requires x_max > x_min coordinatewise.
      */
     MCMCSampler(const Vec2RealFunc& logp_Func_, const Eigen::VectorXd& min_F1D_x_, const Eigen::VectorXd& max_F1D_x_)
-    : avg_F1D_x(Eigen::VectorXd::Zero(min_F1D_x_.size())), cov_F2D_x_x(Eigen::MatrixXd::Zero(min_F1D_x_.size(), min_F1D_x_.size())), logp_Func(logp_Func_), min_F1D_x(min_F1D_x_), max_F1D_x(max_F1D_x_), step_F1D_x(max_F1D_x_ - min_F1D_x_), current_F1D_x(0.5 * (min_F1D_x_ + max_F1D_x_)), proposal_F1D_x(min_F1D_x_.size()), delta_F1D_x(min_F1D_x_.size()), current_logp_F(logp_Func_(current_F1D_x)), random_Generator(static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count())) {
+    : min_F1D_x(min_F1D_x_), max_F1D_x(max_F1D_x_) {
+        avg_F1D_x.resize(min_F1D_x_.size());
+        cov_F2D_x_x.resize(min_F1D_x_.size(), min_F1D_x_.size());
+        proposal_F1D_x.resize(min_F1D_x_.size());
+        delta_F1D_x.resize(min_F1D_x_.size());
+
+        avg_F1D_x.setZero();
+        cov_F2D_x_x.setZero();
+
+        logp_Func = logp_Func_;
+        step_F1D_x = max_F1D_x_ - min_F1D_x_;
+        current_F1D_x = 0.5 * (min_F1D_x_ + max_F1D_x_);
+        current_logp_F = logp_Func_(current_F1D_x);
+        random_Generator = std::mt19937(static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count()));
         // x_min < x_max; dim(x_min)=dim(x_max)>0.
         assert(min_F1D_x_.size() > 0);
         assert(min_F1D_x_.size() == max_F1D_x_.size());
