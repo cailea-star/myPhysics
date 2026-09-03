@@ -32,13 +32,9 @@ int main() {
     axialconfig_.Nz_I = 40;
 
     // P_{HFB} ← D1S run 000005.
-    HFBSettings hfbsettings_;
-    hfbsettings_.termSwitches = HFBTermSwitches::gogny();
+    HFBSettings hfbsettings_ = HFBSettings::setting_gogny();
     hfbsettings_.termSwitches.addLocalCoulomb_B = false;
     hfbsettings_.termSwitches.addFiniteRangeCoulomb_B = false;
-    hfbsettings_.useEspCut_B = false;
-    hfbsettings_.useCmCorrection_B = true;
-    hfbsettings_.useLipkinNogami_B = false;
     hfbsettings_.accuracy_F = 1.0e-9;
 
     // (C_{axial},P_{HFB},D1S) → O_{C++}.

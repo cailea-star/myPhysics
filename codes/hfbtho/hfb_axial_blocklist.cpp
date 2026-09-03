@@ -56,7 +56,7 @@ void AxialHFBBlockList::add_lipkin_nogami() {
         Nparticle_F += block_.rho_F2D_bsp_bsp.trace();
         Epair_F += block_.Delta_F2D_bsp_bsp.cwiseProduct(block_.kappa_F2D_bsp_bsp).sum();
         DeltaRho_F += block_.Delta_F2D_bsp_bsp.cwiseProduct(block_.rho_F2D_bsp_bsp).sum();
-        eigensolver_.compute(block_.rho_F2D_bsp_bsp);
+        eigensolver_.compute(block_.rho_F2D_bsp_bsp, Eigen::EigenvaluesOnly);
         assert(eigensolver_.info() == Eigen::Success);
 
         // ρ → {u,v}.
@@ -213,8 +213,9 @@ void AxialHFBBlockList::add_Delta_from_Gogny(AxialHFBBlockList& blocklist_p_, Ax
                             const AxialGaussianGogny::GognyElements gognyElements1234_ = gogny_.read_v(sp1_I, sp2_I, sp3_I, sp4_I);
                             const double kappa34PosNegn_F = block34n_.kappa_F2D_bsp_bsp(bsp3_I, bsp4_I);
                             const double kappa34PosNegp_F = block34p_.kappa_F2D_bsp_bsp(bsp3_I, bsp4_I);
-                            Delta12n_F += gognyElements1234_.vSamePosNegPosNeg_F * kappa34PosNegn_F;
-                            Delta12p_F += gognyElements1234_.vSamePosNegPosNeg_F * kappa34PosNegp_F;
+                            const int eta13_I = block12n_.labels_S1D_bsp[bsp1_I].twoSigma_I * block34n_.labels_S1D_bsp[bsp3_I].twoSigma_I;
+                            Delta12n_F += eta13_I * gognyElements1234_.vSamePosNegPosNeg_F * kappa34PosNegn_F;
+                            Delta12p_F += eta13_I * gognyElements1234_.vSamePosNegPosNeg_F * kappa34PosNegp_F;
                         }
                     }
                 }

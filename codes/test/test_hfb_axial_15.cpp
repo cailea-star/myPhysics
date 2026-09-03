@@ -34,9 +34,7 @@ int main() {
     axialconfig_.Nz_I = 40;
 
     // S_HFB → S_SLY4+regularized-pairing.
-    HFBSettings hfbsettings_;
-    hfbsettings_.useLipkinNogami_B = false;
-    hfbsettings_.useCmCorrection_B = true;
+    HFBSettings hfbsettings_ = HFBSettings::setting_skyrme();
     hfbsettings_.termSwitches.useLocalPairRegularization_B = true;
     hfbsettings_.EspCut_F = 80.0;
     hfbsettings_.accuracy_F = 1.0e-8;

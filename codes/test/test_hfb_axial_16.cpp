@@ -35,7 +35,8 @@ int main() {
     axialconfig_.Nz_I = 40;
 
     // (C_axial,S_HFB,UNEDF1) → inputs.
-    HFBSettings hfbsettings_;
+    HFBSettings hfbsettings_ = HFBSettings::setting_skyrme();
+    hfbsettings_.useLipkinNogami_B = true;
     const EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::UNEDF1();
     std::cout << "[Input] (N,Z,Nshell,b0,Nz,Nr) = (" << Ntarget_I << "," << Ztarget_I << "," << Nshell_I << "," << b0_F << "," << axialconfig_.Nz_I << "," << axialconfig_.Nr_I << ")\n";
     std::cout << "[Input] functional = " << edf_skyrme_.functionalName_Str << ", Lipkin-Nogami = true\n";
