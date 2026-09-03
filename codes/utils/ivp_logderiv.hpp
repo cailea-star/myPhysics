@@ -23,13 +23,13 @@ template<typename T>
 class IVP_RK4QRState {
 public:
     double xcurr_F;
-    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Qcurr_T2D_ch_sol;
-    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> dQcurr_T2D_ch_sol;
-    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Rcurr_T2D_sol_sol;
+    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Qcurr_T2D_ch_sol{};
+    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> dQcurr_T2D_ch_sol{};
+    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Rcurr_T2D_sol_sol{};
 private:
     IVP_RK4State<T> rk4_State;
     Eigen::HouseholderQR<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> qrSolver_QR;
-    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Rtmp_T2D_sol_sol;
+    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Rtmp_T2D_sol_sol{};
 
 public:
     /**
@@ -38,8 +38,13 @@ public:
      * @output Initialized QR-stabilized RK4 state.
      * @note   Requires full-column-rank u₀.
      */
-    IVP_RK4QRState(const Real2TMatFunc<T>& F_Func_, double x0_F, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& u0_T2D_ch_sol, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& du0_T2D_ch_sol)
-    : xcurr_F(x0_F), Qcurr_T2D_ch_sol(u0_T2D_ch_sol.rows(), u0_T2D_ch_sol.cols()), dQcurr_T2D_ch_sol(du0_T2D_ch_sol.rows(), du0_T2D_ch_sol.cols()), Rcurr_T2D_sol_sol(u0_T2D_ch_sol.cols(), u0_T2D_ch_sol.cols()), rk4_State(), qrSolver_QR(u0_T2D_ch_sol.rows(), u0_T2D_ch_sol.cols()), Rtmp_T2D_sol_sol(u0_T2D_ch_sol.cols(), u0_T2D_ch_sol.cols()) {
+    IVP_RK4QRState(const Real2TMatFunc<T>& F_Func_, double x0_F, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& u0_T2D_ch_sol, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& du0_T2D_ch_sol) {
+        xcurr_F = x0_F;
+        Qcurr_T2D_ch_sol.resize(u0_T2D_ch_sol.rows(), u0_T2D_ch_sol.cols());
+        dQcurr_T2D_ch_sol.resize(du0_T2D_ch_sol.rows(), du0_T2D_ch_sol.cols());
+        Rcurr_T2D_sol_sol.resize(u0_T2D_ch_sol.cols(), u0_T2D_ch_sol.cols());
+        qrSolver_QR = Eigen::HouseholderQR<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>(u0_T2D_ch_sol.rows(), u0_T2D_ch_sol.cols());
+        Rtmp_T2D_sol_sol.resize(u0_T2D_ch_sol.cols(), u0_T2D_ch_sol.cols());
         int Nch_I = static_cast<int>(Qcurr_T2D_ch_sol.rows());
         int Nsol_I = static_cast<int>(Qcurr_T2D_ch_sol.cols());
         assert(F_Func_ && Nch_I >= Nsol_I && Nsol_I > 0 && std::isfinite(x0_F));

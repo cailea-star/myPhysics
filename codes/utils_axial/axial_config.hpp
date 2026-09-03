@@ -15,21 +15,28 @@
 
 class AxialSPLabel {
 public:
-    int N_I;                         // N = n_z + 2n_r + Λ
-    int nz_I;                        // n_z ≥ 0
-    int nr_I;                        // n_r ≥ 0
-    int Lambda_I;                    // Λ ≥ 0
-    int twoOmega_I;                  // 2Ω = 2Λ ± 1
-    int twoSigma_I;                  // 2Σ = ±1
-    bool isParityPositive_B;         // π = (-1)^(n_z + Λ) = +1
+    int N_I = 0;                     // N = n_z + 2n_r + Λ
+    int nz_I = 0;                    // n_z ≥ 0
+    int nr_I = 0;                    // n_r ≥ 0
+    int Lambda_I = 0;                // Λ ≥ 0
+    int twoOmega_I = 0;              // 2Ω = 2Λ ± 1
+    int twoSigma_I = 0;              // 2Σ = ±1
+    bool isParityPositive_B = false; // π = (-1)^(n_z + Λ) = +1
 
     /**
      * @brief  Construct an axial single-particle label.
      * @math   N = n_z + 2n_r + Λ, 2Ω = 2Λ ± 1, π = (-1)^(n_z + Λ)
      * @output Initialized label.
      */
-    AxialSPLabel(int nz_I_, int nr_I_, int Lambda_I_, int twoOmega_I_)
-    : N_I(nz_I_ + 2 * nr_I_ + Lambda_I_), nz_I(nz_I_), nr_I(nr_I_), Lambda_I(Lambda_I_), twoOmega_I(twoOmega_I_), twoSigma_I(twoOmega_I_ - 2 * Lambda_I_), isParityPositive_B((nz_I_ + Lambda_I_) % 2 == 0) {}
+    AxialSPLabel(int nz_I_, int nr_I_, int Lambda_I_, int twoOmega_I_) {
+        N_I = nz_I_ + 2 * nr_I_ + Lambda_I_;
+        nz_I = nz_I_;
+        nr_I = nr_I_;
+        Lambda_I = Lambda_I_;
+        twoOmega_I = twoOmega_I_;
+        twoSigma_I = twoOmega_I_ - 2 * Lambda_I_;
+        isParityPositive_B = (nz_I_ + Lambda_I_) % 2 == 0;
+    }
 };
 
 /**
@@ -51,23 +58,27 @@ inline bool is_valid(int nz_I, int nr_I, int Lambda_I, int twoOmega_I, int twoSi
 
 class AxialConfig {
 public:
-    int Nshell_I;                                        // N_shell ≥ 0
-    int Nz_I;                                            // N_z = 2n_z^max + 8
-    int Nr_I;                                            // N_r = 2n_r^max + Λ^max + 8
-    double bz_F;                                         // ζ = z / b_z
-    double br_F;                                         // η = (r / b_r)^2
-    bool useReflection_B;                                // z ≥ 0 when true
-    std::vector<AxialSPLabel> labels_S1D_sp;             // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp
-    std::vector<std::vector<AxialSPLabel>> labels_S2D_block_spb; // α_(block,spb): labels grouped by Ω or (Ω,π)
-    std::vector<std::vector<int>> indices_I2D_block_spb; // sp(block,spb): global indices of block labels
+    int Nshell_I = 0;                                           // N_shell ≥ 0
+    int Nz_I = 0;                                               // N_z = 2n_z^max + 8
+    int Nr_I = 0;                                               // N_r = 2n_r^max + Λ^max + 8
+    double bz_F = 0.0;                                          // ζ = z / b_z
+    double br_F = 0.0;                                          // η = (r / b_r)^2
+    bool useReflection_B = false;                               // z ≥ 0 when true
+    std::vector<AxialSPLabel> labels_S1D_sp{};                  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp
+    std::vector<std::vector<AxialSPLabel>> labels_S2D_block_bsp{}; // α_(block,bsp): labels grouped by Ω or (Ω,π)
+    std::vector<std::vector<int>> indices_I2D_block_bsp{};      // sp(block,bsp): global indices of block labels
 
     /**
      * @brief  Construct an axial harmonic-oscillator configuration.
      * @math   N_z = 2n_z^max + 8, N_r = 2n_r^max + Λ^max + 8
      * @output Single-particle labels, symmetry blocks, and quadrature orders.
      */
-    AxialConfig(double bz_F_, double br_F_, int Nshell_I_, bool useReflection_B_)
-    : Nshell_I(Nshell_I_), Nz_I(0), Nr_I(0), bz_F(bz_F_), br_F(br_F_), useReflection_B(useReflection_B_) {
+    AxialConfig(double bz_F_, double br_F_, int Nshell_I_, bool useReflection_B_) {
+        Nshell_I = Nshell_I_;
+        bz_F = bz_F_;
+        br_F = br_F_;
+        useReflection_B = useReflection_B_;
+
         assert(std::isfinite(bz_F) && bz_F > 0.0);
         assert(std::isfinite(br_F) && br_F > 0.0);
         assert(Nshell_I >= 0);
@@ -196,22 +207,22 @@ inline void AxialConfig::fill_labels() {
 
     // ({α_sp},{α_block},{sp_block}) ← ∅.
     labels_S1D_sp.clear();
-    labels_S2D_block_spb.clear();
-    indices_I2D_block_spb.clear();
+    labels_S2D_block_bsp.clear();
+    indices_I2D_block_bsp.clear();
     labels_S1D_sp.reserve(NHO_I);
 
     // Ω → π → n_r → n_z → Λ_± → Σ_±
     for (int twoOmega_I = 1; twoOmega_I <= 2 * nuCut_I + 1; ++twoOmega_I) {
-        std::vector<AxialSPLabel> labelsOmega_S1D_spb;
-        std::vector<int> indicesOmega_I1D_spb;
+        std::vector<AxialSPLabel> labelsOmega_S1D_bsp;
+        std::vector<int> indicesOmega_I1D_bsp;
         const int LambdaUp_I = (twoOmega_I - 1) / 2;
         const int LambdaDown_I = (twoOmega_I + 1) / 2;
         const int nrMax_I = (nuCut_I - LambdaUp_I + 1) / 2;
         for (bool isParityPositive_B : {true, false}) {
-            std::vector<AxialSPLabel> labelsParity_S1D_spb;
-            std::vector<int> indicesParity_I1D_spb;
-            auto& labelsTarget_S1D_spb = useReflection_B ? labelsParity_S1D_spb : labelsOmega_S1D_spb;
-            auto& indicesTarget_I1D_spb = useReflection_B ? indicesParity_I1D_spb : indicesOmega_I1D_spb;
+            std::vector<AxialSPLabel> labelsParity_S1D_bsp;
+            std::vector<int> indicesParity_I1D_bsp;
+            auto& labelsTarget_S1D_bsp = useReflection_B ? labelsParity_S1D_bsp : labelsOmega_S1D_bsp;
+            auto& indicesTarget_I1D_bsp = useReflection_B ? indicesParity_I1D_bsp : indicesOmega_I1D_bsp;
             for (int nr_I = 0; nr_I <= nrMax_I; ++nr_I) {
                 for (int nz_I = 0; nz_I <= nzCut_I; ++nz_I) {
                     for (int Lambda_I : {LambdaUp_I, LambdaDown_I}) {
@@ -221,16 +232,16 @@ inline void AxialConfig::fill_labels() {
                             const AxialSPLabel label_(nz_I, nr_I, Lambda_I, twoOmega_I);
                             const int sp_I = static_cast<int>(labels_S1D_sp.size());
                             labels_S1D_sp.push_back(label_);
-                            labelsTarget_S1D_spb.push_back(label_);
-                            indicesTarget_I1D_spb.push_back(sp_I);
+                            labelsTarget_S1D_bsp.push_back(label_);
+                            indicesTarget_I1D_bsp.push_back(sp_I);
                         }
                     }
                 }
             }
-            if (useReflection_B && !labelsParity_S1D_spb.empty()) {labels_S2D_block_spb.push_back(std::move(labelsParity_S1D_spb));}
-            if (useReflection_B && !indicesParity_I1D_spb.empty()) {indices_I2D_block_spb.push_back(std::move(indicesParity_I1D_spb));}
+            if (useReflection_B && !labelsParity_S1D_bsp.empty()) {labels_S2D_block_bsp.push_back(std::move(labelsParity_S1D_bsp));}
+            if (useReflection_B && !indicesParity_I1D_bsp.empty()) {indices_I2D_block_bsp.push_back(std::move(indicesParity_I1D_bsp));}
         }
-        if (!useReflection_B && !labelsOmega_S1D_spb.empty()) {labels_S2D_block_spb.push_back(std::move(labelsOmega_S1D_spb));}
-        if (!useReflection_B && !indicesOmega_I1D_spb.empty()) {indices_I2D_block_spb.push_back(std::move(indicesOmega_I1D_spb));}
+        if (!useReflection_B && !labelsOmega_S1D_bsp.empty()) {labels_S2D_block_bsp.push_back(std::move(labelsOmega_S1D_bsp));}
+        if (!useReflection_B && !indicesOmega_I1D_bsp.empty()) {indices_I2D_block_bsp.push_back(std::move(indicesOmega_I1D_bsp));}
     }
 }

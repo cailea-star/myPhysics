@@ -15,9 +15,16 @@ description: Establishes variable-naming, construction, formatting, comment, API
 
 ## Formatting Rules
 
+### Class Formatting Rules
+
 - Members MUST follow: public data, protected data, private data, public functions, protected functions, private functions.
+- Defaults SHOULD be in-class; arrays and containers MUST use `{}`; default-only constructors MUST be `= default`.
+- Assignable constructor-dependent numerics MUST use bodies; dynamic Eigen zeros MUST use `resize()` then `setZero()`.
 - Constructors MUST be inline before other member functions; matching-member parameters SHOULD append `_`.
-- Initializer lists MUST follow declaration order on one separate line.
+- Initializer lists MUST only construct required members in declaration order on one separate line.
+
+### Line Formatting Rules
+
 - Every declaration, signature, and simple statement MUST exclusively occupy one complete physical line.
 - Sole exception: single-statement `if`/`for`, braces, and body MUST share one physical line.
 
