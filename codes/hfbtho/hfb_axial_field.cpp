@@ -96,13 +96,11 @@ void AxialHFBField::regularize_gr(double EspCut_F, double lambda_F, Eigen::Matri
  * @math   F_q(r)=δE_{Skyrme}/δD_q(r)
  * @output Updated neutron and proton local fields.
  */
-void AxialHFBFieldSystem::update_nuclei_fields(const AxialHFBDensitySystem& densities_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_) {
+void AxialHFBFieldSystem::update_nuclei_fields(const AxialHFBDensity& density_p_, const AxialHFBDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_) {
     // {v_n,v_p} → 0.
     set_zero(field_n);
     set_zero(field_p);
 
-    const AxialHFBDensity& density_n_ = densities_.density_n;
-    const AxialHFBDensity& density_p_ = densities_.density_p;
     const int Nz_I = static_cast<int>(field_n.vcent_F2D_z_r.rows());
     const int Nr_I = static_cast<int>(field_n.vcent_F2D_z_r.cols());
 
@@ -256,13 +254,12 @@ void AxialHFBFieldSystem::update_nuclei_fields(const AxialHFBDensitySystem& dens
  * @math   v_C=K_Cρ_p-e²C_{ex}(3ρ_p/π)^{1/3}
  * @output Updated proton central field.
  */
-void AxialHFBFieldSystem::add_coulomb_field(const AxialHFBDensitySystem& densities_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_) {
+void AxialHFBFieldSystem::add_coulomb_field(const AxialHFBDensity& density_p_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_) {
     if (!hfbsettings_.termSwitches.addLocalCoulomb_B) {return;}
     if (!coulombField.isBuilt_B) {
         throw std::runtime_error("Coulomb field is requested before AxialCoulombField::build().");
     }
 
-    const AxialHFBDensity& density_p_ = densities_.density_p;
     const int Nz_I = static_cast<int>(field_p.vcent_F2D_z_r.rows());
     const int Nr_I = static_cast<int>(field_p.vcent_F2D_z_r.cols());
 
@@ -286,11 +283,9 @@ void AxialHFBFieldSystem::add_coulomb_field(const AxialHFBDensitySystem& densiti
  * @math   Δ_q=g_qκ_q; g_q=C_q^{V0}(1-C_q^{V1}ρ_0/ρ_c)
  * @output Updated pairing and central fields.
  */
-void AxialHFBFieldSystem::add_pairing_fields(const AxialHFBDensitySystem& densities_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_, double lambda_n_F, double lambda_p_F) {
+void AxialHFBFieldSystem::add_pairing_fields(const AxialHFBDensity& density_p_, const AxialHFBDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_, double lambda_n_F, double lambda_p_F) {
     if (!hfbsettings_.termSwitches.addLocalPair_B) {return;}
 
-    const AxialHFBDensity& density_n_ = densities_.density_n;
-    const AxialHFBDensity& density_p_ = densities_.density_p;
     const int Nz_I = static_cast<int>(field_n.vcent_F2D_z_r.rows());
     const int Nr_I = static_cast<int>(field_n.vcent_F2D_z_r.cols());
     const double rhoc_F = 0.16;

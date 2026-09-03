@@ -106,7 +106,7 @@ void AxialHFBBlockList::update_UV_E_rho_kappa(const HFBSettings& hfbsettings_) {
  * @math   Γ^q_{13}=Σ_{24}(\bar v^{same}_{12;34}ρ^q_{42}+\bar v^{cross}_{12;34}ρ^{\bar q}_{42})
  * @output Updated neutron and proton Γ matrices.
  */
-void AxialHFBBlockList::add_Gamma_from_Gogny(AxialHFBBlockList& blocklist_n_, AxialHFBBlockList& blocklist_p_, const AxialGaussianGogny& gogny_) {
+void AxialHFBBlockList::add_Gamma_from_Gogny(AxialHFBBlockList& blocklist_p_, AxialHFBBlockList& blocklist_n_, const AxialGaussianGogny& gogny_) {
     assert(blocklist_n_.blocks_S1D_block.size() == blocklist_p_.blocks_S1D_block.size());
     const int Nblock_I = static_cast<int>(blocklist_n_.blocks_S1D_block.size());
 
@@ -174,7 +174,7 @@ void AxialHFBBlockList::add_Gamma_from_Gogny(AxialHFBBlockList& blocklist_n_, Ax
  * @math   Δ^q_{12}=Σ_{34}\bar v^{same,+-+-}_{12;34}κ^q_{34}
  * @output Updated neutron and proton Δ matrices.
  */
-void AxialHFBBlockList::add_Delta_from_Gogny(AxialHFBBlockList& blocklist_n_, AxialHFBBlockList& blocklist_p_, const AxialGaussianGogny& gogny_) {
+void AxialHFBBlockList::add_Delta_from_Gogny(AxialHFBBlockList& blocklist_p_, AxialHFBBlockList& blocklist_n_, const AxialGaussianGogny& gogny_) {
     assert(blocklist_n_.blocks_S1D_block.size() == blocklist_p_.blocks_S1D_block.size());
     const int Nblock_I = static_cast<int>(blocklist_n_.blocks_S1D_block.size());
 
