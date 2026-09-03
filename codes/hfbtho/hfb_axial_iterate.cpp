@@ -1,8 +1,8 @@
 /**
- * @file    hfb_axial.cpp
+ * @file    hfb_axial_iterate.cpp
  * @author  cailea
  * @date    2026-05-05
- * @brief   Implement axial HFB self-consistent iterations.
+ * @brief   Iterate the axial HFB equations.
  */
 
 #include <algorithm>
