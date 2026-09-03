@@ -15,16 +15,16 @@
 namespace {
 
 struct WSGeometry {
-    double distance_F;
-    double surface_scale_F;
+    double distance_F = 0.0;
+    double surface_scale_F = 0.0;
 };
 
 struct WSShapeGeometry {
-    double b2_ws_F;
-    double b3_ws_F;
-    double b4_ws_F;
-    double surface_scale0_F;
-    double zcm_F;
+    double b2_ws_F = 0.0;
+    double b3_ws_F = 0.0;
+    double b4_ws_F = 0.0;
+    double surface_scale0_F = 0.0;
+    double zcm_F = 0.0;
 
     /**
      * @brief  Calculate volume-preserving Woods-Saxon geometry.
@@ -119,47 +119,35 @@ void AxialHFB::initialize_WS_field(int Ntarget_I, int Ztarget_I, double beta2_F,
     const auto& z_F1D_z = global_basis.z_F1D_z;
     const auto& r_F1D_r = global_basis.r_F1D_r;
 
-    // (V_0,R_0,a_0,G_{WS}) → (v_{cent},v_{mass},v_{∇J}).
-    auto fill_WS_Func = [&](AxialHFBField& field_, double V0WS_q_F, double hbzero_q_F, double V0LS_q_F) {
-        field_.set_zero();
-        for (int ir_I = 0; ir_I < Nr_I; ++ir_I) {
-            for (int iz_I = 0; iz_I < Nz_I; ++iz_I) {
-                const double r_F = r_F1D_r(ir_I);
+    field_n.set_zero();
+    field_p.set_zero();
+
+    // (V_0,G_{WS}) → (v_{cent},v_{mass},v_{∇J},Δ).
+    const auto initialize_field_Func = [&](AxialHFBField& field_, double V0WS_q_F, double hbzero_q_F, double V0LS_q_F) {
+        for (int r_I = 0; r_I < Nr_I; ++r_I) {
+            for (int z_I = 0; z_I < Nz_I; ++z_I) {
+                const double r_F = r_F1D_r(r_I);
                 const double r2_F = r_F * r_F;
-                const double z_F = z_F1D_z(iz_I);
+                const double z_F = z_F1D_z(z_I);
                 const WSGeometry geometry_ = ws_shape_.calc_geometry(r2_F, z_F);
                 const double vcent_F = V0WS_q_F / (1.0 + std::exp((geometry_.distance_F - R0WS_F * geometry_.surface_scale_F) / a0WS_F));
                 const double vdJ_F = -V0LS_q_F / (1.0 + std::exp((geometry_.distance_F - R0LS_F * geometry_.surface_scale_F) / a0LS_F));
-                field_.vmass_F2D_z_r(iz_I, ir_I) = hbzero_q_F;
-                field_.vcent_F2D_z_r(iz_I, ir_I) = vcent_F;
-                field_.vdJ_F2D_z_r(iz_I, ir_I) = vdJ_F;
-            }
-        }
-    };
-    fill_WS_Func(field_n, V0WS_n_F, active_edf_.hbzeron_F, V0LS_n_F);
-    fill_WS_Func(field_p, V0WS_p_F, active_edf_.hbzerop_F, V0LS_p_F);
-
-    // κ_{aux} → Δ_q = -100κ_{aux}.
-    auto fill_pairing_Func = [&](AxialHFBField& field_) {
-        for (int ir_I = 0; ir_I < Nr_I; ++ir_I) {
-            for (int iz_I = 0; iz_I < Nz_I; ++iz_I) {
-                const double r_F = r_F1D_r(ir_I);
-                const double r2_F = r_F * r_F;
-                const double z_F = z_F1D_z(iz_I);
-                const WSGeometry geometry_ = ws_shape_.calc_geometry(r2_F, z_F);
                 const double kappa_aux_F = 5.0e-3 * std::exp((geometry_.distance_F - R0WS_F * geometry_.surface_scale_F) / 2.0);
-                field_.vpair_F2D_z_r(iz_I, ir_I) = -100.0 * kappa_aux_F;
+                field_.vmass_F2D_z_r(z_I, r_I) = hbzero_q_F;
+                field_.vcent_F2D_z_r(z_I, r_I) = vcent_F;
+                field_.vdJ_F2D_z_r(z_I, r_I) = vdJ_F;
+                field_.vpair_F2D_z_r(z_I, r_I) = -100.0 * kappa_aux_F;
             }
         }
     };
-    fill_pairing_Func(field_n);
-    fill_pairing_Func(field_p);
+    initialize_field_Func(field_n, V0WS_n_F, active_edf_.hbzeron_F, V0LS_n_F);
+    initialize_field_Func(field_p, V0WS_p_F, active_edf_.hbzerop_F, V0LS_p_F);
 
     // P_{WS} → stdout.
     std::cout << "[AxialHFB::initialize_WS_field] Woods-Saxon initialization\n";
     std::cout << std::scientific << std::setprecision(3) << std::right;
     std::cout << std::setw(20) << "[WS] params:" << std::setw(10) << " V0ws =" << std::setw(10) << V0WS_F << std::setw(10) << " r0ws =" << std::setw(10) << r0WS_F << std::setw(10) << " a0ws =" << std::setw(10) << a0WS_F << "\n";
-    std::cout << std::setw(20) << "[SO] params:" << std::setw(10) << " V0so =" << std::setw(10) << V0LS_F << std::setw(10) << " r0so =" << std::setw(10) << r0LS_F << std::setw(10) << " a0so =" << std::setw(10) << a0LS_F << "\n";
+    std::cout << std::setw(20) << "[LS] params:" << std::setw(10) << " V0ls =" << std::setw(10) << V0LS_F << std::setw(10) << " r0ls =" << std::setw(10) << r0LS_F << std::setw(10) << " a0ls =" << std::setw(10) << a0LS_F << "\n";
     std::cout << std::setw(20) << "[Nucleus] params:" << std::setw(10) << " A =" << std::setw(10) << Atarget_I << std::setw(10) << " Z =" << std::setw(10) << Ztarget_I << std::setw(10) << " N =" << std::setw(10) << Ntarget_I << std::setw(10) << " asym_n =" << std::setw(10) << asymmetry_n_F << "\n";
     std::cout << std::setw(20) << "[Derived] params:" << std::setw(10) << " V0ws_n =" << std::setw(10) << V0WS_n_F << std::setw(10) << " V0ws_p =" << std::setw(10) << V0WS_p_F << std::setw(10) << " V0ls_n =" << std::setw(10) << V0LS_n_F << std::setw(10) << " V0ls_p =" << std::setw(10) << V0LS_p_F << "\n";
     std::cout << std::setw(20) << "[Shape] params:" << std::setw(10) << " beta2 =" << std::setw(10) << beta2_F << std::setw(10) << " beta3 =" << std::setw(10) << beta3_F << std::setw(10) << " beta4 =" << std::setw(10) << beta4_F << "\n";
