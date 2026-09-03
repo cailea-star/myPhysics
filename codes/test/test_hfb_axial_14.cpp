@@ -37,7 +37,7 @@ int main() {
 
     // S_HFB → S_D1S.
     HFBSettings hfbsettings_ = HFBSettings::setting_gogny();
-    hfbsettings_.termSwitches.addLocalCoulomb_B = false;
+    hfbsettings_.useCmCorrection_B = true;
     hfbsettings_.termSwitches.addFiniteRangeCoulomb_B = false;
     hfbsettings_.accuracy_F = 1.0e-8;
     const EDFParamsGogny edf_gogny_ = EDFParamsGogny::D1S();

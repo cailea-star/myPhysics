@@ -40,6 +40,8 @@ int main() {
 
     // P_HFB ← run_000003.
     HFBSettings hfbsettings_ = HFBSettings::setting_skyrme();
+    hfbsettings_.useEspCut_B = true;
+    hfbsettings_.useCmCorrection_B = true;
     hfbsettings_.Nblocking_I = 6;
     hfbsettings_.EspCut_F = 60.0;
     hfbsettings_.accuracy_F = 1.0e-5;
