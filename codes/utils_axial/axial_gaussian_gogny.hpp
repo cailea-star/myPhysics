@@ -49,7 +49,7 @@ public:
 
 private:
     AxialConfig axialconfig;
-    std::string forceName_Str;
+    std::string forceName_Str{};
     GaussianValues mu_F1D_g{};
     GaussianValues W_F1D_g{};
     GaussianValues B_F1D_g{};
@@ -64,7 +64,14 @@ public:
      * @output Initialized Gogny interaction.
      */
     AxialGaussianGogny(const AxialConfig& axialconfig_, const std::string& forceName_Str_, const GaussianValues& mu_F1D_g_, const GaussianValues& W_F1D_g_, const GaussianValues& B_F1D_g_, const GaussianValues& H_F1D_g_, const GaussianValues& M_F1D_g_)
-    : axialconfig(axialconfig_), forceName_Str(forceName_Str_), mu_F1D_g(mu_F1D_g_), W_F1D_g(W_F1D_g_), B_F1D_g(B_F1D_g_), H_F1D_g(H_F1D_g_), M_F1D_g(M_F1D_g_), kernel(axialconfig, mu_F1D_g) {}
+    : axialconfig(axialconfig_), kernel(axialconfig_, mu_F1D_g_) {
+        forceName_Str = forceName_Str_;
+        mu_F1D_g = mu_F1D_g_;
+        W_F1D_g = W_F1D_g_;
+        B_F1D_g = B_F1D_g_;
+        H_F1D_g = H_F1D_g_;
+        M_F1D_g = M_F1D_g_;
+    }
 
     /**
      * @brief  Build or load Gaussian kernel tables.

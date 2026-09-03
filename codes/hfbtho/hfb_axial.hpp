@@ -36,18 +36,18 @@ class AxialHFBFieldSystem;
  */
 class AxialHFBBlock {
 public:
-    int twoOmega_I; // 2Ω = 2Λ + 2Σ.
-    std::vector<AxialSPLabel> labels_S1D_bsp; // {α_bsp} within one block.
-    std::vector<int> indices_I1D_bsp; // sp(block,bsp): global indices.
-    std::vector<int> indices_I1D_bup; // {bsp | Σ=+1/2}.
-    std::vector<int> indices_I1D_bdn; // {bsp | Σ=-1/2}.
-    Eigen::MatrixXd U_F2D_bsp_bqp; // Bogoliubov U_{bsp,bqp}.
-    Eigen::MatrixXd V_F2D_bsp_bqp; // Bogoliubov V_{bsp,bqp}.
-    Eigen::MatrixXd rho_F2D_bsp_bsp; // Normal density ρ_{bsp,bsp'}.
-    Eigen::MatrixXd kappa_F2D_bsp_bsp; // Pair density κ_{bsp,bsp'}.
-    Eigen::MatrixXd Delta_F2D_bsp_bsp; // Pairing field Δ_{bsp,bsp'} [MeV].
-    Eigen::MatrixXd Gamma_F2D_bsp_bsp; // Particle-hole field Γ_{bsp,bsp'} [MeV].
-    Eigen::VectorXd Eqp_F1D_bqp; // Quasiparticle energies E_bqp [MeV].
+    int twoOmega_I = 0; // 2Ω = 2Λ + 2Σ.
+    std::vector<AxialSPLabel> labels_S1D_bsp{}; // {α_bsp} within one block.
+    std::vector<int> indices_I1D_bsp{}; // sp(block,bsp): global indices.
+    std::vector<int> indices_I1D_bup{}; // {bsp | Σ=+1/2}.
+    std::vector<int> indices_I1D_bdn{}; // {bsp | Σ=-1/2}.
+    Eigen::MatrixXd U_F2D_bsp_bqp{}; // Bogoliubov U_{bsp,bqp}.
+    Eigen::MatrixXd V_F2D_bsp_bqp{}; // Bogoliubov V_{bsp,bqp}.
+    Eigen::MatrixXd rho_F2D_bsp_bsp{}; // Normal density ρ_{bsp,bsp'}.
+    Eigen::MatrixXd kappa_F2D_bsp_bsp{}; // Pair density κ_{bsp,bsp'}.
+    Eigen::MatrixXd Delta_F2D_bsp_bsp{}; // Pairing field Δ_{bsp,bsp'} [MeV].
+    Eigen::MatrixXd Gamma_F2D_bsp_bsp{}; // Particle-hole field Γ_{bsp,bsp'} [MeV].
+    Eigen::VectorXd Eqp_F1D_bqp{}; // Quasiparticle energies E_bqp [MeV].
 
 public:
     /**
@@ -55,11 +55,32 @@ public:
      * @math {α_{bsp},sp_{global}} → B_{2Ω}
      * @output Zero-initialized block matrices.
     */
-    AxialHFBBlock(const std::vector<AxialSPLabel>& labels_S1D_bsp_, const std::vector<int>& indices_I1D_bsp_)
-    : twoOmega_I(0), labels_S1D_bsp(labels_S1D_bsp_), indices_I1D_bsp(indices_I1D_bsp_), indices_I1D_bup(), indices_I1D_bdn(), U_F2D_bsp_bqp(Eigen::MatrixXd::Zero(labels_S1D_bsp_.size(), labels_S1D_bsp_.size())), V_F2D_bsp_bqp(Eigen::MatrixXd::Zero(labels_S1D_bsp_.size(), labels_S1D_bsp_.size())), rho_F2D_bsp_bsp(Eigen::MatrixXd::Zero(labels_S1D_bsp_.size(), labels_S1D_bsp_.size())), kappa_F2D_bsp_bsp(Eigen::MatrixXd::Zero(labels_S1D_bsp_.size(), labels_S1D_bsp_.size())), Delta_F2D_bsp_bsp(Eigen::MatrixXd::Zero(labels_S1D_bsp_.size(), labels_S1D_bsp_.size())), Gamma_F2D_bsp_bsp(Eigen::MatrixXd::Zero(labels_S1D_bsp_.size(), labels_S1D_bsp_.size())), Eqp_F1D_bqp(Eigen::VectorXd::Zero(labels_S1D_bsp_.size())) {
+    AxialHFBBlock(const std::vector<AxialSPLabel>& labels_S1D_bsp_, const std::vector<int>& indices_I1D_bsp_) {
+        // ({α_bsp},{sp_global}) → block metadata.
+        labels_S1D_bsp = labels_S1D_bsp_;
+        indices_I1D_bsp = indices_I1D_bsp_;
         assert(!labels_S1D_bsp.empty());
         assert(labels_S1D_bsp.size() == indices_I1D_bsp.size());
         twoOmega_I = labels_S1D_bsp.front().twoOmega_I;
+
+        // N_bsp → {0_{bsp×bsp},0_bsp}.
+        U_F2D_bsp_bqp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
+        V_F2D_bsp_bqp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
+        rho_F2D_bsp_bsp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
+        kappa_F2D_bsp_bsp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
+        Delta_F2D_bsp_bsp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
+        Gamma_F2D_bsp_bsp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
+        Eqp_F1D_bqp.resize(labels_S1D_bsp.size());
+
+        U_F2D_bsp_bqp.setZero();
+        V_F2D_bsp_bqp.setZero();
+        rho_F2D_bsp_bsp.setZero();
+        kappa_F2D_bsp_bsp.setZero();
+        Delta_F2D_bsp_bsp.setZero();
+        Gamma_F2D_bsp_bsp.setZero();
+        Eqp_F1D_bqp.setZero();
+
+        // Σ_bsp → ({bsp_↑},{bsp_↓}).
         indices_I1D_bup.reserve(labels_S1D_bsp.size());
         indices_I1D_bdn.reserve(labels_S1D_bsp.size());
         for (int bsp_I = 0; bsp_I < static_cast<int>(labels_S1D_bsp.size()); ++bsp_I) {
@@ -95,10 +116,10 @@ public:
  */
 class AxialHFBBlockList {
 public:
-    double lambda_F; // Chemical potential λ [MeV].
-    double lambda2_F; // Lipkin-Nogami λ₂ [MeV].
-    double ELipkinNogami_F; // Lipkin-Nogami energy [MeV].
-    std::vector<AxialHFBBlock> blocks_S1D_block; // {B_{2Ω,π}}.
+    double lambda_F = 0.0; // Chemical potential λ [MeV].
+    double lambda2_F = 0.0; // Lipkin-Nogami λ₂ [MeV].
+    double ELipkinNogami_F = 0.0; // Lipkin-Nogami energy [MeV].
+    std::vector<AxialHFBBlock> blocks_S1D_block{}; // {B_{2Ω,π}}.
 
 public:
     /**
@@ -106,8 +127,8 @@ public:
      * @math C_{axial} → {B_{2Ω,π}}
      * @output Zero-initialized block list.
      */
-    AxialHFBBlockList(const AxialConfig& axialconfig_, const HFBSettings&)
-    : lambda_F(0.0), lambda2_F(0.0), ELipkinNogami_F(0.0), blocks_S1D_block() {
+    AxialHFBBlockList(const AxialConfig& axialconfig_, const HFBSettings&) {
+        // C_axial → {B_{2Ω,π}}.
         assert(axialconfig_.labels_S2D_block_bsp.size() == axialconfig_.indices_I2D_block_bsp.size());
         const int Nblock_I = static_cast<int>(axialconfig_.labels_S2D_block_bsp.size());
         blocks_S1D_block.reserve(Nblock_I);
@@ -196,12 +217,12 @@ public:
  */
 class AxialHFBBlocking {
 public:
-    int block_I; // Symmetry-block index.
-    int bqp_I; // Tracked block quasiparticle; -1 when absent.
-    bool isNeutron_B; // Neutron when true; proton otherwise.
-    double overlap_F; // Blocking-state overlap.
-    Eigen::VectorXd blockedV_F1D_bsp; // Previous blocked V column.
-    Eigen::VectorXd blockedU_F1D_bsp; // Previous blocked U column.
+    int block_I = -1; // Symmetry-block index.
+    int bqp_I = -1; // Tracked block quasiparticle; -1 when absent.
+    bool isNeutron_B = false; // Neutron when true; proton otherwise.
+    double overlap_F = 0.0; // Blocking-state overlap.
+    Eigen::VectorXd blockedV_F1D_bsp{}; // Previous blocked V column.
+    Eigen::VectorXd blockedU_F1D_bsp{}; // Previous blocked U column.
 
 public:
     /**
@@ -209,8 +230,13 @@ public:
      * @math (block,bqp,U,V) → B_{blocked}
      * @output Initialized blocked-state reference.
      */
-    AxialHFBBlocking(const AxialHFBBlockList& blocklist_, bool isNeutron_B_, int block_I_, int bqp_I_)
-    : block_I(block_I_), bqp_I(bqp_I_), isNeutron_B(isNeutron_B_), overlap_F(0.0), blockedV_F1D_bsp(), blockedU_F1D_bsp() {
+    AxialHFBBlocking(const AxialHFBBlockList& blocklist_, bool isNeutron_B_, int block_I_, int bqp_I_) {
+        // (block,bqp,q) → tracker metadata.
+        block_I = block_I_;
+        bqp_I = bqp_I_;
+        isNeutron_B = isNeutron_B_;
+
+        // (block,bqp) → (V_μ,U_μ).
         assert(block_I >= 0 && block_I < static_cast<int>(blocklist_.blocks_S1D_block.size()));
         const AxialHFBBlock& block_ = blocklist_.blocks_S1D_block[block_I];
         assert(bqp_I >= 0 && bqp_I < block_.V_F2D_bsp_bqp.cols());
@@ -239,17 +265,17 @@ public:
  */
 class AxialHFBDensity {
 public:
-    Eigen::MatrixXd rho_F2D_z_r; // ρ(z,r_⊥) [fm⁻³].
-    Eigen::MatrixXd tau_F2D_z_r; // τ(z,r_⊥) [fm⁻⁵].
-    Eigen::MatrixXd kappa_F2D_z_r; // κ(z,r_⊥) [fm⁻³].
-    Eigen::MatrixXd rhoD2_F2D_z_r; // Δρ(z,r_⊥) [fm⁻⁵].
-    Eigen::MatrixXd rhoDr_F2D_z_r; // ∂_{r⊥}ρ(z,r_⊥) [fm⁻⁴].
-    Eigen::MatrixXd rhoDz_F2D_z_r; // ∂_zρ(z,r_⊥) [fm⁻⁴].
-    Eigen::MatrixXd Jzphi_F2D_z_r; // J_{zφ}(z,r_⊥) [fm⁻⁴].
-    Eigen::MatrixXd Jphiz_F2D_z_r; // J_{φz}(z,r_⊥) [fm⁻⁴].
-    Eigen::MatrixXd Jphir_F2D_z_r; // J_{φr}(z,r_⊥) [fm⁻⁴].
-    Eigen::MatrixXd Jrphi_F2D_z_r; // J_{rφ}(z,r_⊥) [fm⁻⁴].
-    Eigen::MatrixXd dJ_F2D_z_r; // ∇·J(z,r_⊥) [fm⁻⁵].
+    Eigen::MatrixXd rho_F2D_z_r{}; // ρ(z,r_⊥) [fm⁻³].
+    Eigen::MatrixXd tau_F2D_z_r{}; // τ(z,r_⊥) [fm⁻⁵].
+    Eigen::MatrixXd kappa_F2D_z_r{}; // κ(z,r_⊥) [fm⁻³].
+    Eigen::MatrixXd rhoD2_F2D_z_r{}; // Δρ(z,r_⊥) [fm⁻⁵].
+    Eigen::MatrixXd rhoDr_F2D_z_r{}; // ∂_{r⊥}ρ(z,r_⊥) [fm⁻⁴].
+    Eigen::MatrixXd rhoDz_F2D_z_r{}; // ∂_zρ(z,r_⊥) [fm⁻⁴].
+    Eigen::MatrixXd Jzphi_F2D_z_r{}; // J_{zφ}(z,r_⊥) [fm⁻⁴].
+    Eigen::MatrixXd Jphiz_F2D_z_r{}; // J_{φz}(z,r_⊥) [fm⁻⁴].
+    Eigen::MatrixXd Jphir_F2D_z_r{}; // J_{φr}(z,r_⊥) [fm⁻⁴].
+    Eigen::MatrixXd Jrphi_F2D_z_r{}; // J_{rφ}(z,r_⊥) [fm⁻⁴].
+    Eigen::MatrixXd dJ_F2D_z_r{}; // ∇·J(z,r_⊥) [fm⁻⁵].
 
 public:
     /**
@@ -257,8 +283,32 @@ public:
      * @math (N_z,N_r) → 0_{N_z×N_r}
      * @output Zero-initialized density grids.
      */
-    explicit AxialHFBDensity(const AxialConfig& axialconfig_)
-    : rho_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), tau_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), kappa_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), rhoD2_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), rhoDr_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), rhoDz_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), Jzphi_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), Jphiz_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), Jphir_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), Jrphi_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), dJ_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)) {}
+    explicit AxialHFBDensity(const AxialConfig& axialconfig_) {
+        // (N_z,N_r) → {D(z,r)}=0.
+        rho_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        tau_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        kappa_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        rhoD2_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        rhoDr_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        rhoDz_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        Jzphi_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        Jphiz_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        Jphir_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        Jrphi_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        dJ_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+
+        rho_F2D_z_r.setZero();
+        tau_F2D_z_r.setZero();
+        kappa_F2D_z_r.setZero();
+        rhoD2_F2D_z_r.setZero();
+        rhoDr_F2D_z_r.setZero();
+        rhoDz_F2D_z_r.setZero();
+        Jzphi_F2D_z_r.setZero();
+        Jphiz_F2D_z_r.setZero();
+        Jphir_F2D_z_r.setZero();
+        Jrphi_F2D_z_r.setZero();
+        dJ_F2D_z_r.setZero();
+    }
 
     /**
      * @brief Accumulate one block into coordinate space.
@@ -298,17 +348,17 @@ public:
  */
 class AxialHFBField {
 public:
-    Eigen::MatrixXd vcent_F2D_z_r; // δE/δρ(z,r_⊥) [MeV].
-    Eigen::MatrixXd vmass_F2D_z_r; // δE/δτ(z,r_⊥) [MeV fm²].
-    Eigen::MatrixXd vpair_F2D_z_r; // δE/δκ(z,r_⊥) [MeV].
-    Eigen::MatrixXd vD2_F2D_z_r; // δE/δΔρ(z,r_⊥) [MeV fm²].
-    Eigen::MatrixXd vDr_F2D_z_r; // δE/δ∂_{r⊥}ρ(z,r_⊥) [MeV fm].
-    Eigen::MatrixXd vDz_F2D_z_r; // δE/δ∂_zρ(z,r_⊥) [MeV fm].
-    Eigen::MatrixXd vJzphi_F2D_z_r; // δE/δJ_{zφ}(z,r_⊥) [MeV fm].
-    Eigen::MatrixXd vJphiz_F2D_z_r; // δE/δJ_{φz}(z,r_⊥) [MeV fm].
-    Eigen::MatrixXd vJphir_F2D_z_r; // δE/δJ_{φr}(z,r_⊥) [MeV fm].
-    Eigen::MatrixXd vJrphi_F2D_z_r; // δE/δJ_{rφ}(z,r_⊥) [MeV fm].
-    Eigen::MatrixXd vdJ_F2D_z_r; // δE/δ∇·J(z,r_⊥) [MeV fm²].
+    Eigen::MatrixXd vcent_F2D_z_r{}; // δE/δρ(z,r_⊥) [MeV].
+    Eigen::MatrixXd vmass_F2D_z_r{}; // δE/δτ(z,r_⊥) [MeV fm²].
+    Eigen::MatrixXd vpair_F2D_z_r{}; // δE/δκ(z,r_⊥) [MeV].
+    Eigen::MatrixXd vD2_F2D_z_r{}; // δE/δΔρ(z,r_⊥) [MeV fm²].
+    Eigen::MatrixXd vDr_F2D_z_r{}; // δE/δ∂_{r⊥}ρ(z,r_⊥) [MeV fm].
+    Eigen::MatrixXd vDz_F2D_z_r{}; // δE/δ∂_zρ(z,r_⊥) [MeV fm].
+    Eigen::MatrixXd vJzphi_F2D_z_r{}; // δE/δJ_{zφ}(z,r_⊥) [MeV fm].
+    Eigen::MatrixXd vJphiz_F2D_z_r{}; // δE/δJ_{φz}(z,r_⊥) [MeV fm].
+    Eigen::MatrixXd vJphir_F2D_z_r{}; // δE/δJ_{φr}(z,r_⊥) [MeV fm].
+    Eigen::MatrixXd vJrphi_F2D_z_r{}; // δE/δJ_{rφ}(z,r_⊥) [MeV fm].
+    Eigen::MatrixXd vdJ_F2D_z_r{}; // δE/δ∇·J(z,r_⊥) [MeV fm²].
 
 public:
     /**
@@ -316,8 +366,32 @@ public:
      * @math (N_z,N_r) → 0_{N_z×N_r}
      * @output Zero-initialized field grids.
      */
-    explicit AxialHFBField(const AxialConfig& axialconfig_)
-    : vcent_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), vmass_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), vpair_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), vD2_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), vDr_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), vDz_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), vJzphi_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), vJphiz_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), vJphir_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), vJrphi_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)), vdJ_F2D_z_r(Eigen::MatrixXd::Zero(axialconfig_.Nz_I, axialconfig_.Nr_I)) {}
+    explicit AxialHFBField(const AxialConfig& axialconfig_) {
+        // (N_z,N_r) → {F(z,r)}=0.
+        vcent_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        vmass_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        vpair_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        vD2_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        vDr_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        vDz_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        vJzphi_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        vJphiz_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        vJphir_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        vJrphi_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        vdJ_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+
+        vcent_F2D_z_r.setZero();
+        vmass_F2D_z_r.setZero();
+        vpair_F2D_z_r.setZero();
+        vD2_F2D_z_r.setZero();
+        vDr_F2D_z_r.setZero();
+        vDz_F2D_z_r.setZero();
+        vJzphi_F2D_z_r.setZero();
+        vJphiz_F2D_z_r.setZero();
+        vJphir_F2D_z_r.setZero();
+        vJrphi_F2D_z_r.setZero();
+        vdJ_F2D_z_r.setZero();
+    }
 
     /**
      * @brief Calculate the regularized pairing coupling.

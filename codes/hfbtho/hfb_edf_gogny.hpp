@@ -20,7 +20,7 @@ public:
     static constexpr int Ng_I = 2;
     using GaussianValues = std::array<double, Ng_I>;
 
-    std::string forceName_Str = "Unknown";
+    std::string forceName_Str{"Unknown"};
     GaussianValues mu_F1D_g{}; // μ_g [fm].
     GaussianValues W_F1D_g{}; // W_g [MeV].
     GaussianValues B_F1D_g{}; // B_g [MeV].
@@ -45,8 +45,20 @@ public:
      * @math   {μ_g,W_g,B_g,H_g,M_g,t_3^G,x_3,α,W_{LS}} → P_G
      * @output Initialized Gogny parameters.
      */
-    EDFParamsGogny(const std::string& forceName_Str_, const GaussianValues& mu_F1D_g_, const GaussianValues& W_F1D_g_, const GaussianValues& B_F1D_g_, const GaussianValues& H_F1D_g_, const GaussianValues& M_F1D_g_, double t3G_F_, double x3_F_, double alpha_F_, double WLS_F_, double hbzero_F_)
-    : forceName_Str(forceName_Str_), mu_F1D_g(mu_F1D_g_), W_F1D_g(W_F1D_g_), B_F1D_g(B_F1D_g_), H_F1D_g(H_F1D_g_), M_F1D_g(M_F1D_g_), t3G_F(t3G_F_), x3_F(x3_F_), alpha_F(alpha_F_), WLS_F(WLS_F_), hbzero_F(hbzero_F_) {}
+    EDFParamsGogny(const std::string& forceName_Str_, const GaussianValues& mu_F1D_g_, const GaussianValues& W_F1D_g_, const GaussianValues& B_F1D_g_, const GaussianValues& H_F1D_g_, const GaussianValues& M_F1D_g_, double t3G_F_, double x3_F_, double alpha_F_, double WLS_F_, double hbzero_F_) {
+        // {μ_g,W_g,B_g,H_g,M_g,t_3^G,x_3,α,W_{LS}} → P_G.
+        forceName_Str = forceName_Str_;
+        mu_F1D_g = mu_F1D_g_;
+        W_F1D_g = W_F1D_g_;
+        B_F1D_g = B_F1D_g_;
+        H_F1D_g = H_F1D_g_;
+        M_F1D_g = M_F1D_g_;
+        t3G_F = t3G_F_;
+        x3_F = x3_F_;
+        alpha_F = alpha_F_;
+        WLS_F = WLS_F_;
+        hbzero_F = hbzero_F_;
+    }
 
     /**
      * @brief  Convert local Gogny terms into EDF couplings.
