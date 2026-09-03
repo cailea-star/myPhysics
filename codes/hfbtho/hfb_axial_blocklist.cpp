@@ -102,51 +102,18 @@ void AxialHFBBlockList::update_UV_E_rho_kappa(const HFBSettings& hfbsettings_) {
 }
 
 /**
- * @brief  Project neutron and proton fields into blocks.
- * @math   (h_n,h_p,Δ_n,Δ_p,Φ) → ({Γ_n,Δ_n},{Γ_p,Δ_p})
- * @output Updated neutron and proton blocks.
- */
-void AxialHFBBlockListSystem::update_Gamma_Delta_from_fields(const AxialHFBFieldSystem& fields_, const AxialBasis& global_basis_) {
-    const int NblockN_I = static_cast<int>(blocklist_n.blocks_S1D_block.size());
-    const int NblockP_I = static_cast<int>(blocklist_p.blocks_S1D_block.size());
-
-    #pragma omp parallel
-    {
-        #pragma omp for nowait schedule(static)
-        for (int block_I = 0; block_I < NblockN_I; ++block_I) {
-            blocklist_n.blocks_S1D_block[block_I].update_Gamma_Delta_from_field(fields_.field_n, global_basis_);
-        }
-
-        #pragma omp for schedule(static)
-        for (int block_I = 0; block_I < NblockP_I; ++block_I) {
-            blocklist_p.blocks_S1D_block[block_I].update_Gamma_Delta_from_field(fields_.field_p, global_basis_);
-        }
-    }
-}
-
-/**
- * @brief  Apply neutron and proton Lipkin-Nogami corrections.
- * @math   (λ_{2,n},λ_{2,p}) → ({Γ_n},{Γ_p})
- * @output Updated neutron and proton blocks.
- */
-void AxialHFBBlockListSystem::add_lipkin_nogami() {
-    blocklist_n.add_lipkin_nogami();
-    blocklist_p.add_lipkin_nogami();
-}
-
-/**
  * @brief  Contract Gogny particle-hole matrix elements.
  * @math   Γ^q_{13}=Σ_{24}(\bar v^{same}_{12;34}ρ^q_{42}+\bar v^{cross}_{12;34}ρ^{\bar q}_{42})
  * @output Updated neutron and proton Γ matrices.
  */
-void AxialHFBBlockListSystem::add_Gamma_from_Gogny(const AxialGaussianGogny& gogny_) {
-    assert(blocklist_n.blocks_S1D_block.size() == blocklist_p.blocks_S1D_block.size());
-    const int Nblock_I = static_cast<int>(blocklist_n.blocks_S1D_block.size());
+void AxialHFBBlockList::add_Gamma_from_Gogny(AxialHFBBlockList& blocklist_n_, AxialHFBBlockList& blocklist_p_, const AxialGaussianGogny& gogny_) {
+    assert(blocklist_n_.blocks_S1D_block.size() == blocklist_p_.blocks_S1D_block.size());
+    const int Nblock_I = static_cast<int>(blocklist_n_.blocks_S1D_block.size());
 
     #pragma omp parallel for schedule(static)
     for (int block13_I = 0; block13_I < Nblock_I; ++block13_I) {
-        AxialHFBBlock& block13n_ = blocklist_n.blocks_S1D_block[block13_I];
-        AxialHFBBlock& block13p_ = blocklist_p.blocks_S1D_block[block13_I];
+        AxialHFBBlock& block13n_ = blocklist_n_.blocks_S1D_block[block13_I];
+        AxialHFBBlock& block13p_ = blocklist_p_.blocks_S1D_block[block13_I];
         assert(block13n_.indices_I1D_bsp.size() == block13p_.indices_I1D_bsp.size());
         const int Nbsp13_I = static_cast<int>(block13n_.indices_I1D_bsp.size());
 
@@ -160,8 +127,8 @@ void AxialHFBBlockListSystem::add_Gamma_from_Gogny(const AxialGaussianGogny& gog
                 double Gamma13p_F = 0.0;
 
                 for (int block24_I = 0; block24_I < Nblock_I; ++block24_I) {
-                    const AxialHFBBlock& block24n_ = blocklist_n.blocks_S1D_block[block24_I];
-                    const AxialHFBBlock& block24p_ = blocklist_p.blocks_S1D_block[block24_I];
+                    const AxialHFBBlock& block24n_ = blocklist_n_.blocks_S1D_block[block24_I];
+                    const AxialHFBBlock& block24p_ = blocklist_p_.blocks_S1D_block[block24_I];
                     assert(block24n_.indices_I1D_bsp.size() == block24p_.indices_I1D_bsp.size());
                     const int Nbsp24_I = static_cast<int>(block24n_.indices_I1D_bsp.size());
 
@@ -207,14 +174,14 @@ void AxialHFBBlockListSystem::add_Gamma_from_Gogny(const AxialGaussianGogny& gog
  * @math   Δ^q_{12}=Σ_{34}\bar v^{same,+-+-}_{12;34}κ^q_{34}
  * @output Updated neutron and proton Δ matrices.
  */
-void AxialHFBBlockListSystem::add_Delta_from_Gogny(const AxialGaussianGogny& gogny_) {
-    assert(blocklist_n.blocks_S1D_block.size() == blocklist_p.blocks_S1D_block.size());
-    const int Nblock_I = static_cast<int>(blocklist_n.blocks_S1D_block.size());
+void AxialHFBBlockList::add_Delta_from_Gogny(AxialHFBBlockList& blocklist_n_, AxialHFBBlockList& blocklist_p_, const AxialGaussianGogny& gogny_) {
+    assert(blocklist_n_.blocks_S1D_block.size() == blocklist_p_.blocks_S1D_block.size());
+    const int Nblock_I = static_cast<int>(blocklist_n_.blocks_S1D_block.size());
 
     #pragma omp parallel for schedule(static)
     for (int block12_I = 0; block12_I < Nblock_I; ++block12_I) {
-        AxialHFBBlock& block12n_ = blocklist_n.blocks_S1D_block[block12_I];
-        AxialHFBBlock& block12p_ = blocklist_p.blocks_S1D_block[block12_I];
+        AxialHFBBlock& block12n_ = blocklist_n_.blocks_S1D_block[block12_I];
+        AxialHFBBlock& block12p_ = blocklist_p_.blocks_S1D_block[block12_I];
         assert(block12n_.indices_I1D_bsp.size() == block12p_.indices_I1D_bsp.size());
         const int Nbsp12_I = static_cast<int>(block12n_.indices_I1D_bsp.size());
 
@@ -228,8 +195,8 @@ void AxialHFBBlockListSystem::add_Delta_from_Gogny(const AxialGaussianGogny& gog
                 double Delta12p_F = 0.0;
 
                 for (int block34_I = 0; block34_I < Nblock_I; ++block34_I) {
-                    const AxialHFBBlock& block34n_ = blocklist_n.blocks_S1D_block[block34_I];
-                    const AxialHFBBlock& block34p_ = blocklist_p.blocks_S1D_block[block34_I];
+                    const AxialHFBBlock& block34n_ = blocklist_n_.blocks_S1D_block[block34_I];
+                    const AxialHFBBlock& block34p_ = blocklist_p_.blocks_S1D_block[block34_I];
                     assert(block34n_.indices_I1D_bsp.size() == block34p_.indices_I1D_bsp.size());
                     const int Nbsp34_I = static_cast<int>(block34n_.indices_I1D_bsp.size());
 
@@ -261,12 +228,12 @@ void AxialHFBBlockListSystem::add_Delta_from_Gogny(const AxialGaussianGogny& gog
  * @math   Γ^p_{13}=Σ_{24}(\bar v^{C,++}_{12;34}ρ^{p,+}_{42}+\bar v^{C,+-}_{12;34}ρ^{p,-}_{42})
  * @output Updated proton Γ matrices.
  */
-void AxialHFBBlockListSystem::add_coulomb_from_Gaussian(const AxialGaussianCoulomb& coulomb_) {
-    const int Nblock_I = static_cast<int>(blocklist_p.blocks_S1D_block.size());
+void AxialHFBBlockList::add_coulomb_from_Gaussian(AxialHFBBlockList& blocklist_p_, const AxialGaussianCoulomb& coulomb_) {
+    const int Nblock_I = static_cast<int>(blocklist_p_.blocks_S1D_block.size());
 
     #pragma omp parallel for schedule(static)
     for (int block13_I = 0; block13_I < Nblock_I; ++block13_I) {
-        AxialHFBBlock& block13p_ = blocklist_p.blocks_S1D_block[block13_I];
+        AxialHFBBlock& block13p_ = blocklist_p_.blocks_S1D_block[block13_I];
         const int Nbsp13_I = static_cast<int>(block13p_.indices_I1D_bsp.size());
 
         // Γ^p_{13}=Σ_{24}(v̄^{C,++}_{12;34}ρ^{p,+}_{42}+v̄^{C,+-}_{12;34}ρ^{p,-}_{42}).
@@ -278,7 +245,7 @@ void AxialHFBBlockListSystem::add_coulomb_from_Gaussian(const AxialGaussianCoulo
                 double Gamma13p_F = 0.0;
 
                 for (int block24_I = 0; block24_I < Nblock_I; ++block24_I) {
-                    const AxialHFBBlock& block24p_ = blocklist_p.blocks_S1D_block[block24_I];
+                    const AxialHFBBlock& block24p_ = blocklist_p_.blocks_S1D_block[block24_I];
                     const int Nbsp24_I = static_cast<int>(block24p_.indices_I1D_bsp.size());
 
                     for (int bsp2_I = 0; bsp2_I < Nbsp24_I; ++bsp2_I) {

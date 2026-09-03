@@ -274,8 +274,8 @@ inline void AxialHFBObservable::update_observable(const AxialHFB& hfb_, const st
     const auto& density_p_ = hfb_.densities.density_p;
     const int Nr_I = hfb_.axialconfig.Nr_I;
     const int Nz_I = hfb_.axialconfig.Nz_I;
-    const auto& blocklist_n_ = hfb_.blocks.blocklist_n;
-    const auto& blocklist_p_ = hfb_.blocks.blocklist_p;
+    const auto& blocklist_n_ = hfb_.blocklist_n;
+    const auto& blocklist_p_ = hfb_.blocklist_p;
     const auto& hfbsettings_ = hfb_.hfbsettings;
     const auto& w_F2D_z_r = hfb_.global_basis.w_F2D_z_r;
     const auto& r_F1D_r = hfb_.global_basis.r_F1D_r;

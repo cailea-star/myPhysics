@@ -55,7 +55,7 @@ int main() {
     hfb_.initialize_WS_field(Ncore_I, Zcore_I);
     hfb_.iterate(Ncore_I, Zcore_I);
     const AxialHFB hfbCore_ = hfb_;
-    std::vector<AxialHFBBlocking> blockings_S1D_candidate = AxialHFBBlocking::list_candidates(hfbsettings_, hfb_.blocks.blocklist_n, true);
+    std::vector<AxialHFBBlocking> blockings_S1D_candidate = AxialHFBBlocking::list_candidates(hfbsettings_, hfb_.blocklist_n, true);
 
     // O_ref(μ=1,…,6) ← HFBTHO run_000001.
     const std::vector<AxialHFBObservableReference> references_S1D_candidate{{-409.353490, -10.181604, -13.510115, -0.000000, -0.000000, 0.000070, -0.000014, 3.573004, 3.442663}, {-409.309844, -10.180494, -13.628915, -0.000000, -0.000000, 0.000054, -0.000010, 3.572602, 3.442358}, {-409.288385, -10.222255, -13.743649, -0.000000, -0.000000, 0.000059, -0.000009, 3.572603, 3.442320}, {-409.437538, -10.222038, -13.407578, -0.000000, -0.000000, 0.000071, -0.000023, 3.573810, 3.443265}, {-407.779143, -9.536332, -13.272025, -5.809006, -0.000000, 1.310967, -0.000024, 3.589751, 3.448737}, {-407.776599, -9.536052, -13.300916, -5.806758, -0.000000, 1.310750, -0.000023, 3.589762, 3.448738}};

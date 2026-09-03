@@ -51,8 +51,8 @@ int main() {
     hfb_.iterate(Ncore_I, Zcore_I);
 
     // HFB_{core} → B_n ⊕ B_p.
-    const std::vector<AxialHFBBlocking> blockingCandidates_S1D_n = AxialHFBBlocking::list_candidates(hfbsettings_, hfb_.blocks.blocklist_n, true);
-    const std::vector<AxialHFBBlocking> blockingCandidates_S1D_p = AxialHFBBlocking::list_candidates(hfbsettings_, hfb_.blocks.blocklist_p, false);
+    const std::vector<AxialHFBBlocking> blockingCandidates_S1D_n = AxialHFBBlocking::list_candidates(hfbsettings_, hfb_.blocklist_n, true);
+    const std::vector<AxialHFBBlocking> blockingCandidates_S1D_p = AxialHFBBlocking::list_candidates(hfbsettings_, hfb_.blocklist_p, false);
     assert(blockingCandidates_S1D_n.size() > 4);
     assert(blockingCandidates_S1D_p.size() > 3);
     std::vector<AxialHFBBlocking> activeBlockings_S1D_q;
