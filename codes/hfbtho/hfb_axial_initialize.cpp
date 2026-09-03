@@ -155,8 +155,8 @@ void AxialHFB::initialize_WS_field(int Ntarget_I, int Ztarget_I, double beta2_F,
             }
         }
     };
-    fill_WS_Func(fields.field_n, V0WS_n_F, active_edf_.hbzeron_F, V0LS_n_F);
-    fill_WS_Func(fields.field_p, V0WS_p_F, active_edf_.hbzerop_F, V0LS_p_F);
+    fill_WS_Func(field_n, V0WS_n_F, active_edf_.hbzeron_F, V0LS_n_F);
+    fill_WS_Func(field_p, V0WS_p_F, active_edf_.hbzerop_F, V0LS_p_F);
 
     // κ_{aux} → Δ_q = -100κ_{aux}.
     auto fill_pairing_Func = [&](AxialHFBField& field_) {
@@ -171,8 +171,8 @@ void AxialHFB::initialize_WS_field(int Ntarget_I, int Ztarget_I, double beta2_F,
             }
         }
     };
-    fill_pairing_Func(fields.field_n);
-    fill_pairing_Func(fields.field_p);
+    fill_pairing_Func(field_n);
+    fill_pairing_Func(field_p);
 
     // P_{WS} → stdout.
     std::cout << "[AxialHFB::initialize_WS_field] Woods-Saxon initialization\n";

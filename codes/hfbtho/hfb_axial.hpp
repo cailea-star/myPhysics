@@ -27,7 +27,6 @@ class AxialHFBBlockList;
 class AxialHFBBlocking;
 class AxialHFBDensity;
 class AxialHFBField;
-class AxialHFBFieldSystem;
 
 /**
  * @brief Store one axial symmetry block.
@@ -347,46 +346,27 @@ public:
      * @output Regularized coupling grid.
      */
     void regularize_gr(double EspCut_F, double lambda_F, Eigen::MatrixXd& gr_F2D_z_r) const;
-};
-
-/**
- * @brief Manage coupled neutron and proton fields.
- */
-class AxialHFBFieldSystem {
-public:
-    AxialHFBField field_p; // Proton fields.
-    AxialHFBField field_n; // Neutron fields.
-    AxialCoulombField coulombField; // ρ_p → v_C^{dir}.
-
-public:
-    /**
-     * @brief Construct species fields and Coulomb storage.
-     * @math C_{axial} → (F_p,F_n,K_C)
-     * @output Zero-initialized fields and kernel.
-     */
-    AxialHFBFieldSystem(const AxialConfig& axialconfig_, const HFBSettings&, const EDFParamsSkyrme&, const AxialBasis& basis_)
-    : field_p(axialconfig_), field_n(axialconfig_), coulombField(basis_) {}
 
     /**
      * @brief Add direct and exchange Coulomb fields.
      * @math ρ_p → v_C^{dir}+v_C^{Slater}
      * @output Updated proton central field.
      */
-    void add_coulomb_field(const AxialHFBDensity& density_p_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_);
+    static void add_coulomb_field(AxialHFBField& field_p_, const AxialHFBDensity& density_p_, const AxialCoulombField& coulomb_field_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_);
 
     /**
      * @brief Add local pairing fields.
      * @math (ρ_0,κ_q,λ_q) → Δ_q
      * @output Updated neutron and proton pairing fields.
      */
-    void add_pairing_fields(const AxialHFBDensity& density_p_, const AxialHFBDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_, double lambda_n_F, double lambda_p_F);
+    static void add_pairing_fields(AxialHFBField& field_p_, AxialHFBField& field_n_, const AxialHFBDensity& density_p_, const AxialHFBDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_, double lambda_n_F, double lambda_p_F);
 
     /**
      * @brief Rebuild local neutron and proton fields.
      * @math (D_n,D_p,C,S) → (F_n,F_p)
      * @output Updated coordinate-space fields.
      */
-    void update_nuclei_fields(const AxialHFBDensity& density_p_, const AxialHFBDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_);
+    static void update_nuclei_fields(AxialHFBField& field_p_, AxialHFBField& field_n_, const AxialHFBDensity& density_p_, const AxialHFBDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_);
 };
 
 /**
@@ -404,7 +384,9 @@ public:
     AxialHFBBlockList blocklist_p; // Proton HFB blocks.
     AxialHFBDensity density_p; // Proton local densities.
     AxialHFBDensity density_n; // Neutron local densities.
-    AxialHFBFieldSystem fields; // q ∈ {n,p}: local fields.
+    AxialHFBField field_p; // Proton local fields.
+    AxialHFBField field_n; // Neutron local fields.
+    AxialCoulombField coulombField; // ρ_p → v_C^{dir}.
 
 public:
     /**
@@ -429,7 +411,7 @@ public:
      * @output Initialized HFB solver.
      */
     AxialHFB(const AxialConfig& axialconfig_, const HFBSettings& hfbsettings_, const EDFParamsSkyrme& edf_skyrme_, AxialGaussianGogny gogny_)
-    : axialconfig(axialconfig_), hfbsettings(hfbsettings_), edf_skyrme(edf_skyrme_), gogny(std::move(gogny_)), coulomb(axialconfig_, edf_skyrme_.e2charg_F), global_basis(axialconfig_, axialconfig_.labels_S1D_sp), blocklist_n(axialconfig_, hfbsettings_), blocklist_p(axialconfig_, hfbsettings_), density_p(axialconfig_), density_n(axialconfig_), fields(axialconfig_, hfbsettings_, edf_skyrme_, global_basis) {}
+    : axialconfig(axialconfig_), hfbsettings(hfbsettings_), edf_skyrme(edf_skyrme_), gogny(std::move(gogny_)), coulomb(axialconfig_, edf_skyrme_.e2charg_F), global_basis(axialconfig_, axialconfig_.labels_S1D_sp), blocklist_n(axialconfig_, hfbsettings_), blocklist_p(axialconfig_, hfbsettings_), density_p(axialconfig_), density_n(axialconfig_), field_p(axialconfig_), field_n(axialconfig_), coulombField(global_basis) {}
 
     /**
      * @brief Initialize deformed Woods-Saxon fields.
