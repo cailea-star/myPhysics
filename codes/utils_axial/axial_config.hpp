@@ -15,21 +15,28 @@
 
 class AxialSPLabel {
 public:
-    int N_I;                         // N = n_z + 2n_r + Λ
-    int nz_I;                        // n_z ≥ 0
-    int nr_I;                        // n_r ≥ 0
-    int Lambda_I;                    // Λ ≥ 0
-    int twoOmega_I;                  // 2Ω = 2Λ ± 1
-    int twoSigma_I;                  // 2Σ = ±1
-    bool isParityPositive_B;         // π = (-1)^(n_z + Λ) = +1
+    int N_I = 0;                     // N = n_z + 2n_r + Λ
+    int nz_I = 0;                    // n_z ≥ 0
+    int nr_I = 0;                    // n_r ≥ 0
+    int Lambda_I = 0;                // Λ ≥ 0
+    int twoOmega_I = 0;              // 2Ω = 2Λ ± 1
+    int twoSigma_I = 0;              // 2Σ = ±1
+    bool isParityPositive_B = false; // π = (-1)^(n_z + Λ) = +1
 
     /**
      * @brief  Construct an axial single-particle label.
      * @math   N = n_z + 2n_r + Λ, 2Ω = 2Λ ± 1, π = (-1)^(n_z + Λ)
      * @output Initialized label.
      */
-    AxialSPLabel(int nz_I_, int nr_I_, int Lambda_I_, int twoOmega_I_)
-    : N_I(nz_I_ + 2 * nr_I_ + Lambda_I_), nz_I(nz_I_), nr_I(nr_I_), Lambda_I(Lambda_I_), twoOmega_I(twoOmega_I_), twoSigma_I(twoOmega_I_ - 2 * Lambda_I_), isParityPositive_B((nz_I_ + Lambda_I_) % 2 == 0) {}
+    AxialSPLabel(int nz_I_, int nr_I_, int Lambda_I_, int twoOmega_I_) {
+        N_I = nz_I_ + 2 * nr_I_ + Lambda_I_;
+        nz_I = nz_I_;
+        nr_I = nr_I_;
+        Lambda_I = Lambda_I_;
+        twoOmega_I = twoOmega_I_;
+        twoSigma_I = twoOmega_I_ - 2 * Lambda_I_;
+        isParityPositive_B = (nz_I_ + Lambda_I_) % 2 == 0;
+    }
 };
 
 /**
@@ -51,23 +58,27 @@ inline bool is_valid(int nz_I, int nr_I, int Lambda_I, int twoOmega_I, int twoSi
 
 class AxialConfig {
 public:
-    int Nshell_I;                                        // N_shell ≥ 0
-    int Nz_I;                                            // N_z = 2n_z^max + 8
-    int Nr_I;                                            // N_r = 2n_r^max + Λ^max + 8
-    double bz_F;                                         // ζ = z / b_z
-    double br_F;                                         // η = (r / b_r)^2
-    bool useReflection_B;                                // z ≥ 0 when true
-    std::vector<AxialSPLabel> labels_S1D_sp;             // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp
-    std::vector<std::vector<AxialSPLabel>> labels_S2D_block_bsp; // α_(block,bsp): labels grouped by Ω or (Ω,π)
-    std::vector<std::vector<int>> indices_I2D_block_bsp; // sp(block,bsp): global indices of block labels
+    int Nshell_I = 0;                                           // N_shell ≥ 0
+    int Nz_I = 0;                                               // N_z = 2n_z^max + 8
+    int Nr_I = 0;                                               // N_r = 2n_r^max + Λ^max + 8
+    double bz_F = 0.0;                                          // ζ = z / b_z
+    double br_F = 0.0;                                          // η = (r / b_r)^2
+    bool useReflection_B = false;                               // z ≥ 0 when true
+    std::vector<AxialSPLabel> labels_S1D_sp{};                  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp
+    std::vector<std::vector<AxialSPLabel>> labels_S2D_block_bsp{}; // α_(block,bsp): labels grouped by Ω or (Ω,π)
+    std::vector<std::vector<int>> indices_I2D_block_bsp{};      // sp(block,bsp): global indices of block labels
 
     /**
      * @brief  Construct an axial harmonic-oscillator configuration.
      * @math   N_z = 2n_z^max + 8, N_r = 2n_r^max + Λ^max + 8
      * @output Single-particle labels, symmetry blocks, and quadrature orders.
      */
-    AxialConfig(double bz_F_, double br_F_, int Nshell_I_, bool useReflection_B_)
-    : Nshell_I(Nshell_I_), Nz_I(0), Nr_I(0), bz_F(bz_F_), br_F(br_F_), useReflection_B(useReflection_B_) {
+    AxialConfig(double bz_F_, double br_F_, int Nshell_I_, bool useReflection_B_) {
+        Nshell_I = Nshell_I_;
+        bz_F = bz_F_;
+        br_F = br_F_;
+        useReflection_B = useReflection_B_;
+
         assert(std::isfinite(bz_F) && bz_F > 0.0);
         assert(std::isfinite(br_F) && br_F > 0.0);
         assert(Nshell_I >= 0);

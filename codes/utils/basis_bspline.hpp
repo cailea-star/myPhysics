@@ -18,17 +18,17 @@ public:
     using KnotVectorType = Spline1D::KnotVectorType;
     using BasisDerivativeType = Spline1D::BasisDerivativeType;
 
-    Eigen::VectorXd x_F1D_x;                // x_i: interval boundaries from x_min to x_max.
+    Eigen::VectorXd x_F1D_x{};              // x_i: interval boundaries from x_min to x_max.
     const int p_I = 3;                      // p = 3, order = p + 1.
-    KnotVectorType x_F1D_t;                 // t_α: clamped knot vector with endpoint multiplicity p + 1.
+    KnotVectorType x_F1D_t{};               // t_α: clamped knot vector with endpoint multiplicity p + 1.
 
     /**
      * @brief  Construct a cubic clamped B-spline basis.
      * @math   N_B = N_x + p - 1
      * @output Initialized knot vector and basis definition.
      */
-    BSplineBasisFunction(const Eigen::VectorXd& x_F1D_x_)
-    : x_F1D_x(x_F1D_x_) {
+    BSplineBasisFunction(const Eigen::VectorXd& x_F1D_x_) {
+        x_F1D_x = x_F1D_x_;
         fill_clamped_knots();
     }
 
@@ -112,10 +112,10 @@ protected:
 class BSplineBasis {
 public:
     BSplineBasisFunction b_funcs;        // B_b(x): clamped cubic basis used for grid tabulation.
-    Eigen::VectorXd x_F1D_grid;          // x_g: Gauss-Legendre nodes mapped to each interval.
-    Eigen::VectorXd w_F1D_grid;          // w_g: mapped Gauss-Legendre weights on each interval.
-    Eigen::MatrixXd B_F2D_grid_b;        // B_gb = B_b(x_g).
-    Eigen::MatrixXd dB_F2D_grid_b;       // dB_gb = ∂_xB_b(x_g).
+    Eigen::VectorXd x_F1D_grid{};        // x_g: Gauss-Legendre nodes mapped to each interval.
+    Eigen::VectorXd w_F1D_grid{};        // w_g: mapped Gauss-Legendre weights on each interval.
+    Eigen::MatrixXd B_F2D_grid_b{};      // B_gb = B_b(x_g).
+    Eigen::MatrixXd dB_F2D_grid_b{};     // dB_gb = ∂_xB_b(x_g).
 
     /**
      * @brief  Build Gauss-Legendre grid and tabulate cubic B-splines.
