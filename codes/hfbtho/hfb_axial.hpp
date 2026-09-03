@@ -24,7 +24,6 @@
 
 class AxialHFBBlock;
 class AxialHFBBlockList;
-class AxialHFBBlockListSystem;
 class AxialHFBBlocking;
 class AxialHFBDensity;
 class AxialHFBDensitySystem;
@@ -157,59 +156,27 @@ public:
      * @output Updated block solutions.
      */
     void update_UV_E_rho_kappa(const HFBSettings& hfbsettings_);
-};
-
-/**
- * @brief Manage coupled neutron and proton HFB blocks.
- */
-class AxialHFBBlockListSystem {
-public:
-    AxialHFBBlockList blocklist_n; // Neutron blocks.
-    AxialHFBBlockList blocklist_p; // Proton blocks.
-
-public:
-    /**
-     * @brief Construct neutron and proton block lists.
-     * @math C_{axial} → ({B_n},{B_p})
-     * @output Zero-initialized species blocks.
-     */
-    AxialHFBBlockListSystem(const AxialConfig& axialconfig_, const HFBSettings& hfbsettings_)
-    : blocklist_n(axialconfig_, hfbsettings_), blocklist_p(axialconfig_, hfbsettings_) {}
-
-    /**
-     * @brief Project neutron and proton fields into blocks.
-     * @math (h_n,h_p,Δ_n,Δ_p,Φ) → ({Γ_n,Δ_n},{Γ_p,Δ_p})
-     * @output Updated neutron and proton blocks.
-     */
-    void update_Gamma_Delta_from_fields(const AxialHFBFieldSystem& fields_, const AxialBasis& global_basis_);
 
     /**
      * @brief Add finite-range Gogny particle-hole fields.
      * @math \bar v_Gρ → (Γ_n,Γ_p)
      * @output Updated particle-hole matrices.
      */
-    void add_Gamma_from_Gogny(const AxialGaussianGogny& gogny_);
+    static void add_Gamma_from_Gogny(AxialHFBBlockList& blocklist_n_, AxialHFBBlockList& blocklist_p_, const AxialGaussianGogny& gogny_);
 
     /**
      * @brief Add finite-range Gogny pairing fields.
      * @math \bar v_Gκ → (Δ_n,Δ_p)
      * @output Updated pairing matrices.
      */
-    void add_Delta_from_Gogny(const AxialGaussianGogny& gogny_);
+    static void add_Delta_from_Gogny(AxialHFBBlockList& blocklist_n_, AxialHFBBlockList& blocklist_p_, const AxialGaussianGogny& gogny_);
 
     /**
      * @brief Add finite-range Coulomb matrix elements.
      * @math \bar v_Cρ_p → Γ_p
      * @output Updated proton particle-hole matrices.
      */
-    void add_coulomb_from_Gaussian(const AxialGaussianCoulomb& coulomb_);
-
-    /**
-     * @brief Apply species-wise Lipkin-Nogami corrections.
-     * @math (λ_{2,n},λ_{2,p}) → ({Γ_n},{Γ_p})
-     * @output Updated neutron and proton blocks.
-     */
-    void add_lipkin_nogami();
+    static void add_coulomb_from_Gaussian(AxialHFBBlockList& blocklist_p_, const AxialGaussianCoulomb& coulomb_);
 };
 
 /**
@@ -452,7 +419,8 @@ public:
     AxialGaussianGogny gogny; // Finite-range Gogny interaction.
     AxialGaussianCoulomb coulomb; // Finite-range Coulomb interaction.
     AxialBasis global_basis; // Global axial basis.
-    AxialHFBBlockListSystem blocks; // q ∈ {n,p}: HFB blocks.
+    AxialHFBBlockList blocklist_n; // Neutron HFB blocks.
+    AxialHFBBlockList blocklist_p; // Proton HFB blocks.
     AxialHFBDensitySystem densities; // q ∈ {n,p}: local densities.
     AxialHFBFieldSystem fields; // q ∈ {n,p}: local fields.
 
@@ -479,7 +447,7 @@ public:
      * @output Initialized HFB solver.
      */
     AxialHFB(const AxialConfig& axialconfig_, const HFBSettings& hfbsettings_, const EDFParamsSkyrme& edf_skyrme_, AxialGaussianGogny gogny_)
-    : axialconfig(axialconfig_), hfbsettings(hfbsettings_), edf_skyrme(edf_skyrme_), gogny(std::move(gogny_)), coulomb(axialconfig_, edf_skyrme_.e2charg_F), global_basis(axialconfig_, axialconfig_.labels_S1D_sp), blocks(axialconfig_, hfbsettings_), densities(axialconfig_), fields(axialconfig_, hfbsettings_, edf_skyrme_, global_basis) {}
+    : axialconfig(axialconfig_), hfbsettings(hfbsettings_), edf_skyrme(edf_skyrme_), gogny(std::move(gogny_)), coulomb(axialconfig_, edf_skyrme_.e2charg_F), global_basis(axialconfig_, axialconfig_.labels_S1D_sp), blocklist_n(axialconfig_, hfbsettings_), blocklist_p(axialconfig_, hfbsettings_), densities(axialconfig_), fields(axialconfig_, hfbsettings_, edf_skyrme_, global_basis) {}
 
     /**
      * @brief Initialize deformed Woods-Saxon fields.

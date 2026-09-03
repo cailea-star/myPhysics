@@ -55,7 +55,7 @@ int main() {
     AxialHFB hfb_(axialconfig_, hfbsettings_, edf_skyrme_);
     hfb_.initialize_WS_field(Ncore_I, Zcore_I);
     hfb_.iterate(Ncore_I, Zcore_I);
-    std::vector<AxialHFBBlocking> blockings_S1D_candidate = AxialHFBBlocking::list_candidates(hfbsettings_, hfb_.blocks.blocklist_n, true);
+    std::vector<AxialHFBBlocking> blockings_S1D_candidate = AxialHFBBlocking::list_candidates(hfbsettings_, hfb_.blocklist_n, true);
     assert(blockings_S1D_candidate.size() > 4);
     AxialHFBBlocking activeBlocking_ = blockings_S1D_candidate[4];
     hfb_.iterate(Nfinal_I, Zfinal_I, activeBlocking_);

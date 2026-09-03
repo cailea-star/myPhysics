@@ -261,8 +261,6 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, AxialHFBBlocking& activeBlo
 void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlocking>& activeBlockings_) {
     const bool hasBlocking_B = !activeBlockings_.empty();
     const EDFParamsSkyrme edfActive_ = hfbsettings.make_active_edf(edf_skyrme, Ntarget_I + Ztarget_I);
-    AxialHFBBlockList& blocklist_n = blocks.blocklist_n;
-    AxialHFBBlockList& blocklist_p = blocks.blocklist_p;
     AxialHFBObservable observable_;
 
     if (hasBlocking_B) {
@@ -283,11 +281,14 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
     // (ρ,κ,V_G,V_C,λ_2) → (Γ,Δ).
     const auto add_block_fields_Func = [&]() {
         if (hfbsettings.termSwitches.addFiniteRangeGogny_B) {
-            blocks.add_Gamma_from_Gogny(gogny);
-            blocks.add_Delta_from_Gogny(gogny);
+            AxialHFBBlockList::add_Gamma_from_Gogny(blocklist_n, blocklist_p, gogny);
+            AxialHFBBlockList::add_Delta_from_Gogny(blocklist_n, blocklist_p, gogny);
         }
-        if (hfbsettings.termSwitches.addFiniteRangeCoulomb_B) {blocks.add_coulomb_from_Gaussian(coulomb);}
-        if (hfbsettings.useLipkinNogami_B) {blocks.add_lipkin_nogami();}
+        if (hfbsettings.termSwitches.addFiniteRangeCoulomb_B) {AxialHFBBlockList::add_coulomb_from_Gaussian(blocklist_p, coulomb);}
+        if (hfbsettings.useLipkinNogami_B) {
+            blocklist_n.add_lipkin_nogami();
+            blocklist_p.add_lipkin_nogami();
+        }
     };
 
     // x = Γ_n ⊕ Δ_n ⊕ Γ_p ⊕ Δ_p.
@@ -306,13 +307,15 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
         densities.density_p.update_density(global_basis, blocklist_p);
         fields.update_nuclei_fields(densities, edfActive_, hfbsettings);
         add_fields_Func();
-        blocks.update_Gamma_Delta_from_fields(fields, global_basis);
+        blocklist_n.update_Gamma_Delta_from_field(fields.field_n, global_basis);
+        blocklist_p.update_Gamma_Delta_from_field(fields.field_p, global_basis);
         add_block_fields_Func();
         pack_Gamma_Delta(blocklist_n, blocklist_p, Gx_F1D_packed_);
     };
 
     // F_0 → G(x_0), x_0.
-    blocks.update_Gamma_Delta_from_fields(fields, global_basis);
+    blocklist_n.update_Gamma_Delta_from_field(fields.field_n, global_basis);
+    blocklist_p.update_Gamma_Delta_from_field(fields.field_p, global_basis);
     add_block_fields_Func();
     pack_Gamma_Delta(blocklist_n, blocklist_p, Gx_F1D_packed);
     x_F1D_packed.setZero();
