@@ -32,9 +32,7 @@ int main() {
     axialconfig_.Nz_I = 40;
 
     // P_{HFB} ← run 000008.
-    HFBSettings hfbsettings_;
-    hfbsettings_.useLipkinNogami_B = false;
-    hfbsettings_.useCmCorrection_B = true;
+    HFBSettings hfbsettings_ = HFBSettings::setting_skyrme();
     hfbsettings_.temperature_F = 1.5;
     hfbsettings_.EspCut_F = 60.0;
     hfbsettings_.accuracy_F = 1.0e-9;

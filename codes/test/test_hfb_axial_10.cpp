@@ -37,9 +37,7 @@ int main() {
     const int Zfinal_I = 19;
 
     // P_{HFB} ← run 000010.
-    HFBSettings hfbsettings_;
-    hfbsettings_.useLipkinNogami_B = false;
-    hfbsettings_.useCmCorrection_B = true;
+    HFBSettings hfbsettings_ = HFBSettings::setting_skyrme();
     hfbsettings_.Nblocking_I = 7;
     hfbsettings_.EspCut_F = 60.0;
     hfbsettings_.accuracy_F = 1.0e-5;

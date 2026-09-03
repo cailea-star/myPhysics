@@ -34,13 +34,9 @@ int main() {
     axialconfig_.Nz_I = 40;
 
     // S_HFB → S_D1S+Coulomb.
-    HFBSettings hfbsettings_;
-    hfbsettings_.termSwitches = HFBTermSwitches::gogny();
+    HFBSettings hfbsettings_ = HFBSettings::setting_gogny();
     hfbsettings_.termSwitches.addLocalCoulomb_B = false;
     hfbsettings_.termSwitches.addFiniteRangeCoulomb_B = true;
-    hfbsettings_.useEspCut_B = false;
-    hfbsettings_.useCmCorrection_B = true;
-    hfbsettings_.useLipkinNogami_B = false;
     hfbsettings_.accuracy_F = 1.0e-9;
     const EDFParamsGogny edf_gogny_ = EDFParamsGogny::D1S();
 

@@ -287,13 +287,6 @@ public:
     void set_zero();
 
     /**
-     * @brief Accumulate one block into coordinate space.
-     * @math (ρ_{ij},κ_{ij},Φ_i,Φ_j) → (ρ,τ,κ,Δρ,∇ρ,J)
-     * @output Accumulated density grids.
-     */
-    void add_density(const AxialBasis& global_basis_, const AxialHFBBlock& block_);
-
-    /**
      * @brief Rebuild densities from all species blocks.
      * @math {B_{block}} → (ρ,τ,κ,Δρ,∇ρ,J)
      * @output Updated density grids.

@@ -79,13 +79,13 @@ class HFBSettings {
 public:
     int Nblocking_I = 6; // Number of blocking candidates.
     double EblockingCut_F = 1.0; // Blocking window [MeV].
-    double EspCut_F = 60.0; // Active quasiparticle cutoff [MeV].
     double temperature_F = 0.0; // Temperature [MeV].
     double accuracy_F = 1.0e-5; // SCF convergence tolerance.
-    bool useEspCut_B = true; // E_qp ≤ E_sp^cut.
-    bool useLipkinNogami_B = true; // Enable Lipkin-Nogami correction.
+    double EspCut_F = 60.0; // Active quasiparticle cutoff [MeV].
+    bool useEspCut_B = false; // E_qp ≤ E_sp^cut.
+    bool useLipkinNogami_B = false; // Enable Lipkin-Nogami correction.
     bool useCmCorrection_B = false; // ℏ²/(2m) → [1-1/A]ℏ²/(2m).
-    HFBTermSwitches termSwitches = HFBTermSwitches::skyrme(); // Enabled energy terms.
+    HFBTermSwitches termSwitches{}; // Enabled energy terms.
 
 public:
     /**
@@ -94,6 +94,31 @@ public:
      * @output Initialized solver settings.
      */
     HFBSettings() = default;
+
+    /**
+     * @brief Build standard Skyrme HFB settings.
+     * @math ∅ → P_{HFB}^{Skyrme}
+     * @output Skyrme solver settings.
+     */
+    static HFBSettings setting_skyrme() {
+        HFBSettings hfbsettings_;
+        hfbsettings_.useEspCut_B = true;
+        hfbsettings_.useCmCorrection_B = true;
+        hfbsettings_.termSwitches = HFBTermSwitches::skyrme();
+        return hfbsettings_;
+    }
+
+    /**
+     * @brief Build standard Gogny HFB settings.
+     * @math ∅ → P_{HFB}^{Gogny}
+     * @output Gogny solver settings.
+     */
+    static HFBSettings setting_gogny() {
+        HFBSettings hfbsettings_;
+        hfbsettings_.useCmCorrection_B = true;
+        hfbsettings_.termSwitches = HFBTermSwitches::gogny();
+        return hfbsettings_;
+    }
 
     /**
      * @brief Calculate the spherical oscillator length.
