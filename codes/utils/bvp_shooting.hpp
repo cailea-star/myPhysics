@@ -33,8 +33,8 @@ public:
     ShootingPotentialFunc V_Func;
     ShootingBoundaryFunc Bin_Func;
     ShootingBoundaryFunc Bout_Func;
-    Eigen::VectorXd x_F1D_x;
-    Eigen::VectorXd V_F1D_x;
+    Eigen::VectorXd x_F1D_x{};
+    Eigen::VectorXd V_F1D_x{};
     int node_I;
     double hmass_F;
     int xmatch_I;
@@ -46,8 +46,16 @@ public:
      * @output Initialized potential mesh and shooting configuration.
      * @note   Boundary functions have the form B(x,E) = (y,y').
      */
-    ShootingProblem(const ShootingPotentialFunc& V_Func_, const ShootingBoundaryFunc& Bin_Func_, const ShootingBoundaryFunc& Bout_Func_, const Eigen::Ref<const Eigen::VectorXd>& x_F1D_x_, int node_I_, double hmass_F_, int xmatch_I_, double tol_F_ = 1.0e-8)
-    : V_Func(V_Func_), Bin_Func(Bin_Func_), Bout_Func(Bout_Func_), x_F1D_x(x_F1D_x_), V_F1D_x(x_F1D_x_.size()), node_I(node_I_), hmass_F(hmass_F_), xmatch_I(xmatch_I_), tol_F(tol_F_) {
+    ShootingProblem(const ShootingPotentialFunc& V_Func_, const ShootingBoundaryFunc& Bin_Func_, const ShootingBoundaryFunc& Bout_Func_, const Eigen::Ref<const Eigen::VectorXd>& x_F1D_x_, int node_I_, double hmass_F_, int xmatch_I_, double tol_F_ = 1.0e-8) {
+        V_Func = V_Func_;
+        Bin_Func = Bin_Func_;
+        Bout_Func = Bout_Func_;
+        x_F1D_x = x_F1D_x_;
+        V_F1D_x.resize(x_F1D_x_.size());
+        node_I = node_I_;
+        hmass_F = hmass_F_;
+        xmatch_I = xmatch_I_;
+        tol_F = tol_F_;
         // (V,{x_i}) → {V_i}.
         assert(x_F1D_x.size() >= 3);
         assert(node_I >= 0);
@@ -59,10 +67,10 @@ public:
 };
 
 struct ShootingSolution {
-    int node_I;
-    double E_F;
-    doubleC R_C; // R(E) = y'_in / y_in - y'_out / y_out
-    Eigen::VectorXcd y_C1D_x;
+    int node_I = 0;
+    double E_F = 0.0;
+    doubleC R_C = 0.0; // R(E) = y'_in / y_in - y'_out / y_out
+    Eigen::VectorXcd y_C1D_x{};
 };
 
 using ShootingMatchFunc = std::function<ShootingSolution(double)>;
