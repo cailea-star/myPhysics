@@ -12,10 +12,10 @@
 #include <vector>
 
 #include <Eigen/Core>
-#include <unsupported/Eigen/CXX11/Tensor>
 
 #include "axial_basis.hpp"
 #include "axial_config.hpp"
+#include "axial_coulomb_field.hpp"
 #include "axial_gaussian_coulomb.hpp"
 #include "axial_gaussian_gogny.hpp"
 #include "hfb_edf_gogny.hpp"
@@ -427,8 +427,7 @@ class AxialHFBFieldSystem {
 public:
     AxialHFBField field_p; // Proton fields.
     AxialHFBField field_n; // Neutron fields.
-    bool isCoulombKernelBuilt_B; // Coulomb kernel readiness.
-    Eigen::Tensor<double, 4, Eigen::ColMajor> coulomb_F4D_zs_rs_zt_rt; // K_C(z_s,r_s,z_t,r_t).
+    AxialCoulombField coulombField; // ρ_p → v_C^{dir}.
 
 public:
     /**
@@ -436,15 +435,8 @@ public:
      * @math C_{axial} → (F_p,F_n,K_C)
      * @output Zero-initialized fields and kernel.
      */
-    AxialHFBFieldSystem(const AxialConfig& axialconfig_, const HFBSettings&, const EDFParamsSkyrme&)
-    : field_p(axialconfig_), field_n(axialconfig_), isCoulombKernelBuilt_B(false), coulomb_F4D_zs_rs_zt_rt(axialconfig_.Nz_I, axialconfig_.Nr_I, axialconfig_.Nz_I, axialconfig_.Nr_I) {}
-
-    /**
-     * @brief Build the axial direct-Coulomb kernel.
-     * @math (Φ,e²,reflection) → K_C
-     * @output Initialized Coulomb kernel.
-     */
-    void build_coulomb_kernel(const AxialBasis& basis_, const EDFParamsSkyrme& edf_skyrme_, bool useReflection_B);
+    AxialHFBFieldSystem(const AxialConfig& axialconfig_, const HFBSettings&, const EDFParamsSkyrme&, const AxialBasis& basis_)
+    : field_p(axialconfig_), field_n(axialconfig_), coulombField(basis_) {}
 
     /**
      * @brief Add direct and exchange Coulomb fields.
@@ -506,7 +498,7 @@ public:
      * @output Initialized HFB solver.
      */
     AxialHFB(const AxialConfig& axialconfig_, const HFBSettings& hfbsettings_, const EDFParamsSkyrme& edf_skyrme_, AxialGaussianGogny gogny_)
-    : axialconfig(axialconfig_), hfbsettings(hfbsettings_), edf_skyrme(edf_skyrme_), gogny(std::move(gogny_)), coulomb(axialconfig_, edf_skyrme_.e2charg_F), global_basis(axialconfig_, axialconfig_.labels_S1D_sp), blocks(axialconfig_, hfbsettings_), densities(axialconfig_), fields(axialconfig_, hfbsettings_, edf_skyrme_) {}
+    : axialconfig(axialconfig_), hfbsettings(hfbsettings_), edf_skyrme(edf_skyrme_), gogny(std::move(gogny_)), coulomb(axialconfig_, edf_skyrme_.e2charg_F), global_basis(axialconfig_, axialconfig_.labels_S1D_sp), blocks(axialconfig_, hfbsettings_), densities(axialconfig_), fields(axialconfig_, hfbsettings_, edf_skyrme_, global_basis) {}
 
     /**
      * @brief Initialize deformed Woods-Saxon fields.
