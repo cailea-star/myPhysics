@@ -12,8 +12,6 @@
 
 #include "hfb_edf_skyrme.hpp"
 
-class EDFLocalGogny;
-
 /**
  * @brief Store two-range Gogny-force parameters.
  */
@@ -55,7 +53,7 @@ public:
      * @math   (t_3^G,x_3,α,W_{LS}) → {C_t}
      * @output Local companion EDF.
      */
-    EDFLocalGogny make_local_edf() const;
+    EDFParamsSkyrme make_local_edf() const;
 
     /**
      * @brief  Build the D1 Gogny parameterization.
@@ -86,60 +84,40 @@ public:
 };
 
 /**
- * @brief Store local zero-range Gogny EDF couplings.
- */
-class EDFLocalGogny : public EDFParamsSkyrme {
-public:
-    std::string sourceForceName_Str = "Unknown";
-    double sourceT3G_F = 0.0;
-    double sourceX3_F = 1.0;
-    double sourceWLS_F = 0.0;
-
-public:
-    /**
-     * @brief  Convert Gogny local terms into Skyrme-form couplings.
-     * @math   t_3=6t_3^G; b_4=b'_4=W_{LS}/2
-     * @output Local companion EDF.
-     */
-    explicit EDFLocalGogny(const EDFParamsGogny& force_)
-    : sourceForceName_Str(force_.forceName_Str), sourceT3G_F(force_.t3G_F), sourceX3_F(force_.x3_F), sourceWLS_F(force_.WLS_F) {
-        // (ℏ²/2m,e²,α,C_ex) ← P_G.
-        functionalName_Str = force_.forceName_Str + "-local";
-        hbzero_F = force_.hbzero_F;
-        hbzeron_F = hbzero_F;
-        hbzerop_F = hbzero_F;
-        e2charg_F = 1.439978408596513;
-        CExPar_F = 1.0;
-        sigma_F = force_.alpha_F;
-
-        // t_3=6t_3^G → {C_t^{ρ,α},C_t^{s,α}}.
-        const double t3_F = 6.0 * force_.t3G_F;
-        Cdrho_0_F = t3_F / 16.0;
-        Cdrho_1_F = -t3_F * (0.5 + force_.x3_F) / 24.0;
-        Cds_0_F = -t3_F * (0.5 - force_.x3_F) / 24.0;
-        Cds_1_F = -t3_F / 48.0;
-
-        // b_4=b'_4=W_{LS}/2 → C_t^{∇J}=C_t^{∇j}.
-        const double b4_F = 0.5 * force_.WLS_F;
-        const double b4p_F = 0.5 * force_.WLS_F;
-        CrdJ_0_F = -b4_F - 0.5 * b4p_F;
-        CrdJ_1_F = -0.5 * b4p_F;
-        CsdJ_0_F = CrdJ_0_F;
-        CsdJ_1_F = CrdJ_1_F;
-
-        // C_q^{V0}=C_q^{V1}=0.
-        CpV0_0_F = 0.0;
-        CpV0_1_F = 0.0;
-        CpV1_0_F = 0.0;
-        CpV1_1_F = 0.0;
-    }
-};
-
-/**
  * @brief  Convert local Gogny terms into EDF couplings.
  * @math   (t_3^G,x_3,α,W_{LS}) → {C_t}
  * @output Local companion EDF.
  */
-inline EDFLocalGogny EDFParamsGogny::make_local_edf() const {
-    return EDFLocalGogny(*this);
+inline EDFParamsSkyrme EDFParamsGogny::make_local_edf() const {
+    EDFParamsSkyrme local_edf_;
+    // (ℏ²/2m,e²,α,C_ex) ← P_G.
+    local_edf_.functionalName_Str = forceName_Str + "-local";
+    local_edf_.hbzero_F = hbzero_F;
+    local_edf_.hbzeron_F = hbzero_F;
+    local_edf_.hbzerop_F = hbzero_F;
+    local_edf_.e2charg_F = 1.439978408596513;
+    local_edf_.CExPar_F = 1.0;
+    local_edf_.sigma_F = alpha_F;
+
+    // t_3=6t_3^G → {C_t^{ρ,α},C_t^{s,α}}.
+    const double t3_F = 6.0 * t3G_F;
+    local_edf_.Cdrho_0_F = t3_F / 16.0;
+    local_edf_.Cdrho_1_F = -t3_F * (0.5 + x3_F) / 24.0;
+    local_edf_.Cds_0_F = -t3_F * (0.5 - x3_F) / 24.0;
+    local_edf_.Cds_1_F = -t3_F / 48.0;
+
+    // b_4=b'_4=W_{LS}/2 → C_t^{∇J}=C_t^{∇j}.
+    const double b4_F = 0.5 * WLS_F;
+    const double b4p_F = 0.5 * WLS_F;
+    local_edf_.CrdJ_0_F = -b4_F - 0.5 * b4p_F;
+    local_edf_.CrdJ_1_F = -0.5 * b4p_F;
+    local_edf_.CsdJ_0_F = local_edf_.CrdJ_0_F;
+    local_edf_.CsdJ_1_F = local_edf_.CrdJ_1_F;
+
+    // C_q^{V0}=C_q^{V1}=0.
+    local_edf_.CpV0_0_F = 0.0;
+    local_edf_.CpV0_1_F = 0.0;
+    local_edf_.CpV1_0_F = 0.0;
+    local_edf_.CpV1_1_F = 0.0;
+    return local_edf_;
 }
