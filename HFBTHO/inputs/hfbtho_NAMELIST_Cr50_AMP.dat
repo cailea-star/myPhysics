@@ -1,0 +1,35 @@
+&HFBTHO_GENERAL
+ number_of_shells = 8, oscillator_length = -1.0, basis_deformation = 0.0,
+ proton_number = 24, neutron_number = 26, type_of_calculation = 1 /
+&HFBTHO_INITIAL
+ beta2_deformation = 0.1, beta3_deformation = 0.0, beta4_deformation = 0.0 /
+&HFBTHO_ITERATIONS
+ number_iterations = 200, accuracy = 1e-7, restart_file = -1 /
+&HFBTHO_FUNCTIONAL
+functional = 'SLY5', add_initial_pairing = F, type_of_coulomb = 0 /
+&HFBTHO_PAIRING
+ user_pairing = T, vpair_n = -190.0, vpair_p = -190.0,
+ pairing_cutoff = 60.0, pairing_feature = 0.0 /
+&HFBTHO_CONSTRAINTS
+ lambda_values = 1, 2, 3, 4, 5, 6, 7, 8,
+ lambda_active = 1, 1, 1, 1, 1, 1, 1, 1,
+ expectation_values = 0, 1.0, 0, 0, 0, 0, 0, 0 /
+&HFBTHO_BLOCKING
+ proton_blocking = 0, 0, 0, 0, 0, neutron_blocking = 0, 0, 0, 0, 0 /
+&HFBTHO_PROJECTION
+ switch_to_tho = 0, projection_is_on = 0,
+ gauge_points = 1, delta_z = 0, delta_n = 0 /
+&HFBTHO_TEMPERATURE
+ set_temperature = F, temperature = 0.0 /
+&HFBTHO_FEATURES
+ collective_inertia = F, fission_fragments = F, pairing_regularization = F,
+ automatic_basis = F, localization_functions = F /
+&HFBTHO_NECK
+ set_neck_constrain = F, neck_value = 1.5 /
+&HFBTHO_DEBUG
+ number_gauss = 40, number_laguerre = 40, number_legendre = 40,
+ compatibility_hfodd = F, number_states = 500, force_parity = T,
+ print_time = 0 /
+&HFBTHO_RESTORATION
+ pnp_is_on = 0, number_of_gauge_points = 7, delta_neutrons = 2, delta_protons = 2,
+ amp_is_on = 1, number_of_rotational_angles = 30, maximal_angular_momentum = 10 /

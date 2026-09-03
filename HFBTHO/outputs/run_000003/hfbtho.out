@@ -1,0 +1,551 @@
+Distributed parallelism with MPI     : 1 tasks/HFBTHO
+Multi-threading framework with OpenMP: 4 threads/task
+
+  ==========================================
+           FORTRAN 95 CODE (KIND= 8) 
+ git: parent: 3cae9cc3ec7a0c93cd724b300dc0d972f613f33e
+  ==========================================
+       AXIALLY DEFORMED CONFIGURATIONAL     
+     HARTREE-FOCK-BOGOLIUBOV CALCULATIONS   
+                     WITH                   
+      SKYRME+DELTA PAIRING OR GOGNY EDFs    
+                  USING THE                 
+             HARMONIC-OSCILLATOR            
+                    AND/OR                  
+        TRANSFORMED HARMONIC-OSCILLATOR     
+                    BASIS                   
+                     ---                    
+                v1.66  (2005)               
+    Stoitsov, Dobaczewski, Nazarewicz, Ring 
+                v2.00d (2012)               
+        Stoitsov, Schunck, Kortelainen      
+                v3.00  (2016)               
+            Schunck, Navarro Perez          
+  ==========================================
+    Nucleus: Ca (A=  49, N= 29, Z= 20)
+       Reflection Symmetry Imposed       
+            (10/12/2021,  8: 3)                               
+  ==========================================
+
+
+  ---------------------------------------
+           UNEDF Module Version: 17
+         M.Kortelainen & M.Stoitsov 
+  ---------------------------------------
+
+  SKM* functional
+  ----------------------------------------
+  Crho(0)=   -991.875000000000000    ; Crho(1)=    390.137499999999989    
+  CDrho(0)=   974.687500000000000    ; CDrho(1)=  -324.895833333333314    
+  Ctau(0)=    34.6875000000000000    ; Ctau(1)=   -34.0625000000000000    
+  CrDr(0)=   -68.2031250000000000    ; CrDr(1)=    17.1093750000000000    
+  CrdJ(0)=   -97.5000000000000000    ; CrdJ(1)=   -32.5000000000000000    
+  CJ(0)=      34.0625000000000000    ; CJ(1)=      34.0625000000000000    
+  CpV0(0)=   -250.000000000000000    ; CpV0(1)=   -250.000000000000000    
+  CpV1(0)=   0.500000000000000000    ; CpV1(1)=   0.500000000000000000    
+  sigma=     0.166666666666666657    ; hbzero=     20.7300000000000004    
+  functional has DME couplings: F
+  use 3-Nucleon DME couplings: F
+  e^2 chrg=   1.43997840859651349    ; CExPar=     1.00000000000000000    
+  c.m. correction: T, chr. density in direct Coul: F
+  use tensor terms: F
+
+  Coupling constants in natural units
+  ----------------------------------------
+  Crho_nu(0)=   -1.11697019706649536    ; Crho_nu(1)=   0.439341610846154806    
+  CDrho_nu(0)=   1.05494661920042820    ; CDrho_nu(1)= -0.351648873066809420    
+  Ctau_nu(0)=   0.491699256216479808    ; Ctau_nu(1)=  -0.482839810158525229    
+  CrDr_nu(0)=  -0.966787051074294745    ; CrDr_nu(1)=   0.242527335836506930    
+  CrdJ_nu(0)=   -1.38207358504091626    ; CrdJ_nu(1)=  -0.460691195013638755    
+  CJ_nu(0)=     0.482839810158525229    ; CJ_nu(1)=     0.482839810158525229    
+  CpV0_nu(0)=  -0.281529980357024645    ; CpV0_nu(1)=  -0.281529980357024645    
+  CpV1_nu(0)=   0.443851127103029534E-03; CpV1_nu(1)=   0.443851127103029534E-03
+  fpi_nu=        93.0000000000000000    ; Lambda_nu=     700.000000000000000    
+
+  Nuclear matter properties
+  ----------------------------------------
+  E_NM=      -15.7762359616147627    ; K_NM=        216.657542303868979    
+  P_NM=     -0.730495530692525363E-15; RHO_NM=     0.160318515964671449    
+  ASS_NM=     30.0323865018228560    ; LASS_NM=     45.7703887670942962    
+  SMASS_NM=   1.26826090316085582    ; VMASS_NM=    1.53168827653502970    
+
+  Associated (t,x)-coupling constants
+  ----------------------------------------
+  t0=      -2645.00000000000000    ; x0=       0.899999999999999689E-01
+  t1=       410.000000000000000    ; x1=        0.00000000000000000    
+  t2=      -135.000000000000000    ; x2=        0.00000000000000000    
+  t3=       15595.0000000000000    ; x3=       -0.00000000000000000    
+  b4=       65.0000000000000000    ; b4p=       65.0000000000000000    
+  te=       0.00000000000000000    ; to=        0.00000000000000000    
+  sigma=   0.166666666666666657    ; hbzero=    20.7300000000000004    
+
+  ---------------------------------------
+        Characteristics of the run       
+  ---------------------------------------
+  Output file ................:    57
+  Nucleus ....................:   Ca  49
+  Number of HO shells ........:    10
+  HO length b0 (fm) ..........:     1.75000371403579
+  Basis deformation ..........:  beta0=   0.000 q=   1.000
+  HO: b0,1/b0,bp,bz,q ........:   0.17500037E+01  0.57142736E+00  0.17500037E+01  0.17500037E+01  0.10000000E+01
+  h**2/(2m_n), cmc, e**2 .....:   0.20730000E+02  0.20306939E+02  0.14399784E+01
+  h**2/(2m_p), cmc, e**2 .....:   0.20730000E+02  0.20306939E+02  0.14399784E+01
+  hom=f*41.0_pr*A^{-1/3}, f...:   0.13537902E+02  0.12000000E+01
+  THO basis is ...............:  OFF
+  Maximal number of iterations:    50
+  Initial mixing parameter ...:  0.300
+  Initial wave functions from :  tape
+  Energy functional ..........:    SKM*                          
+    direct Coulomb by substitution method, exchange Coulomb with Slater approximation
+  Pairing cutoff energy ......:    60.00 MeV
+  Lipkin-Nogami procedure is .:  OFF
+  PAV procedure is ...........:  OFF
+  Constraint calculation is ..:  OFF
+  Neutron blocking is ........:   ON
+  Temperature T ..............:   0.00 MeV
+  Pairing regularization is ..:  OFF
+  Collective inertia is ......:  OFF
+  Fission fragments are ......:  OFF
+  Restart indicator ..........:  -1
+  Broyden mixing (#iterations):   7
+
+  ---------------------------------------
+        Harmonic Oscillator Basis        
+  ---------------------------------------
+  NUV, NQP:                        6222     286
+  Comparison with bookkeeping spherical basis:
+  n00:                               10      10  Maximal number of shells
+  nbx, 2*n00+1:                      21      21  Maximal number of K-blocks
+  ntx, (n00+1)*(n00+2)*(n00+3)/6    286     286  Max.num. p/n levels
+  nzx, n00:                          10      10  Maximal nz-quantum number
+  nrx, n00/2  :                       5       5  Maximal nr-quantum number
+  nlx, n00:                          10      10  Maximal ml-quantum number
+  ndx, (n00+2)*(n00+2)/4:            36      36  Maximal dim. of one k-block
+
+  Actual basis used
+  Number of blocks: nb .......:   21
+  Number of levels: nt .......:  286
+  Maximal 2*omega : nom ......:   21
+  Maximal nz:       nzm ......:   10
+  Maximal nr:       nrm ......:    5
+  Maximal ml:       nlm ......:   10
+  Maximal N=nz+2*nr+nl .......:   10
+  2 x biggest block dim. .....:   72
+  Non-zero elements of h .....:     3254
+  Number of Broyden elements .:    13016
+
+  ---------------------------------------
+            Integration Meshes           
+  ---------------------------------------
+  Number of Gauss-Hermite mesh points ngh ....:  40
+  Number of Gauss-Laguerre mesh points ngl ...:  40
+  Number of Gauss-Legendre mesh points nleg ..:  80
+  Integration boundaries
+    Hermite  - from xh(1)  =  0.12379686 to xh(ngh)   = 11.88786356
+    Laguerre - From xl(1)  =  0.03570039 to xl(ngl)   =142.28004447
+    Legendre - From xleg(1)=  0.00978669 to xleg(nleg)=  0.99988775
+  Max.dev.in:     Orthogonality            Normalization
+  Hermite     1.5150139407621233E-015   1.0658141036401503E-014
+  Laguerre    4.3068680416470186E-015   8.2156503822261584E-015
+
+  Initialization for the even-even core (N,Z)=:   28  20
+
+  Initial potentials of Saxon-Woods shape 
+  v0ws   =  -71.28000000
+  kappa  =    0.46160000
+  vs0    =   11.11750000   11.11750000
+  r0     =    1.23340000    1.23340000
+  a      =    0.61500000    0.61500000
+  r0-so  =    1.14430000    1.14430000
+  a-so   =    0.64760000    0.64760000
+  b2_ws  =    0.00000000
+  b3_ws  =    0.00000000
+  b4_ws  =    0.00000000
+
+  ### REGULAR STAGE (reflection symmetry imposed)
+  |HFB+HO> iterations(b0=  1.750, Nsh= 10, inin=  1, N= 28, Z= 20)...
+  ----------------------------------------------------------------------------------------------------------------------------------
+  i          si     mix   beta      Etot       A       rn      rp         En      Dn      Ep      Dp        Ln      Lp     time  time(Gog.)
+  ----------------------------------------------------------------------------------------------------------------------------------
+   0L  70.22287334 0.30  0.000     0.000000    0.0   0.000   0.000 |   -2.000   1.000  -2.000   1.000 |   -7.000  -7.000   0.000   0.000
+   1B  46.56916631 0.20 -0.000  -245.329455   48.0   3.317   3.042 |   -1.683   0.493  -0.699   0.317 |  -12.112 -25.752   6.096   0.000
+   2B  11.88833162 0.22 -0.000  -403.941672   48.0   3.620   3.461 |   -1.014   0.479  -0.391   0.307 |   -7.107 -13.456   0.204   0.000
+   3B   3.49320217 0.24 -0.000  -415.438669   48.0   3.572   3.425 |   -0.918   0.469  -0.215   0.238 |   -7.847 -12.891   0.201   0.000
+   4B   1.14670791 0.27 -0.000  -418.778831   48.0   3.592   3.442 |   -0.707   0.424  -0.169   0.217 |   -7.919 -12.597   0.198   0.000
+   5B   0.33519340 0.29 -0.000  -419.130893   48.0   3.593   3.444 |   -0.632   0.404  -0.135   0.196 |   -8.039 -12.578   0.201   0.000
+   6B   0.05347851 0.32 -0.000  -419.191505   48.0   3.595   3.446 |   -0.528   0.371  -0.102   0.171 |   -8.046 -12.582   0.197   0.000
+   7B   0.04813255 0.35 -0.000  -419.212318   48.0   3.595   3.446 |   -0.444   0.341  -0.075   0.148 |   -8.060 -12.585   0.202   0.000
+   8B   0.04086620 0.39 -0.000  -419.239599   48.0   3.595   3.446 |   -0.315   0.288  -0.041   0.109 |   -8.065 -12.587   0.198   0.000
+   9B   0.02551198 0.43 -0.000  -419.279627   48.0   3.595   3.446 |   -0.099   0.163  -0.002   0.026 |   -8.068 -12.561   0.198   0.000
+  10B   0.01312293 0.47  0.000  -419.290015   48.0   3.595   3.446 |   -0.027   0.085  -0.001  -0.015 |   -8.069 -12.626   0.198   0.000
+  11B   0.00750436 0.52 -0.000  -419.291861   48.0   3.595   3.446 |   -0.011   0.054  -0.002  -0.024 |   -8.071 -12.601   0.197   0.000
+  12B   0.00584055 0.57  0.000  -419.292742   48.0   3.595   3.446 |   -0.005   0.037  -0.002  -0.022 |   -8.073 -12.592   0.198   0.000
+  13B   0.00290992 0.63 -0.000  -419.293676   48.0   3.595   3.446 |   -0.001   0.013  -0.000  -0.011 |   -8.077 -12.583   0.198   0.000
+  14B   0.00083320 0.69  0.000  -419.293857   48.0   3.595   3.446 |   -0.000   0.003  -0.000  -0.003 |   -8.070 -12.595   0.197   0.000
+  15B   0.00017670 0.76 -0.000  -419.293870   48.0   3.595   3.446 |   -0.000   0.000  -0.000   0.000 |  -10.337 -14.646   0.196   0.000
+  16B   0.00005701 0.84  0.000  -419.293870   48.0   3.595   3.446 |   -0.000   0.000  -0.000   0.000 |  -10.337 -14.646   0.197   0.000
+  17B   0.00001202 0.90 -0.000  -419.293870   48.0   3.595   3.446 |   -0.000   0.000  -0.000   0.000 |  -10.337 -14.646   0.197   0.000
+  18B   0.00000479 0.90  0.000  -419.293870   48.0   3.595   3.446 |   -0.000   0.000  -0.000   0.000 |  -10.337 -14.646   0.197   0.000
+  18N   0.00000479 0.90 -0.000  -419.293870   48.0   3.595   3.446 |   -0.000   0.000  -0.000   0.000 |  -10.337 -14.646   0.195   0.000
+  ----------------------------------------------------------------------------------------------------------------------------------
+  *   iteration converged   after  18 steps   si=     0.0000047892 ho=  0 tho=  0
+  ----------------------------------------------------------------------------------------------------------------------------------
+  Total CPU time=   0.161 minutes
+
+  NB! From expect (UNPROJECTED RESULTS)
+
+  pairing: CpV0,CpV1,...        -250.000000    -250.000000       0.500000       0.500000
+  forces:   SKM*                          
+
+
+                             neutrons         protons         total
+  Requested part.numbs.      28.000000      20.000000      48.000000
+  UnPj(av) part.numbs .      28.000000      20.000000      48.000000
+  b0, bz, bp ..........       1.750004       1.750004       1.750004
+
+  lambda (ala) ........      -8.033246     -12.595053
+  Lambda (alast) ......     -10.337323     -14.646290
+  delta(n,p), pwi .....       0.000013       0.000006      60.000000
+  pairing energy ......      -0.000000      -0.000000      -0.000000
+
+  rms-radius ..........       3.594563       3.445930       3.533392
+  charge-radius, r0 ...                      3.537498       4.361089
+  deformation beta2....       0.000000      -0.000000       0.000000
+  dipole moment[fm] ...       0.000000       0.000000       0.000000
+  quadrupole moment[b]        0.000000      -0.000000       0.000000
+  octupole moment .....       0.000000       0.000000       0.000000
+  hexadecapole moment .       0.000000      -0.000000       0.000000
+  q5 ..................       0.000000       0.000000       0.000000
+  q6 ..................      -0.000000      -0.000000      -0.000000
+  q7 ..................       0.000000       0.000000       0.000000
+  q8 ..................      -0.000000      -0.000000      -0.000000
+
+  <Jx^2> from rho .....       0.000000       0.000000       0.000000
+  <Jx^2> from kappa ...      -0.000000      -0.000000      -0.000000
+  <J^2> = 2*<Jx^2> ....       0.000000       0.000000       0.000000
+
+  kinetic energy ......     519.088157     310.254420     829.342578
+  volume energy .......                                 -1405.188764
+        rho_tau .......                                   144.426961
+        rho_rho .......                                 -1549.615725
+  surface energy ......                                   120.588053
+   rho_DELTA_rho ......                                   120.588053
+   (NABLA_rho)^2 ......                                     0.000000
+  spin-orbit energy ...                                   -35.365528
+        rho_NABLA_J ...                                   -35.365528
+        NABLA_rho_J ...                                     0.000000
+  coulomb energy ......                                    71.329792
+          direct ......                                    78.762766
+          exchange ....                                    -7.432974
+          pairing .....                                     0.000000
+  tensor energy .......                                     0.000000
+  direct Hartree E  ...                                     0.000000
+  Extra E .............                                     0.000000
+  External field E ....                                     0.000000
+  Entropy .............       0.000000       0.000000       0.000000
+
+  tEnergy: ehfb (qp)...                                  -419.293870
+
+  Calculated but not added corrections
+  ====================================
+  cmc-diagonal part ...      11.044429       6.601158      17.645587
+  cmc-hfb .............       0.000000       0.000000       0.000000
+  cranking rot corr ...       0.000000       0.000000       0.000000
+
+  SQUJ ................       0.000000       0.000000       0.000000
+  CRAN x 4 ............       0.000000       0.000000       0.000000
+  Rigit Body ..........       0.000000       0.000000       0.000000
+
+
+   Blocking candidates are:
+   neutron eqpmin=   2.3040769749134458       pwiblo=   1.0000000000000000     
+    num=   1 block=   8 state=   1   128 Eqp=   2.30407697  (1-2N)E=  -2.30407697  overl=   0.97697601  7-[ 3, 0, 3]
+    num=   2 block=   6 state=   1   102 Eqp=   2.30407702  (1-2N)E=  -2.30407702  overl=   0.90450403  5-[ 3, 1, 2]
+    num=   3 block=   4 state=   2    69 Eqp=   2.30407705  (1-2N)E=  -2.30407705  overl=   0.73852445  3-[ 3, 2, 1]
+    num=   4 block=   2 state=   2    27 Eqp=   2.30407706  (1-2N)E=  -2.30407706  overl=   0.57205858  1-[ 3, 2, 1]
+    num=   5 block=   2 state=   1    26 Eqp=   1.49894849  (1-2N)E=   1.49894849  overl=   0.58769407  1-[ 3, 3, 0]
+    num=   6 block=   4 state=   1    68 Eqp=   1.49894815  (1-2N)E=   1.49894815  overl=   0.83112498  3-[ 3, 0, 1]
+
+   Blocking candidates are:
+   proton  eqpmin=   2.0512368711405022       pwiblo=   1.0000000000000000     
+    num=   1 block=   1 state=   1     1 Eqp=   2.05123687  (1-2N)E=  -2.05123687  overl=   0.75449749  1+[ 2, 1, 1]
+    num=   2 block=   3 state=   1    47 Eqp=   2.05123700  (1-2N)E=  -2.05123700  overl=   0.87121866  3+[ 2, 0, 2]
+    num=   3 block=   6 state=   1   100 Eqp=   2.74060486  (1-2N)E=   2.74060486  overl=   0.90451860  5-[ 3, 1, 2]
+    num=   4 block=   4 state=   1    67 Eqp=   2.74060486  (1-2N)E=   2.74060486  overl=   0.73853634  3-[ 3, 2, 1]
+    num=   5 block=   2 state=   1    26 Eqp=   2.74060487  (1-2N)E=   2.74060487  overl=   0.57206779  1-[ 3, 2, 1]
+    num=   6 block=   8 state=   1   125 Eqp=   2.74060488  (1-2N)E=   2.74060488  overl=   0.97699175  7-[ 3, 0, 3]
+    num=   7 block=   1 state=   2     2 Eqp=   2.95394315  (1-2N)E=  -2.95394315  overl=   0.74743767  1+[ 2, 0, 0]
+
+
+Distributed parallelism with MPI     : 1 tasks/HFBTHO
+Multi-threading framework with OpenMP: 4 threads/task
+
+  ==========================================
+           FORTRAN 95 CODE (KIND= 8) 
+ git: parent: 3cae9cc3ec7a0c93cd724b300dc0d972f613f33e
+  ==========================================
+       AXIALLY DEFORMED CONFIGURATIONAL     
+     HARTREE-FOCK-BOGOLIUBOV CALCULATIONS   
+                     WITH                   
+      SKYRME+DELTA PAIRING OR GOGNY EDFs    
+                  USING THE                 
+             HARMONIC-OSCILLATOR            
+                    AND/OR                  
+        TRANSFORMED HARMONIC-OSCILLATOR     
+                    BASIS                   
+                     ---                    
+                v1.66  (2005)               
+    Stoitsov, Dobaczewski, Nazarewicz, Ring 
+                v2.00d (2012)               
+        Stoitsov, Schunck, Kortelainen      
+                v3.00  (2016)               
+            Schunck, Navarro Perez          
+  ==========================================
+    Nucleus: Ca (A=  49, N= 29, Z= 20)
+       Reflection Symmetry Imposed       
+            (10/12/2021,  8: 4)                               
+  ==========================================
+
+
+  ---------------------------------------
+           UNEDF Module Version: 17
+         M.Kortelainen & M.Stoitsov 
+  ---------------------------------------
+
+  SKM* functional
+  ----------------------------------------
+  Crho(0)=   -991.875000000000000    ; Crho(1)=    390.137499999999989    
+  CDrho(0)=   974.687500000000000    ; CDrho(1)=  -324.895833333333314    
+  Ctau(0)=    34.6875000000000000    ; Ctau(1)=   -34.0625000000000000    
+  CrDr(0)=   -68.2031250000000000    ; CrDr(1)=    17.1093750000000000    
+  CrdJ(0)=   -97.5000000000000000    ; CrdJ(1)=   -32.5000000000000000    
+  CJ(0)=      34.0625000000000000    ; CJ(1)=      34.0625000000000000    
+  CpV0(0)=   -250.000000000000000    ; CpV0(1)=   -250.000000000000000    
+  CpV1(0)=   0.500000000000000000    ; CpV1(1)=   0.500000000000000000    
+  sigma=     0.166666666666666657    ; hbzero=     20.7300000000000004    
+  functional has DME couplings: F
+  use 3-Nucleon DME couplings: F
+  e^2 chrg=   1.43997840859651349    ; CExPar=     1.00000000000000000    
+  c.m. correction: T, chr. density in direct Coul: F
+  use tensor terms: F
+
+  Coupling constants in natural units
+  ----------------------------------------
+  Crho_nu(0)=   -1.11697019706649536    ; Crho_nu(1)=   0.439341610846154806    
+  CDrho_nu(0)=   1.05494661920042820    ; CDrho_nu(1)= -0.351648873066809420    
+  Ctau_nu(0)=   0.491699256216479808    ; Ctau_nu(1)=  -0.482839810158525229    
+  CrDr_nu(0)=  -0.966787051074294745    ; CrDr_nu(1)=   0.242527335836506930    
+  CrdJ_nu(0)=   -1.38207358504091626    ; CrdJ_nu(1)=  -0.460691195013638755    
+  CJ_nu(0)=     0.482839810158525229    ; CJ_nu(1)=     0.482839810158525229    
+  CpV0_nu(0)=  -0.281529980357024645    ; CpV0_nu(1)=  -0.281529980357024645    
+  CpV1_nu(0)=   0.443851127103029534E-03; CpV1_nu(1)=   0.443851127103029534E-03
+  fpi_nu=        93.0000000000000000    ; Lambda_nu=     700.000000000000000    
+
+  Nuclear matter properties
+  ----------------------------------------
+  E_NM=      -15.7762359616147627    ; K_NM=        216.657542303868979    
+  P_NM=     -0.730495530692525363E-15; RHO_NM=     0.160318515964671449    
+  ASS_NM=     30.0323865018228560    ; LASS_NM=     45.7703887670942962    
+  SMASS_NM=   1.26826090316085582    ; VMASS_NM=    1.53168827653502970    
+
+  Associated (t,x)-coupling constants
+  ----------------------------------------
+  t0=      -2645.00000000000000    ; x0=       0.899999999999999689E-01
+  t1=       410.000000000000000    ; x1=        0.00000000000000000    
+  t2=      -135.000000000000000    ; x2=        0.00000000000000000    
+  t3=       15595.0000000000000    ; x3=       -0.00000000000000000    
+  b4=       65.0000000000000000    ; b4p=       65.0000000000000000    
+  te=       0.00000000000000000    ; to=        0.00000000000000000    
+  sigma=   0.166666666666666657    ; hbzero=    20.7300000000000004    
+
+  ---------------------------------------
+        Characteristics of the run       
+  ---------------------------------------
+  Output file ................:    57
+  Nucleus ....................:   Ca  49
+  Number of HO shells ........:    10
+  HO length b0 (fm) ..........:     1.75000371403579
+  Basis deformation ..........:  beta0=   0.000 q=   1.000
+  HO: b0,1/b0,bp,bz,q ........:   0.17500037E+01  0.57142736E+00  0.17500037E+01  0.17500037E+01  0.10000000E+01
+  h**2/(2m_n), cmc, e**2 .....:   0.20730000E+02  0.20306939E+02  0.14399784E+01
+  h**2/(2m_p), cmc, e**2 .....:   0.20730000E+02  0.20306939E+02  0.14399784E+01
+  hom=f*41.0_pr*A^{-1/3}, f...:   0.13537902E+02  0.12000000E+01
+  THO basis is ...............:  OFF
+  Maximal number of iterations:    50
+  Initial mixing parameter ...:  0.900
+  Initial wave functions from :  tape
+  Energy functional ..........:    SKM*                          
+    direct Coulomb by substitution method, exchange Coulomb with Slater approximation
+  Pairing cutoff energy ......:    60.00 MeV
+  Lipkin-Nogami procedure is .:  OFF
+  PAV procedure is ...........:  OFF
+  Constraint calculation is ..:  OFF
+  Neutron blocking is ........:   ON
+  Temperature T ..............:   0.00 MeV
+  Pairing regularization is ..:  OFF
+  Collective inertia is ......:  OFF
+  Fission fragments are ......:  OFF
+  Restart indicator ..........:  -1
+  Broyden mixing (#iterations):   7
+
+  ---------------------------------------
+        Harmonic Oscillator Basis        
+  ---------------------------------------
+  NUV, NQP:                        6222     286
+  Comparison with bookkeeping spherical basis:
+  n00:                               10      10  Maximal number of shells
+  nbx, 2*n00+1:                      21      21  Maximal number of K-blocks
+  ntx, (n00+1)*(n00+2)*(n00+3)/6    286     286  Max.num. p/n levels
+  nzx, n00:                          10      10  Maximal nz-quantum number
+  nrx, n00/2  :                       5       5  Maximal nr-quantum number
+  nlx, n00:                          10      10  Maximal ml-quantum number
+  ndx, (n00+2)*(n00+2)/4:            36      36  Maximal dim. of one k-block
+
+  Actual basis used
+  Number of blocks: nb .......:   21
+  Number of levels: nt .......:  286
+  Maximal 2*omega : nom ......:   21
+  Maximal nz:       nzm ......:   10
+  Maximal nr:       nrm ......:    5
+  Maximal ml:       nlm ......:   10
+  Maximal N=nz+2*nr+nl .......:   10
+  2 x biggest block dim. .....:   72
+  Non-zero elements of h .....:     3254
+  Number of Broyden elements .:    13016
+
+  ---------------------------------------
+            Integration Meshes           
+  ---------------------------------------
+  Number of Gauss-Hermite mesh points ngh ....:  40
+  Number of Gauss-Laguerre mesh points ngl ...:  40
+  Number of Gauss-Legendre mesh points nleg ..:  80
+  Integration boundaries
+    Hermite  - from xh(1)  =  0.12379686 to xh(ngh)   = 11.88786356
+    Laguerre - From xl(1)  =  0.03570039 to xl(ngl)   =142.28004447
+    Legendre - From xleg(1)=  0.00978669 to xleg(nleg)=  0.99988775
+  Max.dev.in:     Orthogonality            Normalization
+  Hermite     1.5150139407621233E-015   1.0658141036401503E-014
+  Laguerre    4.3068680416470186E-015   8.2156503822261584E-015
+
+  Reading from wel_file: hfbtho_output.hel
+
+
+  ### REGULAR STAGE (reflection symmetry imposed)
+  |HFB+HO> iterations(b0=  1.750, Nsh= 10, inin= -1, N= 29, Z= 20)...
+  ----------------------------------------------------------------------------------------------------------------------------------
+  i          si     mix   beta      Etot       A       rn      rp         En      Dn      Ep      Dp        Ln      Lp     time  time(Gog.)
+  ----------------------------------------------------------------------------------------------------------------------------------
+   0N   0.00000479 0.90 -0.000  -419.293870   48.0   3.595   3.446 |   -0.000   0.000  -0.000   0.000 |  -10.337 -14.646   0.000   0.000
+    neutron Blocking: block=  4 state=  1   Eqp=   1.49894815  Dqpe=  -0.00000000  Ovlp=   1.00000000   1/  6  3-[ 3, 0, 1]
+   1B   1.07989370 0.20 -0.009  -425.207288   49.0   3.621   3.446 |   -0.000   0.000  -0.000   0.000 |  -10.337 -14.646   6.039   0.000
+    neutron Blocking: block=  4 state=  1   Eqp=   1.85250126  Dqpe=  -0.00000000  Ovlp=   0.99959525   1/  6  3-[ 3, 0, 1]
+   2B   0.70042428 0.22 -0.013  -425.345611   49.0   3.628   3.450 |   -0.000   0.000  -0.000   0.000 |  -10.439 -14.944   0.197   0.000
+    neutron Blocking: block=  4 state=  1   Eqp=   1.63487695  Dqpe=  -0.00000000  Ovlp=   0.99995537   1/  6  3-[ 3, 0, 1]
+   3B   0.27188525 0.24 -0.014  -425.437508   49.0   3.629   3.452 |   -0.000   0.000  -0.000   0.000 |  -10.411 -15.022   0.197   0.000
+    neutron Blocking: block=  4 state=  1   Eqp=   1.57658373  Dqpe=  -0.00000000  Ovlp=   0.99996132   1/  6  3-[ 3, 0, 1]
+   4B   0.08056759 0.27 -0.017  -425.454495   49.0   3.631   3.454 |   -0.000   0.000  -0.000   0.000 |  -10.389 -15.112   0.198   0.000
+    neutron Blocking: block=  4 state=  1   Eqp=   1.54628276  Dqpe=  -0.00000000  Ovlp=   0.99998695   1/  6  3-[ 3, 0, 1]
+   5B   0.06769350 0.29 -0.019  -425.458987   49.0   3.632   3.455 |   -0.000   0.000  -0.000   0.000 |  -10.382 -15.107   0.199   0.000
+    neutron Blocking: block=  4 state=  1   Eqp=   1.52721928  Dqpe=  -0.00000000  Ovlp=   0.99999240   1/  6  3-[ 3, 0, 1]
+   6B   0.04341846 0.32 -0.020  -425.461188   49.0   3.632   3.455 |   -0.000   0.000  -0.000   0.000 |  -10.371 -15.078   0.197   0.000
+    neutron Blocking: block=  4 state=  1   Eqp=   1.51405420  Dqpe=  -0.00000000  Ovlp=   0.99999174   1/  6  3-[ 3, 0, 1]
+   7B   0.02656198 0.35 -0.021  -425.462493   49.0   3.633   3.455 |   -0.000   0.000  -0.000   0.000 |  -10.357 -15.056   0.197   0.000
+    neutron Blocking: block=  4 state=  1   Eqp=   1.50671985  Dqpe=  -0.00000000  Ovlp=   0.99999464   1/  6  3-[ 3, 0, 1]
+   8B   0.00637502 0.39 -0.023  -425.463019   49.0   3.633   3.455 |   -0.000   0.000  -0.000   0.000 |  -10.347 -15.036   0.198   0.000
+    neutron Blocking: block=  4 state=  1   Eqp=   1.50648910  Dqpe=  -0.00000000  Ovlp=   0.99999952   1/  6  3-[ 3, 0, 1]
+   9B   0.00114130 0.43 -0.023  -425.463057   49.0   3.633   3.455 |   -0.000   0.000  -0.000   0.000 |  -10.344 -15.029   0.196   0.000
+    neutron Blocking: block=  4 state=  1   Eqp=   1.50624952  Dqpe=  -0.00000000  Ovlp=   0.99999999   1/  6  3-[ 3, 0, 1]
+  10B   0.00020137 0.47 -0.023  -425.463058   49.0   3.633   3.455 |   -0.000   0.000  -0.000   0.000 |  -10.344 -15.028   0.198   0.000
+    neutron Blocking: block=  4 state=  1   Eqp=   1.50631409  Dqpe=  -0.00000000  Ovlp=   1.00000000   1/  6  3-[ 3, 0, 1]
+  11B   0.00018739 0.52 -0.023  -425.463058   49.0   3.633   3.455 |   -0.000   0.000  -0.000   0.000 |  -10.344 -15.029   0.198   0.000
+    neutron Blocking: block=  4 state=  1   Eqp=   1.50629170  Dqpe=  -0.00000000  Ovlp=   1.00000000   1/  6  3-[ 3, 0, 1]
+  12B   0.00007097 0.57 -0.023  -425.463058   49.0   3.633   3.455 |   -0.000   0.000  -0.000   0.000 |  -10.344 -15.028   0.197   0.000
+    neutron Blocking: block=  4 state=  1   Eqp=   1.50629988  Dqpe=  -0.00000000  Ovlp=   1.00000000   1/  6  3-[ 3, 0, 1]
+  13B   0.00002403 0.63 -0.023  -425.463058   49.0   3.633   3.455 |   -0.000   0.000  -0.000   0.000 |  -10.344 -15.028   0.199   0.000
+    neutron Blocking: block=  4 state=  1   Eqp=   1.50629593  Dqpe=  -0.00000000  Ovlp=   1.00000000   1/  6  3-[ 3, 0, 1]
+  14B   0.00000939 0.69 -0.023  -425.463058   49.0   3.633   3.455 |   -0.000   0.000  -0.000   0.000 |  -10.344 -15.028   0.198   0.000
+    neutron Blocking: block=  4 state=  1   Eqp=   1.50629347  Dqpe=  -0.00000000  Ovlp=   1.00000000   1/  6  3-[ 3, 0, 1]
+  14N   0.00000939 0.69 -0.023  -425.463058   49.0   3.633   3.455 |   -0.000   0.000  -0.000   0.000 |  -10.344 -15.028   0.197   0.000
+  ----------------------------------------------------------------------------------------------------------------------------------
+  *   iteration converged   after  14 steps   si=     0.0000093936 ho=  0 tho=  0
+  ----------------------------------------------------------------------------------------------------------------------------------
+  Total CPU time=   0.147 minutes
+    neutron Blocking: block=  4 state=  1   Eqp=   1.50629424  Dqpe=  -0.00000000  Ovlp=   1.00000000   1/  6  3-[ 3, 0, 1]
+
+  NB! From expect (UNPROJECTED RESULTS)
+
+  pairing: CpV0,CpV1,...        -250.000000    -250.000000       0.500000       0.500000
+  forces:   SKM*                          
+  Blocked neutron block       4
+
+
+                             neutrons         protons         total
+  Requested part.numbs.      29.000000      20.000000      49.000000
+  UnPj(av) part.numbs .      29.000000      20.000000      49.000000
+  b0, bz, bp ..........       1.750004       1.750004       1.750004
+
+  lambda (ala) ........      -8.033246     -12.595053
+  Lambda (alast) ......     -10.343656     -15.028469
+  delta(n,p), pwi .....       0.000000       0.000000      60.000000
+  pairing energy ......      -0.000000      -0.000000      -0.000000
+
+  rms-radius ..........       3.632518       3.455211       3.561214
+  charge-radius, r0 ...                      3.545721       4.361089
+  deformation beta2....      -0.028380      -0.014121      -0.022901
+  dipole moment[fm] ...       0.000000       0.000000       0.000000
+  quadrupole moment[b]       -0.137006      -0.042536      -0.179542
+  octupole moment .....       0.000000       0.000000       0.000000
+  hexadecapole moment .      -0.000260      -0.000080      -0.000339
+  q5 ..................       0.000000       0.000000       0.000000
+  q6 ..................       0.000003       0.000001       0.000004
+  q7 ..................       0.000000       0.000000       0.000000
+  q8 ..................      -0.000000       0.000000      -0.000000
+
+  <Jx^2> from rho .....       0.022217       0.005854       0.028072
+  <Jx^2> from kappa ...      -0.000000      -0.000000      -0.000000
+  <J^2> = 2*<Jx^2> ....       0.044434       0.011709       0.056143
+
+  kinetic energy ......     537.952530     308.583015     846.535545
+  volume energy .......                                 -1426.803773
+        rho_tau .......                                   148.018887
+        rho_rho .......                                 -1574.822659
+  surface energy ......                                   119.046425
+   rho_DELTA_rho ......                                   119.046425
+   (NABLA_rho)^2 ......                                     0.000000
+  spin-orbit energy ...                                   -35.381141
+        rho_NABLA_J ...                                   -35.381141
+        NABLA_rho_J ...                                     0.000000
+  coulomb energy ......                                    71.139886
+          direct ......                                    78.552092
+          exchange ....                                    -7.412207
+          pairing .....                                     0.000000
+  tensor energy .......                                     0.000000
+  direct Hartree E  ...                                     0.000000
+  Extra E .............                                     0.000000
+  External field E ....                                     0.000000
+  Entropy .............       0.000000       0.000000       0.000000
+
+  tEnergy: ehfb (qp)...                                  -425.463058
+
+  Calculated but not added corrections
+  ====================================
+  cmc-diagonal part ...      11.207344       6.428813      17.636157
+  cmc-hfb .............       0.000000       0.000000       0.000000
+  cranking rot corr ...       0.000000       0.000000       0.000000
+
+  SQUJ ................       0.000000       0.000000       0.000000
+  CRAN x 4 ............       0.000000       0.000000       0.000000
+  Rigit Body ..........       0.000000       0.000000       0.000000
+
+
+   Blocking candidates are:
+   neutron eqpmin=   1.5062942404452790       pwiblo=   1.0000000000000000     
+    num=   1 block=   4 state=   1    68 Eqp=   1.50629424  (1-2N)E=   0.00000000  overl=   0.81305301  3-[ 3, 0, 1]
+
+   Blocking candidates are:
+   proton  eqpmin=   2.4334164715965869       pwiblo=   1.0000000000000000     
+
+
+
+ HFBTHO_SOLVER ended without errors
+

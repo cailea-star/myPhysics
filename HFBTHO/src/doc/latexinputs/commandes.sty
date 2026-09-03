@@ -1,0 +1,310 @@
+%%\newcommand{\braL}{\left\langle}
+%%\newcommand{\ketR}{\right\rangle}
+%%\newcommand{\fourmat}[4]{\left(\begin{array}{cccc} #1 & #1 & #1 & #1 \\ #2 & #2 & #2 & #2 \\ #3 & #3 & #3 & #3 \\#4 & #4 & #4 & #4 \end{array}\right)}
+%%\newcommand{\eins}{1}
+%%
+%%\NeedsTeXFormat{LaTeX2e}
+%%
+%%\newif\if@aps \@apsfalse
+%%\newif\if@todo \@todofalse
+%%\newif\if@midcaps \@midcapstrue
+%%\newif\if@siunitx \@siunitxfalse
+%%
+%%\DeclareOption{aps}{\@apstrue}
+%%\DeclareOption{todo}{\@todotrue}
+%%\DeclareOption{midcaps}{\@midcapstrue}
+%%\DeclareOption{siunitx}{\@siunitxtrue}
+%%
+%%\ProcessOptions\relax
+%%
+%%\newcommand{\exclude}[1]{}
+%%
+%%% This package is great for formatting numbers with errors and units.  It does
+%%% cause a problem right now, however, with math fonts giving the following
+%%% error:
+%%% ! LaTeX Error: Too many math alphabets used in version normal.
+%%\if@siunitx
+%%  \RequirePackage{siunitx}
+%%  \sisetup{round-mode = off,     % Default - no rounding
+%%           list-units = single}  % 1, 2, 3, and 4 MeV
+%%  %\sisetup{mode=math,math-rm=\usefont{U}{zeur}{m}{n}{}\selectfont}
+%%  %\sisetup{math-rm=\mathnormal} % Needed so that Euler is used in equations.
+%%\else
+%%  % Simple hack.  Works with simple unit definitions in math mode but will not
+%%  % have exact spacing of numbers etc.
+%%  \providecommand{\SI}[2]{#1\,\mathrm{#2}}
+%%  \providecommand{\si}[1]{\mathrm{#1}}
+%%\fi
+%%
+%%% For chemical symbols
+%%\RequirePackage[version=3]{mhchem}
+%%
+%%\providecommand{\textcite}[1]{\cite{#1}%
+%%  \PackageWarning{my_paper}{Hacked version of textcite being used.  Replace.}}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% PDF todo notes
+%%
+%%% Pdf notes that do not affect the typesetting.
+%%\if@todo
+%%  \RequirePackage{todonotes}
+%%  \RequirePackage[color=orange, icon=Help]{pdfcomment}
+%%  % \renewcommand{\todo}[1]{%
+%%  %   \ifinfloat{{\@todo[disable]{#1}\@todonotes@addElementToListOfTodos}%
+%%  %              \pdfcomment[hoffset=-5pt]{#1}}
+%%  %             {{\@todo[caption={#1}]{\pdfcomment[hoffset=-5pt]{#1}}}}}
+%%  % \renewcommand{\todo}[1]{\@todo[caption={#1}]{\pdfcomment[hoffset=-5pt]{#1}}}
+%%\else
+%%  \providecommand{\todo}[1]{}  % Noop by default
+%%\fi
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Acronyms.  Use \na{DFT}{density functional theory}.  This will produce an
+%%% acronym that you can use with
+%%% \gls{DFT} -> "density functional theory (DFT)" or "\textsc{dft}"
+%%% \Gls{DFT} -> "Density functional theory (DFT)" or "\textsc{Dft}"
+%%% \glspl{DFT} -> "density functional theories (DFTs)" or "\textsc{dft}s"
+%%% etc. with the first occurrence showing the definition.
+%%%
+%%% If the typeset acronym is not simply "\lowercase{\textsc{DFT}}" then you can
+%%% provide it explicitly with the optional argument,
+%%% i.e. \na[\textsc{d}o\textsc{e}]{DOE}{Department of Energy}
+%%\newcommand\na[3][\@empty]{%
+%%  {%
+%%    \ifx#1\@empty
+%%      \lowercase{\def\short{\protect\mysc{#2}}}
+%%    \else
+%%      \def\short{#1}
+%%    \fi
+%%    \expandnext{\newacronym{#2}}{\short}{#3}
+%%  }
+%%}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Smallcaps
+%%%
+%%
+%%\if@midcaps
+%%% Mid-caps rather than small-caps: see
+%%% http://tex.stackexchange.com/questions/41342
+%%% and http://tex.stackexchange.com/a/39839/6903
+%%
+%%% Not working with matplotlib!
+%%\newcommand\fullsc[1]{\protect\scalebox{1.06}[1.09]{\textsc{\MakeLowercase{#1}}}}
+%%\else
+%%\newcommand\fullsc[1]{\textsc{\MakeLowercase{#1}}}
+%%\fi
+%%\newcommand{\mysc}[1]{\fullsc{#1}}
+%%
+%%\long\def\mmf@appendto#1#2{#1=\expandafter{\the#1#2}}
+%%\long\def\mmf@concatto#1#2{%
+%%  \expandafter\mmf@concataux\expandafter{\the#2}#1{\the#1}}
+%%\long\def\mmf@concataux#1#2#3{#2=\expandafter{#3#1}}
+%%
+%%\newtoks\mmf@sc@toks
+%%\newtoks\mmf@toks
+%%\let\mmfsc\fullsc
+%%\newif\ifsc@active
+%%\def\sc@end{\ifsc@active\mmfsc{\the\mmf@sc@toks}\sc@activefalse\fi}
+%%\protected\def\upsc#1{%
+%%  \mmf@toks={}%
+%%  \sc@activefalse\@upsc#1\@nil\sc@end}
+%%\def\@upsc#1{\ifx#1\@nil\else\@@upsc{#1}\expandafter\@upsc\fi}
+%%\def\@@upsc#1{%
+%%  \ifnum\catcode`#1=11\relax% Letter
+%%    \lowercase{\mmf@appendto\mmf@toks{#1}}%
+%%    \ifnum\uccode`#1=`#1\relax%
+%%      \ifsc@active\else\sc@activetrue\mmf@sc@toks={}\fi%
+%%      \mmf@concatto{\mmf@sc@toks}{\mmf@toks}%
+%%    \else%
+%%      \sc@end%
+%%      \the\mmf@toks%
+%%    \fi%
+%%    \mmf@toks={}%
+%%  \else%
+%%    \mmf@appendto\mmf@toks{#1}%
+%%  \fi%
+%%}
+%%
+%%% Use this instead of \textsc b/c we need to replace this with \MakeUppercase %
+%%% for APS journals.  Use \textsc only for program names.
+%%\if@aps
+%%  \renewcommand{\mysc}[1]{\MakeUppercase{#1}}
+%%  \renewcommand{\upsc}[1]{\MakeUppercase{#1}}
+%%\fi
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%\providecommand{\abs}[1]{\lvert #1\rvert}
+%%\providecommand{\Abs}[1]{\left| #1\right|}
+%%\renewcommand{\d}{\mathrm{d}}
+%%\newcommand{\ua}{\uparrow}
+%%\newcommand{\da}{\downarrow}
+%%\newcommand{\diff}[3][{}]{\frac{\mathrm{d}^{#1}{#2}}{\mathrm{d}{#3}^{#1}}}
+%%\newcommand{\pdiff}[3][{}]{\frac{\partial^{#1}{#2}}{\partial{#3}^{#1}}}
+%%\newcommand{\vect}[1]{\boldsymbol{#1}}
+%%\newcommand{\grad}{\vect{\nabla}}
+%%\newcommand{\divergence}{\grad\cdot}
+%%\newcommand{\laplacian}{{\vect\nabla}^2}
+%%\newcommand{\bGGA}{\kappa}
+%%\newcommand{\Ec}{\mathcal{E}_{C}}
+%%\newcommand{\n}{\rho}  % Use this for densities so we can switch to \rho if needed
+%%\newcommand{\T}{T}  % Use this for the spin kinetic densities
+%%
+%%% For \sqrt{-1}: see https://tex.stackexchange.com/a/86498/6903
+%%\newcommand{\I}{{\mathrm{i}\mkern1mu}}
+%%
+%%\newcommand{\Laplacian}[1]{\vect{\nabla}^2 #1}
+%%\newcommand{\inner}[2]{\langle #1 | #2 \rangle}
+%%\newcommand{\ddx}{\frac{\partial}{\partial x}}
+%%\newcommand{\ddy}{\frac{\partial}{\partial y}}
+%%\newcommand{\ddz}{\frac{\partial}{\partial z}}
+%%\newcommand{\fm}{\;\textrm{fm}}
+%%\newcommand{\MeV}{\;\textrm{MeV}}
+%%
+%%\DeclareMathOperator{\order}{O}
+%%
+%%% This moves the superscript a little to the left so it sits nicer over
+%%% punctuation.
+%%\newcommand{\kernedsidenote}{{\kern -0.15em}\sidenote}
+%%%\usepackage{accents}
+%%%\usepackage{appendix}
+%%%\usepackage{chngcntr}
+%%%\usepackage{etoolbox}
+%%%\usepackage{accents}
+%%%\usepackage{MnSymbol}
+%%
+%%\AtBeginEnvironment{subappendices}{%
+%%\chapter*{Appendix}
+%%\addcontentsline{toc}{chapter}{Appendices}
+%%\counterwithin{figure}{section}
+%%\counterwithin{table}{section}
+%%}
+%%
+%%\newcommand*{\samp}{%
+%%	$\zeta$}%
+%%\newcommand*{\msamp}{%
+%%        \zeta}%
+%%\newcommand*{\stig}{%
+%%	$\vartheta$}%
+%%\newcommand*{\mstig}{%
+%%        \vartheta}%
+%%
+%%\newcommand{\lag}{\mathcal{L}}
+%%\newcommand{\ut}[1]{\underaccent{\tilde}{#1}}
+%%\renewcommand{\thefootnote}{\alph{footnote}}
+%%
+%%\newcounter{fnjp}% a new counter for use in margin notes
+%%
+%%\newcommand{\fnjp}[1]{% a simple margin note
+%%	\refstepcounter{fnjp}% step counter
+%%	\mbox{\textcolor{red}{\textsuperscript{\thefnjp}}}% the number (superscript) in text
+%%	\marginnote{\mbox{\textcolor{red}{\textsuperscript{\thefnjp}}}#1}% the note
+%%}
+%%
+%%\titleclass{\subsubsection}{straight}
+%%\titleformat{\subsubsection}%
+%%  [hang]% shape
+%%  {\normalfont\large\itshape}% format applied to label+text
+%%  {\thesubsubsection}% label
+%%  {1em}% horizontal separation between label and title body
+%%  {}% before the title body
+%%  []% after the title body
+%%
+%%
+%%\newcommand{\ubrjp}[2]{\mathrlap{\underbrace{\phantom{#1\strut}}_{#2}}#1}
+%%
+%%\newcommand{\svec}[1]{\boldsymbol{#1}}
+%%\newcommand{\tensore}[1]{\overleftrightarrow{#1}}
+%%\newcommand{\efermi}{\lambda_\mathrm{F}}
+%%
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\gras}[1]{\boldsymbol{#1}}
+\newcommand{\matt}[1]{#1}
+\newcommand{\tensor}[1]{\mathsf{#1}}
+\newcommand{\topic}[1]{\noindent{\bf #1 -- }}
+
+% Code acronyms
+\newcommand{\DIRHB}{\mysc{dirhb}}
+\newcommand{\HFBRAD}{\mysc{hfbrad}}
+\newcommand{\HOSPHE}{\mysc{hosphe}}
+\newcommand{\HFBTHO}{\mysc{hfbtho}}
+\newcommand{\HFODD}{\mysc{hfodd}}
+\newcommand{\EV}{\mysc{ev}}
+\newcommand{\FELIX}{\mysc{felix}}
+\newcommand{\SKY}{\mysc{sky3d}}
+
+\newcommand{\FSUGOLD}{\mysc{FSUG}old}
+\newcommand{\UNEDF}{\mysc{unedf}}
+\newcommand{\UNEDFZERO}{\mysc{unedf0}}
+\newcommand{\UNEDFONE}{\mysc{unedf1}}
+\newcommand{\UNEDFTWO}{\mysc{unedf2}}
+
+%%% SHORTCUTS
+%%\newcommand{\be}{\begin{equation}}
+%%\newcommand{\ee}{\end{equation}}
+%%\newcommand{\bes}{\begin{equation*}}
+%%\newcommand{\ees}{\end{equation*}}
+%%\newcommand{\beqn}{\begin{equation}\begin{aligned}}
+%%\newcommand{\eeqn}{\end{aligned}\end{equation}}
+%%\newcommand{\beqns}{$$\begin{aligned}}
+%%\newcommand{\eeqns}{\end{aligned}$$}
+%%\newcommand{\bse}{\begin{subequations}}
+%%\newcommand{\ese}{\end{subequations}}
+%%
+%%\newcommand{\Gvec}{\tensor{G}}
+%%\newcommand{\Bvec}{\tensor{B}}
+%%\newcommand{\Mvec}{\tensor{M}}
+%%\newcommand{\qvec}{\boldsymbol{q}}
+%%\newcommand{\qpvec}{\boldsymbol{q}'}
+%%\newcommand{\qppvec}{\boldsymbol{q}''}
+%%\newcommand{\avec}{\boldsymbol{a}}
+%%\newcommand{\apvec}{\boldsymbol{a'}}
+%%\newcommand{\abvec}{\boldsymbol{\bar{a}}}
+%%\newcommand{\fker}{\mathcal{F}}
+%%\newcommand{\fkercoll}{\hat{\mathcal{F}}_\text{coll}}
+%%\newcommand{\hkercoll}{\hat{\mathcal{H}}_\text{coll}}
+%%\newcommand{\hathkercoll}{\hat{\mathcal{H}}_\text{coll}}
+%%\newcommand{\hker}{\mathcal{H}}
+%%\newcommand{\overlap}{\mathcal{N}}
+%%
+%%\newcommand{\Vvec}{\boldsymbol{V}}
+%%\newcommand{\Fvec}{\boldsymbol{F}}
+%%\newcommand{\Ivec}{\boldsymbol{I}}
+%%\newcommand{\Pvec}{\boldsymbol{P}}
+%%\newcommand{\uvec}{\boldsymbol{u}}
+%%\newcommand{\jvec}{\boldsymbol{j}}
+%%\newcommand{\pvec}{\boldsymbol{p}}
+%%\newcommand{\bvec}{\boldsymbol{b}}
+%%\newcommand{\xvec}{\boldsymbol{x}}
+%%\newcommand{\yvec}{\boldsymbol{y}}
+%%\newcommand{\rvec}{\boldsymbol{r}}
+%%\newcommand{\thetavec}{\boldsymbol{\theta}}
+%%\newcommand{\etavec}{\boldsymbol{\eta}}
+%%\newcommand{\Grad}{\boldsymbol{\nabla}}
+%%
+%%\newcommand{\ef}{E_\mathrm{F}}
+%%\newcommand{\kf}{k_\mathrm{F}}
+%%\newcommand{\kfn}{k_\mathrm{F}^{(n)}}
+%%\newcommand{\kfp}{k_\mathrm{F}^{(p)}}
+%%\newcommand{\rhosat}{\rho_\mathrm{sat}}
+%%\newcommand{\enm}{E^\mathrm{NM}}
+%%\newcommand{\knm}{K^\mathrm{NM}}
+%%\newcommand{\pnm}{P^\mathrm{NM}}
+%%\newcommand{\asym}{a_\mathrm{sym}^\mathrm{NM}}
+%%\newcommand{\lnm}{L^\mathrm{NM}}
+%%\newcommand{\ms}{m_s^{*}}
+%%\newcommand{\mv}{m_v^{*}}
+%%
+%%\newcommand{\mat}[1]{\mathbf{#1}}
+%%\newcommand{\norm}[1]{\lVert{#1}\rVert}
+%%
+%%\setlist{noitemsep}
+%%\setlist[1]{itemsep=2pt,topsep=2pt,parsep=2pt,partopsep=2pt}
+%%
+%%% REDEFINITIONS
+%%\newtheorem{theorem}{Theorem}
+%%\newtheorem{convention}{Convention}
+%%\newtheorem{propriete}{Property}
+%%\theorembodyfont{\sf}
+%%\theoremheaderfont{\scshape}
+
