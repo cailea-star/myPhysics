@@ -342,18 +342,11 @@ public:
     void set_zero();
 
     /**
-     * @brief Calculate the regularized pairing coupling.
-     * @math (E_{cut},λ,g) → g_{reg}
-     * @output Regularized coupling grid.
-     */
-    void regularize_gr(double EspCut_F, double lambda_F, Eigen::MatrixXd& gr_F2D_z_r) const;
-
-    /**
      * @brief Add direct and exchange Coulomb fields.
      * @math ρ_p → v_C^{dir}+v_C^{Slater}
      * @output Updated proton central field.
      */
-    static void add_coulomb_field(AxialHFBField& field_p_, const AxialHFBDensity& density_p_, const AxialCoulombField& coulomb_field_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_);
+    static void add_coulomb_field(AxialHFBField& field_p_, const AxialHFBDensity& density_p_, const AxialCoulombField& coulomb_field_, const EDFParamsSkyrme& edf_skyrme_);
 
     /**
      * @brief Add local pairing fields.
@@ -367,7 +360,7 @@ public:
      * @math (F_p,F_n) → (F_p,F_n)+(δE/δD_p,δE/δD_n)
      * @output Accumulated coordinate-space fields.
      */
-    static void add_nuclei_fields(AxialHFBField& field_p_, AxialHFBField& field_n_, const AxialHFBDensity& density_p_, const AxialHFBDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_);
+    static void add_nuclei_fields(AxialHFBField& field_p_, AxialHFBField& field_n_, const AxialHFBDensity& density_p_, const AxialHFBDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_);
 };
 
 /**

@@ -6,8 +6,8 @@
  */
 
 #include <algorithm>
+#include <cassert>
 #include <cmath>
-#include <stdexcept>
 
 #include "hfb_axial.hpp"
 
@@ -21,6 +21,8 @@ const double pi_F = std::acos(-1.0);
  * @output Regularized local pairing coupling.
  */
 double regularize_gr_at_point(double EspCut_F, double lambda_F, double vcent_F, double vmass_F, double gr_F) {
+    if (gr_F == 0.0) {return gr_F;}
+
     const double Ewindow_F = EspCut_F - lambda_F;
     const double kFermi2_F = (lambda_F - vcent_F) / vmass_F;
     const double kHigh2_F = (lambda_F - vcent_F + Ewindow_F) / vmass_F;
@@ -67,31 +69,11 @@ void AxialHFBField::set_zero() {
 }
 
 /**
- * @brief  Regularize pairing couplings on the axial grid.
- * @math   g(z,r_⊥) → g_{reg}(z,r_⊥)
- * @output Updated pairing-coupling grid.
- */
-void AxialHFBField::regularize_gr(double EspCut_F, double lambda_F, Eigen::MatrixXd& gr_F2D_z_r) const {
-    const int Nz_I = static_cast<int>(vcent_F2D_z_r.rows());
-    const int Nr_I = static_cast<int>(vcent_F2D_z_r.cols());
-
-    #pragma omp parallel for collapse(2) schedule(static)
-    for (int r_I = 0; r_I < Nr_I; ++r_I) {
-        for (int z_I = 0; z_I < Nz_I; ++z_I) {
-            const double gr_F = gr_F2D_z_r(z_I, r_I);
-
-            // g≠0 → g_{reg}.
-            if (gr_F != 0.0) {gr_F2D_z_r(z_I, r_I) = regularize_gr_at_point(EspCut_F, lambda_F, vcent_F2D_z_r(z_I, r_I), vmass_F2D_z_r(z_I, r_I), gr_F);}
-        }
-    }
-}
-
-/**
  * @brief  Add local Skyrme functional derivatives.
  * @math   F_q(r) → F_q(r)+δE_{Skyrme}/δD_q(r)
  * @output Accumulated neutron and proton fields.
  */
-void AxialHFBField::add_nuclei_fields(AxialHFBField& field_p_, AxialHFBField& field_n_, const AxialHFBDensity& density_p_, const AxialHFBDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_) {
+void AxialHFBField::add_nuclei_fields(AxialHFBField& field_p_, AxialHFBField& field_n_, const AxialHFBDensity& density_p_, const AxialHFBDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_) {
     const int Nz_I = static_cast<int>(field_n_.vcent_F2D_z_r.rows());
     const int Nr_I = static_cast<int>(field_n_.vcent_F2D_z_r.cols());
 
@@ -245,11 +227,8 @@ void AxialHFBField::add_nuclei_fields(AxialHFBField& field_p_, AxialHFBField& fi
  * @math   v_C=K_Cρ_p-e²C_{ex}(3ρ_p/π)^{1/3}
  * @output Updated proton central field.
  */
-void AxialHFBField::add_coulomb_field(AxialHFBField& field_p_, const AxialHFBDensity& density_p_, const AxialCoulombField& coulomb_field_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_) {
-    if (!hfbsettings_.termSwitches.addLocalCoulomb_B) {return;}
-    if (!coulomb_field_.isBuilt_B) {
-        throw std::runtime_error("Coulomb field is requested before AxialCoulombField::build().");
-    }
+void AxialHFBField::add_coulomb_field(AxialHFBField& field_p_, const AxialHFBDensity& density_p_, const AxialCoulombField& coulomb_field_, const EDFParamsSkyrme& edf_skyrme_) {
+    assert(coulomb_field_.isBuilt_B);
 
     const int Nz_I = static_cast<int>(field_p_.vcent_F2D_z_r.rows());
     const int Nr_I = static_cast<int>(field_p_.vcent_F2D_z_r.cols());
@@ -275,45 +254,45 @@ void AxialHFBField::add_coulomb_field(AxialHFBField& field_p_, const AxialHFBDen
  * @output Updated pairing and central fields.
  */
 void AxialHFBField::add_pairing_fields(AxialHFBField& field_p_, AxialHFBField& field_n_, const AxialHFBDensity& density_p_, const AxialHFBDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_, double lambda_n_F, double lambda_p_F) {
-    if (!hfbsettings_.termSwitches.addLocalPair_B) {return;}
+    assert(hfbsettings_.termSwitches.addLocalPair_B);
 
     const int Nz_I = static_cast<int>(field_n_.vcent_F2D_z_r.rows());
     const int Nr_I = static_cast<int>(field_n_.vcent_F2D_z_r.cols());
     const double rhoc_F = 0.16;
-    Eigen::MatrixXd gr_n_F2D_z_r(Nz_I, Nr_I);
-    Eigen::MatrixXd gr_p_F2D_z_r(Nz_I, Nr_I);
 
-    // (ρ_0,C_q^{V0},C_q^{V1}) → g_q.
-    #pragma omp parallel for collapse(2) schedule(static)
-    for (int r_I = 0; r_I < Nr_I; ++r_I) {
-        for (int z_I = 0; z_I < Nz_I; ++z_I) {
-            const double rho0_F = density_n_.rho_F2D_z_r(z_I, r_I) + density_p_.rho_F2D_z_r(z_I, r_I);
-            gr_n_F2D_z_r(z_I, r_I) = edf_skyrme_.CpV0_0_F * (1.0 - (rho0_F / rhoc_F) * edf_skyrme_.CpV1_0_F);
-            gr_p_F2D_z_r(z_I, r_I) = edf_skyrme_.CpV0_1_F * (1.0 - (rho0_F / rhoc_F) * edf_skyrme_.CpV1_1_F);
-        }
-    }
-
-    // g_q → g_{reg,q}.
+    // (ρ_0,g_q,κ_q) → (g_{reg,q},Δ_q).
     if (hfbsettings_.termSwitches.useLocalPairRegularization_B) {
-        field_n_.regularize_gr(hfbsettings_.EspCut_F, lambda_n_F, gr_n_F2D_z_r);
-        field_p_.regularize_gr(hfbsettings_.EspCut_F, lambda_p_F, gr_p_F2D_z_r);
+        #pragma omp parallel for collapse(2) schedule(static)
+        for (int r_I = 0; r_I < Nr_I; ++r_I) {
+            for (int z_I = 0; z_I < Nz_I; ++z_I) {
+                const double rho0_F = density_n_.rho_F2D_z_r(z_I, r_I) + density_p_.rho_F2D_z_r(z_I, r_I);
+                const double kappa_n_F = density_n_.kappa_F2D_z_r(z_I, r_I);
+                const double kappa_p_F = density_p_.kappa_F2D_z_r(z_I, r_I);
+                double gr_n_F = edf_skyrme_.CpV0_0_F * (1.0 - (rho0_F / rhoc_F) * edf_skyrme_.CpV1_0_F);
+                double gr_p_F = edf_skyrme_.CpV0_1_F * (1.0 - (rho0_F / rhoc_F) * edf_skyrme_.CpV1_1_F);
+                gr_n_F = regularize_gr_at_point(hfbsettings_.EspCut_F, lambda_n_F, field_n_.vcent_F2D_z_r(z_I, r_I), field_n_.vmass_F2D_z_r(z_I, r_I), gr_n_F);
+                gr_p_F = regularize_gr_at_point(hfbsettings_.EspCut_F, lambda_p_F, field_p_.vcent_F2D_z_r(z_I, r_I), field_p_.vmass_F2D_z_r(z_I, r_I), gr_p_F);
+                field_n_.vpair_F2D_z_r(z_I, r_I) += kappa_n_F * gr_n_F;
+                field_p_.vpair_F2D_z_r(z_I, r_I) += kappa_p_F * gr_p_F;
+            }
+        }
+        return;
     }
 
     // (g_q,κ_q) → (Δ_q,δ𝓔_pair/δρ_0).
     #pragma omp parallel for collapse(2) schedule(static)
     for (int r_I = 0; r_I < Nr_I; ++r_I) {
         for (int z_I = 0; z_I < Nz_I; ++z_I) {
+            const double rho0_F = density_n_.rho_F2D_z_r(z_I, r_I) + density_p_.rho_F2D_z_r(z_I, r_I);
             const double kappa_n_F = density_n_.kappa_F2D_z_r(z_I, r_I);
             const double kappa_p_F = density_p_.kappa_F2D_z_r(z_I, r_I);
-            const double gr_n_F = gr_n_F2D_z_r(z_I, r_I);
-            const double gr_p_F = gr_p_F2D_z_r(z_I, r_I);
+            const double gr_n_F = edf_skyrme_.CpV0_0_F * (1.0 - (rho0_F / rhoc_F) * edf_skyrme_.CpV1_0_F);
+            const double gr_p_F = edf_skyrme_.CpV0_1_F * (1.0 - (rho0_F / rhoc_F) * edf_skyrme_.CpV1_1_F);
             field_n_.vpair_F2D_z_r(z_I, r_I) += kappa_n_F * gr_n_F;
             field_p_.vpair_F2D_z_r(z_I, r_I) += kappa_p_F * gr_p_F;
-            if (!hfbsettings_.termSwitches.useLocalPairRegularization_B) {
-                const double dHpair_drho0_F = -(edf_skyrme_.CpV0_0_F * edf_skyrme_.CpV1_0_F / rhoc_F) * kappa_n_F * kappa_n_F - (edf_skyrme_.CpV0_1_F * edf_skyrme_.CpV1_1_F / rhoc_F) * kappa_p_F * kappa_p_F;
-                field_n_.vcent_F2D_z_r(z_I, r_I) += dHpair_drho0_F;
-                field_p_.vcent_F2D_z_r(z_I, r_I) += dHpair_drho0_F;
-            }
+            const double dHpair_drho0_F = -(edf_skyrme_.CpV0_0_F * edf_skyrme_.CpV1_0_F / rhoc_F) * kappa_n_F * kappa_n_F - (edf_skyrme_.CpV0_1_F * edf_skyrme_.CpV1_1_F / rhoc_F) * kappa_p_F * kappa_p_F;
+            field_n_.vcent_F2D_z_r(z_I, r_I) += dHpair_drho0_F;
+            field_p_.vcent_F2D_z_r(z_I, r_I) += dHpair_drho0_F;
         }
     }
 }
