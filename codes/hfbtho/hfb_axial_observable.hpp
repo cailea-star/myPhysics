@@ -96,8 +96,8 @@ MatrixTrace calc_matrix_trace(const AxialHFBBlockList& blocklist_) {
  */
 LocalEnergyTrace calc_local_energy_trace(const AxialHFB& hfb_, const EDFParamsSkyrme& edf_skyrme_) {
     LocalEnergyTrace trace_;
-    const auto& density_n_ = hfb_.densities.density_n;
-    const auto& density_p_ = hfb_.densities.density_p;
+    const auto& density_n_ = hfb_.density_n;
+    const auto& density_p_ = hfb_.density_p;
     const auto& field_n_ = hfb_.fields.field_n;
     const auto& field_p_ = hfb_.fields.field_p;
     const auto& w_F2D_z_r = hfb_.global_basis.w_F2D_z_r;
@@ -270,8 +270,8 @@ inline void AxialHFBObservable::update_observable(const AxialHFB& hfb_, const Ax
 }
 
 inline void AxialHFBObservable::update_observable(const AxialHFB& hfb_, const std::vector<AxialHFBBlocking>& activeBlockings_) {
-    const auto& density_n_ = hfb_.densities.density_n;
-    const auto& density_p_ = hfb_.densities.density_p;
+    const auto& density_n_ = hfb_.density_n;
+    const auto& density_p_ = hfb_.density_p;
     const int Nr_I = hfb_.axialconfig.Nr_I;
     const int Nz_I = hfb_.axialconfig.Nz_I;
     const auto& blocklist_n_ = hfb_.blocklist_n;

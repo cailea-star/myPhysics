@@ -274,15 +274,15 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
 
     // (D_n,D_p) → local coordinate fields.
     const auto add_fields_Func = [&]() {
-        if (hfbsettings.termSwitches.addLocalCoulomb_B) {fields.add_coulomb_field(densities, edfActive_, hfbsettings);}
-        if (hfbsettings.termSwitches.addLocalPair_B) {fields.add_pairing_fields(densities, edfActive_, hfbsettings, blocklist_n.lambda_F, blocklist_p.lambda_F);}
+        if (hfbsettings.termSwitches.addLocalCoulomb_B) {fields.add_coulomb_field(density_p, edfActive_, hfbsettings);}
+        if (hfbsettings.termSwitches.addLocalPair_B) {fields.add_pairing_fields(density_p, density_n, edfActive_, hfbsettings, blocklist_n.lambda_F, blocklist_p.lambda_F);}
     };
 
     // (ρ,κ,V_G,V_C,λ_2) → (Γ,Δ).
     const auto add_block_fields_Func = [&]() {
         if (hfbsettings.termSwitches.addFiniteRangeGogny_B) {
-            AxialHFBBlockList::add_Gamma_from_Gogny(blocklist_n, blocklist_p, gogny);
-            AxialHFBBlockList::add_Delta_from_Gogny(blocklist_n, blocklist_p, gogny);
+            AxialHFBBlockList::add_Gamma_from_Gogny(blocklist_p, blocklist_n, gogny);
+            AxialHFBBlockList::add_Delta_from_Gogny(blocklist_p, blocklist_n, gogny);
         }
         if (hfbsettings.termSwitches.addFiniteRangeCoulomb_B) {AxialHFBBlockList::add_coulomb_from_Gaussian(blocklist_p, coulomb);}
         if (hfbsettings.useLipkinNogami_B) {
@@ -303,9 +303,9 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
         unpack_Gamma_Delta(blocklist_n, blocklist_p, x_F1D_packed_);
         update_lambda_UV_E_rho_kappa(blocklist_n, Ntarget_I, hfbsettings, activeBlockings_, true, lambdaTolerance_F);
         update_lambda_UV_E_rho_kappa(blocklist_p, Ztarget_I, hfbsettings, activeBlockings_, false, lambdaTolerance_F);
-        densities.density_n.update_density(global_basis, blocklist_n);
-        densities.density_p.update_density(global_basis, blocklist_p);
-        fields.update_nuclei_fields(densities, edfActive_, hfbsettings);
+        density_n.update_density(global_basis, blocklist_n);
+        density_p.update_density(global_basis, blocklist_p);
+        fields.update_nuclei_fields(density_p, density_n, edfActive_, hfbsettings);
         add_fields_Func();
         blocklist_n.update_Gamma_Delta_from_field(fields.field_n, global_basis);
         blocklist_p.update_Gamma_Delta_from_field(fields.field_p, global_basis);
