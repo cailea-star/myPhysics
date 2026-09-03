@@ -13,17 +13,23 @@
 
 #include "hfb_axial.hpp"
 
+void AxialHFBBlockList::set_zero_Gamma_Delta() {
+    for (AxialHFBBlock& block_ : blocks_S1D_block) {
+        block_.set_zero_Gamma_Delta();
+    }
+}
+
 /**
- * @brief  Project local fields into every symmetry block.
- * @math   (h_q(r),Δ_q(r),Φ) → {Γ_q,Δ_q}_{block}
- * @output Updated block fields.
+ * @brief  Add local fields into every symmetry block.
+ * @math   {Γ_q,Δ_q}_{block} → {Γ_q+Γ_q^{loc},Δ_q+Δ_q^{loc}}_{block}
+ * @output Accumulated block fields.
  */
-void AxialHFBBlockList::update_Gamma_Delta_from_field(const AxialHFBField& field_, const AxialBasis& global_basis_) {
+void AxialHFBBlockList::add_Gamma_Delta_from_field(const AxialHFBField& field_, const AxialBasis& global_basis_) {
     const int Nblock_I = static_cast<int>(blocks_S1D_block.size());
 
     #pragma omp parallel for schedule(static)
     for (int block_I = 0; block_I < Nblock_I; ++block_I) {
-        blocks_S1D_block[block_I].update_Gamma_Delta_from_field(field_, global_basis_);
+        blocks_S1D_block[block_I].add_Gamma_Delta_from_field(field_, global_basis_);
     }
 }
 

@@ -74,25 +74,6 @@ struct WSShapeGeometry {
     }
 };
 
-/**
- * @brief  Reset one coordinate-space field.
- * @math   F_q → 0
- * @output Zeroed field grids.
- */
-void set_zero(AxialHFBField& field_) {
-    field_.vcent_F2D_z_r.setZero();
-    field_.vmass_F2D_z_r.setZero();
-    field_.vpair_F2D_z_r.setZero();
-    field_.vD2_F2D_z_r.setZero();
-    field_.vDr_F2D_z_r.setZero();
-    field_.vDz_F2D_z_r.setZero();
-    field_.vJzphi_F2D_z_r.setZero();
-    field_.vJphiz_F2D_z_r.setZero();
-    field_.vJphir_F2D_z_r.setZero();
-    field_.vJrphi_F2D_z_r.setZero();
-    field_.vdJ_F2D_z_r.setZero();
-}
-
 } // namespace
 
 void AxialHFB::initialize_WS_field(int Ntarget_I, int Ztarget_I, double beta2_F, double beta3_F, double beta4_F) {
@@ -126,7 +107,7 @@ void AxialHFB::initialize_WS_field(int Ntarget_I, int Ztarget_I, double beta2_F,
     const double b0_basis_F = AxialConfig::bzbr_to_b0beta20(axialconfig.bz_F, axialconfig.br_F).first;
     const WSShapeGeometry ws_shape_ = WSShapeGeometry::from_beta(beta2_F, beta3_F, beta4_F, b0_basis_F, edf_skyrme.hbzero_F, Atarget_F);
 
-    // I_q = (N_q-N_{ar q})/A.
+    // I_n=(N-Z)/A; I_p=(Z-N)/A.
     const double asymmetry_n_F = static_cast<double>(Ntarget_I - Ztarget_I) / Atarget_F;
     const double asymmetry_p_F = static_cast<double>(Ztarget_I - Ntarget_I) / Atarget_F;
     const double V0WS_n_F = V0WS_F * (1.0 - akv_F * asymmetry_n_F);
@@ -140,7 +121,7 @@ void AxialHFB::initialize_WS_field(int Ntarget_I, int Ztarget_I, double beta2_F,
 
     // (V_0,R_0,a_0,G_{WS}) → (v_{cent},v_{mass},v_{∇J}).
     auto fill_WS_Func = [&](AxialHFBField& field_, double V0WS_q_F, double hbzero_q_F, double V0LS_q_F) {
-        set_zero(field_);
+        field_.set_zero();
         for (int ir_I = 0; ir_I < Nr_I; ++ir_I) {
             for (int iz_I = 0; iz_I < Nz_I; ++iz_I) {
                 const double r_F = r_F1D_r(ir_I);

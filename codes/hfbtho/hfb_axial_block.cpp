@@ -12,12 +12,15 @@
 
 #include "hfb_axial.hpp"
 
-void AxialHFBBlock::update_Gamma_Delta_from_field(const AxialHFBField& field_, const AxialBasis& global_basis_) {
+void AxialHFBBlock::set_zero_Gamma_Delta() {
+    Gamma_F2D_bsp_bsp.setZero();
+    Delta_F2D_bsp_bsp.setZero();
+}
+
+void AxialHFBBlock::add_Gamma_Delta_from_field(const AxialHFBField& field_, const AxialBasis& global_basis_) {
     const int Nz_I = static_cast<int>(field_.vcent_F2D_z_r.rows());
     const int Nr_I = static_cast<int>(field_.vcent_F2D_z_r.cols());
     const int Nbsp_I = static_cast<int>(labels_S1D_bsp.size());
-    Gamma_F2D_bsp_bsp.setZero();
-    Delta_F2D_bsp_bsp.setZero();
 
     // (r,z) → (Γ,Δ).
     const int spBegin_I = indices_I1D_bsp.front();

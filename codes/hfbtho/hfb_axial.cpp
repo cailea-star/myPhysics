@@ -303,19 +303,25 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
         unpack_Gamma_Delta(blocklist_n, blocklist_p, x_F1D_packed_);
         update_lambda_UV_E_rho_kappa(blocklist_n, Ntarget_I, hfbsettings, activeBlockings_, true, lambdaTolerance_F);
         update_lambda_UV_E_rho_kappa(blocklist_p, Ztarget_I, hfbsettings, activeBlockings_, false, lambdaTolerance_F);
-        density_n.update_density(global_basis, blocklist_n);
         density_p.update_density(global_basis, blocklist_p);
-        AxialHFBField::update_nuclei_fields(field_p, field_n, density_p, density_n, edfActive_, hfbsettings);
+        density_n.update_density(global_basis, blocklist_n);
+        field_p.set_zero();
+        field_n.set_zero();
+        AxialHFBField::add_nuclei_fields(field_p, field_n, density_p, density_n, edfActive_, hfbsettings);
         add_fields_Func();
-        blocklist_n.update_Gamma_Delta_from_field(field_n, global_basis);
-        blocklist_p.update_Gamma_Delta_from_field(field_p, global_basis);
+        blocklist_p.set_zero_Gamma_Delta();
+        blocklist_n.set_zero_Gamma_Delta();
+        blocklist_p.add_Gamma_Delta_from_field(field_p, global_basis);
+        blocklist_n.add_Gamma_Delta_from_field(field_n, global_basis);
         add_block_fields_Func();
         pack_Gamma_Delta(blocklist_n, blocklist_p, Gx_F1D_packed_);
     };
 
     // F_0 → G(x_0), x_0.
-    blocklist_n.update_Gamma_Delta_from_field(field_n, global_basis);
-    blocklist_p.update_Gamma_Delta_from_field(field_p, global_basis);
+    blocklist_p.set_zero_Gamma_Delta();
+    blocklist_n.set_zero_Gamma_Delta();
+    blocklist_p.add_Gamma_Delta_from_field(field_p, global_basis);
+    blocklist_n.add_Gamma_Delta_from_field(field_n, global_basis);
     add_block_fields_Func();
     pack_Gamma_Delta(blocklist_n, blocklist_p, Gx_F1D_packed);
     x_F1D_packed.setZero();
