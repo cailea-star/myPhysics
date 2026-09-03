@@ -23,7 +23,7 @@ public:
     const BSplineBasis& b_basis;
 
 private:
-    Eigen::Tensor<std::complex<double>, 4, Eigen::ColMajor> Ginv_C4D_ch_b_ch_b;
+    Eigen::Tensor<std::complex<double>, 4, Eigen::ColMajor> Ginv_C4D_ch_b_ch_b{};
 
 public:
     /**
