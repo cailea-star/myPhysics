@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <array>
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
@@ -16,19 +17,18 @@
 #include <stdexcept>
 #include <type_traits>
 #include <unordered_map>
-#include <vector>
 
 /**
  * @brief Store sparse values indexed by bounded integer-key tuples.
  * @note  Mixed-radix packing is collision-free inside the configured closed intervals.
  */
-template <typename Value_T = double>
-class MyHashTable {
+template <typename Value_T, std::size_t Rank_I>
+class PackedHashTable {
 private:
-    std::vector<int> keymin_I1D_i;
-    std::vector<int> keymax_I1D_i;
-    std::vector<std::uint64_t> keystride_I1D_i;
-    std::unordered_map<std::uint64_t, Value_T> value_T1D_key;
+    std::array<int, Rank_I> keymin_I1D_i{};
+    std::array<int, Rank_I> keymax_I1D_i{};
+    std::array<std::uint64_t, Rank_I> keystride_I1D_i{};
+    std::unordered_map<std::uint64_t, Value_T> value_T1D_key{};
 
 public:
     /**
@@ -37,14 +37,14 @@ public:
      * @output Empty hash table with configured bounds.
      * @note   Requires nonempty bounds; packed range must fit uint64_t.
      */
-    MyHashTable(const std::vector<int>& keymin_I1D_i_, const std::vector<int>& keymax_I1D_i_)
-    : keymin_I1D_i(keymin_I1D_i_), keymax_I1D_i(keymax_I1D_i_), keystride_I1D_i(keymin_I1D_i_.size(), 1) {
-        assert(keymin_I1D_i_.size() == keymax_I1D_i_.size());
-        assert(!keymin_I1D_i_.empty());
+    PackedHashTable(const std::array<int, Rank_I>& keymin_I1D_i_, const std::array<int, Rank_I>& keymax_I1D_i_) {
+        keymin_I1D_i = keymin_I1D_i_;
+        keymax_I1D_i = keymax_I1D_i_;
+        static_assert(Rank_I > 0, "PackedHashTable requires positive rank.");
 
         // {width_i} → ({stride_i},capacity).
         std::uint64_t capacity_I = 1;
-        for (std::size_t i_I = 0; i_I < keymin_I1D_i_.size(); ++i_I) {
+        for (std::size_t i_I = 0; i_I < Rank_I; ++i_I) {
             assert(keymin_I1D_i_[i_I] <= keymax_I1D_i_[i_I]);
 
             const std::uint64_t width_I = static_cast<std::uint64_t>(static_cast<long long>(keymax_I1D_i_[i_I]) - static_cast<long long>(keymin_I1D_i_[i_I]) + 1LL);
@@ -63,8 +63,7 @@ public:
      * @output True if the integer-key tuple has a stored value.
      * @note   Requires a key inside the configured intervals.
      */
-    template <typename Key_T>
-    bool contains(const Key_T& key_I1D_i) const {
+    bool contains(const std::array<int, Rank_I>& key_I1D_i) const {
         return value_T1D_key.find(to_packedkey(key_I1D_i)) != value_T1D_key.end();
     }
 
@@ -74,8 +73,7 @@ public:
      * @output Const reference to the stored value.
      * @note   Requires a stored key inside the configured intervals.
      */
-    template <typename Key_T>
-    const Value_T& read(const Key_T& key_I1D_i) const {
+    const Value_T& read(const std::array<int, Rank_I>& key_I1D_i) const {
         // key → packedkey → entry → value.
         const std::uint64_t packedkey_I = to_packedkey(key_I1D_i);
         const auto entry_ = value_T1D_key.find(packedkey_I);
@@ -91,8 +89,7 @@ public:
      * @output Updated hash table.
      * @note   Requires an in-range key; writes overwrite values.
      */
-    template <typename Key_T>
-    void write(const Key_T& key_I1D_i, const Value_T& value_T) {
+    void write(const std::array<int, Rank_I>& key_I1D_i, const Value_T& value_T) {
         value_T1D_key[to_packedkey(key_I1D_i)] = value_T;
     }
 
@@ -133,7 +130,7 @@ public:
             output_.write(reinterpret_cast<const char*>(&value_T), sizeof(value_T));
         }
 
-        if (!output_) {throw std::runtime_error("[ERROR]: [MyHashTable::to_stream] binary write failed");}
+        if (!output_) {throw std::runtime_error("[ERROR]: [PackedHashTable::to_stream] binary write failed");}
     }
 
     /**
@@ -147,7 +144,7 @@ public:
 
         std::uint64_t Nentry_I = 0;
         input_.read(reinterpret_cast<char*>(&Nentry_I), sizeof(Nentry_I));
-        if (!input_) {throw std::runtime_error("[ERROR]: [MyHashTable::from_stream] binary read failed");}
+        if (!input_) {throw std::runtime_error("[ERROR]: [PackedHashTable::from_stream] binary read failed");}
 
         // M ← {(packedkey,value)}.
         const std::uint64_t maxpackedkey_I = to_packedkey(keymax_I1D_i);
@@ -158,8 +155,8 @@ public:
             Value_T value_T{};
             input_.read(reinterpret_cast<char*>(&packedkey_I), sizeof(packedkey_I));
             input_.read(reinterpret_cast<char*>(&value_T), sizeof(value_T));
-            if (!input_) {throw std::runtime_error("[ERROR]: [MyHashTable::from_stream] binary read failed");}
-            if (packedkey_I > maxpackedkey_I) {throw std::runtime_error("[ERROR]: [MyHashTable::from_stream] packed key exceeds configured bounds");}
+            if (!input_) {throw std::runtime_error("[ERROR]: [PackedHashTable::from_stream] binary read failed");}
+            if (packedkey_I > maxpackedkey_I) {throw std::runtime_error("[ERROR]: [PackedHashTable::from_stream] packed key exceeds configured bounds");}
             value_T1D_key[packedkey_I] = value_T;
         }
     }
@@ -171,13 +168,10 @@ private:
      * @output Collision-free uint64_t packed key.
      * @note   Requires matching dimensions and in-range components.
      */
-    template <typename Key_T>
-    std::uint64_t to_packedkey(const Key_T& key_I1D_i) const {
+    std::uint64_t to_packedkey(const std::array<int, Rank_I>& key_I1D_i) const {
         // {key_i} → Σ_i(key_i-key_i^min)stride_i.
-        assert(key_I1D_i.size() == keymin_I1D_i.size());
-
         std::uint64_t packedkey_I = 0;
-        for (std::size_t i_I = 0; i_I < key_I1D_i.size(); ++i_I) {
+        for (std::size_t i_I = 0; i_I < Rank_I; ++i_I) {
             assert(key_I1D_i[i_I] >= keymin_I1D_i[i_I] && key_I1D_i[i_I] <= keymax_I1D_i[i_I]);
 
             const std::uint64_t keyoffset_I = static_cast<std::uint64_t>(static_cast<long long>(key_I1D_i[i_I]) - static_cast<long long>(keymin_I1D_i[i_I]));
