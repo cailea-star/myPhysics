@@ -35,10 +35,9 @@ void AxialHFBBlocking::apply_blocking(AxialHFBBlockList& blocklist_) {
     double bestOverlap_F = -1.0;
     for (int bqp_I = 0; bqp_I < Nbqp_I; ++bqp_I) {
         const double overlapCandidate_F = (blockedU_F1D_bsp.array() * block_.U_F2D_bsp_bqp.col(bqp_I).array()).abs().sum() + (blockedV_F1D_bsp.array() * block_.V_F2D_bsp_bqp.col(bqp_I).array()).abs().sum();
-        if (overlapCandidate_F > bestOverlap_F) {
-            bestOverlap_F = overlapCandidate_F;
-            bestBqp_I = bqp_I;
-        }
+        if (!(overlapCandidate_F > bestOverlap_F)) {continue;}
+        bestOverlap_F = overlapCandidate_F;
+        bestBqp_I = bqp_I;
     }
     assert(bestBqp_I >= 0);
 
@@ -71,36 +70,32 @@ void AxialHFBBlocking::apply_blocking(AxialHFBBlockList& blocklist_) {
 std::vector<AxialHFBBlocking> AxialHFBBlocking::list_candidates(const HFBSettings& hfbsettings_, const AxialHFBBlockList& blocklist_, bool isNeutron_B_) {
     const int Nblocking_I = hfbsettings_.Nblocking_I;
     const double EblockingCut_F = hfbsettings_.EblockingCut_F;
-    std::vector<AxialHFBBlocking> blockings_S1D_candidate;
-    if (Nblocking_I <= 0) {return blockings_S1D_candidate;}
+    std::vector<AxialHFBBlocking> blockings_X1D_candidate{};
+    if (Nblocking_I <= 0) {return blockings_X1D_candidate;}
 
     struct BlockingCandidate {
-        int block_I;
-        int bqp_I;
-        double Eqp_F;
-        double EqpDifference_F;
-        double Vnorm2_F;
+        int block_I = -1;
+        int bqp_I = -1;
+        double Eqp_F = 0.0;
+        double EqpDifference_F = 0.0;
+        double Vnorm2_F = 0.0;
     };
 
     // E_μ>0, ||V_μ||²>10⁻⁴ → E_{min}.
-    const auto defines_EqpMin_Func = [](const AxialHFBBlock& block_, int bqp_I) {
-        const double Eqp_F = block_.Eqp_F1D_bqp(bqp_I);
-        const double Vnorm2_F = block_.V_F2D_bsp_bqp.col(bqp_I).squaredNorm();
-        return Eqp_F > 0.0 && Vnorm2_F > 1.0e-4;
-    };
-
     double EqpMin_F = std::numeric_limits<double>::infinity();
     for (const AxialHFBBlock& block_ : blocklist_.blocks_X1D_block) {
         const int Nbqp_I = static_cast<int>(block_.Eqp_F1D_bqp.size());
         for (int bqp_I = 0; bqp_I < Nbqp_I; ++bqp_I) {
             const double Eqp_F = block_.Eqp_F1D_bqp(bqp_I);
-            if (defines_EqpMin_Func(block_, bqp_I) && Eqp_F < EqpMin_F) {EqpMin_F = Eqp_F;}
+            const double Vnorm2_F = block_.V_F2D_bsp_bqp.col(bqp_I).squaredNorm();
+            if (Eqp_F <= 0.0 || Vnorm2_F <= 1.0e-4) {continue;}
+            EqpMin_F = std::min(EqpMin_F, Eqp_F);
         }
     }
-    if (!std::isfinite(EqpMin_F)) {return blockings_S1D_candidate;}
+    if (!std::isfinite(EqpMin_F)) {return blockings_X1D_candidate;}
 
     // |E_μ-E_{min}|≤E_{cut} → candidates.
-    std::vector<BlockingCandidate> candidates_S1D_candidate;
+    std::vector<BlockingCandidate> candidates_X1D_candidate{};
     for (int block_I = 0; block_I < static_cast<int>(blocklist_.blocks_X1D_block.size()); ++block_I) {
         const AxialHFBBlock& block_ = blocklist_.blocks_X1D_block[block_I];
         const int Nbqp_I = static_cast<int>(block_.Eqp_F1D_bqp.size());
@@ -109,13 +104,13 @@ std::vector<AxialHFBBlocking> AxialHFBBlocking::list_candidates(const HFBSetting
             const double Vnorm2_F = block_.V_F2D_bsp_bqp.col(bqp_I).squaredNorm();
             const double EqpDifference_F = std::abs(Eqp_F - EqpMin_F);
             const bool isCandidate_B = Eqp_F > 0.0 && EqpDifference_F <= EblockingCut_F;
-            if (isCandidate_B) {candidates_S1D_candidate.push_back({block_I, bqp_I, Eqp_F, EqpDifference_F, Vnorm2_F});}
+            if (isCandidate_B) {candidates_X1D_candidate.push_back({block_I, bqp_I, Eqp_F, EqpDifference_F, Vnorm2_F});}
         }
     }
-    if (candidates_S1D_candidate.empty()) {return blockings_S1D_candidate;}
+    if (candidates_X1D_candidate.empty()) {return blockings_X1D_candidate;}
 
     // (|E-E_{min}|,hole,block,bqp) → ascending rank.
-    std::sort(candidates_S1D_candidate.begin(), candidates_S1D_candidate.end(), [](const BlockingCandidate& candidateL_, const BlockingCandidate& candidateR_) {
+    std::sort(candidates_X1D_candidate.begin(), candidates_X1D_candidate.end(), [](const BlockingCandidate& candidateL_, const BlockingCandidate& candidateR_) {
         constexpr double EqpDifferenceTolerance_F = 1.0e-6;
         if (std::abs(candidateL_.EqpDifference_F - candidateR_.EqpDifference_F) > EqpDifferenceTolerance_F) {return candidateL_.EqpDifference_F < candidateR_.EqpDifference_F;}
         const bool isHoleL_B = candidateL_.Vnorm2_F > 0.5;
@@ -125,22 +120,20 @@ std::vector<AxialHFBBlocking> AxialHFBBlocking::list_candidates(const HFBSetting
         return candidateL_.bqp_I < candidateR_.bqp_I;
     });
 
-    if (static_cast<int>(candidates_S1D_candidate.size()) > Nblocking_I) {candidates_S1D_candidate.resize(Nblocking_I);}
+    if (static_cast<int>(candidates_X1D_candidate.size()) > Nblocking_I) {candidates_X1D_candidate.resize(Nblocking_I);}
 
     // {B_μ} → state trackers.
-    blockings_S1D_candidate.reserve(candidates_S1D_candidate.size());
-    std::cout << "[AxialHFBBlocking] Blocking candidates: eqpmin=" << EqpMin_F << "MeV, window=" << EblockingCut_F << "MeV, count=" << candidates_S1D_candidate.size() << ".\n";
-    for (const BlockingCandidate& candidate_ : candidates_S1D_candidate) {
-        const AxialHFBBlock& block_ = blocklist_.blocks_X1D_block[candidate_.block_I];
-        const Eigen::VectorXd U_F1D_bsp = block_.U_F2D_bsp_bqp.col(candidate_.bqp_I);
-        const Eigen::VectorXd V_F1D_bsp = block_.V_F2D_bsp_bqp.col(candidate_.bqp_I);
-        Eigen::Index bspMax_I = 0;
-        U_F1D_bsp.cwiseAbs().cwiseMax(V_F1D_bsp.cwiseAbs()).maxCoeff(&bspMax_I);
-        const AxialSPLabel& label_ = block_.labels_S1D_bsp[bspMax_I];
-        std::cout << "  num=" << std::setw(3) << blockings_S1D_candidate.size() + 1 << " block=" << std::setw(3) << candidate_.block_I + 1 << " qp=" << std::setw(3) << candidate_.bqp_I + 1 << " Eqp=" << std::setw(12) << std::setprecision(6) << candidate_.Eqp_F << " diff=" << std::setw(12) << candidate_.EqpDifference_F << " v2=" << std::setw(10) << candidate_.Vnorm2_F << " label=" << label_.twoOmega_I << "/2" << (label_.isParityPositive_B ? "+" : "-") << "[" << label_.N_I << "," << label_.nz_I << "," << label_.Lambda_I << "]\n";
+    blockings_X1D_candidate.reserve(candidates_X1D_candidate.size());
+    std::cout << "[AxialHFBBlocking] Blocking candidates: eqpmin=" << EqpMin_F << "MeV, window=" << EblockingCut_F << "MeV, count=" << candidates_X1D_candidate.size() << ".\n";
+    for (const BlockingCandidate& candidate_ : candidates_X1D_candidate) {
         AxialHFBBlocking blocking_(blocklist_, isNeutron_B_, candidate_.block_I, candidate_.bqp_I);
+        const AxialHFBBlock& block_ = blocklist_.blocks_X1D_block[candidate_.block_I];
+        Eigen::Index bspMax_I = 0;
+        blocking_.blockedU_F1D_bsp.cwiseAbs().cwiseMax(blocking_.blockedV_F1D_bsp.cwiseAbs()).maxCoeff(&bspMax_I);
+        const AxialSPLabel& label_ = block_.labels_S1D_bsp[bspMax_I];
+        std::cout << "  num=" << std::setw(3) << blockings_X1D_candidate.size() + 1 << " block=" << std::setw(3) << candidate_.block_I + 1 << " qp=" << std::setw(3) << candidate_.bqp_I + 1 << " Eqp=" << std::setw(12) << std::setprecision(6) << candidate_.Eqp_F << " diff=" << std::setw(12) << candidate_.EqpDifference_F << " v2=" << std::setw(10) << candidate_.Vnorm2_F << " label=" << label_.twoOmega_I << "/2" << (label_.isParityPositive_B ? "+" : "-") << "[" << label_.N_I << "," << label_.nz_I << "," << label_.Lambda_I << "]\n";
         blocking_.overlap_F = 1.0;
-        blockings_S1D_candidate.push_back(std::move(blocking_));
+        blockings_X1D_candidate.push_back(std::move(blocking_));
     }
-    return blockings_S1D_candidate;
+    return blockings_X1D_candidate;
 }
