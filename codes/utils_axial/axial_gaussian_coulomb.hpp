@@ -25,7 +25,6 @@
 class AxialGaussianCoulomb {
 public:
     static constexpr int Ng_I = 9;
-    using KernelBase = AxialGaussianKernel<Ng_I>;
     using GaussianValues = std::array<double, Ng_I>;
 
     struct GammaElements {
@@ -43,7 +42,7 @@ private:
 
     AxialConfig axialconfig;
     CoulombExpansion expansion;
-    KernelBase kernel;
+    AxialGaussianKernel<Ng_I> kernel;
 
 public:
     /**
@@ -65,7 +64,7 @@ public:
         // (config, μ_g, cache) → kernel.
         const std::string filepath_Str = kernel_cache_path(axialconfig);
         try {
-            kernel = KernelBase::from_cache(filepath_Str, axialconfig, expansion.mu_F1D_g);
+            kernel = AxialGaussianKernel<Ng_I>::from_cache(filepath_Str, axialconfig, expansion.mu_F1D_g);
             std::cout << "[AxialGaussianCoulomb]: Loaded Gaussian kernel cache: " << filepath_Str << std::endl;
             return;
         } catch (const std::exception& error_) {

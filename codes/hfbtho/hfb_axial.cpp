@@ -270,7 +270,7 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
     }
 
     // Selected kernels → cached tables.
-    if (hfbsettings.termSwitches.addFiniteRange_B) {gogny.build_tables();}
+    if (hfbsettings.termSwitches.addFiniteRangeGogny_B) {gogny.build_tables();}
     if (hfbsettings.termSwitches.addFiniteRangeCoulomb_B) {coulomb.build_tables();}
     if (hfbsettings.termSwitches.addLocalCoulomb_B) {fields.coulombField.build(axialconfig.useReflection_B, edfActive_.e2charg_F);}
 
@@ -282,7 +282,7 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
 
     // (ρ,κ,V_G,V_C,λ_2) → (Γ,Δ).
     const auto add_block_fields_Func = [&]() {
-        if (hfbsettings.termSwitches.addFiniteRange_B) {
+        if (hfbsettings.termSwitches.addFiniteRangeGogny_B) {
             blocks.add_Gamma_from_Gogny(gogny);
             blocks.add_Delta_from_Gogny(gogny);
         }
@@ -322,7 +322,7 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
     }
 
     // (x_0,G(x_0)) → Broyden history.
-    const double mixingInitial_F = hasBlocking_B ? 0.20 : (hfbsettings.termSwitches.addFiniteRange_B ? 0.70 : 0.30);
+    const double mixingInitial_F = hasBlocking_B ? 0.20 : (hfbsettings.termSwitches.addFiniteRangeGogny_B ? 0.70 : 0.30);
     double alpha_F = hasBlocking_B ? 0.20 : 0.70;
     BroydenIterator broyden_(7, calc_Gx_Func, mixingInitial_F, x_F1D_packed, Gx_F1D_packed);
     observable_.update_observable(*this, activeBlockings_);

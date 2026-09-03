@@ -326,7 +326,7 @@ inline void AxialHFBObservable::update_observable(const AxialHFB& hfb_, const st
     const double EphMatrixTrace_F = matrixTrace_n_.Eph_F + matrixTrace_p_.Eph_F;
     double EnonlocalPh_F = 0.0;
 
-    if (hfbsettings_.termSwitches.addFiniteRange_B || hfbsettings_.termSwitches.addFiniteRangeCoulomb_B) {
+    if (hfbsettings_.termSwitches.addFiniteRangeGogny_B || hfbsettings_.termSwitches.addFiniteRangeCoulomb_B) {
         EnonlocalPh_F = EphMatrixTrace_F - 0.5 * localEnergyTrace_.EphTrace_F;
     }
 

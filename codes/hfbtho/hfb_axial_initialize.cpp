@@ -95,48 +95,6 @@ void set_zero(AxialHFBField& field_) {
 
 } // namespace
 
-double HFBSettings::calc_b0(int Atarget_I) {
-    assert(Atarget_I > 0);
-    const double hbzero_F = EDFParamsSkyrme{}.hbzero_F;
-    const double r0_F = 1.20;
-    const double hbar_omega_F = 41.0 * std::pow(static_cast<double>(Atarget_I), -1.0 / 3.0) * r0_F;
-    return std::sqrt(2.0 * hbzero_F / hbar_omega_F);
-}
-
-EDFParamsSkyrme HFBSettings::make_active_edf(const EDFParamsSkyrme& base_edf_, int Atarget_I) const {
-    assert(Atarget_I > 0);
-    EDFParamsSkyrme active_edf_ = base_edf_;
-    const double cm_factor_F = 1.0 - static_cast<double>(useCmCorrection_B) / static_cast<double>(Atarget_I);
-
-    // C_{kin} → s_{kin}(1-s_{cm}/A)C_{kin}.
-    active_edf_.hbzero_F *= cm_factor_F * static_cast<double>(termSwitches.addKinetic_B);
-    active_edf_.hbzeron_F *= cm_factor_F * static_cast<double>(termSwitches.addKinetic_B);
-    active_edf_.hbzerop_F *= cm_factor_F * static_cast<double>(termSwitches.addKinetic_B);
-
-    // C_i → s_i C_i.
-    active_edf_.Crho_0_F *= static_cast<double>(termSwitches.addLocalRhoRho_B);
-    active_edf_.Crho_1_F *= static_cast<double>(termSwitches.addLocalRhoRho_B);
-    active_edf_.Cdrho_0_F *= static_cast<double>(termSwitches.addLocalRhoAlpha_B);
-    active_edf_.Cdrho_1_F *= static_cast<double>(termSwitches.addLocalRhoAlpha_B);
-    active_edf_.Ctau_0_F *= static_cast<double>(termSwitches.addLocalRhoTau_B);
-    active_edf_.Ctau_1_F *= static_cast<double>(termSwitches.addLocalRhoTau_B);
-    active_edf_.CrDr_0_F *= static_cast<double>(termSwitches.addLocalSurface_B);
-    active_edf_.CrDr_1_F *= static_cast<double>(termSwitches.addLocalSurface_B);
-    active_edf_.Cnrho_0_F *= static_cast<double>(termSwitches.addLocalSurface_B);
-    active_edf_.Cnrho_1_F *= static_cast<double>(termSwitches.addLocalSurface_B);
-    active_edf_.CrdJ_0_F *= static_cast<double>(termSwitches.addLocalSpinOrbit_B);
-    active_edf_.CrdJ_1_F *= static_cast<double>(termSwitches.addLocalSpinOrbit_B);
-    active_edf_.CJdr_0_F *= static_cast<double>(termSwitches.addLocalSpinOrbit_B);
-    active_edf_.CJdr_1_F *= static_cast<double>(termSwitches.addLocalSpinOrbit_B);
-    active_edf_.CJ_0_F *= static_cast<double>(termSwitches.addLocalTensor_B);
-    active_edf_.CJ_1_F *= static_cast<double>(termSwitches.addLocalTensor_B);
-    active_edf_.CJbar_0_F *= static_cast<double>(termSwitches.addLocalTensor_B);
-    active_edf_.CJbar_1_F *= static_cast<double>(termSwitches.addLocalTensor_B);
-    active_edf_.CpV0_0_F *= static_cast<double>(termSwitches.addLocalPair_B);
-    active_edf_.CpV0_1_F *= static_cast<double>(termSwitches.addLocalPair_B);
-    return active_edf_;
-}
-
 void AxialHFB::initialize_WS_field(int Ntarget_I, int Ztarget_I, double beta2_F, double beta3_F, double beta4_F) {
     assert(Ntarget_I >= 0);
     assert(Ztarget_I >= 0);
