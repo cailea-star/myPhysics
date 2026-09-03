@@ -44,11 +44,11 @@ int main() {
     Eigen::Vector2i indexCode_I1D_block = Eigen::Vector2i::Zero();
     blockSizeRef_I1D_block << 3, 1;
     indexCodeRef_I1D_block << 12, 3;
-    for (int block_I = 0; block_I < std::min<int>(2, config_.labels_S2D_block_spb.size()); ++block_I) {
-        blockSize_I1D_block(block_I) = config_.labels_S2D_block_spb[block_I].size();
-        for (int spb_I = 0; spb_I < config_.indices_I2D_block_spb[block_I].size(); ++spb_I) {indexCode_I1D_block(block_I) = 10 * indexCode_I1D_block(block_I) + config_.indices_I2D_block_spb[block_I][spb_I];}
+    for (int block_I = 0; block_I < std::min<int>(2, config_.labels_S2D_block_bsp.size()); ++block_I) {
+        blockSize_I1D_block(block_I) = config_.labels_S2D_block_bsp[block_I].size();
+        for (int bsp_I = 0; bsp_I < config_.indices_I2D_block_bsp[block_I].size(); ++bsp_I) {indexCode_I1D_block(block_I) = 10 * indexCode_I1D_block(block_I) + config_.indices_I2D_block_bsp[block_I][bsp_I];}
     }
-    int configError_I = std::max({(labelCode_I1D_sp - labelCodeRef_I1D_sp).cwiseAbs().maxCoeff(), (blockSize_I1D_block - blockSizeRef_I1D_block).cwiseAbs().maxCoeff(), (indexCode_I1D_block - indexCodeRef_I1D_block).cwiseAbs().maxCoeff(), std::abs(static_cast<int>(config_.labels_S1D_sp.size()) - 4), std::abs(static_cast<int>(config_.labels_S2D_block_spb.size()) - 2), std::abs(config_.Nz_I - 10), std::abs(config_.Nr_I - 9)});
+    int configError_I = std::max({(labelCode_I1D_sp - labelCodeRef_I1D_sp).cwiseAbs().maxCoeff(), (blockSize_I1D_block - blockSizeRef_I1D_block).cwiseAbs().maxCoeff(), (indexCode_I1D_block - indexCodeRef_I1D_block).cwiseAbs().maxCoeff(), std::abs(static_cast<int>(config_.labels_S1D_sp.size()) - 4), std::abs(static_cast<int>(config_.labels_S2D_block_bsp.size()) - 2), std::abs(config_.Nz_I - 10), std::abs(config_.Nr_I - 9)});
 
     // φ_{n_z}(z) → axial Hermite references.
     std::vector<AxialSPLabel> labelsBasis_S1D_sp{AxialSPLabel(0, 0, 0, 1), AxialSPLabel(1, 1, 0, 1)};
