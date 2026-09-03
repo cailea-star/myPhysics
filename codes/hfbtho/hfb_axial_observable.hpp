@@ -98,8 +98,8 @@ LocalEnergyTrace calc_local_energy_trace(const AxialHFB& hfb_, const EDFParamsSk
     LocalEnergyTrace trace_;
     const auto& density_n_ = hfb_.density_n;
     const auto& density_p_ = hfb_.density_p;
-    const auto& field_n_ = hfb_.fields.field_n;
-    const auto& field_p_ = hfb_.fields.field_p;
+    const auto& field_n_ = hfb_.field_n;
+    const auto& field_p_ = hfb_.field_p;
     const auto& w_F2D_z_r = hfb_.global_basis.w_F2D_z_r;
     const int Nr_I = hfb_.axialconfig.Nr_I;
     const int Nz_I = hfb_.axialconfig.Nz_I;
@@ -189,8 +189,8 @@ LocalEnergyTrace calc_local_energy_trace(const AxialHFB& hfb_, const EDFParamsSk
     }
 
     // E_C^{dir} = 1/2 ∫ρ_pV_C^{dir}d³r.
-    if (hfb_.hfbsettings.termSwitches.addLocalCoulomb_B && hfb_.fields.coulombField.isBuilt_B) {
-        const Eigen::MatrixXd Vcoulomb_F2D_z_r = hfb_.fields.coulombField.calc_direct_field(density_p_.rho_F2D_z_r);
+    if (hfb_.hfbsettings.termSwitches.addLocalCoulomb_B && hfb_.coulombField.isBuilt_B) {
+        const Eigen::MatrixXd Vcoulomb_F2D_z_r = hfb_.coulombField.calc_direct_field(density_p_.rho_F2D_z_r);
 
         for (int r_I = 0; r_I < Nr_I; ++r_I) {
             for (int z_I = 0; z_I < Nz_I; ++z_I) {
