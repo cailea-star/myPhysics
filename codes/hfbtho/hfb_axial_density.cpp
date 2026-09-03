@@ -13,6 +13,20 @@
 
 #include <omp.h>
 
+void AxialHFBDensity::set_zero() {
+    rho_F2D_z_r.setZero();
+    tau_F2D_z_r.setZero();
+    kappa_F2D_z_r.setZero();
+    rhoD2_F2D_z_r.setZero();
+    rhoDr_F2D_z_r.setZero();
+    rhoDz_F2D_z_r.setZero();
+    dJ_F2D_z_r.setZero();
+    Jzphi_F2D_z_r.setZero();
+    Jphiz_F2D_z_r.setZero();
+    Jphir_F2D_z_r.setZero();
+    Jrphi_F2D_z_r.setZero();
+}
+
 void AxialHFBDensity::add_density(const AxialBasis& global_basis_, const AxialHFBBlock& block_) {
     const int Nz_I = static_cast<int>(rho_F2D_z_r.rows());
     const int Nr_I = static_cast<int>(rho_F2D_z_r.cols());
@@ -138,19 +152,7 @@ void AxialHFBDensity::add_density(const AxialBasis& global_basis_, const AxialHF
 }
 
 void AxialHFBDensity::update_density(const AxialBasis& global_basis_, const AxialHFBBlockList& blocklist_) {
-    // {ρ,τ,κ,Δρ,∇ρ,J} → 0.
-    rho_F2D_z_r.setZero();
-    tau_F2D_z_r.setZero();
-    kappa_F2D_z_r.setZero();
-    rhoD2_F2D_z_r.setZero();
-    rhoDr_F2D_z_r.setZero();
-    rhoDz_F2D_z_r.setZero();
-    dJ_F2D_z_r.setZero();
-    Jzphi_F2D_z_r.setZero();
-    Jphiz_F2D_z_r.setZero();
-    Jphir_F2D_z_r.setZero();
-    Jrphi_F2D_z_r.setZero();
-
+    set_zero();
     const int Nblock_I = static_cast<int>(blocklist_.blocks_S1D_block.size());
     const int Nthread_I = std::max(1, omp_get_max_threads());
     std::vector<AxialHFBDensity> partials_S1D_thread;

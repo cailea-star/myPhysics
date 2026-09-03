@@ -16,25 +16,6 @@ namespace {
 const double pi_F = std::acos(-1.0);
 
 /**
- * @brief  Reset one axial field.
- * @math   {v_{cent},v_{mass},v_{pair},v_{D²},v_{∇},v_J} → 0
- * @output Zeroed field grids.
- */
-void set_zero(AxialHFBField& field_) {
-    field_.vcent_F2D_z_r.setZero();
-    field_.vmass_F2D_z_r.setZero();
-    field_.vpair_F2D_z_r.setZero();
-    field_.vD2_F2D_z_r.setZero();
-    field_.vDr_F2D_z_r.setZero();
-    field_.vDz_F2D_z_r.setZero();
-    field_.vJzphi_F2D_z_r.setZero();
-    field_.vJphiz_F2D_z_r.setZero();
-    field_.vJphir_F2D_z_r.setZero();
-    field_.vJrphi_F2D_z_r.setZero();
-    field_.vdJ_F2D_z_r.setZero();
-}
-
-/**
  * @brief  Apply piecewise local pairing regularization.
  * @math   g_{reg}^{-1}=g^{-1}-I_{low}-I_{high}
  * @output Regularized local pairing coupling.
@@ -71,6 +52,20 @@ double regularize_gr_at_point(double EspCut_F, double lambda_F, double vcent_F, 
 
 } // namespace
 
+void AxialHFBField::set_zero() {
+    vcent_F2D_z_r.setZero();
+    vmass_F2D_z_r.setZero();
+    vpair_F2D_z_r.setZero();
+    vD2_F2D_z_r.setZero();
+    vDr_F2D_z_r.setZero();
+    vDz_F2D_z_r.setZero();
+    vJzphi_F2D_z_r.setZero();
+    vJphiz_F2D_z_r.setZero();
+    vJphir_F2D_z_r.setZero();
+    vJrphi_F2D_z_r.setZero();
+    vdJ_F2D_z_r.setZero();
+}
+
 /**
  * @brief  Regularize pairing couplings on the axial grid.
  * @math   g(z,r_⊥) → g_{reg}(z,r_⊥)
@@ -92,15 +87,11 @@ void AxialHFBField::regularize_gr(double EspCut_F, double lambda_F, Eigen::Matri
 }
 
 /**
- * @brief  Calculate local Skyrme functional derivatives.
- * @math   F_q(r)=δE_{Skyrme}/δD_q(r)
- * @output Updated neutron and proton local fields.
+ * @brief  Add local Skyrme functional derivatives.
+ * @math   F_q(r) → F_q(r)+δE_{Skyrme}/δD_q(r)
+ * @output Accumulated neutron and proton fields.
  */
-void AxialHFBField::update_nuclei_fields(AxialHFBField& field_p_, AxialHFBField& field_n_, const AxialHFBDensity& density_p_, const AxialHFBDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_) {
-    // {v_n,v_p} → 0.
-    set_zero(field_n_);
-    set_zero(field_p_);
-
+void AxialHFBField::add_nuclei_fields(AxialHFBField& field_p_, AxialHFBField& field_n_, const AxialHFBDensity& density_p_, const AxialHFBDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_) {
     const int Nz_I = static_cast<int>(field_n_.vcent_F2D_z_r.rows());
     const int Nr_I = static_cast<int>(field_n_.vcent_F2D_z_r.cols());
 
@@ -223,28 +214,28 @@ void AxialHFBField::update_nuclei_fields(AxialHFBField& field_p_, AxialHFBField&
             dH_dJrphi1_F += 2.0 * edf_skyrme_.CJbar_1_F * Jphir1_F;
 
             // δ/δD_n=δ/δD_0+δ/δD_1.
-            field_n_.vdJ_F2D_z_r(z_I, r_I) = dH_ddJ0_F + dH_ddJ1_F;
-            field_n_.vcent_F2D_z_r(z_I, r_I) = dH_drho0_F + dH_drho1_F;
-            field_n_.vmass_F2D_z_r(z_I, r_I) = dH_dtau0_F + dH_dtau1_F + edf_skyrme_.hbzeron_F;
-            field_n_.vD2_F2D_z_r(z_I, r_I) = dH_drhoD20_F + dH_drhoD21_F;
-            field_n_.vDr_F2D_z_r(z_I, r_I) = dH_drhoDr0_F + dH_drhoDr1_F;
-            field_n_.vDz_F2D_z_r(z_I, r_I) = dH_drhoDz0_F + dH_drhoDz1_F;
-            field_n_.vJphiz_F2D_z_r(z_I, r_I) = dH_dJphiz0_F + dH_dJphiz1_F;
-            field_n_.vJzphi_F2D_z_r(z_I, r_I) = dH_dJzphi0_F + dH_dJzphi1_F;
-            field_n_.vJphir_F2D_z_r(z_I, r_I) = dH_dJphir0_F + dH_dJphir1_F;
-            field_n_.vJrphi_F2D_z_r(z_I, r_I) = dH_dJrphi0_F + dH_dJrphi1_F;
+            field_n_.vdJ_F2D_z_r(z_I, r_I) += dH_ddJ0_F + dH_ddJ1_F;
+            field_n_.vcent_F2D_z_r(z_I, r_I) += dH_drho0_F + dH_drho1_F;
+            field_n_.vmass_F2D_z_r(z_I, r_I) += dH_dtau0_F + dH_dtau1_F + edf_skyrme_.hbzeron_F;
+            field_n_.vD2_F2D_z_r(z_I, r_I) += dH_drhoD20_F + dH_drhoD21_F;
+            field_n_.vDr_F2D_z_r(z_I, r_I) += dH_drhoDr0_F + dH_drhoDr1_F;
+            field_n_.vDz_F2D_z_r(z_I, r_I) += dH_drhoDz0_F + dH_drhoDz1_F;
+            field_n_.vJphiz_F2D_z_r(z_I, r_I) += dH_dJphiz0_F + dH_dJphiz1_F;
+            field_n_.vJzphi_F2D_z_r(z_I, r_I) += dH_dJzphi0_F + dH_dJzphi1_F;
+            field_n_.vJphir_F2D_z_r(z_I, r_I) += dH_dJphir0_F + dH_dJphir1_F;
+            field_n_.vJrphi_F2D_z_r(z_I, r_I) += dH_dJrphi0_F + dH_dJrphi1_F;
 
             // δ/δD_p=δ/δD_0-δ/δD_1.
-            field_p_.vdJ_F2D_z_r(z_I, r_I) = dH_ddJ0_F - dH_ddJ1_F;
-            field_p_.vcent_F2D_z_r(z_I, r_I) = dH_drho0_F - dH_drho1_F;
-            field_p_.vmass_F2D_z_r(z_I, r_I) = dH_dtau0_F - dH_dtau1_F + edf_skyrme_.hbzerop_F;
-            field_p_.vD2_F2D_z_r(z_I, r_I) = dH_drhoD20_F - dH_drhoD21_F;
-            field_p_.vDr_F2D_z_r(z_I, r_I) = dH_drhoDr0_F - dH_drhoDr1_F;
-            field_p_.vDz_F2D_z_r(z_I, r_I) = dH_drhoDz0_F - dH_drhoDz1_F;
-            field_p_.vJphiz_F2D_z_r(z_I, r_I) = dH_dJphiz0_F - dH_dJphiz1_F;
-            field_p_.vJzphi_F2D_z_r(z_I, r_I) = dH_dJzphi0_F - dH_dJzphi1_F;
-            field_p_.vJphir_F2D_z_r(z_I, r_I) = dH_dJphir0_F - dH_dJphir1_F;
-            field_p_.vJrphi_F2D_z_r(z_I, r_I) = dH_dJrphi0_F - dH_dJrphi1_F;
+            field_p_.vdJ_F2D_z_r(z_I, r_I) += dH_ddJ0_F - dH_ddJ1_F;
+            field_p_.vcent_F2D_z_r(z_I, r_I) += dH_drho0_F - dH_drho1_F;
+            field_p_.vmass_F2D_z_r(z_I, r_I) += dH_dtau0_F - dH_dtau1_F + edf_skyrme_.hbzerop_F;
+            field_p_.vD2_F2D_z_r(z_I, r_I) += dH_drhoD20_F - dH_drhoD21_F;
+            field_p_.vDr_F2D_z_r(z_I, r_I) += dH_drhoDr0_F - dH_drhoDr1_F;
+            field_p_.vDz_F2D_z_r(z_I, r_I) += dH_drhoDz0_F - dH_drhoDz1_F;
+            field_p_.vJphiz_F2D_z_r(z_I, r_I) += dH_dJphiz0_F - dH_dJphiz1_F;
+            field_p_.vJzphi_F2D_z_r(z_I, r_I) += dH_dJzphi0_F - dH_dJzphi1_F;
+            field_p_.vJphir_F2D_z_r(z_I, r_I) += dH_dJphir0_F - dH_dJphir1_F;
+            field_p_.vJrphi_F2D_z_r(z_I, r_I) += dH_dJrphi0_F - dH_dJrphi1_F;
         }
     }
 }
@@ -316,8 +307,8 @@ void AxialHFBField::add_pairing_fields(AxialHFBField& field_p_, AxialHFBField& f
             const double kappa_p_F = density_p_.kappa_F2D_z_r(z_I, r_I);
             const double gr_n_F = gr_n_F2D_z_r(z_I, r_I);
             const double gr_p_F = gr_p_F2D_z_r(z_I, r_I);
-            field_n_.vpair_F2D_z_r(z_I, r_I) = kappa_n_F * gr_n_F;
-            field_p_.vpair_F2D_z_r(z_I, r_I) = kappa_p_F * gr_p_F;
+            field_n_.vpair_F2D_z_r(z_I, r_I) += kappa_n_F * gr_n_F;
+            field_p_.vpair_F2D_z_r(z_I, r_I) += kappa_p_F * gr_p_F;
             if (!hfbsettings_.termSwitches.useLocalPairRegularization_B) {
                 const double dHpair_drho0_F = -(edf_skyrme_.CpV0_0_F * edf_skyrme_.CpV1_0_F / rhoc_F) * kappa_n_F * kappa_n_F - (edf_skyrme_.CpV0_1_F * edf_skyrme_.CpV1_1_F / rhoc_F) * kappa_p_F * kappa_p_F;
                 field_n_.vcent_F2D_z_r(z_I, r_I) += dHpair_drho0_F;

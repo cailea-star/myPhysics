@@ -87,11 +87,18 @@ public:
     }
 
     /**
-     * @brief Project coordinate-space fields into this block.
-     * @math (h_q(r),Δ_q(r),Φ) → (Γ_q,Δ_q)
-     * @output Updated block fields.
+     * @brief Reset particle-hole and pairing fields.
+     * @math (Γ,Δ) → 0
+     * @output Zeroed block fields.
      */
-    void update_Gamma_Delta_from_field(const AxialHFBField& field_, const AxialBasis& global_basis_);
+    void set_zero_Gamma_Delta();
+
+    /**
+     * @brief Add coordinate-space fields to this block.
+     * @math (Γ_q,Δ_q) → (Γ_q,Δ_q)+(Γ_q^{loc},Δ_q^{loc})
+     * @output Accumulated block fields.
+     */
+    void add_Gamma_Delta_from_field(const AxialHFBField& field_, const AxialBasis& global_basis_);
 
     /**
      * @brief Add the Lipkin-Nogami field correction.
@@ -135,11 +142,18 @@ public:
     }
 
     /**
-     * @brief Project coordinate-space fields into all blocks.
-     * @math (h_q(r),Δ_q(r),Φ) → {Γ_q,Δ_q}_{block}
-     * @output Updated block fields.
+     * @brief Reset all block fields.
+     * @math {Γ,Δ}_{block} → 0
+     * @output Zeroed block fields.
      */
-    void update_Gamma_Delta_from_field(const AxialHFBField& field_, const AxialBasis& global_basis_);
+    void set_zero_Gamma_Delta();
+
+    /**
+     * @brief Add coordinate-space fields to all blocks.
+     * @math {Γ_q,Δ_q}_{block} → {Γ_q+Γ_q^{loc},Δ_q+Δ_q^{loc}}_{block}
+     * @output Accumulated block fields.
+     */
+    void add_Gamma_Delta_from_field(const AxialHFBField& field_, const AxialBasis& global_basis_);
 
     /**
      * @brief Apply the Lipkin-Nogami correction.
@@ -262,18 +276,15 @@ public:
         Jrphi_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
         dJ_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
 
-        rho_F2D_z_r.setZero();
-        tau_F2D_z_r.setZero();
-        kappa_F2D_z_r.setZero();
-        rhoD2_F2D_z_r.setZero();
-        rhoDr_F2D_z_r.setZero();
-        rhoDz_F2D_z_r.setZero();
-        Jzphi_F2D_z_r.setZero();
-        Jphiz_F2D_z_r.setZero();
-        Jphir_F2D_z_r.setZero();
-        Jrphi_F2D_z_r.setZero();
-        dJ_F2D_z_r.setZero();
+        set_zero();
     }
+
+    /**
+     * @brief Reset all density grids.
+     * @math {ρ,τ,κ,Δρ,∇ρ,J} → 0
+     * @output Zeroed density grids.
+     */
+    void set_zero();
 
     /**
      * @brief Accumulate one block into coordinate space.
@@ -327,18 +338,15 @@ public:
         vJrphi_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
         vdJ_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
 
-        vcent_F2D_z_r.setZero();
-        vmass_F2D_z_r.setZero();
-        vpair_F2D_z_r.setZero();
-        vD2_F2D_z_r.setZero();
-        vDr_F2D_z_r.setZero();
-        vDz_F2D_z_r.setZero();
-        vJzphi_F2D_z_r.setZero();
-        vJphiz_F2D_z_r.setZero();
-        vJphir_F2D_z_r.setZero();
-        vJrphi_F2D_z_r.setZero();
-        vdJ_F2D_z_r.setZero();
+        set_zero();
     }
+
+    /**
+     * @brief Reset all field grids.
+     * @math {v_{cent},v_{mass},v_{pair},v_{D²},v_{∇},v_J} → 0
+     * @output Zeroed field grids.
+     */
+    void set_zero();
 
     /**
      * @brief Calculate the regularized pairing coupling.
@@ -362,11 +370,11 @@ public:
     static void add_pairing_fields(AxialHFBField& field_p_, AxialHFBField& field_n_, const AxialHFBDensity& density_p_, const AxialHFBDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_, double lambda_n_F, double lambda_p_F);
 
     /**
-     * @brief Rebuild local neutron and proton fields.
-     * @math (D_n,D_p,C,S) → (F_n,F_p)
-     * @output Updated coordinate-space fields.
+     * @brief Add local neutron and proton fields.
+     * @math (F_p,F_n) → (F_p,F_n)+(δE/δD_p,δE/δD_n)
+     * @output Accumulated coordinate-space fields.
      */
-    static void update_nuclei_fields(AxialHFBField& field_p_, AxialHFBField& field_n_, const AxialHFBDensity& density_p_, const AxialHFBDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_);
+    static void add_nuclei_fields(AxialHFBField& field_p_, AxialHFBField& field_n_, const AxialHFBDensity& density_p_, const AxialHFBDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_);
 };
 
 /**
