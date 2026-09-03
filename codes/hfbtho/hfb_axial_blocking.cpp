@@ -23,8 +23,8 @@
  * @note   Requires zero-temperature HFB density factors.
  */
 void AxialHFBBlocking::apply_blocking(AxialHFBBlockList& blocklist_) {
-    assert(block_I >= 0 && block_I < static_cast<int>(blocklist_.blocks_S1D_block.size()));
-    AxialHFBBlock& block_ = blocklist_.blocks_S1D_block[block_I];
+    assert(block_I >= 0 && block_I < static_cast<int>(blocklist_.blocks_X1D_block.size()));
+    AxialHFBBlock& block_ = blocklist_.blocks_X1D_block[block_I];
     const int Nbsp_I = static_cast<int>(block_.labels_S1D_bsp.size());
     const int Nbqp_I = static_cast<int>(block_.Eqp_F1D_bqp.size());
     assert(blockedV_F1D_bsp.size() == Nbsp_I && blockedU_F1D_bsp.size() == Nbsp_I);
@@ -90,7 +90,7 @@ std::vector<AxialHFBBlocking> AxialHFBBlocking::list_candidates(const HFBSetting
     };
 
     double EqpMin_F = std::numeric_limits<double>::infinity();
-    for (const AxialHFBBlock& block_ : blocklist_.blocks_S1D_block) {
+    for (const AxialHFBBlock& block_ : blocklist_.blocks_X1D_block) {
         const int Nbqp_I = static_cast<int>(block_.Eqp_F1D_bqp.size());
         for (int bqp_I = 0; bqp_I < Nbqp_I; ++bqp_I) {
             const double Eqp_F = block_.Eqp_F1D_bqp(bqp_I);
@@ -101,8 +101,8 @@ std::vector<AxialHFBBlocking> AxialHFBBlocking::list_candidates(const HFBSetting
 
     // |E_μ-E_{min}|≤E_{cut} → candidates.
     std::vector<BlockingCandidate> candidates_S1D_candidate;
-    for (int block_I = 0; block_I < static_cast<int>(blocklist_.blocks_S1D_block.size()); ++block_I) {
-        const AxialHFBBlock& block_ = blocklist_.blocks_S1D_block[block_I];
+    for (int block_I = 0; block_I < static_cast<int>(blocklist_.blocks_X1D_block.size()); ++block_I) {
+        const AxialHFBBlock& block_ = blocklist_.blocks_X1D_block[block_I];
         const int Nbqp_I = static_cast<int>(block_.Eqp_F1D_bqp.size());
         for (int bqp_I = 0; bqp_I < Nbqp_I; ++bqp_I) {
             const double Eqp_F = block_.Eqp_F1D_bqp(bqp_I);
@@ -131,7 +131,7 @@ std::vector<AxialHFBBlocking> AxialHFBBlocking::list_candidates(const HFBSetting
     blockings_S1D_candidate.reserve(candidates_S1D_candidate.size());
     std::cout << "[AxialHFBBlocking] Blocking candidates: eqpmin=" << EqpMin_F << "MeV, window=" << EblockingCut_F << "MeV, count=" << candidates_S1D_candidate.size() << ".\n";
     for (const BlockingCandidate& candidate_ : candidates_S1D_candidate) {
-        const AxialHFBBlock& block_ = blocklist_.blocks_S1D_block[candidate_.block_I];
+        const AxialHFBBlock& block_ = blocklist_.blocks_X1D_block[candidate_.block_I];
         const Eigen::VectorXd U_F1D_bsp = block_.U_F2D_bsp_bqp.col(candidate_.bqp_I);
         const Eigen::VectorXd V_F1D_bsp = block_.V_F2D_bsp_bqp.col(candidate_.bqp_I);
         Eigen::Index bspMax_I = 0;

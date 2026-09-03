@@ -161,7 +161,7 @@ inline void debug_UV(const AxialHFBBlock& blockInput_, double lambda_F) {
  * @math ({Γ_b,Δ_b},λ) → {E_b,U_b,V_b}
  * @output Updated block solutions.
  */
-inline void override_UV(std::vector<AxialHFBBlock>& blocks_S1D_block_, double lambda_F) {
+inline void override_UV(std::vector<AxialHFBBlock>& blocks_X1D_block_, double lambda_F) {
     const auto override_block_Func = [&](AxialHFBBlock& block_) {
         const int Nsp_I = static_cast<int>(block_.labels_S1D_bsp.size());
         Eigen::MatrixXd H_F2D_nambu_nambu(2 * Nsp_I, 2 * Nsp_I);
@@ -189,7 +189,7 @@ inline void override_UV(std::vector<AxialHFBBlock>& blocks_S1D_block_, double la
 
     // {B_b} → {(E_b,U_b,V_b)}.
     std::cout << "\n【debug begin】override lambda::C++  (lambda0=" << lambda_F << ")" << std::endl;
-    for (AxialHFBBlock& block_ : blocks_S1D_block_) {
+    for (AxialHFBBlock& block_ : blocks_X1D_block_) {
         override_block_Func(block_);
     }
     std::cout << "【debug end】override lambda::C++" << std::endl;

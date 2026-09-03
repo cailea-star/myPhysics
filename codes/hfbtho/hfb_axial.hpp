@@ -120,10 +120,10 @@ public:
  */
 class AxialHFBBlockList {
 public:
-    double lambda_F = 0.0; // Chemical potential λ [MeV].
+    double lambda_F = -7.0; // Chemical potential λ [MeV].
     double lambda2_F = 0.0; // Lipkin-Nogami λ₂ [MeV].
     double ELipkinNogami_F = 0.0; // Lipkin-Nogami energy [MeV].
-    std::vector<AxialHFBBlock> blocks_S1D_block{}; // {B_{2Ω,π}}.
+    std::vector<AxialHFBBlock> blocks_X1D_block{}; // {B_{2Ω,π}}.
 
 public:
     /**
@@ -135,9 +135,9 @@ public:
         // C_axial → {B_{2Ω,π}}.
         assert(axialconfig_.labels_S2D_block_bsp.size() == axialconfig_.indices_I2D_block_bsp.size());
         const int Nblock_I = static_cast<int>(axialconfig_.labels_S2D_block_bsp.size());
-        blocks_S1D_block.reserve(Nblock_I);
+        blocks_X1D_block.reserve(Nblock_I);
         for (int block_I = 0; block_I < Nblock_I; ++block_I) {
-            blocks_S1D_block.emplace_back(axialconfig_.labels_S2D_block_bsp[block_I], axialconfig_.indices_I2D_block_bsp[block_I]);
+            blocks_X1D_block.emplace_back(axialconfig_.labels_S2D_block_bsp[block_I], axialconfig_.indices_I2D_block_bsp[block_I]);
         }
     }
 
@@ -216,8 +216,8 @@ public:
         isNeutron_B = isNeutron_B_;
 
         // (block,bqp) → (V_μ,U_μ).
-        assert(block_I >= 0 && block_I < static_cast<int>(blocklist_.blocks_S1D_block.size()));
-        const AxialHFBBlock& block_ = blocklist_.blocks_S1D_block[block_I];
+        assert(block_I >= 0 && block_I < static_cast<int>(blocklist_.blocks_X1D_block.size()));
+        const AxialHFBBlock& block_ = blocklist_.blocks_X1D_block[block_I];
         assert(bqp_I >= 0 && bqp_I < block_.V_F2D_bsp_bqp.cols());
         assert(bqp_I < block_.U_F2D_bsp_bqp.cols());
         blockedV_F1D_bsp = block_.V_F2D_bsp_bqp.col(bqp_I);
@@ -434,4 +434,13 @@ public:
      * @output Updated blocked solver states.
      */
     void iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlocking>& activeBlockings_);
+
+private:
+    /**
+     * @brief Update chemical potential using Brent root search.
+     * @math N_q(λ_q)-N_q^{target}=0
+     * @output Updated λ, U, V, E, ρ, and κ.
+     * @note Runtime branches implement root bracketing.
+     */
+    void update_blocklist_lambda(AxialHFBBlockList& blocklist_, int Ntarget_I, std::vector<AxialHFBBlocking>& activeBlockings_, bool isNeutron_B, double lambdaTolerance_F);
 };
