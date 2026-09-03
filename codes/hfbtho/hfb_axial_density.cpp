@@ -28,7 +28,7 @@ void AxialHFBDensity::update_density(const AxialBasis& global_basis_, const Axia
     set_zero();
     const int Nz_I = static_cast<int>(rho_F2D_z_r.rows());
     const int Nr_I = static_cast<int>(rho_F2D_z_r.cols());
-    const int Nblock_I = static_cast<int>(blocklist_.blocks_S1D_block.size());
+    const int Nblock_I = static_cast<int>(blocklist_.blocks_X1D_block.size());
     constexpr double kramersDegeneracy_F = 2.0;
 
     struct DensityValues {
@@ -145,7 +145,7 @@ void AxialHFBDensity::update_density(const AxialBasis& global_basis_, const Axia
         for (int z_I = 0; z_I < Nz_I; ++z_I) {
             DensityValues densityValues_{};
             for (int block_I = 0; block_I < Nblock_I; ++block_I) {
-                const AxialHFBBlock& block_ = blocklist_.blocks_S1D_block[block_I];
+                const AxialHFBBlock& block_ = blocklist_.blocks_X1D_block[block_I];
                 const int twoOmega_I = block_.twoOmega_I;
                 const double LambdaUp_F = 0.5 * twoOmega_I - 0.5;
                 const double LambdaDown_F = 0.5 * twoOmega_I + 0.5;

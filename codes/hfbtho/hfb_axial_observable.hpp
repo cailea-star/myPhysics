@@ -80,7 +80,7 @@ MatrixTrace calc_matrix_trace(const AxialHFBBlockList& blocklist_) {
     MatrixTrace trace_;
 
     // Σ_b Tr(Γ_bρ_b,Δ_bκ_b,Δ_bρ_b).
-    for (const auto& block_ : blocklist_.blocks_S1D_block) {
+    for (const auto& block_ : blocklist_.blocks_X1D_block) {
         trace_.Eph_F += block_.Gamma_F2D_bsp_bsp.cwiseProduct(block_.rho_F2D_bsp_bsp).sum();
         trace_.Epair_F += block_.Delta_F2D_bsp_bsp.cwiseProduct(block_.kappa_F2D_bsp_bsp).sum();
         trace_.DeltaRho_F += block_.Delta_F2D_bsp_bsp.cwiseProduct(block_.rho_F2D_bsp_bsp).sum();
@@ -220,8 +220,8 @@ double estimate_last_lambda(const AxialHFBBlockList& blocklist_, const HFBSettin
     std::vector<double> Esp_F1D_bqp;
 
     // E_{sp}=λ+E_{bqp}(1-2V²).
-    for (int block_I = 0; block_I < static_cast<int>(blocklist_.blocks_S1D_block.size()); ++block_I) {
-        const AxialHFBBlock& block_ = blocklist_.blocks_S1D_block[block_I];
+    for (int block_I = 0; block_I < static_cast<int>(blocklist_.blocks_X1D_block.size()); ++block_I) {
+        const AxialHFBBlock& block_ = blocklist_.blocks_X1D_block[block_I];
 
         for (int bqp_I = 0; bqp_I < static_cast<int>(block_.Eqp_F1D_bqp.size()); ++bqp_I) {
             const double Eqp_F = block_.Eqp_F1D_bqp(bqp_I);
