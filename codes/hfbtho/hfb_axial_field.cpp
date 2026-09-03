@@ -5,7 +5,9 @@
  * @brief   Calculate axial Skyrme and pairing fields.
  */
 
+#include <algorithm>
 #include <cmath>
+#include <stdexcept>
 
 #include "hfb_axial.hpp"
 
@@ -245,6 +247,36 @@ void AxialHFBFieldSystem::update_nuclei_fields(const AxialHFBDensitySystem& dens
             field_p.vJzphi_F2D_z_r(z_I, r_I) = dH_dJzphi0_F - dH_dJzphi1_F;
             field_p.vJphir_F2D_z_r(z_I, r_I) = dH_dJphir0_F - dH_dJphir1_F;
             field_p.vJrphi_F2D_z_r(z_I, r_I) = dH_dJrphi0_F - dH_dJrphi1_F;
+        }
+    }
+}
+
+/**
+ * @brief  Add direct and Slater-exchange Coulomb fields.
+ * @math   v_C=K_Cρ_p-e²C_{ex}(3ρ_p/π)^{1/3}
+ * @output Updated proton central field.
+ */
+void AxialHFBFieldSystem::add_coulomb_field(const AxialHFBDensitySystem& densities_, const EDFParamsSkyrme& edf_skyrme_, const HFBSettings& hfbsettings_) {
+    if (!hfbsettings_.termSwitches.addLocalCoulomb_B) {return;}
+    if (!coulombField.isBuilt_B) {
+        throw std::runtime_error("Coulomb field is requested before AxialCoulombField::build().");
+    }
+
+    const AxialHFBDensity& density_p_ = densities_.density_p;
+    const int Nz_I = static_cast<int>(field_p.vcent_F2D_z_r.rows());
+    const int Nr_I = static_cast<int>(field_p.vcent_F2D_z_r.cols());
+
+    // ρ_p → v_C^{dir}.
+    const Eigen::MatrixXd vCoulombDirect_F2D_z_r = coulombField.calc_direct_field(density_p_.rho_F2D_z_r);
+    const double coex_F = -edf_skyrme_.e2charg_F * std::cbrt(3.0 / pi_F);
+
+    // v_C=v_C^{dir}+v_C^{Slater}.
+    #pragma omp parallel for collapse(2) schedule(static)
+    for (int r_I = 0; r_I < Nr_I; ++r_I) {
+        for (int z_I = 0; z_I < Nz_I; ++z_I) {
+            const double rhoPositive_p_F = std::max(density_p_.rho_F2D_z_r(z_I, r_I), 0.0);
+            const double vCoulomb_F = vCoulombDirect_F2D_z_r(z_I, r_I) + edf_skyrme_.CExPar_F * coex_F * std::cbrt(rhoPositive_p_F);
+            field_p.vcent_F2D_z_r(z_I, r_I) += vCoulomb_F;
         }
     }
 }

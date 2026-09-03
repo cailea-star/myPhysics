@@ -189,12 +189,8 @@ LocalEnergyTrace calc_local_energy_trace(const AxialHFB& hfb_, const EDFParamsSk
     }
 
     // E_C^{dir} = 1/2 ∫ρ_pV_C^{dir}d³r.
-    if (hfb_.hfbsettings.termSwitches.addLocalCoulomb_B && hfb_.fields.isCoulombKernelBuilt_B) {
-        const int Ngrid_I = Nz_I * Nr_I;
-        Eigen::Map<const Eigen::VectorXd> rho_F1D_grid(density_p_.rho_F2D_z_r.data(), Ngrid_I);
-        Eigen::Map<const Eigen::MatrixXd> coulombKernel_F2D_source_target(hfb_.fields.coulomb_F4D_zs_rs_zt_rt.data(), Ngrid_I, Ngrid_I);
-        Eigen::VectorXd Vcoulomb_F1D_grid = coulombKernel_F2D_source_target.transpose() * rho_F1D_grid;
-        Eigen::Map<const Eigen::MatrixXd> Vcoulomb_F2D_z_r(Vcoulomb_F1D_grid.data(), Nz_I, Nr_I);
+    if (hfb_.hfbsettings.termSwitches.addLocalCoulomb_B && hfb_.fields.coulombField.isBuilt_B) {
+        const Eigen::MatrixXd Vcoulomb_F2D_z_r = hfb_.fields.coulombField.calc_direct_field(density_p_.rho_F2D_z_r);
 
         for (int r_I = 0; r_I < Nr_I; ++r_I) {
             for (int z_I = 0; z_I < Nz_I; ++z_I) {

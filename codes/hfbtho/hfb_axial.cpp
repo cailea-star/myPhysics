@@ -272,7 +272,7 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
     // Selected kernels → cached tables.
     if (hfbsettings.termSwitches.addFiniteRange_B) {gogny.build_tables();}
     if (hfbsettings.termSwitches.addFiniteRangeCoulomb_B) {coulomb.build_tables();}
-    if (hfbsettings.termSwitches.addLocalCoulomb_B) {fields.build_coulomb_kernel(global_basis, edfActive_, axialconfig.useReflection_B);}
+    if (hfbsettings.termSwitches.addLocalCoulomb_B) {fields.coulombField.build(axialconfig.useReflection_B, edfActive_.e2charg_F);}
 
     // (D_n,D_p) → local coordinate fields.
     const auto add_fields_Func = [&]() {
