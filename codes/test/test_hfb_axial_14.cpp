@@ -37,7 +37,7 @@ int main() {
 
     // S_HFB → S_D1S.
     HFBSettings hfbsettings_;
-    hfbsettings_.termSwitches = HFBSettings::TermSwitches::gogny();
+    hfbsettings_.termSwitches = HFBTermSwitches::gogny();
     hfbsettings_.termSwitches.addLocalCoulomb_B = false;
     hfbsettings_.termSwitches.addFiniteRangeCoulomb_B = false;
     hfbsettings_.useEspCut_B = false;
