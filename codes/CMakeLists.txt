@@ -24,8 +24,12 @@ enable_testing()                                        # 启用 CTest 测试功
 # ==================== 搜索依赖库 ====================
 find_package(Eigen3 REQUIRED)
 find_package(GSL REQUIRED)
-if(MINGW AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")                                   # Clang 沿用 MinGW 的 GNU OpenMP 运行库
-    set(OpenMP_CXX_FLAGS "-fopenmp=libgomp" CACHE STRING "OpenMP flags" FORCE)         # 避免 Clang 默认链接缺失的 libomp
+if(MINGW AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    get_filename_component(LLVM_BIN_DIR "${CMAKE_CXX_COMPILER}" DIRECTORY)
+    get_filename_component(LLVM_ROOT_DIR "${LLVM_BIN_DIR}" DIRECTORY)
+    set(OpenMP_CXX_FLAGS "-fopenmp" CACHE STRING "OpenMP flags" FORCE)
+    set(OpenMP_CXX_LIB_NAMES "omp" CACHE STRING "OpenMP libraries" FORCE)
+    set(OpenMP_omp_LIBRARY "${LLVM_ROOT_DIR}/lib/libomp.lib" CACHE FILEPATH "LLVM OpenMP library" FORCE)
 endif()
 find_package(OpenMP REQUIRED)
 
@@ -41,6 +45,10 @@ target_include_directories(mylib PUBLIC hfbtho)                     # Propagate 
 target_link_libraries(mylib PUBLIC Eigen3::Eigen)                   # 传递依赖库
 target_link_libraries(mylib PUBLIC GSL::gsl GSL::gslcblas)          # 传递依赖库
 target_link_libraries(mylib PUBLIC OpenMP::OpenMP_CXX)              # 传递依赖库
+
+if(MINGW AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    add_custom_command(TARGET mylib POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "${LLVM_ROOT_DIR}/bin/libomp.dll" "$<TARGET_FILE_DIR:mylib>")
+endif()
 
 
 # ==================== 复制 json ====================

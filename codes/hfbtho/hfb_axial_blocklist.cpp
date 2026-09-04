@@ -116,60 +116,73 @@ void AxialHFBBlockList::add_Gamma_from_Gogny(AxialHFBBlockList& blocklist_p_, Ax
     assert(blocklist_n_.blocks_X1D_block.size() == blocklist_p_.blocks_X1D_block.size());
     const int Nblock_I = static_cast<int>(blocklist_n_.blocks_X1D_block.size());
 
-    #pragma omp parallel for schedule(static)
-    for (int block13_I = 0; block13_I < Nblock_I; ++block13_I) {
+    // (block_{13},bsp_1,bsp_3) → (Γ^n_{13},Γ^p_{13}).
+    const auto add_Gamma_at_oneBlock_Func = [&](int block13_I, int bsp1_I, int bsp3_I) {
         AxialHFBBlock& block13n_ = blocklist_n_.blocks_X1D_block[block13_I];
         AxialHFBBlock& block13p_ = blocklist_p_.blocks_X1D_block[block13_I];
-        assert(block13n_.indices_I1D_bsp.size() == block13p_.indices_I1D_bsp.size());
-        const int Nbsp13_I = static_cast<int>(block13n_.indices_I1D_bsp.size());
+        const int sp1_I = block13n_.indices_I1D_bsp[bsp1_I];
+        const int sp3_I = block13n_.indices_I1D_bsp[bsp3_I];
+        const int offDiagonal_I = static_cast<int>(bsp1_I != bsp3_I);
+        double Gamma13n_F = 0.0;
+        double Gamma13p_F = 0.0;
 
-        // Γ^q_{13}=Σ_{24}\bar v^q_{12;34}ρ^q_{42}.
-        for (int bsp1_I = 0; bsp1_I < Nbsp13_I; ++bsp1_I) {
-            for (int bsp3_I = 0; bsp3_I <= bsp1_I; ++bsp3_I) {
-                const int sp1_I = block13n_.indices_I1D_bsp[bsp1_I];
-                const int sp3_I = block13n_.indices_I1D_bsp[bsp3_I];
-                const int offDiagonal_I = static_cast<int>(bsp1_I != bsp3_I);
-                double Gamma13n_F = 0.0;
-                double Gamma13p_F = 0.0;
+        for (int block24_I = 0; block24_I < Nblock_I; ++block24_I) {
+            const AxialHFBBlock& block24n_ = blocklist_n_.blocks_X1D_block[block24_I];
+            const AxialHFBBlock& block24p_ = blocklist_p_.blocks_X1D_block[block24_I];
+            assert(block24n_.indices_I1D_bsp.size() == block24p_.indices_I1D_bsp.size());
+            const int Nbsp24_I = static_cast<int>(block24n_.indices_I1D_bsp.size());
 
-                for (int block24_I = 0; block24_I < Nblock_I; ++block24_I) {
-                    const AxialHFBBlock& block24n_ = blocklist_n_.blocks_X1D_block[block24_I];
-                    const AxialHFBBlock& block24p_ = blocklist_p_.blocks_X1D_block[block24_I];
-                    assert(block24n_.indices_I1D_bsp.size() == block24p_.indices_I1D_bsp.size());
-                    const int Nbsp24_I = static_cast<int>(block24n_.indices_I1D_bsp.size());
+            for (int bsp2_I = 0; bsp2_I < Nbsp24_I; ++bsp2_I) {
+                for (int bsp4_I = 0; bsp4_I < Nbsp24_I; ++bsp4_I) {
+                    const int sp2_I = block24n_.indices_I1D_bsp[bsp2_I];
+                    const int sp4_I = block24n_.indices_I1D_bsp[bsp4_I];
+                    const AxialGaussianGogny::GognyElements gognyElements1234_ = gogny_.read_v(sp1_I, sp2_I, sp3_I, sp4_I);
 
-                    for (int bsp2_I = 0; bsp2_I < Nbsp24_I; ++bsp2_I) {
-                        for (int bsp4_I = 0; bsp4_I < Nbsp24_I; ++bsp4_I) {
-                            const int sp2_I = block24n_.indices_I1D_bsp[bsp2_I];
-                            const int sp4_I = block24n_.indices_I1D_bsp[bsp4_I];
-                            const AxialGaussianGogny::GognyElements gognyElements1234_ = gogny_.read_v(sp1_I, sp2_I, sp3_I, sp4_I);
+                    // ρ^-_{42}=η_2η_4ρ^+_{42}.
+                    const double rho42Posn_F = block24n_.rho_F2D_bsp_bsp(bsp4_I, bsp2_I);
+                    const double rho42Posp_F = block24p_.rho_F2D_bsp_bsp(bsp4_I, bsp2_I);
+                    const int eta24_I = block24n_.labels_S1D_bsp[bsp2_I].twoSigma_I * block24n_.labels_S1D_bsp[bsp4_I].twoSigma_I;
+                    const double rho42Negn_F = eta24_I * rho42Posn_F;
+                    const double rho42Negp_F = eta24_I * rho42Posp_F;
 
-                            // ρ^-_{42}=η_2η_4ρ^+_{42}.
-                            const double rho42Posn_F = block24n_.rho_F2D_bsp_bsp(bsp4_I, bsp2_I);
-                            const double rho42Posp_F = block24p_.rho_F2D_bsp_bsp(bsp4_I, bsp2_I);
-                            const int eta24_I = block24n_.labels_S1D_bsp[bsp2_I].twoSigma_I * block24n_.labels_S1D_bsp[bsp4_I].twoSigma_I;
-                            const double rho42Negn_F = eta24_I * rho42Posn_F;
-                            const double rho42Negp_F = eta24_I * rho42Posp_F;
+                    // (v̄^{++},v̄^{+-})·(ρ^+,ρ^-) → Γ^+.
+                    Gamma13n_F += gognyElements1234_.vSamePosPosPosPos_F * rho42Posn_F;
+                    Gamma13n_F += gognyElements1234_.vSamePosNegPosNeg_F * rho42Negn_F;
+                    Gamma13n_F += gognyElements1234_.vCrossPosPosPosPos_F * rho42Posp_F;
+                    Gamma13n_F += gognyElements1234_.vCrossPosNegPosNeg_F * rho42Negp_F;
 
-                            // (v̄^{++},v̄^{+-})·(ρ^+,ρ^-) → Γ^+.
-                            Gamma13n_F += gognyElements1234_.vSamePosPosPosPos_F * rho42Posn_F;
-                            Gamma13n_F += gognyElements1234_.vSamePosNegPosNeg_F * rho42Negn_F;
-                            Gamma13n_F += gognyElements1234_.vCrossPosPosPosPos_F * rho42Posp_F;
-                            Gamma13n_F += gognyElements1234_.vCrossPosNegPosNeg_F * rho42Negp_F;
-                            
-                            Gamma13p_F += gognyElements1234_.vSamePosPosPosPos_F * rho42Posp_F;
-                            Gamma13p_F += gognyElements1234_.vSamePosNegPosNeg_F * rho42Negp_F;
-                            Gamma13p_F += gognyElements1234_.vCrossPosPosPosPos_F * rho42Posn_F;
-                            Gamma13p_F += gognyElements1234_.vCrossPosNegPosNeg_F * rho42Negn_F;
-                        }
+                    Gamma13p_F += gognyElements1234_.vSamePosPosPosPos_F * rho42Posp_F;
+                    Gamma13p_F += gognyElements1234_.vSamePosNegPosNeg_F * rho42Negp_F;
+                    Gamma13p_F += gognyElements1234_.vCrossPosPosPosPos_F * rho42Posn_F;
+                    Gamma13p_F += gognyElements1234_.vCrossPosNegPosNeg_F * rho42Negn_F;
+                }
+            }
+        }
+
+        // Γ_{31}=Γ_{13}.
+        block13n_.Gamma_F2D_bsp_bsp(bsp1_I, bsp3_I) += Gamma13n_F;
+        block13p_.Gamma_F2D_bsp_bsp(bsp1_I, bsp3_I) += Gamma13p_F;
+        block13n_.Gamma_F2D_bsp_bsp(bsp3_I, bsp1_I) += offDiagonal_I * Gamma13n_F;
+        block13p_.Gamma_F2D_bsp_bsp(bsp3_I, bsp1_I) += offDiagonal_I * Gamma13p_F;
+    };
+
+    #pragma omp parallel
+    {
+        #pragma omp single
+        for (int block13_I = 0; block13_I < Nblock_I; ++block13_I) {
+            const AxialHFBBlock& block13n_ = blocklist_n_.blocks_X1D_block[block13_I];
+            const AxialHFBBlock& block13p_ = blocklist_p_.blocks_X1D_block[block13_I];
+            assert(block13n_.indices_I1D_bsp.size() == block13p_.indices_I1D_bsp.size());
+            const int Nbsp13_I = static_cast<int>(block13n_.indices_I1D_bsp.size());
+
+            // Γ^q_{13}=Σ_{24}\bar v^q_{12;34}ρ^q_{42}.
+            for (int bsp1_I = 0; bsp1_I < Nbsp13_I; ++bsp1_I) {
+                for (int bsp3_I = 0; bsp3_I <= bsp1_I; ++bsp3_I) {
+                    #pragma omp task firstprivate(block13_I, bsp1_I, bsp3_I)
+                    {
+                        add_Gamma_at_oneBlock_Func(block13_I, bsp1_I, bsp3_I);
                     }
                 }
-
-                // Γ_{31}=Γ_{13}.
-                block13n_.Gamma_F2D_bsp_bsp(bsp1_I, bsp3_I) += Gamma13n_F;
-                block13p_.Gamma_F2D_bsp_bsp(bsp1_I, bsp3_I) += Gamma13p_F;
-                block13n_.Gamma_F2D_bsp_bsp(bsp3_I, bsp1_I) += offDiagonal_I * Gamma13n_F;
-                block13p_.Gamma_F2D_bsp_bsp(bsp3_I, bsp1_I) += offDiagonal_I * Gamma13p_F;
             }
         }
     }
@@ -184,50 +197,63 @@ void AxialHFBBlockList::add_Delta_from_Gogny(AxialHFBBlockList& blocklist_p_, Ax
     assert(blocklist_n_.blocks_X1D_block.size() == blocklist_p_.blocks_X1D_block.size());
     const int Nblock_I = static_cast<int>(blocklist_n_.blocks_X1D_block.size());
 
-    #pragma omp parallel for schedule(static)
-    for (int block12_I = 0; block12_I < Nblock_I; ++block12_I) {
+    // (block_{12},bsp_1,bsp_2) → (Δ^n_{12},Δ^p_{12}).
+    const auto add_Delta_at_oneBlock_Func = [&](int block12_I, int bsp1_I, int bsp2_I) {
         AxialHFBBlock& block12n_ = blocklist_n_.blocks_X1D_block[block12_I];
         AxialHFBBlock& block12p_ = blocklist_p_.blocks_X1D_block[block12_I];
-        assert(block12n_.indices_I1D_bsp.size() == block12p_.indices_I1D_bsp.size());
-        const int Nbsp12_I = static_cast<int>(block12n_.indices_I1D_bsp.size());
+        const int sp1_I = block12n_.indices_I1D_bsp[bsp1_I];
+        const int sp2_I = block12n_.indices_I1D_bsp[bsp2_I];
+        const int offDiagonal_I = static_cast<int>(bsp1_I != bsp2_I);
+        double Delta12n_F = 0.0;
+        double Delta12p_F = 0.0;
 
-        // Δ^q_{12}=Σ_{34}\bar v^{same,+-+-}_{12;34}κ^q_{34}.
-        for (int bsp1_I = 0; bsp1_I < Nbsp12_I; ++bsp1_I) {
-            for (int bsp2_I = 0; bsp2_I <= bsp1_I; ++bsp2_I) {
-                const int sp1_I = block12n_.indices_I1D_bsp[bsp1_I];
-                const int sp2_I = block12n_.indices_I1D_bsp[bsp2_I];
-                const int offDiagonal_I = static_cast<int>(bsp1_I != bsp2_I);
-                double Delta12n_F = 0.0;
-                double Delta12p_F = 0.0;
+        for (int block34_I = 0; block34_I < Nblock_I; ++block34_I) {
+            const AxialHFBBlock& block34n_ = blocklist_n_.blocks_X1D_block[block34_I];
+            const AxialHFBBlock& block34p_ = blocklist_p_.blocks_X1D_block[block34_I];
+            assert(block34n_.indices_I1D_bsp.size() == block34p_.indices_I1D_bsp.size());
+            const int Nbsp34_I = static_cast<int>(block34n_.indices_I1D_bsp.size());
 
-                for (int block34_I = 0; block34_I < Nblock_I; ++block34_I) {
-                    const AxialHFBBlock& block34n_ = blocklist_n_.blocks_X1D_block[block34_I];
-                    const AxialHFBBlock& block34p_ = blocklist_p_.blocks_X1D_block[block34_I];
-                    assert(block34n_.indices_I1D_bsp.size() == block34p_.indices_I1D_bsp.size());
-                    const int Nbsp34_I = static_cast<int>(block34n_.indices_I1D_bsp.size());
+            for (int bsp3_I = 0; bsp3_I < Nbsp34_I; ++bsp3_I) {
+                for (int bsp4_I = 0; bsp4_I < Nbsp34_I; ++bsp4_I) {
+                    const int sp3_I = block34n_.indices_I1D_bsp[bsp3_I];
+                    const int sp4_I = block34n_.indices_I1D_bsp[bsp4_I];
+                    const AxialGaussianGogny::GognyElements gognyElements1234_ = gogny_.read_v(sp1_I, sp2_I, sp3_I, sp4_I);
+                    const double kappa34n_F = block34n_.kappa_F2D_bsp_bsp(bsp3_I, bsp4_I);
+                    const double kappa34p_F = block34p_.kappa_F2D_bsp_bsp(bsp3_I, bsp4_I);
+                    const double kappa43n_F = block34n_.kappa_F2D_bsp_bsp(bsp4_I, bsp3_I);
+                    const double kappa43p_F = block34p_.kappa_F2D_bsp_bsp(bsp4_I, bsp3_I);
+                    const int eta24_I = block12n_.labels_S1D_bsp[bsp2_I].twoSigma_I * block34n_.labels_S1D_bsp[bsp4_I].twoSigma_I;
+                    const int eta23_I = block12n_.labels_S1D_bsp[bsp2_I].twoSigma_I * block34n_.labels_S1D_bsp[bsp3_I].twoSigma_I;
+                    Delta12n_F += 0.5 * (eta24_I * gognyElements1234_.vSamePosNegPosNeg_F * kappa34n_F - eta23_I * gognyElements1234_.vSamePosNegNegPos_F * kappa43n_F);
+                    Delta12p_F += 0.5 * (eta24_I * gognyElements1234_.vSamePosNegPosNeg_F * kappa34p_F - eta23_I * gognyElements1234_.vSamePosNegNegPos_F * kappa43p_F);
+                }
+            }
+        }
 
-                    for (int bsp3_I = 0; bsp3_I < Nbsp34_I; ++bsp3_I) {
-                        for (int bsp4_I = 0; bsp4_I < Nbsp34_I; ++bsp4_I) {
-                            const int sp3_I = block34n_.indices_I1D_bsp[bsp3_I];
-                            const int sp4_I = block34n_.indices_I1D_bsp[bsp4_I];
-                            const AxialGaussianGogny::GognyElements gognyElements1234_ = gogny_.read_v(sp1_I, sp2_I, sp3_I, sp4_I);
-                            const double kappa34n_F = block34n_.kappa_F2D_bsp_bsp(bsp3_I, bsp4_I);
-                            const double kappa34p_F = block34p_.kappa_F2D_bsp_bsp(bsp3_I, bsp4_I);
-                            const double kappa43n_F = block34n_.kappa_F2D_bsp_bsp(bsp4_I, bsp3_I);
-                            const double kappa43p_F = block34p_.kappa_F2D_bsp_bsp(bsp4_I, bsp3_I);
-                            const int eta24_I = block12n_.labels_S1D_bsp[bsp2_I].twoSigma_I * block34n_.labels_S1D_bsp[bsp4_I].twoSigma_I;
-                            const int eta23_I = block12n_.labels_S1D_bsp[bsp2_I].twoSigma_I * block34n_.labels_S1D_bsp[bsp3_I].twoSigma_I;
-                            Delta12n_F += 0.5 * (eta24_I * gognyElements1234_.vSamePosNegPosNeg_F * kappa34n_F - eta23_I * gognyElements1234_.vSamePosNegNegPos_F * kappa43n_F);
-                            Delta12p_F += 0.5 * (eta24_I * gognyElements1234_.vSamePosNegPosNeg_F * kappa34p_F - eta23_I * gognyElements1234_.vSamePosNegNegPos_F * kappa43p_F);
-                        }
+        // Δ_{21}=Δ_{12}.
+        block12n_.Delta_F2D_bsp_bsp(bsp1_I, bsp2_I) += Delta12n_F;
+        block12p_.Delta_F2D_bsp_bsp(bsp1_I, bsp2_I) += Delta12p_F;
+        block12n_.Delta_F2D_bsp_bsp(bsp2_I, bsp1_I) += offDiagonal_I * Delta12n_F;
+        block12p_.Delta_F2D_bsp_bsp(bsp2_I, bsp1_I) += offDiagonal_I * Delta12p_F;
+    };
+
+    #pragma omp parallel
+    {
+        #pragma omp single
+        for (int block12_I = 0; block12_I < Nblock_I; ++block12_I) {
+            const AxialHFBBlock& block12n_ = blocklist_n_.blocks_X1D_block[block12_I];
+            const AxialHFBBlock& block12p_ = blocklist_p_.blocks_X1D_block[block12_I];
+            assert(block12n_.indices_I1D_bsp.size() == block12p_.indices_I1D_bsp.size());
+            const int Nbsp12_I = static_cast<int>(block12n_.indices_I1D_bsp.size());
+
+            // Δ^q_{12}=Σ_{34}\bar v^{same,+-+-}_{12;34}κ^q_{34}.
+            for (int bsp1_I = 0; bsp1_I < Nbsp12_I; ++bsp1_I) {
+                for (int bsp2_I = 0; bsp2_I <= bsp1_I; ++bsp2_I) {
+                    #pragma omp task firstprivate(block12_I, bsp1_I, bsp2_I)
+                    {
+                        add_Delta_at_oneBlock_Func(block12_I, bsp1_I, bsp2_I);
                     }
                 }
-
-                // Δ_{21}=Δ_{12}.
-                block12n_.Delta_F2D_bsp_bsp(bsp1_I, bsp2_I) += Delta12n_F;
-                block12p_.Delta_F2D_bsp_bsp(bsp1_I, bsp2_I) += Delta12p_F;
-                block12n_.Delta_F2D_bsp_bsp(bsp2_I, bsp1_I) += offDiagonal_I * Delta12n_F;
-                block12p_.Delta_F2D_bsp_bsp(bsp2_I, bsp1_I) += offDiagonal_I * Delta12p_F;
             }
         }
     }
@@ -241,44 +267,50 @@ void AxialHFBBlockList::add_Delta_from_Gogny(AxialHFBBlockList& blocklist_p_, Ax
 void AxialHFBBlockList::add_coulomb_from_Gaussian(AxialHFBBlockList& blocklist_p_, const AxialGaussianCoulomb& coulomb_) {
     const int Nblock_I = static_cast<int>(blocklist_p_.blocks_X1D_block.size());
 
+    // (block_{13},bsp_1,bsp_3) → Γ^{C,p}_{13}.
+    const auto add_coulomb_at_oneBlock_Func = [&](int block13_I, int bsp1_I, int bsp3_I) {
+        AxialHFBBlock& block13p_ = blocklist_p_.blocks_X1D_block[block13_I];
+        const int sp1_I = block13p_.indices_I1D_bsp[bsp1_I];
+        const int sp3_I = block13p_.indices_I1D_bsp[bsp3_I];
+        const int offDiagonal_I = static_cast<int>(bsp1_I != bsp3_I);
+        double Gamma13p_F = 0.0;
+
+        for (int block24_I = 0; block24_I < Nblock_I; ++block24_I) {
+            const AxialHFBBlock& block24p_ = blocklist_p_.blocks_X1D_block[block24_I];
+            const int Nbsp24_I = static_cast<int>(block24p_.indices_I1D_bsp.size());
+
+            for (int bsp2_I = 0; bsp2_I < Nbsp24_I; ++bsp2_I) {
+                for (int bsp4_I = 0; bsp4_I < Nbsp24_I; ++bsp4_I) {
+                    const int sp2_I = block24p_.indices_I1D_bsp[bsp2_I];
+                    const int sp4_I = block24p_.indices_I1D_bsp[bsp4_I];
+                    const AxialGaussianCoulomb::GammaElements coulombElements1234_ = coulomb_.read_v(sp1_I, sp2_I, sp3_I, sp4_I);
+
+                    // ρ^-_{42}=η_2η_4ρ^+_{42}.
+                    const double rho42Posp_F = block24p_.rho_F2D_bsp_bsp(bsp4_I, bsp2_I);
+                    const int eta24_I = block24p_.labels_S1D_bsp[bsp2_I].twoSigma_I * block24p_.labels_S1D_bsp[bsp4_I].twoSigma_I;
+                    const double rho42Negp_F = eta24_I * rho42Posp_F;
+
+                    // (v̄^{++},v̄^{+-})·(ρ^+,ρ^-) → Γ^+.
+                    Gamma13p_F += coulombElements1234_.vPosPosPosPos_F * rho42Posp_F;
+                    Gamma13p_F += coulombElements1234_.vPosNegPosNeg_F * rho42Negp_F;
+                }
+            }
+        }
+
+        // Γ_{31}=Γ_{13}.
+        block13p_.Gamma_F2D_bsp_bsp(bsp1_I, bsp3_I) += Gamma13p_F;
+        block13p_.Gamma_F2D_bsp_bsp(bsp3_I, bsp1_I) += offDiagonal_I * Gamma13p_F;
+    };
+
     #pragma omp parallel for schedule(static)
     for (int block13_I = 0; block13_I < Nblock_I; ++block13_I) {
-        AxialHFBBlock& block13p_ = blocklist_p_.blocks_X1D_block[block13_I];
+        const AxialHFBBlock& block13p_ = blocklist_p_.blocks_X1D_block[block13_I];
         const int Nbsp13_I = static_cast<int>(block13p_.indices_I1D_bsp.size());
 
         // Γ^p_{13}=Σ_{24}(v̄^{C,++}_{12;34}ρ^{p,+}_{42}+v̄^{C,+-}_{12;34}ρ^{p,-}_{42}).
         for (int bsp1_I = 0; bsp1_I < Nbsp13_I; ++bsp1_I) {
             for (int bsp3_I = 0; bsp3_I <= bsp1_I; ++bsp3_I) {
-                const int sp1_I = block13p_.indices_I1D_bsp[bsp1_I];
-                const int sp3_I = block13p_.indices_I1D_bsp[bsp3_I];
-                const int offDiagonal_I = static_cast<int>(bsp1_I != bsp3_I);
-                double Gamma13p_F = 0.0;
-
-                for (int block24_I = 0; block24_I < Nblock_I; ++block24_I) {
-                    const AxialHFBBlock& block24p_ = blocklist_p_.blocks_X1D_block[block24_I];
-                    const int Nbsp24_I = static_cast<int>(block24p_.indices_I1D_bsp.size());
-
-                    for (int bsp2_I = 0; bsp2_I < Nbsp24_I; ++bsp2_I) {
-                        for (int bsp4_I = 0; bsp4_I < Nbsp24_I; ++bsp4_I) {
-                            const int sp2_I = block24p_.indices_I1D_bsp[bsp2_I];
-                            const int sp4_I = block24p_.indices_I1D_bsp[bsp4_I];
-                            const AxialGaussianCoulomb::GammaElements coulombElements1234_ = coulomb_.read_v(sp1_I, sp2_I, sp3_I, sp4_I);
-
-                            // ρ^-_{42}=η_2η_4ρ^+_{42}.
-                            const double rho42Posp_F = block24p_.rho_F2D_bsp_bsp(bsp4_I, bsp2_I);
-                            const int eta24_I = block24p_.labels_S1D_bsp[bsp2_I].twoSigma_I * block24p_.labels_S1D_bsp[bsp4_I].twoSigma_I;
-                            const double rho42Negp_F = eta24_I * rho42Posp_F;
-
-                            // (v̄^{++},v̄^{+-})·(ρ^+,ρ^-) → Γ^+.
-                            Gamma13p_F += coulombElements1234_.vPosPosPosPos_F * rho42Posp_F;
-                            Gamma13p_F += coulombElements1234_.vPosNegPosNeg_F * rho42Negp_F;
-                        }
-                    }
-                }
-
-                // Γ_{31}=Γ_{13}.
-                block13p_.Gamma_F2D_bsp_bsp(bsp1_I, bsp3_I) += Gamma13p_F;
-                block13p_.Gamma_F2D_bsp_bsp(bsp3_I, bsp1_I) += offDiagonal_I * Gamma13p_F;
+                add_coulomb_at_oneBlock_Func(block13_I, bsp1_I, bsp3_I);
             }
         }
     }

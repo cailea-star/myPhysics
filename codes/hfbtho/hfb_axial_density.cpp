@@ -46,7 +46,7 @@ void AxialHFBDensity::update_density(const AxialBasis& global_basis_, const Axia
     };
 
     // Σ_1=Σ_2 → {ρ,τ,κ,Δρ,∇ρ,J_{φz},∇·J}.
-    const auto add_same_spin_at_BlockPoint_Func = [&](DensityValues& densityValues_, const AxialHFBBlock& block_, int z_I, int r_I, const std::vector<int>& indices_I1D_bsp_, double Lambda_F, double spinSign_F) {
+    const auto add_same_spin_at_oneBlockPoint_Func = [&](DensityValues& densityValues_, const AxialHFBBlock& block_, int z_I, int r_I, const std::vector<int>& indices_I1D_bsp_, double Lambda_F, double spinSign_F) {
         const int Nbsp_I = static_cast<int>(block_.labels_S1D_bsp.size());
         const int spStart_I = block_.indices_I1D_bsp.front();
         const double rInv_F = 1.0 / global_basis_.r_F1D_r(r_I);
@@ -105,7 +105,7 @@ void AxialHFBDensity::update_density(const AxialBasis& global_basis_, const Axia
     };
 
     // Σ_1≠Σ_2 → {J_{rφ},J_{zφ},J_{φr},∇·J}.
-    const auto add_opposite_spin_at_BlockPoint_Func = [&](DensityValues& densityValues_, const AxialHFBBlock& block_, int z_I, int r_I) {
+    const auto add_opposite_spin_at_oneBlockPoint_Func = [&](DensityValues& densityValues_, const AxialHFBBlock& block_, int z_I, int r_I) {
         const int Nbsp_I = static_cast<int>(block_.labels_S1D_bsp.size());
         const int twoOmega_I = block_.twoOmega_I;
         const double Omega_F = 0.5 * twoOmega_I;
@@ -149,9 +149,9 @@ void AxialHFBDensity::update_density(const AxialBasis& global_basis_, const Axia
                 const int twoOmega_I = block_.twoOmega_I;
                 const double LambdaUp_F = 0.5 * twoOmega_I - 0.5;
                 const double LambdaDown_F = 0.5 * twoOmega_I + 0.5;
-                add_same_spin_at_BlockPoint_Func(densityValues_, block_, z_I, r_I, block_.indices_I1D_bup, LambdaUp_F, 1.0);
-                add_same_spin_at_BlockPoint_Func(densityValues_, block_, z_I, r_I, block_.indices_I1D_bdn, LambdaDown_F, -1.0);
-                add_opposite_spin_at_BlockPoint_Func(densityValues_, block_, z_I, r_I);
+                add_same_spin_at_oneBlockPoint_Func(densityValues_, block_, z_I, r_I, block_.indices_I1D_bup, LambdaUp_F, 1.0);
+                add_same_spin_at_oneBlockPoint_Func(densityValues_, block_, z_I, r_I, block_.indices_I1D_bdn, LambdaDown_F, -1.0);
+                add_opposite_spin_at_oneBlockPoint_Func(densityValues_, block_, z_I, r_I);
             }
 
             rho_F2D_z_r(z_I, r_I) = kramersDegeneracy_F * densityValues_.rho_F;
