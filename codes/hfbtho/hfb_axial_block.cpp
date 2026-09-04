@@ -57,7 +57,7 @@ void AxialHFBBlock::add_Gamma_Delta_from_field(const AxialHFBField& field_, cons
     };
 
     // Σ_1=Σ_2 → (Γ_12,Δ_12).
-    const auto add_same_spin_at_point_Func = [&](const FieldValues& fieldValues_, int z_I, int r_I, const std::vector<int>& indices_I1D_bsp_, int Lambda_I, double spinSign_F) {
+    const auto add_same_spin_at_onePoint_Func = [&](const FieldValues& fieldValues_, int z_I, int r_I, const std::vector<int>& indices_I1D_bsp_, int Lambda_I, double spinSign_F) {
         const int Nspin_I = static_cast<int>(indices_I1D_bsp_.size());
         const double w_F = global_basis_.w_F2D_z_r(z_I, r_I);
         const double rInv_F = rInv_F1D_r(r_I);
@@ -110,7 +110,7 @@ void AxialHFBBlock::add_Gamma_Delta_from_field(const AxialHFBField& field_, cons
     };
 
     // Σ_↑≠Σ_↓ → Γ_↑↓.
-    const auto add_opposite_spin_at_point_Func = [&](const FieldValues& fieldValues_, int z_I, int r_I) {
+    const auto add_opposite_spin_at_onePoint_Func = [&](const FieldValues& fieldValues_, int z_I, int r_I) {
         const double w_F = global_basis_.w_F2D_z_r(z_I, r_I);
         const double rInv_F = rInv_F1D_r(r_I);
         const Eigen::Map<const Eigen::VectorXd> phi_F1D_bsp(&global_basis_.phi_F3D_sp_z_r(spBegin_I, z_I, r_I), Nbsp_I);
@@ -147,9 +147,9 @@ void AxialHFBBlock::add_Gamma_Delta_from_field(const AxialHFBField& field_, cons
         for (int z_I = 0; z_I < Nz_I; ++z_I) {
             // (z,r) → {v}.
             const FieldValues fieldValues_(field_, z_I, r_I);
-            add_same_spin_at_point_Func(fieldValues_, z_I, r_I, indices_I1D_bup, LambdaUp_I, 1.0);
-            add_same_spin_at_point_Func(fieldValues_, z_I, r_I, indices_I1D_bdn, LambdaDown_I, -1.0);
-            add_opposite_spin_at_point_Func(fieldValues_, z_I, r_I);
+            add_same_spin_at_onePoint_Func(fieldValues_, z_I, r_I, indices_I1D_bup, LambdaUp_I, 1.0);
+            add_same_spin_at_onePoint_Func(fieldValues_, z_I, r_I, indices_I1D_bdn, LambdaDown_I, -1.0);
+            add_opposite_spin_at_onePoint_Func(fieldValues_, z_I, r_I);
         }
     }
 }
