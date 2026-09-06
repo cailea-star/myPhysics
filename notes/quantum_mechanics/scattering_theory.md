@@ -59,11 +59,11 @@ $$
 Using the [interaction-picture Dyson equation](quantum_dynamics.md#interaction-picture),
 
 $$
-U_I(t,t_0)=I-\frac{i}{\hbar}\int_{t_0}^{t}dt'\,V_I(t')U_I(t',t_0),
+U_I(t,t_0)=I-\frac{i}{\hbar}\int_{t_0}^{t}\mathrm dt'\,V_I(t')U_I(t',t_0),
 $$
 
 $$
-S=U_I(+\infty,-\infty)=I-\frac{i}{\hbar}\int_{-\infty}^{+\infty}dt\,V_I(t)U_I(t,-\infty).
+S=U_I(+\infty,-\infty)=I-\frac{i}{\hbar}\int_{-\infty}^{+\infty}\mathrm dt\,V_I(t)U_I(t,-\infty).
 $$
 
 ##### Transition Operator and S-Matrix Elements
@@ -95,13 +95,13 @@ $$
 Therefore,
 
 $$
-\langle k'|S|k\rangle=\langle k'|k\rangle-\frac{i}{\hbar}\int_{-\infty}^{+\infty}dt\,e^{i(E_{k'}-E_k)t/\hbar}\langle k'|T(E_k)|k\rangle.
+\langle k'|S|k\rangle=\langle k'|k\rangle-\frac{i}{\hbar}\int_{-\infty}^{+\infty}\mathrm dt\,e^{i(E_{k'}-E_k)t/\hbar}\langle k'|T(E_k)|k\rangle.
 $$
 
 Using
 
 $$
-\int_{-\infty}^{+\infty}dt\,e^{i(E_{k'}-E_k)t/\hbar}=2\pi\hbar\,\delta(E_{k'}-E_k),
+\int_{-\infty}^{+\infty}\mathrm dt\,e^{i(E_{k'}-E_k)t/\hbar}=2\pi\hbar\,\delta(E_{k'}-E_k),
 $$
 
 gives
@@ -164,16 +164,16 @@ $$
 \mathbf j[\psi]=\frac{\hbar}{M}\operatorname{Im}\left(\psi^*\nabla\psi\right).
 $$
 
-Let $j_{\mathrm{in}}$ be the incident flux and $j_{\mathrm{sc}}=\hat{\mathbf r}\cdot\mathbf j[\psi_{\mathrm{sc}}]$ the outward scattered current. Define $d\sigma$ as the effective incident area corresponding to the scattered flux through $dA=r^2d\Omega$:
+Let $j_{\mathrm{in}}$ be the incident flux and $j_{\mathrm{sc}}=\hat{\mathbf r}\cdot\mathbf j[\psi_{\mathrm{sc}}]$ the outward scattered current. Define $\mathrm d\sigma$ as the effective incident area corresponding to the scattered flux through $\mathrm dA=r^2\mathrm d\hat{\mathbf r}$:
 
 $$
-j_{\mathrm{in}}\,d\sigma=j_{\mathrm{sc}}\,dA,\qquad dA=r^2d\Omega.
+j_{\mathrm{in}}\,\mathrm d\sigma=j_{\mathrm{sc}}\,\mathrm dA,\qquad \mathrm dA=r^2\mathrm d\hat{\mathbf r}.
 $$
 
 Therefore,
 
 $$
-\boxed{\frac{d\sigma}{d\Omega}\equiv\lim_{r\to\infty}\frac{r^2j_{\mathrm{sc}}(\mathbf r)}{j_{\mathrm{in}}},\qquad \sigma_{\mathrm{tot}}=\int d\Omega\,\frac{d\sigma}{d\Omega}}.
+\boxed{\frac{\mathrm d\sigma}{\mathrm d\hat{\mathbf r}}\equiv\lim_{r\to\infty}\frac{r^2j_{\mathrm{sc}}(\mathbf r)}{j_{\mathrm{in}}},\qquad \sigma_{\mathrm{tot}}=\int \mathrm d\hat{\mathbf r}\,\frac{\mathrm d\sigma}{\mathrm d\hat{\mathbf r}}}.
 $$
 
 Use the plane-wave normalization
@@ -185,7 +185,7 @@ $$
 Insert the momentum completeness relation into the Lippmann–Schwinger equation:
 
 $$
-\boxed{\psi_{\mathbf k}^+(\mathbf r)=\langle\mathbf r|\psi_{\mathbf k}^+\rangle=\langle\mathbf r|\mathbf k\rangle+\int d^3q\,\langle\mathbf r|\mathbf q\rangle\langle\mathbf q|G_0^+(E_k)T(E_k)|\mathbf k\rangle}.
+\boxed{\psi_{\mathbf k}^+(\mathbf r)=\langle\mathbf r|\psi_{\mathbf k}^+\rangle=\langle\mathbf r|\mathbf k\rangle+\int \mathrm d^3\mathbf q\,\langle\mathbf r|\mathbf q\rangle\langle\mathbf q|G_0^+(E_k)T(E_k)|\mathbf k\rangle}.
 $$
 
 Using the momentum-space representation of the [quantum Green function](../mathematical_physics/green_functions.md#quantum-green-function),
@@ -197,7 +197,7 @@ $$
 gives
 
 $$
-\psi_{\mathbf k}^+(\mathbf r)=\frac{e^{i\mathbf k\cdot\mathbf r}}{(2\pi)^{3/2}}+\int\frac{d^3q}{(2\pi)^{3/2}}\,\frac{e^{i\mathbf q\cdot\mathbf r}}{E_k-E_q+i0}\langle\mathbf q|T(E_k)|\mathbf k\rangle.
+\psi_{\mathbf k}^+(\mathbf r)=\frac{e^{i\mathbf k\cdot\mathbf r}}{(2\pi)^{3/2}}+\int\frac{\mathrm d^3\mathbf q}{(2\pi)^{3/2}}\,\frac{e^{i\mathbf q\cdot\mathbf r}}{E_k-E_q+i0}\langle\mathbf q|T(E_k)|\mathbf k\rangle.
 $$
 
 In the far-field region, the transition matrix element is approximated by its on-shell value:
@@ -209,7 +209,7 @@ $$
 Using
 
 $$
-E_k-E_q=\frac{\hbar^2}{2M}(k^2-q^2),\qquad\int\frac{d^3q}{(2\pi)^3}\frac{e^{i\mathbf q\cdot\mathbf r}}{k^2-q^2+i0}=-\frac{e^{ikr}}{4\pi r},
+E_k-E_q=\frac{\hbar^2}{2M}(k^2-q^2),\qquad\int\frac{\mathrm d^3\mathbf q}{(2\pi)^3}\frac{e^{i\mathbf q\cdot\mathbf r}}{k^2-q^2+i0}=-\frac{e^{ikr}}{4\pi r},
 $$
 
 gives
@@ -233,13 +233,13 @@ $$
 Therefore, the differential cross section and optical theorem are
 
 $$
-\boxed{\frac{d\sigma}{d\Omega}=|f(\mathbf k',\mathbf k)|^2,\qquad \sigma_{\mathrm{tot}}=\frac{4\pi}{k}\operatorname{Im}f(\mathbf k,\mathbf k)}.
+\boxed{\frac{\mathrm d\sigma}{\mathrm d\hat{\mathbf r}}=|f(\mathbf k',\mathbf k)|^2,\qquad \sigma_{\mathrm{tot}}=\frac{4\pi}{k}\operatorname{Im}f(\mathbf k,\mathbf k)}.
 $$
 
 Using $T(E_k)|\mathbf k\rangle=V|\psi_{\mathbf k}^+\rangle$,
 
 $$
-\boxed{f(\mathbf k',\mathbf k)=-\frac{(2\pi)^2M}{\hbar^2}\langle\mathbf k'|T(E_k)|\mathbf k\rangle=-\frac{\sqrt{2\pi}M}{\hbar^2}\int d^3r\,e^{-i\mathbf k'\cdot\mathbf r}V(\mathbf r)\psi_{\mathbf k}^+(\mathbf r)}.
+\boxed{f(\mathbf k',\mathbf k)=-\frac{(2\pi)^2M}{\hbar^2}\langle\mathbf k'|T(E_k)|\mathbf k\rangle=-\frac{\sqrt{2\pi}M}{\hbar^2}\int \mathrm d^3\mathbf r\,e^{-i\mathbf k'\cdot\mathbf r}V(\mathbf r)\psi_{\mathbf k}^+(\mathbf r)}.
 $$
 
 ##### Born Approximation
@@ -259,7 +259,7 @@ $$
 Therefore,
 
 $$
-f_{\mathrm B}(\mathbf k',\mathbf k)=-\frac{(2\pi)^2M}{\hbar^2}\langle\mathbf k'|V|\mathbf k\rangle=-\frac{M}{2\pi\hbar^2}\int d^3r\,e^{-i\mathbf Q\cdot\mathbf r}V(\mathbf r),
+f_{\mathrm B}(\mathbf k',\mathbf k)=-\frac{(2\pi)^2M}{\hbar^2}\langle\mathbf k'|V|\mathbf k\rangle=-\frac{M}{2\pi\hbar^2}\int \mathrm d^3\mathbf r\,e^{-i\mathbf Q\cdot\mathbf r}V(\mathbf r),
 $$
 
 where the momentum transfer is
@@ -271,13 +271,13 @@ $$
 For a central potential $V(\mathbf r)=V(r)$,
 
 $$
-\int d^3r\,e^{-i\mathbf Q\cdot\mathbf r}V(r)=4\pi\int_0^\infty dr\,r^2V(r)\frac{\sin(Qr)}{Qr}.
+\int \mathrm d^3\mathbf r\,e^{-i\mathbf Q\cdot\mathbf r}V(r)=4\pi\int_0^\infty \mathrm dr\,r^2V(r)\frac{\sin(Qr)}{Qr}.
 $$
 
 Hence,
 
 $$
-\boxed{f_{\mathrm B}(Q)=-\frac{2M}{\hbar^2}\int_0^\infty dr\,r^2V(r)\frac{\sin(Qr)}{Qr},\qquad \frac{d\sigma_{\mathrm B}}{d\Omega}=|f_{\mathrm B}(Q)|^2}.
+\boxed{f_{\mathrm B}(Q)=-\frac{2M}{\hbar^2}\int_0^\infty \mathrm dr\,r^2V(r)\frac{\sin(Qr)}{Qr},\qquad \frac{\mathrm d\sigma_{\mathrm B}}{\mathrm d\hat{\mathbf r}}=|f_{\mathrm B}(Q)|^2}.
 $$
 
 The Born series requires
@@ -364,10 +364,10 @@ $$
 \boxed{f(\theta)=\frac{1}{2ik}\sum_{l=0}^{\infty}(2l+1)\left[e^{2i\delta_l(E)}-1\right]P_l(\cos\theta)}.
 $$
 
-Using $d\sigma/d\Omega=|f(\theta)|^2$ and the [Legendre orthogonality relation](../mathematical_physics/specialfunction_associated_legendre_polynomials.md#orthogonality-and-normalization), the total cross section decomposes into independent partial waves:
+Using $\mathrm d\sigma/\mathrm d\hat{\mathbf r}=|f(\theta)|^2$ and the [Legendre orthogonality relation](../mathematical_physics/specialfunction_associated_legendre_polynomials.md#orthogonality-and-normalization), the total cross section decomposes into independent partial waves:
 
 $$
-\sigma_{\mathrm{tot}}=\int d\Omega\,|f(\theta)|^2=4\pi\sum_{l=0}^{\infty}(2l+1)|f_l(k)|^2\equiv\sum_{l=0}^{\infty}\sigma_l.
+\sigma_{\mathrm{tot}}=\int \mathrm d\hat{\mathbf r}\,|f(\theta)|^2=4\pi\sum_{l=0}^{\infty}(2l+1)|f_l(k)|^2\equiv\sum_{l=0}^{\infty}\sigma_l.
 $$
 
 Therefore,
@@ -381,13 +381,13 @@ $$
 For a short-range real central potential, let $u_l(r)$ be the reduced radial wavefunction. Each partial wave satisfies
 
 $$
-\left[-\frac{\hbar^2}{2M}\frac{d^2}{dr^2}+\frac{\hbar^2l(l+1)}{2Mr^2}+V(r)\right]u_l(r)=E\,u_l(r),\qquad u_l(r)\underset{r\to0}{\propto}r^{l+1}.
+\left[-\frac{\hbar^2}{2M}\frac{\mathrm d^2}{\mathrm dr^2}+\frac{\hbar^2l(l+1)}{2Mr^2}+V(r)\right]u_l(r)=E\,u_l(r),\qquad u_l(r)\underset{r\to0}{\propto}r^{l+1}.
 $$
 
 Choose a matching radius $r_m$ such that $V(r)\simeq0$ for $r\geq r_m$. The exterior equation is
 
 $$
-\left[\frac{d^2}{dr^2}+k^2-\frac{l(l+1)}{r^2}\right]u_l(r)=0,\qquad E=\frac{\hbar^2k^2}{2M}.
+\left[\frac{\mathrm d^2}{\mathrm dr^2}+k^2-\frac{l(l+1)}{r^2}\right]u_l(r)=0,\qquad E=\frac{\hbar^2k^2}{2M}.
 $$
 
 Define the Riccati–Bessel functions by

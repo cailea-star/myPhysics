@@ -3,7 +3,7 @@
 Let $n\in\mathbb N_0=\{0,1,2,\ldots\}$ and $\alpha>-1$. The generalized Laguerre polynomial $L_n^{(\alpha)}(x)$ is the degree-$n$ solution of
 
 $$
-\boxed{x\frac{d^2}{dx^2}L_n^{(\alpha)}(x)+(\alpha+1-x)\frac{d}{dx}L_n^{(\alpha)}(x)+nL_n^{(\alpha)}(x)=0}.
+\boxed{x\frac{\mathrm d^2}{\mathrm dx^2}L_n^{(\alpha)}(x)+(\alpha+1-x)\frac{\mathrm d}{\mathrm dx}L_n^{(\alpha)}(x)+nL_n^{(\alpha)}(x)=0}.
 $$
 
 For $\alpha\in\mathbb N_0$, this family includes the associated Laguerre polynomials used in radial problems.
@@ -13,7 +13,7 @@ For $\alpha\in\mathbb N_0$, this family includes the associated Laguerre polynom
 With $L_0^{(\alpha)}(x)=1$, the Laguerre equation gives the raising relation
 
 $$
-(n+1)L_{n+1}^{(\alpha)}(x)=(n+\alpha+1-x)L_n^{(\alpha)}(x)+x\frac{d}{dx}L_n^{(\alpha)}(x).
+(n+1)L_{n+1}^{(\alpha)}(x)=(n+\alpha+1-x)L_n^{(\alpha)}(x)+x\frac{\mathrm d}{\mathrm dx}L_n^{(\alpha)}(x).
 $$
 
 Let $t$ be an auxiliary variable. For the ordinary generating function $G_\alpha(x,t)$,
@@ -31,7 +31,7 @@ $$
 Using the raising relation,
 
 $$
-\frac{\partial G_\alpha}{\partial t}=\sum_{n=0}^{\infty}\left[(n+\alpha+1-x)L_n^{(\alpha)}(x)+x\frac{d}{dx}L_n^{(\alpha)}(x)\right]t^n=t\frac{\partial G_\alpha}{\partial t}+(\alpha+1-x)G_\alpha+x\frac{\partial G_\alpha}{\partial x}.
+\frac{\partial G_\alpha}{\partial t}=\sum_{n=0}^{\infty}\left[(n+\alpha+1-x)L_n^{(\alpha)}(x)+x\frac{\mathrm d}{\mathrm dx}L_n^{(\alpha)}(x)\right]t^n=t\frac{\partial G_\alpha}{\partial t}+(\alpha+1-x)G_\alpha+x\frac{\partial G_\alpha}{\partial x}.
 $$
 
 Therefore,
@@ -57,7 +57,7 @@ $$
 Applying the Leibniz rule gives
 
 $$
-\boxed{L_n^{(\alpha)}(x)=\frac{x^{-\alpha}e^x}{n!}\frac{d^n}{dx^n}\left(e^{-x}x^{n+\alpha}\right)}.
+\boxed{L_n^{(\alpha)}(x)=\frac{x^{-\alpha}e^x}{n!}\frac{\mathrm d^n}{\mathrm dx^n}\left(e^{-x}x^{n+\alpha}\right)}.
 $$
 
 ### Recurrence and Derivatives
@@ -65,13 +65,13 @@ $$
 The generating function gives
 
 $$
-\boxed{(n+1)L_{n+1}^{(\alpha)}(x)=(2n+\alpha+1-x)L_n^{(\alpha)}(x)-(n+\alpha)L_{n-1}^{(\alpha)}(x),\qquad \frac{d}{dx}L_n^{(\alpha)}(x)=-L_{n-1}^{(\alpha+1)}(x)}.
+\boxed{(n+1)L_{n+1}^{(\alpha)}(x)=(2n+\alpha+1-x)L_n^{(\alpha)}(x)-(n+\alpha)L_{n-1}^{(\alpha)}(x),\qquad \frac{\mathrm d}{\mathrm dx}L_n^{(\alpha)}(x)=-L_{n-1}^{(\alpha+1)}(x)}.
 $$
 
 Equivalently,
 
 $$
-x\frac{d}{dx}L_n^{(\alpha)}(x)=nL_n^{(\alpha)}(x)-(n+\alpha)L_{n-1}^{(\alpha)}(x),\qquad x\frac{d^2}{dx^2}L_n^{(\alpha)}(x)=(x-\alpha-1)\frac{d}{dx}L_n^{(\alpha)}(x)-nL_n^{(\alpha)}(x).
+x\frac{\mathrm d}{\mathrm dx}L_n^{(\alpha)}(x)=nL_n^{(\alpha)}(x)-(n+\alpha)L_{n-1}^{(\alpha)}(x),\qquad x\frac{\mathrm d^2}{\mathrm dx^2}L_n^{(\alpha)}(x)=(x-\alpha-1)\frac{\mathrm d}{\mathrm dx}L_n^{(\alpha)}(x)-nL_n^{(\alpha)}(x).
 $$
 
 ### Orthogonality and Normalization
@@ -79,13 +79,13 @@ $$
 For $m<n$, the Rodrigues formula and integration by parts give
 
 $$
-\int_0^\infty x^\alpha e^{-x}L_m^{(\alpha)}(x)L_n^{(\alpha)}(x)\,dx=\frac{(-1)^n}{n!}\int_0^\infty e^{-x}x^{n+\alpha}\frac{d^n}{dx^n}L_m^{(\alpha)}(x)\,dx=0.
+\int_0^\infty x^\alpha e^{-x}L_m^{(\alpha)}(x)L_n^{(\alpha)}(x)\,\mathrm dx=\frac{(-1)^n}{n!}\int_0^\infty e^{-x}x^{n+\alpha}\frac{\mathrm d^n}{\mathrm dx^n}L_m^{(\alpha)}(x)\,\mathrm dx=0.
 $$
 
 Let $\delta_{mn}$ denote the Kronecker delta. The complete orthogonality relation is
 
 $$
-\boxed{\int_0^\infty x^\alpha e^{-x}L_m^{(\alpha)}(x)L_n^{(\alpha)}(x)\,dx=\frac{\Gamma(n+\alpha+1)}{n!}\delta_{mn}}.
+\boxed{\int_0^\infty x^\alpha e^{-x}L_m^{(\alpha)}(x)L_n^{(\alpha)}(x)\,\mathrm dx=\frac{\Gamma(n+\alpha+1)}{n!}\delta_{mn}}.
 $$
 
 The normalization coefficient is
@@ -94,10 +94,10 @@ $$
 N_n^{(\alpha)}=\sqrt{\frac{n!}{\Gamma(n+\alpha+1)}}.
 $$
 
-For $f\in L^2([0,\infty),x^\alpha e^{-x}dx)$,
+For $f\in L^2([0,\infty),x^\alpha e^{-x}\mathrm dx)$,
 
 $$
-f(x)=\sum_{n=0}^{\infty}c_nL_n^{(\alpha)}(x),\qquad c_n=\left[N_n^{(\alpha)}\right]^2\int_0^\infty x^\alpha e^{-x}L_n^{(\alpha)}(x)f(x)\,dx.
+f(x)=\sum_{n=0}^{\infty}c_nL_n^{(\alpha)}(x),\qquad c_n=\left[N_n^{(\alpha)}\right]^2\int_0^\infty x^\alpha e^{-x}L_n^{(\alpha)}(x)f(x)\,\mathrm dx.
 $$
 
 ### Value at the Origin

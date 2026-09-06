@@ -4,28 +4,28 @@ An axial harmonic-oscillator configuration specifies the coordinate scales, fini
 
 ### Coordinate Scales
 
-The coordinate conventions follow [Axial Harmonic-Oscillator Basis](axial_basis.md). Let $z$ and $r$ denote the axial and radial coordinates. The oscillator lengths $b_z$ and $b_r$ define
+The coordinate conventions follow [Axial Harmonic-Oscillator Basis](axial_basis.md). Let $z$ and $r_\perp$ denote the axial and radial coordinates. The oscillator lengths $b_z$ and $b_{r_\perp}$ define
 
 $$
-\zeta=\frac{z}{b_z},\qquad \eta=\left(\frac{r}{b_r}\right)^2.
+\zeta=\frac{z}{b_z},\qquad \eta=\left(\frac{r_\perp}{b_{r_\perp}}\right)^2.
 $$
 
 The corresponding measures are
 
 $$
-dz=b_z\,d\zeta,\qquad r\,dr=\frac{b_r^2}{2}\,d\eta.
+dz=b_z\,d\zeta,\qquad r_\perp\,dr_\perp=\frac{b_{r_\perp}^2}{2}\,d\eta.
 $$
 
 Let $b_0$ be the mean oscillator length and $\beta_{20}$ the quadrupole deformation. The deformed lengths and volume conservation are
 
 $$
-b_z=b_0\exp\left(\sqrt{\frac{5}{16\pi}}\beta_{20}\right),\qquad b_r=b_0\exp\left(-\frac12\sqrt{\frac{5}{16\pi}}\beta_{20}\right),\qquad b_r^2b_z=b_0^3.
+b_z=b_0\exp\left(\sqrt{\frac{5}{16\pi}}\beta_{20}\right),\qquad b_{r_\perp}=b_0\exp\left(-\frac12\sqrt{\frac{5}{16\pi}}\beta_{20}\right),\qquad b_{r_\perp}^2b_z=b_0^3.
 $$
 
 The inverse transformation is
 
 $$
-b_0=(b_r^2b_z)^{1/3},\qquad \beta_{20}=\frac{8}{3}\sqrt{\frac{\pi}{5}}\log\frac{b_z}{b_r}.
+b_0=(b_{r_\perp}^2b_z)^{1/3},\qquad \beta_{20}=\frac{8}{3}\sqrt{\frac{\pi}{5}}\log\frac{b_z}{b_{r_\perp}}.
 $$
 
 ### Single-Particle Labels
@@ -81,13 +81,13 @@ The positive-$\Omega$ blocks contain one representative of each time-reversal pa
 The single-particle spectrum follows [Axial Harmonic-Oscillator Hamiltonian](axial_basis.md#axial-harmonic-oscillator-hamiltonian). Let $m$ be the particle mass. The axial and transverse oscillator energies are
 
 $$
-\hbar\omega_z=\frac{\hbar^2}{mb_z^2},\qquad \hbar\omega_r=\frac{\hbar^2}{mb_r^2}.
+\hbar\omega_z=\frac{\hbar^2}{mb_z^2},\qquad \hbar\omega_{r_\perp}=\frac{\hbar^2}{mb_{r_\perp}^2}.
 $$
 
 Define the transverse oscillator quantum number $\nu$ and the single-particle energy by
 
 $$
-\nu=2n_r+\Lambda,\qquad E(n_z,\nu)=\hbar\omega_z\left(n_z+\frac12\right)+\hbar\omega_r(\nu+1).
+\nu=2n_r+\Lambda,\qquad E(n_z,\nu)=\hbar\omega_z\left(n_z+\frac12\right)+\hbar\omega_{r_\perp}(\nu+1).
 $$
 
 For fixed $\nu$, the allowed radial quantum numbers and their multiplicity are

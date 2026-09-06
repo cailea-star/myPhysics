@@ -308,7 +308,7 @@ $$
 The corresponding infinitesimal variation is
 
 $$
-\delta\mathcal R=\left.\frac{d\mathcal R(\epsilon)}{d\epsilon}\right|_{\epsilon=0}=i[\mathcal G,\mathcal R].
+\delta\mathcal R=\left.\frac{\mathrm d\mathcal R(\epsilon)}{\mathrm d\epsilon}\right|_{\epsilon=0}=i[\mathcal G,\mathcal R].
 $$
 
 The stationary condition is
