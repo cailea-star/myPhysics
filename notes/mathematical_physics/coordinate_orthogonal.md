@@ -11,13 +11,13 @@ $$
 The position vector is
 
 $$
-\mathbf R(q_1,q_2,q_3)=x\hat{\mathbf x}+y\hat{\mathbf y}+z\hat{\mathbf z}.
+\mathbf r(q_1,q_2,q_3)=x\hat{\mathbf x}+y\hat{\mathbf y}+z\hat{\mathbf z}.
 $$
 
 Write the coordinate-line tangent vectors as
 
 $$
-\frac{\partial\mathbf R}{\partial q_i}=\frac{\partial x}{\partial q_i}\hat{\mathbf x}+\frac{\partial y}{\partial q_i}\hat{\mathbf y}+\frac{\partial z}{\partial q_i}\hat{\mathbf z}=h_i\hat{\mathbf e}_i,
+\frac{\partial\mathbf r}{\partial q_i}=\frac{\partial x}{\partial q_i}\hat{\mathbf x}+\frac{\partial y}{\partial q_i}\hat{\mathbf y}+\frac{\partial z}{\partial q_i}\hat{\mathbf z}=h_i\hat{\mathbf e}_i,
 $$
 
 $$
@@ -27,13 +27,13 @@ $$
 Then
 
 $$
-\boxed{d\mathbf R=\sum_{i=1}^{3}\frac{\partial\mathbf R}{\partial q_i}\,dq_i=\sum_{i=1}^{3}h_i\hat{\mathbf e}_i\,dq_i,\qquad ds^2=\sum_{i=1}^{3}h_i^2\,dq_i^2}.
+\boxed{\mathrm d\mathbf r=\sum_{i=1}^{3}\frac{\partial\mathbf r}{\partial q_i}\,\mathrm dq_i=\sum_{i=1}^{3}h_i\hat{\mathbf e}_i\,\mathrm dq_i,\qquad \mathrm ds^2=\sum_{i=1}^{3}h_i^2\,\mathrm dq_i^2}.
 $$
 
 For cyclic permutations $(i,j,k)$,
 
 $$
-d\mathbf S_i=\hat{\mathbf e}_i\,h_jh_k\,dq_jdq_k,\qquad dV=h_1h_2h_3\,dq_1dq_2dq_3.
+\mathrm d\mathbf S_i=\hat{\mathbf e}_i\,h_jh_k\,\mathrm dq_j\mathrm dq_k,\qquad \mathrm dV=h_1h_2h_3\,\mathrm dq_1\mathrm dq_2\mathrm dq_3.
 $$
 
 ### Differential Operators

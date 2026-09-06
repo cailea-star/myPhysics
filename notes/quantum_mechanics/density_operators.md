@@ -117,7 +117,7 @@ $$
 Using the evolution equation for $\hat U(t,t_0)$ gives the Liouville–von Neumann equation:
 
 $$
-\boxed{i\hbar\frac{d\hat\rho(t)}{dt}=[\hat H(t),\hat\rho(t)]}.
+\boxed{i\hbar\frac{\mathrm d\hat\rho(t)}{\mathrm dt}=[\hat H(t),\hat\rho(t)]}.
 $$
 
 Unitary evolution preserves the eigenvalues of $\hat\rho$ and hence its purity and pure-or-mixed character:
@@ -205,7 +205,7 @@ $$
 Thus, $\hat L_\mu$ is the leading operator associated with the $\mu$th nonunitary Kraus channel as $\Delta t\to0$. Substituting these operators into the Kraus representation and using $\{\hat X,\hat Y\}=\hat X\hat Y+\hat Y\hat X$ gives
 
 $$
-\boxed{\frac{d\hat\rho_A}{dt}=-\frac{i}{\hbar}[\hat H_A,\hat\rho_A]+\sum_\mu\gamma_\mu\left(\hat L_\mu\hat\rho_A\hat L_\mu^\dagger-\frac12\{\hat L_\mu^\dagger\hat L_\mu,\hat\rho_A\}\right)}.
+\boxed{\frac{\mathrm d\hat\rho_A}{\mathrm dt}=-\frac{i}{\hbar}[\hat H_A,\hat\rho_A]+\sum_\mu\gamma_\mu\left(\hat L_\mu\hat\rho_A\hat L_\mu^\dagger-\frac12\{\hat L_\mu^\dagger\hat L_\mu,\hat\rho_A\}\right)}.
 $$
 
 The operators $\hat L_\mu$ encode dissipative channels such as relaxation or dephasing. They need not be Hermitian and are not unique. Lindblad evolution preserves Hermiticity, positivity, and trace, but need not preserve the eigenvalues or purity of $\hat\rho_A$.

@@ -135,5 +135,5 @@ $$
 Their orthonormality relation is
 
 $$
-\int d\Omega\,\mathbf Y_{J'l'M'}^*(\hat{\mathbf r})\cdot\mathbf Y_{JlM}(\hat{\mathbf r})=\delta_{JJ'}\delta_{ll'}\delta_{MM'}.
+\int \mathrm d\hat{\mathbf r}\,\mathbf Y_{J'l'M'}^*(\hat{\mathbf r})\cdot\mathbf Y_{JlM}(\hat{\mathbf r})=\delta_{JJ'}\delta_{ll'}\delta_{MM'}.
 $$
