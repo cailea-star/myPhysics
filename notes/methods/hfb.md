@@ -2,7 +2,7 @@
 
 ### Many-Body Hamiltonian
 
-Use the fermionic conventions defined in [Second Quantization](../quantum_mechanics/second_quantization.md#fermionic-second-quantization). Let $\{|\phi_\alpha\rangle\}_{\alpha=1}^{M}$ be an orthonormal basis of $M$ single-particle modes, and let $|0\rangle$ be the particle vacuum. The operators $\hat c_\alpha^\dagger$ and $\hat c_\alpha$ create and annihilate a fermion in $|\phi_\alpha\rangle$:
+Use the fermionic conventions defined in [Second Quantization](../quantum_mechanics/second_quantization.md#fermionic-second-quantization). Let $\{|\phi_\alpha\rangle\}_{\alpha=1}^{N_{\mathrm{sp}}}$ be an orthonormal basis of $N_{\mathrm{sp}}$ single-particle modes, and let $|0\rangle$ be the particle vacuum. The operators $\hat c_\alpha^\dagger$ and $\hat c_\alpha$ create and annihilate a fermion in $|\phi_\alpha\rangle$:
 
 $$
 \hat c_\alpha^\dagger|0\rangle=|\phi_\alpha\rangle,\qquad \hat c_\alpha|0\rangle=0.
@@ -37,24 +37,24 @@ $$
 The second-quantized many-body Hamiltonian is
 
 $$
-\boxed{\hat H=\sum_{\alpha,\beta=1}^{M}t_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta+\frac14\sum_{\alpha,\beta,\gamma,\delta=1}^{M}\bar v_{\alpha\beta;\gamma\delta}\hat c_\alpha^\dagger\hat c_\beta^\dagger\hat c_\delta\hat c_\gamma}.
+\boxed{\hat H=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}t_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta+\frac14\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}\bar v_{\alpha\beta;\gamma\delta}\hat c_\alpha^\dagger\hat c_\beta^\dagger\hat c_\delta\hat c_\gamma}.
 $$
 
 The particle-number operator is
 
 $$
-\hat N=\sum_{\alpha=1}^{M}\hat c_\alpha^\dagger\hat c_\alpha.
+\hat N=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\hat c_\alpha^\dagger\hat c_\alpha.
 $$
 
 ### Bogoliubov Transformation
 
-Let $\mu,\nu=1,\ldots,M$ label quasiparticle modes. Complex conjugation, transpose, and Hermitian conjugation are denoted by $*$, $T$, and $\dagger$, respectively. Define the particle and quasiparticle Nambu columns by
+Let $\mu,\nu=1,\ldots,N_{\mathrm{sp}}$ label quasiparticle modes. Complex conjugation, transpose, and Hermitian conjugation are denoted by $*$, $T$, and $\dagger$, respectively. Define the particle and quasiparticle Nambu columns by
 
 $$
-\hat{\mathcal C}\equiv\begin{pmatrix}\hat c_1&\cdots&\hat c_M&\hat c_1^\dagger&\cdots&\hat c_M^\dagger\end{pmatrix}^T,\qquad \hat{\mathcal B}\equiv\begin{pmatrix}\hat\beta_1&\cdots&\hat\beta_M&\hat\beta_1^\dagger&\cdots&\hat\beta_M^\dagger\end{pmatrix}^T.
+\hat{\mathcal C}\equiv\begin{pmatrix}\hat c_1&\cdots&\hat c_{N_{\mathrm{sp}}}&\hat c_1^\dagger&\cdots&\hat c_{N_{\mathrm{sp}}}^\dagger\end{pmatrix}^T,\qquad \hat{\mathcal B}\equiv\begin{pmatrix}\hat\beta_1&\cdots&\hat\beta_{N_{\mathrm{sp}}}&\hat\beta_1^\dagger&\cdots&\hat\beta_{N_{\mathrm{sp}}}^\dagger\end{pmatrix}^T.
 $$
 
-Let $U,V\in\mathbb C^{M\times M}$ be the particle and hole amplitude matrices. The Bogoliubov transformation and its inverse are
+Let $U,V\in\mathbb C^{N_{\mathrm{sp}}\times N_{\mathrm{sp}}}$ be the particle and hole amplitude matrices. The Bogoliubov transformation and its inverse are
 
 $$
 \boxed{\hat{\mathcal B}=\mathcal W^\dagger \hat{\mathcal C},\qquad \hat{\mathcal C}=\mathcal W \hat{\mathcal B},\qquad \mathcal W\equiv\begin{pmatrix}U&V^*\\V&U^*\end{pmatrix}}.
@@ -63,7 +63,7 @@ $$
 We can also write the Bogoliubov transformation in block form:
 
 $$
-\hat{\boldsymbol c}\equiv\begin{pmatrix}\hat c_1&\cdots&\hat c_M\end{pmatrix}^T,\qquad \hat{\boldsymbol\beta}\equiv\begin{pmatrix}\hat\beta_1&\cdots&\hat\beta_M\end{pmatrix}^T.
+\hat{\boldsymbol c}\equiv\begin{pmatrix}\hat c_1&\cdots&\hat c_{N_{\mathrm{sp}}}\end{pmatrix}^T,\qquad \hat{\boldsymbol\beta}\equiv\begin{pmatrix}\hat\beta_1&\cdots&\hat\beta_{N_{\mathrm{sp}}}\end{pmatrix}^T.
 $$
 
 $$
@@ -73,14 +73,14 @@ $$
 In components,
 
 $$
-\hat\beta_\mu=\sum_{\alpha=1}^{M}\left(U_{\alpha\mu}^*\hat c_\alpha+V_{\alpha\mu}^*\hat c_\alpha^\dagger\right),\qquad \hat c_\alpha=\sum_{\mu=1}^{M}\left(U_{\alpha\mu}\hat\beta_\mu+V_{\alpha\mu}^*\hat\beta_\mu^\dagger\right).
+\hat\beta_\mu=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\left(U_{\alpha\mu}^*\hat c_\alpha+V_{\alpha\mu}^*\hat c_\alpha^\dagger\right),\qquad \hat c_\alpha=\sum_{\mu=1}^{N_{\mathrm{sp}}}\left(U_{\alpha\mu}\hat\beta_\mu+V_{\alpha\mu}^*\hat\beta_\mu^\dagger\right).
 $$
 
 
 Let $I_n$ denote the $n\times n$ identity matrix, and define the particle–hole exchange matrix by
 
 $$
-\tau_x\equiv\begin{pmatrix}0&I_M\\I_M&0\end{pmatrix}.
+\tau_x\equiv\begin{pmatrix}0&I_{N_{\mathrm{sp}}}\\I_{N_{\mathrm{sp}}}&0\end{pmatrix}.
 $$
 
 The particle and hole components of a Nambu column are not independent, and the Bogoliubov transformation preserves this conjugation structure:
@@ -100,25 +100,25 @@ $$
 Preservation of the anticommutation relations requires
 
 $$
-\mathcal W^\dagger\mathcal W=\mathcal W\mathcal W^\dagger=I_{2M}.
+\mathcal W^\dagger\mathcal W=\mathcal W\mathcal W^\dagger=I_{2N_{\mathrm{sp}}}.
 $$
 
 Equivalently,
 
 $$
-U^\dagger U+V^\dagger V=I_M,\qquad U^TV+V^TU=0,
+U^\dagger U+V^\dagger V=I_{N_{\mathrm{sp}}},\qquad U^TV+V^TU=0,
 $$
 
 and
 
 $$
-UU^\dagger+V^*V^T=I_M,\qquad UV^\dagger+V^*U^T=0.
+UU^\dagger+V^*V^T=I_{N_{\mathrm{sp}}},\qquad UV^\dagger+V^*U^T=0.
 $$
 
 The quasiparticle vacuum $|\Phi\rangle$ is defined by
 
 $$
-\boxed{\hat\beta_\mu|\Phi\rangle=0,\qquad \mu=1,\ldots,M}.
+\boxed{\hat\beta_\mu|\Phi\rangle=0,\qquad \mu=1,\ldots,N_{\mathrm{sp}}}.
 $$
 
 Because each $\hat\beta_\mu$ mixes particle creation and annihilation operators, $|\Phi\rangle$ is generally a superposition of different particle-number sectors and is not an eigenstate of $\hat N$.
@@ -134,7 +134,7 @@ $$
 Using the inverse Bogoliubov transformation,
 
 $$
-\rho_{\alpha\beta}=\sum_{\mu=1}^{M}V_{\alpha\mu}^*V_{\beta\mu},\qquad \kappa_{\alpha\beta}=\sum_{\mu=1}^{M}V_{\alpha\mu}^*U_{\beta\mu}.
+\rho_{\alpha\beta}=\sum_{\mu=1}^{N_{\mathrm{sp}}}V_{\alpha\mu}^*V_{\beta\mu},\qquad \kappa_{\alpha\beta}=\sum_{\mu=1}^{N_{\mathrm{sp}}}V_{\alpha\mu}^*U_{\beta\mu}.
 $$
 
 Hence,
@@ -146,19 +146,19 @@ $$
 The generalized density matrix is
 
 $$
-\mathcal R\equiv\begin{pmatrix}\langle\Phi|\hat c_\beta^\dagger\hat c_\alpha|\Phi\rangle&\langle\Phi|\hat c_\beta\hat c_\alpha|\Phi\rangle\\\langle\Phi|\hat c_\beta^\dagger\hat c_\alpha^\dagger|\Phi\rangle&\langle\Phi|\hat c_\beta\hat c_\alpha^\dagger|\Phi\rangle\end{pmatrix}=\begin{pmatrix}V^*\\U^*\end{pmatrix}\begin{pmatrix}V^T&U^T\end{pmatrix}=\begin{pmatrix}\rho&\kappa\\-\kappa^*&I_M-\rho^*\end{pmatrix}.
+\mathcal R\equiv\begin{pmatrix}\langle\Phi|\hat c_\beta^\dagger\hat c_\alpha|\Phi\rangle&\langle\Phi|\hat c_\beta\hat c_\alpha|\Phi\rangle\\\langle\Phi|\hat c_\beta^\dagger\hat c_\alpha^\dagger|\Phi\rangle&\langle\Phi|\hat c_\beta\hat c_\alpha^\dagger|\Phi\rangle\end{pmatrix}=\begin{pmatrix}V^*\\U^*\end{pmatrix}\begin{pmatrix}V^T&U^T\end{pmatrix}=\begin{pmatrix}\rho&\kappa\\-\kappa^*&I_{N_{\mathrm{sp}}}-\rho^*\end{pmatrix}.
 $$
 
 It inherits the Nambu constraint
 
 $$
-\tau_x\mathcal R^*\tau_x=I_{2M}-\mathcal R.
+\tau_x\mathcal R^*\tau_x=I_{2N_{\mathrm{sp}}}-\mathcal R.
 $$
 
 In the quasiparticle basis,
 
 $$
-\mathcal W^\dagger\mathcal R\mathcal W=\begin{pmatrix}\langle\Phi|\hat\beta_\nu^\dagger\hat\beta_\mu|\Phi\rangle&\langle\Phi|\hat\beta_\nu\hat\beta_\mu|\Phi\rangle\\\langle\Phi|\hat\beta_\nu^\dagger\hat\beta_\mu^\dagger|\Phi\rangle&\langle\Phi|\hat\beta_\nu\hat\beta_\mu^\dagger|\Phi\rangle\end{pmatrix}=\begin{pmatrix}0\\I_M\end{pmatrix}\begin{pmatrix}0&I_M\end{pmatrix}=\begin{pmatrix}0&0\\0&I_M\end{pmatrix}.
+\mathcal W^\dagger\mathcal R\mathcal W=\begin{pmatrix}\langle\Phi|\hat\beta_\nu^\dagger\hat\beta_\mu|\Phi\rangle&\langle\Phi|\hat\beta_\nu\hat\beta_\mu|\Phi\rangle\\\langle\Phi|\hat\beta_\nu^\dagger\hat\beta_\mu^\dagger|\Phi\rangle&\langle\Phi|\hat\beta_\nu\hat\beta_\mu^\dagger|\Phi\rangle\end{pmatrix}=\begin{pmatrix}0\\I_{N_{\mathrm{sp}}}\end{pmatrix}\begin{pmatrix}0&I_{N_{\mathrm{sp}}}\end{pmatrix}=\begin{pmatrix}0&0\\0&I_{N_{\mathrm{sp}}}\end{pmatrix}.
 $$
 
 The generalized density matrix is therefore Hermitian and idempotent:
@@ -192,13 +192,13 @@ The expectation value of the many-body Hamiltonian defines the energy functional
 The allowed variations satisfy $\delta\rho^\dagger=\delta\rho$ and $\delta\kappa^T=-\delta\kappa$, while $\kappa$ and $\kappa^*$ are treated as formally independent variables in the functional variation.
 
 $$
-E[\rho,\kappa,\kappa^*]\equiv\langle\Phi|\hat H|\Phi\rangle=\sum_{\alpha,\beta=1}^{M}t_{\alpha\beta}\rho_{\beta\alpha}+\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{M}\bar v_{\alpha\beta;\gamma\delta}\rho_{\gamma\alpha}\rho_{\delta\beta}+\frac14\sum_{\alpha,\beta,\gamma,\delta=1}^{M}\bar v_{\alpha\beta;\gamma\delta}\kappa_{\alpha\beta}^*\kappa_{\gamma\delta}.
+E[\rho,\kappa,\kappa^*]\equiv\langle\Phi|\hat H|\Phi\rangle=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}t_{\alpha\beta}\rho_{\beta\alpha}+\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}\bar v_{\alpha\beta;\gamma\delta}\rho_{\gamma\alpha}\rho_{\delta\beta}+\frac14\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}\bar v_{\alpha\beta;\gamma\delta}\kappa_{\alpha\beta}^*\kappa_{\gamma\delta}.
 $$
 
 Define the Hartree–Fock field $\Gamma$, single-particle field $h$, and pairing field $\Delta$ by
 
 $$
-\boxed{\Gamma_{\alpha\beta}\equiv\sum_{\gamma,\delta=1}^{M}\bar v_{\alpha\gamma;\beta\delta}\rho_{\delta\gamma},\qquad h_{\alpha\beta}\equiv t_{\alpha\beta}+\Gamma_{\alpha\beta},\qquad \Delta_{\alpha\beta}\equiv\frac12\sum_{\gamma,\delta=1}^{M}\bar v_{\alpha\beta;\gamma\delta}\kappa_{\gamma\delta}}.
+\boxed{\Gamma_{\alpha\beta}\equiv\sum_{\gamma,\delta=1}^{N_{\mathrm{sp}}}\bar v_{\alpha\gamma;\beta\delta}\rho_{\delta\gamma},\qquad h_{\alpha\beta}\equiv t_{\alpha\beta}+\Gamma_{\alpha\beta},\qquad \Delta_{\alpha\beta}\equiv\frac12\sum_{\gamma,\delta=1}^{N_{\mathrm{sp}}}\bar v_{\alpha\beta;\gamma\delta}\kappa_{\gamma\delta}}.
 $$
 
 Their symmetry properties are
@@ -244,7 +244,7 @@ $$
 Its first variation with respect to the densities is
 
 $$
-\boxed{\delta\mathcal L=\operatorname{Tr}\!\left[(h-\lambda I)\delta\rho\right]+\frac12\operatorname{Tr}_M(\Delta\,\delta\kappa^\dagger)+\frac12\operatorname{Tr}_M(\Delta^\dagger\delta\kappa)}.
+\boxed{\delta\mathcal L=\operatorname{Tr}\!\left[(h-\lambda I)\delta\rho\right]+\frac12\operatorname{Tr}(\Delta\,\delta\kappa^\dagger)+\frac12\operatorname{Tr}(\Delta^\dagger\delta\kappa)}.
 $$
 
 The variation of the generalized density matrix is
@@ -314,7 +314,7 @@ $$
 The stationary condition is
 
 $$
-0=\delta\mathcal L=\frac{i}{2}\operatorname{Tr}_{2M}\!\left(\mathcal H[\mathcal G,\mathcal R]\right)=\frac{i}{2}\operatorname{Tr}_{2M}\!\left([\mathcal R,\mathcal H]\mathcal G\right).
+0=\delta\mathcal L=\frac{i}{2}\operatorname{Tr}\!\left(\mathcal H[\mathcal G,\mathcal R]\right)=\frac{i}{2}\operatorname{Tr}\!\left([\mathcal R,\mathcal H]\mathcal G\right).
 $$
 
 Stationarity with respect to every admissible $\mathcal G$ gives the variational HFB equation
@@ -326,7 +326,7 @@ $$
 Since $[\mathcal H,\mathcal R]=0$, choose $\mathcal W$ to diagonalize both matrices. For a stable solution without zero modes, let
 
 $$
-E\equiv\operatorname{diag}(E_1,\ldots,E_M),\qquad E_\mu>0.
+E\equiv\operatorname{diag}(E_1,\ldots,E_{N_{\mathrm{sp}}}),\qquad E_\mu>0.
 $$
 
 Then
@@ -358,7 +358,7 @@ $$
 At the stationary fields, define the quadratic HFB operator by
 
 $$
-\boxed{\hat{\mathcal L}_{\mathrm{HFB}}\equiv\sum_{\alpha,\beta=1}^{M}\left(h_{\alpha\beta}-\lambda\delta_{\alpha\beta}\right)\hat c_\alpha^\dagger\hat c_\beta+\frac12\sum_{\alpha,\beta=1}^{M}\left(\Delta_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta^\dagger+\Delta_{\alpha\beta}^*\hat c_\beta\hat c_\alpha\right)}.
+\boxed{\hat{\mathcal L}_{\mathrm{HFB}}\equiv\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}\left(h_{\alpha\beta}-\lambda\delta_{\alpha\beta}\right)\hat c_\alpha^\dagger\hat c_\beta+\frac12\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}\left(\Delta_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta^\dagger+\Delta_{\alpha\beta}^*\hat c_\beta\hat c_\alpha\right)}.
 $$
 
 Its Nambu representation is
@@ -378,25 +378,25 @@ $$
 Expanding the Nambu components gives
 
 $$
-\hat{\mathcal L}_{\mathrm{HFB}}=\frac12\operatorname{Tr}(h-\lambda I)+\frac12\sum_{\mu=1}^{M}E_\mu\left(\hat\beta_\mu^\dagger\hat\beta_\mu-\hat\beta_\mu\hat\beta_\mu^\dagger\right).
+\hat{\mathcal L}_{\mathrm{HFB}}=\frac12\operatorname{Tr}(h-\lambda I)+\frac12\sum_{\mu=1}^{N_{\mathrm{sp}}}E_\mu\left(\hat\beta_\mu^\dagger\hat\beta_\mu-\hat\beta_\mu\hat\beta_\mu^\dagger\right).
 $$
 
 Using the anticommutation relation $\{\hat\beta_\mu,\hat\beta_\mu^\dagger\}=1$ gives
 
 $$
-\hat{\mathcal L}_{\mathrm{HFB}}=\frac12\operatorname{Tr}(h-\lambda I)-\frac12\sum_{\mu=1}^{M}E_\mu+\sum_{\mu=1}^{M}E_\mu\hat\beta_\mu^\dagger\hat\beta_\mu.
+\hat{\mathcal L}_{\mathrm{HFB}}=\frac12\operatorname{Tr}(h-\lambda I)-\frac12\sum_{\mu=1}^{N_{\mathrm{sp}}}E_\mu+\sum_{\mu=1}^{N_{\mathrm{sp}}}E_\mu\hat\beta_\mu^\dagger\hat\beta_\mu.
 $$
 
 Since $\hat\beta_\mu|\Phi\rangle=0$, define
 
 $$
-\boxed{E_{\mathrm{vac}}\equiv\langle\Phi|\hat{\mathcal L}_{\mathrm{HFB}}|\Phi\rangle=\frac12\operatorname{Tr}(h-\lambda I)-\frac12\sum_{\mu=1}^{M}E_\mu}.
+\boxed{E_{\mathrm{vac}}\equiv\langle\Phi|\hat{\mathcal L}_{\mathrm{HFB}}|\Phi\rangle=\frac12\operatorname{Tr}(h-\lambda I)-\frac12\sum_{\mu=1}^{N_{\mathrm{sp}}}E_\mu}.
 $$
 
 The quadratic HFB operator is therefore
 
 $$
-\boxed{\hat{\mathcal L}_{\mathrm{HFB}}=E_{\mathrm{vac}}+\sum_{\mu=1}^{M}E_\mu\hat\beta_\mu^\dagger\hat\beta_\mu}.
+\boxed{\hat{\mathcal L}_{\mathrm{HFB}}=E_{\mathrm{vac}}+\sum_{\mu=1}^{N_{\mathrm{sp}}}E_\mu\hat\beta_\mu^\dagger\hat\beta_\mu}.
 $$
 
 Define the one-quasiparticle state by
@@ -426,19 +426,19 @@ and is not generally equal to $E_{\mathrm{vac}}$ or $\sum_\mu E_\mu$.
 The positive-energy Nambu covector $\Psi_\mu^\dagger(E_\mu)$ defines the quasiparticle annihilation operator
 
 $$
-\hat\beta_\mu=\Psi_\mu^\dagger(E_\mu)\hat{\mathcal C}=\sum_{\alpha=1}^{M}\left(U_{\alpha\mu}^*\hat c_\alpha+V_{\alpha\mu}^*\hat c_\alpha^\dagger\right).
+\hat\beta_\mu=\Psi_\mu^\dagger(E_\mu)\hat{\mathcal C}=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\left(U_{\alpha\mu}^*\hat c_\alpha+V_{\alpha\mu}^*\hat c_\alpha^\dagger\right).
 $$
 
 The negative-energy Nambu covector $\Psi_\mu^\dagger(-E_\mu)$ defines the quasiparticle creation operator
 
 $$
-\hat\beta_\mu^\dagger=\Psi_\mu^\dagger(-E_\mu)\hat{\mathcal C}=\sum_{\alpha=1}^{M}\left(V_{\alpha\mu}\hat c_\alpha+U_{\alpha\mu}\hat c_\alpha^\dagger\right).
+\hat\beta_\mu^\dagger=\Psi_\mu^\dagger(-E_\mu)\hat{\mathcal C}=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\left(V_{\alpha\mu}\hat c_\alpha+U_{\alpha\mu}\hat c_\alpha^\dagger\right).
 $$
 
 The normalized quasiparticle vacuum $|\Phi\rangle$ is defined by
 
 $$
-\boxed{\hat\beta_\mu|\Phi\rangle=0,\qquad \langle\Phi|\Phi\rangle=1,\qquad \mu=1,\ldots,M}.
+\boxed{\hat\beta_\mu|\Phi\rangle=0,\qquad \langle\Phi|\Phi\rangle=1,\qquad \mu=1,\ldots,N_{\mathrm{sp}}}.
 $$
 
 Assume that $U$ is invertible. The Bogoliubov relation gives
@@ -468,25 +468,25 @@ $$
 The quasiparticle vacuum has the Thouless form
 
 $$
-\boxed{|\Phi\rangle=\nu\exp\left[\frac12\sum_{\alpha,\beta=1}^{M}Z_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta^\dagger\right]|0\rangle}.
+\boxed{|\Phi\rangle=\nu\exp\left[\frac12\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}Z_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta^\dagger\right]|0\rangle}.
 $$
 
 Define the pair-creation operator
 
 $$
-\hat A\equiv\frac12\sum_{\gamma,\delta=1}^{M}Z_{\gamma\delta}\hat c_\gamma^\dagger\hat c_\delta^\dagger.
+\hat A\equiv\frac12\sum_{\gamma,\delta=1}^{N_{\mathrm{sp}}}Z_{\gamma\delta}\hat c_\gamma^\dagger\hat c_\delta^\dagger.
 $$
 
 Its commutator with an annihilation operator is
 
 $$
-[\hat c_\alpha,\hat A]=\frac12\sum_{\gamma,\delta=1}^{M}Z_{\gamma\delta}\left(\delta_{\alpha\gamma}\hat c_\delta^\dagger-\delta_{\alpha\delta}\hat c_\gamma^\dagger\right)=\sum_{\beta=1}^{M}Z_{\alpha\beta}\hat c_\beta^\dagger.
+[\hat c_\alpha,\hat A]=\frac12\sum_{\gamma,\delta=1}^{N_{\mathrm{sp}}}Z_{\gamma\delta}\left(\delta_{\alpha\gamma}\hat c_\delta^\dagger-\delta_{\alpha\delta}\hat c_\gamma^\dagger\right)=\sum_{\beta=1}^{N_{\mathrm{sp}}}Z_{\alpha\beta}\hat c_\beta^\dagger.
 $$
 
 Its commutator with a creation operator is
 
 $$
-[\hat c_\alpha^\dagger,\hat A]=\frac12\sum_{\gamma,\delta=1}^{M}Z_{\gamma\delta}\left(\hat c_\alpha^\dagger\hat c_\gamma^\dagger\hat c_\delta^\dagger-\hat c_\gamma^\dagger\hat c_\delta^\dagger\hat c_\alpha^\dagger\right)=0.
+[\hat c_\alpha^\dagger,\hat A]=\frac12\sum_{\gamma,\delta=1}^{N_{\mathrm{sp}}}Z_{\gamma\delta}\left(\hat c_\alpha^\dagger\hat c_\gamma^\dagger\hat c_\delta^\dagger-\hat c_\gamma^\dagger\hat c_\delta^\dagger\hat c_\alpha^\dagger\right)=0.
 $$
 
 The Baker–Campbell–Hausdorff series therefore terminates at first order:
@@ -498,7 +498,7 @@ $$
 Using $\hat c_\alpha|0\rangle=0$ gives
 
 $$
-\hat c_\alpha|\Phi\rangle=\sum_{\beta=1}^{M}Z_{\alpha\beta}\hat c_\beta^\dagger|\Phi\rangle,\qquad \hat{\boldsymbol c}|\Phi\rangle=Z\hat{\boldsymbol c}^\dagger|\Phi\rangle.
+\boxed{\hat c_\alpha|\Phi\rangle=\sum_{\beta=1}^{N_{\mathrm{sp}}}Z_{\alpha\beta}\hat c_\beta^\dagger|\Phi\rangle,\qquad \hat{\boldsymbol c}|\Phi\rangle=Z\hat{\boldsymbol c}^\dagger|\Phi\rangle}.
 $$
 
 The required operator and matrix relations are
@@ -515,76 +515,10 @@ $$
 
 The Thouless state therefore satisfies the quasiparticle-vacuum condition.
 
-Expanding the exponential gives
-
-$$
-|\Phi\rangle=\nu\sum_{p=0}^{\lfloor M/2\rfloor}\frac{\hat A^p}{p!}|0\rangle=\sum_{n=0}^{\lfloor M/2\rfloor}|\Phi^{(2n)}\rangle.
-$$
-
-Since $\hat A$ creates two particles, every odd-particle component vanishes:
-
-$$
-\boxed{|\Phi^{(2n+1)}\rangle=0,\qquad 0\leq2n+1\leq M}.
-$$
-
-Fermionic creation operators obey
-
-$$
-\{\hat c_\alpha^\dagger,\hat c_\beta^\dagger\}=0,\qquad (\hat c_\alpha^\dagger)^2=0,
-$$
-
-so a single-particle orbital cannot occur more than once. The zero-particle component is
-
-$$
-|\Phi^{(0)}\rangle=\nu|0\rangle.
-$$
-
-The two-particle component is
-
-$$
-|\Phi^{(2)}\rangle=\nu\sum_{i<j}Z_{ij}\hat c_i^\dagger\hat c_j^\dagger|0\rangle.
-$$
-
-The four-particle component is
-
-$$
-|\Phi^{(4)}\rangle=\nu\sum_{i<j<k<l}\left(Z_{ij}Z_{kl}-Z_{ik}Z_{jl}+Z_{il}Z_{jk}\right)\hat c_i^\dagger\hat c_j^\dagger\hat c_k^\dagger\hat c_l^\dagger|0\rangle.
-$$
-
-The three terms are the complete pairings of four orbitals, with relative signs fixed by fermionic exchange.
-
-For an ordered orbital set $\mathcal I=(i_1<\cdots<i_{2n})$ with $n\geq1$, let $Z_{\mathcal I}$ be the corresponding principal submatrix of $Z$. The general $2n$-particle component is
-
-$$
-|\Phi^{(2n)}\rangle=\nu\sum_{|\mathcal I|=2n}\operatorname{pf}(Z_{\mathcal I})\hat c_{i_1}^\dagger\cdots\hat c_{i_{2n}}^\dagger|0\rangle.
-$$
-
-The lowest-order Pfaffians, including the empty-set convention, are
-
-$$
-\operatorname{pf}(Z_\varnothing)=1,
-$$
-
-$$
-\operatorname{pf}(Z_{\{i,j\}})=Z_{ij},
-$$
-
-$$
-\operatorname{pf}(Z_{\{i,j,k,l\}})=Z_{ij}Z_{kl}-Z_{ik}Z_{jl}+Z_{il}Z_{jk}.
-$$
-
-Thus, the complete quasiparticle vacuum is
-
-$$
-\boxed{|\Phi\rangle=\nu\sum_{n=0}^{\lfloor M/2\rfloor}\sum_{|\mathcal I|=2n}\operatorname{pf}(Z_{\mathcal I})\hat c_{i_1}^\dagger\cdots\hat c_{i_{2n}}^\dagger|0\rangle}.
-$$
-
-The Pfaffian is therefore the natural fixed-particle-number coefficient of the fermionic pair amplitudes.
-
 The Bogoliubov relations give the norm
 
 $$
-\langle\Phi|\Phi\rangle=|\nu|^2\sqrt{\det(I_M+Z^\dagger Z)}=|\nu|^2\sqrt{\det(U^{-T}U^{-*})}=\frac{|\nu|^2}{|\det U|}.
+\langle\Phi|\Phi\rangle=|\nu|^2\sqrt{\det(I_{N_{\mathrm{sp}}}+Z^\dagger Z)}=|\nu|^2\sqrt{\det(U^{-T}U^{-*})}=\frac{|\nu|^2}{|\det U|}.
 $$
 
 Normalization requires
@@ -616,7 +550,7 @@ $$
 2. At fixed $h^{(n)}$ and $\Delta^{(n)}$, choose $\lambda$, construct and diagonalize $\mathcal H^{(n)}(\lambda)$, and retain only the independent solutions with $E_{\mu,\lambda}^{(n)}>0$:
 
 $$
-\mathcal H^{(n)}(\lambda)=\begin{pmatrix}h^{(n)}-\lambda I_M&\Delta^{(n)}\\-\Delta^{(n)*}&-h^{(n)*}+\lambda I_M\end{pmatrix}.
+\mathcal H^{(n)}(\lambda)=\begin{pmatrix}h^{(n)}-\lambda I_{N_{\mathrm{sp}}}&\Delta^{(n)}\\-\Delta^{(n)*}&-h^{(n)*}+\lambda I_{N_{\mathrm{sp}}}\end{pmatrix}.
 $$
 
 $$
@@ -626,7 +560,7 @@ $$
 3. Construct the densities and particle number from the positive-energy solutions:
 
 $$
-\rho_\lambda^{(n)}=V_\lambda^{(n)*}V_\lambda^{(n)T},\qquad \kappa_\lambda^{(n)}=V_\lambda^{(n)*}U_\lambda^{(n)T},\qquad N_\lambda^{(n)}=\operatorname{Tr}_M\rho_\lambda^{(n)}.
+\rho_\lambda^{(n)}=V_\lambda^{(n)*}V_\lambda^{(n)T},\qquad \kappa_\lambda^{(n)}=V_\lambda^{(n)*}U_\lambda^{(n)T},\qquad N_\lambda^{(n)}=\operatorname{Tr}\rho_\lambda^{(n)}.
 $$
 
 4. Repeat steps 2–3 and adjust $\lambda$ until the root $\lambda_*^{(n)}$ satisfies
