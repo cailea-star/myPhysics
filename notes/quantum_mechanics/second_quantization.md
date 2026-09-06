@@ -7,18 +7,18 @@
 Notation:
 
 - $i,j=1,\ldots,N$: particle labels.
-- $\alpha,\beta=1,\ldots,M$: single-particle state labels.
+- $\alpha,\beta=1,\ldots,N_{\mathrm{sp}}$: single-particle state labels.
 
 Let $\hat h_0$ be a reference single-particle Hamiltonian with a complete orthonormal eigenbasis:
 
 $$
-\hat h_0|\phi_\alpha\rangle=\varepsilon_\alpha|\phi_\alpha\rangle,\qquad \langle\phi_\alpha|\phi_\beta\rangle=\delta_{\alpha\beta},\qquad \sum_{\alpha=1}^{M}|\phi_\alpha\rangle\langle\phi_\alpha|=\hat I_1.
+\hat h_0|\phi_\alpha\rangle=\varepsilon_\alpha|\phi_\alpha\rangle,\qquad \langle\phi_\alpha|\phi_\beta\rangle=\delta_{\alpha\beta},\qquad \sum_{\alpha=1}^{N_{\mathrm{sp}}}|\phi_\alpha\rangle\langle\phi_\alpha|=\hat I_1.
 $$
 
 The coordinate representation of $|\phi_\alpha\rangle$ is $\phi_\alpha(x)=\langle x|\phi_\alpha\rangle$. In the one-particle sector, the mode and coordinate states are created from the vacuum by
 
 $$
-\hat a_\alpha^\dagger|0\rangle=|\phi_\alpha\rangle,\qquad \hat\psi^\dagger(x)|0\rangle=\sum_{\beta=1}^{M}\phi_\beta^*(x)\hat a_\beta^\dagger|0\rangle=\sum_{\beta=1}^{M}|\phi_\beta\rangle\langle\phi_\beta|x\rangle=|x\rangle.
+\hat a_\alpha^\dagger|0\rangle=|\phi_\alpha\rangle,\qquad \hat\psi^\dagger(x)|0\rangle=\sum_{\beta=1}^{N_{\mathrm{sp}}}\phi_\beta^*(x)\hat a_\beta^\dagger|0\rangle=\sum_{\beta=1}^{N_{\mathrm{sp}}}|\phi_\beta\rangle\langle\phi_\beta|x\rangle=|x\rangle.
 $$
 
 Hence,
@@ -36,7 +36,7 @@ $$
 Expand the field operators in the single-particle basis:
 
 $$
-\boxed{\hat\psi(x)=\sum_{\alpha=1}^{M}\phi_\alpha(x)\hat a_\alpha,\qquad \hat\psi^\dagger(x)=\sum_{\alpha=1}^{M}\phi_\alpha^*(x)\hat a_\alpha^\dagger}.
+\boxed{\hat\psi(x)=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\phi_\alpha(x)\hat a_\alpha,\qquad \hat\psi^\dagger(x)=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\phi_\alpha^*(x)\hat a_\alpha^\dagger}.
 $$
 
 Orthonormality gives
@@ -60,7 +60,7 @@ $$
 With $h_0(x,x')=\langle x|\hat h_0|x'\rangle$, the independent-particle Hamiltonian is
 
 $$
-\hat H_0=\sum_{i=1}^{N}\hat h_0(i)=\int dx\,dx'\,\hat\psi^\dagger(x)h_0(x,x')\hat\psi(x')=\sum_{\alpha=1}^{M}\varepsilon_\alpha\hat a_\alpha^\dagger\hat a_\alpha.
+\hat H_0=\sum_{i=1}^{N}\hat h_0(i)=\int dx\,dx'\,\hat\psi^\dagger(x)h_0(x,x')\hat\psi(x')=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\varepsilon_\alpha\hat a_\alpha^\dagger\hat a_\alpha.
 $$
 
 ##### Exchange Symmetry and Fock Space
@@ -144,7 +144,7 @@ $$
 Define the occupation numbers by
 
 $$
-n_\alpha=\sum_{i=1}^{N}\delta_{\alpha\alpha_i},\qquad \boldsymbol n=(n_1,\ldots,n_M),\qquad \sum_{\alpha=1}^{M}n_\alpha=N.
+n_\alpha=\sum_{i=1}^{N}\delta_{\alpha\alpha_i},\qquad \boldsymbol n=(n_1,\ldots,n_{N_{\mathrm{sp}}}),\qquad \sum_{\alpha=1}^{N_{\mathrm{sp}}}n_\alpha=N.
 $$
 
 $$
@@ -166,7 +166,7 @@ $$
 Starting from the vacuum, the occupation-number states form a basis of the bosonic Fock space:
 
 $$
-\hat a_\alpha|0\rangle=0,\qquad |\boldsymbol n\rangle_B=\prod_{\alpha=1}^{M}\frac{(\hat a_\alpha^\dagger)^{n_\alpha}}{\sqrt{n_\alpha!}}|0\rangle,\qquad |\Psi_B\rangle=\sum_{\boldsymbol n}C_{\boldsymbol n}|\boldsymbol n\rangle_B.
+\hat a_\alpha|0\rangle=0,\qquad |\boldsymbol n\rangle_B=\prod_{\alpha=1}^{N_{\mathrm{sp}}}\frac{(\hat a_\alpha^\dagger)^{n_\alpha}}{\sqrt{n_\alpha!}}|0\rangle,\qquad |\Psi_B\rangle=\sum_{\boldsymbol n}C_{\boldsymbol n}|\boldsymbol n\rangle_B.
 $$
 
 ##### One- and Two-Body Operators
@@ -186,37 +186,37 @@ $$
 For $o_{\alpha\beta}=\langle\phi_\alpha|\hat o|\phi_\beta\rangle$, inserting the single-particle completeness relation gives
 
 $$
-\hat O^{(1)}=\sum_{i=1}^{N}\hat o(i)=\sum_{i=1}^{N}\left[\sum_{\alpha,\beta=1}^{M}|\phi_\alpha(i)\rangle\langle\phi_\alpha(i)|\hat o(i)|\phi_\beta(i)\rangle\langle\phi_\beta(i)|\right]=\sum_{\alpha,\beta=1}^{M}o_{\alpha\beta}\sum_{i=1}^{N}|\phi_\alpha(i)\rangle\langle\phi_\beta(i)|=\sum_{\alpha,\beta=1}^{M}o_{\alpha\beta}\hat a_\alpha^\dagger\hat a_\beta.
+\hat O^{(1)}=\sum_{i=1}^{N}\hat o(i)=\sum_{i=1}^{N}\left[\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}|\phi_\alpha(i)\rangle\langle\phi_\alpha(i)|\hat o(i)|\phi_\beta(i)\rangle\langle\phi_\beta(i)|\right]=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}o_{\alpha\beta}\sum_{i=1}^{N}|\phi_\alpha(i)\rangle\langle\phi_\beta(i)|=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}o_{\alpha\beta}\hat a_\alpha^\dagger\hat a_\beta.
 $$
 
 In coordinate space,
 
 $$
-\boxed{\hat O^{(1)}=\sum_{\alpha,\beta=1}^{M}o_{\alpha\beta}\hat a_\alpha^\dagger\hat a_\beta=\int dx\,dx'\,\hat\psi^\dagger(x)o(x,x')\hat\psi(x')}.
+\boxed{\hat O^{(1)}=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}o_{\alpha\beta}\hat a_\alpha^\dagger\hat a_\beta=\int dx\,dx'\,\hat\psi^\dagger(x)o(x,x')\hat\psi(x')}.
 $$
 
 For a symmetric two-particle operator $\hat v$, let $v_{\alpha\beta;\gamma\delta}=\langle\phi_\alpha\phi_\beta|\hat v|\phi_\gamma\phi_\delta\rangle$. Inserting the two-particle completeness relation gives
 
 $$
-\hat V^{(2)}=\frac12\sum_{i\neq j}\hat v(i,j)=\frac12\sum_{i\neq j}\left[\sum_{\alpha,\beta,\gamma,\delta=1}^{M}|\phi_\alpha(i)\rangle\langle\phi_\alpha(i)|\,|\phi_\beta(j)\rangle\langle\phi_\beta(j)|\hat v(i,j)|\phi_\gamma(i)\rangle\langle\phi_\gamma(i)|\,|\phi_\delta(j)\rangle\langle\phi_\delta(j)|\right].
+\hat V^{(2)}=\frac12\sum_{i\neq j}\hat v(i,j)=\frac12\sum_{i\neq j}\left[\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}|\phi_\alpha(i)\rangle\langle\phi_\alpha(i)|\,|\phi_\beta(j)\rangle\langle\phi_\beta(j)|\hat v(i,j)|\phi_\gamma(i)\rangle\langle\phi_\gamma(i)|\,|\phi_\delta(j)\rangle\langle\phi_\delta(j)|\right].
 $$
 
 Using the two-particle transition operator,
 
 $$
-\hat V^{(2)}=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{M}v_{\alpha\beta;\gamma\delta}\sum_{i\neq j}|\phi_\alpha(i)\rangle\langle\phi_\gamma(i)|\,|\phi_\beta(j)\rangle\langle\phi_\delta(j)|=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{M}v_{\alpha\beta;\gamma\delta}\hat a_\alpha^\dagger\hat a_\beta^\dagger\hat a_\delta\hat a_\gamma.
+\hat V^{(2)}=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}v_{\alpha\beta;\gamma\delta}\sum_{i\neq j}|\phi_\alpha(i)\rangle\langle\phi_\gamma(i)|\,|\phi_\beta(j)\rangle\langle\phi_\delta(j)|=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}v_{\alpha\beta;\gamma\delta}\hat a_\alpha^\dagger\hat a_\beta^\dagger\hat a_\delta\hat a_\gamma.
 $$
 
 For a coordinate-space interaction $v(x,x')$,
 
 $$
-\boxed{\hat V^{(2)}=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{M}v_{\alpha\beta;\gamma\delta}\hat a_\alpha^\dagger\hat a_\beta^\dagger\hat a_\delta\hat a_\gamma=\frac12\int dx\,dx'\,\hat\psi^\dagger(x)\hat\psi^\dagger(x')v(x,x')\hat\psi(x')\hat\psi(x)}.
+\boxed{\hat V^{(2)}=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}v_{\alpha\beta;\gamma\delta}\hat a_\alpha^\dagger\hat a_\beta^\dagger\hat a_\delta\hat a_\gamma=\frac12\int dx\,dx'\,\hat\psi^\dagger(x)\hat\psi^\dagger(x')v(x,x')\hat\psi(x')\hat\psi(x)}.
 $$
 
 For $h_{\alpha\beta}=\langle\phi_\alpha|\hat h|\phi_\beta\rangle$, the one- and two-body Hamiltonian is
 
 $$
-\boxed{\hat H=\sum_{\alpha,\beta=1}^{M}h_{\alpha\beta}\hat a_\alpha^\dagger\hat a_\beta+\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{M}v_{\alpha\beta;\gamma\delta}\hat a_\alpha^\dagger\hat a_\beta^\dagger\hat a_\delta\hat a_\gamma}.
+\boxed{\hat H=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}h_{\alpha\beta}\hat a_\alpha^\dagger\hat a_\beta+\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}v_{\alpha\beta;\gamma\delta}\hat a_\alpha^\dagger\hat a_\beta^\dagger\hat a_\delta\hat a_\gamma}.
 $$
 
 ### Fermionic Second Quantization
@@ -226,18 +226,18 @@ $$
 Notation:
 
 - $i,j=1,\ldots,N$: particle labels.
-- $\alpha,\beta=1,\ldots,M$: single-particle state labels.
+- $\alpha,\beta=1,\ldots,N_{\mathrm{sp}}$: single-particle state labels.
 
 Let $\hat h_0$ be a reference single-particle Hamiltonian with a complete orthonormal eigenbasis:
 
 $$
-\hat h_0|\phi_\alpha\rangle=\varepsilon_\alpha|\phi_\alpha\rangle,\qquad \langle\phi_\alpha|\phi_\beta\rangle=\delta_{\alpha\beta},\qquad \sum_{\alpha=1}^{M}|\phi_\alpha\rangle\langle\phi_\alpha|=\hat I_1.
+\hat h_0|\phi_\alpha\rangle=\varepsilon_\alpha|\phi_\alpha\rangle,\qquad \langle\phi_\alpha|\phi_\beta\rangle=\delta_{\alpha\beta},\qquad \sum_{\alpha=1}^{N_{\mathrm{sp}}}|\phi_\alpha\rangle\langle\phi_\alpha|=\hat I_1.
 $$
 
 The coordinate representation of $|\phi_\alpha\rangle$ is $\phi_\alpha(x)=\langle x|\phi_\alpha\rangle$. In the one-particle sector, the mode and coordinate states are created from the vacuum by
 
 $$
-\hat c_\alpha^\dagger|0\rangle=|\phi_\alpha\rangle,\qquad \hat\psi_F^\dagger(x)|0\rangle=\sum_{\beta=1}^{M}\phi_\beta^*(x)\hat c_\beta^\dagger|0\rangle=\sum_{\beta=1}^{M}|\phi_\beta\rangle\langle\phi_\beta|x\rangle=|x\rangle.
+\hat c_\alpha^\dagger|0\rangle=|\phi_\alpha\rangle,\qquad \hat\psi_F^\dagger(x)|0\rangle=\sum_{\beta=1}^{N_{\mathrm{sp}}}\phi_\beta^*(x)\hat c_\beta^\dagger|0\rangle=\sum_{\beta=1}^{N_{\mathrm{sp}}}|\phi_\beta\rangle\langle\phi_\beta|x\rangle=|x\rangle.
 $$
 
 Hence,
@@ -255,7 +255,7 @@ $$
 Expand the field operators in the single-particle basis:
 
 $$
-\boxed{\hat\psi_F(x)=\sum_{\alpha=1}^{M}\phi_\alpha(x)\hat c_\alpha,\qquad \hat\psi_F^\dagger(x)=\sum_{\alpha=1}^{M}\phi_\alpha^*(x)\hat c_\alpha^\dagger}.
+\boxed{\hat\psi_F(x)=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\phi_\alpha(x)\hat c_\alpha,\qquad \hat\psi_F^\dagger(x)=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\phi_\alpha^*(x)\hat c_\alpha^\dagger}.
 $$
 
 Orthonormality gives
@@ -279,7 +279,7 @@ $$
 With $h_0(x,x')=\langle x|\hat h_0|x'\rangle$, the independent-particle Hamiltonian is
 
 $$
-\hat H_0=\sum_{i=1}^{N}\hat h_0(i)=\int dx\,dx'\,\hat\psi_F^\dagger(x)h_0(x,x')\hat\psi_F(x')=\sum_{\alpha=1}^{M}\varepsilon_\alpha\hat c_\alpha^\dagger\hat c_\alpha.
+\hat H_0=\sum_{i=1}^{N}\hat h_0(i)=\int dx\,dx'\,\hat\psi_F^\dagger(x)h_0(x,x')\hat\psi_F(x')=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\varepsilon_\alpha\hat c_\alpha^\dagger\hat c_\alpha.
 $$
 
 ##### Exchange Symmetry and Fock Space
@@ -361,7 +361,7 @@ $$
 Define the occupation numbers by
 
 $$
-n_\alpha=\sum_{i=1}^{N}\delta_{\alpha\alpha_i}\in\{0,1\},\qquad \boldsymbol n=(n_1,\ldots,n_M),\qquad \sum_{\alpha=1}^{M}n_\alpha=N.
+n_\alpha=\sum_{i=1}^{N}\delta_{\alpha\alpha_i}\in\{0,1\},\qquad \boldsymbol n=(n_1,\ldots,n_{N_{\mathrm{sp}}}),\qquad \sum_{\alpha=1}^{N_{\mathrm{sp}}}n_\alpha=N.
 $$
 
 $$
@@ -391,7 +391,7 @@ $$
 Starting from the vacuum, the occupation-number states form a basis of the fermionic Fock space:
 
 $$
-\hat c_\alpha|0\rangle=0,\qquad |\boldsymbol n\rangle_F=\prod_{\alpha=1}^{M}(\hat c_\alpha^\dagger)^{n_\alpha}|0\rangle,\qquad |\Psi_F\rangle=\sum_{\boldsymbol n}C_{\boldsymbol n}|\boldsymbol n\rangle_F,
+\hat c_\alpha|0\rangle=0,\qquad |\boldsymbol n\rangle_F=\prod_{\alpha=1}^{N_{\mathrm{sp}}}(\hat c_\alpha^\dagger)^{n_\alpha}|0\rangle,\qquad |\Psi_F\rangle=\sum_{\boldsymbol n}C_{\boldsymbol n}|\boldsymbol n\rangle_F,
 $$
 
 where the product is ordered by increasing $\alpha$.
@@ -413,35 +413,35 @@ $$
 For $o_{\alpha\beta}=\langle\phi_\alpha|\hat o|\phi_\beta\rangle$, inserting the single-particle completeness relation gives
 
 $$
-\hat O^{(1)}=\sum_{i=1}^{N}\hat o(i)=\sum_{i=1}^{N}\left[\sum_{\alpha,\beta=1}^{M}|\phi_\alpha(i)\rangle\langle\phi_\alpha(i)|\hat o(i)|\phi_\beta(i)\rangle\langle\phi_\beta(i)|\right]=\sum_{\alpha,\beta=1}^{M}o_{\alpha\beta}\sum_{i=1}^{N}|\phi_\alpha(i)\rangle\langle\phi_\beta(i)|=\sum_{\alpha,\beta=1}^{M}o_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta.
+\hat O^{(1)}=\sum_{i=1}^{N}\hat o(i)=\sum_{i=1}^{N}\left[\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}|\phi_\alpha(i)\rangle\langle\phi_\alpha(i)|\hat o(i)|\phi_\beta(i)\rangle\langle\phi_\beta(i)|\right]=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}o_{\alpha\beta}\sum_{i=1}^{N}|\phi_\alpha(i)\rangle\langle\phi_\beta(i)|=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}o_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta.
 $$
 
 In coordinate space,
 
 $$
-\boxed{\hat O^{(1)}=\sum_{\alpha,\beta=1}^{M}o_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta=\int dx\,dx'\,\hat\psi_F^\dagger(x)o(x,x')\hat\psi_F(x')}.
+\boxed{\hat O^{(1)}=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}o_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta=\int dx\,dx'\,\hat\psi_F^\dagger(x)o(x,x')\hat\psi_F(x')}.
 $$
 
 For a symmetric two-particle operator $\hat v$, let $v_{\alpha\beta;\gamma\delta}=\langle\phi_\alpha\phi_\beta|\hat v|\phi_\gamma\phi_\delta\rangle$. Inserting the two-particle completeness relation gives
 
 $$
-\hat V^{(2)}=\frac12\sum_{i\neq j}\hat v(i,j)=\frac12\sum_{i\neq j}\left[\sum_{\alpha,\beta,\gamma,\delta=1}^{M}|\phi_\alpha(i)\rangle\langle\phi_\alpha(i)|\,|\phi_\beta(j)\rangle\langle\phi_\beta(j)|\hat v(i,j)|\phi_\gamma(i)\rangle\langle\phi_\gamma(i)|\,|\phi_\delta(j)\rangle\langle\phi_\delta(j)|\right].
+\hat V^{(2)}=\frac12\sum_{i\neq j}\hat v(i,j)=\frac12\sum_{i\neq j}\left[\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}|\phi_\alpha(i)\rangle\langle\phi_\alpha(i)|\,|\phi_\beta(j)\rangle\langle\phi_\beta(j)|\hat v(i,j)|\phi_\gamma(i)\rangle\langle\phi_\gamma(i)|\,|\phi_\delta(j)\rangle\langle\phi_\delta(j)|\right].
 $$
 
 Using the two-particle transition operator,
 
 $$
-\hat V^{(2)}=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{M}v_{\alpha\beta;\gamma\delta}\sum_{i\neq j}|\phi_\alpha(i)\rangle\langle\phi_\gamma(i)|\,|\phi_\beta(j)\rangle\langle\phi_\delta(j)|=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{M}v_{\alpha\beta;\gamma\delta}\hat c_\alpha^\dagger\hat c_\beta^\dagger\hat c_\delta\hat c_\gamma.
+\hat V^{(2)}=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}v_{\alpha\beta;\gamma\delta}\sum_{i\neq j}|\phi_\alpha(i)\rangle\langle\phi_\gamma(i)|\,|\phi_\beta(j)\rangle\langle\phi_\delta(j)|=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}v_{\alpha\beta;\gamma\delta}\hat c_\alpha^\dagger\hat c_\beta^\dagger\hat c_\delta\hat c_\gamma.
 $$
 
 For a coordinate-space interaction $v(x,x')$,
 
 $$
-\boxed{\hat V^{(2)}=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{M}v_{\alpha\beta;\gamma\delta}\hat c_\alpha^\dagger\hat c_\beta^\dagger\hat c_\delta\hat c_\gamma=\frac12\int dx\,dx'\,\hat\psi_F^\dagger(x)\hat\psi_F^\dagger(x')v(x,x')\hat\psi_F(x')\hat\psi_F(x)}.
+\boxed{\hat V^{(2)}=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}v_{\alpha\beta;\gamma\delta}\hat c_\alpha^\dagger\hat c_\beta^\dagger\hat c_\delta\hat c_\gamma=\frac12\int dx\,dx'\,\hat\psi_F^\dagger(x)\hat\psi_F^\dagger(x')v(x,x')\hat\psi_F(x')\hat\psi_F(x)}.
 $$
 
 For $h_{\alpha\beta}=\langle\phi_\alpha|\hat h|\phi_\beta\rangle$, the one- and two-body Hamiltonian is
 
 $$
-\boxed{\hat H=\sum_{\alpha,\beta=1}^{M}h_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta+\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{M}v_{\alpha\beta;\gamma\delta}\hat c_\alpha^\dagger\hat c_\beta^\dagger\hat c_\delta\hat c_\gamma}.
+\boxed{\hat H=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}h_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta+\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}v_{\alpha\beta;\gamma\delta}\hat c_\alpha^\dagger\hat c_\beta^\dagger\hat c_\delta\hat c_\gamma}.
 $$
