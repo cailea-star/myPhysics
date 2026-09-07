@@ -125,10 +125,10 @@ $$
 It expands in the one-dimensional Cartesian basis as
 
 $$
-\boxed{\phi_{n_r}^{\Lambda}(x,y;b_{r_\perp})=\sum_{n_y=0}^{\nu}i^{n_y}C_{n_y}^{n_r\Lambda}\phi_{n_x}(x;b_{r_\perp})\phi_{n_y}(y;b_{r_\perp}),\qquad n_x=\nu-n_y.}
+\boxed{\phi_{n_r}^{\Lambda}(x,y;b_{r_\perp})=\sum_{n_y=0}^{\nu}(-i)^{n_y}C_{n_y}^{n_r\Lambda}\phi_{n_x}(x;b_{r_\perp})\phi_{n_y}(y;b_{r_\perp}),\qquad n_x=\nu-n_y.}
 $$
 
-The transformation coefficient is
+The real transformation coefficient is
 
 $$
 C_{n_y}^{n_r\Lambda}=(-1)^{n_r}2^{-n_r-|\Lambda|/2}\sqrt{\frac{(n_r+|\Lambda|)!n_r!}{n_x!n_y!}}\sum_q\binom{n_x}{k_x}\binom{n_y}{q}(-1)^{n_y-q},
@@ -159,7 +159,7 @@ $$
 For each state $a=1,\ldots,4$, define
 
 $$
-n_{x,a}=\nu_a-n_{y,a},\qquad P_y=i^{-n_{y,1}-n_{y,2}+n_{y,3}+n_{y,4}}.
+n_{x,a}=\nu_a-n_{y,a},\qquad P_y=i^{n_{y,1}+n_{y,2}-n_{y,3}-n_{y,4}}.
 $$
 
 Substituting the Cartesian expansions gives
