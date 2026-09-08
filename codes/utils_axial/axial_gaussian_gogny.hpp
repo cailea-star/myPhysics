@@ -83,13 +83,12 @@ public:
 
         // (P_G, config, cache) → kernel.
         const std::string filepath_Str = kernel_cache_path(forceName_Str, axialconfig);
-        try {
+        if (std::filesystem::exists(filepath_Str)) {
             kernel = AxialGaussianKernel<2>::from_cache(filepath_Str, axialconfig, mu_F1D_g);
             std::cout << "[AxialGaussianGogny]: Loaded Gaussian kernel cache: " << filepath_Str << std::endl;
             return;
-        } catch (const std::exception& error_) {
-            std::cout << "[AxialGaussianGogny]: Writing Gaussian kernel cache: " << filepath_Str << "\n (" << error_.what() << ")" << std::endl;
         }
+        std::cout << "[AxialGaussianGogny]: Writing Gaussian kernel cache: " << filepath_Str << std::endl;
         kernel.build_tables();
         kernel.to_cache(filepath_Str);
     }
