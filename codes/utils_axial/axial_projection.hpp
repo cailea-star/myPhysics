@@ -8,6 +8,7 @@
 #pragma once
 
 #include <cassert>
+#include <vector>
 #include <cmath>
 #include <complex>
 #include <limits>
@@ -26,7 +27,7 @@ public:
     int Nphi_I = 0; // Number of gauge-angle quadrature nodes.
     Eigen::VectorXd beta_F1D_beta{}; // β_i = acos x_i ∈ (0,π) [rad].
     Eigen::VectorXd weight_F1D_beta{}; // Σ_i w_i f(β_i) ≈ ∫₀^π sinβ f(β)dβ.
-    AxialConfig axialconfig; // Oscillator lengths and positive-Ω labels.
+    std::vector<AxialSPLabel> labels_S1D_sp{}; // Positive-Ω labels.
 
     doubleC overlap_C = doubleC(0, 0); // ⟨Φ₁|R_y(β)e^{iφN̂}|Φ₂⟩.
     Eigen::MatrixXcd rho_C2D_2sp_2sp{}; // ρ(g).
@@ -62,20 +63,20 @@ private:
 public:
     /**
      * @brief  Build y rotations using harmonic-oscillator generating functions.
-     * @math   (C_axial,N_β,N_φ) → {β,w_β,R_y,det d₊}; α = γ = 0.
+     * @math   (C_axial,{α_sp},N_β,N_φ) → {β,w_β,R_y,det d₊}; α = γ = 0.
      * @output β quadrature and rotations; references remain unset.
      * @note   Single species; unblocked K = 0 vacua; ordering (+Ω,-Ω).
      * @note   Weights exclude projection normalization factors.
      */
-    AxialProjection(const AxialConfig& axialconfig_, int Nbeta_I_, int Nphi_I_)
-    : axialconfig(axialconfig_) {
+    AxialProjection(const AxialConfig& axialconfig_, const std::vector<AxialSPLabel>& labels_S1D_sp_, int Nbeta_I_, int Nphi_I_) {
+        labels_S1D_sp = labels_S1D_sp_;
         Nbeta_I = Nbeta_I_;
         Nphi_I = Nphi_I_;
         assert(Nbeta_I > 0 && Nphi_I > 0);
 
         // Retain β geometry; release rotation-generation workspace.
         {
-            AxialRotation axialrotation(axialconfig, 1, Nbeta_I, 1);
+            AxialRotation axialrotation(axialconfig_, labels_S1D_sp, 1, Nbeta_I, 1);
             axialrotation.build_Ry();
             beta_F1D_beta = std::move(axialrotation.beta_F1D_beta);
             weight_F1D_beta = std::move(axialrotation.weight_F1D_beta);
@@ -83,7 +84,7 @@ public:
             Ry_F3D_2sp_2sp_beta = std::move(axialrotation.Ry_F3D_2sp_2sp_beta);
         }
 
-        const Eigen::Index Nsp_I = static_cast<Eigen::Index>(axialconfig.labels_S1D_sp.size()); // #{a: Ω_a > 0}.
+        const Eigen::Index Nsp_I = static_cast<Eigen::Index>(labels_S1D_sp.size()); // #{a: Ω_a > 0}.
 
         // {U₁,V₁,U₂,V₂}: N_sp×N_qp; N_qp = N_sp.
         U1Kramers_F2D_sp_qp.resize(Nsp_I, Nsp_I);
@@ -147,7 +148,7 @@ public:
 
 inline void AxialProjection::update_U1V1(const Eigen::MatrixXd& U1Kramers_F2D_sp_qp_, const Eigen::MatrixXd& V1Kramers_F2D_sp_qp_) {
     // N_sp = N_qp; Kramers representatives.
-    const Eigen::Index Nsp_I = static_cast<Eigen::Index>(axialconfig.labels_S1D_sp.size());
+    const Eigen::Index Nsp_I = static_cast<Eigen::Index>(labels_S1D_sp.size());
     assert(U1Kramers_F2D_sp_qp_.rows() == Nsp_I && U1Kramers_F2D_sp_qp_.cols() == Nsp_I);
     assert(V1Kramers_F2D_sp_qp_.rows() == Nsp_I && V1Kramers_F2D_sp_qp_.cols() == Nsp_I);
     assert(U1Kramers_F2D_sp_qp_.allFinite());
@@ -169,7 +170,7 @@ inline void AxialProjection::update_U1V1(const Eigen::MatrixXd& U1Kramers_F2D_sp
 
 inline void AxialProjection::update_U2V2(const Eigen::MatrixXd& U2Kramers_F2D_sp_qp_, const Eigen::MatrixXd& V2Kramers_F2D_sp_qp_) {
     // N_sp = N_qp; Kramers representatives.
-    const Eigen::Index Nsp_I = static_cast<Eigen::Index>(axialconfig.labels_S1D_sp.size());
+    const Eigen::Index Nsp_I = static_cast<Eigen::Index>(labels_S1D_sp.size());
     assert(U2Kramers_F2D_sp_qp_.rows() == Nsp_I && U2Kramers_F2D_sp_qp_.cols() == Nsp_I);
     assert(V2Kramers_F2D_sp_qp_.rows() == Nsp_I && V2Kramers_F2D_sp_qp_.cols() == Nsp_I);
     assert(U2Kramers_F2D_sp_qp_.allFinite());
@@ -193,7 +194,7 @@ inline void AxialProjection::update_AUV(int beta_I) {
     betaCurrent_I = -1; // β cache invalid.
 
     // N_sp = N_qp; fixed β.
-    const Eigen::Index Nsp_I = static_cast<Eigen::Index>(axialconfig.labels_S1D_sp.size());
+    const Eigen::Index Nsp_I = static_cast<Eigen::Index>(labels_S1D_sp.size());
     assert(beta_I >= 0 && beta_I < beta_F1D_beta.size());
 
     // ColMajor slices: offset = (2N_sp)² i.
@@ -211,21 +212,21 @@ inline void AxialProjection::update_AUV(int beta_I) {
     Tmp_F2D_2sp_2sp.setZero();
     Tmp_F2D_2sp_2sp.topLeftCorner(Nsp_I, Nsp_I) = U2Kramers_F2D_sp_qp;
     Tmp_F2D_2sp_2sp.bottomRightCorner(Nsp_I, Nsp_I) = U2Kramers_F2D_sp_qp;
-    for (Eigen::Index sp_I = 0; sp_I < Nsp_I; ++sp_I) {Tmp_F2D_2sp_2sp.row(Nsp_I + sp_I) *= axialconfig.labels_S1D_sp[sp_I].twoSigma_I;}
+    for (Eigen::Index sp_I = 0; sp_I < Nsp_I; ++sp_I) {Tmp_F2D_2sp_2sp.row(Nsp_I + sp_I) *= labels_S1D_sp[sp_I].twoSigma_I;}
     U2beta_F2D_2sp_2qp = Ag_LU.solve(Tmp_F2D_2sp_2sp.cast<doubleC>()).real();
 
     // V₂,full = [0,-V₂;ηV₂,0]; V₂β = R_yV₂,full.
     Tmp_F2D_2sp_2sp.setZero();
     Tmp_F2D_2sp_2sp.topRightCorner(Nsp_I, Nsp_I) = -V2Kramers_F2D_sp_qp;
     Tmp_F2D_2sp_2sp.bottomLeftCorner(Nsp_I, Nsp_I) = V2Kramers_F2D_sp_qp;
-    for (Eigen::Index sp_I = 0; sp_I < Nsp_I; ++sp_I) {Tmp_F2D_2sp_2sp.row(Nsp_I + sp_I) *= axialconfig.labels_S1D_sp[sp_I].twoSigma_I;}
+    for (Eigen::Index sp_I = 0; sp_I < Nsp_I; ++sp_I) {Tmp_F2D_2sp_2sp.row(Nsp_I + sp_I) *= labels_S1D_sp[sp_I].twoSigma_I;}
     V2beta_F2D_2sp_2qp.noalias() = Ry_F2D_2sp_2sp * Tmp_F2D_2sp_2sp;
 
     // U₁,fullᵀ = diag(U₁ᵀ,U₁ᵀη).
     Tmp_F2D_2sp_2sp.setZero();
     Tmp_F2D_2sp_2sp.topLeftCorner(Nsp_I, Nsp_I) = U1Kramers_F2D_sp_qp.transpose();
     Tmp_F2D_2sp_2sp.bottomRightCorner(Nsp_I, Nsp_I) = U1Kramers_F2D_sp_qp.transpose();
-    for (Eigen::Index sp_I = 0; sp_I < Nsp_I; ++sp_I) {Tmp_F2D_2sp_2sp.col(Nsp_I + sp_I) *= axialconfig.labels_S1D_sp[sp_I].twoSigma_I;}
+    for (Eigen::Index sp_I = 0; sp_I < Nsp_I; ++sp_I) {Tmp_F2D_2sp_2sp.col(Nsp_I + sp_I) *= labels_S1D_sp[sp_I].twoSigma_I;}
 
     // A_Uβ = U₁,fullᵀU₂β.
     U1TU2beta_F2D_2qp_2qp.noalias() = Tmp_F2D_2sp_2sp * U2beta_F2D_2sp_2qp;
@@ -234,7 +235,7 @@ inline void AxialProjection::update_AUV(int beta_I) {
     Tmp_F2D_2sp_2sp.setZero();
     Tmp_F2D_2sp_2sp.topRightCorner(Nsp_I, Nsp_I) = V1Kramers_F2D_sp_qp.transpose();
     Tmp_F2D_2sp_2sp.bottomLeftCorner(Nsp_I, Nsp_I) = -V1Kramers_F2D_sp_qp.transpose();
-    for (Eigen::Index sp_I = 0; sp_I < Nsp_I; ++sp_I) {Tmp_F2D_2sp_2sp.col(Nsp_I + sp_I) *= axialconfig.labels_S1D_sp[sp_I].twoSigma_I;}
+    for (Eigen::Index sp_I = 0; sp_I < Nsp_I; ++sp_I) {Tmp_F2D_2sp_2sp.col(Nsp_I + sp_I) *= labels_S1D_sp[sp_I].twoSigma_I;}
 
     // A_Vβ = V₁,fullᵀV₂β.
     V1TV2beta_F2D_2qp_2qp.noalias() = Tmp_F2D_2sp_2sp * V2beta_F2D_2sp_2qp;
@@ -247,7 +248,7 @@ inline void AxialProjection::update_densities(int beta_I, int phi_I) {
     // Invalidate overlap before evaluation.
     overlap_C = doubleC(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN());
 
-    const Eigen::Index Nsp_I = static_cast<Eigen::Index>(axialconfig.labels_S1D_sp.size());
+    const Eigen::Index Nsp_I = static_cast<Eigen::Index>(labels_S1D_sp.size());
     assert(signDetU1_I != 0 && signDetU2_I != 0);
     assert(beta_I >= 0 && beta_I < detRySimplexP_C1D_beta.size());
     assert(Nphi_I > 0 && phi_I >= 0 && phi_I < Nphi_I);
@@ -278,7 +279,7 @@ inline void AxialProjection::update_densities(int beta_I, int phi_I) {
     Tmp_C2D_2sp_2sp.setZero();
     Tmp_C2D_2sp_2sp.topRightCorner(Nsp_I, Nsp_I) = V1Kramers_F2D_sp_qp.transpose().cast<doubleC>();
     Tmp_C2D_2sp_2sp.bottomLeftCorner(Nsp_I, Nsp_I) = -V1Kramers_F2D_sp_qp.transpose().cast<doubleC>();
-    for (Eigen::Index sp_I = 0; sp_I < Nsp_I; ++sp_I) {Tmp_C2D_2sp_2sp.col(Nsp_I + sp_I) *= axialconfig.labels_S1D_sp[sp_I].twoSigma_I;}
+    for (Eigen::Index sp_I = 0; sp_I < Nsp_I; ++sp_I) {Tmp_C2D_2sp_2sp.col(Nsp_I + sp_I) *= labels_S1D_sp[sp_I].twoSigma_I;}
 
     // AX = V₁ᵀ; ρ = e^{iφ}V₂βX; κ̄ = e^{-iφ}U₂βX.
     Tmp_C2D_2sp_2sp = Ag_LU.solve(Tmp_C2D_2sp_2sp).eval();
@@ -289,7 +290,7 @@ inline void AxialProjection::update_densities(int beta_I, int phi_I) {
     Tmp_C2D_2sp_2sp.setZero();
     Tmp_C2D_2sp_2sp.topLeftCorner(Nsp_I, Nsp_I) = U1Kramers_F2D_sp_qp.transpose().cast<doubleC>();
     Tmp_C2D_2sp_2sp.bottomRightCorner(Nsp_I, Nsp_I) = U1Kramers_F2D_sp_qp.transpose().cast<doubleC>();
-    for (Eigen::Index sp_I = 0; sp_I < Nsp_I; ++sp_I) {Tmp_C2D_2sp_2sp.col(Nsp_I + sp_I) *= axialconfig.labels_S1D_sp[sp_I].twoSigma_I;}
+    for (Eigen::Index sp_I = 0; sp_I < Nsp_I; ++sp_I) {Tmp_C2D_2sp_2sp.col(Nsp_I + sp_I) *= labels_S1D_sp[sp_I].twoSigma_I;}
 
     // AX = U₁ᵀ; κ = e^{iφ}V₂βX.
     Tmp_C2D_2sp_2sp = Ag_LU.solve(Tmp_C2D_2sp_2sp).eval();
