@@ -14,7 +14,6 @@
 #include <istream>
 #include <limits>
 #include <ostream>
-#include <stdexcept>
 #include <type_traits>
 #include <unordered_map>
 
@@ -130,7 +129,7 @@ public:
             output_.write(reinterpret_cast<const char*>(&value_T), sizeof(value_T));
         }
 
-        if (!output_) {throw std::runtime_error("[ERROR]: [PackedHashTable::to_stream] binary write failed");}
+        assert(output_ && "[ERROR]: [PackedHashTable::to_stream] binary write failed");
     }
 
     /**
@@ -144,7 +143,7 @@ public:
 
         std::uint64_t Nentry_I = 0;
         input_.read(reinterpret_cast<char*>(&Nentry_I), sizeof(Nentry_I));
-        if (!input_) {throw std::runtime_error("[ERROR]: [PackedHashTable::from_stream] binary read failed");}
+        assert(input_ && "[ERROR]: [PackedHashTable::from_stream] binary read failed");
 
         // M ← {(packedkey,value)}.
         const std::uint64_t maxpackedkey_I = to_packedkey(keymax_I1D_i);
@@ -155,8 +154,8 @@ public:
             Value_T value_T{};
             input_.read(reinterpret_cast<char*>(&packedkey_I), sizeof(packedkey_I));
             input_.read(reinterpret_cast<char*>(&value_T), sizeof(value_T));
-            if (!input_) {throw std::runtime_error("[ERROR]: [PackedHashTable::from_stream] binary read failed");}
-            if (packedkey_I > maxpackedkey_I) {throw std::runtime_error("[ERROR]: [PackedHashTable::from_stream] packed key exceeds configured bounds");}
+            assert(input_ && "[ERROR]: [PackedHashTable::from_stream] binary read failed");
+            assert(packedkey_I <= maxpackedkey_I && "[ERROR]: [PackedHashTable::from_stream] packed key exceeds configured bounds");
             value_T1D_key[packedkey_I] = value_T;
         }
     }
