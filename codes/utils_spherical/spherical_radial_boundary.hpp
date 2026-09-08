@@ -12,7 +12,6 @@
 #include <cmath>
 #include <complex>
 #include <functional>
-#include <stdexcept>
 #include <utility>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_sf_coulomb.h>
@@ -68,7 +67,7 @@ inline SphericalRadialBoundary spherical_radial_boundary_coulomb_hankel(double r
     double expG_F = 0.0;
 
     int status_I = gsl_sf_coulomb_wave_FG_e(eta_F, rho_F, static_cast<double>(l_I), 0, &F_GSL, &dFdrho_GSL, &G_GSL, &dGdrho_GSL, &expF_F, &expG_F);
-    if (status_I != GSL_SUCCESS && status_I != GSL_EOVRFLW) {throw std::runtime_error("GSL Coulomb-Hankel evaluation failed");}
+    assert((status_I == GSL_SUCCESS || status_I == GSL_EOVRFLW) && "GSL Coulomb-Hankel evaluation failed");
 
     // (F_l,F_l',G_l,G_l') → e^{-s}(F_l,F_l',G_l,G_l') → (H_l^{±},∂_rH_l^{±}).
     double expScale_F = std::max(expF_F, expG_F);
