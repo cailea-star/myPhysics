@@ -4,7 +4,7 @@
 
 ##### Spinor Spherical Harmonics
 
-Let $\Omega=(\theta,\phi)$ and let $Y_{l m_l}(\Omega)$ be a scalar spherical harmonic. The spin-$\frac12$ basis is
+Let $\hat{\mathbf r}=\mathbf r/r$ and let $Y_{l m_l}(\hat{\mathbf r})$ be a scalar spherical harmonic. The spin-$\frac12$ basis is
 
 $$
 \chi_{1/2}=\begin{pmatrix}1\\0\end{pmatrix},\qquad \chi_{-1/2}=\begin{pmatrix}0\\1\end{pmatrix},\qquad \hat S_z\chi_\mu=\hbar\mu\chi_\mu.
@@ -13,7 +13,7 @@ $$
 With $\hat{\mathbf J}=\hat{\mathbf L}+\hat{\mathbf S}$,
 
 $$
-\boxed{\mathcal Y_{jm}^{l}(\Omega)=\sum_{m_l=-l}^{l}\sum_{\mu=\pm1/2}\left\langle l,m_l;\frac12,\mu\middle|j,m\right\rangle Y_{l m_l}(\Omega)\chi_\mu}.
+\boxed{\mathcal Y_{jm}^{l}(\hat{\mathbf r})=\sum_{m_l=-l}^{l}\sum_{\mu=\pm1/2}\left\langle l,m_l;\frac12,\mu\middle|j,m\right\rangle Y_{l m_l}(\hat{\mathbf r})\chi_\mu}.
 $$
 
 The coupled quantum numbers satisfy
@@ -36,22 +36,22 @@ Definitions and further properties are collected in [Spherical Harmonics](../mat
 
 ##### Spherical Gradient
 
-Let $\hat{\mathbf r}$ be the radial unit vector and let $\nabla_\Omega$ act only on the angular coordinates. The gradient separates as
+Let $\hat{\mathbf r}$ be the radial unit vector and let $\nabla_{\hat{\mathbf r}}$ act only on the angular coordinates. The gradient separates as
 
 $$
-\nabla=\hat{\mathbf r}\frac{\partial}{\partial r}+\frac{1}{r}\nabla_\Omega.
+\nabla=\hat{\mathbf r}\frac{\partial}{\partial r}+\frac{1}{r}\nabla_{\hat{\mathbf r}}.
 $$
 
 The orbital angular momentum is
 
 $$
-\hat{\mathbf L}=-i\hbar\,\hat{\mathbf r}\times\nabla_\Omega.
+\hat{\mathbf L}=-i\hbar\,\hat{\mathbf r}\times\nabla_{\hat{\mathbf r}}.
 $$
 
-Since $\hat{\mathbf r}\cdot\nabla_\Omega=0$,
+Since $\hat{\mathbf r}\cdot\nabla_{\hat{\mathbf r}}=0$,
 
 $$
-\hat{\mathbf r}\times\hat{\mathbf L}=i\hbar\nabla_\Omega,\qquad \nabla_\Omega=-\frac{i}{\hbar}\hat{\mathbf r}\times\hat{\mathbf L}.
+\hat{\mathbf r}\times\hat{\mathbf L}=i\hbar\nabla_{\hat{\mathbf r}},\qquad \nabla_{\hat{\mathbf r}}=-\frac{i}{\hbar}\hat{\mathbf r}\times\hat{\mathbf L}.
 $$
 
 Therefore,
@@ -143,19 +143,19 @@ $$
 Let $G(r)$ be a radial function. Since
 
 $$
-\left[\frac{\partial}{\partial r}-\frac{1}{\hbar r}\boldsymbol\sigma\cdot\hat{\mathbf L}\right]\frac{G(r)}{r}\mathcal Y_{\kappa m}=\frac{1}{r}\left[\frac{dG}{dr}+\frac{\kappa}{r}G(r)\right]\mathcal Y_{\kappa m},
+\left[\frac{\partial}{\partial r}-\frac{1}{\hbar r}\boldsymbol\sigma\cdot\hat{\mathbf L}\right]\frac{G(r)}{r}\mathcal Y_{\kappa m}=\frac{1}{r}\left[\frac{\mathrm dG}{\mathrm dr}+\frac{\kappa}{r}G(r)\right]\mathcal Y_{\kappa m},
 $$
 
 the angular factor is exchanged by $\boldsymbol\sigma\cdot\hat{\mathbf r}$:
 
 $$
-\boxed{\boldsymbol\sigma\cdot\nabla\left[\frac{G(r)}{r}\mathcal Y_{\kappa m}\right]=-\frac{1}{r}\left[\frac{dG}{dr}+\frac{\kappa}{r}G(r)\right]\mathcal Y_{-\kappa,m}}.
+\boxed{\boldsymbol\sigma\cdot\nabla\left[\frac{G(r)}{r}\mathcal Y_{\kappa m}\right]=-\frac{1}{r}\left[\frac{\mathrm dG}{\mathrm dr}+\frac{\kappa}{r}G(r)\right]\mathcal Y_{-\kappa,m}}.
 $$
 
 Therefore,
 
 $$
-\boxed{\boldsymbol\sigma\cdot\hat{\mathbf p}\left[\frac{G(r)}{r}\mathcal Y_{\kappa m}\right]=\frac{i\hbar}{r}\left[\frac{dG}{dr}+\frac{\kappa}{r}G(r)\right]\mathcal Y_{-\kappa,m}}.
+\boxed{\boldsymbol\sigma\cdot\hat{\mathbf p}\left[\frac{G(r)}{r}\mathcal Y_{\kappa m}\right]=\frac{i\hbar}{r}\left[\frac{\mathrm dG}{\mathrm dr}+\frac{\kappa}{r}G(r)\right]\mathcal Y_{-\kappa,m}}.
 $$
 
 ### Cylindrical Preliminaries
@@ -183,7 +183,7 @@ $$
 They satisfy
 
 $$
-\hat J_z\Xi_{\Omega,\pm}=\hbar\Omega\Xi_{\Omega,\pm},\qquad \int_0^{2\pi}d\phi\,\Xi_{\Omega,s}^\dagger\Xi_{\Omega',s'}=\delta_{\Omega\Omega'}\delta_{ss'},\qquad s,s'\in\{+,-\}.
+\hat J_z\Xi_{\Omega,\pm}=\hbar\Omega\Xi_{\Omega,\pm},\qquad \int_0^{2\pi}\mathrm d\phi\,\Xi_{\Omega,s}^\dagger\Xi_{\Omega',s'}=\delta_{\Omega\Omega'}\delta_{ss'},\qquad s,s'\in\{+,-\}.
 $$
 
 A spinor with fixed $\Omega$ is

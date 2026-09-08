@@ -13,7 +13,7 @@ $$
 where $r_\perp\geq0$, $0\leq\phi<2\pi$, and $z\in\mathbb R$. The position vector is
 
 $$
-\mathbf R=r_\perp\cos\phi\,\hat{\mathbf x}+r_\perp\sin\phi\,\hat{\mathbf y}+z\hat{\mathbf z}=r_\perp\hat{\mathbf r}_\perp+z\hat{\mathbf z}.
+\mathbf r=r_\perp\cos\phi\,\hat{\mathbf x}+r_\perp\sin\phi\,\hat{\mathbf y}+z\hat{\mathbf z}=r_\perp\hat{\mathbf r}_\perp+z\hat{\mathbf z}.
 $$
 
 The local orthonormal basis is
@@ -25,7 +25,7 @@ $$
 The coordinate-line tangent vectors are
 
 $$
-\frac{\partial\mathbf R}{\partial r_\perp}=\hat{\mathbf r}_\perp,\qquad \frac{\partial\mathbf R}{\partial\phi}=r_\perp\hat{\boldsymbol\phi},\qquad \frac{\partial\mathbf R}{\partial z}=\hat{\mathbf z}.
+\frac{\partial\mathbf r}{\partial r_\perp}=\hat{\mathbf r}_\perp,\qquad \frac{\partial\mathbf r}{\partial\phi}=r_\perp\hat{\boldsymbol\phi},\qquad \frac{\partial\mathbf r}{\partial z}=\hat{\mathbf z}.
 $$
 
 Only the azimuthal coordinate changes the local basis:
@@ -49,13 +49,13 @@ $$
 Thus,
 
 $$
-\boxed{d\mathbf R=\hat{\mathbf r}_\perp\,dr_\perp+\hat{\boldsymbol\phi}\,r_\perp d\phi+\hat{\mathbf z}\,dz}.
+\boxed{\mathrm d\mathbf r=\hat{\mathbf r}_\perp\,\mathrm dr_\perp+\hat{\boldsymbol\phi}\,r_\perp \mathrm d\phi+\hat{\mathbf z}\,\mathrm dz}.
 $$
 
 The metric and volume element are
 
 $$
-ds^2=dr_\perp^2+r_\perp^2d\phi^2+dz^2,\qquad d^3\mathbf R=r_\perp\,dr_\perp\,d\phi\,dz.
+\mathrm ds^2=\mathrm dr_\perp^2+r_\perp^2\mathrm d\phi^2+\mathrm dz^2,\qquad \mathrm d^3\mathbf r=r_\perp\,\mathrm dr_\perp\,\mathrm d\phi\,\mathrm dz.
 $$
 
 ### Differential Operators
@@ -111,13 +111,13 @@ $$
 It satisfies
 
 $$
-\hat L_z\Phi_m=\hbar m\Phi_m,\qquad \nabla_\phi^2\Phi_m=-m^2\Phi_m,\qquad \int_0^{2\pi}d\phi\,\Phi_m^*(\phi)\Phi_{m'}(\phi)=\delta_{mm'}.
+\hat L_z\Phi_m=\hbar m\Phi_m,\qquad \nabla_\phi^2\Phi_m=-m^2\Phi_m,\qquad \int_0^{2\pi}\mathrm d\phi\,\Phi_m^*(\phi)\Phi_{m'}(\phi)=\delta_{mm'}.
 $$
 
 A single-valued scalar function can be expanded as
 
 $$
-f(r_\perp,\phi,z)=\sum_{m=-\infty}^{\infty}f_m(r_\perp,z)\Phi_m(\phi),\qquad f_m(r_\perp,z)=\int_0^{2\pi}d\phi\,\Phi_m^*(\phi)f(r_\perp,\phi,z).
+f(r_\perp,\phi,z)=\sum_{m=-\infty}^{\infty}f_m(r_\perp,z)\Phi_m(\phi),\qquad f_m(r_\perp,z)=\int_0^{2\pi}\mathrm d\phi\,\Phi_m^*(\phi)f(r_\perp,\phi,z).
 $$
 
 Let $J_m(x)$ denote the Bessel function of the first kind, with $k_\perp\geq0$ and $k_z\in\mathbb R$. The cylindrical-wave modes are
@@ -135,11 +135,11 @@ $$
 Let $\phi_k$ denote the azimuthal angle of the transverse wave vector. Since
 
 $$
-\mathbf k\cdot\mathbf R=k_\perp r_\perp\cos(\phi-\phi_k)+k_z z,
+\mathbf k\cdot\mathbf r=k_\perp r_\perp\cos(\phi-\phi_k)+k_z z,
 $$
 
 the cylindrical partial-wave expansion is
 
 $$
-\boxed{e^{i\mathbf k\cdot\mathbf R}=e^{ik_z z}\sum_{m=-\infty}^{\infty}i^mJ_m(k_\perp r_\perp)e^{im(\phi-\phi_k)}}.
+\boxed{e^{i\mathbf k\cdot\mathbf r}=e^{ik_z z}\sum_{m=-\infty}^{\infty}i^mJ_m(k_\perp r_\perp)e^{im(\phi-\phi_k)}}.
 $$
