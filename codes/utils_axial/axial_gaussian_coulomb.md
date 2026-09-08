@@ -14,7 +14,7 @@ $$
 \frac{1}{r_{12}}=\frac{2}{\sqrt{\pi}}\int_0^\infty\exp(-\alpha^2r_{12}^2)\,\mathrm{d}\alpha.
 $$
 
-Let $b_z$ and $b_r$ denote the axial and transverse oscillator lengths, and define $b_{\max}=\max(b_z,b_r)$.
+Let $b_z$ and $b_{r_\perp}$ denote the axial and transverse oscillator lengths, and define $b_{\max}=\max(b_z,b_{r_\perp})$.
 
 For $t\in(0,1)$, apply
 

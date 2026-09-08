@@ -15,7 +15,7 @@ $$
 For two solutions governed by the same Hamiltonian,
 
 $$
-\frac{d}{dt}\langle\phi(t)|\psi(t)\rangle=0\quad\Longrightarrow\quad\langle\phi(t)|\psi(t)\rangle=\langle\phi(t_0)|\psi(t_0)\rangle.
+\frac{\mathrm d}{\mathrm dt}\langle\phi(t)|\psi(t)\rangle=0\quad\Longrightarrow\quad\langle\phi(t)|\psi(t)\rangle=\langle\phi(t_0)|\psi(t_0)\rangle.
 $$
 
 Thus, inner products, norms, orthogonality, and transition probabilities are preserved.
@@ -53,13 +53,13 @@ $$
 For $t\geq t_0$, integration gives
 
 $$
-\hat U(t,t_0)=\hat I-\frac{i}{\hbar}\int_{t_0}^{t}dt_1\,\hat H(t_1)\hat U(t_1,t_0).
+\hat U(t,t_0)=\hat I-\frac{i}{\hbar}\int_{t_0}^{t}\mathrm dt_1\,\hat H(t_1)\hat U(t_1,t_0).
 $$
 
 Repeated substitution yields the Dyson series:
 
 $$
-\hat U(t,t_0)=\hat I+\sum_{n=1}^{\infty}\left(-\frac{i}{\hbar}\right)^n\int_{t_0}^{t}dt_1\int_{t_0}^{t_1}dt_2\cdots\int_{t_0}^{t_{n-1}}dt_n\,\hat H(t_1)\hat H(t_2)\cdots\hat H(t_n).
+\hat U(t,t_0)=\hat I+\sum_{n=1}^{\infty}\left(-\frac{i}{\hbar}\right)^n\int_{t_0}^{t}\mathrm dt_1\int_{t_0}^{t_1}\mathrm dt_2\cdots\int_{t_0}^{t_{n-1}}\mathrm dt_n\,\hat H(t_1)\hat H(t_2)\cdots\hat H(t_n).
 $$
 
 The nested limits impose time ordering. Let $\mathcal T$ denote the time-ordering operator and $\Theta(s)$ the Heaviside step function:
@@ -71,7 +71,7 @@ $$
 Therefore,
 
 $$
-\boxed{\hat U(t,t_0)=\mathcal T\exp\left[-\frac{i}{\hbar}\int_{t_0}^{t}dt'\,\hat H(t')\right]}.
+\boxed{\hat U(t,t_0)=\mathcal T\exp\left[-\frac{i}{\hbar}\int_{t_0}^{t}\mathrm dt'\,\hat H(t')\right]}.
 $$
 
 For noncommuting Hamiltonians, this exponential is defined by the Dyson series and cannot be treated as an ordinary operator exponential.
@@ -81,7 +81,7 @@ For noncommuting Hamiltonians, this exponential is defined by the Dyson series a
 If the Hamiltonians commute at all times, time ordering is unnecessary:
 
 $$
-[\hat H(t_1),\hat H(t_2)]=0\quad\Longrightarrow\quad\hat U(t,t_0)=\exp\left[-\frac{i}{\hbar}\int_{t_0}^{t}dt'\,\hat H(t')\right].
+[\hat H(t_1),\hat H(t_2)]=0\quad\Longrightarrow\quad\hat U(t,t_0)=\exp\left[-\frac{i}{\hbar}\int_{t_0}^{t}\mathrm dt'\,\hat H(t')\right].
 $$
 
 For a time-independent Hamiltonian $\hat H$,
@@ -135,7 +135,7 @@ $$
 Defining $\hat H_H(t)=\hat U^\dagger(t,t_0)\hat H_S(t)\hat U(t,t_0)$ gives
 
 $$
-\boxed{\frac{d\hat A_H}{dt}=\frac{i}{\hbar}[\hat H_H(t),\hat A_H(t)]}.
+\boxed{\frac{\mathrm d\hat A_H}{\mathrm dt}=\frac{i}{\hbar}[\hat H_H(t),\hat A_H(t)]}.
 $$
 
 Thus, $\hat A_H$ is conserved if it commutes with $\hat H_H$.
@@ -191,7 +191,7 @@ $$
 gives the Ehrenfest theorem:
 
 $$
-\boxed{\frac{d}{dt}\langle\hat A\rangle_t=\left\langle\frac{\partial\hat A_S}{\partial t}\right\rangle_t+\frac{i}{\hbar}\left\langle[\hat H_S(t),\hat A_S(t)]\right\rangle_t}.
+\boxed{\frac{\mathrm d}{\mathrm dt}\langle\hat A\rangle_t=\left\langle\frac{\partial\hat A_S}{\partial t}\right\rangle_t+\frac{i}{\hbar}\left\langle[\hat H_S(t),\hat A_S(t)]\right\rangle_t}.
 $$
 
 For a one-dimensional particle,
@@ -203,7 +203,7 @@ $$
 Hence,
 
 $$
-\boxed{\frac{d}{dt}\langle\hat x\rangle_t=\frac{\langle\hat p\rangle_t}{m},\qquad\frac{d}{dt}\langle\hat p\rangle_t=-\left\langle\frac{\partial V}{\partial\hat x}\right\rangle_t\quad\Longrightarrow\quad m\frac{d^2}{dt^2}\langle\hat x\rangle_t=-\left\langle\frac{\partial V}{\partial\hat x}\right\rangle_t}.
+\boxed{\frac{\mathrm d}{\mathrm dt}\langle\hat x\rangle_t=\frac{\langle\hat p\rangle_t}{m},\qquad\frac{\mathrm d}{\mathrm dt}\langle\hat p\rangle_t=-\left\langle\frac{\partial V}{\partial\hat x}\right\rangle_t\quad\Longrightarrow\quad m\frac{\mathrm d^2}{\mathrm dt^2}\langle\hat x\rangle_t=-\left\langle\frac{\partial V}{\partial\hat x}\right\rangle_t}.
 $$
 
 This becomes the classical Newton equation when $V(x,t)$ is at most quadratic in $x$.
@@ -221,13 +221,13 @@ $$
 Writing $\psi(x,t)=\langle x|\psi(t)\rangle$ gives
 
 $$
-\boxed{\psi(x_f,t_f)=\int dx_i\,K(x_f,t_f;x_i,t_i)\psi(x_i,t_i)}.
+\boxed{\psi(x_f,t_f)=\int \mathrm dx_i\,K(x_f,t_f;x_i,t_i)\psi(x_i,t_i)}.
 $$
 
 For an intermediate time $t_i<t_m<t_f$,
 
 $$
-K(x_f,t_f;x_i,t_i)=\int dx_m\,K(x_f,t_f;x_m,t_m)K(x_m,t_m;x_i,t_i),\qquad K(x_f,t_i;x_i,t_i)=\delta(x_f-x_i).
+K(x_f,t_f;x_i,t_i)=\int \mathrm dx_m\,K(x_f,t_f;x_m,t_m)K(x_m,t_m;x_i,t_i),\qquad K(x_f,t_i;x_i,t_i)=\delta(x_f-x_i).
 $$
 
 ##### Time Slicing
@@ -241,7 +241,7 @@ $$
 Inserting a position-space completeness relation at every intermediate time gives
 
 $$
-\boxed{\langle x_f|\hat U(t_f,t_i)|x_i\rangle=\int\prod_{j=1}^{N-1}dx_j\,\langle x_N|\hat U(t_N,t_{N-1})|x_{N-1}\rangle\cdots\langle x_1|\hat U(t_1,t_0)|x_0\rangle=\int\prod_{j=1}^{N-1}dx_j\prod_{j=0}^{N-1}\langle x_{j+1}|\hat U(t_{j+1},t_j)|x_j\rangle}.
+\boxed{\langle x_f|\hat U(t_f,t_i)|x_i\rangle=\int\prod_{j=1}^{N-1}\mathrm dx_j\,\langle x_N|\hat U(t_N,t_{N-1})|x_{N-1}\rangle\cdots\langle x_1|\hat U(t_1,t_0)|x_0\rangle=\int\prod_{j=1}^{N-1}\mathrm dx_j\prod_{j=0}^{N-1}\langle x_{j+1}|\hat U(t_{j+1},t_j)|x_j\rangle}.
 $$
 
 This decomposition is exact for finite $N$. The continuum limit is
@@ -261,41 +261,41 @@ $$
 Let $|p\rangle$ be normalized by
 
 $$
-\int dp\,|p\rangle\langle p|=\hat I,\qquad \langle x|p\rangle=\frac{1}{\sqrt{2\pi\hbar}}\exp\left(\frac{ipx}{\hbar}\right).
+\int \mathrm dp\,|p\rangle\langle p|=\hat I,\qquad \langle x|p\rangle=\frac{1}{\sqrt{2\pi\hbar}}\exp\left(\frac{ipx}{\hbar}\right).
 $$
 
 Insert the momentum completeness relation and apply the first-order Trotter decomposition:
 
 $$
-\langle x_{j+1}|\hat U(t_{j+1},t_j)|x_j\rangle\simeq\int dp_j\,\left\langle x_{j+1}\left|\exp\left(-\frac{i\Delta t}{\hbar}\hat T\right)\right|p_j\right\rangle\left\langle p_j\left|\exp\left(-\frac{i\Delta t}{\hbar}\hat V\right)\right|x_j\right\rangle.
+\langle x_{j+1}|\hat U(t_{j+1},t_j)|x_j\rangle\simeq\int \mathrm dp_j\,\left\langle x_{j+1}\left|\exp\left(-\frac{i\Delta t}{\hbar}\hat T\right)\right|p_j\right\rangle\left\langle p_j\left|\exp\left(-\frac{i\Delta t}{\hbar}\hat V\right)\right|x_j\right\rangle.
 $$
 
 Using the momentum and position eigenvalue equations gives
 
 $$
-\langle x_{j+1}|\hat U(t_{j+1},t_j)|x_j\rangle\simeq\int\frac{dp_j}{2\pi\hbar}\exp\left[\frac{ip_j(x_{j+1}-x_j)}{\hbar}\right]\exp\left[-\frac{i\Delta t}{\hbar}H(p_j,x_j)\right].
+\langle x_{j+1}|\hat U(t_{j+1},t_j)|x_j\rangle\simeq\int\frac{\mathrm dp_j}{2\pi\hbar}\exp\left[\frac{ip_j(x_{j+1}-x_j)}{\hbar}\right]\exp\left[-\frac{i\Delta t}{\hbar}H(p_j,x_j)\right].
 $$
 
 The accumulated Trotter error is $O(\Delta t)$ and vanishes in the continuum limit. Hence,
 
 $$
-\boxed{\langle x_f|\hat U(t_f,t_i)|x_i\rangle=\lim_{N\to\infty}\int\prod_{j=1}^{N-1}dx_j\prod_{j=0}^{N-1}\frac{dp_j}{2\pi\hbar}\exp\left\{\frac{i}{\hbar}\sum_{j=0}^{N-1}\left[p_j(x_{j+1}-x_j)-\Delta t\,H(p_j,x_j)\right]\right\}}.
+\boxed{\langle x_f|\hat U(t_f,t_i)|x_i\rangle=\lim_{N\to\infty}\int\prod_{j=1}^{N-1}\mathrm dx_j\prod_{j=0}^{N-1}\frac{\mathrm dp_j}{2\pi\hbar}\exp\left\{\frac{i}{\hbar}\sum_{j=0}^{N-1}\left[p_j(x_{j+1}-x_j)-\Delta t\,H(p_j,x_j)\right]\right\}}.
 $$
 
-With $\dot x=dx/dt$, the continuum phase-space representation is
+With $\dot x=\mathrm dx/\mathrm dt$, the continuum phase-space representation is
 
 $$
 \boxed{\langle x_f|\hat U(t_f,t_i)|x_i\rangle=\int_{x(t_i)=x_i}^{x(t_f)=x_f}\mathcal D x\,\mathcal D p\,\exp\left(\frac{i}{\hbar}S[p,x]\right)}.
 $$
 
 $$
-\mathcal D x=\lim_{N\to\infty}\prod_{j=1}^{N-1}dx_j,\qquad\mathcal D p=\lim_{N\to\infty}\prod_{j=0}^{N-1}\frac{dp_j}{2\pi\hbar},\qquad S[p,x]=\int_{t_i}^{t_f}dt\,[p\dot x-H(p,x)].
+\mathcal D x=\lim_{N\to\infty}\prod_{j=1}^{N-1}\mathrm dx_j,\qquad\mathcal D p=\lim_{N\to\infty}\prod_{j=0}^{N-1}\frac{\mathrm dp_j}{2\pi\hbar},\qquad S[p,x]=\int_{t_i}^{t_f}\mathrm dt\,[p\dot x-H(p,x)].
 $$
 
 For the quadratic kinetic energy, each momentum integral is Gaussian:
 
 $$
-\int\frac{dp_j}{2\pi\hbar}\exp\left[\frac{ip_j(x_{j+1}-x_j)}{\hbar}\right]\exp\left[-\frac{i\Delta t}{\hbar}\left(\frac{p_j^2}{2m}+V(x_j)\right)\right]=\sqrt{\frac{m}{2\pi i\hbar\Delta t}}\exp\left\{\frac{i\Delta t}{\hbar}\left[\frac{m}{2}\left(\frac{x_{j+1}-x_j}{\Delta t}\right)^2-V(x_j)\right]\right\}.
+\int\frac{\mathrm dp_j}{2\pi\hbar}\exp\left[\frac{ip_j(x_{j+1}-x_j)}{\hbar}\right]\exp\left[-\frac{i\Delta t}{\hbar}\left(\frac{p_j^2}{2m}+V(x_j)\right)\right]=\sqrt{\frac{m}{2\pi i\hbar\Delta t}}\exp\left\{\frac{i\Delta t}{\hbar}\left[\frac{m}{2}\left(\frac{x_{j+1}-x_j}{\Delta t}\right)^2-V(x_j)\right]\right\}.
 $$
 
 Therefore,
@@ -305,5 +305,5 @@ $$
 $$
 
 $$
-\mathcal D_{\mathrm{conf}}x=\lim_{N\to\infty}\left(\frac{m}{2\pi i\hbar\Delta t}\right)^{N/2}\prod_{j=1}^{N-1}dx_j,\qquad S[x]=\int_{t_i}^{t_f}dt\,L(x,\dot x),\qquad L(x,\dot x)=\frac{m}{2}\dot x^2-V(x).
+\mathcal D_{\mathrm{conf}}x=\lim_{N\to\infty}\left(\frac{m}{2\pi i\hbar\Delta t}\right)^{N/2}\prod_{j=1}^{N-1}\mathrm dx_j,\qquad S[x]=\int_{t_i}^{t_f}\mathrm dt\,L(x,\dot x),\qquad L(x,\dot x)=\frac{m}{2}\dot x^2-V(x).
 $$

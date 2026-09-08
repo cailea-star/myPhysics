@@ -123,10 +123,10 @@ $$
 Fermi’s golden rule gives
 
 $$
-d\lambda_\beta=\frac{2\pi}{\hbar}|M_{fi}|^2dn(e,\nu),
+\mathrm d\lambda_\beta=\frac{2\pi}{\hbar}|M_{fi}|^2\mathrm dn(e,\nu),
 $$
 
-where $M_{fi}$ is the transition matrix element and $dn(e,\nu)$ is the energy-constrained final-state element.
+where $M_{fi}$ is the transition matrix element and $\mathrm dn(e,\nu)$ is the energy-constrained final-state element.
 
 In the parent-nucleus rest frame,
 
@@ -147,31 +147,31 @@ Let $V$ be the box-normalization volume. Let $\mathbf r_x$ and $\mathbf p_x$ den
 The daughter momentum is fixed by momentum conservation, $\mathbf p_D=-(\mathbf p_e+\mathbf p_\nu)$, and is not an independent integration variable. The electron–neutrino final-state element is
 
 $$
-dn(e,\nu)\equiv\frac{d^3\mathbf r_e\,d^3\mathbf p_e}{(2\pi\hbar)^3}\frac{d^3\mathbf r_\nu\,d^3\mathbf p_\nu}{(2\pi\hbar)^3}\delta(E_0-E_e-E_\nu).
+\mathrm dn(e,\nu)\equiv\frac{\mathrm d^3\mathbf r_e\,\mathrm d^3\mathbf p_e}{(2\pi\hbar)^3}\frac{\mathrm d^3\mathbf r_\nu\,\mathrm d^3\mathbf p_\nu}{(2\pi\hbar)^3}\delta(E_0-E_e-E_\nu).
 $$
 
 Keeping $E_e$ as the spectral variable,
 
 $$
-dn(e,\nu)=\frac{p_e^2dp_e}{(2\pi\hbar)^6}\int_Vd^3\mathbf r_e\int_Vd^3\mathbf r_\nu\int_0^\infty p_\nu^2dp_\nu\int d\Omega_{\mathbf p_e}\int d\Omega_{\mathbf p_\nu}\,\delta(E_0-E_e-E_\nu).
+\mathrm dn(e,\nu)=\frac{p_e^2\mathrm dp_e}{(2\pi\hbar)^6}\int_V\mathrm d^3\mathbf r_e\int_V\mathrm d^3\mathbf r_\nu\int_0^\infty p_\nu^2\mathrm dp_\nu\int \mathrm d\hat{\mathbf p}_e\int \mathrm d\hat{\mathbf p}_\nu\,\delta(E_0-E_e-E_\nu).
 $$
 
 For a particle with energy $E$, momentum magnitude $p$, and mass $m$,
 
 $$
-E^2=p^2c^2+m^2c^4,\qquad E\,dE=pc^2\,dp.
+E^2=p^2c^2+m^2c^4,\qquad E\,\mathrm dE=pc^2\,\mathrm dp.
 $$
 
 Therefore,
 
 $$
-\int_0^\infty p_\nu^2dp_\nu\,\delta(E_0-E_e-E_\nu)=\frac{p_\nu E_\nu}{c^2},\qquad p_e^2dp_e=\frac{p_eE_e}{c^2}\,dE_e.
+\int_0^\infty p_\nu^2\mathrm dp_\nu\,\delta(E_0-E_e-E_\nu)=\frac{p_\nu E_\nu}{c^2},\qquad p_e^2\mathrm dp_e=\frac{p_eE_e}{c^2}\,\mathrm dE_e.
 $$
 
 The spatial and angular integrations are
 
 $$
-\int_Vd^3\mathbf r_e\int_Vd^3\mathbf r_\nu=V^2,\qquad \int d\Omega_{\mathbf p_e}\int d\Omega_{\mathbf p_\nu}=(4\pi)^2.
+\int_V\mathrm d^3\mathbf r_e\int_V\mathrm d^3\mathbf r_\nu=V^2,\qquad \int \mathrm d\hat{\mathbf p}_e\int \mathrm d\hat{\mathbf p}_\nu=(4\pi)^2.
 $$
 
 The electron momentum is
@@ -183,7 +183,7 @@ $$
 Thus,
 
 $$
-dn(e,\nu)=\frac{V^2}{4\pi^4\hbar^6c^4}p_\nu E_\nu\,p_eE_e\,dE_e=\frac{V^2}{4\pi^4\hbar^6c^5}(E_0-E_e)^2\sqrt{1-\frac{m_\nu^2c^4}{(E_0-E_e)^2}}\,p_eE_e\,dE_e.
+\mathrm dn(e,\nu)=\frac{V^2}{4\pi^4\hbar^6c^4}p_\nu E_\nu\,p_eE_e\,\mathrm dE_e=\frac{V^2}{4\pi^4\hbar^6c^5}(E_0-E_e)^2\sqrt{1-\frac{m_\nu^2c^4}{(E_0-E_e)^2}}\,p_eE_e\,\mathrm dE_e.
 $$
 
 Let $\varphi_e$ be the outgoing electron wave function, $Z_D$ the daughter charge number, $\alpha=e^2/(4\pi\epsilon_0\hbar c)$ the fine-structure constant, and $v_e=p_ec^2/E_e$. In the point-Coulomb approximation, the electron distortion is described by the Fermi function
@@ -203,7 +203,7 @@ $$
 The electron energy spectrum is
 
 $$
-\frac{d\lambda_\beta}{dE_e}=\frac{|M_{fi}'|^2}{2\pi^3\hbar^7c^5}F(Z_D,p_e)p_eE_e(E_0-E_e)^2\sqrt{1-\frac{m_\nu^2c^4}{(E_0-E_e)^2}}.
+\frac{\mathrm d\lambda_\beta}{\mathrm dE_e}=\frac{|M_{fi}'|^2}{2\pi^3\hbar^7c^5}F(Z_D,p_e)p_eE_e(E_0-E_e)^2\sqrt{1-\frac{m_\nu^2c^4}{(E_0-E_e)^2}}.
 $$
 
 Within the recoil-free approximation,
@@ -215,7 +215,7 @@ $$
 The total decay constant and half-life are
 
 $$
-\lambda_\beta=\int_{m_ec^2}^{E_0-m_\nu c^2}\frac{d\lambda_\beta}{dE_e}\,dE_e,\qquad T_{1/2}=\frac{\ln2}{\lambda_\beta}.
+\lambda_\beta=\int_{m_ec^2}^{E_0-m_\nu c^2}\frac{\mathrm d\lambda_\beta}{\mathrm dE_e}\,\mathrm dE_e,\qquad T_{1/2}=\frac{\ln2}{\lambda_\beta}.
 $$
 
 ### Transition Matrix Elements
@@ -229,7 +229,7 @@ $$
 For nucleon coordinates $\mathbf r_a$ and lepton coordinates $\mathbf r_e,\mathbf r_\nu$, let $\varphi_{\bar\nu_e}$ be the outgoing antineutrino wave function.
 
 $$
-M_{fi}=\int d^3\mathbf r_e\,d^3\mathbf r_\nu\prod_{a=1}^{A}d^3\mathbf r_a\,\Psi_D^*(\{\mathbf r_a\})\varphi_e^*(\mathbf r_e)\varphi_{\bar\nu_e}^*(\mathbf r_\nu)\hat H_{\mathrm{int}}\Psi_P(\{\mathbf r_a\}).
+M_{fi}=\int \mathrm d^3\mathbf r_e\,\mathrm d^3\mathbf r_\nu\prod_{a=1}^{A}\mathrm d^3\mathbf r_a\,\Psi_D^*(\{\mathbf r_a\})\varphi_e^*(\mathbf r_e)\varphi_{\bar\nu_e}^*(\mathbf r_\nu)\hat H_{\mathrm{int}}\Psi_P(\{\mathbf r_a\}).
 $$
 
 In the spinless non-relativistic model, use the contact interaction with schematic coupling $g$,
@@ -249,13 +249,13 @@ $$
 where $\phi_P$ and $\phi_D$ describe the participating neutron and proton, while $\Phi_s$ describes the unchanged spectators. Their overlap is
 
 $$
-\int\prod_s d^3\mathbf r_s\,\Phi_s^*\Phi_s=1.
+\int\prod_s \mathrm d^3\mathbf r_s\,\Phi_s^*\Phi_s=1.
 $$
 
 Evaluating the delta functions gives
 
 $$
-M_{fi}=g\int d^3\mathbf r\,\phi_D^*(\mathbf r)_p\varphi_e^*(\mathbf r)\varphi_{\bar\nu_e}^*(\mathbf r)\hat O_\beta\phi_P(\mathbf r)_n.
+M_{fi}=g\int \mathrm d^3\mathbf r\,\phi_D^*(\mathbf r)_p\varphi_e^*(\mathbf r)\varphi_{\bar\nu_e}^*(\mathbf r)\hat O_\beta\phi_P(\mathbf r)_n.
 $$
 
 After extracting the external-state normalization and Coulomb factor used above, let $\mathbf k_e$, $\mathbf k_{\bar\nu_e}$, and $\mathbf k_D$ be the outgoing wave vectors, with $\mathbf p_x=\hbar\mathbf k_x$, and define
@@ -267,7 +267,7 @@ $$
 Using the resulting plane-wave phase,
 
 $$
-M_{fi}'=g\int d^3\mathbf r\,e^{i\mathbf k\cdot\mathbf r}\phi_D^*(\mathbf r)_p\hat O_\beta\phi_P(\mathbf r)_n.
+M_{fi}'=g\int \mathrm d^3\mathbf r\,e^{i\mathbf k\cdot\mathbf r}\phi_D^*(\mathbf r)_p\hat O_\beta\phi_P(\mathbf r)_n.
 $$
 
 Let $L_\beta$ and $M_\beta$ be the orbital angular momentum carried by the lepton pair and its projection. Let $j_{L_\beta}$ and $Y_{L_\beta M_\beta}$ be the spherical Bessel function and spherical harmonic. Hats denote unit vectors. The plane-wave expansion is
@@ -279,7 +279,7 @@ $$
 Therefore,
 
 $$
-M_{fi}'=4\pi g\sum_{L_\beta,M_\beta}i^{L_\beta}Y_{L_\beta M_\beta}(\hat{\mathbf k})\int d^3\mathbf r\,\phi_D^*(\mathbf r)_p\hat O_\beta j_{L_\beta}(kr)Y_{L_\beta M_\beta}^*(\hat{\mathbf r})\phi_P(\mathbf r)_n.
+M_{fi}'=4\pi g\sum_{L_\beta,M_\beta}i^{L_\beta}Y_{L_\beta M_\beta}(\hat{\mathbf k})\int \mathrm d^3\mathbf r\,\phi_D^*(\mathbf r)_p\hat O_\beta j_{L_\beta}(kr)Y_{L_\beta M_\beta}^*(\hat{\mathbf r})\phi_P(\mathbf r)_n.
 $$
 
 In the spectator approximation, let $L_P$ and $L_D$ be the orbital angular momenta of the active-particle states $\phi_P$ and $\phi_D$, and let $\pi_P$ and $\pi_D$ be the parent and daughter parities. For a spatially scalar $\hat O_\beta$, the Wigner–Eckart theorem gives
@@ -525,7 +525,7 @@ $$
 Thus, $J_\ell^\mu$ is a field operator, while $j_\ell^\mu$ is a complex four-vector function for specified lepton momenta and spin states. The nuclear beta-decay matrix element is
 
 $$
-\boxed{\mathcal M_{fi}=\frac{G_{\mathrm F}V_{ud}}{\sqrt2}\int d^3\mathbf r\,j_{\ell\mu}(\mathbf r)\langle\Psi_D|J_{\mathrm h}^\mu(\mathbf r)|\Psi_P\rangle}.
+\boxed{\mathcal M_{fi}=\frac{G_{\mathrm F}V_{ud}}{\sqrt2}\int \mathrm d^3\mathbf r\,j_{\ell\mu}(\mathbf r)\langle\Psi_D|J_{\mathrm h}^\mu(\mathbf r)|\Psi_P\rangle}.
 $$
 
 Let $g_{\mathrm V}\equiv g_{\mathrm V}(0)$ and $g_{\mathrm A}\equiv g_{\mathrm A}(0)$. To leading order in the nucleon velocity and $q/(M_Nc^2)$,

@@ -4,7 +4,7 @@ The Gaussian matrix elements are evaluated in the [axial harmonic-oscillator bas
 
 ### Gaussian Kernel Separation
 
-For $\mathbf r_a=(\boldsymbol\rho_a,z_a)$ with $\boldsymbol\rho_a=(r_a\cos\varphi_a,r_a\sin\varphi_a)$, define
+For $\mathbf r_a=(\boldsymbol\rho_a,z_a)$ with $\boldsymbol\rho_a=(r_{\perp,a}\cos\varphi_a,r_{\perp,a}\sin\varphi_a)$, define
 
 $$
 g_\mu(\mathbf r_1,\mathbf r_2)=\exp\left[-\frac{|\mathbf r_1-\mathbf r_2|^2}{\mu^2}\right],\qquad \mu>0.
@@ -19,7 +19,7 @@ $$
 The transverse part is
 
 $$
-|\boldsymbol\rho_1-\boldsymbol\rho_2|^2=r_1^2+r_2^2-2r_1r_2\cos(\varphi_1-\varphi_2).
+|\boldsymbol\rho_1-\boldsymbol\rho_2|^2=r_{\perp,1}^2+r_{\perp,2}^2-2r_{\perp,1}r_{\perp,2}\cos(\varphi_1-\varphi_2).
 $$
 
 Therefore,
@@ -49,10 +49,10 @@ $$
 define
 
 $$
-\phi_a(\mathbf r)=\phi_{n_z}(z;b_z)\phi_{n_r}^{\Lambda}(r,\varphi;b_r).
+\phi_a(\mathbf r)=\phi_{n_z}(z;b_z)\phi_{n_r}^{\Lambda}(r_\perp,\varphi;b_{r_\perp}).
 $$
 
-Using $d^3r=dz\,r\,dr\,d\varphi$, the Gaussian matrix element is
+Using $\mathrm d^3\mathbf r=\mathrm dz\,r_\perp\,\mathrm dr_\perp\,\mathrm d\varphi$, the Gaussian matrix element is
 
 $$
 G_{12,34}^{(\mu)}=\int d^3r_1d^3r_2\,\phi_1^*(\mathbf r_1)\phi_2^*(\mathbf r_2)g_\mu(\mathbf r_1,\mathbf r_2)\phi_3(\mathbf r_1)\phi_4(\mathbf r_2).
@@ -61,7 +61,7 @@ $$
 Denoting its axial and transverse factors by $G^z$ and $G^r$,
 
 $$
-\boxed{G_{12,34}^{(\mu)}=G_{n_{z1}n_{z2}n_{z3}n_{z4}}^z(\mu,b_z)\,G_{n_{r1}\Lambda_1,n_{r2}\Lambda_2,n_{r3}\Lambda_3,n_{r4}\Lambda_4}^r(\mu,b_r).}
+\boxed{G_{12,34}^{(\mu)}=G_{n_{z1}n_{z2}n_{z3}n_{z4}}^z(\mu,b_z)\,G_{n_{r1}\Lambda_1,n_{r2}\Lambda_2,n_{r3}\Lambda_3,n_{r4}\Lambda_4}^r(\mu,b_{r_\perp}).}
 $$
 
 ### One-Dimensional Gaussian Matrix Elements
@@ -119,16 +119,16 @@ $$
 For $n_r\in\mathbb N_0$ and $\Lambda\in\mathbb Z$, define the two-dimensional polar oscillator state
 
 $$
-\phi_{n_r}^{\Lambda}(r,\varphi;b_r)=\frac{e^{i\Lambda\varphi}}{\sqrt{2\pi}}\phi_{n_r}^{|\Lambda|}(r;b_r),\qquad \nu=2n_r+|\Lambda|.
+\phi_{n_r}^{\Lambda}(r_\perp,\varphi;b_{r_\perp})=\frac{e^{i\Lambda\varphi}}{\sqrt{2\pi}}\phi_{n_r}^{|\Lambda|}(r_\perp;b_{r_\perp}),\qquad \nu=2n_r+|\Lambda|.
 $$
 
 It expands in the one-dimensional Cartesian basis as
 
 $$
-\boxed{\phi_{n_r}^{\Lambda}(x,y;b_r)=\sum_{n_y=0}^{\nu}i^{n_y}C_{n_y}^{n_r\Lambda}\phi_{n_x}(x;b_r)\phi_{n_y}(y;b_r),\qquad n_x=\nu-n_y.}
+\boxed{\phi_{n_r}^{\Lambda}(x,y;b_{r_\perp})=\sum_{n_y=0}^{\nu}(-i)^{n_y}C_{n_y}^{n_r\Lambda}\phi_{n_x}(x;b_{r_\perp})\phi_{n_y}(y;b_{r_\perp}),\qquad n_x=\nu-n_y.}
 $$
 
-The transformation coefficient is
+The real transformation coefficient is
 
 $$
 C_{n_y}^{n_r\Lambda}=(-1)^{n_r}2^{-n_r-|\Lambda|/2}\sqrt{\frac{(n_r+|\Lambda|)!n_r!}{n_x!n_y!}}\sum_q\binom{n_x}{k_x}\binom{n_y}{q}(-1)^{n_y-q},
@@ -147,7 +147,7 @@ The admissible values of $q$ are specified with the remaining selection rules.
 Let $\boldsymbol\rho_a=(x_a,y_a)$. The radial Gaussian matrix element is
 
 $$
-G_{12,34}^r(\mu,b_r)=\int d^2\rho_1d^2\rho_2\,\left[\phi_{n_{r1}}^{\Lambda_1}(\boldsymbol\rho_1;b_r)\right]^*\left[\phi_{n_{r2}}^{\Lambda_2}(\boldsymbol\rho_2;b_r)\right]^*e^{-|\boldsymbol\rho_1-\boldsymbol\rho_2|^2/\mu^2}\phi_{n_{r3}}^{\Lambda_3}(\boldsymbol\rho_1;b_r)\phi_{n_{r4}}^{\Lambda_4}(\boldsymbol\rho_2;b_r).
+G_{12,34}^r(\mu,b_{r_\perp})=\int d^2\rho_1d^2\rho_2\,\left[\phi_{n_{r1}}^{\Lambda_1}(\boldsymbol\rho_1;b_{r_\perp})\right]^*\left[\phi_{n_{r2}}^{\Lambda_2}(\boldsymbol\rho_2;b_{r_\perp})\right]^*e^{-|\boldsymbol\rho_1-\boldsymbol\rho_2|^2/\mu^2}\phi_{n_{r3}}^{\Lambda_3}(\boldsymbol\rho_1;b_{r_\perp})\phi_{n_{r4}}^{\Lambda_4}(\boldsymbol\rho_2;b_{r_\perp}).
 $$
 
 The radial kernel separates in Cartesian coordinates:
@@ -159,13 +159,13 @@ $$
 For each state $a=1,\ldots,4$, define
 
 $$
-n_{x,a}=\nu_a-n_{y,a},\qquad P_y=i^{-n_{y,1}-n_{y,2}+n_{y,3}+n_{y,4}}.
+n_{x,a}=\nu_a-n_{y,a},\qquad P_y=i^{n_{y,1}+n_{y,2}-n_{y,3}-n_{y,4}}.
 $$
 
 Substituting the Cartesian expansions gives
 
 $$
-\boxed{G_{12,34}^r(\mu,b_r)=\sum_{n_{y,1}=0}^{\nu_1}\cdots\sum_{n_{y,4}=0}^{\nu_4}P_y\prod_{a=1}^{4}C_{n_{y,a}}^{n_{r,a}\Lambda_a}G_{n_{x,1}n_{x,2}n_{x,3}n_{x,4}}^{1D}(\mu,b_r)G_{n_{y,1}n_{y,2}n_{y,3}n_{y,4}}^{1D}(\mu,b_r).}
+\boxed{G_{12,34}^r(\mu,b_{r_\perp})=\sum_{n_{y,1}=0}^{\nu_1}\cdots\sum_{n_{y,4}=0}^{\nu_4}P_y\prod_{a=1}^{4}C_{n_{y,a}}^{n_{r,a}\Lambda_a}G_{n_{x,1}n_{x,2}n_{x,3}n_{x,4}}^{1D}(\mu,b_{r_\perp})G_{n_{y,1}n_{y,2}n_{y,3}n_{y,4}}^{1D}(\mu,b_{r_\perp}).}
 $$
 
 ### Symmetries and Selection Rules

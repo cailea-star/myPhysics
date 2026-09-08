@@ -3,19 +3,19 @@
 Let $l\in\mathbb N_0=\{0,1,2,\ldots\}$. The Legendre polynomial $P_l(x)$ is the degree-$l$ solution on $[-1,1]$ of
 
 $$
-\boxed{(1-x^2)\frac{d^2}{dx^2}P_l(x)-2x\frac{d}{dx}P_l(x)+l(l+1)P_l(x)=0}.
+\boxed{(1-x^2)\frac{\mathrm d^2}{\mathrm dx^2}P_l(x)-2x\frac{\mathrm d}{\mathrm dx}P_l(x)+l(l+1)P_l(x)=0}.
 $$
 
 Let $m\in\{0,1,\ldots,l\}$. In the Condon–Shortley convention, define the associated Legendre function by
 
 $$
-\boxed{P_l^m(x)=(-1)^m(1-x^2)^{m/2}\frac{d^m}{dx^m}P_l(x)}.
+\boxed{P_l^m(x)=(-1)^m(1-x^2)^{m/2}\frac{\mathrm d^m}{\mathrm dx^m}P_l(x)}.
 $$
 
 It satisfies
 
 $$
-\boxed{(1-x^2)\frac{d^2}{dx^2}P_l^m(x)-2x\frac{d}{dx}P_l^m(x)+\left[l(l+1)-\frac{m^2}{1-x^2}\right]P_l^m(x)=0}.
+\boxed{(1-x^2)\frac{\mathrm d^2}{\mathrm dx^2}P_l^m(x)-2x\frac{\mathrm d}{\mathrm dx}P_l^m(x)+\left[l(l+1)-\frac{m^2}{1-x^2}\right]P_l^m(x)=0}.
 $$
 
 ### Generating Function
@@ -67,13 +67,13 @@ $$
 The ordinary Legendre polynomial satisfies
 
 $$
-\boxed{P_l(x)=\frac{1}{2^ll!}\frac{d^l}{dx^l}(x^2-1)^l}.
+\boxed{P_l(x)=\frac{1}{2^ll!}\frac{\mathrm d^l}{\mathrm dx^l}(x^2-1)^l}.
 $$
 
 Substitution into the definition of $P_l^m(x)$ gives
 
 $$
-\boxed{P_l^m(x)=\frac{(-1)^m}{2^ll!}(1-x^2)^{m/2}\frac{d^{l+m}}{dx^{l+m}}(x^2-1)^l}.
+\boxed{P_l^m(x)=\frac{(-1)^m}{2^ll!}(1-x^2)^{m/2}\frac{\mathrm d^{l+m}}{\mathrm dx^{l+m}}(x^2-1)^l}.
 $$
 
 ### Recurrence and Derivatives
@@ -85,13 +85,13 @@ $$
 $$
 
 $$
-\boxed{(x^2-1)\frac{d}{dx}P_l^m(x)=lxP_l^m(x)-(l+m)P_{l-1}^m(x)}.
+\boxed{(x^2-1)\frac{\mathrm d}{\mathrm dx}P_l^m(x)=lxP_l^m(x)-(l+m)P_{l-1}^m(x)}.
 $$
 
 Equivalently,
 
 $$
-(1-x^2)\frac{d^2}{dx^2}P_l^m(x)=2x\frac{d}{dx}P_l^m(x)-\left[l(l+1)-\frac{m^2}{1-x^2}\right]P_l^m(x).
+(1-x^2)\frac{\mathrm d^2}{\mathrm dx^2}P_l^m(x)=2x\frac{\mathrm d}{\mathrm dx}P_l^m(x)-\left[l(l+1)-\frac{m^2}{1-x^2}\right]P_l^m(x).
 $$
 
 ### Orthogonality and Normalization
@@ -99,7 +99,7 @@ $$
 For fixed $m$,
 
 $$
-\boxed{\int_{-1}^{1}P_l^m(x)P_k^m(x)\,dx=\frac{2}{2l+1}\frac{(l+m)!}{(l-m)!}\delta_{lk}}.
+\boxed{\int_{-1}^{1}P_l^m(x)P_k^m(x)\,\mathrm dx=\frac{2}{2l+1}\frac{(l+m)!}{(l-m)!}\delta_{lk}}.
 $$
 
 The normalization coefficient is
@@ -111,7 +111,7 @@ $$
 For fixed $m$ and $f\in L^2([-1,1])$,
 
 $$
-f(x)=\sum_{l=m}^{\infty}c_lP_l^m(x),\qquad c_l=(N_l^m)^2\int_{-1}^{1}P_l^m(x)f(x)\,dx.
+f(x)=\sum_{l=m}^{\infty}c_lP_l^m(x),\qquad c_l=(N_l^m)^2\int_{-1}^{1}P_l^m(x)f(x)\,\mathrm dx.
 $$
 
 ### Parity
