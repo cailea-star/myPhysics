@@ -15,7 +15,6 @@
 #include <fstream>
 #include <iostream>
 #include <set>
-#include <stdexcept>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -262,9 +261,9 @@ void AxialGaussianKernel<Ng_I>::to_cache(const std::string& filepath_Str) {
 
     // metadata ⊕ (Gz_Table,Gr_Table) → stream.
     std::ofstream output_(filepath_Str, std::ios::binary | std::ios::trunc);
-    if (!output_) {throw std::runtime_error("[ERROR]: [AxialGaussianKernel::to_cache] cannot open " + filepath_Str);}
+    assert(output_ && "[ERROR]: [AxialGaussianKernel::to_cache] cannot open cache file");
     output_.write(reinterpret_cast<const char*>(&metadata), sizeof(metadata));
-    if (!output_) {throw std::runtime_error("[ERROR]: [AxialGaussianKernel::to_cache] metadata write failed");}
+    assert(output_ && "[ERROR]: [AxialGaussianKernel::to_cache] metadata write failed");
     Gz_Table.to_stream(output_);
     Gr_Table.to_stream(output_);
 }
@@ -273,13 +272,13 @@ template <int Ng_I>
 AxialGaussianKernel<Ng_I> AxialGaussianKernel<Ng_I>::from_cache(const std::string& filepath_Str, const AxialConfig& config_, const AxialGaussianValues& mu_F1D_g_) {
     // stream → cache metadata.
     std::ifstream input_(filepath_Str, std::ios::binary);
-    if (!input_) {throw std::runtime_error("[ERROR]: [AxialGaussianKernel::from_cache] cannot open " + filepath_Str);}
+    assert(input_ && "[ERROR]: [AxialGaussianKernel::from_cache] cannot open cache file");
     Metadata cachedMetadata_{};
     input_.read(reinterpret_cast<char*>(&cachedMetadata_), sizeof(cachedMetadata_));
-    if (!input_) {throw std::runtime_error("[ERROR]: [AxialGaussianKernel::from_cache] metadata read failed");}
+    assert(input_ && "[ERROR]: [AxialGaussianKernel::from_cache] metadata read failed");
 
     AxialGaussianKernel kernel_(config_, mu_F1D_g_);
-    if (cachedMetadata_ != kernel_.metadata) {throw std::runtime_error("[ERROR]: [AxialGaussianKernel::from_cache] metadata mismatch: " + filepath_Str);}
+    assert(cachedMetadata_ == kernel_.metadata && "[ERROR]: [AxialGaussianKernel::from_cache] metadata mismatch");
 
     // stream → (Gz_Table,Gr_Table).
     kernel_.Gz_Table.from_stream(input_);

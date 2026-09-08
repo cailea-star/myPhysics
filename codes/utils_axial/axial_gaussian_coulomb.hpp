@@ -63,13 +63,12 @@ public:
 
         // (config, μ_g, cache) → kernel.
         const std::string filepath_Str = kernel_cache_path(axialconfig);
-        try {
+        if (std::filesystem::exists(filepath_Str)) {
             kernel = AxialGaussianKernel<Ng_I>::from_cache(filepath_Str, axialconfig, expansion.mu_F1D_g);
             std::cout << "[AxialGaussianCoulomb]: Loaded Gaussian kernel cache: " << filepath_Str << std::endl;
             return;
-        } catch (const std::exception& error_) {
-            std::cout << "[AxialGaussianCoulomb]: Writing Gaussian kernel cache: " << filepath_Str << "\n (" << error_.what() << ")" << std::endl;
         }
+        std::cout << "[AxialGaussianCoulomb]: Writing Gaussian kernel cache: " << filepath_Str << std::endl;
         kernel.build_tables();
         kernel.to_cache(filepath_Str);
     }
