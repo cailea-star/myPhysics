@@ -81,7 +81,7 @@ $$
 defines a tangent vector
 
 $$
-X=\left.\frac{d g(\boldsymbol\alpha(t))}{dt}\right|_{t=0}\in T_eG,\qquad \dim T_eG=\dim G=n.
+X=\left.\frac{\mathrm d g(\boldsymbol\alpha(t))}{\mathrm dt}\right|_{t=0}\in T_eG,\qquad \dim T_eG=\dim G=n.
 $$
 
 The tangent space $T_eG$ contains all infinitesimal directions of $G$.
@@ -219,7 +219,7 @@ $$
 Its differential at the identity defines the adjoint action:
 
 $$
-\operatorname{Ad}_R=(dC_R)_e:\mathfrak g\to\mathfrak g.
+\operatorname{Ad}_R=(\mathrm dC_R)_e:\mathfrak g\to\mathfrak g.
 $$
 
 - Adjoint representation matrices
@@ -267,13 +267,13 @@ $$
 For a compact Lie group $G$, the finite-group average generalizes to a normalized group integral:
 
 $$
-\frac{1}{|G|}\sum_{R\in G}F(R)\quad\longrightarrow\quad\int_GdR\,F(R).
+\frac{1}{|G|}\sum_{R\in G}F(R)\quad\longrightarrow\quad\int_G\mathrm dR\,F(R).
 $$
 
 If $R=R(\boldsymbol\alpha)$ is parametrized by $\boldsymbol\alpha\in U\subseteq\mathbb R^n$, then
 
 $$
-dR=W(\boldsymbol\alpha)\,d^n\boldsymbol\alpha,\qquad \int_GdR\,F(R)=\int_Ud^n\boldsymbol\alpha\,W(\boldsymbol\alpha)F(R(\boldsymbol\alpha)),
+\mathrm dR=W(\boldsymbol\alpha)\,\mathrm d^n\boldsymbol\alpha,\qquad \int_G\mathrm dR\,F(R)=\int_U\mathrm d^n\boldsymbol\alpha\,W(\boldsymbol\alpha)F(R(\boldsymbol\alpha)),
 $$
 
 where $W(\boldsymbol\alpha)$ is the weight function.
@@ -281,7 +281,7 @@ where $W(\boldsymbol\alpha)$ is the weight function.
 - Normalization
 
 $$
-\boxed{\int_GdR=1}.
+\boxed{\int_G\mathrm dR=1}.
 $$
 
 - Left and right invariance
@@ -289,10 +289,10 @@ $$
 For every $S\in G$,
 
 $$
-\boxed{\int_GdR\,F(R)=\int_GdR\,F(SR)=\int_GdR\,F(RS)}.
+\boxed{\int_G\mathrm dR\,F(R)=\int_G\mathrm dR\,F(SR)=\int_G\mathrm dR\,F(RS)}.
 $$
 
-The measure $dR$ satisfying these properties is the normalized Haar measure on $G$.
+The measure $\mathrm dR$ satisfying these properties is the normalized Haar measure on $G$.
 
 Thus, the rearrangement of a finite-group sum extends directly to compact-group integration.
 
@@ -321,7 +321,7 @@ Two equivalent unitary representations are related by a unitary similarity trans
 Let $D^{(i)}$ run over all inequivalent irreducible unitary representations, with $d_i=\dim D^{(i)}$.
 
 $$
-\boxed{\int_GdR\,D_{\mu\nu}^{(i)}(R)^*D_{\rho\sigma}^{(j)}(R)=\frac{1}{d_i}\delta_{ij}\delta_{\mu\rho}\delta_{\nu\sigma}}.
+\boxed{\int_G\mathrm dR\,D_{\mu\nu}^{(i)}(R)^*D_{\rho\sigma}^{(j)}(R)=\frac{1}{d_i}\delta_{ij}\delta_{\mu\rho}\delta_{\nu\sigma}}.
 $$
 
 The completeness relation is
@@ -333,7 +333,7 @@ $$
 The group delta function is defined by
 
 $$
-\int_GdS\,\delta_G(R^{-1}S)F(S)=F(R).
+\int_G\mathrm dS\,\delta_G(R^{-1}S)F(S)=F(R).
 $$
 
 Equivalently,
@@ -353,7 +353,7 @@ is an orthonormal complete basis of $L^2(G)$.
 - Characters and multiplicities
 
 $$
-\boxed{\int_GdR\,\chi_i(R)^*\chi_j(R)=\delta_{ij},\qquad \eta_i=\int_GdR\,\chi_i(R)^*\chi_D(R)}.
+\boxed{\int_G\mathrm dR\,\chi_i(R)^*\chi_j(R)=\delta_{ij},\qquad \eta_i=\int_G\mathrm dR\,\chi_i(R)^*\chi_D(R)}.
 $$
 
 Thus, the main results for finite-group representations extend to compact Lie groups by replacing normalized sums with Haar integrals.
@@ -473,5 +473,5 @@ whereas the translation and Lorentz groups are noncompact.
 For a compact Lie group, the invariant measure has finite total volume and can be normalized:
 
 $$
-\int_GdR=1.
+\int_G\mathrm dR=1.
 $$

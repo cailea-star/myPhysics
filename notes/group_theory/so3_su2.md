@@ -381,7 +381,7 @@ $$
 For a rotation through $\omega$,
 
 $$
-\chi_j(\omega)=\sum_{\mu=-j}^{j}e^{-i\mu\omega}=\frac{\sin\left[\left(j+\frac12\right)\omega\right]}{\sin\frac{\omega}{2}},\qquad \frac{1}{\pi}\int_0^{2\pi}\chi_i(\omega)^*\chi_j(\omega)\sin^2\frac{\omega}{2}\,d\omega=\delta_{ij}.
+\chi_j(\omega)=\sum_{\mu=-j}^{j}e^{-i\mu\omega}=\frac{\sin\left[\left(j+\frac12\right)\omega\right]}{\sin\frac{\omega}{2}},\qquad \frac{1}{\pi}\int_0^{2\pi}\chi_i(\omega)^*\chi_j(\omega)\sin^2\frac{\omega}{2}\,\mathrm d\omega=\delta_{ij}.
 $$
 
 The completeness of $\sin[(j+\frac12)\omega]$ shows that these exhaust all inequivalent irreducible representations:
@@ -458,7 +458,7 @@ $$
 - Orthogonality
 
 $$
-\frac{1}{4\pi\gamma_{\max}}\int_0^{2\pi}d\alpha\int_0^\pi\sin\beta\,d\beta\int_0^{\gamma_{\max}}d\gamma\,D_{\mu\nu}^{(j)}(\Omega)^*D_{\mu'\nu'}^{(j')}(\Omega)=\frac{\delta_{jj'}\delta_{\mu\mu'}\delta_{\nu\nu'}}{2j+1}.
+\frac{1}{4\pi\gamma_{\max}}\int_0^{2\pi}\mathrm d\alpha\int_0^\pi\sin\beta\,\mathrm d\beta\int_0^{\gamma_{\max}}\mathrm d\gamma\,D_{\mu\nu}^{(j)}(\Omega)^*D_{\mu'\nu'}^{(j')}(\Omega)=\frac{\delta_{jj'}\delta_{\mu\mu'}\delta_{\nu\nu'}}{2j+1}.
 $$
 
 - Completeness
@@ -472,12 +472,14 @@ $$
 - Triple-product integral
 
 $$
-\frac{1}{4\pi\gamma_{\max}}\int_0^{2\pi}d\alpha\int_0^\pi\sin\beta\,d\beta\int_0^{\gamma_{\max}}d\gamma\,D_{\mu_1\nu_1}^{(j_1)}(\Omega)D_{\mu_2\nu_2}^{(j_2)}(\Omega)D_{\mu_3\nu_3}^{(j_3)}(\Omega)=\begin{pmatrix}j_1&j_2&j_3\\\mu_1&\mu_2&\mu_3\end{pmatrix}\begin{pmatrix}j_1&j_2&j_3\\\nu_1&\nu_2&\nu_3\end{pmatrix}.
+\frac{1}{4\pi\gamma_{\max}}\int_0^{2\pi}\mathrm d\alpha\int_0^\pi\sin\beta\,\mathrm d\beta\int_0^{\gamma_{\max}}\mathrm d\gamma\,D_{\mu_1\nu_1}^{(j_1)}(\Omega)D_{\mu_2\nu_2}^{(j_2)}(\Omega)D_{\mu_3\nu_3}^{(j_3)}(\Omega)=\begin{pmatrix}j_1&j_2&j_3\\\mu_1&\mu_2&\mu_3\end{pmatrix}\begin{pmatrix}j_1&j_2&j_3\\\nu_1&\nu_2&\nu_3\end{pmatrix}.
 $$
 
 Here $\delta_T$ denotes the periodic delta function with period $T$.
 
 - Spherical harmonics
+
+Let $\widehat{\boldsymbol x}=\boldsymbol x/|\boldsymbol x|$ denote the unit direction for $\boldsymbol x\ne0$.
 
 For integer $\ell$,
 
