@@ -8,11 +8,12 @@
 #pragma once
 
 #include <algorithm>
+#include <vector>
 #include <array>
 #include <cassert>
 #include <cmath>
-#include <exception>
 #include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <string>
 
@@ -40,7 +41,8 @@ private:
         GaussianValues W_F1D_g{};
     };
 
-    AxialConfig axialconfig;
+    int Nshell_I = 0;
+    std::vector<AxialSPLabel> labels_S1D_sp{};
     CoulombExpansion expansion;
     AxialGaussianKernel<Ng_I> kernel;
 
@@ -51,7 +53,10 @@ public:
      * @output Initialized Coulomb interaction.
      */
     AxialGaussianCoulomb(const AxialConfig& axialconfig_, double e2_F_ = 1.439978408596513)
-    : axialconfig(axialconfig_), expansion(calc_coulomb_expansion(axialconfig_, e2_F_)), kernel(axialconfig, expansion.mu_F1D_g) {}
+    : expansion(calc_coulomb_expansion(axialconfig_.bz_F, axialconfig_.br_F, e2_F_)), kernel(axialconfig_, expansion.mu_F1D_g) {
+        Nshell_I = axialconfig_.Nshell_I;
+        labels_S1D_sp = axialconfig_.labels_S1D_sp;
+    }
 
     /**
      * @brief  Build or load Gaussian kernel tables.
@@ -61,10 +66,12 @@ public:
     void build_tables() {
         if (kernel.isBuilt_B) {return;}
 
-        // (config, μ_g, cache) → kernel.
-        const std::string filepath_Str = kernel_cache_path(axialconfig);
+        // (N_shell,μ_g,cache) → kernel.
+        const std::string filepath_Str = kernel_cache_path(Nshell_I);
         if (std::filesystem::exists(filepath_Str)) {
-            kernel = AxialGaussianKernel<Ng_I>::from_cache(filepath_Str, axialconfig, expansion.mu_F1D_g);
+            std::ifstream input_(filepath_Str, std::ios::binary);
+            assert(input_ && "[ERROR]: [AxialGaussianCoulomb::build_tables] cannot open cache file");
+            kernel.from_stream(input_);
             std::cout << "[AxialGaussianCoulomb]: Loaded Gaussian kernel cache: " << filepath_Str << std::endl;
             return;
         }
@@ -80,16 +87,16 @@ public:
      */
     GammaElements read_v(int sp1_I, int sp2_I, int sp3_I, int sp4_I) const {
         assert(kernel.isBuilt_B);
-        assert(sp1_I >= 0 && sp1_I < static_cast<int>(axialconfig.labels_S1D_sp.size()));
-        assert(sp2_I >= 0 && sp2_I < static_cast<int>(axialconfig.labels_S1D_sp.size()));
-        assert(sp3_I >= 0 && sp3_I < static_cast<int>(axialconfig.labels_S1D_sp.size()));
-        assert(sp4_I >= 0 && sp4_I < static_cast<int>(axialconfig.labels_S1D_sp.size()));
+        assert(sp1_I >= 0 && sp1_I < static_cast<int>(labels_S1D_sp.size()));
+        assert(sp2_I >= 0 && sp2_I < static_cast<int>(labels_S1D_sp.size()));
+        assert(sp3_I >= 0 && sp3_I < static_cast<int>(labels_S1D_sp.size()));
+        assert(sp4_I >= 0 && sp4_I < static_cast<int>(labels_S1D_sp.size()));
 
         // sp_a → α_a.
-        const AxialSPLabel& label1_ = axialconfig.labels_S1D_sp[sp1_I];
-        const AxialSPLabel& label2_ = axialconfig.labels_S1D_sp[sp2_I];
-        const AxialSPLabel& label3_ = axialconfig.labels_S1D_sp[sp3_I];
-        const AxialSPLabel& label4_ = axialconfig.labels_S1D_sp[sp4_I];
+        const AxialSPLabel& label1_ = labels_S1D_sp[sp1_I];
+        const AxialSPLabel& label2_ = labels_S1D_sp[sp2_I];
+        const AxialSPLabel& label3_ = labels_S1D_sp[sp3_I];
+        const AxialSPLabel& label4_ = labels_S1D_sp[sp4_I];
 
         // (Λ, 2Σ) → (-Λ, -2Σ).
         const auto apply_reversal_sign_Func = [](int quantum_I, bool isReversed_B) {
@@ -126,10 +133,10 @@ private:
      */
     double calc_spatial_v(int sp1_I, bool isReversed1_B, int sp2_I, bool isReversed2_B, int sp3_I, bool isReversed3_B, int sp4_I, bool isReversed4_B) const {
         // sp_a → α_a.
-        const AxialSPLabel& label1_ = axialconfig.labels_S1D_sp[sp1_I];
-        const AxialSPLabel& label2_ = axialconfig.labels_S1D_sp[sp2_I];
-        const AxialSPLabel& label3_ = axialconfig.labels_S1D_sp[sp3_I];
-        const AxialSPLabel& label4_ = axialconfig.labels_S1D_sp[sp4_I];
+        const AxialSPLabel& label1_ = labels_S1D_sp[sp1_I];
+        const AxialSPLabel& label2_ = labels_S1D_sp[sp2_I];
+        const AxialSPLabel& label3_ = labels_S1D_sp[sp3_I];
+        const AxialSPLabel& label4_ = labels_S1D_sp[sp4_I];
 
         // Λ_a → (-1)^{bar_a} Λ_a.
         const auto apply_reversal_sign_Func = [](int quantum_I, bool isReversed_B) {
@@ -157,14 +164,14 @@ private:
      * @math   r^{-1}\approx\sum_g W_g\exp(-r^2/\mu_g^2)
      * @output Gaussian ranges and weights.
      */
-    static CoulombExpansion calc_coulomb_expansion(const AxialConfig& axialconfig_, double e2_F_) {
+    static CoulombExpansion calc_coulomb_expansion(double bz_F_, double br_F_, double e2_F_) {
         assert(std::isfinite(e2_F_) && e2_F_ >= 0.0);
 
         // (t_g, w_g, b_max, e²) → (μ_g, W_g).
         GaussianValues mu_F1D_g{};
         GaussianValues W_F1D_g{};
         const GaussLegendreMeshes legendre_meshes(Ng_I);
-        const double bmax_F = std::max(axialconfig_.br_F, axialconfig_.bz_F);
+        const double bmax_F = std::max(br_F_, bz_F_);
         const double pi_F = std::acos(-1.0);
         for (int g_I = 0; g_I < Ng_I; ++g_I) {
             const double t_F = 0.5 * (legendre_meshes.x_F1D_x(g_I) + 1.0);
@@ -180,9 +187,9 @@ private:
      * @math   (N_g,N_{shell}) \rightarrow path
      * @output Cache-file path.
      */
-    static std::string kernel_cache_path(const AxialConfig& axialconfig_) {
+    static std::string kernel_cache_path(int Nshell_I_) {
         // (N_g, N_shell, cwd) → cache path.
-        const std::string cacheName_Str = "Kernel-Coulomb" + std::to_string(Ng_I) + "-Nshell" + std::to_string(axialconfig_.Nshell_I) + ".cache";
+        const std::string cacheName_Str = "Kernel-Coulomb" + std::to_string(Ng_I) + "-Nshell" + std::to_string(Nshell_I_) + ".cache";
         std::filesystem::path projectDir_ = std::filesystem::current_path();
         if (projectDir_.filename() == "build") {projectDir_ = projectDir_.parent_path();}
         if (projectDir_.filename() == "codes") {projectDir_ = projectDir_.parent_path();}
