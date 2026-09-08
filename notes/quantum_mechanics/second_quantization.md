@@ -42,13 +42,13 @@ $$
 Orthonormality gives
 
 $$
-\hat a_\alpha=\int dx\,\phi_\alpha^*(x)\hat\psi(x),\qquad \hat a_\alpha^\dagger=\int dx\,\phi_\alpha(x)\hat\psi^\dagger(x).
+\hat a_\alpha=\int \mathrm dx\,\phi_\alpha^*(x)\hat\psi(x),\qquad \hat a_\alpha^\dagger=\int \mathrm dx\,\phi_\alpha(x)\hat\psi^\dagger(x).
 $$
 
 Projecting the field commutator onto modes $\alpha$ and $\beta$ gives
 
 $$
-[\hat a_\alpha,\hat a_\beta^\dagger]=\int dx\,dx'\,\phi_\alpha^*(x)\phi_\beta(x')[\hat\psi(x),\hat\psi^\dagger(x')]=\delta_{\alpha\beta}.
+[\hat a_\alpha,\hat a_\beta^\dagger]=\int \mathrm dx\,\mathrm dx'\,\phi_\alpha^*(x)\phi_\beta(x')[\hat\psi(x),\hat\psi^\dagger(x')]=\delta_{\alpha\beta}.
 $$
 
 Therefore,
@@ -60,7 +60,7 @@ $$
 With $h_0(x,x')=\langle x|\hat h_0|x'\rangle$, the independent-particle Hamiltonian is
 
 $$
-\hat H_0=\sum_{i=1}^{N}\hat h_0(i)=\int dx\,dx'\,\hat\psi^\dagger(x)h_0(x,x')\hat\psi(x')=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\varepsilon_\alpha\hat a_\alpha^\dagger\hat a_\alpha.
+\hat H_0=\sum_{i=1}^{N}\hat h_0(i)=\int \mathrm dx\,\mathrm dx'\,\hat\psi^\dagger(x)h_0(x,x')\hat\psi(x')=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\varepsilon_\alpha\hat a_\alpha^\dagger\hat a_\alpha.
 $$
 
 ##### Exchange Symmetry and Fock Space
@@ -192,7 +192,7 @@ $$
 In coordinate space,
 
 $$
-\boxed{\hat O^{(1)}=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}o_{\alpha\beta}\hat a_\alpha^\dagger\hat a_\beta=\int dx\,dx'\,\hat\psi^\dagger(x)o(x,x')\hat\psi(x')}.
+\boxed{\hat O^{(1)}=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}o_{\alpha\beta}\hat a_\alpha^\dagger\hat a_\beta=\int \mathrm dx\,\mathrm dx'\,\hat\psi^\dagger(x)o(x,x')\hat\psi(x')}.
 $$
 
 For a symmetric two-particle operator $\hat v$, let $v_{\alpha\beta;\gamma\delta}=\langle\phi_\alpha\phi_\beta|\hat v|\phi_\gamma\phi_\delta\rangle$. Inserting the two-particle completeness relation gives
@@ -210,7 +210,7 @@ $$
 For a coordinate-space interaction $v(x,x')$,
 
 $$
-\boxed{\hat V^{(2)}=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}v_{\alpha\beta;\gamma\delta}\hat a_\alpha^\dagger\hat a_\beta^\dagger\hat a_\delta\hat a_\gamma=\frac12\int dx\,dx'\,\hat\psi^\dagger(x)\hat\psi^\dagger(x')v(x,x')\hat\psi(x')\hat\psi(x)}.
+\boxed{\hat V^{(2)}=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}v_{\alpha\beta;\gamma\delta}\hat a_\alpha^\dagger\hat a_\beta^\dagger\hat a_\delta\hat a_\gamma=\frac12\int \mathrm dx\,\mathrm dx'\,\hat\psi^\dagger(x)\hat\psi^\dagger(x')v(x,x')\hat\psi(x')\hat\psi(x)}.
 $$
 
 For $h_{\alpha\beta}=\langle\phi_\alpha|\hat h|\phi_\beta\rangle$, the one- and two-body Hamiltonian is
@@ -261,13 +261,13 @@ $$
 Orthonormality gives
 
 $$
-\hat c_\alpha=\int dx\,\phi_\alpha^*(x)\hat\psi_F(x),\qquad \hat c_\alpha^\dagger=\int dx\,\phi_\alpha(x)\hat\psi_F^\dagger(x).
+\hat c_\alpha=\int \mathrm dx\,\phi_\alpha^*(x)\hat\psi_F(x),\qquad \hat c_\alpha^\dagger=\int \mathrm dx\,\phi_\alpha(x)\hat\psi_F^\dagger(x).
 $$
 
 Projecting the field anticommutator onto modes $\alpha$ and $\beta$ gives
 
 $$
-\{\hat c_\alpha,\hat c_\beta^\dagger\}=\int dx\,dx'\,\phi_\alpha^*(x)\phi_\beta(x')\{\hat\psi_F(x),\hat\psi_F^\dagger(x')\}=\delta_{\alpha\beta}.
+\{\hat c_\alpha,\hat c_\beta^\dagger\}=\int \mathrm dx\,\mathrm dx'\,\phi_\alpha^*(x)\phi_\beta(x')\{\hat\psi_F(x),\hat\psi_F^\dagger(x')\}=\delta_{\alpha\beta}.
 $$
 
 Therefore,
@@ -279,7 +279,7 @@ $$
 With $h_0(x,x')=\langle x|\hat h_0|x'\rangle$, the independent-particle Hamiltonian is
 
 $$
-\hat H_0=\sum_{i=1}^{N}\hat h_0(i)=\int dx\,dx'\,\hat\psi_F^\dagger(x)h_0(x,x')\hat\psi_F(x')=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\varepsilon_\alpha\hat c_\alpha^\dagger\hat c_\alpha.
+\hat H_0=\sum_{i=1}^{N}\hat h_0(i)=\int \mathrm dx\,\mathrm dx'\,\hat\psi_F^\dagger(x)h_0(x,x')\hat\psi_F(x')=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\varepsilon_\alpha\hat c_\alpha^\dagger\hat c_\alpha.
 $$
 
 ##### Exchange Symmetry and Fock Space
@@ -419,7 +419,7 @@ $$
 In coordinate space,
 
 $$
-\boxed{\hat O^{(1)}=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}o_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta=\int dx\,dx'\,\hat\psi_F^\dagger(x)o(x,x')\hat\psi_F(x')}.
+\boxed{\hat O^{(1)}=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}o_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta=\int \mathrm dx\,\mathrm dx'\,\hat\psi_F^\dagger(x)o(x,x')\hat\psi_F(x')}.
 $$
 
 For a symmetric two-particle operator $\hat v$, let $v_{\alpha\beta;\gamma\delta}=\langle\phi_\alpha\phi_\beta|\hat v|\phi_\gamma\phi_\delta\rangle$. Inserting the two-particle completeness relation gives
@@ -437,7 +437,7 @@ $$
 For a coordinate-space interaction $v(x,x')$,
 
 $$
-\boxed{\hat V^{(2)}=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}v_{\alpha\beta;\gamma\delta}\hat c_\alpha^\dagger\hat c_\beta^\dagger\hat c_\delta\hat c_\gamma=\frac12\int dx\,dx'\,\hat\psi_F^\dagger(x)\hat\psi_F^\dagger(x')v(x,x')\hat\psi_F(x')\hat\psi_F(x)}.
+\boxed{\hat V^{(2)}=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}v_{\alpha\beta;\gamma\delta}\hat c_\alpha^\dagger\hat c_\beta^\dagger\hat c_\delta\hat c_\gamma=\frac12\int \mathrm dx\,\mathrm dx'\,\hat\psi_F^\dagger(x)\hat\psi_F^\dagger(x')v(x,x')\hat\psi_F(x')\hat\psi_F(x)}.
 $$
 
 For $h_{\alpha\beta}=\langle\phi_\alpha|\hat h|\phi_\beta\rangle$, the one- and two-body Hamiltonian is

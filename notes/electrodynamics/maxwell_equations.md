@@ -158,14 +158,14 @@ Anisotropic, nonlinear, and dispersive media require more general constitutive r
 
 ### Boundary Conditions
 
-Consider a stationary interface between media $1$ and $2$. Let $\hat{\mathbf n}$ be the unit normal directed from medium $1$ to medium $2$. Let $\sigma_f$ be the free surface charge density and $\mathbf K_f$ the free surface current density tangent to the interface. Subscripts $1$ and $2$ denote the limiting field values on the two sides. Let $d\mathbf a$, $d\mathbf l$, and $dV$ denote oriented area, oriented line, and volume elements.
+Consider a stationary interface between media $1$ and $2$. Let $\hat{\mathbf n}$ be the unit normal directed from medium $1$ to medium $2$. Let $\sigma_f$ be the free surface charge density and $\mathbf K_f$ the free surface current density tangent to the interface. Subscripts $1$ and $2$ denote the limiting field values on the two sides. Let $\mathrm d\mathbf a$, $\mathrm d\mathbf l$, and $\mathrm dV$ denote oriented area, oriented line, and volume elements.
 
 **Gauss's Law for Electric Displacement**
 
 Let $V_h$ be a pillbox of height $h$ crossing the interface, with face area $\Delta S$. The divergence theorem gives
 
 $$
-\oint_{\partial V_h}\mathbf D\cdot d\mathbf a=\int_{V_h}(\nabla\cdot\mathbf D)\,dV=\int_{V_h}\rho_f\,dV.
+\oint_{\partial V_h}\mathbf D\cdot \mathrm d\mathbf a=\int_{V_h}(\nabla\cdot\mathbf D)\,\mathrm dV=\int_{V_h}\rho_f\,\mathrm dV.
 $$
 
 As $h\to0$, the side flux vanishes and the free-charge integral approaches $\sigma_f\Delta S$:
@@ -185,7 +185,7 @@ $$
 For the same pillbox, the divergence theorem gives
 
 $$
-\oint_{\partial V_h}\mathbf B\cdot d\mathbf a=\int_{V_h}(\nabla\cdot\mathbf B)\,dV=0.
+\oint_{\partial V_h}\mathbf B\cdot \mathrm d\mathbf a=\int_{V_h}(\nabla\cdot\mathbf B)\,\mathrm dV=0.
 $$
 
 As $h\to0$, the side flux vanishes:
@@ -205,7 +205,7 @@ $$
 Let $S_h$ be a narrow rectangular surface crossing the interface, with height $h$ and long-side length $\Delta l$. Let $\hat{\mathbf t}$ be the unit tangent along its long sides. Stokes' theorem gives
 
 $$
-\oint_{\partial S_h}\mathbf E\cdot d\mathbf l=\int_{S_h}(\nabla\times\mathbf E)\cdot d\mathbf a=-\frac{\partial}{\partial t}\int_{S_h}\mathbf B\cdot d\mathbf a.
+\oint_{\partial S_h}\mathbf E\cdot \mathrm d\mathbf l=\int_{S_h}(\nabla\times\mathbf E)\cdot \mathrm d\mathbf a=-\frac{\partial}{\partial t}\int_{S_h}\mathbf B\cdot \mathrm d\mathbf a.
 $$
 
 As $h\to0$, the short-side contributions and magnetic flux vanish for finite $\mathbf E$ and $\mathbf B$:
@@ -225,7 +225,7 @@ $$
 For the same rectangular surface, Stokes' theorem gives
 
 $$
-\oint_{\partial S_h}\mathbf H\cdot d\mathbf l=\int_{S_h}(\nabla\times\mathbf H)\cdot d\mathbf a=\int_{S_h}\mathbf j_f\cdot d\mathbf a+\frac{\partial}{\partial t}\int_{S_h}\mathbf D\cdot d\mathbf a.
+\oint_{\partial S_h}\mathbf H\cdot \mathrm d\mathbf l=\int_{S_h}(\nabla\times\mathbf H)\cdot \mathrm d\mathbf a=\int_{S_h}\mathbf j_f\cdot \mathrm d\mathbf a+\frac{\partial}{\partial t}\int_{S_h}\mathbf D\cdot \mathrm d\mathbf a.
 $$
 
 As $h\to0$, the short-side contributions and electric-displacement flux vanish for finite $\mathbf H$ and $\mathbf D$. The free surface current density $\mathbf K_f$ remains:

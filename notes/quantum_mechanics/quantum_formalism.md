@@ -217,11 +217,11 @@ $$
 $$
 
 $$
-\langle x|x'\rangle=\delta(x-x'), \qquad \int dx\,|x\rangle\langle x|=\hat I.
+\langle x|x'\rangle=\delta(x-x'), \qquad \int \mathrm dx\,|x\rangle\langle x|=\hat I.
 $$
 
 $$
-\langle p|p'\rangle=\delta(p-p'), \qquad \int dp\,|p\rangle\langle p|=\hat I.
+\langle p|p'\rangle=\delta(p-p'), \qquad \int \mathrm dp\,|p\rangle\langle p|=\hat I.
 $$
 
 In $d$ spatial dimensions,

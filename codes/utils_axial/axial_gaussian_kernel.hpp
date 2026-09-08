@@ -54,8 +54,8 @@ protected:
     };
     static_assert(std::is_trivially_copyable_v<Metadata>, "Metadata must be trivially copyable.");
 
-    std::vector<AxialSPLabel> labels_S1D_sp{};
     Metadata metadata{};
+    AxialConfig axialconfig;
     PackedHashTable<AxialGaussianValues, 4> Gz_Table{{0, 0, 0, 0}, {0, 0, 0, 0}};
     PackedHashTable<AxialGaussianValues, 4> Gr_Table{{0, 0, 0, 0}, {0, 0, 0, 0}};
 
@@ -65,8 +65,8 @@ public:
      * @math   G = G^zG^r.
      * @output Empty configured tables.
      */
-    AxialGaussianKernel(const AxialConfig& config_, const AxialGaussianValues& mu_F1D_g_) {
-        labels_S1D_sp = config_.labels_S1D_sp;
+    AxialGaussianKernel(const AxialConfig& config_, const AxialGaussianValues& mu_F1D_g_)
+    : axialconfig(config_) {
         metadata.br_F = config_.br_F;
         metadata.bz_F = config_.bz_F;
         metadata.mu_F1D_g = mu_F1D_g_;
@@ -76,7 +76,7 @@ public:
         })));
 
         // {α_sp} → (n_z^max,n_r^max,Λ^max,rorder^max).
-        for (const AxialSPLabel& label_ : labels_S1D_sp) {
+        for (const AxialSPLabel& label_ : axialconfig.labels_S1D_sp) {
             metadata.nzMax_I = std::max(metadata.nzMax_I, label_.nz_I);
             metadata.nrMax_I = std::max(metadata.nrMax_I, label_.nr_I);
             metadata.LambdaMax_I = std::max(metadata.LambdaMax_I, std::abs(label_.Lambda_I));
@@ -202,7 +202,7 @@ void AxialGaussianKernel<Ng_I>::build_tables() {
 
     // {α_sp} → {(n_r,±Λ)}.
     std::set<std::array<int, 2>> nrLambda_Set;
-    for (const AxialSPLabel& label_ : labels_S1D_sp) {
+    for (const AxialSPLabel& label_ : axialconfig.labels_S1D_sp) {
         nrLambda_Set.insert({label_.nr_I, label_.Lambda_I});
         nrLambda_Set.insert({label_.nr_I, -label_.Lambda_I});
     }

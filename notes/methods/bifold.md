@@ -14,7 +14,7 @@ $$
 V_n(\mathbf R)
 =
 \int
-\prod_{i=1}^{n} d\mathbf r_i\,
+\prod_{i=1}^{n} \mathrm d\mathbf r_i\,
 \rho_i(\mathbf r_i)\,
 v\left(
 \mathbf R-\sum_{i=1}^{n}\mathbf r_i
@@ -26,10 +26,10 @@ Separating the first density distribution from the integral gives
 $$
 V_n(\mathbf R)
 =
-\int d\mathbf r_1\,\rho_1(\mathbf r_1)
+\int \mathrm d\mathbf r_1\,\rho_1(\mathbf r_1)
 \left[
 \int
-\prod_{i=2}^{n} d\mathbf r_i\,
+\prod_{i=2}^{n} \mathrm d\mathbf r_i\,
 \rho_i(\mathbf r_i)\,
 v\left(
 \mathbf R-\mathbf r_1-\sum_{i=2}^{n}\mathbf r_i
@@ -43,7 +43,7 @@ $$
 V_{n-1}(\mathbf X)
 =
 \int
-\prod_{i=2}^{n} d\mathbf r_i\,
+\prod_{i=2}^{n} \mathrm d\mathbf r_i\,
 \rho_i(\mathbf r_i)\,
 v\left(
 \mathbf X-\sum_{i=2}^{n}\mathbf r_i
@@ -55,7 +55,7 @@ The folding potential then satisfies the recurrence relation
 $$
 V_n(\mathbf R)
 =
-\int d\mathbf r_1\,
+\int \mathrm d\mathbf r_1\,
 \rho_1(\mathbf r_1)\,
 V_{n-1}(\mathbf R-\mathbf r_1)
 =
@@ -80,7 +80,7 @@ $$
 \qquad
 \rho_{lm}(r)
 =
-\int d\Omega_{\mathbf r}\,
+\int \mathrm d\hat{\mathbf r}\,
 Y_{lm}^{*}(\hat{\mathbf r})\rho(\mathbf r).
 $$
 
@@ -99,7 +99,7 @@ $$
 \tilde\rho_{lm}(q)
 =
 4\pi
-\int_0^\infty r^2\,dr\,
+\int_0^\infty r^2\,\mathrm dr\,
 \rho_{lm}(r)j_l(qr).
 $$
 
@@ -125,7 +125,7 @@ $$
 \tilde v(q)
 =
 4\pi
-\int_0^\infty r^2\,dr\,
+\int_0^\infty r^2\,\mathrm dr\,
 v(r)j_0(qr).
 $$
 
@@ -135,7 +135,7 @@ $$
 v(r)
 =
 \frac{1}{2\pi^2}
-\int_0^\infty q^2\,dq\,
+\int_0^\infty q^2\,\mathrm dq\,
 \tilde v(q)j_0(qr).
 $$
 
@@ -153,7 +153,7 @@ $$
 \tilde v(q)
 =
 4\pi
-\int_0^\infty s^2\,ds\,
+\int_0^\infty s^2\,\mathrm ds\,
 A\frac{e^{-\mu s}}{\mu s}
 j_0(qs)
 =
@@ -233,8 +233,8 @@ The direct part of the double-folding potential is
 $$
 V^{\mathrm D}(\mathbf R)
 =
-\int d^3\mathbf r_{\mathrm t}
-\int d^3\mathbf r_{\mathrm p}\,
+\int \mathrm d^3\mathbf r_{\mathrm t}
+\int \mathrm d^3\mathbf r_{\mathrm p}\,
 \rho_{\mathrm t}(\mathbf r_{\mathrm t})
 \rho_{\mathrm p}(\mathbf r_{\mathrm p})
 v^{\mathrm D}(s),
@@ -259,7 +259,7 @@ $$
 v^{\mathrm D}(s)
 =
 \frac{1}{(2\pi)^3}
-\int d^3\mathbf q\,
+\int \mathrm d^3\mathbf q\,
 \tilde v^{\mathrm D}(q)
 e^{i\mathbf q\cdot\mathbf s}.
 $$
@@ -278,16 +278,16 @@ $$
 V^{\mathrm D}(\mathbf R)
 =
 \frac{1}{(2\pi)^3}
-\int d^3\mathbf q\,
+\int \mathrm d^3\mathbf q\,
 e^{i\mathbf q\cdot\mathbf R}
 \tilde v^{\mathrm D}(q)
 \left[
-\int d^3\mathbf r_{\mathrm t}\,
+\int \mathrm d^3\mathbf r_{\mathrm t}\,
 \rho_{\mathrm t}(\mathbf r_{\mathrm t})
 e^{-i\mathbf q\cdot\mathbf r_{\mathrm t}}
 \right]
 \left[
-\int d^3\mathbf r_{\mathrm p}\,
+\int \mathrm d^3\mathbf r_{\mathrm p}\,
 \rho_{\mathrm p}(\mathbf r_{\mathrm p})
 e^{i\mathbf q\cdot\mathbf r_{\mathrm p}}
 \right].
@@ -298,7 +298,7 @@ Recognizing the two density transforms,
 $$
 \tilde\rho_{\mathrm t}(\mathbf q)
 =
-\int d^3\mathbf r_{\mathrm t}\,
+\int \mathrm d^3\mathbf r_{\mathrm t}\,
 \rho_{\mathrm t}(\mathbf r_{\mathrm t})
 e^{-i\mathbf q\cdot\mathbf r_{\mathrm t}},
 $$
@@ -306,7 +306,7 @@ $$
 $$
 \tilde\rho_{\mathrm p}(-\mathbf q)
 =
-\int d^3\mathbf r_{\mathrm p}\,
+\int \mathrm d^3\mathbf r_{\mathrm p}\,
 \rho_{\mathrm p}(\mathbf r_{\mathrm p})
 e^{i\mathbf q\cdot\mathbf r_{\mathrm p}},
 $$
@@ -317,7 +317,7 @@ $$
 V^{\mathrm D}(\mathbf R)
 =
 \frac{1}{(2\pi)^3}
-\int d^3\mathbf q\,
+\int \mathrm d^3\mathbf q\,
 e^{i\mathbf q\cdot\mathbf R}
 \tilde\rho_{\mathrm t}(\mathbf q)
 \tilde\rho_{\mathrm p}(-\mathbf q)
@@ -341,8 +341,8 @@ The finite-range knock-on exchange term is localized with a local plane-wave app
 $$
 V^{\mathrm E}(\mathbf R)
 =
-\int d^3\mathbf r_{\mathrm t}
-\int d^3\mathbf r_{\mathrm p}\,
+\int \mathrm d^3\mathbf r_{\mathrm t}
+\int \mathrm d^3\mathbf r_{\mathrm p}\,
 \rho_{\mathrm t}
 (\mathbf r_{\mathrm t},\mathbf r_{\mathrm t}+\mathbf s)
 \rho_{\mathrm p}
@@ -373,13 +373,13 @@ Introducing the relative displacement explicitly gives
 $$
 V^{\mathrm E}(\mathbf R)
 =
-\int d^3\mathbf s\,
+\int \mathrm d^3\mathbf s\,
 v^{\mathrm E}(s)
 \exp\left[
 i\frac{\mathbf K(\mathbf R)\cdot\mathbf s}{M}
 \right]
-\int d^3\mathbf r_{\mathrm t}
-\int d^3\mathbf r_{\mathrm p}\,
+\int \mathrm d^3\mathbf r_{\mathrm t}
+\int \mathrm d^3\mathbf r_{\mathrm p}\,
 \rho_{\mathrm t}
 (\mathbf r_{\mathrm t},\mathbf r_{\mathrm t}+\mathbf s)
 \rho_{\mathrm p}
@@ -417,13 +417,13 @@ The localized exchange potential is therefore
 $$
 V^{\mathrm E}(\mathbf R)
 =
-\int d^3\mathbf s\,
+\int \mathrm d^3\mathbf s\,
 v^{\mathrm E}(s)
 \exp\left[
 i\frac{\mathbf K(\mathbf R)\cdot\mathbf s}{M}
 \right]
-\int d^3\mathbf u_{\mathrm t}
-\int d^3\mathbf u_{\mathrm p}\,
+\int \mathrm d^3\mathbf u_{\mathrm t}
+\int \mathrm d^3\mathbf u_{\mathrm p}\,
 \Big[
 \rho_{\mathrm t}(\mathbf u_{\mathrm t})
 \hat j_1\left[
@@ -447,7 +447,7 @@ $$
 (\mathbf R+\mathbf u_{\mathrm p}-\mathbf u_{\mathrm t})
 =
 \frac{1}{(2\pi)^3}
-\int d^3\mathbf q\,
+\int \mathrm d^3\mathbf q\,
 e^{i\mathbf q\cdot
 (\mathbf R+\mathbf u_{\mathrm p}-\mathbf u_{\mathrm t})},
 $$
@@ -462,7 +462,7 @@ f_i(\mathbf u,s)
 \qquad
 \tilde f_i(\mathbf q,s)
 =
-\int d^3\mathbf u\,
+\int \mathrm d^3\mathbf u\,
 f_i(\mathbf u,s)e^{-i\mathbf q\cdot\mathbf u},
 \qquad
 i\in\{\mathrm t,\mathrm p\}.
@@ -474,20 +474,20 @@ $$
 V^{\mathrm E}(\mathbf R)
 =
 \frac{1}{(2\pi)^3}
-\int d^3\mathbf s\,
+\int \mathrm d^3\mathbf s\,
 v^{\mathrm E}(s)
 \exp\left[
 i\frac{\mathbf K(\mathbf R)\cdot\mathbf s}{M}
 \right]
-\int d^3\mathbf q\,
+\int \mathrm d^3\mathbf q\,
 e^{i\mathbf q\cdot\mathbf R}
 \bigg[
-\int d^3\mathbf u_{\mathrm t}\,
+\int \mathrm d^3\mathbf u_{\mathrm t}\,
 f_{\mathrm t}(\mathbf u_{\mathrm t},s)
 e^{-i\mathbf q\cdot\mathbf u_{\mathrm t}}
 \bigg]
 \bigg[
-\int d^3\mathbf u_{\mathrm p}\,
+\int \mathrm d^3\mathbf u_{\mathrm p}\,
 f_{\mathrm p}(\mathbf u_{\mathrm p},s)
 e^{i\mathbf q\cdot\mathbf u_{\mathrm p}}
 \bigg].
@@ -499,7 +499,7 @@ $$
 G(\mathbf R,s)
 =
 \frac{1}{(2\pi)^3}
-\int d^3\mathbf q\,
+\int \mathrm d^3\mathbf q\,
 e^{i\mathbf q\cdot\mathbf R}
 \tilde f_{\mathrm t}(\mathbf q,s)
 \tilde f_{\mathrm p}(-\mathbf q,s).
@@ -510,7 +510,7 @@ The exchange potential becomes
 $$
 V^{\mathrm E}(\mathbf R)
 =
-\int d^3\mathbf s\,
+\int \mathrm d^3\mathbf s\,
 v^{\mathrm E}(s)
 \exp\left[
 i\frac{\mathbf K(\mathbf R)\cdot\mathbf s}{M}
@@ -524,7 +524,7 @@ $$
 V^{\mathrm E}(\mathbf R)
 =
 4\pi
-\int_0^\infty s^2\,ds\,
+\int_0^\infty s^2\,\mathrm ds\,
 j_0\left[
 \frac{K(\mathbf R)s}{M}
 \right]
@@ -575,7 +575,7 @@ $$
 \tilde\rho_{\mathrm p}(q)
 =
 4\pi
-\int_0^\infty r_{\mathrm p}^2\,dr_{\mathrm p}\,
+\int_0^\infty r_{\mathrm p}^2\,\mathrm dr_{\mathrm p}\,
 \rho_{\mathrm p}(r_{\mathrm p})
 j_0(qr_{\mathrm p}).
 $$
@@ -591,7 +591,7 @@ Y_{lm}(\hat{\mathbf r}_{\mathrm t}),
 \qquad
 \rho_{\mathrm t,lm}(r_{\mathrm t})
 =
-\int d\Omega_{\mathrm t}\,
+\int \mathrm d\hat{\mathbf r}_{\mathrm t}\,
 Y_{lm}^{*}(\hat{\mathbf r}_{\mathrm t})
 \rho_{\mathrm t}(\mathbf r_{\mathrm t}).
 $$
@@ -609,7 +609,7 @@ Y_{lm}(\hat{\mathbf q}),
 \tilde\rho_{\mathrm t,lm}(q)
 =
 4\pi
-\int_0^\infty r_{\mathrm t}^2\,dr_{\mathrm t}\,
+\int_0^\infty r_{\mathrm t}^2\,\mathrm dr_{\mathrm t}\,
 \rho_{\mathrm t,lm}(r_{\mathrm t})
 j_l(qr_{\mathrm t}).
 $$
@@ -638,7 +638,7 @@ $$
 V^{\mathrm D}_{lm}(R)
 =
 \frac{4\pi}{(2\pi)^3}
-\int_0^\infty q^2\,dq\,
+\int_0^\infty q^2\,\mathrm dq\,
 j_l(qR)
 \tilde\rho_{\mathrm t,lm}(q)
 \tilde\rho_{\mathrm p}(q)
@@ -664,7 +664,7 @@ $$
 \tilde f_{\mathrm p}(q,s)
 =
 4\pi
-\int_0^\infty r_{\mathrm p}^2\,dr_{\mathrm p}\,
+\int_0^\infty r_{\mathrm p}^2\,\mathrm dr_{\mathrm p}\,
 f_{\mathrm p}(r_{\mathrm p},s)
 j_0(qr_{\mathrm p}).
 $$
@@ -693,7 +693,7 @@ where
 $$
 f_{\mathrm t,lm}(r_{\mathrm t},s)
 =
-\int d\Omega_{\mathrm t}\,
+\int \mathrm d\hat{\mathbf r}_{\mathrm t}\,
 Y_{lm}^{*}(\hat{\mathbf r}_{\mathrm t})
 f_{\mathrm t}(\mathbf r_{\mathrm t},s).
 $$
@@ -715,7 +715,7 @@ $$
 \tilde f_{\mathrm t,lm}(q,s)
 =
 4\pi
-\int_0^\infty r_{\mathrm t}^2\,dr_{\mathrm t}\,
+\int_0^\infty r_{\mathrm t}^2\,\mathrm dr_{\mathrm t}\,
 f_{\mathrm t,lm}(r_{\mathrm t},s)
 j_l(qr_{\mathrm t}).
 $$
@@ -736,7 +736,7 @@ $$
 G_{lm}(R,s)
 =
 \frac{4\pi}{(2\pi)^3}
-\int_0^\infty q^2\,dq\,
+\int_0^\infty q^2\,\mathrm dq\,
 j_l(qR)
 \tilde f_{\mathrm t,lm}(q,s)
 \tilde f_{\mathrm p}(q,s).
@@ -748,7 +748,7 @@ $$
 V^{\mathrm E}(\mathbf R)
 =
 4\pi
-\int_0^\infty s^2\,ds\,
+\int_0^\infty s^2\,\mathrm ds\,
 j_0\left[
 \frac{K(\mathbf R)s}{M}
 \right]
@@ -770,7 +770,7 @@ $$
 V^{\mathrm E}_{lm}(R)
 =
 4\pi
-\int_0^\infty s^2\,ds\,
+\int_0^\infty s^2\,\mathrm ds\,
 j_0\left[
 \frac{K_0(R)s}{M}
 \right]
@@ -847,7 +847,7 @@ v_{0,\mathrm{Paris}}^{\mathrm E}(s)
 \frac{e^{-0.7072s}}{0.7072s}.
 $$
 
-Each component is a sum of Yukawa functions. Although the individual terms behave as $1/s$ near $s=0$, they are locally integrable in the three-dimensional folding integral because the radial measure contains $s^2\,ds$. Numerically, the grid may exclude the exact point $s=0$, evaluate the first integration cell analytically, or use an explicitly documented extrapolation. Linear extrapolation at the origin is a numerical prescription rather than part of the M3Y interaction itself.
+Each component is a sum of Yukawa functions. Although the individual terms behave as $1/s$ near $s=0$, they are locally integrable in the three-dimensional folding integral because the radial measure contains $s^2\,\mathrm ds$. Numerically, the grid may exclude the exact point $s=0$, evaluate the first integration cell analytically, or use an explicitly documented extrapolation. Linear extrapolation at the origin is a numerical prescription rather than part of the M3Y interaction itself.
 
 For a density-dependent M3Y interaction, the corresponding Reid or Paris component is multiplied by the density- and energy-dependent factors:
 
@@ -1165,7 +1165,7 @@ $$
 V^{\mathrm E}(\mathbf R)
 =
 4\pi
-\int_0^\infty s^2\,ds\,
+\int_0^\infty s^2\,\mathrm ds\,
 j_0\left[
 \frac{K(\mathbf R)s}{M}
 \right]
