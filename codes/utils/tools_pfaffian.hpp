@@ -16,11 +16,9 @@ using doubleC = std::complex<double>;
 /**
  * @brief  Calculate Pfaffians using pivoted skew-symmetric elimination.
  * @math   pf(X)² = det(X); pf(∅) = 1.
- * @output Complex Pfaffian, including permutation signs.
+ * @output pf(X); X overwritten.
  * @note   Requires finite, even-order square X with Xᵀ = -X.
- * @note   In-place elimination overwrites the input matrix.
- * @note   Zero pivot rows return zero; no magnitude cutoff.
- * @note   Direct products may overflow or underflow.
+ * @note   Exact-zero pivots return zero; no magnitude cutoff.
  */
 inline doubleC calc_pfaffian(Eigen::MatrixXcd& X_C2D_i_i) {
     // X ∈ ℂ^{2p×2p}; Xᵀ = -X.
