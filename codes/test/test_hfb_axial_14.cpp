@@ -31,7 +31,7 @@ int main() {
     const double b0_F = 2.13396610;
     const double beta20_F = 0.40;
     const auto [bz_F, br_F] = AxialConfig::b0beta20_to_bzbr(b0_F, beta20_F);
-    AxialConfig axialconfig_(bz_F, br_F, Nshell_I, true);
+    AxialConfig axialconfig_(bz_F, br_F, Nshell_I, true, true);
     axialconfig_.Nr_I = 50;
     axialconfig_.Nz_I = 50;
 
