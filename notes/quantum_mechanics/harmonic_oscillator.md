@@ -253,31 +253,31 @@ Coherent states with different eigenvalues are generally not orthogonal.
 Introduce polar coordinates on the complex plane:
 
 $$
-\alpha=re^{i\theta}, \qquad d^2\alpha=d\operatorname{Re}\alpha\,d\operatorname{Im}\alpha=r\,dr\,d\theta.
+\alpha=re^{i\theta}, \qquad \mathrm d^2\alpha=\mathrm d\operatorname{Re}\alpha\,\mathrm d\operatorname{Im}\alpha=r\,\mathrm dr\,\mathrm d\theta.
 $$
 
 The Gaussian moment separates into radial and angular integrals:
 
 $$
-\frac{1}{\pi}\int_{\mathbb C}d^2\alpha\,e^{-|\alpha|^2}\alpha^n(\alpha^*)^m=\frac{1}{\pi}\int_0^\infty dr\,r^{n+m+1}e^{-r^2}\int_0^{2\pi}d\theta\,e^{i(n-m)\theta}.
+\frac{1}{\pi}\int_{\mathbb C}\mathrm d^2\alpha\,e^{-|\alpha|^2}\alpha^n(\alpha^*)^m=\frac{1}{\pi}\int_0^\infty \mathrm dr\,r^{n+m+1}e^{-r^2}\int_0^{2\pi}\mathrm d\theta\,e^{i(n-m)\theta}.
 $$
 
 The angular integral imposes $m=n$, and the remaining integrals are
 
 $$
-\int_0^{2\pi}d\theta\,e^{i(n-m)\theta}=2\pi\delta_{nm}, \qquad 2\int_0^\infty dr\,r^{2n+1}e^{-r^2}=n!.
+\int_0^{2\pi}\mathrm d\theta\,e^{i(n-m)\theta}=2\pi\delta_{nm}, \qquad 2\int_0^\infty \mathrm dr\,r^{2n+1}e^{-r^2}=n!.
 $$
 
 Therefore,
 
 $$
-\frac{1}{\pi}\int_{\mathbb C}d^2\alpha\,e^{-|\alpha|^2}\alpha^n(\alpha^*)^m=n!\,\delta_{nm}.
+\frac{1}{\pi}\int_{\mathbb C}\mathrm d^2\alpha\,e^{-|\alpha|^2}\alpha^n(\alpha^*)^m=n!\,\delta_{nm}.
 $$
 
 Substituting the number-state expansion gives
 
 $$
-\boxed{\frac{1}{\pi}\int_{\mathbb C}d^2\alpha\,|\alpha\rangle\langle\alpha|=\sum_{n=0}^{\infty}|n\rangle\langle n|=\hat I}.
+\boxed{\frac{1}{\pi}\int_{\mathbb C}\mathrm d^2\alpha\,|\alpha\rangle\langle\alpha|=\sum_{n=0}^{\infty}|n\rangle\langle n|=\hat I}.
 $$
 
 The continuous family of coherent states is complete, nonorthogonal, and overcomplete.
@@ -299,7 +299,7 @@ $$
 Define the weighted measure
 
 $$
-d\mu(\alpha)=\frac{d^2\alpha}{\pi}e^{-|\alpha|^2}, \qquad \int_{\mathbb C}d\mu(\alpha)\,|\bar\alpha\rangle\langle\bar\alpha|=\hat I.
+\mathrm d\mu(\alpha)=\frac{\mathrm d^2\alpha}{\pi}e^{-|\alpha|^2}, \qquad \int_{\mathbb C}\mathrm d\mu(\alpha)\,|\bar\alpha\rangle\langle\bar\alpha|=\hat I.
 $$
 
 For a state $|\psi\rangle$, its coherent-state representation is
@@ -311,7 +311,7 @@ $$
 The function $\psi(\alpha^*)$ is analytic in $\alpha^*$, and the state is reconstructed by
 
 $$
-|\psi\rangle=\int_{\mathbb C}d\mu(\alpha)\,|\bar\alpha\rangle\psi(\alpha^*).
+|\psi\rangle=\int_{\mathbb C}\mathrm d\mu(\alpha)\,|\bar\alpha\rangle\psi(\alpha^*).
 $$
 
 The ladder relations give

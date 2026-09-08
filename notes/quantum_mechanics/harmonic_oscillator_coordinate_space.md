@@ -9,7 +9,7 @@ The operator construction and number representation are given in [Quantum Harmon
 For a one-dimensional oscillator with mass $M>0$ and angular frequency $\omega>0$, the coordinate-space Hamiltonian is
 
 $$
-\hat H=-\frac{\hbar^2}{2M}\frac{d^2}{dx^2}+\frac12M\omega^2x^2.
+\hat H=-\frac{\hbar^2}{2M}\frac{\mathrm d^2}{\mathrm dx^2}+\frac12M\omega^2x^2.
 $$
 
 Define the characteristic length $x_0$, dimensionless coordinate $\zeta$, and dimensionless energy $\epsilon$ by
@@ -21,13 +21,13 @@ $$
 Write the normalized coordinate wave function as
 
 $$
-\phi(x)=\frac{1}{\sqrt{x_0}}\widetilde{\phi}(\zeta),\qquad \int_{-\infty}^{\infty}|\widetilde{\phi}(\zeta)|^2\,d\zeta=1.
+\phi(x)=\frac{1}{\sqrt{x_0}}\widetilde{\phi}(\zeta),\qquad \int_{-\infty}^{\infty}|\widetilde{\phi}(\zeta)|^2\,\mathrm d\zeta=1.
 $$
 
 The stationary Schrödinger equation becomes
 
 $$
-\left[-\frac12\frac{d^2}{d\zeta^2}+\frac12\zeta^2\right]\widetilde{\phi}(\zeta)=\epsilon\widetilde{\phi}(\zeta).
+\left[-\frac12\frac{\mathrm d^2}{\mathrm d\zeta^2}+\frac12\zeta^2\right]\widetilde{\phi}(\zeta)=\epsilon\widetilde{\phi}(\zeta).
 $$
 
 ##### Hermite Solution and Energy Spectrum
@@ -71,13 +71,13 @@ $$
 They satisfy
 
 $$
-\int_{-\infty}^{\infty}\phi_{n'}^*(x)\phi_n(x)\,dx=\delta_{n'n},\qquad \sum_{n=0}^{\infty}\phi_n(x)\phi_n^*(x')=\delta(x-x').
+\int_{-\infty}^{\infty}\phi_{n'}^*(x)\phi_n(x)\,\mathrm dx=\delta_{n'n},\qquad \sum_{n=0}^{\infty}\phi_n(x)\phi_n^*(x')=\delta(x-x').
 $$
 
 A normalized coordinate wave function can therefore be expanded as
 
 $$
-\psi(x)=\sum_{n=0}^{\infty}c_n\phi_n(x),\qquad c_n=\int_{-\infty}^{\infty}\phi_n^*(x)\psi(x)\,dx,\qquad \sum_{n=0}^{\infty}|c_n|^2=1.
+\psi(x)=\sum_{n=0}^{\infty}c_n\phi_n(x),\qquad c_n=\int_{-\infty}^{\infty}\phi_n^*(x)\psi(x)\,\mathrm dx,\qquad \sum_{n=0}^{\infty}|c_n|^2=1.
 $$
 
 Since $H_n(-\zeta)=(-1)^nH_n(\zeta)$,
@@ -104,34 +104,34 @@ $$
 
 ##### Polar Dimensionless Schrödinger Equation
 
-The same system can be expressed in polar coordinates, $x=r\cos\phi$ and $y=r\sin\phi$. The Hamiltonian then becomes
+The same system can be expressed in polar coordinates, $x=r_\perp\cos\phi$ and $y=r_\perp\sin\phi$. The Hamiltonian then becomes
 
 $$
-\hat H=-\frac{\hbar^2}{2M}\left(\frac{\partial^2}{\partial r^2}+\frac{1}{r}\frac{\partial}{\partial r}+\frac{1}{r^2}\frac{\partial^2}{\partial\phi^2}\right)+\frac12M\omega^2r^2.
+\hat H=-\frac{\hbar^2}{2M}\left(\frac{\partial^2}{\partial r_\perp^2}+\frac{1}{r_\perp}\frac{\partial}{\partial r_\perp}+\frac{1}{r_\perp^2}\frac{\partial^2}{\partial\phi^2}\right)+\frac12M\omega^2r_\perp^2.
 $$
 
 A normalized coordinate wave function admits the angular expansion
 
 $$
-\psi(r,\phi)=\sum_{m=-\infty}^{\infty}\frac{e^{im\phi}}{\sqrt{2\pi}}\psi^m(r),\qquad \sum_{m=-\infty}^{\infty}\int_0^\infty r\,dr\,|\psi^m(r)|^2=1.
+\psi(r_\perp,\phi)=\sum_{m=-\infty}^{\infty}\frac{e^{im\phi}}{\sqrt{2\pi}}\psi^m(r_\perp),\qquad \sum_{m=-\infty}^{\infty}\int_0^\infty r_\perp\,\mathrm dr_\perp\,|\psi^m(r_\perp)|^2=1.
 $$
 
 Define the characteristic length $r_0$, dimensionless radius $\rho$, and dimensionless energy $\epsilon$ by
 
 $$
-\boxed{r_0=\sqrt{\frac{\hbar}{M\omega}},\qquad \rho=\frac{r}{r_0},\qquad \epsilon=\frac{E}{\hbar\omega}}.
+\boxed{r_0=\sqrt{\frac{\hbar}{M\omega}},\qquad \rho=\frac{r_\perp}{r_0},\qquad \epsilon=\frac{E}{\hbar\omega}}.
 $$
 
 For a fixed $m$, the physical and dimensionless radial basis functions satisfy
 
 $$
-\phi^m(r)=\frac1{r_0}\widetilde{\phi}^m(\rho),\qquad \int_0^\infty\rho\,d\rho\,|\widetilde{\phi}^m(\rho)|^2=1.
+\phi^m(r_\perp)=\frac1{r_0}\widetilde{\phi}^m(\rho),\qquad \int_0^\infty\rho\,\mathrm d\rho\,|\widetilde{\phi}^m(\rho)|^2=1.
 $$
 
 The dimensionless radial basis function satisfies
 
 $$
-\left[-\frac12\left(\frac{d^2}{d\rho^2}+\frac1\rho\frac{d}{d\rho}-\frac{m^2}{\rho^2}\right)+\frac12\rho^2\right]\widetilde{\phi}^m(\rho)=\epsilon\widetilde{\phi}^m(\rho).
+\left[-\frac12\left(\frac{\mathrm d^2}{\mathrm d\rho^2}+\frac1\rho\frac{\mathrm d}{\mathrm d\rho}-\frac{m^2}{\rho^2}\right)+\frac12\rho^2\right]\widetilde{\phi}^m(\rho)=\epsilon\widetilde{\phi}^m(\rho).
 $$
 
 ##### Laguerre Solution and Energy Spectrum
@@ -145,13 +145,13 @@ $$
 The reduced function satisfies
 
 $$
-\eta\frac{d^2}{d\eta^2}l(\eta)+(|m|+1-\eta)\frac{d}{d\eta}l(\eta)+\frac{\epsilon-|m|-1}{2}l(\eta)=0.
+\eta\frac{\mathrm d^2}{\mathrm d\eta^2}l(\eta)+(|m|+1-\eta)\frac{\mathrm d}{\mathrm d\eta}l(\eta)+\frac{\epsilon-|m|-1}{2}l(\eta)=0.
 $$
 
 The polynomial solution is the [generalized Laguerre polynomial](../mathematical_physics/specialfunction_generalized_laguerre_polynomials.md):
 
 $$
-\eta\frac{d^2}{d\eta^2}L_{n_r}^{(|m|)}(\eta)+(|m|+1-\eta)\frac{d}{d\eta}L_{n_r}^{(|m|)}(\eta)+n_rL_{n_r}^{(|m|)}(\eta)=0.
+\eta\frac{\mathrm d^2}{\mathrm d\eta^2}L_{n_r}^{(|m|)}(\eta)+(|m|+1-\eta)\frac{\mathrm d}{\mathrm d\eta}L_{n_r}^{(|m|)}(\eta)+n_rL_{n_r}^{(|m|)}(\eta)=0.
 $$
 
 Polynomial termination therefore gives
@@ -169,37 +169,37 @@ $$
 The physical eigenfunctions and energy spectrum are
 
 $$
-\boxed{\phi_{n_r}^{|m|}(r)=\frac{\sqrt2N_{n_r}^{(|m|)}}{r_0}\left(\frac{r}{r_0}\right)^{|m|}e^{-r^2/(2r_0^2)}L_{n_r}^{(|m|)}\left(\frac{r^2}{r_0^2}\right),\qquad E(n_r,m)=\hbar\omega(2n_r+|m|+1)}.
+\boxed{\phi_{n_r}^{|m|}(r_\perp)=\frac{\sqrt2N_{n_r}^{(|m|)}}{r_0}\left(\frac{r_\perp}{r_0}\right)^{|m|}e^{-r_\perp^2/(2r_0^2)}L_{n_r}^{(|m|)}\left(\frac{r_\perp^2}{r_0^2}\right),\qquad E(n_r,m)=\hbar\omega(2n_r+|m|+1)}.
 $$
 
 The full eigenfunctions are
 
 $$
-\phi_{n_r}^{m}(r,\phi)=\frac{e^{im\phi}}{\sqrt{2\pi}}\phi_{n_r}^{|m|}(r).
+\phi_{n_r}^{m}(r_\perp,\phi)=\frac{e^{im\phi}}{\sqrt{2\pi}}\phi_{n_r}^{|m|}(r_\perp).
 $$
 
 The orthogonality relation is
 
 $$
-\int_0^{2\pi}d\phi\int_0^\infty r\,dr\,\left[\phi_{n_r'}^{m'}(r,\phi)\right]^*\phi_{n_r}^{m}(r,\phi)=\delta_{n_r'n_r}\delta_{m'm}.
+\int_0^{2\pi}\mathrm d\phi\int_0^\infty r_\perp\,\mathrm dr_\perp\,\left[\phi_{n_r'}^{m'}(r_\perp,\phi)\right]^*\phi_{n_r}^{m}(r_\perp,\phi)=\delta_{n_r'n_r}\delta_{m'm}.
 $$
 
 The completeness relation is
 
 $$
-\sum_{m=-\infty}^{\infty}\sum_{n_r=0}^{\infty}\phi_{n_r}^{m}(r,\phi)\left[\phi_{n_r}^{m}(r',\phi')\right]^*=\frac{\delta(r-r')\delta(\phi-\phi')}{r}.
+\sum_{m=-\infty}^{\infty}\sum_{n_r=0}^{\infty}\phi_{n_r}^{m}(r_\perp,\phi)\left[\phi_{n_r}^{m}(r_\perp',\phi')\right]^*=\frac{\delta(r_\perp-r_\perp')\delta(\phi-\phi')}{r_\perp}.
 $$
 
 A normalized coordinate wave function can therefore be expanded as
 
 $$
-\psi(r,\phi)=\sum_{m=-\infty}^{\infty}\sum_{n_r=0}^{\infty}c_{n_r}^m\phi_{n_r}^{m}(r,\phi),\qquad c_{n_r}^m=\int_0^{2\pi}d\phi\int_0^\infty r\,dr\,\left[\phi_{n_r}^{m}(r,\phi)\right]^*\psi(r,\phi),\qquad \sum_{m=-\infty}^{\infty}\sum_{n_r=0}^{\infty}|c_{n_r}^m|^2=1.
+\psi(r_\perp,\phi)=\sum_{m=-\infty}^{\infty}\sum_{n_r=0}^{\infty}c_{n_r}^m\phi_{n_r}^{m}(r_\perp,\phi),\qquad c_{n_r}^m=\int_0^{2\pi}\mathrm d\phi\int_0^\infty r_\perp\,\mathrm dr_\perp\,\left[\phi_{n_r}^{m}(r_\perp,\phi)\right]^*\psi(r_\perp,\phi),\qquad \sum_{m=-\infty}^{\infty}\sum_{n_r=0}^{\infty}|c_{n_r}^m|^2=1.
 $$
 
-Under spatial inversion, $(r,\phi)\rightarrow(r,\phi+\pi)$, the parity is
+Under spatial inversion, $(r_\perp,\phi)\rightarrow(r_\perp,\phi+\pi)$, the parity is
 
 $$
-\boxed{\phi_{n_r}^{m}(r,\phi+\pi)=(-1)^m\phi_{n_r}^{m}(r,\phi)}.
+\boxed{\phi_{n_r}^{m}(r_\perp,\phi+\pi)=(-1)^m\phi_{n_r}^{m}(r_\perp,\phi)}.
 $$
 
 ### Three-Dimensional Isotropic Harmonic Oscillator
@@ -227,7 +227,7 @@ $$
 Using the normalized [spherical harmonics](../mathematical_physics/specialfunction_spherical_harmonics.md), a normalized coordinate wave function admits the angular expansion
 
 $$
-\psi(r,\theta,\phi)=\sum_{l=0}^{\infty}\sum_{m=-l}^{l}Y_{lm}(\theta,\phi)\psi_{lm}(r),\qquad \sum_{l=0}^{\infty}\sum_{m=-l}^{l}\int_0^\infty r^2\,dr\,|\psi_{lm}(r)|^2=1.
+\psi(r,\theta,\phi)=\sum_{l=0}^{\infty}\sum_{m=-l}^{l}Y_{lm}(\theta,\phi)\psi_{lm}(r),\qquad \sum_{l=0}^{\infty}\sum_{m=-l}^{l}\int_0^\infty r^2\,\mathrm dr\,|\psi_{lm}(r)|^2=1.
 $$
 
 Define the characteristic length $r_0$, dimensionless radius $\rho$, and dimensionless energy $\epsilon$ by
@@ -239,13 +239,13 @@ $$
 For fixed $l$ and $m$, the physical and dimensionless radial basis functions satisfy
 
 $$
-\phi_{lm}(r)=\frac1{r_0^{3/2}}\widetilde{\phi}_{lm}(\rho),\qquad \int_0^\infty\rho^2\,d\rho\,|\widetilde{\phi}_{lm}(\rho)|^2=1.
+\phi_{lm}(r)=\frac1{r_0^{3/2}}\widetilde{\phi}_{lm}(\rho),\qquad \int_0^\infty\rho^2\,\mathrm d\rho\,|\widetilde{\phi}_{lm}(\rho)|^2=1.
 $$
 
 The dimensionless radial basis function satisfies
 
 $$
-\left[-\frac12\left(\frac{d^2}{d\rho^2}+\frac2\rho\frac{d}{d\rho}-\frac{l(l+1)}{\rho^2}\right)+\frac12\rho^2\right]\widetilde{\phi}_{lm}(\rho)=\epsilon\widetilde{\phi}_{lm}(\rho).
+\left[-\frac12\left(\frac{\mathrm d^2}{\mathrm d\rho^2}+\frac2\rho\frac{\mathrm d}{\mathrm d\rho}-\frac{l(l+1)}{\rho^2}\right)+\frac12\rho^2\right]\widetilde{\phi}_{lm}(\rho)=\epsilon\widetilde{\phi}_{lm}(\rho).
 $$
 
 ##### Laguerre Solution and Energy Spectrum
@@ -259,13 +259,13 @@ $$
 The reduced function satisfies
 
 $$
-z\frac{d^2}{dz^2}g(z)+\left(l+\frac32-z\right)\frac{d}{dz}g(z)+\frac{\epsilon-l-\frac32}{2}g(z)=0.
+z\frac{\mathrm d^2}{\mathrm dz^2}g(z)+\left(l+\frac32-z\right)\frac{\mathrm d}{\mathrm dz}g(z)+\frac{\epsilon-l-\frac32}{2}g(z)=0.
 $$
 
 The polynomial solution is the [generalized Laguerre polynomial](../mathematical_physics/specialfunction_generalized_laguerre_polynomials.md):
 
 $$
-z\frac{d^2}{dz^2}L_n^{(l+1/2)}(z)+\left(l+\frac32-z\right)\frac{d}{dz}L_n^{(l+1/2)}(z)+nL_n^{(l+1/2)}(z)=0.
+z\frac{\mathrm d^2}{\mathrm dz^2}L_n^{(l+1/2)}(z)+\left(l+\frac32-z\right)\frac{\mathrm d}{\mathrm dz}L_n^{(l+1/2)}(z)+nL_n^{(l+1/2)}(z)=0.
 $$
 
 Polynomial termination therefore gives
@@ -295,7 +295,7 @@ $$
 The orthogonality relation is
 
 $$
-\int_0^\infty r^2\,dr\int_0^\pi\sin\theta\,d\theta\int_0^{2\pi}d\phi\,\phi_{n'l'm'}^*(r,\theta,\phi)\phi_{nlm}(r,\theta,\phi)=\delta_{n'n}\delta_{l'l}\delta_{m'm}.
+\int_0^\infty r^2\,\mathrm dr\int_0^\pi\sin\theta\,\mathrm d\theta\int_0^{2\pi}\mathrm d\phi\,\phi_{n'l'm'}^*(r,\theta,\phi)\phi_{nlm}(r,\theta,\phi)=\delta_{n'n}\delta_{l'l}\delta_{m'm}.
 $$
 
 The completeness relation is
@@ -307,7 +307,7 @@ $$
 A normalized coordinate wave function can therefore be expanded as
 
 $$
-\psi(r,\theta,\phi)=\sum_{l=0}^{\infty}\sum_{m=-l}^{l}\sum_{n=0}^{\infty}c_{nlm}\phi_{nlm}(r,\theta,\phi),\qquad c_{nlm}=\int_0^\infty r^2\,dr\int_0^\pi\sin\theta\,d\theta\int_0^{2\pi}d\phi\,\phi_{nlm}^*(r,\theta,\phi)\psi(r,\theta,\phi),\qquad \sum_{l=0}^{\infty}\sum_{m=-l}^{l}\sum_{n=0}^{\infty}|c_{nlm}|^2=1.
+\psi(r,\theta,\phi)=\sum_{l=0}^{\infty}\sum_{m=-l}^{l}\sum_{n=0}^{\infty}c_{nlm}\phi_{nlm}(r,\theta,\phi),\qquad c_{nlm}=\int_0^\infty r^2\,\mathrm dr\int_0^\pi\sin\theta\,\mathrm d\theta\int_0^{2\pi}\mathrm d\phi\,\phi_{nlm}^*(r,\theta,\phi)\psi(r,\theta,\phi),\qquad \sum_{l=0}^{\infty}\sum_{m=-l}^{l}\sum_{n=0}^{\infty}|c_{nlm}|^2=1.
 $$
 
 Under spatial inversion, $(r,\theta,\phi)\rightarrow(r,\pi-\theta,\phi+\pi)$, the parity is

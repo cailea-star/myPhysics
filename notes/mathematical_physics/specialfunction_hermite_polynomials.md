@@ -3,7 +3,7 @@
 Let $n\in\mathbb N_0=\{0,1,2,\ldots\}$. The physicists' Hermite polynomial $H_n(x)$ is the degree-$n$ solution of
 
 $$
-\boxed{\frac{d^2}{dx^2}H_n(x)-2x\frac{d}{dx}H_n(x)+2nH_n(x)=0}.
+\boxed{\frac{\mathrm d^2}{\mathrm dx^2}H_n(x)-2x\frac{\mathrm d}{\mathrm dx}H_n(x)+2nH_n(x)=0}.
 $$
 
 Its normalization is fixed by the generating function below.
@@ -13,7 +13,7 @@ Its normalization is fixed by the generating function below.
 With $H_0(x)=1$, the Hermite equation gives the raising relation
 
 $$
-H_{n+1}(x)=\left(2x-\frac{d}{dx}\right)H_n(x).
+H_{n+1}(x)=\left(2x-\frac{\mathrm d}{\mathrm dx}\right)H_n(x).
 $$
 
 Let $t$ be an auxiliary variable. For the exponential generating function $G(x,t)$,
@@ -51,13 +51,13 @@ $$
 The Taylor expansion with respect to $t$ gives
 
 $$
-e^{-(x-t)^2}=\sum_{n=0}^{\infty}\frac{(-t)^n}{n!}\frac{d^n}{dx^n}e^{-x^2}.
+e^{-(x-t)^2}=\sum_{n=0}^{\infty}\frac{(-t)^n}{n!}\frac{\mathrm d^n}{\mathrm dx^n}e^{-x^2}.
 $$
 
 Comparing the coefficients of $t^n$ gives
 
 $$
-\boxed{H_n(x)=(-1)^ne^{x^2}\frac{d^n}{dx^n}e^{-x^2}}.
+\boxed{H_n(x)=(-1)^ne^{x^2}\frac{\mathrm d^n}{\mathrm dx^n}e^{-x^2}}.
 $$
 
 ### Recurrence and Derivatives
@@ -71,13 +71,13 @@ $$
 Comparing the coefficients of $t^n$ gives
 
 $$
-\boxed{H_{n+1}(x)=2xH_n(x)-2nH_{n-1}(x),\qquad \frac{d}{dx}H_n(x)=2nH_{n-1}(x)}.
+\boxed{H_{n+1}(x)=2xH_n(x)-2nH_{n-1}(x),\qquad \frac{\mathrm d}{\mathrm dx}H_n(x)=2nH_{n-1}(x)}.
 $$
 
 Equivalently,
 
 $$
-xH_n(x)=\frac12H_{n+1}(x)+nH_{n-1}(x),\qquad \frac{d^2}{dx^2}H_n(x)=2x\frac{d}{dx}H_n(x)-2nH_n(x).
+xH_n(x)=\frac12H_{n+1}(x)+nH_{n-1}(x),\qquad \frac{\mathrm d^2}{\mathrm dx^2}H_n(x)=2x\frac{\mathrm d}{\mathrm dx}H_n(x)-2nH_n(x).
 $$
 
 ### Orthogonality and Normalization
@@ -85,13 +85,13 @@ $$
 For $m<n$, the Rodrigues formula and integration by parts give
 
 $$
-\int_{-\infty}^{\infty}e^{-x^2}H_m(x)H_n(x)\,dx=\int_{-\infty}^{\infty}e^{-x^2}\frac{d^n}{dx^n}H_m(x)\,dx=0.
+\int_{-\infty}^{\infty}e^{-x^2}H_m(x)H_n(x)\,\mathrm dx=\int_{-\infty}^{\infty}e^{-x^2}\frac{\mathrm d^n}{\mathrm dx^n}H_m(x)\,\mathrm dx=0.
 $$
 
 Let $\delta_{mn}$ denote the Kronecker delta. The complete orthogonality relation is
 
 $$
-\boxed{\int_{-\infty}^{\infty}e^{-x^2}H_m(x)H_n(x)\,dx=2^nn!\sqrt\pi\,\delta_{mn}}.
+\boxed{\int_{-\infty}^{\infty}e^{-x^2}H_m(x)H_n(x)\,\mathrm dx=2^nn!\sqrt\pi\,\delta_{mn}}.
 $$
 
 The normalization coefficient is
@@ -100,10 +100,10 @@ $$
 N_n=\frac{1}{\sqrt{2^nn!\sqrt\pi}}.
 $$
 
-For $f\in L^2(\mathbb R,e^{-x^2}dx)$, the Hermite expansion is
+For $f\in L^2(\mathbb R,e^{-x^2}\mathrm dx)$, the Hermite expansion is
 
 $$
-f(x)=\sum_{n=0}^{\infty}c_nH_n(x),\qquad c_n=N_n^2\int_{-\infty}^{\infty}e^{-x^2}H_n(x)f(x)\,dx.
+f(x)=\sum_{n=0}^{\infty}c_nH_n(x),\qquad c_n=N_n^2\int_{-\infty}^{\infty}e^{-x^2}H_n(x)f(x)\,\mathrm dx.
 $$
 
 ### Parity

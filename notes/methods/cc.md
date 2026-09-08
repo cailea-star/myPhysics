@@ -55,7 +55,7 @@ $$
 以 $\mu$ 表示约化质量，$\hat{\mathbf L}$ 表示 $\alpha$ 粒子的轨道角动量算符。动能算符为
 
 $$
-\hat T_\alpha=-\frac{\hbar^2}{2\mu}\left[\frac{1}{r_\alpha^2}\frac{d}{dr_\alpha}\left(r_\alpha^2\frac{d}{dr_\alpha}\right)-\frac{\hat{\mathbf L}^2}{\hbar^2r_\alpha^2}\right].
+\hat T_\alpha=-\frac{\hbar^2}{2\mu}\left[\frac{1}{r_\alpha^2}\frac{\mathrm d}{\mathrm dr_\alpha}\left(r_\alpha^2\frac{\mathrm d}{\mathrm dr_\alpha}\right)-\frac{\hat{\mathbf L}^2}{\hbar^2r_\alpha^2}\right].
 $$
 
 对于通道 $c=\{l,I\}$ 和 $c'=\{l',I'\}$，定义势场矩阵元
@@ -73,7 +73,7 @@ $$
 以 $\delta_{cc'}$ 表示 Kronecker 符号。将薛定谔方程投影到通道 $c$，得到
 
 $$
-\boxed{\sum_{c'}\left[-\frac{\hbar^2}{2\mu}\left(\frac{d^2}{dr_\alpha^2}-\frac{l(l+1)}{r_\alpha^2}\right)\delta_{cc'}+V_{cc'}^{JM}(r_\alpha)\right]u_{c'}(r_\alpha)=E_cu_c(r_\alpha)}.
+\boxed{\sum_{c'}\left[-\frac{\hbar^2}{2\mu}\left(\frac{\mathrm d^2}{\mathrm dr_\alpha^2}-\frac{l(l+1)}{r_\alpha^2}\right)\delta_{cc'}+V_{cc'}^{JM}(r_\alpha)\right]u_{c'}(r_\alpha)=E_cu_c(r_\alpha)}.
 $$
 
 ### 多极势场与耦合矩阵元
@@ -251,10 +251,10 @@ $$
 $$
 \begin{aligned}
 &\left\langle\Phi_{IM_IK}(D)\right|\hat V_{\lambda\mu}(r_\alpha)\left|\Phi_{I'M_I'K'}(D)\right\rangle\\
-={}&\frac{\hat I\hat I'}{16\pi^2}\left[\int d\Omega_D\,D^I_{M_IK}D^{\lambda *}_{\mu0}D^{I'*}_{M_I'K'}\right]V'_{\lambda0;K,K'}(r_\alpha)\\
-&+\frac{\hat I\hat I'}{16\pi^2}(-1)^{I'+K'}\left[\int d\Omega_D\,D^I_{M_IK}D^{\lambda *}_{\mu0}D^{I'*}_{M_I',-K'}\right]V'_{\lambda0;K,-K'}(r_\alpha)\\
-&+\frac{\hat I\hat I'}{16\pi^2}(-1)^{I+K}\left[\int d\Omega_D\,D^I_{M_I,-K}D^{\lambda *}_{\mu0}D^{I'*}_{M_I'K'}\right]V'_{\lambda0;-K,K'}(r_\alpha)\\
-&+\frac{\hat I\hat I'}{16\pi^2}(-1)^{I+K+I'+K'}\left[\int d\Omega_D\,D^I_{M_I,-K}D^{\lambda *}_{\mu0}D^{I'*}_{M_I',-K'}\right]V'_{\lambda0;-K,-K'}(r_\alpha).
+={}&\frac{\hat I\hat I'}{16\pi^2}\left[\int \mathrm d\Omega_D\,D^I_{M_IK}D^{\lambda *}_{\mu0}D^{I'*}_{M_I'K'}\right]V'_{\lambda0;K,K'}(r_\alpha)\\
+&+\frac{\hat I\hat I'}{16\pi^2}(-1)^{I'+K'}\left[\int \mathrm d\Omega_D\,D^I_{M_IK}D^{\lambda *}_{\mu0}D^{I'*}_{M_I',-K'}\right]V'_{\lambda0;K,-K'}(r_\alpha)\\
+&+\frac{\hat I\hat I'}{16\pi^2}(-1)^{I+K}\left[\int \mathrm d\Omega_D\,D^I_{M_I,-K}D^{\lambda *}_{\mu0}D^{I'*}_{M_I'K'}\right]V'_{\lambda0;-K,K'}(r_\alpha)\\
+&+\frac{\hat I\hat I'}{16\pi^2}(-1)^{I+K+I'+K'}\left[\int \mathrm d\Omega_D\,D^I_{M_I,-K}D^{\lambda *}_{\mu0}D^{I'*}_{M_I',-K'}\right]V'_{\lambda0;-K,-K'}(r_\alpha).
 \end{aligned}
 $$
 
@@ -269,17 +269,17 @@ $$
 $$
 \begin{aligned}
 &\left\langle\Phi_{IM_IK}(D)\right|\hat V_{\lambda\mu}(r_\alpha)\left|\Phi_{I'M_I'K'}(D)\right\rangle\\
-={}&\frac{\hat I\hat I'}{16\pi^2}(-1)^{\mu+M_I'-K'}\left[\int d\Omega_D\,D^I_{M_IK}D^\lambda_{-\mu,0}D^{I'}_{-M_I',-K'}\right]V'_{\lambda0;K,K'}(r_\alpha)\\
-&+\frac{\hat I\hat I'}{16\pi^2}(-1)^{I'+K'}(-1)^{\mu+M_I'+K'}\left[\int d\Omega_D\,D^I_{M_IK}D^\lambda_{-\mu,0}D^{I'}_{-M_I',K'}\right]V'_{\lambda0;K,-K'}(r_\alpha)\\
-&+\frac{\hat I\hat I'}{16\pi^2}(-1)^{I+K}(-1)^{\mu+M_I'-K'}\left[\int d\Omega_D\,D^I_{M_I,-K}D^\lambda_{-\mu,0}D^{I'}_{-M_I',-K'}\right]V'_{\lambda0;-K,K'}(r_\alpha)\\
-&+\frac{\hat I\hat I'}{16\pi^2}(-1)^{I+K+I'+K'}(-1)^{\mu+M_I'+K'}\left[\int d\Omega_D\,D^I_{M_I,-K}D^\lambda_{-\mu,0}D^{I'}_{-M_I',K'}\right]V'_{\lambda0;-K,-K'}(r_\alpha).
+={}&\frac{\hat I\hat I'}{16\pi^2}(-1)^{\mu+M_I'-K'}\left[\int \mathrm d\Omega_D\,D^I_{M_IK}D^\lambda_{-\mu,0}D^{I'}_{-M_I',-K'}\right]V'_{\lambda0;K,K'}(r_\alpha)\\
+&+\frac{\hat I\hat I'}{16\pi^2}(-1)^{I'+K'}(-1)^{\mu+M_I'+K'}\left[\int \mathrm d\Omega_D\,D^I_{M_IK}D^\lambda_{-\mu,0}D^{I'}_{-M_I',K'}\right]V'_{\lambda0;K,-K'}(r_\alpha)\\
+&+\frac{\hat I\hat I'}{16\pi^2}(-1)^{I+K}(-1)^{\mu+M_I'-K'}\left[\int \mathrm d\Omega_D\,D^I_{M_I,-K}D^\lambda_{-\mu,0}D^{I'}_{-M_I',-K'}\right]V'_{\lambda0;-K,K'}(r_\alpha)\\
+&+\frac{\hat I\hat I'}{16\pi^2}(-1)^{I+K+I'+K'}(-1)^{\mu+M_I'+K'}\left[\int \mathrm d\Omega_D\,D^I_{M_I,-K}D^\lambda_{-\mu,0}D^{I'}_{-M_I',K'}\right]V'_{\lambda0;-K,-K'}(r_\alpha).
 \end{aligned}
 $$
 
 三重 Wigner-$D$ 函数积分满足
 
 $$
-\int d\Omega_D\,D^{(j_1)}_{\mu_1\nu_1}(\Omega_D)D^{(j_2)}_{\mu_2\nu_2}(\Omega_D)D^{(j_3)}_{\mu_3\nu_3}(\Omega_D)=8\pi^2\begin{pmatrix}j_1&j_2&j_3\\\mu_1&\mu_2&\mu_3\end{pmatrix}\begin{pmatrix}j_1&j_2&j_3\\\nu_1&\nu_2&\nu_3\end{pmatrix}.
+\int \mathrm d\Omega_D\,D^{(j_1)}_{\mu_1\nu_1}(\Omega_D)D^{(j_2)}_{\mu_2\nu_2}(\Omega_D)D^{(j_3)}_{\mu_3\nu_3}(\Omega_D)=8\pi^2\begin{pmatrix}j_1&j_2&j_3\\\mu_1&\mu_2&\mu_3\end{pmatrix}\begin{pmatrix}j_1&j_2&j_3\\\nu_1&\nu_2&\nu_3\end{pmatrix}.
 $$
 
 取
@@ -363,13 +363,13 @@ $$
 以 $\mathbf r_D'=r_D\hat{\mathbf r}_D'$ 表示子核内相对于其质心的内禀坐标。子核电荷密度 $\rho_D$ 归一化为
 
 $$
-\int d^3r_D'\,\rho_D(\mathbf r_D')=1.
+\int \mathrm d^3\mathbf r_D'\,\rho_D(\mathbf r_D')=1.
 $$
 
 内禀系中的库伦势为
 
 $$
-V^{\prime C}(\mathbf r_\alpha')=\frac{e^2Z_\alpha Z_D}{4\pi\epsilon_0}\int d^3r_D'\,\frac{\rho_D(\mathbf r_D')}{|\mathbf r_\alpha'-\mathbf r_D'|}.
+V^{\prime C}(\mathbf r_\alpha')=\frac{e^2Z_\alpha Z_D}{4\pi\epsilon_0}\int \mathrm d^3\mathbf r_D'\,\frac{\rho_D(\mathbf r_D')}{|\mathbf r_\alpha'-\mathbf r_D'|}.
 $$
 
 利用
@@ -381,7 +381,7 @@ $$
 对于积分域内处处满足 $r_\alpha\geq r_D$ 的子核外部区域，定义
 
 $$
-V^{\prime C}(\mathbf r_\alpha')=\frac{eZ_\alpha}{4\pi\epsilon_0}\sum_{\lambda,\mu}\frac{4\pi}{2\lambda+1}\frac{Q_{\lambda\mu}^D}{r_\alpha^{\lambda+1}}Y_{\lambda\mu}^*(\hat{\mathbf r}_\alpha'),\qquad Q_{\lambda\mu}^D=eZ_D\int d^3r_D'\,\rho_D(\mathbf r_D')r_D^\lambda Y_{\lambda\mu}(\hat{\mathbf r}_D').
+V^{\prime C}(\mathbf r_\alpha')=\frac{eZ_\alpha}{4\pi\epsilon_0}\sum_{\lambda,\mu}\frac{4\pi}{2\lambda+1}\frac{Q_{\lambda\mu}^D}{r_\alpha^{\lambda+1}}Y_{\lambda\mu}^*(\hat{\mathbf r}_\alpha'),\qquad Q_{\lambda\mu}^D=eZ_D\int \mathrm d^3\mathbf r_D'\,\rho_D(\mathbf r_D')r_D^\lambda Y_{\lambda\mu}(\hat{\mathbf r}_D').
 $$
 
 因此
