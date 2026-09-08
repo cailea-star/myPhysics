@@ -73,17 +73,23 @@ struct LocalEnergyTrace {
 
 /**
  * @brief Calculate field-density matrix traces.
- * @math (Γ,ρ,Δ,κ) → (TrΓρ,TrΔκ,TrΔρ)
+ * @math (Γ,ρ,Δ,κ) → (½TrΓρ,½TrΔκᵀ,Δρ_weighted)
  * @output Particle-hole and pairing traces.
  */
 MatrixTrace calc_matrix_trace(const AxialHFBBlockList& blocklist_) {
     MatrixTrace trace_;
 
-    // Σ_b Tr(Γ_bρ_b,Δ_bκ_b,Δ_bρ_b).
+    // Σ_b → (E_ph,E_pair,Δρ_weighted).
     for (const auto& block_ : blocklist_.blocks_X1D_block) {
-        trace_.Eph_F += block_.Gamma_F2D_bsp_bsp.cwiseProduct(block_.rho_F2D_bsp_bsp).sum();
-        trace_.Epair_F += block_.Delta_F2D_bsp_bsp.cwiseProduct(block_.kappa_F2D_bsp_bsp).sum();
-        trace_.DeltaRho_F += block_.Delta_F2D_bsp_bsp.cwiseProduct(block_.rho_F2D_bsp_bsp).sum();
+        // E_ph=½Σ_ab(Γ⁺⁺_ab ρ⁺⁺_ab+Γ⁻⁻_ab ρ⁻⁻_ab).
+        trace_.Eph_F += 0.5 * block_.GammaPosPos_F2D_bsp_bsp.cwiseProduct(block_.rhoPosPos_F2D_bsp_bsp).sum();
+        trace_.Eph_F += 0.5 * block_.GammaNegNeg_F2D_bsp_bsp.cwiseProduct(block_.rhoNegNeg_F2D_bsp_bsp).sum();
+        // E_pair=½Σ_ab(Δ⁺⁻_ab κ⁺⁻_ab+Δ⁻⁺_ab κ⁻⁺_ab).
+        trace_.Epair_F += 0.5 * block_.DeltaPosNeg_F2D_bsp_bsp.cwiseProduct(block_.kappaPosNeg_F2D_bsp_bsp).sum();
+        trace_.Epair_F += 0.5 * block_.DeltaNegPos_F2D_bsp_bsp.cwiseProduct(block_.kappaNegPos_F2D_bsp_bsp).sum();
+        // Δρ_weighted=½Σ_ab η_b(Δ⁺⁻_ab ρ⁺⁺_ab-Δ⁻⁺_ab ρ⁻⁻_ab); η_b=2Σ_b.
+        trace_.DeltaRho_F += 0.5 * (block_.DeltaPosNeg_F2D_bsp_bsp * block_.twoSigma_F1D_bsp.asDiagonal()).cwiseProduct(block_.rhoPosPos_F2D_bsp_bsp).sum();
+        trace_.DeltaRho_F -= 0.5 * (block_.DeltaNegPos_F2D_bsp_bsp * block_.twoSigma_F1D_bsp.asDiagonal()).cwiseProduct(block_.rhoNegNeg_F2D_bsp_bsp).sum();
     }
 
     return trace_;
@@ -229,7 +235,7 @@ double estimate_last_lambda(const AxialHFBBlockList& blocklist_, const HFBSettin
                 continue;
             }
 
-            double V2_F = block_.V_F2D_bsp_bqp.col(bqp_I).squaredNorm();
+            double V2_F = block_.VNeg_F2D_bsp_bqp.col(bqp_I).squaredNorm();
 
             // B_μ → V_μ²=1/2.
             for (const AxialHFBBlocking& activeBlocking_ : activeBlockings_) {

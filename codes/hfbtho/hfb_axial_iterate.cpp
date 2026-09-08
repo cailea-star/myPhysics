@@ -18,18 +18,18 @@ namespace {
 
 /**
  * @brief Calculate packed Γ and Δ storage.
- * @math N_p=2Σ_b n_b(n_b+1)/2
+ * @math N_p=Σ_b[n_b(n_b+1)+2n_b²]
  * @output Packed element count.
  */
 int calc_packed_size(const AxialHFBBlockList& blocklist_) {
     int Npacked_I = 0;
 
-    // N_p ← Σ_b n_b(n_b+1)/2.
+    // Γ⁺⁺ ⊕ Γ⁻⁻ ⊕ Δ⁺⁻ ⊕ Δ⁻⁺ → Σ_b[n_b(n_b+1)+2n_b²].
     for (const auto& block_ : blocklist_.blocks_X1D_block) {
         const int Nmatrix_I = static_cast<int>(block_.labels_S1D_bsp.size());
-        Npacked_I += Nmatrix_I * (Nmatrix_I + 1) / 2;
+        Npacked_I += Nmatrix_I * (Nmatrix_I + 1) + 2 * Nmatrix_I * Nmatrix_I;
     }
-    return 2 * Npacked_I; // Γ ⊕ Δ.
+    return Npacked_I;
 }
 
 /**
@@ -67,33 +67,69 @@ void unpack_upper_triangle(Eigen::MatrixXd& matrix_F2D_row_column_, const Eigen:
 }
 
 /**
+ * @brief Pack all matrix entries in column order.
+ * @math A_{rc} → x_{k+r+N_rc}
+ * @output Updated packed vector and index.
+ */
+void pack_full_matrix(const Eigen::MatrixXd& matrix_F2D_row_column_, Eigen::VectorXd& data_F1D_packed_, int& packed_I_) {
+    // x_k ← A_{rc}; columns precede rows.
+    for (int column_I = 0; column_I < matrix_F2D_row_column_.cols(); ++column_I) {
+        for (int row_I = 0; row_I < matrix_F2D_row_column_.rows(); ++row_I) {
+            data_F1D_packed_(packed_I_++) = matrix_F2D_row_column_(row_I, column_I);
+        }
+    }
+}
+
+/**
+ * @brief Unpack all matrix entries in column order.
+ * @math x_{k+r+N_rc} → A_{rc}
+ * @output Updated matrix and index.
+ */
+void unpack_full_matrix(Eigen::MatrixXd& matrix_F2D_row_column_, const Eigen::VectorXd& data_F1D_packed_, int& packed_I_) {
+    // x_k → A_{rc}; no transpose constraint.
+    for (int column_I = 0; column_I < matrix_F2D_row_column_.cols(); ++column_I) {
+        for (int row_I = 0; row_I < matrix_F2D_row_column_.rows(); ++row_I) {
+            matrix_F2D_row_column_(row_I, column_I) = data_F1D_packed_(packed_I_++);
+        }
+    }
+}
+
+/**
  * @brief Pack neutron and proton HFB fields.
- * @math (Γ_n,Δ_n,Γ_p,Δ_p) → x
+ * @math (Γ_n⁺⁺,Γ_n⁻⁻,Δ_n⁺⁻,Δ_n⁻⁺,Γ_p⁺⁺,Γ_p⁻⁻,Δ_p⁺⁻,Δ_p⁻⁺) → x
  * @output Packed field vector.
  */
 void pack_Gamma_Delta(const AxialHFBBlockList& blocklist_n_, const AxialHFBBlockList& blocklist_p_, Eigen::VectorXd& data_F1D_packed_) {
     int packed_I = 0;
 
-    // x ← Γ_n ⊕ Δ_n ⊕ Γ_p ⊕ Δ_p.
-    for (const auto& block_ : blocklist_n_.blocks_X1D_block) {pack_upper_triangle(block_.Gamma_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
-    for (const auto& block_ : blocklist_n_.blocks_X1D_block) {pack_upper_triangle(block_.Delta_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
-    for (const auto& block_ : blocklist_p_.blocks_X1D_block) {pack_upper_triangle(block_.Gamma_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
-    for (const auto& block_ : blocklist_p_.blocks_X1D_block) {pack_upper_triangle(block_.Delta_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
+    // x ← Γ_n⁺⁺ ⊕ Γ_n⁻⁻ ⊕ Δ_n⁺⁻ ⊕ Δ_n⁻⁺ ⊕ Γ_p⁺⁺ ⊕ Γ_p⁻⁻ ⊕ Δ_p⁺⁻ ⊕ Δ_p⁻⁺.
+    for (const auto& block_ : blocklist_n_.blocks_X1D_block) {pack_upper_triangle(block_.GammaPosPos_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
+    for (const auto& block_ : blocklist_n_.blocks_X1D_block) {pack_upper_triangle(block_.GammaNegNeg_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
+    for (const auto& block_ : blocklist_n_.blocks_X1D_block) {pack_full_matrix(block_.DeltaPosNeg_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
+    for (const auto& block_ : blocklist_n_.blocks_X1D_block) {pack_full_matrix(block_.DeltaNegPos_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
+    for (const auto& block_ : blocklist_p_.blocks_X1D_block) {pack_upper_triangle(block_.GammaPosPos_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
+    for (const auto& block_ : blocklist_p_.blocks_X1D_block) {pack_upper_triangle(block_.GammaNegNeg_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
+    for (const auto& block_ : blocklist_p_.blocks_X1D_block) {pack_full_matrix(block_.DeltaPosNeg_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
+    for (const auto& block_ : blocklist_p_.blocks_X1D_block) {pack_full_matrix(block_.DeltaNegPos_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
 }
 
 /**
  * @brief Unpack neutron and proton HFB fields.
- * @math x → (Γ_n,Δ_n,Γ_p,Δ_p)
+ * @math x → (Γ_n⁺⁺,Γ_n⁻⁻,Δ_n⁺⁻,Δ_n⁻⁺,Γ_p⁺⁺,Γ_p⁻⁻,Δ_p⁺⁻,Δ_p⁻⁺)
  * @output Updated block fields.
  */
 void unpack_Gamma_Delta(AxialHFBBlockList& blocklist_n_, AxialHFBBlockList& blocklist_p_, const Eigen::VectorXd& data_F1D_packed_) {
     int packed_I = 0;
 
-    // x → Γ_n ⊕ Δ_n ⊕ Γ_p ⊕ Δ_p.
-    for (auto& block_ : blocklist_n_.blocks_X1D_block) {unpack_upper_triangle(block_.Gamma_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
-    for (auto& block_ : blocklist_n_.blocks_X1D_block) {unpack_upper_triangle(block_.Delta_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
-    for (auto& block_ : blocklist_p_.blocks_X1D_block) {unpack_upper_triangle(block_.Gamma_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
-    for (auto& block_ : blocklist_p_.blocks_X1D_block) {unpack_upper_triangle(block_.Delta_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
+    // x → Γ_n⁺⁺ ⊕ Γ_n⁻⁻ ⊕ Δ_n⁺⁻ ⊕ Δ_n⁻⁺ ⊕ Γ_p⁺⁺ ⊕ Γ_p⁻⁻ ⊕ Δ_p⁺⁻ ⊕ Δ_p⁻⁺.
+    for (auto& block_ : blocklist_n_.blocks_X1D_block) {unpack_upper_triangle(block_.GammaPosPos_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
+    for (auto& block_ : blocklist_n_.blocks_X1D_block) {unpack_upper_triangle(block_.GammaNegNeg_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
+    for (auto& block_ : blocklist_n_.blocks_X1D_block) {unpack_full_matrix(block_.DeltaPosNeg_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
+    for (auto& block_ : blocklist_n_.blocks_X1D_block) {unpack_full_matrix(block_.DeltaNegPos_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
+    for (auto& block_ : blocklist_p_.blocks_X1D_block) {unpack_upper_triangle(block_.GammaPosPos_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
+    for (auto& block_ : blocklist_p_.blocks_X1D_block) {unpack_upper_triangle(block_.GammaNegNeg_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
+    for (auto& block_ : blocklist_p_.blocks_X1D_block) {unpack_full_matrix(block_.DeltaPosNeg_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
+    for (auto& block_ : blocklist_p_.blocks_X1D_block) {unpack_full_matrix(block_.DeltaNegPos_F2D_bsp_bsp, data_F1D_packed_, packed_I);}
 }
 
 /**
@@ -192,7 +228,7 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
     // Selected kernels → cached tables.
     if (hfbsettings.termSwitches.addFiniteRangeGogny_B) {gogny.build_tables();}
     if (hfbsettings.termSwitches.addFiniteRangeCoulomb_B) {coulomb.build_tables();}
-    if (hfbsettings.termSwitches.addLocalCoulomb_B) {coulombField.build(axialconfig.useReflection_B, edfActive_.e2charg_F);}
+    if (hfbsettings.termSwitches.addLocalCoulomb_B) {coulombField.build(axialconfig.useParity_B, edfActive_.e2charg_F);}
 
     // (D_p,D_n) → (F_p,F_n).
     const auto rebuild_fields_Func = [&]() {
@@ -220,7 +256,7 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
         }
     };
 
-    // x = Γ_n ⊕ Δ_n ⊕ Γ_p ⊕ Δ_p.
+    // x = Γ_n⁺⁺ ⊕ Γ_n⁻⁻ ⊕ Δ_n⁺⁻ ⊕ Δ_n⁻⁺ ⊕ Γ_p⁺⁺ ⊕ Γ_p⁻⁻ ⊕ Δ_p⁺⁻ ⊕ Δ_p⁻⁺.
     const int Npacked_I = calc_packed_size(blocklist_n) + calc_packed_size(blocklist_p);
     Eigen::VectorXd x_F1D_packed(Npacked_I);
     Eigen::VectorXd Gx_F1D_packed(Npacked_I);
@@ -230,8 +266,8 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
     double lambdaTolerance_F = hfbsettings.accuracy_F;
     const auto calc_Gx_Func = [&](const Eigen::VectorXd& x_F1D_packed_, Eigen::VectorXd& Gx_F1D_packed_) {
         unpack_Gamma_Delta(blocklist_n, blocklist_p, x_F1D_packed_);
-        update_blocklist_lambda(blocklist_n, Ntarget_I, activeBlockings_, true, lambdaTolerance_F);
-        update_blocklist_lambda(blocklist_p, Ztarget_I, activeBlockings_, false, lambdaTolerance_F);
+        update_blocklist_lambda(blocklist_n, Ntarget_I, activeBlockings_, lambdaTolerance_F);
+        update_blocklist_lambda(blocklist_p, Ztarget_I, activeBlockings_, lambdaTolerance_F);
         density_p.update_density(global_basis, blocklist_p);
         density_n.update_density(global_basis, blocklist_n);
         rebuild_fields_Func();

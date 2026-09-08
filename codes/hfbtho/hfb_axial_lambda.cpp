@@ -16,116 +16,41 @@
 
 namespace {
 
-// b → {ℋ_b,eigensolver_b}.
-struct SearchLambdaWorkspace {
-    bool isNeutron_B;
-    const HFBSettings& hfbsettings;
-    AxialHFBBlockList& blocklist;
-    Eigen::VectorXd N_F1D_block{};
-    const std::vector<AxialHFBBlocking>& activeBlockings;
-    std::vector<Eigen::MatrixXd> Hhfb_F3D_block_2bsp_2bsp{};
-    std::vector<Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>> eigensolvers_X1D_block{};
-};
-
 /**
- * @brief  Calculate particle number without density matrices.
- * @math   N(λ)=2Σ_μ[(1-f_μ)||V_μ||²+f_μ||U_μ||²]
- * @output Trial particle number.
+ * @brief  Calculate trial particle number from both density sectors.
+ * @math   N(λ)=Σ_b[Tr ρ_b⁺⁺+Tr ρ_b⁻⁻]
+ * @output Trial block amplitudes, densities, and particle number.
+ * @note   Uses block workspaces and the current blocking implementation.
  */
-double calc_N_at_lambda(double lambda_F, SearchLambdaWorkspace& lambdaWorkspace_) {
-    AxialHFBBlockList& blocklist_ = lambdaWorkspace_.blocklist;
-    const HFBSettings& hfbsettings_ = lambdaWorkspace_.hfbsettings;
-    const std::vector<AxialHFBBlocking>& activeBlockings_ = lambdaWorkspace_.activeBlockings;
-    const bool isNeutron_B = lambdaWorkspace_.isNeutron_B;
-    Eigen::VectorXd& N_F1D_block_ = lambdaWorkspace_.N_F1D_block;
+double calc_N_at_lambda(double lambda_F, AxialHFBBlockList& blocklist_, const HFBSettings& hfbsettings_, const std::vector<AxialHFBBlocking>& activeBlockings_) {
+    // λ → ℋ⁺ → {U⁺,V⁻,ρ⁺⁺,ρ⁻⁻,κ⁺⁻,κ⁻⁺}; reuse block workspaces.
     blocklist_.lambda_F = lambda_F;
-    const int Nblock_I = static_cast<int>(blocklist_.blocks_X1D_block.size());
-    constexpr double EspCutTolerance_F = 1.0e-6;
-    static const double EspCutTail_F = std::log(1.0 / EspCutTolerance_F - 1.0) / 100.0;
+    blocklist_.update_UV_E_rho_kappa(hfbsettings_);
 
-    // λ → {(E_μ,U_μ,V_μ),N_b}_b.
-    #pragma omp parallel for schedule(dynamic, 1)
-    for (int block_I = 0; block_I < Nblock_I; ++block_I) {
-        AxialHFBBlock& block_ = blocklist_.blocks_X1D_block[block_I];
-        const int Nbsp_I = static_cast<int>(block_.labels_S1D_bsp.size());
-        Eigen::MatrixXd& Hhfb_F2D_2bsp_2bsp = lambdaWorkspace_.Hhfb_F3D_block_2bsp_2bsp[block_I];
-        Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>& eigensolver_ = lambdaWorkspace_.eigensolvers_X1D_block[block_I];
-
-        // (Γ-λI,Δ) → ℋ.
-        Hhfb_F2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I) = block_.Gamma_F2D_bsp_bsp;
-        Hhfb_F2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I).diagonal().array() -= lambda_F;
-        Hhfb_F2D_2bsp_2bsp.topRightCorner(Nbsp_I, Nbsp_I) = block_.Delta_F2D_bsp_bsp;
-        Hhfb_F2D_2bsp_2bsp.bottomLeftCorner(Nbsp_I, Nbsp_I) = block_.Delta_F2D_bsp_bsp;
-        Hhfb_F2D_2bsp_2bsp.bottomRightCorner(Nbsp_I, Nbsp_I) = -block_.Gamma_F2D_bsp_bsp;
-        Hhfb_F2D_2bsp_2bsp.bottomRightCorner(Nbsp_I, Nbsp_I).diagonal().array() += lambda_F;
-
-        // ℋ → (E_+,U,V).
-        eigensolver_.compute(Hhfb_F2D_2bsp_2bsp);
-        assert(eigensolver_.info() == Eigen::Success);
-        const Eigen::VectorXd& eigenvalues_F1D_state = eigensolver_.eigenvalues();
-        const Eigen::MatrixXd& eigenvectors_F2D_2bsp_state = eigensolver_.eigenvectors();
-        assert(eigenvalues_F1D_state(Nbsp_I - 1) <= 0.0);
-        assert(eigenvalues_F1D_state(Nbsp_I) >= 0.0);
-        block_.Eqp_F1D_bqp = eigenvalues_F1D_state.tail(Nbsp_I);
-        block_.U_F2D_bsp_bqp = eigenvectors_F2D_2bsp_state.topRightCorner(Nbsp_I, Nbsp_I);
-        block_.V_F2D_bsp_bqp = eigenvectors_F2D_2bsp_state.bottomRightCorner(Nbsp_I, Nbsp_I);
-
-        // (E_μ,U_μ,V_μ) → N_b.
-        double Nblock_F = 0.0;
-        for (int bqp_I = 0; bqp_I < Nbsp_I; ++bqp_I) {
-            const double Eqp_F = block_.Eqp_F1D_bqp(bqp_I);
-            const double Vnorm2_F = block_.V_F2D_bsp_bqp.col(bqp_I).squaredNorm();
-            const double Unorm2_F = block_.U_F2D_bsp_bqp.col(bqp_I).squaredNorm();
-            const double Esp_F = Eqp_F * (1.0 - 2.0 * Vnorm2_F) + lambda_F;
-            if (hfbsettings_.useEspCut_B && Esp_F > hfbsettings_.EspCut_F + EspCutTail_F) {continue;}
-            const double occupation_F = hfbsettings_.temperature_F > 0.0 ? 0.5 * (1.0 - std::tanh(0.5 * Eqp_F / hfbsettings_.temperature_F)) : 0.0;
-            Nblock_F += 2.0 * ((1.0 - occupation_F) * Vnorm2_F + occupation_F * Unorm2_F);
-        }
-        N_F1D_block_(block_I) = Nblock_F;
+    // Trial blocking leaves the persistent state trackers unchanged.
+    for (const AxialHFBBlocking& blocking_ : activeBlockings_) {
+        if (blocking_.isNeutron_B != blocklist_.isNeutron_B) {continue;}
+        AxialHFBBlocking trialBlocking_ = blocking_;
+        trialBlocking_.apply_blocking(blocklist_);
     }
 
-    double Ncalc_F = N_F1D_block_.sum();
-
-    // EFA: N → N+||U_μ||²-||V_μ||².
-    for (const AxialHFBBlocking& blocking_ : activeBlockings_) {
-        if (blocking_.isNeutron_B != isNeutron_B) {continue;}
-        const AxialHFBBlock& block_ = blocklist_.blocks_X1D_block[blocking_.block_I];
-        int bestBqp_I = -1;
-        double bestOverlap_F = -1.0;
-        for (int bqp_I = 0; bqp_I < block_.U_F2D_bsp_bqp.cols(); ++bqp_I) {
-            const double overlapCandidate_F = (blocking_.blockedU_F1D_bsp.array() * block_.U_F2D_bsp_bqp.col(bqp_I).array()).abs().sum() + (blocking_.blockedV_F1D_bsp.array() * block_.V_F2D_bsp_bqp.col(bqp_I).array()).abs().sum();
-            if (!(overlapCandidate_F > bestOverlap_F)) {continue;}
-            bestOverlap_F = overlapCandidate_F;
-            bestBqp_I = bqp_I;
-        }
-        assert(bestBqp_I >= 0);
-        Ncalc_F += block_.U_F2D_bsp_bqp.col(bestBqp_I).squaredNorm();
-        Ncalc_F -= block_.V_F2D_bsp_bqp.col(bestBqp_I).squaredNorm();
+    // N=Σ_b[Tr ρ_b⁺⁺+Tr ρ_b⁻⁻].
+    double Ncalc_F = 0.0;
+    for (const AxialHFBBlock& block_ : blocklist_.blocks_X1D_block) {
+        Ncalc_F += block_.rhoPosPos_F2D_bsp_bsp.trace() + block_.rhoNegNeg_F2D_bsp_bsp.trace();
     }
     return Ncalc_F;
 }
-
 } // namespace
 
-void AxialHFB::update_blocklist_lambda(AxialHFBBlockList& blocklist_, int Ntarget_I, std::vector<AxialHFBBlocking>& activeBlockings_, bool isNeutron_B, double lambdaTolerance_F) {
+void AxialHFB::update_blocklist_lambda(AxialHFBBlockList& blocklist_, int Ntarget_I, std::vector<AxialHFBBlocking>& activeBlockings_, double lambdaTolerance_F) {
     const double Ntolerance_F = std::max(1.0e-8, 1.0e-10 * std::max(1, Ntarget_I));
-    const int Nblock_I = static_cast<int>(blocklist_.blocks_X1D_block.size());
-    SearchLambdaWorkspace lambdaWorkspace_{isNeutron_B, hfbsettings, blocklist_, {}, activeBlockings_};
-    lambdaWorkspace_.Hhfb_F3D_block_2bsp_2bsp.reserve(Nblock_I);
-    lambdaWorkspace_.eigensolvers_X1D_block.reserve(Nblock_I);
-    for (const AxialHFBBlock& block_ : blocklist_.blocks_X1D_block) {
-        const int Nbsp_I = static_cast<int>(block_.labels_S1D_bsp.size());
-        lambdaWorkspace_.Hhfb_F3D_block_2bsp_2bsp.emplace_back(2 * Nbsp_I, 2 * Nbsp_I);
-        lambdaWorkspace_.eigensolvers_X1D_block.emplace_back(2 * Nbsp_I);
-    }
-    lambdaWorkspace_.N_F1D_block.resize(Nblock_I);
-    lambdaWorkspace_.N_F1D_block.setZero();
     std::map<double, double> NerrorByLambda_Map{};
 
     // {B_μ^q} → (ρ_q,κ_q).
     const auto apply_active_blockings_Func = [&]() {
         for (AxialHFBBlocking& blocking_ : activeBlockings_) {
-            if (blocking_.isNeutron_B != isNeutron_B) {continue;}
+            if (blocking_.isNeutron_B != blocklist_.isNeutron_B) {continue;}
             blocking_.apply_blocking(blocklist_);
         }
     };
@@ -134,7 +59,7 @@ void AxialHFB::update_blocklist_lambda(AxialHFBBlockList& blocklist_, int Ntarge
     const auto calc_Nerror_Func = [&](double lambda_F) {
         const auto NerrorIt_ = NerrorByLambda_Map.find(lambda_F);
         if (NerrorIt_ != NerrorByLambda_Map.end()) {return NerrorIt_->second;}
-        const double Ncalc_F = calc_N_at_lambda(lambda_F, lambdaWorkspace_);
+        const double Ncalc_F = calc_N_at_lambda(lambda_F, blocklist_, hfbsettings, activeBlockings_);
         const double Nerror_F = Ncalc_F - static_cast<double>(Ntarget_I);
         NerrorByLambda_Map.emplace(lambda_F, Nerror_F);
         return Nerror_F;

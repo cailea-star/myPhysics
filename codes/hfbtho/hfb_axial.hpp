@@ -12,6 +12,7 @@
 #include <vector>
 
 #include <Eigen/Core>
+#include <Eigen/Eigenvalues>
 
 #include "axial_basis.hpp"
 #include "axial_config.hpp"
@@ -29,7 +30,7 @@ class AxialHFBDensity;
 class AxialHFBField;
 
 /**
- * @brief Store one axial symmetry block.
+ * @brief Store one time-reversal-invariant axial block.
  */
 class AxialHFBBlock {
 public:
@@ -38,13 +39,20 @@ public:
     std::vector<int> indices_I1D_bsp{}; // sp(block,bsp): global indices.
     std::vector<int> indices_I1D_bup{}; // {bsp | Σ=+1/2}.
     std::vector<int> indices_I1D_bdn{}; // {bsp | Σ=-1/2}.
-    Eigen::MatrixXd U_F2D_bsp_bqp{}; // Bogoliubov U_{bsp,bqp}.
-    Eigen::MatrixXd V_F2D_bsp_bqp{}; // Bogoliubov V_{bsp,bqp}.
-    Eigen::MatrixXd rho_F2D_bsp_bsp{}; // Normal density ρ_{bsp,bsp'}.
-    Eigen::MatrixXd kappa_F2D_bsp_bsp{}; // Pair density κ_{bsp,bsp'}.
-    Eigen::MatrixXd Delta_F2D_bsp_bsp{}; // Pairing field Δ_{bsp,bsp'} [MeV].
-    Eigen::MatrixXd Gamma_F2D_bsp_bsp{}; // Particle-hole field Γ_{bsp,bsp'} [MeV].
-    Eigen::VectorXd Eqp_F1D_bqp{}; // Quasiparticle energies E_bqp [MeV].
+    Eigen::VectorXd twoSigma_F1D_bsp{}; // 2Σ_bsp=±1.
+    Eigen::MatrixXd UPos_F2D_bsp_bqp{}; // U⁺
+    Eigen::MatrixXd VNeg_F2D_bsp_bqp{}; // V⁻.
+    Eigen::MatrixXd rhoNegNeg_F2D_bsp_bsp{}; // Normal density ρ⁻⁻_{bsp,bsp'}.
+    Eigen::MatrixXd rhoPosPos_F2D_bsp_bsp{}; // Derived ρ⁺⁺=Dρ⁻⁻D; D=diag(2Σ).
+    Eigen::MatrixXd kappaPosNeg_F2D_bsp_bsp{}; // Pair density κ⁺⁻_{bsp,bsp'}.
+    Eigen::MatrixXd kappaNegPos_F2D_bsp_bsp{}; // Derived κ⁻⁺=-(κ⁺⁻)ᵀ.
+    Eigen::MatrixXd DeltaPosNeg_F2D_bsp_bsp{}; // Pairing field Δ⁺⁻_{bsp,bsp'} [MeV].
+    Eigen::MatrixXd DeltaNegPos_F2D_bsp_bsp{}; // Pairing field Δ⁻⁺=-(Δ⁺⁻)ᵀ [MeV].
+    Eigen::MatrixXd GammaPosPos_F2D_bsp_bsp{}; // h⁺⁺ including kinetic energy [MeV].
+    Eigen::MatrixXd GammaNegNeg_F2D_bsp_bsp{}; // h⁻⁻ including kinetic energy; h⁻⁻=Dh⁺⁺D [MeV]; D=diag(2Σ).
+    Eigen::VectorXd Eqp_F1D_bqp{}; // E⁺=E⁻; columns of U⁺,V⁻ [MeV].
+    Eigen::MatrixXd HPos_F2D_2bsp_2bsp{}; // ℋ⁺ workspace [MeV].
+    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> HPos_eigensolver{}; // ℋ⁺ diagonalization workspace.
 
 public:
     /**
@@ -61,26 +69,39 @@ public:
         twoOmega_I = labels_S1D_bsp.front().twoOmega_I;
 
         // N_bsp → {0_{bsp×bsp},0_bsp}.
-        U_F2D_bsp_bqp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
-        V_F2D_bsp_bqp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
-        rho_F2D_bsp_bsp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
-        kappa_F2D_bsp_bsp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
-        Delta_F2D_bsp_bsp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
-        Gamma_F2D_bsp_bsp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
+        UPos_F2D_bsp_bqp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
+        VNeg_F2D_bsp_bqp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
+        rhoNegNeg_F2D_bsp_bsp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
+        rhoPosPos_F2D_bsp_bsp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
+        kappaPosNeg_F2D_bsp_bsp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
+        kappaNegPos_F2D_bsp_bsp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
+        DeltaPosNeg_F2D_bsp_bsp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
+        DeltaNegPos_F2D_bsp_bsp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
+        GammaPosPos_F2D_bsp_bsp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
+        GammaNegNeg_F2D_bsp_bsp.resize(labels_S1D_bsp.size(), labels_S1D_bsp.size());
         Eqp_F1D_bqp.resize(labels_S1D_bsp.size());
+        HPos_F2D_2bsp_2bsp.resize(2 * labels_S1D_bsp.size(), 2 * labels_S1D_bsp.size());
+        HPos_eigensolver = Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>(HPos_F2D_2bsp_2bsp.rows());
 
-        U_F2D_bsp_bqp.setZero();
-        V_F2D_bsp_bqp.setZero();
-        rho_F2D_bsp_bsp.setZero();
-        kappa_F2D_bsp_bsp.setZero();
-        Delta_F2D_bsp_bsp.setZero();
-        Gamma_F2D_bsp_bsp.setZero();
+        UPos_F2D_bsp_bqp.setZero();
+        VNeg_F2D_bsp_bqp.setZero();
+        rhoNegNeg_F2D_bsp_bsp.setZero();
+        rhoPosPos_F2D_bsp_bsp.setZero();
+        kappaPosNeg_F2D_bsp_bsp.setZero();
+        kappaNegPos_F2D_bsp_bsp.setZero();
+        DeltaPosNeg_F2D_bsp_bsp.setZero();
+        DeltaNegPos_F2D_bsp_bsp.setZero();
+        GammaPosPos_F2D_bsp_bsp.setZero();
+        GammaNegNeg_F2D_bsp_bsp.setZero();
         Eqp_F1D_bqp.setZero();
+        HPos_F2D_2bsp_2bsp.setZero();
 
         // Σ_bsp → ({bsp_↑},{bsp_↓}).
+        twoSigma_F1D_bsp.resize(labels_S1D_bsp.size());
         indices_I1D_bup.reserve(labels_S1D_bsp.size());
         indices_I1D_bdn.reserve(labels_S1D_bsp.size());
         for (int bsp_I = 0; bsp_I < static_cast<int>(labels_S1D_bsp.size()); ++bsp_I) {
+            twoSigma_F1D_bsp(bsp_I) = labels_S1D_bsp[bsp_I].twoSigma_I;
             if (labels_S1D_bsp[bsp_I].twoSigma_I == 1) {indices_I1D_bup.push_back(bsp_I);}
             else {indices_I1D_bdn.push_back(bsp_I);}
         }
@@ -88,7 +109,7 @@ public:
 
     /**
      * @brief Reset particle-hole and pairing fields.
-     * @math (Γ,Δ) → 0
+     * @math (Γ⁺⁺,Γ⁻⁻,Δ⁺⁻,Δ⁻⁺) → 0
      * @output Zeroed block fields.
      */
     void set_zero_Gamma_Delta();
@@ -120,6 +141,7 @@ public:
  */
 class AxialHFBBlockList {
 public:
+    bool isNeutron_B = false; // true: neutron; false: proton.
     double lambda_F = -7.0; // Chemical potential λ [MeV].
     double lambda2_F = 0.0; // Lipkin-Nogami λ₂ [MeV].
     double ELipkinNogami_F = 0.0; // Lipkin-Nogami energy [MeV].
@@ -131,7 +153,8 @@ public:
      * @math C_{axial} → {B_{2Ω,π}}
      * @output Zero-initialized block list.
      */
-    AxialHFBBlockList(const AxialConfig& axialconfig_, const HFBSettings&) {
+    AxialHFBBlockList(const AxialConfig& axialconfig_, const HFBSettings&, bool isNeutron_B_) {
+        isNeutron_B = isNeutron_B_;
         // C_axial → {B_{2Ω,π}}.
         assert(axialconfig_.labels_S2D_block_bsp.size() == axialconfig_.indices_I2D_block_bsp.size());
         const int Nblock_I = static_cast<int>(axialconfig_.labels_S2D_block_bsp.size());
@@ -143,7 +166,7 @@ public:
 
     /**
      * @brief Reset all block fields.
-     * @math {Γ,Δ}_{block} → 0
+     * @math {Γ⁺⁺,Γ⁻⁻,Δ⁺⁻,Δ⁻⁺}_{block} → 0
      * @output Zeroed block fields.
      */
     void set_zero_Gamma_Delta();
@@ -159,6 +182,7 @@ public:
      * @brief Apply the Lipkin-Nogami correction.
      * @math λ_2 → ({Γ_q}_{block},E_{LN})
      * @output Updated blocks and correction energy.
+     * @note Supplied average gap overrides canonical reconstruction.
      */
     void add_lipkin_nogami();
 
@@ -218,10 +242,10 @@ public:
         // (block,bqp) → (V_μ,U_μ).
         assert(block_I >= 0 && block_I < static_cast<int>(blocklist_.blocks_X1D_block.size()));
         const AxialHFBBlock& block_ = blocklist_.blocks_X1D_block[block_I];
-        assert(bqp_I >= 0 && bqp_I < block_.V_F2D_bsp_bqp.cols());
-        assert(bqp_I < block_.U_F2D_bsp_bqp.cols());
-        blockedV_F1D_bsp = block_.V_F2D_bsp_bqp.col(bqp_I);
-        blockedU_F1D_bsp = block_.U_F2D_bsp_bqp.col(bqp_I);
+        assert(bqp_I >= 0 && bqp_I < block_.VNeg_F2D_bsp_bqp.cols());
+        assert(bqp_I < block_.UPos_F2D_bsp_bqp.cols());
+        blockedV_F1D_bsp = block_.VNeg_F2D_bsp_bqp.col(bqp_I);
+        blockedU_F1D_bsp = block_.UPos_F2D_bsp_bqp.col(bqp_I);
     }
 
     /**
@@ -405,7 +429,7 @@ public:
      * @output Initialized HFB solver.
      */
     AxialHFB(const AxialConfig& axialconfig_, const HFBSettings& hfbsettings_, const EDFParamsSkyrme& edf_skyrme_, AxialGaussianGogny gogny_)
-    : axialconfig(axialconfig_), hfbsettings(hfbsettings_), edf_skyrme(edf_skyrme_), gogny(std::move(gogny_)), coulomb(axialconfig_, edf_skyrme_.e2charg_F), global_basis(axialconfig_, axialconfig_.labels_S1D_sp), blocklist_n(axialconfig_, hfbsettings_), blocklist_p(axialconfig_, hfbsettings_), density_p(axialconfig_), density_n(axialconfig_), field_p(axialconfig_), field_n(axialconfig_), coulombField(global_basis) {}
+    : axialconfig(axialconfig_), hfbsettings(hfbsettings_), edf_skyrme(edf_skyrme_), gogny(std::move(gogny_)), coulomb(axialconfig_, edf_skyrme_.e2charg_F), global_basis(axialconfig_, axialconfig_.labels_S1D_sp), blocklist_n(axialconfig_, hfbsettings_, true), blocklist_p(axialconfig_, hfbsettings_, false), density_p(axialconfig_), density_n(axialconfig_), field_p(axialconfig_), field_n(axialconfig_), coulombField(global_basis) {}
 
     /**
      * @brief Initialize deformed Woods-Saxon fields.
@@ -442,5 +466,5 @@ private:
      * @output Updated λ, U, V, E, ρ, and κ.
      * @note Runtime branches implement root bracketing.
      */
-    void update_blocklist_lambda(AxialHFBBlockList& blocklist_, int Ntarget_I, std::vector<AxialHFBBlocking>& activeBlockings_, bool isNeutron_B, double lambdaTolerance_F);
+    void update_blocklist_lambda(AxialHFBBlockList& blocklist_, int Ntarget_I, std::vector<AxialHFBBlocking>& activeBlockings_, double lambdaTolerance_F);
 };

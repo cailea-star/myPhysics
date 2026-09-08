@@ -15,11 +15,42 @@
 #include <vector>
 
 #include <Eigen/Core>
-#include <Eigen/Eigenvalues>
 
 #include "axial_basis.hpp"
 #include "hfb_axial.hpp"
 
+/**
+ * @brief Print a vector or its endpoint samples.
+ * @math x → stdout
+ * @output Full vector or first and last five entries.
+ */
+inline void debug_print_vector(const Eigen::VectorXd& vector_F1D_index_) {
+    if (vector_F1D_index_.size() <= 10) {
+        std::cout << vector_F1D_index_.transpose() << '\n';
+    } else {
+        std::cout << vector_F1D_index_.head(5).transpose() << " ... " << vector_F1D_index_.tail(5).transpose() << '\n';
+    }
+}
+
+/**
+ * @brief Print a matrix or its four corners.
+ * @math A → stdout
+ * @output Full matrix or bounded corner samples.
+ */
+inline void debug_print_matrix(const char* name_Str_, const Eigen::MatrixXd& matrix_F2D_row_column_) {
+    std::cout << name_Str_ << " (" << matrix_F2D_row_column_.rows() << ',' << matrix_F2D_row_column_.cols() << ")\n";
+    if (matrix_F2D_row_column_.rows() <= 10 && matrix_F2D_row_column_.cols() <= 10) {
+        std::cout << matrix_F2D_row_column_ << '\n';
+        return;
+    }
+    const int Nrow_I = std::min(5, static_cast<int>(matrix_F2D_row_column_.rows()));
+    const int Ncolumn_I = std::min(5, static_cast<int>(matrix_F2D_row_column_.cols()));
+    // A → {top-left,top-right,bottom-left,bottom-right}.
+    std::cout << "[top, left]\n" << matrix_F2D_row_column_.topLeftCorner(Nrow_I, Ncolumn_I) << '\n';
+    std::cout << "[top, right]\n" << matrix_F2D_row_column_.topRightCorner(Nrow_I, Ncolumn_I) << '\n';
+    std::cout << "[bottom, left]\n" << matrix_F2D_row_column_.bottomLeftCorner(Nrow_I, Ncolumn_I) << '\n';
+    std::cout << "[bottom, right]\n" << matrix_F2D_row_column_.bottomRightCorner(Nrow_I, Ncolumn_I) << '\n';
+}
 /**
  * @brief Print axial quadrature nodes.
  * @math (ζ_z,η_r) → stdout
@@ -32,8 +63,10 @@ inline void debug_meshes(const AxialBasis& basis_) {
     // (ζ_z,η_r) → stdout.
     std::cout << std::scientific << std::setprecision(5) << std::right;
     std::cout << "\n【debug begin】gauss_nodes::C++  (nGH=" << zeta_F1D_z.size() << ", nGL=" << eta_F1D_r.size() << ")" << std::endl;
-    std::cout << std::setw(10) << "GH_zeta: " << zeta_F1D_z.head(5).transpose() << " ... " << zeta_F1D_z.tail(5).transpose() << std::endl;
-    std::cout << std::setw(10) << "GH_eta : " << eta_F1D_r.head(5).transpose() << " ... " << eta_F1D_r.tail(5).transpose() << std::endl;
+    std::cout << "GH_zeta: ";
+    debug_print_vector(zeta_F1D_z);
+    std::cout << "GH_eta: ";
+    debug_print_vector(eta_F1D_r);
     std::cout << "【debug end】gauss_nodes::C++" << std::endl;
 }
 
@@ -44,18 +77,18 @@ inline void debug_meshes(const AxialBasis& basis_) {
  */
 inline void debug_labels(const AxialBasis& basis_) {
     const int Nsp_I = static_cast<int>(basis_.labels_S1D_sp.size());
-    const int Nshow_I = std::min(5, Nsp_I);
+    const int Nshow_I = Nsp_I <= 10 ? Nsp_I : 5;
 
     // {α_{sp}}_{first} → stdout.
-    std::cout << "\n【debug begin】spLabels::C++  (Omega2=1, sp_num =" << Nsp_I << ")" << std::endl;
+    std::cout << "\n【debug begin】spLabels::C++  (sp_num =" << Nsp_I << ")" << std::endl;
     for (int sp_I = 0; sp_I < Nshow_I; ++sp_I) {
         const AxialSPLabel& label_ = basis_.labels_S1D_sp[sp_I];
         std::cout << "  [" << sp_I << "] (nz=" << label_.nz_I << ",nr=" << label_.nr_I << ",L=" << label_.Lambda_I << ",N=" << label_.N_I << "," << (label_.twoSigma_I > 0 ? "up" : "dn") << ")" << std::endl;
     }
 
     // {α_{sp}}_{last} → stdout.
-    if (Nsp_I > 5) {std::cout << "  ..." << std::endl;}
-    for (int sp_I = std::max(0, Nsp_I - 5); sp_I < Nsp_I; ++sp_I) {
+    if (Nsp_I > 10) {std::cout << "  ..." << std::endl;}
+    for (int sp_I = std::max(Nshow_I, Nsp_I - 5); sp_I < Nsp_I; ++sp_I) {
         const AxialSPLabel& label_ = basis_.labels_S1D_sp[sp_I];
         std::cout << "  [" << sp_I << "] (nz=" << label_.nz_I << ",nr=" << label_.nr_I << ",L=" << label_.Lambda_I << ",N=" << label_.N_I << "," << (label_.twoSigma_I > 0 ? "up" : "dn") << ")" << std::endl;
     }
@@ -71,130 +104,78 @@ inline void debug_field(const AxialHFBField& field_) {
     // F_q(z,r) → stdout.
     std::cout << "\n【debug begin】field::C++  (nz=" << field_.vcent_F2D_z_r.rows() << ", nr=" << field_.vcent_F2D_z_r.cols() << ")" << std::endl;
     std::cout << std::scientific << std::setprecision(5) << std::right;
-    std::cout << std::setw(20) << "vcent [top, left]:\n" << field_.vcent_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "vmass [top, left]:\n" << field_.vmass_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "vpair [top, left]:\n" << field_.vpair_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "vD2   [top, left]:\n" << field_.vD2_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "vDr   [top, left]:\n" << field_.vDr_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "vDz   [top, left]:\n" << field_.vDz_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "vJzphi[top, left]:\n" << field_.vJzphi_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "vJphiz[top, left]:\n" << field_.vJphiz_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "vJphir[top, left]:\n" << field_.vJphir_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "vJrphi[top, left]:\n" << field_.vJrphi_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "vdJ   [top, left]:\n" << field_.vdJ_F2D_z_r.topLeftCorner(5, 5) << "\n";
+    debug_print_matrix("vcent", field_.vcent_F2D_z_r);
+    debug_print_matrix("vmass", field_.vmass_F2D_z_r);
+    debug_print_matrix("vpair", field_.vpair_F2D_z_r);
+    debug_print_matrix("vD2", field_.vD2_F2D_z_r);
+    debug_print_matrix("vDr", field_.vDr_F2D_z_r);
+    debug_print_matrix("vDz", field_.vDz_F2D_z_r);
+    debug_print_matrix("vJzphi", field_.vJzphi_F2D_z_r);
+    debug_print_matrix("vJphiz", field_.vJphiz_F2D_z_r);
+    debug_print_matrix("vJphir", field_.vJphir_F2D_z_r);
+    debug_print_matrix("vJrphi", field_.vJrphi_F2D_z_r);
+    debug_print_matrix("vdJ", field_.vdJ_F2D_z_r);
     std::cout << "【debug end】field::C++" << std::endl;
 }
 
 /**
  * @brief Print block particle-hole and pairing fields.
- * @math (Γ_b,Δ_b) → stdout
+ * @math (Γ_b⁺⁺,Γ_b⁻⁻,Δ_b⁺⁻,Δ_b⁻⁺) → stdout
  * @output Selected block-field submatrices.
  */
 inline void debug_Gamma_Delta(const AxialHFBBlock& block_) {
-    // (Γ_b,Δ_b) → stdout.
+    // (Γ_b⁺⁺,Γ_b⁻⁻,Δ_b⁺⁻,Δ_b⁻⁺) → stdout.
     std::cout << "\n【debug begin】gamdel::C++  (Omega2=" << block_.twoOmega_I << ", sp_num =" << block_.labels_S1D_bsp.size() << ")" << std::endl;
     std::cout << std::scientific << std::setprecision(5) << std::right;
-    std::cout << std::setw(20) << "Gamma[top, left]:\n" << block_.Gamma_F2D_bsp_bsp.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "Gamma[bot, left]:\n" << block_.Gamma_F2D_bsp_bsp.bottomLeftCorner(5, 5) << "\n\n";
-    std::cout << std::setw(20) << "Delta[top, left]:\n" << block_.Delta_F2D_bsp_bsp.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "Delta[bot, left]:\n" << block_.Delta_F2D_bsp_bsp.bottomLeftCorner(5, 5) << "\n";
+    debug_print_matrix("GammaPosPos", block_.GammaPosPos_F2D_bsp_bsp);
+    debug_print_matrix("GammaNegNeg", block_.GammaNegNeg_F2D_bsp_bsp);
+    debug_print_matrix("DeltaPosNeg", block_.DeltaPosNeg_F2D_bsp_bsp);
+    debug_print_matrix("DeltaNegPos", block_.DeltaNegPos_F2D_bsp_bsp);
     std::cout << "【debug end】gamdel::C++" << std::endl;
 }
 
 /**
- * @brief Print block quasiparticle solutions.
- * @math (Γ_b,Δ_b,λ) → (E,U,V)
- * @output Selected quasiparticle values.
+ * @brief Print representative quasiparticle solutions.
+ * @math (Γ⁺⁺,Γ⁻⁻,Δ⁺⁻,Δ⁻⁺,λ) → ℋ⁺ → (E,U⁺,V⁻)
+ * @output Selected quasiparticle values; input block remains unchanged.
  */
-inline void debug_UV(const AxialHFBBlock& blockInput_, double lambda_F) {
+inline void debug_UV(const AxialHFBBlock& blockInput_, double lambda_F, const HFBSettings& hfbsettings_) {
     AxialHFBBlock block_ = blockInput_;
-    const int Nsp_I = static_cast<int>(block_.labels_S1D_bsp.size());
+    if (std::isfinite(lambda_F)) {block_.update_UV_E_rho_kappa(hfbsettings_, lambda_F);}
 
-    // λ ∈ ℝ → diagonalize ℋ.
-    std::cout << "\n【debug begin】lambda::C++  (Omega2=" << block_.twoOmega_I << ", sp_num =" << Nsp_I << ", lambda0=" << lambda_F << ")" << std::endl;
-    if (std::isfinite(lambda_F)) {
-        Eigen::MatrixXd H_F2D_nambu_nambu(2 * Nsp_I, 2 * Nsp_I);
-        const Eigen::MatrixXd I_F2D_bsp_bsp = Eigen::MatrixXd::Identity(Nsp_I, Nsp_I);
-        H_F2D_nambu_nambu.topLeftCorner(Nsp_I, Nsp_I) = block_.Gamma_F2D_bsp_bsp - lambda_F * I_F2D_bsp_bsp;
-        H_F2D_nambu_nambu.topRightCorner(Nsp_I, Nsp_I) = block_.Delta_F2D_bsp_bsp;
-        H_F2D_nambu_nambu.bottomLeftCorner(Nsp_I, Nsp_I) = block_.Delta_F2D_bsp_bsp;
-        H_F2D_nambu_nambu.bottomRightCorner(Nsp_I, Nsp_I) = -block_.Gamma_F2D_bsp_bsp + lambda_F * I_F2D_bsp_bsp;
-        Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigensolver_(H_F2D_nambu_nambu);
-        assert(eigensolver_.info() == Eigen::Success);
-        const Eigen::VectorXd& Eqp_F1D_nambu = eigensolver_.eigenvalues();
-        const Eigen::MatrixXd& UV_F2D_nambu_nambu = eigensolver_.eigenvectors();
-        int bqpCount_I = 0;
-
-        // E_μ>0 → (E_μ,U_μ,V_μ).
-        for (int nambu_I = 0; nambu_I < 2 * Nsp_I; ++nambu_I) {
-            if (Eqp_F1D_nambu(nambu_I) > 0.0) {
-                block_.Eqp_F1D_bqp(bqpCount_I) = Eqp_F1D_nambu(nambu_I);
-                block_.U_F2D_bsp_bqp.col(bqpCount_I) = UV_F2D_nambu_nambu.col(nambu_I).head(Nsp_I);
-                block_.V_F2D_bsp_bqp.col(bqpCount_I) = UV_F2D_nambu_nambu.col(nambu_I).tail(Nsp_I);
-                ++bqpCount_I;
-            }
+    // (E,U,V) → bounded quasiparticle samples.
+    const auto print_sector_Func = [&](const char* sector_Str_, const Eigen::VectorXd& Eqp_F1D_bqp_, const Eigen::MatrixXd& U_F2D_bsp_bqp_, const Eigen::MatrixXd& V_F2D_bsp_bqp_) {
+        std::cout << sector_Str_ << " (Nqp=" << Eqp_F1D_bqp_.size() << ")\nEqp: ";
+        debug_print_vector(Eqp_F1D_bqp_);
+        for (int bqp_I = 0; bqp_I < std::min(5, static_cast<int>(Eqp_F1D_bqp_.size())); ++bqp_I) {
+            std::cout << "U[" << bqp_I << "]: ";
+            debug_print_vector(U_F2D_bsp_bqp_.col(bqp_I));
+            std::cout << "V[" << bqp_I << "]: ";
+            debug_print_vector(V_F2D_bsp_bqp_.col(bqp_I));
         }
-    }
+    };
 
-    // {(E_μ,U_μ,V_μ)}_{μ=0}^4 → stdout.
+    // {Eqp,UPos,VNeg} → stdout.
+    std::cout << "\n【debug begin】lambda::C++ (Omega2=" << block_.twoOmega_I << ", lambda=" << lambda_F << ")\n";
     std::cout << std::scientific << std::setprecision(5) << std::right;
-    std::cout << std::setw(10) << "Eqp[0] =" << std::setw(10) << block_.Eqp_F1D_bqp(0) << "\n";
-    std::cout << std::setw(10) << "U[0] =" << block_.U_F2D_bsp_bqp.col(0).head(5).transpose() << " ... " << block_.U_F2D_bsp_bqp.col(0).tail(5).transpose() << "\n";
-    std::cout << std::setw(10) << "V[0] =" << block_.V_F2D_bsp_bqp.col(0).head(5).transpose() << " ... " << block_.V_F2D_bsp_bqp.col(0).tail(5).transpose() << "\n";
-    std::cout << std::setw(10) << "Eqp[1] =" << std::setw(10) << block_.Eqp_F1D_bqp(1) << "\n";
-    std::cout << std::setw(10) << "U[1] =" << block_.U_F2D_bsp_bqp.col(1).head(5).transpose() << " ... " << block_.U_F2D_bsp_bqp.col(1).tail(5).transpose() << "\n";
-    std::cout << std::setw(10) << "V[1] =" << block_.V_F2D_bsp_bqp.col(1).head(5).transpose() << " ... " << block_.V_F2D_bsp_bqp.col(1).tail(5).transpose() << "\n";
-    std::cout << std::setw(10) << "Eqp[2] =" << std::setw(10) << block_.Eqp_F1D_bqp(2) << "\n";
-    std::cout << std::setw(10) << "U[2] =" << block_.U_F2D_bsp_bqp.col(2).head(5).transpose() << " ... " << block_.U_F2D_bsp_bqp.col(2).tail(5).transpose() << "\n";
-    std::cout << std::setw(10) << "V[2] =" << block_.V_F2D_bsp_bqp.col(2).head(5).transpose() << " ... " << block_.V_F2D_bsp_bqp.col(2).tail(5).transpose() << "\n";
-    std::cout << std::setw(10) << "Eqp[3] =" << std::setw(10) << block_.Eqp_F1D_bqp(3) << "\n";
-    std::cout << std::setw(10) << "U[3] =" << block_.U_F2D_bsp_bqp.col(3).head(5).transpose() << " ... " << block_.U_F2D_bsp_bqp.col(3).tail(5).transpose() << "\n";
-    std::cout << std::setw(10) << "V[3] =" << block_.V_F2D_bsp_bqp.col(3).head(5).transpose() << " ... " << block_.V_F2D_bsp_bqp.col(3).tail(5).transpose() << "\n";
-    std::cout << std::setw(10) << "Eqp[4] =" << std::setw(10) << block_.Eqp_F1D_bqp(4) << "\n";
-    std::cout << std::setw(10) << "U[4] =" << block_.U_F2D_bsp_bqp.col(4).head(5).transpose() << " ... " << block_.U_F2D_bsp_bqp.col(4).tail(5).transpose() << "\n";
-    std::cout << std::setw(10) << "V[4] =" << block_.V_F2D_bsp_bqp.col(4).head(5).transpose() << " ... " << block_.V_F2D_bsp_bqp.col(4).tail(5).transpose() << "\n";
+    print_sector_Func("Pos: Eqp, UPos, VNeg", block_.Eqp_F1D_bqp, block_.UPos_F2D_bsp_bqp, block_.VNeg_F2D_bsp_bqp);
     std::cout << "【debug end】lambda::C++" << std::endl;
 }
 
 /**
- * @brief Override block quasiparticle solutions.
- * @math ({Γ_b,Δ_b},λ) → {E_b,U_b,V_b}
- * @output Updated block solutions.
+ * @brief Recompute block solutions at a specified chemical potential.
+ * @math ({Γ⁺⁺,Γ⁻⁻,Δ⁺⁻,Δ⁻⁺},λ,T) → ℋ⁺ → {E,U⁺,V⁻,ρ⁺⁺,ρ⁻⁻,κ⁺⁻,κ⁻⁺}
+ * @output Updated block amplitudes and densities.
+ * @note Blocking corrections must be reapplied after recomputation.
  */
-inline void override_UV(std::vector<AxialHFBBlock>& blocks_X1D_block_, double lambda_F) {
-    const auto override_block_Func = [&](AxialHFBBlock& block_) {
-        const int Nsp_I = static_cast<int>(block_.labels_S1D_bsp.size());
-        Eigen::MatrixXd H_F2D_nambu_nambu(2 * Nsp_I, 2 * Nsp_I);
-        const Eigen::MatrixXd I_F2D_bsp_bsp = Eigen::MatrixXd::Identity(Nsp_I, Nsp_I);
-        H_F2D_nambu_nambu.topLeftCorner(Nsp_I, Nsp_I) = block_.Gamma_F2D_bsp_bsp - lambda_F * I_F2D_bsp_bsp;
-        H_F2D_nambu_nambu.topRightCorner(Nsp_I, Nsp_I) = block_.Delta_F2D_bsp_bsp;
-        H_F2D_nambu_nambu.bottomLeftCorner(Nsp_I, Nsp_I) = block_.Delta_F2D_bsp_bsp;
-        H_F2D_nambu_nambu.bottomRightCorner(Nsp_I, Nsp_I) = -block_.Gamma_F2D_bsp_bsp + lambda_F * I_F2D_bsp_bsp;
-        Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigensolver_(H_F2D_nambu_nambu);
-        assert(eigensolver_.info() == Eigen::Success);
-        const Eigen::VectorXd& Eqp_F1D_nambu = eigensolver_.eigenvalues();
-        const Eigen::MatrixXd& UV_F2D_nambu_nambu = eigensolver_.eigenvectors();
-        int bqpCount_I = 0;
-
-        // E_μ>0 → (E_μ,U_μ,V_μ).
-        for (int nambu_I = 0; nambu_I < 2 * Nsp_I; ++nambu_I) {
-            if (Eqp_F1D_nambu(nambu_I) > 0.0) {
-                block_.Eqp_F1D_bqp(bqpCount_I) = Eqp_F1D_nambu(nambu_I);
-                block_.U_F2D_bsp_bqp.col(bqpCount_I) = UV_F2D_nambu_nambu.col(nambu_I).head(Nsp_I);
-                block_.V_F2D_bsp_bqp.col(bqpCount_I) = UV_F2D_nambu_nambu.col(nambu_I).tail(Nsp_I);
-                ++bqpCount_I;
-            }
-        }
-    };
-
-    // {B_b} → {(E_b,U_b,V_b)}.
-    std::cout << "\n【debug begin】override lambda::C++  (lambda0=" << lambda_F << ")" << std::endl;
+inline void override_UV(std::vector<AxialHFBBlock>& blocks_X1D_block_, double lambda_F, const HFBSettings& hfbsettings_) {
+    assert(std::isfinite(lambda_F));
+    std::cout << "\n【debug begin】override lambda::C++ (lambda=" << lambda_F << ")\n";
     for (AxialHFBBlock& block_ : blocks_X1D_block_) {
-        override_block_Func(block_);
+        block_.update_UV_E_rho_kappa(hfbsettings_, lambda_F);
     }
     std::cout << "【debug end】override lambda::C++" << std::endl;
 }
-
 /**
  * @brief Print coordinate-space HFB densities.
  * @math D_q(z,r) → stdout
@@ -222,16 +203,16 @@ inline void debug_density(const AxialBasis& basis_, const AxialHFBDensity& densi
     std::cout << std::scientific << std::setprecision(10);
     std::cout << "\n【debug begin】density::C++  Σρ·whl=" << calc_particle_number_Func(density_) << std::endl;
     std::cout << std::scientific << std::setprecision(5) << std::right;
-    std::cout << std::setw(20) << "rho   [top, left]:\n" << density_.rho_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "tau   [top, left]:\n" << density_.tau_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "rhoDr [top, left]:\n" << density_.rhoDr_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "rhoDz [top, left]:\n" << density_.rhoDz_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "rhoD2 [top, left]:\n" << density_.rhoD2_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "kappa [top, left]:\n" << density_.kappa_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "Jzphi [top, left]:\n" << density_.Jzphi_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "Jphiz [top, left]:\n" << density_.Jphiz_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "Jrphi [top, left]:\n" << density_.Jrphi_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "Jphir [top, left]:\n" << density_.Jphir_F2D_z_r.topLeftCorner(5, 5) << "\n";
-    std::cout << std::setw(20) << "dJ    [top, left]:\n" << density_.dJ_F2D_z_r.topLeftCorner(5, 5) << "\n";
+    debug_print_matrix("rho", density_.rho_F2D_z_r);
+    debug_print_matrix("tau", density_.tau_F2D_z_r);
+    debug_print_matrix("rhoDr", density_.rhoDr_F2D_z_r);
+    debug_print_matrix("rhoDz", density_.rhoDz_F2D_z_r);
+    debug_print_matrix("rhoD2", density_.rhoD2_F2D_z_r);
+    debug_print_matrix("kappa", density_.kappa_F2D_z_r);
+    debug_print_matrix("Jzphi", density_.Jzphi_F2D_z_r);
+    debug_print_matrix("Jphiz", density_.Jphiz_F2D_z_r);
+    debug_print_matrix("Jrphi", density_.Jrphi_F2D_z_r);
+    debug_print_matrix("Jphir", density_.Jphir_F2D_z_r);
+    debug_print_matrix("dJ", density_.dJ_F2D_z_r);
     std::cout << "【debug end】density::C++" << std::endl;
 }
