@@ -29,7 +29,7 @@ int main() {
     const int Ztarget_I = 82;
     const int Nshell_I = 12;
     const double b0_F = 2.5;
-    AxialConfig axialconfig_(b0_F, b0_F, Nshell_I, true);
+    AxialConfig axialconfig_(b0_F, b0_F, Nshell_I, true, true);
     axialconfig_.Nr_I = 40;
     axialconfig_.Nz_I = 40;
 
