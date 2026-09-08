@@ -46,7 +46,7 @@ public:
      * @math   K_C(s,t)=2e²/√π∫_0^∞e^{-u²d_{st}²}I_0^e(2r_sr_tu²)du
      * @output Built direct-Coulomb kernel.
      */
-    void build(bool useReflection_B, double e2_F);
+    void build(bool useParity_B, double e2_F);
 
     /**
      * @brief  Apply the direct-Coulomb kernel.
@@ -56,7 +56,7 @@ public:
     Eigen::MatrixXd calc_direct_field(const Eigen::MatrixXd& rho_F2D_z_r) const;
 };
 
-inline void AxialCoulombField::build(bool useReflection_B, double e2_F) {
+inline void AxialCoulombField::build(bool useParity_B, double e2_F) {
     if (isBuilt_B) {return;}
 
     constexpr int Nlegendre_I = 80;
@@ -84,7 +84,7 @@ inline void AxialCoulombField::build(bool useReflection_B, double e2_F) {
 
     // w_s contains the 2π azimuthal weight.
     const double factor_F = e2_F * 2.0 / std::sqrt(pi_F);
-    const double reflectionWeight_F = static_cast<double>(useReflection_B);
+    const double reflectionWeight_F = static_cast<double>(useParity_B);
     std::cout << "[AxialCoulombField] Building kernel (nleg=" << Nlegendre_I << ", grid=" << Nz_I << "x" << Nr_I << ")..." << std::endl;
 
     // (u_x,s,t) → K_C(s,t).
