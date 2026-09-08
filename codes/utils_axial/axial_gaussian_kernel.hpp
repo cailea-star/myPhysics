@@ -14,6 +14,7 @@
 #include <cstdint>
 #include <fstream>
 #include <iostream>
+#include <istream>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -54,7 +55,7 @@ protected:
     static_assert(std::is_trivially_copyable_v<Metadata>, "Metadata must be trivially copyable.");
 
     Metadata metadata{};
-    AxialConfig axialconfig;
+    std::vector<AxialSPLabel> labels_S1D_sp{};
     PackedHashTable<AxialGaussianValues, 4> Gz_Table{{0, 0, 0, 0}, {0, 0, 0, 0}};
     PackedHashTable<AxialGaussianValues, 4> Gr_Table{{0, 0, 0, 0}, {0, 0, 0, 0}};
 
@@ -64,10 +65,10 @@ public:
      * @math   G = G^zG^r.
      * @output Empty configured tables.
      */
-    AxialGaussianKernel(const AxialConfig& config_, const AxialGaussianValues& mu_F1D_g_)
-    : axialconfig(config_) {
-        metadata.br_F = config_.br_F;
-        metadata.bz_F = config_.bz_F;
+    AxialGaussianKernel(const AxialConfig& axialconfig_, const AxialGaussianValues& mu_F1D_g_) {
+        labels_S1D_sp = axialconfig_.labels_S1D_sp;
+        metadata.br_F = axialconfig_.br_F;
+        metadata.bz_F = axialconfig_.bz_F;
         metadata.mu_F1D_g = mu_F1D_g_;
 
         assert((std::all_of(metadata.mu_F1D_g.begin(), metadata.mu_F1D_g.end(), [](double mu_F) {
@@ -75,7 +76,7 @@ public:
         })));
 
         // {α_sp} → (n_z^max,n_r^max,Λ^max,rorder^max).
-        for (const AxialSPLabel& label_ : axialconfig.labels_S1D_sp) {
+        for (const AxialSPLabel& label_ : labels_S1D_sp) {
             metadata.nzMax_I = std::max(metadata.nzMax_I, label_.nz_I);
             metadata.nrMax_I = std::max(metadata.nrMax_I, label_.nr_I);
             metadata.LambdaMax_I = std::max(metadata.LambdaMax_I, std::abs(label_.Lambda_I));
@@ -96,10 +97,11 @@ public:
 
     /**
      * @brief  Deserialize and validate Gaussian tables.
-     * @math   file ⊕ config ⊕ {μ_g} → G^z ⊕ G^r.
-     * @output Validated built kernel.
+     * @math   stream ⊕ metadata ⊕ {α_sp} → G^z ⊕ G^r.
+     * @output Validated tables in the initialized kernel.
+     * @note   Requires a binary stream positioned at kernel metadata.
      */
-    static AxialGaussianKernel from_cache(const std::string& filepath_Str, const AxialConfig& config_, const AxialGaussianValues& mu_F1D_g_);
+    void from_stream(std::istream& input_);
 
     /**
      * @brief  Serialize the Gaussian tables.
@@ -201,7 +203,7 @@ void AxialGaussianKernel<Ng_I>::build_tables() {
 
     // {α_sp} → {(n_r,±Λ)}.
     std::set<std::array<int, 2>> nrLambda_Set;
-    for (const AxialSPLabel& label_ : axialconfig.labels_S1D_sp) {
+    for (const AxialSPLabel& label_ : labels_S1D_sp) {
         nrLambda_Set.insert({label_.nr_I, label_.Lambda_I});
         nrLambda_Set.insert({label_.nr_I, -label_.Lambda_I});
     }
@@ -269,22 +271,20 @@ void AxialGaussianKernel<Ng_I>::to_cache(const std::string& filepath_Str) {
 }
 
 template <int Ng_I>
-AxialGaussianKernel<Ng_I> AxialGaussianKernel<Ng_I>::from_cache(const std::string& filepath_Str, const AxialConfig& config_, const AxialGaussianValues& mu_F1D_g_) {
+void AxialGaussianKernel<Ng_I>::from_stream(std::istream& input_) {
     // stream → cache metadata.
-    std::ifstream input_(filepath_Str, std::ios::binary);
-    assert(input_ && "[ERROR]: [AxialGaussianKernel::from_cache] cannot open cache file");
+    assert(input_ && "[ERROR]: [AxialGaussianKernel::from_stream] invalid input stream");
     Metadata cachedMetadata_{};
     input_.read(reinterpret_cast<char*>(&cachedMetadata_), sizeof(cachedMetadata_));
-    assert(input_ && "[ERROR]: [AxialGaussianKernel::from_cache] metadata read failed");
+    assert(input_ && "[ERROR]: [AxialGaussianKernel::from_stream] metadata read failed");
 
-    AxialGaussianKernel kernel_(config_, mu_F1D_g_);
-    assert(cachedMetadata_ == kernel_.metadata && "[ERROR]: [AxialGaussianKernel::from_cache] metadata mismatch");
+    assert(cachedMetadata_ == metadata && "[ERROR]: [AxialGaussianKernel::from_stream] metadata mismatch");
 
     // stream → (Gz_Table,Gr_Table).
-    kernel_.Gz_Table.from_stream(input_);
-    kernel_.Gr_Table.from_stream(input_);
-    kernel_.isBuilt_B = true;
-    return kernel_;
+    Gz_Table.from_stream(input_);
+    Gr_Table.from_stream(input_);
+
+    isBuilt_B = true;
 }
 
 template <int Ng_I>
