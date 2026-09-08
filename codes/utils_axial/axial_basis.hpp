@@ -161,7 +161,7 @@ public:
         // config → (rBasis,zBasis,{2Σ_sp}) → basis.
         AxialLaguerreBasis rBasis(axialconfig.br_F, axialconfig.Nr_I, labels_S1D_sp_);
 
-        AxialHermiteBasis zBasis(axialconfig.bz_F, axialconfig.Nz_I, labels_S1D_sp_, axialconfig.useReflection_B);
+        AxialHermiteBasis zBasis(axialconfig.bz_F, axialconfig.Nz_I, labels_S1D_sp_, axialconfig.useParity_B);
 
         for (int sp_I = 0; sp_I < labels_S1D_sp.size(); ++sp_I) {twoSigma_I1D_sp(sp_I) = labels_S1D_sp[sp_I].twoSigma_I;}
 

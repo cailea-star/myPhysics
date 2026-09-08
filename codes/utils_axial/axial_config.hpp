@@ -63,7 +63,8 @@ public:
     int Nr_I = 0;                                               // N_r = 2n_r^max + Λ^max + 8
     double bz_F = 0.0;                                          // ζ = z / b_z
     double br_F = 0.0;                                          // η = (r / b_r)^2
-    bool useReflection_B = false;                               // z ≥ 0 when true
+    bool useParity_B = false;                                   // (Ω,π) blocks; z > 0 quadrature.
+    bool useTimeReversal_B = false;                             // Ω > 0 representatives.
     std::vector<AxialSPLabel> labels_S1D_sp{};                  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp
     std::vector<std::vector<AxialSPLabel>> labels_S2D_block_bsp{}; // α_(block,bsp): labels grouped by Ω or (Ω,π)
     std::vector<std::vector<int>> indices_I2D_block_bsp{};      // sp(block,bsp): global indices of block labels
@@ -72,18 +73,20 @@ public:
      * @brief  Construct an axial harmonic-oscillator configuration.
      * @math   N_z = 2n_z^max + 8, N_r = 2n_r^max + Λ^max + 8
      * @output Single-particle labels, symmetry blocks, and quadrature orders.
+     * @note   Only time-reversal reduction is implemented.
      */
-    AxialConfig(double bz_F_, double br_F_, int Nshell_I_, bool useReflection_B_) {
+    AxialConfig(double bz_F_, double br_F_, int Nshell_I_, bool useParity_B_, bool useTimeReversal_B_) {
         Nshell_I = Nshell_I_;
         bz_F = bz_F_;
         br_F = br_F_;
-        useReflection_B = useReflection_B_;
+        useParity_B = useParity_B_;
+        useTimeReversal_B = useTimeReversal_B_;
 
         assert(std::isfinite(bz_F) && bz_F > 0.0);
         assert(std::isfinite(br_F) && br_F > 0.0);
         assert(Nshell_I >= 0);
 
-        // (N_shell,b_z,b_r,reflection) → ({α_sp},{α_block},{sp_block}).
+        // (N_shell,b_z,b_r,parity) → ({α_sp},{α_block},{sp_block}).
         fill_labels();
         assert(!labels_S1D_sp.empty());
 
@@ -221,8 +224,8 @@ inline void AxialConfig::fill_labels() {
         for (bool isParityPositive_B : {true, false}) {
             std::vector<AxialSPLabel> labelsParity_S1D_bsp;
             std::vector<int> indicesParity_I1D_bsp;
-            auto& labelsTarget_S1D_bsp = useReflection_B ? labelsParity_S1D_bsp : labelsOmega_S1D_bsp;
-            auto& indicesTarget_I1D_bsp = useReflection_B ? indicesParity_I1D_bsp : indicesOmega_I1D_bsp;
+            auto& labelsTarget_S1D_bsp = useParity_B ? labelsParity_S1D_bsp : labelsOmega_S1D_bsp;
+            auto& indicesTarget_I1D_bsp = useParity_B ? indicesParity_I1D_bsp : indicesOmega_I1D_bsp;
             for (int nr_I = 0; nr_I <= nrMax_I; ++nr_I) {
                 for (int nz_I = 0; nz_I <= nzCut_I; ++nz_I) {
                     for (int Lambda_I : {LambdaUp_I, LambdaDown_I}) {
@@ -238,10 +241,10 @@ inline void AxialConfig::fill_labels() {
                     }
                 }
             }
-            if (useReflection_B && !labelsParity_S1D_bsp.empty()) {labels_S2D_block_bsp.push_back(std::move(labelsParity_S1D_bsp));}
-            if (useReflection_B && !indicesParity_I1D_bsp.empty()) {indices_I2D_block_bsp.push_back(std::move(indicesParity_I1D_bsp));}
+            if (useParity_B && !labelsParity_S1D_bsp.empty()) {labels_S2D_block_bsp.push_back(std::move(labelsParity_S1D_bsp));}
+            if (useParity_B && !indicesParity_I1D_bsp.empty()) {indices_I2D_block_bsp.push_back(std::move(indicesParity_I1D_bsp));}
         }
-        if (!useReflection_B && !labelsOmega_S1D_bsp.empty()) {labels_S2D_block_bsp.push_back(std::move(labelsOmega_S1D_bsp));}
-        if (!useReflection_B && !indicesOmega_I1D_bsp.empty()) {indices_I2D_block_bsp.push_back(std::move(indicesOmega_I1D_bsp));}
+        if (!useParity_B && !labelsOmega_S1D_bsp.empty()) {labels_S2D_block_bsp.push_back(std::move(labelsOmega_S1D_bsp));}
+        if (!useParity_B && !indicesOmega_I1D_bsp.empty()) {indices_I2D_block_bsp.push_back(std::move(indicesOmega_I1D_bsp));}
     }
 }
