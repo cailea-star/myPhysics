@@ -24,12 +24,17 @@ void AxialHFBDensity::set_zero() {
     Jrphi_F2D_z_r.setZero();
 }
 
+/**
+ * @brief  Contract basis matrices into coordinate-space densities.
+ * @math   {ρ_{12},ρ_{1̄2̄},κ_{12̄},κ_{1̄2}} → {ρ,τ,κ,Δρ,∇ρ,J}
+ * @output Updated density grids.
+ * @note   Real axial matrices; time-odd densities are omitted.
+ */
 void AxialHFBDensity::update_density(const AxialBasis& global_basis_, const AxialHFBBlockList& blocklist_) {
     set_zero();
     const int Nz_I = static_cast<int>(rho_F2D_z_r.rows());
     const int Nr_I = static_cast<int>(rho_F2D_z_r.cols());
     const int Nblock_I = static_cast<int>(blocklist_.blocks_X1D_block.size());
-    constexpr double kramersDegeneracy_F = 2.0;
 
     struct DensityValues {
         double rho_F = 0.0;
@@ -62,14 +67,16 @@ void AxialHFBDensity::update_density(const AxialBasis& global_basis_, const Axia
         Eigen::Map<const Eigen::VectorXd> ddphidz_F1D_bsp(&global_basis_.ddphidz_F3D_sp_z_r(spStart_I, z_I, r_I), Nbsp_I);
 
         for (int index2_I = 0; index2_I < Nspin_I; ++index2_I) {
-            for (int index1_I = index2_I; index1_I < Nspin_I; ++index1_I) {
+            for (int index1_I = 0; index1_I < Nspin_I; ++index1_I) {
                 const int bsp1_I = indices_I1D_bsp_[index1_I];
                 const int bsp2_I = indices_I1D_bsp_[index2_I];
-                const double rho12_F = block_.rho_F2D_bsp_bsp(bsp1_I, bsp2_I);
-                const double kappa12_F = block_.kappa_F2D_bsp_bsp(bsp1_I, bsp2_I);
-                if (std::abs(rho12_F) < 1.0e-14 && std::abs(kappa12_F) < 1.0e-14) {continue;}
+                // Σ_1=Σ_2: ρ_{12}+ρ_{1̄2̄}, κ_{12̄}-κ_{1̄2}.
+                const double rho12Sum_F = block_.rhoPosPos_F2D_bsp_bsp(bsp1_I, bsp2_I) + block_.rhoNegNeg_F2D_bsp_bsp(bsp1_I, bsp2_I);
+                const double kappa12PosNeg_F = block_.kappaPosNeg_F2D_bsp_bsp(bsp1_I, bsp2_I);
+                const double kappa12NegPos_F = block_.kappaNegPos_F2D_bsp_bsp(bsp1_I, bsp2_I);
+                const double kappa12Diff_F = kappa12PosNeg_F - kappa12NegPos_F;
+                if (std::abs(rho12Sum_F) < 1.0e-14 && 0.5 * std::abs(kappa12Diff_F) < 1.0e-14) {continue;}
 
-                const double symmetryFactor_F = (bsp1_I == bsp2_I) ? 1.0 : 2.0;
                 const double phi1_F = phi_F1D_bsp(bsp1_I);
                 const double phi2_F = phi_F1D_bsp(bsp2_I);
                 const double dphi1dr_F = dphidr_F1D_bsp(bsp1_I);
@@ -90,16 +97,16 @@ void AxialHFBDensity::update_density(const AxialBasis& global_basis_, const Axia
                 const double JphizKernel_F = spinSign_F * Lambda_F * rInv_F * rhoKernel_F;
                 const double dJKernel_F = spinSign_F * Lambda_F * rInv_F * rhoDrKernel_F;
 
-                // ρ_12K_12 → local normal densities.
-                const double rhoWeight_F = symmetryFactor_F * rho12_F;
-                densityValues_.rho_F += rhoWeight_F * rhoKernel_F;
-                densityValues_.tau_F += rhoWeight_F * tauKernel_F;
-                densityValues_.rhoD2_F += rhoWeight_F * rhoD2Kernel_F;
-                densityValues_.rhoDr_F += rhoWeight_F * rhoDrKernel_F;
-                densityValues_.rhoDz_F += rhoWeight_F * rhoDzKernel_F;
-                densityValues_.Jphiz_F += rhoWeight_F * JphizKernel_F;
-                densityValues_.dJ_F += rhoWeight_F * dJKernel_F;
-                densityValues_.kappa_F += 0.5 * symmetryFactor_F * kappa12_F * rhoKernel_F;
+                // Σ_{12}(ρ_{12}+ρ_{1̄2̄})K_{12}; Σ_1=Σ_2.
+                densityValues_.rho_F += rho12Sum_F * rhoKernel_F;
+                densityValues_.tau_F += rho12Sum_F * tauKernel_F;
+                densityValues_.rhoD2_F += rho12Sum_F * rhoD2Kernel_F;
+                densityValues_.rhoDr_F += rho12Sum_F * rhoDrKernel_F;
+                densityValues_.rhoDz_F += rho12Sum_F * rhoDzKernel_F;
+                densityValues_.Jphiz_F += rho12Sum_F * JphizKernel_F;
+                densityValues_.dJ_F += rho12Sum_F * dJKernel_F;
+                // κ(r)=½Σ_{12,Σ_1=Σ_2}(2Σ_1)(κ_{12̄}-κ_{1̄2})φ_1φ_2.
+                densityValues_.kappa_F += 0.5 * spinSign_F * kappa12Diff_F * rhoKernel_F;
             }
         }
     };
@@ -121,8 +128,9 @@ void AxialHFBDensity::update_density(const AxialBasis& global_basis_, const Axia
 
         for (int bspUp_I : block_.indices_I1D_bup) {
             for (int bspDown_I : block_.indices_I1D_bdn) {
-                const double rhoUpDown_F = block_.rho_F2D_bsp_bsp(bspUp_I, bspDown_I);
-                if (std::abs(rhoUpDown_F) < 1.0e-14) {continue;}
+                // J: (ρ_{12}-ρ_{1̄2̄})K_{12}; Σ_1≠Σ_2.
+                const double rhoUpDownDiff_F = block_.rhoPosPos_F2D_bsp_bsp(bspUp_I, bspDown_I) - block_.rhoNegNeg_F2D_bsp_bsp(bspUp_I, bspDown_I);
+                if (std::abs(rhoUpDownDiff_F) < 1.0e-14) {continue;}
 
                 const double phiUp_F = phi_F1D_bsp(bspUp_I);
                 const double phiDown_F = phi_F1D_bsp(bspDown_I);
@@ -131,10 +139,10 @@ void AxialHFBDensity::update_density(const AxialBasis& global_basis_, const Axia
                 const double dphiUpdz_F = dphidz_F1D_bsp(bspUp_I);
                 const double dphiDowndz_F = dphidz_F1D_bsp(bspDown_I);
 
-                densityValues_.Jrphi_F += rhoUpDown_F * (phiDown_F * dphiUpdr_F - phiUp_F * dphiDowndr_F);
-                densityValues_.Jzphi_F += rhoUpDown_F * (phiDown_F * dphiUpdz_F - phiUp_F * dphiDowndz_F);
-                densityValues_.Jphir_F += rhoUpDown_F * 2.0 * Omega_F * rInv_F * phiUp_F * phiDown_F;
-                densityValues_.dJ_F += rhoUpDown_F * (2.0 * (-LambdaUp_F * rInv_F * phiUp_F * dphiDowndz_F - LambdaDown_F * rInv_F * phiDown_F * dphiUpdz_F) + 2.0 * (dphiDowndz_F * dphiUpdr_F - dphiUpdz_F * dphiDowndr_F));
+                densityValues_.Jrphi_F += rhoUpDownDiff_F * (phiDown_F * dphiUpdr_F - phiUp_F * dphiDowndr_F);
+                densityValues_.Jzphi_F += rhoUpDownDiff_F * (phiDown_F * dphiUpdz_F - phiUp_F * dphiDowndz_F);
+                densityValues_.Jphir_F += rhoUpDownDiff_F * 2.0 * Omega_F * rInv_F * phiUp_F * phiDown_F;
+                densityValues_.dJ_F += rhoUpDownDiff_F * (2.0 * (-LambdaUp_F * rInv_F * phiUp_F * dphiDowndz_F - LambdaDown_F * rInv_F * phiDown_F * dphiUpdz_F) + 2.0 * (dphiDowndz_F * dphiUpdr_F - dphiUpdz_F * dphiDowndr_F));
             }
         }
     };
@@ -154,17 +162,17 @@ void AxialHFBDensity::update_density(const AxialBasis& global_basis_, const Axia
                 add_opposite_spin_at_oneBlockPoint_Func(densityValues_, block_, z_I, r_I);
             }
 
-            rho_F2D_z_r(z_I, r_I) = kramersDegeneracy_F * densityValues_.rho_F;
-            tau_F2D_z_r(z_I, r_I) = kramersDegeneracy_F * densityValues_.tau_F;
-            kappa_F2D_z_r(z_I, r_I) = kramersDegeneracy_F * densityValues_.kappa_F;
-            rhoD2_F2D_z_r(z_I, r_I) = kramersDegeneracy_F * densityValues_.rhoD2_F;
-            rhoDr_F2D_z_r(z_I, r_I) = kramersDegeneracy_F * densityValues_.rhoDr_F;
-            rhoDz_F2D_z_r(z_I, r_I) = kramersDegeneracy_F * densityValues_.rhoDz_F;
-            dJ_F2D_z_r(z_I, r_I) = kramersDegeneracy_F * densityValues_.dJ_F;
-            Jzphi_F2D_z_r(z_I, r_I) = kramersDegeneracy_F * densityValues_.Jzphi_F;
-            Jphiz_F2D_z_r(z_I, r_I) = kramersDegeneracy_F * densityValues_.Jphiz_F;
-            Jphir_F2D_z_r(z_I, r_I) = kramersDegeneracy_F * densityValues_.Jphir_F;
-            Jrphi_F2D_z_r(z_I, r_I) = kramersDegeneracy_F * densityValues_.Jrphi_F;
+            rho_F2D_z_r(z_I, r_I) = densityValues_.rho_F;
+            tau_F2D_z_r(z_I, r_I) = densityValues_.tau_F;
+            kappa_F2D_z_r(z_I, r_I) = densityValues_.kappa_F;
+            rhoD2_F2D_z_r(z_I, r_I) = densityValues_.rhoD2_F;
+            rhoDr_F2D_z_r(z_I, r_I) = densityValues_.rhoDr_F;
+            rhoDz_F2D_z_r(z_I, r_I) = densityValues_.rhoDz_F;
+            dJ_F2D_z_r(z_I, r_I) = densityValues_.dJ_F;
+            Jzphi_F2D_z_r(z_I, r_I) = densityValues_.Jzphi_F;
+            Jphiz_F2D_z_r(z_I, r_I) = densityValues_.Jphiz_F;
+            Jphir_F2D_z_r(z_I, r_I) = densityValues_.Jphir_F;
+            Jrphi_F2D_z_r(z_I, r_I) = densityValues_.Jrphi_F;
         }
     }
 }

@@ -30,7 +30,7 @@ int main() {
     const int Ntarget_I = Atarget_I - Ztarget_I;
     const int Nshell_I = 20;
     const double b0_F = 2.07166250195026;
-    AxialConfig axialconfig_(b0_F, b0_F, Nshell_I, true);
+    AxialConfig axialconfig_(b0_F, b0_F, Nshell_I, true, true);
     axialconfig_.Nr_I = 40;
     axialconfig_.Nz_I = 40;
 

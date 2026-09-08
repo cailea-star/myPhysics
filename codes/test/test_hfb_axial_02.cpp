@@ -28,7 +28,7 @@ int main() {
     // (b₀,N_shell,N_r,N_z) ← run_000002.
     const int Nshell_I = 10;
     const double b0_F = 1.75000371403579;
-    AxialConfig axialconfig_(b0_F, b0_F, Nshell_I, true);
+    AxialConfig axialconfig_(b0_F, b0_F, Nshell_I, true, true);
     axialconfig_.Nr_I = 40;
     axialconfig_.Nz_I = 40;
 

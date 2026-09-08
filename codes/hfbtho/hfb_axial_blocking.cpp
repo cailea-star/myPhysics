@@ -23,38 +23,45 @@
  * @note   Requires zero-temperature HFB density factors.
  */
 void AxialHFBBlocking::apply_blocking(AxialHFBBlockList& blocklist_) {
+    assert(isNeutron_B == blocklist_.isNeutron_B);
     assert(block_I >= 0 && block_I < static_cast<int>(blocklist_.blocks_X1D_block.size()));
     AxialHFBBlock& block_ = blocklist_.blocks_X1D_block[block_I];
     const int Nbsp_I = static_cast<int>(block_.labels_S1D_bsp.size());
     const int Nbqp_I = static_cast<int>(block_.Eqp_F1D_bqp.size());
     assert(blockedV_F1D_bsp.size() == Nbsp_I && blockedU_F1D_bsp.size() == Nbsp_I);
-    assert(block_.U_F2D_bsp_bqp.cols() == Nbqp_I && block_.V_F2D_bsp_bqp.cols() == Nbqp_I);
+    assert(block_.UPos_F2D_bsp_bqp.cols() == Nbqp_I && block_.VNeg_F2D_bsp_bqp.cols() == Nbqp_I);
 
     // μ = arg max_ν(|U_μU_ν|₁+|V_μV_ν|₁).
     int bestBqp_I = -1;
     double bestOverlap_F = -1.0;
     for (int bqp_I = 0; bqp_I < Nbqp_I; ++bqp_I) {
-        const double overlapCandidate_F = (blockedU_F1D_bsp.array() * block_.U_F2D_bsp_bqp.col(bqp_I).array()).abs().sum() + (blockedV_F1D_bsp.array() * block_.V_F2D_bsp_bqp.col(bqp_I).array()).abs().sum();
+        const double overlapCandidate_F = (blockedU_F1D_bsp.array() * block_.UPos_F2D_bsp_bqp.col(bqp_I).array()).abs().sum() + (blockedV_F1D_bsp.array() * block_.VNeg_F2D_bsp_bqp.col(bqp_I).array()).abs().sum();
         if (!(overlapCandidate_F > bestOverlap_F)) {continue;}
         bestOverlap_F = overlapCandidate_F;
         bestBqp_I = bqp_I;
     }
     assert(bestBqp_I >= 0);
 
-    const Eigen::VectorXd U_F1D_bsp = block_.U_F2D_bsp_bqp.col(bestBqp_I);
-    const Eigen::VectorXd V_F1D_bsp = block_.V_F2D_bsp_bqp.col(bestBqp_I);
+    const Eigen::VectorXd U_F1D_bsp = block_.UPos_F2D_bsp_bqp.col(bestBqp_I);
+    const Eigen::VectorXd V_F1D_bsp = block_.VNeg_F2D_bsp_bqp.col(bestBqp_I);
 
-    // ρ' = ρ+(UUᵀ-VVᵀ)/2.
-    block_.rho_F2D_bsp_bsp.noalias() += 0.5 * U_F1D_bsp * U_F1D_bsp.transpose();
-    block_.rho_F2D_bsp_bsp.noalias() -= 0.5 * V_F1D_bsp * V_F1D_bsp.transpose();
+    // u=U⁺_μ, v=V⁻_μ, D=diag(2Σ); δρ⁺⁺=½(uuᵀ-DvvᵀD).
+    block_.rhoPosPos_F2D_bsp_bsp.noalias() += 0.5 * U_F1D_bsp * U_F1D_bsp.transpose();
+    block_.rhoPosPos_F2D_bsp_bsp.noalias() -= 0.5 * (block_.twoSigma_F1D_bsp.asDiagonal() * V_F1D_bsp) * V_F1D_bsp.transpose() * block_.twoSigma_F1D_bsp.asDiagonal();
+    // δρ⁻⁻=½(DuuᵀD-vvᵀ).
+    block_.rhoNegNeg_F2D_bsp_bsp.noalias() += 0.5 * (block_.twoSigma_F1D_bsp.asDiagonal() * U_F1D_bsp) * U_F1D_bsp.transpose() * block_.twoSigma_F1D_bsp.asDiagonal();
+    block_.rhoNegNeg_F2D_bsp_bsp.noalias() -= 0.5 * V_F1D_bsp * V_F1D_bsp.transpose();
 
-    // κ' = κ+(VUᵀ+UVᵀ)/2.
-    block_.kappa_F2D_bsp_bsp.noalias() += 0.5 * V_F1D_bsp * U_F1D_bsp.transpose();
-    block_.kappa_F2D_bsp_bsp.noalias() += 0.5 * U_F1D_bsp * V_F1D_bsp.transpose();
+    // δκ⁺⁻=½(uvᵀ+DvuᵀD).
+    block_.kappaPosNeg_F2D_bsp_bsp.noalias() += 0.5 * U_F1D_bsp * V_F1D_bsp.transpose();
+    block_.kappaPosNeg_F2D_bsp_bsp.noalias() += 0.5 * (block_.twoSigma_F1D_bsp.asDiagonal() * V_F1D_bsp) * U_F1D_bsp.transpose() * block_.twoSigma_F1D_bsp.asDiagonal();
+    // δκ⁻⁺=-½(vuᵀ+DuvᵀD).
+    block_.kappaNegPos_F2D_bsp_bsp.noalias() -= 0.5 * V_F1D_bsp * U_F1D_bsp.transpose();
+    block_.kappaNegPos_F2D_bsp_bsp.noalias() -= 0.5 * (block_.twoSigma_F1D_bsp.asDiagonal() * U_F1D_bsp) * V_F1D_bsp.transpose() * block_.twoSigma_F1D_bsp.asDiagonal();
 
-    // (ρ,κ) → ([ρ+ρᵀ]/2,[κ+κᵀ]/2).
-    block_.rho_F2D_bsp_bsp = 0.5 * (block_.rho_F2D_bsp_bsp + block_.rho_F2D_bsp_bsp.transpose()).eval();
-    block_.kappa_F2D_bsp_bsp = 0.5 * (block_.kappa_F2D_bsp_bsp + block_.kappa_F2D_bsp_bsp.transpose()).eval();
+    // ρ^{ss} → [ρ^{ss}+(ρ^{ss})ᵀ]/2; κ⁻⁺=-(κ⁺⁻)ᵀ.
+    block_.rhoPosPos_F2D_bsp_bsp = 0.5 * (block_.rhoPosPos_F2D_bsp_bsp + block_.rhoPosPos_F2D_bsp_bsp.transpose()).eval();
+    block_.rhoNegNeg_F2D_bsp_bsp = 0.5 * (block_.rhoNegNeg_F2D_bsp_bsp + block_.rhoNegNeg_F2D_bsp_bsp.transpose()).eval();
 
     blockedU_F1D_bsp = U_F1D_bsp;
     blockedV_F1D_bsp = V_F1D_bsp;
@@ -87,7 +94,7 @@ std::vector<AxialHFBBlocking> AxialHFBBlocking::list_candidates(const HFBSetting
         const int Nbqp_I = static_cast<int>(block_.Eqp_F1D_bqp.size());
         for (int bqp_I = 0; bqp_I < Nbqp_I; ++bqp_I) {
             const double Eqp_F = block_.Eqp_F1D_bqp(bqp_I);
-            const double Vnorm2_F = block_.V_F2D_bsp_bqp.col(bqp_I).squaredNorm();
+            const double Vnorm2_F = block_.VNeg_F2D_bsp_bqp.col(bqp_I).squaredNorm();
             if (Eqp_F <= 0.0 || Vnorm2_F <= 1.0e-4) {continue;}
             EqpMin_F = std::min(EqpMin_F, Eqp_F);
         }
@@ -101,7 +108,7 @@ std::vector<AxialHFBBlocking> AxialHFBBlocking::list_candidates(const HFBSetting
         const int Nbqp_I = static_cast<int>(block_.Eqp_F1D_bqp.size());
         for (int bqp_I = 0; bqp_I < Nbqp_I; ++bqp_I) {
             const double Eqp_F = block_.Eqp_F1D_bqp(bqp_I);
-            const double Vnorm2_F = block_.V_F2D_bsp_bqp.col(bqp_I).squaredNorm();
+            const double Vnorm2_F = block_.VNeg_F2D_bsp_bqp.col(bqp_I).squaredNorm();
             const double EqpDifference_F = std::abs(Eqp_F - EqpMin_F);
             const bool isCandidate_B = Eqp_F > 0.0 && EqpDifference_F <= EblockingCut_F;
             if (isCandidate_B) {candidates_X1D_candidate.push_back({block_I, bqp_I, Eqp_F, EqpDifference_F, Vnorm2_F});}
