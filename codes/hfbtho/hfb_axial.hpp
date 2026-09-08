@@ -429,7 +429,7 @@ public:
      * @output Initialized HFB solver.
      */
     AxialHFB(const AxialConfig& axialconfig_, const HFBSettings& hfbsettings_, const EDFParamsSkyrme& edf_skyrme_, AxialGaussianGogny gogny_)
-    : axialconfig(axialconfig_), hfbsettings(hfbsettings_), edf_skyrme(edf_skyrme_), gogny(std::move(gogny_)), coulomb(axialconfig_, edf_skyrme_.e2charg_F), global_basis(axialconfig_, axialconfig_.labels_S1D_sp), blocklist_n(axialconfig_, hfbsettings_, true), blocklist_p(axialconfig_, hfbsettings_, false), density_p(axialconfig_), density_n(axialconfig_), field_p(axialconfig_), field_n(axialconfig_), coulombField(global_basis) {}
+    : axialconfig(axialconfig_), hfbsettings(hfbsettings_), edf_skyrme(edf_skyrme_), gogny(std::move(gogny_)), coulomb(axialconfig_, edf_skyrme_.e2charg_F), global_basis(axialconfig_), blocklist_n(axialconfig_, hfbsettings_, true), blocklist_p(axialconfig_, hfbsettings_, false), density_p(axialconfig_), density_n(axialconfig_), field_p(axialconfig_), field_n(axialconfig_), coulombField(global_basis) {}
 
     /**
      * @brief Initialize deformed Woods-Saxon fields.

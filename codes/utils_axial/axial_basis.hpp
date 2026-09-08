@@ -152,16 +152,16 @@ public:
      * @math   φ_sp(z,r) = φ_nz(z)φ_nr^Λ(r) / √(2π)
      * @output Axial basis functions, derivatives, nodes, and weights.
      */
-    AxialBasis(const AxialConfig& axialconfig, const std::vector<AxialSPLabel>& labels_S1D_sp_) {
-        br_F = axialconfig.br_F;
-        bz_F = axialconfig.bz_F;
-        labels_S1D_sp = labels_S1D_sp_;
-        twoSigma_I1D_sp.resize(labels_S1D_sp_.size());
+    explicit AxialBasis(const AxialConfig& axialconfig_) {
+        br_F = axialconfig_.br_F;
+        bz_F = axialconfig_.bz_F;
+        labels_S1D_sp = axialconfig_.labels_S1D_sp;
+        twoSigma_I1D_sp.resize(labels_S1D_sp.size());
 
         // config → (rBasis,zBasis,{2Σ_sp}) → basis.
-        AxialLaguerreBasis rBasis(axialconfig.br_F, axialconfig.Nr_I, labels_S1D_sp_);
+        AxialLaguerreBasis rBasis(axialconfig_.br_F, axialconfig_.Nr_I, labels_S1D_sp);
 
-        AxialHermiteBasis zBasis(axialconfig.bz_F, axialconfig.Nz_I, labels_S1D_sp_, axialconfig.useParity_B);
+        AxialHermiteBasis zBasis(axialconfig_.bz_F, axialconfig_.Nz_I, labels_S1D_sp, axialconfig_.useParity_B);
 
         for (int sp_I = 0; sp_I < labels_S1D_sp.size(); ++sp_I) {twoSigma_I1D_sp(sp_I) = labels_S1D_sp[sp_I].twoSigma_I;}
 

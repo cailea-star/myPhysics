@@ -8,6 +8,7 @@
 #pragma once
 
 #include <algorithm>
+#include <vector>
 #include <cassert>
 #include <cmath>
 #include <complex>
@@ -31,7 +32,9 @@ public:
     int Ngamma_I = 1; // Number of γ quadrature nodes.
     Eigen::VectorXd beta_F1D_beta{}; // β_i = acos x_i ∈ (0,π) [rad].
     Eigen::VectorXd weight_F1D_beta{}; // Σ_i w_i f(β_i) ≈ ∫₀^π sinβ f(β)dβ.
-    AxialConfig axialconfig; // Oscillator lengths and positive-Ω labels.
+    double bz_F = 0.0; // Axial oscillator length.
+    double br_F = 0.0; // Radial oscillator length.
+    std::vector<AxialSPLabel> labels_S1D_sp{}; // Positive-Ω labels.
 
     // Rows and columns: (+Ω,-Ω).
     Eigen::VectorXcd detRySimplexP_C1D_beta{}; // det d₊(β); det d₋ = (det d₊)*.
@@ -56,15 +59,17 @@ public:
      * @note   N_α,N_β,N_γ > 0.
      * @note   Weights exclude projection normalization factors.
      */
-    AxialRotation(const AxialConfig& axialconfig_, int Nalpha_I_, int Nbeta_I_, int Ngamma_I_)
-    : axialconfig(axialconfig_) {
+    AxialRotation(const AxialConfig& axialconfig_, const std::vector<AxialSPLabel>& labels_S1D_sp_, int Nalpha_I_, int Nbeta_I_, int Ngamma_I_) {
+        bz_F = axialconfig_.bz_F;
+        br_F = axialconfig_.br_F;
+        labels_S1D_sp = labels_S1D_sp_;
         Nalpha_I = Nalpha_I_;
         Nbeta_I = Nbeta_I_;
         Ngamma_I = Ngamma_I_;
 
         // b_r,b_z > 0; N_α,N_β,N_γ > 0.
-        assert(std::isfinite(axialconfig.br_F) && axialconfig.br_F > 0.0);
-        assert(std::isfinite(axialconfig.bz_F) && axialconfig.bz_F > 0.0);
+        assert(std::isfinite(br_F) && br_F > 0.0);
+        assert(std::isfinite(bz_F) && bz_F > 0.0);
         assert(Nalpha_I > 0 && Nbeta_I > 0 && Ngamma_I > 0);
 
         // Gauss-Legendre: x_i = cosβ_i; Σ_i w_i = 2.
@@ -73,12 +78,12 @@ public:
         weight_F1D_beta = legendre_meshes.w_F1D_x;
 
         // ν_sp = 2n_r+Λ; 0 ≤ n_y ≤ ν_sp.
-        const int Nsp_I = static_cast<int>(axialconfig.labels_S1D_sp.size());
+        const int Nsp_I = static_cast<int>(labels_S1D_sp.size());
         Eigen::VectorXi nu_I1D_sp{};
         nu_I1D_sp.resize(Nsp_I);
         int nuMax_I = 0;
         for (int sp_I = 0; sp_I < Nsp_I; ++sp_I) {
-            const AxialSPLabel& label_ = axialconfig.labels_S1D_sp[sp_I];
+            const AxialSPLabel& label_ = labels_S1D_sp[sp_I];
             assert(is_valid(label_.nz_I, label_.nr_I, label_.Lambda_I, label_.twoOmega_I, label_.twoSigma_I, label_.isParityPositive_B));
             nu_I1D_sp(sp_I) = 2 * label_.nr_I + label_.Lambda_I;
             nuMax_I = std::max(nuMax_I, nu_I1D_sp(sp_I));
@@ -98,7 +103,7 @@ public:
 
         // C_sp,ny^± = C(n_r,±Λ,n_y).
         for (int sp_I = 0; sp_I < Nsp_I; ++sp_I) {
-            const AxialSPLabel& label_ = axialconfig.labels_S1D_sp[sp_I];
+            const AxialSPLabel& label_ = labels_S1D_sp[sp_I];
             for (int ny_I = 0; ny_I <= nu_I1D_sp(sp_I); ++ny_I) {
                 COmegaPos_F2D_sp_ny(sp_I, ny_I) = calc_polar_cartesian_coeff(label_.nr_I, label_.Lambda_I, ny_I);
                 COmegaNeg_F2D_sp_ny(sp_I, ny_I) = calc_polar_cartesian_coeff(label_.nr_I, -label_.Lambda_I, ny_I);
@@ -107,7 +112,7 @@ public:
 
         // (b_r,b_z,β) → cached (H,K₀).
         for (int beta_I = 0; beta_I < Nbeta_I; ++beta_I) {
-            const auto [H_F2D_t_t, K0_F] = calc_H_K0(axialconfig.bz_F, axialconfig.br_F, beta_F1D_beta(beta_I));
+            const auto [H_F2D_t_t, K0_F] = calc_H_K0(bz_F, br_F, beta_F1D_beta(beta_I));
             Eigen::Map<Eigen::Matrix4d>(H_F3D_x1z1x2z2_x1z1x2z2_beta.data() + 16 * static_cast<Eigen::Index>(beta_I)) = H_F2D_t_t;
             K0_F1D_beta(beta_I) = K0_F;
         }
@@ -171,7 +176,7 @@ inline void AxialRotation::build() {
 
 inline void AxialRotation::build_Rz() {
     // α ∈ [0,2π); γ ∈ [0,4π).
-    const Eigen::Index Nsp_I = static_cast<Eigen::Index>(axialconfig.labels_S1D_sp.size());
+    const Eigen::Index Nsp_I = static_cast<Eigen::Index>(labels_S1D_sp.size());
     const double pi_F = std::acos(-1.0);
     assert(Nalpha_I > 0 && Ngamma_I > 0);
 
@@ -185,7 +190,7 @@ inline void AxialRotation::build_Rz() {
     for (int alpha_I = 0; alpha_I < Nalpha_I; ++alpha_I) {
         const double alpha_F = 2.0 * pi_F * alpha_I / Nalpha_I;
         for (Eigen::Index sp_I = 0; sp_I < Nsp_I; ++sp_I) {
-            const double Omega_F = 0.5 * axialconfig.labels_S1D_sp[sp_I].twoOmega_I;
+            const double Omega_F = 0.5 * labels_S1D_sp[sp_I].twoOmega_I;
             const double cosOmegaAngle_F = std::cos(Omega_F * alpha_F);
             const double sinOmegaAngle_F = std::sin(Omega_F * alpha_F);
 
@@ -199,7 +204,7 @@ inline void AxialRotation::build_Rz() {
     for (int gamma_I = 0; gamma_I < Ngamma_I; ++gamma_I) {
         const double gamma_F = 4.0 * pi_F * gamma_I / Ngamma_I;
         for (Eigen::Index sp_I = 0; sp_I < Nsp_I; ++sp_I) {
-            const double Omega_F = 0.5 * axialconfig.labels_S1D_sp[sp_I].twoOmega_I;
+            const double Omega_F = 0.5 * labels_S1D_sp[sp_I].twoOmega_I;
             const double cosOmegaAngle_F = std::cos(Omega_F * gamma_F);
             const double sinOmegaAngle_F = std::sin(Omega_F * gamma_F);
 
@@ -212,10 +217,10 @@ inline void AxialRotation::build_Rz() {
 
 inline void AxialRotation::build_Ry() {
     // {Ω > 0,β} → (N_sp,N_β).
-    const int Nsp_I = static_cast<int>(axialconfig.labels_S1D_sp.size());
+    const int Nsp_I = static_cast<int>(labels_S1D_sp.size());
     const int Nbeta_I = static_cast<int>(beta_F1D_beta.size());
-    assert(std::isfinite(axialconfig.br_F) && axialconfig.br_F > 0.0);
-    assert(std::isfinite(axialconfig.bz_F) && axialconfig.bz_F > 0.0);
+    assert(std::isfinite(br_F) && br_F > 0.0);
+    assert(std::isfinite(bz_F) && bz_F > 0.0);
     assert(Nbeta_I > 0);
     assert(beta_F1D_beta.allFinite());
     assert((beta_F1D_beta.array() > 0.0).all() && (beta_F1D_beta.array() < std::acos(-1.0)).all());
@@ -227,7 +232,7 @@ inline void AxialRotation::build_Ry() {
     nu_I1D_sp.resize(Nsp_I);
     int nuMax_I = 0;
     for (int sp_I = 0; sp_I < Nsp_I; ++sp_I) {
-        const AxialSPLabel& label_ = axialconfig.labels_S1D_sp[sp_I];
+        const AxialSPLabel& label_ = labels_S1D_sp[sp_I];
         assert(is_valid(label_.nz_I, label_.nr_I, label_.Lambda_I, label_.twoOmega_I, label_.twoSigma_I, label_.isParityPositive_B));
         nu_I1D_sp(sp_I) = 2 * label_.nr_I + label_.Lambda_I;
         nuMax_I = std::max(nuMax_I, nu_I1D_sp(sp_I));
@@ -257,8 +262,8 @@ inline void AxialRotation::build_Ry() {
         for (int sp2_I = 0; sp2_I < Nsp_I; ++sp2_I) {
             for (int sp1_I = 0; sp1_I < Nsp_I; ++sp1_I) {
                 // (sp1,sp2) → labels, spin indices, shared n_y range.
-                const AxialSPLabel& label1_ = axialconfig.labels_S1D_sp[sp1_I];
-                const AxialSPLabel& label2_ = axialconfig.labels_S1D_sp[sp2_I];
+                const AxialSPLabel& label1_ = labels_S1D_sp[sp1_I];
+                const AxialSPLabel& label2_ = labels_S1D_sp[sp2_I];
                 const int spin1_I = (1 - label1_.twoSigma_I) / 2;
                 const int spin2_I = (1 - label2_.twoSigma_I) / 2;
                 const int nyMax_I = std::min(nu_I1D_sp(sp1_I), nu_I1D_sp(sp2_I));
@@ -305,8 +310,8 @@ inline void AxialRotation::build_Ry() {
         // T = [I,I;-iE,iE]/√2.
         T_C2D_Omega2sp_Simplex2sp(sp_I, sp_I) = invSqrt2_F;
         T_C2D_Omega2sp_Simplex2sp(sp_I, sp_I + Nsp_I) = invSqrt2_F;
-        T_C2D_Omega2sp_Simplex2sp(sp_I + Nsp_I, sp_I) = doubleC(0.0, -axialconfig.labels_S1D_sp[sp_I].twoSigma_I * invSqrt2_F);
-        T_C2D_Omega2sp_Simplex2sp(sp_I + Nsp_I, sp_I + Nsp_I) = doubleC(0.0, axialconfig.labels_S1D_sp[sp_I].twoSigma_I * invSqrt2_F);
+        T_C2D_Omega2sp_Simplex2sp(sp_I + Nsp_I, sp_I) = doubleC(0.0, -labels_S1D_sp[sp_I].twoSigma_I * invSqrt2_F);
+        T_C2D_Omega2sp_Simplex2sp(sp_I + Nsp_I, sp_I + Nsp_I) = doubleC(0.0, labels_S1D_sp[sp_I].twoSigma_I * invSqrt2_F);
     }
 
     for (int beta_I = 0; beta_I < Nbeta_I; ++beta_I) {
