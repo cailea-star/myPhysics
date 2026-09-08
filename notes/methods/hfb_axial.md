@@ -15,25 +15,25 @@ $$
 In a basis with definite angular-momentum projection,
 
 $$
-\hat J_z=\hbar\sum_\alpha\Omega_\alpha\hat c_\alpha^\dagger\hat c_\alpha,\qquad \Omega_\alpha=\pm\frac12,\pm\frac32,\ldots.
+\hat J_z=\hbar\sum_\alpha\Omega_\alpha\hat c_\alpha^*\hat c_\alpha,\qquad \Omega_\alpha=\pm\frac12,\pm\frac32,\ldots.
 $$
 
 Therefore,
 
 $$
-[\hat J_z,\hat c_\alpha^\dagger]=\hbar\Omega_\alpha\hat c_\alpha^\dagger,\qquad [\hat J_z,\hat c_\alpha]=-\hbar\Omega_\alpha\hat c_\alpha.
+[\hat J_z,\hat c_\alpha^*]=\hbar\Omega_\alpha\hat c_\alpha^*,\qquad [\hat J_z,\hat c_\alpha]=-\hbar\Omega_\alpha\hat c_\alpha.
 $$
 
 The elementary particle-hole and pair-creation operators satisfy
 
 $$
-[\hat J_z,\hat c_\alpha^\dagger\hat c_\beta]=\hbar(\Omega_\alpha-\Omega_\beta)\hat c_\alpha^\dagger\hat c_\beta,
+[\hat J_z,\hat c_\alpha^*\hat c_\beta]=\hbar(\Omega_\alpha-\Omega_\beta)\hat c_\alpha^*\hat c_\beta,
 $$
 
 and
 
 $$
-[\hat J_z,\hat c_\alpha^\dagger\hat c_\beta^\dagger]=\hbar(\Omega_\alpha+\Omega_\beta)\hat c_\alpha^\dagger\hat c_\beta^\dagger.
+[\hat J_z,\hat c_\alpha^*\hat c_\beta^*]=\hbar(\Omega_\alpha+\Omega_\beta)\hat c_\alpha^*\hat c_\beta^*.
 $$
 
 ##### Parity Symmetry
@@ -53,19 +53,19 @@ $$
 Therefore,
 
 $$
-[\hat\Pi,\hat c_\alpha^\dagger]=(\pi_\alpha-1)\hat c_\alpha^\dagger\hat\Pi,\qquad [\hat\Pi,\hat c_\alpha]=(\pi_\alpha-1)\hat c_\alpha\hat\Pi.
+[\hat\Pi,\hat c_\alpha^*]=(\pi_\alpha-1)\hat c_\alpha^*\hat\Pi,\qquad [\hat\Pi,\hat c_\alpha]=(\pi_\alpha-1)\hat c_\alpha\hat\Pi.
 $$
 
 The elementary particle-hole and pair-creation operators satisfy
 
 $$
-[\hat\Pi,\hat c_\alpha^\dagger\hat c_\beta]=(\pi_\alpha\pi_\beta-1)\hat c_\alpha^\dagger\hat c_\beta\hat\Pi,
+[\hat\Pi,\hat c_\alpha^*\hat c_\beta]=(\pi_\alpha\pi_\beta-1)\hat c_\alpha^*\hat c_\beta\hat\Pi,
 $$
 
 and
 
 $$
-[\hat\Pi,\hat c_\alpha^\dagger\hat c_\beta^\dagger]=(\pi_\alpha\pi_\beta-1)\hat c_\alpha^\dagger\hat c_\beta^\dagger\hat\Pi.
+[\hat\Pi,\hat c_\alpha^*\hat c_\beta^*]=(\pi_\alpha\pi_\beta-1)\hat c_\alpha^*\hat c_\beta^*\hat\Pi.
 $$
 
 ##### Opposite-$\Omega$ States
@@ -134,36 +134,64 @@ $$
 
 The $(U_\mu^+,V_\mu^-)$ and $(U_\mu^-,V_\mu^+)$ sectors decouple without assuming time-reversal invariance.
 
-##### Quasiparticle and Density Blocks
+##### Solutions of the HFB Block Equations
 
-The two decoupled axial sectors have quasiparticle creation operators
-
-$$
-\hat\beta_{\mu}^{(+)\dagger}=\sum_\alpha\left(U_{\alpha\mu}^+\hat c_\alpha^\dagger+V_{\alpha\mu}^-\hat c_{\bar\alpha}\right),\qquad \hat\beta_{\mu}^{(-)\dagger}=\sum_\alpha\left(U_{\alpha\mu}^-\hat c_{\bar\alpha}^\dagger+V_{\alpha\mu}^+\hat c_\alpha\right).
-$$
-
-With particle rows ordered as $(\alpha,\bar\alpha)$ and quasiparticle columns as $(+,-)$,
+The axial HFB equation separates into two blocks:
 
 $$
-U=\begin{pmatrix}U^+&0\\0&U^-\end{pmatrix},\qquad V=\begin{pmatrix}0&V^+\\V^-&0\end{pmatrix}.
+\boxed{\mathcal H^+\equiv\begin{pmatrix}h_{\alpha\beta}-\lambda\delta_{\alpha\beta}&\Delta_{\alpha\bar\beta}\\\Delta_{\beta\bar\alpha}^*&-h_{\bar\alpha\bar\beta}^*+\lambda\delta_{\alpha\beta}\end{pmatrix},\qquad \mathcal H^-\equiv\begin{pmatrix}h_{\bar\alpha\bar\beta}-\lambda\delta_{\alpha\beta}&-\Delta_{\beta\bar\alpha}\\-\Delta_{\alpha\bar\beta}^*&-h_{\alpha\beta}^*+\lambda\delta_{\alpha\beta}\end{pmatrix}}.
 $$
 
-Using
+For each $(\Omega,\pi)$ block with $\Omega>0$, solve
 
 $$
-\rho=V^*V^T,\qquad \kappa=V^*U^T,
+\mathcal H^+X_\mu^+=E_\mu^+X_\mu^+,\qquad \mathcal H^-X_\nu^-=E_\nu^-X_\nu^-.
 $$
 
-gives
+we can solve the two blocks independently. The corresponding quasiparticle amplitudes are
 
 $$
-\rho=\begin{pmatrix}V^{+*}V^{+T}&0\\0&V^{-*}V^{-T}\end{pmatrix}\equiv\begin{pmatrix}\rho^+&0\\0&\rho^-\end{pmatrix},
+X_\mu^+\equiv\begin{pmatrix}U_\mu^+\\V_\mu^-\end{pmatrix},\qquad X_\nu^-\equiv\begin{pmatrix}U_\nu^-\\V_\nu^+\end{pmatrix}.
 $$
 
-and
+The two sectors decouple without assuming time-reversal invariance. Retain the normalized positive-energy solutions from both sectors.
+
+With particle rows ordered as $(\alpha,\bar\alpha)$ and quasiparticle columns as $(+,-)$, the full Bogoliubov matrices are
 
 $$
-\kappa=\begin{pmatrix}0&V^{+*}U^{-T}\\V^{-*}U^{+T}&0\end{pmatrix}\equiv\begin{pmatrix}0&\kappa^{+-}\\\kappa^{-+}&0\end{pmatrix}.
+\boxed{U=\begin{pmatrix}U^+&0\\0&U^-\end{pmatrix},\qquad V=\begin{pmatrix}0&V^+\\V^-&0\end{pmatrix}}.
+$$
+
+The corresponding quasiparticle creation operators are
+
+$$
+\hat\beta_\mu^{+*}=\sum_\alpha\left(U_{\alpha\mu}^+\hat c_\alpha^*+V_{\alpha\mu}^-\hat c_{\bar\alpha}\right),
+$$
+
+$$
+\hat\beta_\nu^{-*}=\sum_\alpha\left(U_{\alpha\nu}^-\hat c_{\bar\alpha}^*+V_{\alpha\nu}^+\hat c_\alpha\right).
+$$
+
+No time-reversal relation between $U^+,V^-$ and $U^-,V^+$ has been assumed.
+
+##### Density Blocks
+
+Using the Bogoliubov matrices defined in [Solutions of the HFB Block Equations](#solutions-of-the-hfb-block-equations),
+
+$$
+\rho=V^*V^T,\qquad \kappa=V^*U^T.
+$$
+
+The normal density preserves the axial sectors:
+
+$$
+\boxed{\rho=\begin{pmatrix}(V^+)^*(V^+)^T&0\\0&(V^-)^*(V^-)^T\end{pmatrix}\equiv\begin{pmatrix}\rho^+&0\\0&\rho^-\end{pmatrix}}.
+$$
+
+The pairing tensor connects opposite axial sectors:
+
+$$
+\boxed{\kappa=\begin{pmatrix}0&(V^+)^*(U^-)^T\\(V^-)^*(U^+)^T&0\end{pmatrix}\equiv\begin{pmatrix}0&\kappa^{+-}\\\kappa^{-+}&0\end{pmatrix}}.
 $$
 
 The antisymmetry $\kappa^T=-\kappa$ gives
@@ -199,7 +227,7 @@ $$
 The corresponding creation operators satisfy
 
 $$
-\hat{\mathcal T}\hat c_\alpha^\dagger\hat{\mathcal T}^{-1}=\eta_\alpha\hat c_{\bar\alpha}^\dagger,\qquad \hat{\mathcal T}\hat c_{\bar\alpha}^\dagger\hat{\mathcal T}^{-1}=-\eta_\alpha\hat c_\alpha^\dagger,
+\hat{\mathcal T}\hat c_\alpha^*\hat{\mathcal T}^{-1}=\eta_\alpha\hat c_{\bar\alpha}^*,\qquad \hat{\mathcal T}\hat c_{\bar\alpha}^*\hat{\mathcal T}^{-1}=-\eta_\alpha\hat c_\alpha^*,
 $$
 
 with the same relations for the annihilation operators.
@@ -242,16 +270,10 @@ $$
 h_{\bar\alpha\bar\beta}=\eta_\alpha\eta_\beta h_{\alpha\beta}^*,\qquad \Delta_{\alpha\bar\beta}=\eta_\alpha\eta_\beta\Delta_{\beta\bar\alpha}^*.
 $$
 
-The axial generalized Hamiltonian becomes
+The blocks defined in [Solutions of the HFB Block Equations](#solutions-of-the-hfb-block-equations) become
 
 $$
-\mathcal H_{\Omega\pi}^{(\mathcal T)}=\begin{pmatrix}h_{\alpha\beta}-\lambda\delta_{\alpha\beta}&0&0&\Delta_{\alpha\bar\beta}\\0&\eta_\alpha\eta_\beta h_{\alpha\beta}^*-\lambda\delta_{\alpha\beta}&-\eta_\alpha\eta_\beta\Delta_{\alpha\bar\beta}^*&0\\0&-\Delta_{\alpha\bar\beta}^*&-h_{\alpha\beta}^*+\lambda\delta_{\alpha\beta}&0\\\eta_\alpha\eta_\beta\Delta_{\alpha\bar\beta}&0&0&-\eta_\alpha\eta_\beta h_{\alpha\beta}+\lambda\delta_{\alpha\beta}\end{pmatrix}.
-$$
-
-It separates into two blocks:
-
-$$
-\mathcal H_+=\begin{pmatrix}h_{\alpha\beta}-\lambda\delta_{\alpha\beta}&\Delta_{\alpha\bar\beta}\\\eta_\alpha\eta_\beta\Delta_{\alpha\bar\beta}&-\eta_\alpha\eta_\beta h_{\alpha\beta}+\lambda\delta_{\alpha\beta}\end{pmatrix},\qquad \mathcal H_-=\begin{pmatrix}\eta_\alpha\eta_\beta h_{\alpha\beta}^*-\lambda\delta_{\alpha\beta}&-\eta_\alpha\eta_\beta\Delta_{\alpha\bar\beta}^*\\-\Delta_{\alpha\bar\beta}^*&-h_{\alpha\beta}^*+\lambda\delta_{\alpha\beta}\end{pmatrix}.
+\mathcal H^+=\begin{pmatrix}h_{\alpha\beta}-\lambda\delta_{\alpha\beta}&\Delta_{\alpha\bar\beta}\\\eta_\alpha\eta_\beta\Delta_{\alpha\bar\beta}&-\eta_\alpha\eta_\beta h_{\alpha\beta}+\lambda\delta_{\alpha\beta}\end{pmatrix},\qquad \mathcal H^-=\begin{pmatrix}\eta_\alpha\eta_\beta h_{\alpha\beta}^*-\lambda\delta_{\alpha\beta}&-\eta_\alpha\eta_\beta\Delta_{\alpha\bar\beta}^*\\-\Delta_{\alpha\bar\beta}^*&-h_{\alpha\beta}^*+\lambda\delta_{\alpha\beta}\end{pmatrix}.
 $$
 
 Define the phase transformation
@@ -260,68 +282,114 @@ $$
 \mathcal S_\eta\equiv\begin{pmatrix}\operatorname{diag}(\eta_\alpha)&0\\0&-\operatorname{diag}(\eta_\alpha)\end{pmatrix},\qquad \mathcal S_\eta^2=I.
 $$
 
-The two blocks and their Kramers amplitudes are related by
+The two blocks satisfy
 
 $$
-\mathcal H_-=\mathcal S_\eta\mathcal H_+^*\mathcal S_\eta,\qquad X_\mu^+\equiv\begin{pmatrix}U_\mu^+\\V_\mu^-\end{pmatrix},\qquad X_{\bar\mu}^-\equiv\mathcal S_\eta X_\mu^{+*}.
+\boxed{\mathcal H^-=\mathcal S_\eta\mathcal H^{+*}\mathcal S_\eta}.
 $$
 
-Hence,
+##### Solutions of the Time-Reversal-Reduced HFB Equation
+
+Using the eigenvectors defined in [Solutions of the HFB Block Equations](#solutions-of-the-hfb-block-equations), complex conjugation gives
 
 $$
-\mathcal H_+X_\mu^+=E_\mu X_\mu^+\quad\Longrightarrow\quad\mathcal H_-X_{\bar\mu}^-=E_\mu X_{\bar\mu}^-.
+\mathcal H^{+*}X_\mu^{+*}=E_\mu^+X_\mu^{+*}.
 $$
 
-The two sectors therefore have the same spectrum, and only $\mathcal H_+$ needs to be solved.
+Multiplying by $\mathcal S_\eta$ yields
+
+$$
+\mathcal S_\eta\mathcal H^{+*}X_\mu^{+*}=E_\mu^+\mathcal S_\eta X_\mu^{+*}.
+$$
+
+Using $\mathcal S_\eta^2=I$,
+
+$$
+\mathcal S_\eta\mathcal H^{+*}\mathcal S_\eta\mathcal S_\eta X_\mu^{+*}=E_\mu^+\mathcal S_\eta X_\mu^{+*}.
+$$
+
+Since $\mathcal S_\eta\mathcal H^{+*}\mathcal S_\eta=\mathcal H^-$,
+
+$$
+\mathcal H^-\mathcal S_\eta X_\mu^{+*}=E_\mu^+\mathcal S_\eta X_\mu^{+*}.
+$$
+
+Choose the paired eigenvectors and their phases such that
+
+$$
+\boxed{X_{\bar\mu}^-=\mathcal S_\eta X_\mu^{+*},\qquad E_{\bar\mu}^-=E_\mu^+}.
+$$
+
+Collecting the paired positive-energy solutions gives
+
+$$
+\boxed{\begin{pmatrix}U^-\\V^+\end{pmatrix}=\begin{pmatrix}\operatorname{diag}(\eta_\alpha)&0\\0&-\operatorname{diag}(\eta_\alpha)\end{pmatrix}\begin{pmatrix}(U^+)^*\\(V^-)^*\end{pmatrix}}.
+$$
+
+Only $\mathcal H^+$ needs to be solved. With particle rows ordered as $(\alpha,\bar\alpha)$ and quasiparticle columns paired as $(\mu,\bar\mu)$, the full Bogoliubov matrices become
+
+$$
+\boxed{U=\begin{pmatrix}U^+&0\\0&\operatorname{diag}(\eta_\alpha)(U^+)^*\end{pmatrix},\qquad V=\begin{pmatrix}0&-\operatorname{diag}(\eta_\alpha)(V^-)^*\\V^-&0\end{pmatrix}}.
+$$
+
+The amplitudes are generally complex.
+
+Using the density definitions in [Density Blocks](#density-blocks) and the Kramers amplitudes,
+
+$$
+\boxed{\rho=V^*V^T=\begin{pmatrix}\rho^+&0\\0&\operatorname{diag}(\eta_\alpha)(\rho^+)^*\operatorname{diag}(\eta_\alpha)\end{pmatrix}},
+$$
+
+$$
+\boxed{\kappa=V^*U^T=\begin{pmatrix}0&\kappa^{+-}\\-\operatorname{diag}(\eta_\alpha)(\kappa^{+-})^*\operatorname{diag}(\eta_\alpha)&0\end{pmatrix}}.
+$$
+
+Combining time-reversal invariance with $\kappa^{-+}=-(\kappa^{+-})^T$ gives
+
+$$
+\kappa^{+-}_{\alpha\beta}=\eta_\alpha\eta_\beta(\kappa^{+-}_{\beta\alpha})^*.
+$$
 
 ##### Representative $\Gamma$ and $\Delta$ Fields
 
-Unbarred indices run over the $\Omega>0$ representative states, while barred indices denote their opposite-$\Omega$ partners.
-
-The normal field is
+Let $N_{\mathrm{sp}}$ denote the full single-particle dimension. Using the field definitions in [Hartree–Fock–Bogoliubov Method](hfb.md),
 
 $$
-\Gamma_{\alpha\beta}=\sum_{c,d}\bar v_{\alpha c;\beta d}\rho_{dc}.
+\Gamma_{\alpha\beta}=\sum_{\gamma,\delta=1}^{N_{\mathrm{sp}}}\bar v_{\alpha\gamma;\beta\delta}\rho_{\delta\gamma},\qquad \alpha,\beta=1,\ldots,N_{\mathrm{sp}}.
 $$
 
-Since $\rho$ preserves the axial sectors and
+Substituting the density blocks from [Solutions of the Time-Reversal-Reduced HFB Equation](#solutions-of-the-time-reversal-reduced-hfb-equation) gives
 
 $$
-\rho_{\delta\gamma}^-=\eta_\delta\eta_\gamma(\rho_{\delta\gamma}^+)^*,
-$$
-
-the representative block is
-
-$$
-\boxed{\Gamma_{\alpha\beta}=\sum_{\gamma,\delta}\left[\bar v_{\alpha\gamma;\beta\delta}\rho_{\delta\gamma}^++\eta_\gamma\eta_\delta\bar v_{\alpha\bar\gamma;\beta\bar\delta}(\rho_{\delta\gamma}^+)^*\right]}.
+\boxed{\Gamma_{\alpha\beta}=\sum_{\gamma,\delta\in\{\alpha\mid\Omega_\alpha>0\}}\left[\bar v_{\alpha\gamma;\beta\delta}\rho_{\delta\gamma}^++\eta_\gamma\eta_\delta\bar v_{\alpha\bar\gamma;\beta\bar\delta}(\rho_{\delta\gamma}^+)^*\right]},\qquad \alpha,\beta\in\{\alpha\mid\Omega_\alpha>0\}.
 $$
 
 The remaining blocks satisfy
 
 $$
-\Gamma_{\alpha\bar\beta}=\Gamma_{\bar\alpha\beta}=0,\qquad \Gamma_{\bar\alpha\bar\beta}=\eta_\alpha\eta_\beta\Gamma_{\alpha\beta}^*.
+\Gamma_{\alpha\bar\beta}=\Gamma_{\bar\alpha\beta}=0,\qquad \Gamma_{\bar\alpha\bar\beta}=\eta_\alpha\eta_\beta\Gamma_{\alpha\beta}^*,\qquad \alpha,\beta\in\{\alpha\mid\Omega_\alpha>0\}.
 $$
 
-For the pairing field, the two cross-sector contributions are
+The pairing field in the full single-particle space is
 
 $$
-\Delta_{\alpha\bar\beta}=\frac12\sum_{\gamma,\delta}\left[\bar v_{\alpha\bar\beta;\gamma\bar\delta}\kappa_{\gamma\delta}^{+-}+\bar v_{\alpha\bar\beta;\bar\gamma\delta}\kappa_{\gamma\delta}^{-+}\right].
+\Delta_{\alpha\beta}=\frac12\sum_{\gamma,\delta=1}^{N_{\mathrm{sp}}}\bar v_{\alpha\beta;\gamma\delta}\kappa_{\gamma\delta},\qquad \alpha,\beta=1,\ldots,N_{\mathrm{sp}}.
 $$
 
-Using
+Its two cross-sector contributions give
 
 $$
-\kappa_{\gamma\delta}^{-+}=-\kappa_{\delta\gamma}^{+-},
+\Delta_{\alpha\bar\beta}=\frac12\sum_{\gamma,\delta\in\{\alpha\mid\Omega_\alpha>0\}}\left[\bar v_{\alpha\bar\beta;\gamma\bar\delta}\kappa_{\gamma\delta}^{+-}+\bar v_{\alpha\bar\beta;\bar\gamma\delta}\kappa_{\gamma\delta}^{-+}\right],\qquad \alpha,\beta\in\{\alpha\mid\Omega_\alpha>0\}.
 $$
 
-then exchanging $\gamma$ and $\delta$ and using the antisymmetry of $\bar v$, gives
+Using $\kappa^{-+}=-(\kappa^{+-})^T$, exchanging $\gamma,\delta$ in the second term, and applying the antisymmetry of $\bar v$ gives
 
 $$
-\boxed{\Delta_{\alpha\bar\beta}=\sum_{\gamma,\delta}\bar v_{\alpha\bar\beta;\gamma\bar\delta}\kappa_{\gamma\delta}^{+-}}.
+\boxed{\Delta_{\alpha\bar\beta}=\sum_{\gamma,\delta\in\{\alpha\mid\Omega_\alpha>0\}}\bar v_{\alpha\bar\beta;\gamma\bar\delta}\kappa_{\gamma\delta}^{+-}},\qquad \alpha,\beta\in\{\alpha\mid\Omega_\alpha>0\}.
 $$
 
 The remaining blocks satisfy
 
 $$
-\Delta_{\alpha\beta}=\Delta_{\bar\alpha\bar\beta}=0,\qquad \Delta_{\bar\alpha\beta}=-\Delta_{\beta\bar\alpha}.
+\Delta_{\alpha\beta}=\Delta_{\bar\alpha\bar\beta}=0,\qquad \Delta_{\bar\alpha\beta}=-\Delta_{\beta\bar\alpha},\qquad \alpha,\beta\in\{\alpha\mid\Omega_\alpha>0\}.
 $$

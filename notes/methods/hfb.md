@@ -2,16 +2,18 @@
 
 ### Many-Body Hamiltonian
 
-Use the fermionic conventions defined in [Second Quantization](../quantum_mechanics/second_quantization.md#fermionic-second-quantization). Let $\{|\phi_\alpha\rangle\}_{\alpha=1}^{N_{\mathrm{sp}}}$ be an orthonormal basis of $N_{\mathrm{sp}}$ single-particle modes, and let $|0\rangle$ be the particle vacuum. The operators $\hat c_\alpha^\dagger$ and $\hat c_\alpha$ create and annihilate a fermion in $|\phi_\alpha\rangle$:
+Use the fermionic conventions defined in [Second Quantization](../quantum_mechanics/second_quantization.md#fermionic-second-quantization). In this HFB series, $*$ denotes complex conjugation of scalar coefficients, the adjoint of individual operators, and the corresponding entrywise operation on vectors and matrices. Transpose is denoted by $T$, and $\dagger$ includes both entrywise conjugation and transpose. Thus, $\hat c_\alpha^*\equiv(\hat c_\alpha)^\dagger$, and the same convention applies to quasiparticle operators.
+
+Let $\{|\phi_\alpha\rangle\}_{\alpha=1}^{N_{\mathrm{sp}}}$ be an orthonormal basis of $N_{\mathrm{sp}}$ single-particle modes, and let $|0\rangle$ be the particle vacuum. The operators $\hat c_\alpha^*$ and $\hat c_\alpha$ create and annihilate a fermion in $|\phi_\alpha\rangle$:
 
 $$
-\hat c_\alpha^\dagger|0\rangle=|\phi_\alpha\rangle,\qquad \hat c_\alpha|0\rangle=0.
+\hat c_\alpha^*|0\rangle=|\phi_\alpha\rangle,\qquad \hat c_\alpha|0\rangle=0.
 $$
 
 Their canonical anticommutation relations are
 
 $$
-\{\hat c_\alpha,\hat c_\beta^\dagger\}=\delta_{\alpha\beta},\qquad \{\hat c_\alpha,\hat c_\beta\}=\{\hat c_\alpha^\dagger,\hat c_\beta^\dagger\}=0,
+\{\hat c_\alpha,\hat c_\beta^*\}=\delta_{\alpha\beta},\qquad \{\hat c_\alpha,\hat c_\beta\}=\{\hat c_\alpha^*,\hat c_\beta^*\}=0,
 $$
 
 where $\delta_{\alpha\beta}$ is the Kronecker delta.
@@ -37,21 +39,21 @@ $$
 The second-quantized many-body Hamiltonian is
 
 $$
-\boxed{\hat H=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}t_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta+\frac14\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}\bar v_{\alpha\beta;\gamma\delta}\hat c_\alpha^\dagger\hat c_\beta^\dagger\hat c_\delta\hat c_\gamma}.
+\boxed{\hat H=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}t_{\alpha\beta}\hat c_\alpha^*\hat c_\beta+\frac14\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}\bar v_{\alpha\beta;\gamma\delta}\hat c_\alpha^*\hat c_\beta^*\hat c_\delta\hat c_\gamma}.
 $$
 
 The particle-number operator is
 
 $$
-\hat N=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\hat c_\alpha^\dagger\hat c_\alpha.
+\hat N=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\hat c_\alpha^*\hat c_\alpha.
 $$
 
 ### Bogoliubov Transformation
 
-Let $\mu,\nu=1,\ldots,N_{\mathrm{sp}}$ label quasiparticle modes. Complex conjugation, transpose, and Hermitian conjugation are denoted by $*$, $T$, and $\dagger$, respectively. Define the particle and quasiparticle Nambu columns by
+Let $\mu,\nu=1,\ldots,N_{\mathrm{sp}}$ label quasiparticle modes. Define the particle and quasiparticle Nambu columns by
 
 $$
-\hat{\mathcal C}\equiv\begin{pmatrix}\hat c_1&\cdots&\hat c_{N_{\mathrm{sp}}}&\hat c_1^\dagger&\cdots&\hat c_{N_{\mathrm{sp}}}^\dagger\end{pmatrix}^T,\qquad \hat{\mathcal B}\equiv\begin{pmatrix}\hat\beta_1&\cdots&\hat\beta_{N_{\mathrm{sp}}}&\hat\beta_1^\dagger&\cdots&\hat\beta_{N_{\mathrm{sp}}}^\dagger\end{pmatrix}^T.
+\hat{\mathcal C}\equiv\begin{pmatrix}\hat c_1&\cdots&\hat c_{N_{\mathrm{sp}}}&\hat c_1^*&\cdots&\hat c_{N_{\mathrm{sp}}}^*\end{pmatrix}^T,\qquad \hat{\mathcal B}\equiv\begin{pmatrix}\hat\beta_1&\cdots&\hat\beta_{N_{\mathrm{sp}}}&\hat\beta_1^*&\cdots&\hat\beta_{N_{\mathrm{sp}}}^*\end{pmatrix}^T.
 $$
 
 Let $U,V\in\mathbb C^{N_{\mathrm{sp}}\times N_{\mathrm{sp}}}$ be the particle and hole amplitude matrices. The Bogoliubov transformation and its inverse are
@@ -66,14 +68,24 @@ $$
 \hat{\boldsymbol c}\equiv\begin{pmatrix}\hat c_1&\cdots&\hat c_{N_{\mathrm{sp}}}\end{pmatrix}^T,\qquad \hat{\boldsymbol\beta}\equiv\begin{pmatrix}\hat\beta_1&\cdots&\hat\beta_{N_{\mathrm{sp}}}\end{pmatrix}^T.
 $$
 
+Their entrywise adjoints are columns, while their Hermitian adjoints are rows:
+
 $$
-\begin{pmatrix}\hat{\boldsymbol\beta}\\\hat{\boldsymbol\beta}^{\dagger T}\end{pmatrix}=\begin{pmatrix}U^\dagger&V^\dagger\\V^T&U^T\end{pmatrix}\begin{pmatrix}\hat{\boldsymbol c}\\\hat{\boldsymbol c}^{\dagger T}\end{pmatrix},\qquad \begin{pmatrix}\hat{\boldsymbol c}\\\hat{\boldsymbol c}^{\dagger T}\end{pmatrix}=\begin{pmatrix}U&V^*\\V&U^*\end{pmatrix}\begin{pmatrix}\hat{\boldsymbol\beta}\\\hat{\boldsymbol\beta}^{\dagger T}\end{pmatrix}.
+\hat{\boldsymbol c}^*\equiv\begin{pmatrix}\hat c_1^*&\cdots&\hat c_{N_{\mathrm{sp}}}^*\end{pmatrix}^T,\qquad \hat{\boldsymbol\beta}^*\equiv\begin{pmatrix}\hat\beta_1^*&\cdots&\hat\beta_{N_{\mathrm{sp}}}^*\end{pmatrix}^T.
+$$
+
+$$
+\hat{\boldsymbol c}^\dagger=(\hat{\boldsymbol c}^*)^T,\qquad \hat{\boldsymbol\beta}^\dagger=(\hat{\boldsymbol\beta}^*)^T.
+$$
+
+$$
+\begin{pmatrix}\hat{\boldsymbol\beta}\\\hat{\boldsymbol\beta}^*\end{pmatrix}=\begin{pmatrix}U^\dagger&V^\dagger\\V^T&U^T\end{pmatrix}\begin{pmatrix}\hat{\boldsymbol c}\\\hat{\boldsymbol c}^*\end{pmatrix},\qquad \begin{pmatrix}\hat{\boldsymbol c}\\\hat{\boldsymbol c}^*\end{pmatrix}=\begin{pmatrix}U&V^*\\V&U^*\end{pmatrix}\begin{pmatrix}\hat{\boldsymbol\beta}\\\hat{\boldsymbol\beta}^*\end{pmatrix}.
 $$
 
 In components,
 
 $$
-\hat\beta_\mu=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\left(U_{\alpha\mu}^*\hat c_\alpha+V_{\alpha\mu}^*\hat c_\alpha^\dagger\right),\qquad \hat c_\alpha=\sum_{\mu=1}^{N_{\mathrm{sp}}}\left(U_{\alpha\mu}\hat\beta_\mu+V_{\alpha\mu}^*\hat\beta_\mu^\dagger\right).
+\hat\beta_\mu=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\left(U_{\alpha\mu}^*\hat c_\alpha+V_{\alpha\mu}^*\hat c_\alpha^*\right),\qquad \hat c_\alpha=\sum_{\mu=1}^{N_{\mathrm{sp}}}\left(U_{\alpha\mu}\hat\beta_\mu+V_{\alpha\mu}^*\hat\beta_\mu^*\right).
 $$
 
 
@@ -94,7 +106,7 @@ This constraint expresses the redundancy introduced by Nambu doubling and is not
 The quasiparticle operators must satisfy the fermionic canonical anticommutation relations
 
 $$
-\{\hat\beta_\mu,\hat\beta_\nu^\dagger\}=\delta_{\mu\nu},\qquad \{\hat\beta_\mu,\hat\beta_\nu\}=\{\hat\beta_\mu^\dagger,\hat\beta_\nu^\dagger\}=0.
+\{\hat\beta_\mu,\hat\beta_\nu^*\}=\delta_{\mu\nu},\qquad \{\hat\beta_\mu,\hat\beta_\nu\}=\{\hat\beta_\mu^*,\hat\beta_\nu^*\}=0.
 $$
 
 Preservation of the anticommutation relations requires
@@ -128,7 +140,7 @@ Because each $\hat\beta_\mu$ mixes particle creation and annihilation operators,
 For the normalized quasiparticle vacuum $|\Phi\rangle$, define the normal density matrix $\rho$ and pairing tensor $\kappa$ by
 
 $$
-\rho_{\alpha\beta}\equiv\langle\Phi|\hat c_\beta^\dagger\hat c_\alpha|\Phi\rangle,\qquad \kappa_{\alpha\beta}\equiv\langle\Phi|\hat c_\beta\hat c_\alpha|\Phi\rangle.
+\rho_{\alpha\beta}\equiv\langle\Phi|\hat c_\beta^*\hat c_\alpha|\Phi\rangle,\qquad \kappa_{\alpha\beta}\equiv\langle\Phi|\hat c_\beta\hat c_\alpha|\Phi\rangle.
 $$
 
 Using the inverse Bogoliubov transformation,
@@ -146,7 +158,7 @@ $$
 The generalized density matrix is
 
 $$
-\mathcal R\equiv\begin{pmatrix}\langle\Phi|\hat c_\beta^\dagger\hat c_\alpha|\Phi\rangle&\langle\Phi|\hat c_\beta\hat c_\alpha|\Phi\rangle\\\langle\Phi|\hat c_\beta^\dagger\hat c_\alpha^\dagger|\Phi\rangle&\langle\Phi|\hat c_\beta\hat c_\alpha^\dagger|\Phi\rangle\end{pmatrix}=\begin{pmatrix}V^*\\U^*\end{pmatrix}\begin{pmatrix}V^T&U^T\end{pmatrix}=\begin{pmatrix}\rho&\kappa\\-\kappa^*&I_{N_{\mathrm{sp}}}-\rho^*\end{pmatrix}.
+\mathcal R\equiv\begin{pmatrix}\langle\Phi|\hat c_\beta^*\hat c_\alpha|\Phi\rangle&\langle\Phi|\hat c_\beta\hat c_\alpha|\Phi\rangle\\\langle\Phi|\hat c_\beta^*\hat c_\alpha^*|\Phi\rangle&\langle\Phi|\hat c_\beta\hat c_\alpha^*|\Phi\rangle\end{pmatrix}=\begin{pmatrix}V^*\\U^*\end{pmatrix}\begin{pmatrix}V^T&U^T\end{pmatrix}=\begin{pmatrix}\rho&\kappa\\-\kappa^*&I_{N_{\mathrm{sp}}}-\rho^*\end{pmatrix}.
 $$
 
 It inherits the Nambu constraint
@@ -158,7 +170,7 @@ $$
 In the quasiparticle basis,
 
 $$
-\mathcal W^\dagger\mathcal R\mathcal W=\begin{pmatrix}\langle\Phi|\hat\beta_\nu^\dagger\hat\beta_\mu|\Phi\rangle&\langle\Phi|\hat\beta_\nu\hat\beta_\mu|\Phi\rangle\\\langle\Phi|\hat\beta_\nu^\dagger\hat\beta_\mu^\dagger|\Phi\rangle&\langle\Phi|\hat\beta_\nu\hat\beta_\mu^\dagger|\Phi\rangle\end{pmatrix}=\begin{pmatrix}0\\I_{N_{\mathrm{sp}}}\end{pmatrix}\begin{pmatrix}0&I_{N_{\mathrm{sp}}}\end{pmatrix}=\begin{pmatrix}0&0\\0&I_{N_{\mathrm{sp}}}\end{pmatrix}.
+\mathcal W^\dagger\mathcal R\mathcal W=\begin{pmatrix}\langle\Phi|\hat\beta_\nu^*\hat\beta_\mu|\Phi\rangle&\langle\Phi|\hat\beta_\nu\hat\beta_\mu|\Phi\rangle\\\langle\Phi|\hat\beta_\nu^*\hat\beta_\mu^*|\Phi\rangle&\langle\Phi|\hat\beta_\nu\hat\beta_\mu^*|\Phi\rangle\end{pmatrix}=\begin{pmatrix}0\\I_{N_{\mathrm{sp}}}\end{pmatrix}\begin{pmatrix}0&I_{N_{\mathrm{sp}}}\end{pmatrix}=\begin{pmatrix}0&0\\0&I_{N_{\mathrm{sp}}}\end{pmatrix}.
 $$
 
 The generalized density matrix is therefore Hermitian and idempotent:
@@ -184,7 +196,7 @@ $$
 The generalized Wick theorem gives
 
 $$
-\langle\Phi|\hat c_\alpha^\dagger\hat c_\beta^\dagger\hat c_\delta\hat c_\gamma|\Phi\rangle=\rho_{\gamma\alpha}\rho_{\delta\beta}-\rho_{\delta\alpha}\rho_{\gamma\beta}+\kappa_{\alpha\beta}^*\kappa_{\gamma\delta}.
+\langle\Phi|\hat c_\alpha^*\hat c_\beta^*\hat c_\delta\hat c_\gamma|\Phi\rangle=\rho_{\gamma\alpha}\rho_{\delta\beta}-\rho_{\delta\alpha}\rho_{\gamma\beta}+\kappa_{\alpha\beta}^*\kappa_{\gamma\delta}.
 $$
 
 The expectation value of the many-body Hamiltonian defines the energy functional.
@@ -308,7 +320,7 @@ $$
 The corresponding infinitesimal variation is
 
 $$
-\delta\mathcal R=\left.\frac{d\mathcal R(\epsilon)}{d\epsilon}\right|_{\epsilon=0}=i[\mathcal G,\mathcal R].
+\delta\mathcal R=\left.\frac{\mathrm d\mathcal R(\epsilon)}{\mathrm d\epsilon}\right|_{\epsilon=0}=i[\mathcal G,\mathcal R].
 $$
 
 The stationary condition is
@@ -358,7 +370,7 @@ $$
 At the stationary fields, define the quadratic HFB operator by
 
 $$
-\boxed{\hat{\mathcal L}_{\mathrm{HFB}}\equiv\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}\left(h_{\alpha\beta}-\lambda\delta_{\alpha\beta}\right)\hat c_\alpha^\dagger\hat c_\beta+\frac12\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}\left(\Delta_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta^\dagger+\Delta_{\alpha\beta}^*\hat c_\beta\hat c_\alpha\right)}.
+\boxed{\hat{\mathcal L}_{\mathrm{HFB}}\equiv\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}\left(h_{\alpha\beta}-\lambda\delta_{\alpha\beta}\right)\hat c_\alpha^*\hat c_\beta+\frac12\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}\left(\Delta_{\alpha\beta}\hat c_\alpha^*\hat c_\beta^*+\Delta_{\alpha\beta}^*\hat c_\beta\hat c_\alpha\right)}.
 $$
 
 Its Nambu representation is
@@ -378,13 +390,13 @@ $$
 Expanding the Nambu components gives
 
 $$
-\hat{\mathcal L}_{\mathrm{HFB}}=\frac12\operatorname{Tr}(h-\lambda I)+\frac12\sum_{\mu=1}^{N_{\mathrm{sp}}}E_\mu\left(\hat\beta_\mu^\dagger\hat\beta_\mu-\hat\beta_\mu\hat\beta_\mu^\dagger\right).
+\hat{\mathcal L}_{\mathrm{HFB}}=\frac12\operatorname{Tr}(h-\lambda I)+\frac12\sum_{\mu=1}^{N_{\mathrm{sp}}}E_\mu\left(\hat\beta_\mu^*\hat\beta_\mu-\hat\beta_\mu\hat\beta_\mu^*\right).
 $$
 
-Using the anticommutation relation $\{\hat\beta_\mu,\hat\beta_\mu^\dagger\}=1$ gives
+Using the anticommutation relation $\{\hat\beta_\mu,\hat\beta_\mu^*\}=1$ gives
 
 $$
-\hat{\mathcal L}_{\mathrm{HFB}}=\frac12\operatorname{Tr}(h-\lambda I)-\frac12\sum_{\mu=1}^{N_{\mathrm{sp}}}E_\mu+\sum_{\mu=1}^{N_{\mathrm{sp}}}E_\mu\hat\beta_\mu^\dagger\hat\beta_\mu.
+\hat{\mathcal L}_{\mathrm{HFB}}=\frac12\operatorname{Tr}(h-\lambda I)-\frac12\sum_{\mu=1}^{N_{\mathrm{sp}}}E_\mu+\sum_{\mu=1}^{N_{\mathrm{sp}}}E_\mu\hat\beta_\mu^*\hat\beta_\mu.
 $$
 
 Since $\hat\beta_\mu|\Phi\rangle=0$, define
@@ -396,13 +408,13 @@ $$
 The quadratic HFB operator is therefore
 
 $$
-\boxed{\hat{\mathcal L}_{\mathrm{HFB}}=E_{\mathrm{vac}}+\sum_{\mu=1}^{N_{\mathrm{sp}}}E_\mu\hat\beta_\mu^\dagger\hat\beta_\mu}.
+\boxed{\hat{\mathcal L}_{\mathrm{HFB}}=E_{\mathrm{vac}}+\sum_{\mu=1}^{N_{\mathrm{sp}}}E_\mu\hat\beta_\mu^*\hat\beta_\mu}.
 $$
 
 Define the one-quasiparticle state by
 
 $$
-|\mu\rangle\equiv\hat\beta_\mu^\dagger|\Phi\rangle.
+|\mu\rangle\equiv\hat\beta_\mu^*|\Phi\rangle.
 $$
 
 Then,
@@ -411,7 +423,7 @@ $$
 \hat{\mathcal L}_{\mathrm{HFB}}|\Phi\rangle=E_{\mathrm{vac}}|\Phi\rangle,\qquad \hat{\mathcal L}_{\mathrm{HFB}}|\mu\rangle=(E_{\mathrm{vac}}+E_\mu)|\mu\rangle.
 $$
 
-Thus, $E_\mu$ is the excitation energy relative to the quasiparticle vacuum. Although $\Psi_\mu(-E_\mu)$ has Nambu eigenvalue $-E_\mu$, its Hermitian conjugate defines $\hat\beta_\mu^\dagger$ and creates an excitation of energy $E_\mu$.
+Thus, $E_\mu$ is the excitation energy relative to the quasiparticle vacuum. Although $\Psi_\mu(-E_\mu)$ has Nambu eigenvalue $-E_\mu$, its Hermitian conjugate defines $\hat\beta_\mu^*$ and creates an excitation of energy $E_\mu$.
 
 The physical HFB energy is evaluated from
 
@@ -426,13 +438,13 @@ and is not generally equal to $E_{\mathrm{vac}}$ or $\sum_\mu E_\mu$.
 The positive-energy Nambu covector $\Psi_\mu^\dagger(E_\mu)$ defines the quasiparticle annihilation operator
 
 $$
-\hat\beta_\mu=\Psi_\mu^\dagger(E_\mu)\hat{\mathcal C}=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\left(U_{\alpha\mu}^*\hat c_\alpha+V_{\alpha\mu}^*\hat c_\alpha^\dagger\right).
+\hat\beta_\mu=\Psi_\mu^\dagger(E_\mu)\hat{\mathcal C}=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\left(U_{\alpha\mu}^*\hat c_\alpha+V_{\alpha\mu}^*\hat c_\alpha^*\right).
 $$
 
 The negative-energy Nambu covector $\Psi_\mu^\dagger(-E_\mu)$ defines the quasiparticle creation operator
 
 $$
-\hat\beta_\mu^\dagger=\Psi_\mu^\dagger(-E_\mu)\hat{\mathcal C}=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\left(V_{\alpha\mu}\hat c_\alpha+U_{\alpha\mu}\hat c_\alpha^\dagger\right).
+\hat\beta_\mu^*=\Psi_\mu^\dagger(-E_\mu)\hat{\mathcal C}=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\left(V_{\alpha\mu}\hat c_\alpha+U_{\alpha\mu}\hat c_\alpha^*\right).
 $$
 
 The normalized quasiparticle vacuum $|\Phi\rangle$ is defined by
@@ -468,49 +480,49 @@ $$
 The quasiparticle vacuum has the Thouless form
 
 $$
-\boxed{|\Phi\rangle=\nu\exp\left[\frac12\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}Z_{\alpha\beta}\hat c_\alpha^\dagger\hat c_\beta^\dagger\right]|0\rangle}.
+\boxed{|\Phi\rangle=\nu\exp\left[\frac12\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}Z_{\alpha\beta}\hat c_\alpha^*\hat c_\beta^*\right]|0\rangle}.
 $$
 
 Define the pair-creation operator
 
 $$
-\hat A\equiv\frac12\sum_{\gamma,\delta=1}^{N_{\mathrm{sp}}}Z_{\gamma\delta}\hat c_\gamma^\dagger\hat c_\delta^\dagger.
+\hat A\equiv\frac12\sum_{\gamma,\delta=1}^{N_{\mathrm{sp}}}Z_{\gamma\delta}\hat c_\gamma^*\hat c_\delta^*.
 $$
 
 Its commutator with an annihilation operator is
 
 $$
-[\hat c_\alpha,\hat A]=\frac12\sum_{\gamma,\delta=1}^{N_{\mathrm{sp}}}Z_{\gamma\delta}\left(\delta_{\alpha\gamma}\hat c_\delta^\dagger-\delta_{\alpha\delta}\hat c_\gamma^\dagger\right)=\sum_{\beta=1}^{N_{\mathrm{sp}}}Z_{\alpha\beta}\hat c_\beta^\dagger.
+[\hat c_\alpha,\hat A]=\frac12\sum_{\gamma,\delta=1}^{N_{\mathrm{sp}}}Z_{\gamma\delta}\left(\delta_{\alpha\gamma}\hat c_\delta^*-\delta_{\alpha\delta}\hat c_\gamma^*\right)=\sum_{\beta=1}^{N_{\mathrm{sp}}}Z_{\alpha\beta}\hat c_\beta^*.
 $$
 
 Its commutator with a creation operator is
 
 $$
-[\hat c_\alpha^\dagger,\hat A]=\frac12\sum_{\gamma,\delta=1}^{N_{\mathrm{sp}}}Z_{\gamma\delta}\left(\hat c_\alpha^\dagger\hat c_\gamma^\dagger\hat c_\delta^\dagger-\hat c_\gamma^\dagger\hat c_\delta^\dagger\hat c_\alpha^\dagger\right)=0.
+[\hat c_\alpha^*,\hat A]=\frac12\sum_{\gamma,\delta=1}^{N_{\mathrm{sp}}}Z_{\gamma\delta}\left(\hat c_\alpha^*\hat c_\gamma^*\hat c_\delta^*-\hat c_\gamma^*\hat c_\delta^*\hat c_\alpha^*\right)=0.
 $$
 
 The Baker–Campbell–Hausdorff series therefore terminates at first order:
 
 $$
-[\hat c_\alpha^\dagger,\hat A]=0\;\to\;[[\hat c_\alpha,\hat A],\hat A]=0\;\to\;\hat c_\alpha e^{\hat A}=e^{\hat A}\left(\hat c_\alpha+[\hat c_\alpha,\hat A]\right).
+[\hat c_\alpha^*,\hat A]=0\;\to\;[[\hat c_\alpha,\hat A],\hat A]=0\;\to\;\hat c_\alpha e^{\hat A}=e^{\hat A}\left(\hat c_\alpha+[\hat c_\alpha,\hat A]\right).
 $$
 
 Using $\hat c_\alpha|0\rangle=0$ gives
 
 $$
-\boxed{\hat c_\alpha|\Phi\rangle=\sum_{\beta=1}^{N_{\mathrm{sp}}}Z_{\alpha\beta}\hat c_\beta^\dagger|\Phi\rangle,\qquad \hat{\boldsymbol c}|\Phi\rangle=Z\hat{\boldsymbol c}^\dagger|\Phi\rangle}.
+\boxed{\hat c_\alpha|\Phi\rangle=\sum_{\beta=1}^{N_{\mathrm{sp}}}Z_{\alpha\beta}\hat c_\beta^*|\Phi\rangle,\qquad \hat{\boldsymbol c}|\Phi\rangle=Z\hat{\boldsymbol c}^*|\Phi\rangle}.
 $$
 
 The required operator and matrix relations are
 
 $$
-\hat{\boldsymbol\beta}=U^\dagger\hat{\boldsymbol c}+V^\dagger\hat{\boldsymbol c}^\dagger,\qquad U^\dagger V^*+V^\dagger U^*=0,\qquad Z=V^*U^{-*}.
+\hat{\boldsymbol\beta}=U^\dagger\hat{\boldsymbol c}+V^\dagger\hat{\boldsymbol c}^*,\qquad U^\dagger V^*+V^\dagger U^*=0,\qquad Z=V^*U^{-*}.
 $$
 
 Hence,
 
 $$
-\hat{\boldsymbol\beta}|\Phi\rangle=(U^\dagger Z+V^\dagger)\hat{\boldsymbol c}^\dagger|\Phi\rangle=(U^\dagger V^*U^{-*}+V^\dagger)\hat{\boldsymbol c}^\dagger|\Phi\rangle=0.
+\hat{\boldsymbol\beta}|\Phi\rangle=(U^\dagger Z+V^\dagger)\hat{\boldsymbol c}^*|\Phi\rangle=(U^\dagger V^*U^{-*}+V^\dagger)\hat{\boldsymbol c}^*|\Phi\rangle=0.
 $$
 
 The Thouless state therefore satisfies the quasiparticle-vacuum condition.

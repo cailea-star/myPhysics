@@ -112,7 +112,7 @@ $$
 The WKB tunneling probability is proportional to $e^{-2\gamma}$, where
 
 $$
-\gamma=\frac{1}{\hbar}\int_{r_1}^{r_2}\sqrt{2M_\alpha[V(r)-E]}\,dr.
+\gamma=\frac{1}{\hbar}\int_{r_1}^{r_2}\sqrt{2M_\alpha[V(r)-E]}\,\mathrm dr.
 $$
 
 For the Coulomb potential,

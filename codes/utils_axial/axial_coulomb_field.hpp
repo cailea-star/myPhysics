@@ -92,6 +92,7 @@ inline void AxialCoulombField::build(bool useReflection_B, double e2_F) {
     for (int x_I = 0; x_I < Nlegendre_I; ++x_I) {
         const double u2_F = u2_F1D_x(x_I);
         const double weight_x_F = weight_F1D_x(x_I) * dudx_F1D_x(x_I) * factor_F;
+        #pragma omp parallel for collapse(4) schedule(static)
         for (int rt_I = 0; rt_I < Nr_I; ++rt_I) {
             for (int zt_I = 0; zt_I < Nz_I; ++zt_I) {
                 for (int rs_I = 0; rs_I < Nr_I; ++rs_I) {

@@ -108,7 +108,7 @@ $$
 \hat{\mathbf p}=-i\hbar\nabla,\qquad \hat{\mathbf L}=\mathbf r\times\hat{\mathbf p}=-i\hbar\,\mathbf r\times\nabla.
 $$
 
-Let $r=|\mathbf r|$, $\hat{\mathbf r}=\mathbf r/r$, and $\Omega=(\theta,\phi)$. In spherical coordinates,
+Let $r=|\mathbf r|$ and $\hat{\mathbf r}=\mathbf r/r$. In spherical coordinates,
 
 $$
 \boxed{\hat L_z=-i\hbar\frac{\partial}{\partial\phi}}.
@@ -129,7 +129,7 @@ $$
 The angular coordinate representation of $|l,m\rangle$ is
 
 $$
-\langle\Omega|l,m\rangle=Y_{lm}(\Omega).
+\langle\hat{\mathbf r}|l,m\rangle=Y_{lm}(\hat{\mathbf r}).
 $$
 
 Therefore,
@@ -141,7 +141,7 @@ $$
 A wavefunction with fixed $(l,m)$ has the form
 
 $$
-\psi_{lm}(\mathbf r)=R_l(r)Y_{lm}(\Omega).
+\psi_{lm}(\mathbf r)=R_l(r)Y_{lm}(\hat{\mathbf r}).
 $$
 
 The differential identities and properties of $Y_{lm}$ are collected in [Spherical Coordinates](../mathematical_physics/coordinate_spherical.md#differential-operators) and [Spherical Harmonics](../mathematical_physics/specialfunction_spherical_harmonics.md#scalar-spherical-harmonics).

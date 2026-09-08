@@ -16,16 +16,16 @@ $$
 \frac{1}{|\boldsymbol r_{\mathrm{t}}-\boldsymbol r_{\mathrm{s}}|}=\frac{2}{\sqrt{\pi}}\int_0^\infty e^{-u^2|\boldsymbol r_{\mathrm{t}}-\boldsymbol r_{\mathrm{s}}|^2}\,\mathrm du.
 $$
 
-Under axial symmetry, take $\varphi_{\mathrm{t}}=0$ and write $s=(z_{\mathrm{s}},r_{\mathrm{s}})$ and $t=(z_{\mathrm{t}},r_{\mathrm{t}})$. Then
+Under axial symmetry, take $\varphi_{\mathrm{t}}=0$ and write $s=(z_{\mathrm{s}},r_{\perp,\mathrm{s}})$ and $t=(z_{\mathrm{t}},r_{\perp,\mathrm{t}})$. Then
 
 $$
-V_{\mathrm C}^{\mathrm{dir}}(t)=\frac{2e^2}{\sqrt{\pi}}\int_{-\infty}^{\infty}\mathrm dz_{\mathrm{s}}\int_0^\infty r_{\mathrm{s}}\,\mathrm dr_{\mathrm{s}}\,\rho_p(s)\int_0^\infty\mathrm du\int_0^{2\pi}\mathrm d\varphi_{\mathrm{s}}\,e^{-u^2[(z_{\mathrm{s}}-z_{\mathrm{t}})^2+r_{\mathrm{s}}^2+r_{\mathrm{t}}^2-2r_{\mathrm{s}}r_{\mathrm{t}}\cos\varphi_{\mathrm{s}}]}.
+V_{\mathrm C}^{\mathrm{dir}}(t)=\frac{2e^2}{\sqrt{\pi}}\int_{-\infty}^{\infty}\mathrm dz_{\mathrm{s}}\int_0^\infty r_{\perp,\mathrm{s}}\,\mathrm dr_{\perp,\mathrm{s}}\,\rho_p(s)\int_0^\infty\mathrm du\int_0^{2\pi}\mathrm d\varphi_{\mathrm{s}}\,e^{-u^2[(z_{\mathrm{s}}-z_{\mathrm{t}})^2+r_{\perp,\mathrm{s}}^2+r_{\perp,\mathrm{t}}^2-2r_{\perp,\mathrm{s}}r_{\perp,\mathrm{t}}\cos\varphi_{\mathrm{s}}]}.
 $$
 
 The azimuthally averaged part defines the bare axial kernel,
 
 $$
-\mathcal K_{\mathrm C}(s,t)=\frac{2e^2}{\sqrt{\pi}}\int_0^\infty\mathrm du\,\frac{1}{2\pi}\int_0^{2\pi}\mathrm d\varphi_{\mathrm{s}}\,e^{-u^2[(z_{\mathrm{s}}-z_{\mathrm{t}})^2+r_{\mathrm{s}}^2+r_{\mathrm{t}}^2-2r_{\mathrm{s}}r_{\mathrm{t}}\cos\varphi_{\mathrm{s}}]}.
+\mathcal K_{\mathrm C}(s,t)=\frac{2e^2}{\sqrt{\pi}}\int_0^\infty\mathrm du\,\frac{1}{2\pi}\int_0^{2\pi}\mathrm d\varphi_{\mathrm{s}}\,e^{-u^2[(z_{\mathrm{s}}-z_{\mathrm{t}})^2+r_{\perp,\mathrm{s}}^2+r_{\perp,\mathrm{t}}^2-2r_{\perp,\mathrm{s}}r_{\perp,\mathrm{t}}\cos\varphi_{\mathrm{s}}]}.
 $$
 
 Define
@@ -37,7 +37,7 @@ $$
 After integrating over $\varphi_{\mathrm{s}}$,
 
 $$
-\boxed{\mathcal K_{\mathrm C}(s,t)=\frac{2e^2}{\sqrt{\pi}}\int_0^\infty e^{-u^2[(z_{\mathrm{s}}-z_{\mathrm{t}})^2+(r_{\mathrm{s}}-r_{\mathrm{t}})^2]}I_0^{\mathrm e}(2u^2r_{\mathrm{s}}r_{\mathrm{t}})\,\mathrm du.}
+\boxed{\mathcal K_{\mathrm C}(s,t)=\frac{2e^2}{\sqrt{\pi}}\int_0^\infty e^{-u^2[(z_{\mathrm{s}}-z_{\mathrm{t}})^2+(r_{\perp,\mathrm{s}}-r_{\perp,\mathrm{t}})^2]}I_0^{\mathrm e}(2u^2r_{\perp,\mathrm{s}}r_{\perp,\mathrm{t}})\,\mathrm du.}
 $$
 
 ### Semi-Infinite Mapping
@@ -51,7 +51,7 @@ $$
 Therefore, the bare kernel becomes
 
 $$
-\boxed{\mathcal K_{\mathrm C}(s,t)=\frac{2e^2}{\sqrt{\pi}}\int_0^1\frac{\mathrm dx}{b(1-x^2)^{3/2}}e^{-u(x)^2[(z_{\mathrm{s}}-z_{\mathrm{t}})^2+(r_{\mathrm{s}}-r_{\mathrm{t}})^2]}I_0^{\mathrm e}(2u(x)^2r_{\mathrm{s}}r_{\mathrm{t}}).}
+\boxed{\mathcal K_{\mathrm C}(s,t)=\frac{2e^2}{\sqrt{\pi}}\int_0^1\frac{\mathrm dx}{b(1-x^2)^{3/2}}e^{-u(x)^2[(z_{\mathrm{s}}-z_{\mathrm{t}})^2+(r_{\perp,\mathrm{s}}-r_{\perp,\mathrm{t}})^2]}I_0^{\mathrm e}(2u(x)^2r_{\perp,\mathrm{s}}r_{\perp,\mathrm{t}}).}
 $$
 
 The scale $b=50\,\mathrm{fm}$ controls the mapping without changing the integral. The finite integral is evaluated by Gauss–Legendre quadrature.
@@ -61,7 +61,7 @@ The scale $b=50\,\mathrm{fm}$ controls the mapping without changing the integral
 For a reflection-reduced grid,
 
 $$
-\rho_p(-z,r)=\rho_p(z,r).
+\rho_p(-z,r_\perp)=\rho_p(z,r_\perp).
 $$
 
 The axial exponential is replaced by

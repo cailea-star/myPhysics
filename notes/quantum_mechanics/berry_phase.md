@@ -11,10 +11,10 @@ $$
 where $\delta_{mn}$ is the Kronecker delta. The state satisfies the [Schrödinger equation](quantum_dynamics.md#schrödinger-equation) and may be expanded as
 
 $$
-i\hbar\frac{d}{dt}|\psi(t)\rangle=\hat H(t)|\psi(t)\rangle,\qquad|\psi(t)\rangle=\sum_n a_n(t)|n(t)\rangle.
+i\hbar\frac{\mathrm d}{\mathrm dt}|\psi(t)\rangle=\hat H(t)|\psi(t)\rangle,\qquad|\psi(t)\rangle=\sum_n a_n(t)|n(t)\rangle.
 $$
 
-With a dot denoting $d/dt$, projection onto $\langle m(t)|$ gives
+With a dot denoting $\mathrm d/\mathrm dt$, projection onto $\langle m(t)|$ gives
 
 $$
 i\hbar\dot a_m(t)=E_m(t)a_m(t)-i\hbar\sum_n a_n(t)\langle m(t)|\dot n(t)\rangle,
@@ -23,19 +23,19 @@ $$
 Separate the dynamical phase by defining
 
 $$
-a_m(t)=c_m(t)\exp\left[-\frac{i}{\hbar}\int_{t_i}^{t}E_m(t')\,dt'\right].
+a_m(t)=c_m(t)\exp\left[-\frac{i}{\hbar}\int_{t_i}^{t}E_m(t')\,\mathrm dt'\right].
 $$
 
 Then
 
 $$
-\dot c_m(t)=-\sum_n c_n(t)\langle m(t)|\dot n(t)\rangle\exp\left\{\frac{i}{\hbar}\int_{t_i}^{t}[E_m(t')-E_n(t')]\,dt'\right\}.
+\dot c_m(t)=-\sum_n c_n(t)\langle m(t)|\dot n(t)\rangle\exp\left\{\frac{i}{\hbar}\int_{t_i}^{t}[E_m(t')-E_n(t')]\,\mathrm dt'\right\}.
 $$
 
 Separating the diagonal and off-diagonal terms gives
 
 $$
-\dot c_m(t)=-c_m(t)\langle m(t)|\dot m(t)\rangle-\sum_{n\neq m}c_n(t)\langle m(t)|\dot n(t)\rangle\exp\left\{\frac{i}{\hbar}\int_{t_i}^{t}[E_m(t')-E_n(t')]\,dt'\right\}.
+\dot c_m(t)=-c_m(t)\langle m(t)|\dot m(t)\rangle-\sum_{n\neq m}c_n(t)\langle m(t)|\dot n(t)\rangle\exp\left\{\frac{i}{\hbar}\int_{t_i}^{t}[E_m(t')-E_n(t')]\,\mathrm dt'\right\}.
 $$
 
 For $m\neq n$, differentiate the instantaneous eigenvalue equation:
@@ -71,25 +71,25 @@ $$
 Neglecting the off-diagonal transitions gives
 
 $$
-\dot c_n(t)=-\langle n(t)|\dot n(t)\rangle c_n(t),\qquad c_n(t)=\exp\left[-\int_{t_i}^{t}\langle n(t')|\dot n(t')\rangle\,dt'\right].
+\dot c_n(t)=-\langle n(t)|\dot n(t)\rangle c_n(t),\qquad c_n(t)=\exp\left[-\int_{t_i}^{t}\langle n(t')|\dot n(t')\rangle\,\mathrm dt'\right].
 $$
 
 Therefore,
 
 $$
-\boxed{|\psi_n(t)\rangle=\exp\left[-\frac{i}{\hbar}\int_{t_i}^{t}E_n(t')\,dt'\right]\exp\left[-\int_{t_i}^{t}\langle n(t')|\dot n(t')\rangle\,dt'\right]|n(t)\rangle}.
+\boxed{|\psi_n(t)\rangle=\exp\left[-\frac{i}{\hbar}\int_{t_i}^{t}E_n(t')\,\mathrm dt'\right]\exp\left[-\int_{t_i}^{t}\langle n(t')|\dot n(t')\rangle\,\mathrm dt'\right]|n(t)\rangle}.
 $$
 
 Equivalently,
 
 $$
-|\psi_n(t)\rangle=e^{i\delta_n(t)}e^{i\gamma_n(t)}|n(t)\rangle,\qquad\delta_n(t)=-\frac{1}{\hbar}\int_{t_i}^{t}E_n(t')\,dt',\qquad\gamma_n(t)=i\int_{t_i}^{t}\langle n(t')|\dot n(t')\rangle\,dt'.
+|\psi_n(t)\rangle=e^{i\delta_n(t)}e^{i\gamma_n(t)}|n(t)\rangle,\qquad\delta_n(t)=-\frac{1}{\hbar}\int_{t_i}^{t}E_n(t')\,\mathrm dt',\qquad\gamma_n(t)=i\int_{t_i}^{t}\langle n(t')|\dot n(t')\rangle\,\mathrm dt'.
 $$
 
 Normalization implies
 
 $$
-\frac{d}{dt}\langle n(t)|n(t)\rangle=0\quad\Longrightarrow\quad\langle n(t)|\dot n(t)\rangle=-\langle\dot n(t)|n(t)\rangle.
+\frac{\mathrm d}{\mathrm dt}\langle n(t)|n(t)\rangle=0\quad\Longrightarrow\quad\langle n(t)|\dot n(t)\rangle=-\langle\dot n(t)|n(t)\rangle.
 $$
 
 Hence, $\langle n|\dot n\rangle$ is purely imaginary and $\gamma_n(t)$ is real.
@@ -99,7 +99,7 @@ Hence, $\langle n|\dot n\rangle$ is purely imaginary and $\gamma_n(t)$ is real.
 Let $C$ be the parameter-space path from $\mathbf R_i=\mathbf R(t_i)$ to $\mathbf R_f=\mathbf R(t_f)$. Define the Berry connection $\mathbf A_n(\mathbf R)$ by
 
 $$
-\boxed{\mathbf A_n(\mathbf R)=i\langle n(\mathbf R)|\nabla_{\mathbf R}n(\mathbf R)\rangle,\qquad\gamma_n(C)=i\int_{t_i}^{t_f}dt\,\langle n(t)|\dot n(t)\rangle=\int_C\mathbf A_n(\mathbf R)\cdot d\mathbf R}.
+\boxed{\mathbf A_n(\mathbf R)=i\langle n(\mathbf R)|\nabla_{\mathbf R}n(\mathbf R)\rangle,\qquad\gamma_n(C)=i\int_{t_i}^{t_f}\mathrm dt\,\langle n(t)|\dot n(t)\rangle=\int_C\mathbf A_n(\mathbf R)\cdot \mathrm d\mathbf R}.
 $$
 
 In a three-dimensional parameter space, the Berry curvature is
@@ -111,7 +111,7 @@ $$
 For a closed path $C$ and an oriented surface $S$ with boundary $\partial S=C$, Stokes’ theorem gives
 
 $$
-\boxed{\gamma_n(C)=\oint_C\mathbf A_n(\mathbf R)\cdot d\mathbf R=\int_S\mathbf B_n(\mathbf R)\cdot d\mathbf S\pmod{2\pi}}.
+\boxed{\gamma_n(C)=\oint_C\mathbf A_n(\mathbf R)\cdot \mathrm d\mathbf R=\int_S\mathbf B_n(\mathbf R)\cdot \mathrm d\mathbf S\pmod{2\pi}}.
 $$
 
 Under a smooth gauge transformation,
