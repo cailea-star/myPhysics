@@ -25,11 +25,12 @@ int main() {
     const double bz_F = 1.0;
     const double br_F = 1.0;
     const int Nshell_I = 1;
-    const bool useReflection_B = false;
+    const bool useParity_B = false;
+    const bool useTimeReversal_B = true;
     const std::array<double, 1> mu_F1D_g{1.0};
     const double tolBasis_F = 1.0e-11;
     const double tolKernel_F = 1.0e-12;
-    AxialConfig config_(bz_F, br_F, Nshell_I, useReflection_B);
+    AxialConfig config_(bz_F, br_F, Nshell_I, useParity_B, useTimeReversal_B);
     Eigen::Vector4i labelCodeRef_I1D_sp;
     Eigen::Vector4i labelCode_I1D_sp = Eigen::Vector4i::Zero();
     labelCodeRef_I1D_sp << 121000, 1100, 21001, 23100;
@@ -98,7 +99,7 @@ int main() {
 
     // (reference,computed,error) → stdout.
     std::cout << std::scientific << std::setprecision(12);
-    std::cout << "[Input] b_z, b_r, N_shell, reflection, μ = " << bz_F << ", " << br_F << ", " << Nshell_I << ", " << useReflection_B << ", " << mu_F1D_g[0] << "\n";
+    std::cout << "[Input] b_z, b_r, N_shell, reflection, μ = " << bz_F << ", " << br_F << ", " << Nshell_I << ", " << useParity_B << ", " << mu_F1D_g[0] << "\n";
     std::cout << "[Reference] label codes = " << labelCodeRef_I1D_sp.transpose() << "\n[Reference] block sizes = " << blockSizeRef_I1D_block.transpose() << "\n[Reference] block indices = " << indexCodeRef_I1D_block.transpose() << "\n";
     std::cout << "[Reference] phi_z:\n" << phiZRef_F2D_sp_z << "\n[Reference] dphi_z:\n" << dphiZRef_F2D_sp_z << "\n[Reference] ddphi_z:\n" << ddphiZRef_F2D_sp_z << "\n";
     std::cout << "[Reference] phi_r:\n" << phiRRef_F2D_sp_r << "\n[Reference] dphi_r:\n" << dphiRRef_F2D_sp_r << "\n[Reference] ddphi_r:\n" << ddphiRRef_F2D_sp_r << "\n[Reference] Gaussian = " << kernelRef_F1D_value.transpose() << "\n";

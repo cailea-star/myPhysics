@@ -121,10 +121,10 @@ $$
 Axial and parity selection rules give
 
 $$
-\mathcal H_{\Omega\pi}=\begin{pmatrix}h_{\alpha\beta}-\lambda\delta_{\alpha\beta}&0&0&\Delta_{\alpha\bar\beta}\\0&h_{\bar\alpha\bar\beta}-\lambda\delta_{\alpha\beta}&-\Delta_{\beta\bar\alpha}&0\\0&-\Delta_{\alpha\bar\beta}^*&-h_{\alpha\beta}^*+\lambda\delta_{\alpha\beta}&0\\\Delta_{\beta\bar\alpha}^*&0&0&-h_{\bar\alpha\bar\beta}^*+\lambda\delta_{\alpha\beta}\end{pmatrix},
+\mathcal H_{\Omega\pi}=\begin{pmatrix}h_{\alpha\beta}-\lambda\delta_{\alpha\beta}&0&0&\Delta_{\alpha\bar\beta}\\0&h_{\bar\alpha\bar\beta}-\lambda\delta_{\alpha\beta}&\Delta_{\bar\alpha\beta}&0\\0&-\Delta_{\alpha\bar\beta}^*&-h_{\alpha\beta}^*+\lambda\delta_{\alpha\beta}&0\\-\Delta_{\bar\alpha\beta}^*&0&0&-h_{\bar\alpha\bar\beta}^*+\lambda\delta_{\alpha\beta}\end{pmatrix},
 $$
 
-where $\Delta_{\bar\alpha\beta}=-\Delta_{\beta\bar\alpha}$ follows from $\Delta^T=-\Delta$.
+Matrix entries retain the row index $\alpha$ before the column index $\beta$, with bars indicating the opposite-$\Omega$ sector.
 
 The axial HFB equation is
 
@@ -139,7 +139,7 @@ The $(U_\mu^+,V_\mu^-)$ and $(U_\mu^-,V_\mu^+)$ sectors decouple without assumin
 The axial HFB equation separates into two blocks:
 
 $$
-\boxed{\mathcal H^+\equiv\begin{pmatrix}h_{\alpha\beta}-\lambda\delta_{\alpha\beta}&\Delta_{\alpha\bar\beta}\\\Delta_{\beta\bar\alpha}^*&-h_{\bar\alpha\bar\beta}^*+\lambda\delta_{\alpha\beta}\end{pmatrix},\qquad \mathcal H^-\equiv\begin{pmatrix}h_{\bar\alpha\bar\beta}-\lambda\delta_{\alpha\beta}&-\Delta_{\beta\bar\alpha}\\-\Delta_{\alpha\bar\beta}^*&-h_{\alpha\beta}^*+\lambda\delta_{\alpha\beta}\end{pmatrix}}.
+\boxed{\mathcal H^+\equiv\begin{pmatrix}h_{\alpha\beta}-\lambda\delta_{\alpha\beta}&\Delta_{\alpha\bar\beta}\\-\Delta_{\bar\alpha\beta}^*&-h_{\bar\alpha\bar\beta}^*+\lambda\delta_{\alpha\beta}\end{pmatrix},\qquad \mathcal H^-\equiv\begin{pmatrix}h_{\bar\alpha\bar\beta}-\lambda\delta_{\alpha\beta}&\Delta_{\bar\alpha\beta}\\-\Delta_{\alpha\bar\beta}^*&-h_{\alpha\beta}^*+\lambda\delta_{\alpha\beta}\end{pmatrix}}.
 $$
 
 For each $(\Omega,\pi)$ block with $\Omega>0$, solve
@@ -267,7 +267,7 @@ $$
 The normal and pairing blocks satisfy
 
 $$
-h_{\bar\alpha\bar\beta}=\eta_\alpha\eta_\beta h_{\alpha\beta}^*,\qquad \Delta_{\alpha\bar\beta}=\eta_\alpha\eta_\beta\Delta_{\beta\bar\alpha}^*.
+h_{\bar\alpha\bar\beta}=\eta_\alpha\eta_\beta h_{\alpha\beta}^*,\qquad \Delta_{\alpha\bar\beta}=-\eta_\alpha\eta_\beta\Delta_{\bar\alpha\beta}^*.
 $$
 
 The blocks defined in [Solutions of the HFB Block Equations](#solutions-of-the-hfb-block-equations) become
@@ -347,7 +347,7 @@ $$
 Combining time-reversal invariance with $\kappa^{-+}=-(\kappa^{+-})^T$ gives
 
 $$
-\kappa^{+-}_{\alpha\beta}=\eta_\alpha\eta_\beta(\kappa^{+-}_{\beta\alpha})^*.
+\kappa^{+-}_{\alpha\beta}=\eta_\alpha\eta_\beta\bigl[(\kappa^{+-})^\dagger\bigr]_{\alpha\beta}.
 $$
 
 ##### Representative $\Gamma$ and $\Delta$ Fields
@@ -391,5 +391,5 @@ $$
 The remaining blocks satisfy
 
 $$
-\Delta_{\alpha\beta}=\Delta_{\bar\alpha\bar\beta}=0,\qquad \Delta_{\bar\alpha\beta}=-\Delta_{\beta\bar\alpha},\qquad \alpha,\beta\in\{\alpha\mid\Omega_\alpha>0\}.
+\Delta_{\alpha\beta}=\Delta_{\bar\alpha\bar\beta}=0,\qquad \Delta_{\bar\alpha\beta}=-(\Delta^T)_{\bar\alpha\beta},\qquad \alpha,\beta\in\{\alpha\mid\Omega_\alpha>0\}.
 $$
