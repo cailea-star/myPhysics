@@ -15,25 +15,25 @@ $$
 In a basis with definite angular-momentum projection,
 
 $$
-\hat J_z=\hbar\sum_\alpha\Omega_\alpha\hat c_\alpha^\dagger\hat c_\alpha,\qquad \Omega_\alpha=\pm\frac12,\pm\frac32,\ldots.
+\hat J_z=\hbar\sum_\alpha\Omega_\alpha\hat c_\alpha^*\hat c_\alpha,\qquad \Omega_\alpha=\pm\frac12,\pm\frac32,\ldots.
 $$
 
 Therefore,
 
 $$
-[\hat J_z,\hat c_\alpha^\dagger]=\hbar\Omega_\alpha\hat c_\alpha^\dagger,\qquad [\hat J_z,\hat c_\alpha]=-\hbar\Omega_\alpha\hat c_\alpha.
+[\hat J_z,\hat c_\alpha^*]=\hbar\Omega_\alpha\hat c_\alpha^*,\qquad [\hat J_z,\hat c_\alpha]=-\hbar\Omega_\alpha\hat c_\alpha.
 $$
 
 The elementary particle-hole and pair-creation operators satisfy
 
 $$
-[\hat J_z,\hat c_\alpha^\dagger\hat c_\beta]=\hbar(\Omega_\alpha-\Omega_\beta)\hat c_\alpha^\dagger\hat c_\beta,
+[\hat J_z,\hat c_\alpha^*\hat c_\beta]=\hbar(\Omega_\alpha-\Omega_\beta)\hat c_\alpha^*\hat c_\beta,
 $$
 
 and
 
 $$
-[\hat J_z,\hat c_\alpha^\dagger\hat c_\beta^\dagger]=\hbar(\Omega_\alpha+\Omega_\beta)\hat c_\alpha^\dagger\hat c_\beta^\dagger.
+[\hat J_z,\hat c_\alpha^*\hat c_\beta^*]=\hbar(\Omega_\alpha+\Omega_\beta)\hat c_\alpha^*\hat c_\beta^*.
 $$
 
 ##### Parity Symmetry
@@ -53,19 +53,19 @@ $$
 Therefore,
 
 $$
-[\hat\Pi,\hat c_\alpha^\dagger]=(\pi_\alpha-1)\hat c_\alpha^\dagger\hat\Pi,\qquad [\hat\Pi,\hat c_\alpha]=(\pi_\alpha-1)\hat c_\alpha\hat\Pi.
+[\hat\Pi,\hat c_\alpha^*]=(\pi_\alpha-1)\hat c_\alpha^*\hat\Pi,\qquad [\hat\Pi,\hat c_\alpha]=(\pi_\alpha-1)\hat c_\alpha\hat\Pi.
 $$
 
 The elementary particle-hole and pair-creation operators satisfy
 
 $$
-[\hat\Pi,\hat c_\alpha^\dagger\hat c_\beta]=(\pi_\alpha\pi_\beta-1)\hat c_\alpha^\dagger\hat c_\beta\hat\Pi,
+[\hat\Pi,\hat c_\alpha^*\hat c_\beta]=(\pi_\alpha\pi_\beta-1)\hat c_\alpha^*\hat c_\beta\hat\Pi,
 $$
 
 and
 
 $$
-[\hat\Pi,\hat c_\alpha^\dagger\hat c_\beta^\dagger]=(\pi_\alpha\pi_\beta-1)\hat c_\alpha^\dagger\hat c_\beta^\dagger\hat\Pi.
+[\hat\Pi,\hat c_\alpha^*\hat c_\beta^*]=(\pi_\alpha\pi_\beta-1)\hat c_\alpha^*\hat c_\beta^*\hat\Pi.
 $$
 
 ##### Opposite-$\Omega$ States
@@ -139,7 +139,7 @@ The $(U_\mu^+,V_\mu^-)$ and $(U_\mu^-,V_\mu^+)$ sectors decouple without assumin
 The two decoupled axial sectors have quasiparticle creation operators
 
 $$
-\hat\beta_{\mu}^{(+)\dagger}=\sum_\alpha\left(U_{\alpha\mu}^+\hat c_\alpha^\dagger+V_{\alpha\mu}^-\hat c_{\bar\alpha}\right),\qquad \hat\beta_{\mu}^{(-)\dagger}=\sum_\alpha\left(U_{\alpha\mu}^-\hat c_{\bar\alpha}^\dagger+V_{\alpha\mu}^+\hat c_\alpha\right).
+\hat\beta_{\mu}^{(+)*}=\sum_\alpha\left(U_{\alpha\mu}^+\hat c_\alpha^*+V_{\alpha\mu}^-\hat c_{\bar\alpha}\right),\qquad \hat\beta_{\mu}^{(-)*}=\sum_\alpha\left(U_{\alpha\mu}^-\hat c_{\bar\alpha}^*+V_{\alpha\mu}^+\hat c_\alpha\right).
 $$
 
 With particle rows ordered as $(\alpha,\bar\alpha)$ and quasiparticle columns as $(+,-)$,
@@ -199,7 +199,7 @@ $$
 The corresponding creation operators satisfy
 
 $$
-\hat{\mathcal T}\hat c_\alpha^\dagger\hat{\mathcal T}^{-1}=\eta_\alpha\hat c_{\bar\alpha}^\dagger,\qquad \hat{\mathcal T}\hat c_{\bar\alpha}^\dagger\hat{\mathcal T}^{-1}=-\eta_\alpha\hat c_\alpha^\dagger,
+\hat{\mathcal T}\hat c_\alpha^*\hat{\mathcal T}^{-1}=\eta_\alpha\hat c_{\bar\alpha}^*,\qquad \hat{\mathcal T}\hat c_{\bar\alpha}^*\hat{\mathcal T}^{-1}=-\eta_\alpha\hat c_\alpha^*,
 $$
 
 with the same relations for the annihilation operators.
