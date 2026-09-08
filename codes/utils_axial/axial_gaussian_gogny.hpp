@@ -8,9 +8,11 @@
 #pragma once
 
 #include <array>
+#include <vector>
 #include <cassert>
 #include <exception>
 #include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <tuple>
@@ -48,7 +50,8 @@ public:
     };
 
 private:
-    AxialConfig axialconfig;
+    int Nshell_I = 0;
+    std::vector<AxialSPLabel> labels_S1D_sp{};
     std::string forceName_Str{};
     GaussianValues mu_F1D_g{};
     GaussianValues W_F1D_g{};
@@ -64,7 +67,9 @@ public:
      * @output Initialized Gogny interaction.
      */
     AxialGaussianGogny(const AxialConfig& axialconfig_, const std::string& forceName_Str_, const GaussianValues& mu_F1D_g_, const GaussianValues& W_F1D_g_, const GaussianValues& B_F1D_g_, const GaussianValues& H_F1D_g_, const GaussianValues& M_F1D_g_)
-    : axialconfig(axialconfig_), kernel(axialconfig_, mu_F1D_g_) {
+    : kernel(axialconfig_, mu_F1D_g_) {
+        Nshell_I = axialconfig_.Nshell_I;
+        labels_S1D_sp = axialconfig_.labels_S1D_sp;
         forceName_Str = forceName_Str_;
         mu_F1D_g = mu_F1D_g_;
         W_F1D_g = W_F1D_g_;
@@ -81,10 +86,12 @@ public:
     void build_tables() {
         if (kernel.isBuilt_B) {return;}
 
-        // (P_G, config, cache) → kernel.
-        const std::string filepath_Str = kernel_cache_path(forceName_Str, axialconfig);
+        // (P_G,N_shell,cache) → kernel.
+        const std::string filepath_Str = kernel_cache_path(forceName_Str, Nshell_I);
         if (std::filesystem::exists(filepath_Str)) {
-            kernel = AxialGaussianKernel<2>::from_cache(filepath_Str, axialconfig, mu_F1D_g);
+            std::ifstream input_(filepath_Str, std::ios::binary);
+            assert(input_ && "[ERROR]: [AxialGaussianGogny::build_tables] cannot open cache file");
+            kernel.from_stream(input_);
             std::cout << "[AxialGaussianGogny]: Loaded Gaussian kernel cache: " << filepath_Str << std::endl;
             return;
         }
@@ -100,16 +107,16 @@ public:
      */
     GognyElements read_v(int sp1_I, int sp2_I, int sp3_I, int sp4_I) const {
         assert(kernel.isBuilt_B);
-        assert(sp1_I >= 0 && sp1_I < static_cast<int>(axialconfig.labels_S1D_sp.size()));
-        assert(sp2_I >= 0 && sp2_I < static_cast<int>(axialconfig.labels_S1D_sp.size()));
-        assert(sp3_I >= 0 && sp3_I < static_cast<int>(axialconfig.labels_S1D_sp.size()));
-        assert(sp4_I >= 0 && sp4_I < static_cast<int>(axialconfig.labels_S1D_sp.size()));
+        assert(sp1_I >= 0 && sp1_I < static_cast<int>(labels_S1D_sp.size()));
+        assert(sp2_I >= 0 && sp2_I < static_cast<int>(labels_S1D_sp.size()));
+        assert(sp3_I >= 0 && sp3_I < static_cast<int>(labels_S1D_sp.size()));
+        assert(sp4_I >= 0 && sp4_I < static_cast<int>(labels_S1D_sp.size()));
 
         // sp_a → α_a.
-        const AxialSPLabel& label1_ = axialconfig.labels_S1D_sp[sp1_I];
-        const AxialSPLabel& label2_ = axialconfig.labels_S1D_sp[sp2_I];
-        const AxialSPLabel& label3_ = axialconfig.labels_S1D_sp[sp3_I];
-        const AxialSPLabel& label4_ = axialconfig.labels_S1D_sp[sp4_I];
+        const AxialSPLabel& label1_ = labels_S1D_sp[sp1_I];
+        const AxialSPLabel& label2_ = labels_S1D_sp[sp2_I];
+        const AxialSPLabel& label3_ = labels_S1D_sp[sp3_I];
+        const AxialSPLabel& label4_ = labels_S1D_sp[sp4_I];
 
         // (Λ, 2Σ) → (-Λ, -2Σ).
         const auto apply_reversal_sign_Func = [](int quantum_I, bool isReversed_B) {
@@ -169,10 +176,10 @@ private:
      */
     GognyChannels calc_spatial_v(int sp1_I, bool isReversed1_B, int sp2_I, bool isReversed2_B, int sp3_I, bool isReversed3_B, int sp4_I, bool isReversed4_B) const {
         // sp_a → α_a.
-        const AxialSPLabel& label1_ = axialconfig.labels_S1D_sp[sp1_I];
-        const AxialSPLabel& label2_ = axialconfig.labels_S1D_sp[sp2_I];
-        const AxialSPLabel& label3_ = axialconfig.labels_S1D_sp[sp3_I];
-        const AxialSPLabel& label4_ = axialconfig.labels_S1D_sp[sp4_I];
+        const AxialSPLabel& label1_ = labels_S1D_sp[sp1_I];
+        const AxialSPLabel& label2_ = labels_S1D_sp[sp2_I];
+        const AxialSPLabel& label3_ = labels_S1D_sp[sp3_I];
+        const AxialSPLabel& label4_ = labels_S1D_sp[sp4_I];
 
         // Λ_a → (-1)^{bar_a} Λ_a.
         const auto apply_reversal_sign_Func = [](int quantum_I, bool isReversed_B) {
@@ -206,9 +213,9 @@ private:
      * @math   (P_G,N_{shell}) \rightarrow path
      * @output Cache-file path.
      */
-    static std::string kernel_cache_path(const std::string& forceName_Str_, const AxialConfig& axialconfig_) {
+    static std::string kernel_cache_path(const std::string& forceName_Str_, int Nshell_I_) {
         // (P_G, N_shell, cwd) → cache path.
-        const std::string cacheName_Str = "Kernel-" + forceName_Str_ + "-Nshell" + std::to_string(axialconfig_.Nshell_I) + ".cache";
+        const std::string cacheName_Str = "Kernel-" + forceName_Str_ + "-Nshell" + std::to_string(Nshell_I_) + ".cache";
         std::filesystem::path projectDir_ = std::filesystem::current_path();
         if (projectDir_.filename() == "build") {projectDir_ = projectDir_.parent_path();}
         if (projectDir_.filename() == "codes") {projectDir_ = projectDir_.parent_path();}
