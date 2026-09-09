@@ -2,7 +2,7 @@
 
 ### Many-Body Hamiltonian
 
-Use the fermionic conventions defined in [Second Quantization](../quantum_mechanics/second_quantization.md#fermionic-second-quantization). In this HFB series, $*$ denotes complex conjugation of scalar coefficients, the adjoint of individual operators, and the corresponding entrywise operation on vectors and matrices. Transpose is denoted by $T$, and $\dagger$ includes both entrywise conjugation and transpose. Thus, $\hat c_\alpha^*\equiv(\hat c_\alpha)^\dagger$, and the same convention applies to quasiparticle operators.
+Use the fermionic conventions defined in [Second Quantization](../quantum_mechanics/second_quantization.md#fermionic-second-quantization). In this HFB series, $*$ denotes complex conjugation of coefficients and the corresponding entrywise operation on vectors and matrices. For particle and quasiparticle operators, $\hat c_\alpha^*\equiv(\hat c_\alpha)^\dagger$ and $\hat\beta_\mu^*\equiv(\hat\beta_\mu)^\dagger$ denote creation operators. Other operator adjoints are denoted by $\dagger$, including rotation operators, projectors, and composite operators. Transpose is denoted by $T$; for vectors and matrices, $A^\dagger=(A^*)^T$.
 
 Let $\{|\phi_\alpha\rangle\}_{\alpha=1}^{N_{\mathrm{sp}}}$ be an orthonormal basis of $N_{\mathrm{sp}}$ single-particle modes, and let $|0\rangle$ be the particle vacuum. The operators $\hat c_\alpha^*$ and $\hat c_\alpha$ create and annihilate a fermion in $|\phi_\alpha\rangle$:
 
