@@ -746,24 +746,38 @@ $$
 
 - Product and coupled bases
 
+Choose orthonormal bases:
+
 $$
-\lvert i,\mu;j,\nu\rangle=\lvert i,\mu\rangle\otimes\lvert j,\nu\rangle,\qquad \lvert r,\tau,\kappa\rangle,
+\Big\lvert i,\mu;j,\nu\Big\rangle=\Big\lvert i,\mu\Big\rangle\otimes\Big\lvert j,\nu\Big\rangle,\qquad \Big\lvert r(\tau),\rho\Big\rangle,
 $$
 
-where $\mu=1,\ldots,d_i$, $\nu=1,\ldots,d_j$, $\tau=1,\ldots,\eta_r$, and $\kappa=1,\ldots,d_r$.
+where $\mu=1,\ldots,d_i$, $\nu=1,\ldots,d_j$, $\tau=1,\ldots,\eta_r$, and $\rho=1,\ldots,d_r$.
 
 - Clebsch-Gordan coefficients
 
 The Clebsch-Gordan coefficients define the basis transformation:
 
 $$
-\lvert r,\tau,\kappa\rangle=\sum_{\mu=1}^{d_i}\sum_{\nu=1}^{d_j}\lvert i,\mu;j,\nu\rangle[U_{\mathrm{CG}}]_{(\mu,\nu),(r,\tau,\kappa)},\qquad [U_{\mathrm{CG}}]_{(\mu,\nu),(r,\tau,\kappa)}=\langle i,\mu;j,\nu\mid r,\tau,\kappa\rangle.
+\Big\lvert r(\tau),\rho\Big\rangle=\sum_{\mu=1}^{d_i}\sum_{\nu=1}^{d_j}\Big\lvert i,\mu\Big\rangle\otimes\Big\lvert j,\nu\Big\rangle\,\Big\langle i,\mu;\,j,\nu\Big|r(\tau),\rho\Big\rangle.
 $$
 
-- Block diagonalization
+Exchanging the bra and ket gives
 
 $$
-\boxed{U_{\mathrm{CG}}^{-1}\left[D^{(i)}(g)\otimes D^{(j)}(g)\right]U_{\mathrm{CG}}=\bigoplus_{r=1}^{k}\left[I_{\eta_r}\otimes D^{(r)}(g)\right]}.
+\Big\langle i,\mu;\,j,\nu\Big|r(\tau),\rho\Big\rangle=\Big\langle r(\tau),\rho\Big|i,\mu;\,j,\nu\Big\rangle^*.
+$$
+
+For fixed $i,j$, orthonormality gives
+
+$$
+\sum_{\mu=1}^{d_i}\sum_{\nu=1}^{d_j}\Big\langle r(\tau),\rho\Big|i,\mu;\,j,\nu\Big\rangle\Big\langle i,\mu;\,j,\nu\Big|r'(\tau'),\rho'\Big\rangle=\delta_{rr'}\delta_{\tau\tau'}\delta_{\rho\rho'}.
+$$
+
+Block diagonalization
+
+$$
+\boxed{\sum_{\mu'=1}^{d_i}\sum_{\nu'=1}^{d_j}\Big\langle r(\tau),\rho\Big|i,\mu';\,j,\nu'\Big\rangle\,D^{(i)}_{\mu'\mu}(g)D^{(j)}_{\nu'\nu}(g)=\sum_{\rho'=1}^{d_r}D^{(r)}_{\rho\rho'}(g)\Big\langle r(\tau),\rho'\Big|i,\mu;\,j,\nu\Big\rangle}.
 $$
 
 ##### Reduction by the Commutant
@@ -824,66 +838,66 @@ $$
 S^\dagger HS=\bigoplus_{i=1}^{k}\left[H_i\otimes I_{d_i}\right],\qquad H_i\in\mathbb C^{\eta_i\times\eta_i}.
 $$
 
-For generic coefficients $c_a$, each $H_i$ has distinct eigenvalues $\lambda_{i\tau}$, with no accidental coincidences between different irreducible blocks. Define
+For generic coefficients $c_a$, each $H_i$ has distinct eigenvalues $\lambda_{i(\tau)}$, with no accidental coincidences between different irreducible blocks. Define
 
 $$
-E_{i\tau}=\ker\left(H-\lambda_{i\tau}I_N\right).
+E_{i(\tau)}=\ker\left(H-\lambda_{i(\tau)}I_N\right).
 $$
 
 The factor $I_{d_i}$ gives
 
 $$
-\boxed{\dim E_{i\tau}=d_i,\qquad \operatorname{rank}\left(H-\lambda_{i\tau}I_N\right)=N-d_i}.
+\boxed{\dim E_{i(\tau)}=d_i,\qquad \operatorname{rank}\left(H-\lambda_{i(\tau)}I_N\right)=N-d_i}.
 $$
 
-For $\boldsymbol v\in E_{i\tau}$,
+For $\boldsymbol v\in E_{i(\tau)}$,
 
 $$
-H\!\left[D(g)\boldsymbol v\right]=D(g)H\boldsymbol v=\lambda_{i\tau}D(g)\boldsymbol v.
+H\!\left[D(g)\boldsymbol v\right]=D(g)H\boldsymbol v=\lambda_{i(\tau)}D(g)\boldsymbol v.
 $$
 
 Hence,
 
 $$
-D(g)E_{i\tau}\subseteq E_{i\tau}.
+D(g)E_{i(\tau)}\subseteq E_{i(\tau)}.
 $$
 
 - Step 3: Construct and identify the irreducible blocks
 
-Choose an orthonormal basis of $E_{i\tau}$ and arrange it as
+Choose an orthonormal basis of $E_{i(\tau)}$ and arrange it as
 
 $$
-B_{i\tau}=\begin{pmatrix}\boldsymbol b_1&\cdots&\boldsymbol b_{d_i}\end{pmatrix}\in\mathbb C^{N\times d_i}.
+B_{i(\tau)}=\begin{pmatrix}\boldsymbol b_1&\cdots&\boldsymbol b_{d_i}\end{pmatrix}\in\mathbb C^{N\times d_i}.
 $$
 
 Then
 
 $$
-B_{i\tau}^\dagger B_{i\tau}=I_{d_i},\qquad \operatorname{rank}B_{i\tau}=d_i.
+B_{i(\tau)}^\dagger B_{i(\tau)}=I_{d_i},\qquad \operatorname{rank}B_{i(\tau)}=d_i.
 $$
 
-The representation restricted to $E_{i\tau}$ is
+The representation restricted to $E_{i(\tau)}$ is
 
 $$
-D^{(i,\tau)}(g)=B_{i\tau}^\dagger D(g)B_{i\tau}\in\mathbb C^{d_i\times d_i}.
+D^{(i(\tau))}(g)=B_{i(\tau)}^\dagger D(g)B_{i(\tau)}\in\mathbb C^{d_i\times d_i}.
 $$
 
 Define
 
 $$
-\chi_{i\tau}(g)=\operatorname{tr}D^{(i,\tau)}(g).
+\chi_{i(\tau)}(g)=\operatorname{tr}D^{(i(\tau))}(g).
 $$
 
 Irreducibility is checked by
 
 $$
-\frac{1}{n_G}\sum_{g\in G}\left|\chi_{i\tau}(g)\right|^2=1.
+\frac{1}{n_G}\sum_{g\in G}\left|\chi_{i(\tau)}(g)\right|^2=1.
 $$
 
 Two irreducible blocks are equivalent exactly when
 
 $$
-\chi_{i\tau}(g)=\chi_{j\sigma}(g),\qquad \forall g\in G.
+\chi_{i(\tau)}(g)=\chi_{j(\sigma)}(g),\qquad \forall g\in G.
 $$
 
 - Step 4: Process all eigenvalues
@@ -891,10 +905,10 @@ $$
 For every distinct eigenvalue of $H$, repeat
 
 $$
-\lambda_{i\tau}\longrightarrow E_{i\tau}\longrightarrow B_{i\tau}\longrightarrow D^{(i,\tau)}(g)\longrightarrow\chi_{i\tau}(g).
+\lambda_{i(\tau)}\longrightarrow E_{i(\tau)}\longrightarrow B_{i(\tau)}\longrightarrow D^{(i(\tau))}(g)\longrightarrow\chi_{i(\tau)}(g).
 $$
 
-Group blocks with identical characters, retain one representative $D^{(i)}$ from each equivalence class, and let $\eta_i$ be the number of equivalent copies. Arranging all $B_{i\tau}$ as the columns of $S$ gives
+Group blocks with identical characters, retain one representative $D^{(i)}$ from each equivalence class, and let $\eta_i$ be the number of equivalent copies. Arranging all $B_{i(\tau)}$ as the columns of $S$ gives
 
 $$
 \boxed{S^\dagger D(g)S=\bigoplus_{i=1}^{k}\left[I_{\eta_i}\otimes D^{(i)}(g)\right]}.
@@ -921,7 +935,7 @@ $$
 Use the irreducible basis
 
 $$
-\lvert i,\tau,\mu\rangle=\lvert\tau\rangle\otimes\lvert i,\mu\rangle,\qquad \tau=1,\ldots,\eta_i,\qquad \mu=1,\ldots,d_i,
+\Big\lvert i(\tau),\mu\Big\rangle=\Big\lvert\tau\Big\rangle\otimes\Big\lvert i,\mu\Big\rangle,\qquad \tau=1,\ldots,\eta_i,\qquad \mu=1,\ldots,d_i,
 $$
 
 where $i$ labels the irreducible representation, $\tau$ labels equivalent copies, and $\mu$ is the basis index within each copy.
@@ -947,13 +961,13 @@ The indices $\mu,\nu$ label matrix elements of $D^{(i)}(g)$, not rows and column
 - Form in the irreducible basis
 
 $$
-\mathcal P_{\mu\nu}^{(i)}\lvert j,\tau,\rho\rangle=\delta_{ij}\delta_{\nu\rho}\lvert i,\tau,\mu\rangle.
+\mathcal P_{\mu\nu}^{(i)}\Big\lvert j(\tau),\rho\Big\rangle=\delta_{ij}\delta_{\nu\rho}\Big\lvert i(\tau),\mu\Big\rangle.
 $$
 
 Hence, on the $D^{(i)}$-isotypic subspace $W_i$,
 
 $$
-\left.\mathcal P_{\mu\nu}^{(i)}\right|_{W_i}=I_{\eta_i}\otimes\lvert i,\mu\rangle\langle i,\nu\rvert=\sum_{\tau=1}^{\eta_i}\lvert i,\tau,\mu\rangle\langle i,\tau,\nu\rvert.
+\left.\mathcal P_{\mu\nu}^{(i)}\right|_{W_i}=I_{\eta_i}\otimes\Big\lvert i,\mu\Big\rangle\Big\langle i,\nu\Big\rvert=\sum_{\tau=1}^{\eta_i}\Big\lvert i(\tau),\mu\Big\rangle\Big\langle i(\tau),\nu\Big\rvert.
 $$
 
 The operator $\mathcal P_{\mu\nu}^{(i)}$ vanishes on $W_j$ for $j\neq i$.
@@ -973,7 +987,7 @@ $$
 Moreover,
 
 $$
-\left.\mathcal P_{\mu\mu}^{(i)}\right|_{W_i}=I_{\eta_i}\otimes\lvert i,\mu\rangle\langle i,\mu\rvert=\sum_{\tau=1}^{\eta_i}\lvert i,\tau,\mu\rangle\langle i,\tau,\mu\rvert,
+\left.\mathcal P_{\mu\mu}^{(i)}\right|_{W_i}=I_{\eta_i}\otimes\Big\lvert i,\mu\Big\rangle\Big\langle i,\mu\Big\rvert=\sum_{\tau=1}^{\eta_i}\Big\lvert i(\tau),\mu\Big\rangle\Big\langle i(\tau),\mu\Big\rvert,
 $$
 
 and therefore
@@ -1015,7 +1029,7 @@ $$
 On $W_i$,
 
 $$
-\left.\mathcal P^{(i)}\right|_{W_i}=I_{\eta_i}\otimes I_{d_i}=I_{\eta_i}\otimes\sum_{\mu=1}^{d_i}\lvert i,\mu\rangle\langle i,\mu\rvert=\sum_{\tau=1}^{\eta_i}\sum_{\mu=1}^{d_i}\lvert i,\tau,\mu\rangle\langle i,\tau,\mu\rvert.
+\left.\mathcal P^{(i)}\right|_{W_i}=I_{\eta_i}\otimes I_{d_i}=I_{\eta_i}\otimes\sum_{\mu=1}^{d_i}\Big\lvert i,\mu\Big\rangle\Big\langle i,\mu\Big\rvert=\sum_{\tau=1}^{\eta_i}\sum_{\mu=1}^{d_i}\Big\lvert i(\tau),\mu\Big\rangle\Big\langle i(\tau),\mu\Big\rvert.
 $$
 
 The operator $\mathcal P^{(i)}$ vanishes on $W_j$ for $j\neq i$.
@@ -1091,10 +1105,10 @@ $$
 Its eigenvalues are $0$ or $1$. Select an orthonormal basis of the eigenspace with $\lambda=1$:
 
 $$
-V_{i\nu}=\begin{pmatrix}\boldsymbol v_{\nu1}&\cdots&\boldsymbol v_{\nu\eta_i}\end{pmatrix}\in\mathbb C^{N\times\eta_i},\qquad V_{i\nu}^\dagger V_{i\nu}=I_{\eta_i}.
+V_{i\nu}=\begin{pmatrix}\boldsymbol v_{\nu(1)}&\cdots&\boldsymbol v_{\nu(\eta_i)}\end{pmatrix}\in\mathbb C^{N\times\eta_i},\qquad V_{i\nu}^\dagger V_{i\nu}=I_{\eta_i}.
 $$
 
-Each $\boldsymbol v_{\nu\tau}$ serves as a seed that generates one copy of $D^{(i)}$.
+Each $\boldsymbol v_{\nu(\tau)}$ serves as a seed that generates one copy of $D^{(i)}$.
 
 - Step 3: Generate the irreducible bases
 
@@ -1107,13 +1121,13 @@ $$
 and apply it to all seeds:
 
 $$
-V_{i\mu}=\Pi_{\mu\nu}^{(i)}V_{i\nu}=\begin{pmatrix}\boldsymbol v_{\mu1}&\cdots&\boldsymbol v_{\mu\eta_i}\end{pmatrix}.
+V_{i\mu}=\Pi_{\mu\nu}^{(i)}V_{i\nu}=\begin{pmatrix}\boldsymbol v_{\mu(1)}&\cdots&\boldsymbol v_{\mu(\eta_i)}\end{pmatrix}.
 $$
 
-For fixed $\tau$, the vectors $\boldsymbol v_{\mu\tau}$ transform under $D^{(i)}$:
+For fixed $\tau$, the vectors $\boldsymbol v_{\mu(\tau)}$ transform under $D^{(i)}$:
 
 $$
-D(g)\boldsymbol v_{\mu\tau}=\sum_{\rho=1}^{d_i}\boldsymbol v_{\rho\tau}D_{\rho\mu}^{(i)}(g).
+D(g)\boldsymbol v_{\mu(\tau)}=\sum_{\rho=1}^{d_i}\boldsymbol v_{\rho(\tau)}D_{\rho\mu}^{(i)}(g).
 $$
 
 - Step 4: Assemble and verify
@@ -1121,13 +1135,13 @@ $$
 Arrange the basis matrices as
 
 $$
-B_{i\tau}=\begin{pmatrix}\boldsymbol v_{1\tau}&\cdots&\boldsymbol v_{d_i\tau}\end{pmatrix},\qquad B_i=\begin{pmatrix}B_{i1}&\cdots&B_{i\eta_i}\end{pmatrix},\qquad S=\begin{pmatrix}B_1&\cdots&B_k\end{pmatrix}.
+B_{i(\tau)}=\begin{pmatrix}\boldsymbol v_{1(\tau)}&\cdots&\boldsymbol v_{d_i(\tau)}\end{pmatrix},\qquad B_i=\begin{pmatrix}B_{i(1)}&\cdots&B_{i(\eta_i)}\end{pmatrix},\qquad S=\begin{pmatrix}B_1&\cdots&B_k\end{pmatrix}.
 $$
 
 Each irreducible block satisfies
 
 $$
-D(g)B_{i\tau}=B_{i\tau}D^{(i)}(g).
+D(g)B_{i(\tau)}=B_{i(\tau)}D^{(i)}(g).
 $$
 
 Hence,
