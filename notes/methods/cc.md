@@ -453,3 +453,88 @@ V_0^N(r_\alpha)\equiv\frac{V_0}{1+\exp\!\left([r_\alpha-R_0^\alpha-R_0^D]/a\righ
 $$
 
 对于较大形变，可先构造并对角化半径矩阵，再计算 Woods–Saxon 势，而不作一阶展开。
+
+---
+---
+---
+
+
+### 不可约张量算符的矩阵元
+
+本节将投影态记为
+
+$$
+|\Phi^{I;N}_{M,K;\kappa}\rangle=\hat P^I_{MK}\hat P^N|\Phi_\kappa\rangle=\frac{2I+1}{2\pi\mathcal V_\Omega}\int\mathrm d\Omega\int_0^{2\pi}\mathrm d\varphi\,D^{I*}_{MK}(\Omega)e^{-iN\varphi}\hat R(\Omega)e^{i\varphi\hat N}|\Phi_\kappa\rangle.
+$$
+
+其中 $|\Phi_\kappa\rangle$ 为未投影组态，投影态尚未归一化。
+
+设 $\hat T_{\lambda\mu}$ 为秩 $\lambda$、分量 $\mu$ 的不可约球张量算符，并守恒粒子数：
+
+$$
+\hat R(\Omega)\hat T_{\lambda\mu}\hat R^\dagger(\Omega)=\sum_\nu D^\lambda_{\nu\mu}(\Omega)\hat T_{\lambda\nu},\qquad [\hat N,\hat T_{\lambda\mu}]=0.
+$$
+
+利用 Wigner-$D$ 函数的乘积展开与投影算符的乘积关系，得到
+
+$$
+(\hat P^{I_1}_{M_1K_1})^\dagger\hat T_{\lambda\mu}\hat P^{I_2}_{M_2K_2}=\langle I_2M_2;\lambda\mu|I_1M_1\rangle\sum_\nu\langle I_2,K_1-\nu;\lambda\nu|I_1K_1\rangle\hat T_{\lambda\nu}\hat P^{I_2}_{K_1-\nu,K_2}.
+$$
+
+采用如下 Wigner–Eckart 约定：
+
+$$
+\langle\Phi^{I_1;N_1}_{M_1,K_1;\kappa_1}|\hat T_{\lambda\mu}|\Phi^{I_2;N_2}_{M_2,K_2;\kappa_2}\rangle=\frac{\langle I_2M_2;\lambda\mu|I_1M_1\rangle}{\sqrt{2I_1+1}}\langle\Phi^{I_1;N_1}_{K_1;\kappa_1}\Vert\hat T_\lambda\Vert\Phi^{I_2;N_2}_{K_2;\kappa_2}\rangle.
+$$
+
+结合粒子数投影，得到约化矩阵元
+
+$$
+\boxed{\langle\Phi^{I_1;N_1}_{K_1;\kappa_1}\Vert\hat T_\lambda\Vert\Phi^{I_2;N_2}_{K_2;\kappa_2}\rangle=\delta_{N_1N_2}\sqrt{2I_1+1}\sum_\nu\langle I_2,K_1-\nu;\lambda\nu|I_1K_1\rangle\langle\Phi_{\kappa_1}|\hat T_{\lambda\nu}\hat P^{I_2}_{K_1-\nu,K_2}\hat P^{N_2}|\Phi_{\kappa_2}\rangle}.
+$$
+
+其中剩余矩阵元的积分表达式为
+
+$$
+\langle\Phi_{\kappa_1}|\hat T_{\lambda\nu}\hat P^{I_2}_{K_1-\nu,K_2}\hat P^{N_2}|\Phi_{\kappa_2}\rangle=\frac{2I_2+1}{2\pi\mathcal V_\Omega}\int\mathrm d\Omega\int_0^{2\pi}\mathrm d\varphi\,D^{I_2*}_{K_1-\nu,K_2}(\Omega)e^{-iN_2\varphi}\langle\Phi_{\kappa_1}|\hat T_{\lambda\nu}\hat R(\Omega)e^{i\varphi\hat N}|\Phi_{\kappa_2}\rangle.
+$$
+
+### 电多极算符与库伦势
+
+以 $\mathbf r$ 表示场点，$\mathbf r_s$ 表示源点，$\hat\rho_e(\mathbf r_s)$ 为电荷密度算符。库伦电势为
+
+$$
+\hat\phi^C(\mathbf r)=\frac{1}{4\pi\epsilon_0}\int d^3r_s\,\frac{\hat\rho_e(\mathbf r_s)}{|\mathbf r-\mathbf r_s|}.
+$$
+
+定义 $r_<\equiv\min(r,r_s)$、$r_>\equiv\max(r,r_s)$，库伦核展开为
+
+$$
+\frac{1}{|\mathbf r-\mathbf r_s|}=\sum_{\lambda\mu}\frac{4\pi}{2\lambda+1}\frac{r_<^\lambda}{r_>^{\lambda+1}}Y_{\lambda\mu}^{*}(\hat{\mathbf r})Y_{\lambda\mu}(\hat{\mathbf r}_s).
+$$
+
+以下假设场点位于电荷分布外部，即积分域内处处满足 $r>r_s$。采用与前述不可约张量变换一致的约定，定义电多极算符：
+
+$$
+\boxed{\hat Q_{\lambda\mu}\equiv\int d^3r_s\,r_s^\lambda Y_{\lambda\mu}(\hat{\mathbf r}_s)\hat\rho_e(\mathbf r_s)=\sum_i e_i\,r_i^\lambda Y_{\lambda\mu}(\hat{\mathbf r}_i)}.
+$$
+
+在单粒子基中，$e$ 表示所考虑粒子的电荷，$\alpha,\beta$ 为单粒子基态指标，电多极算符的矩阵元及其二次量子化形式为
+
+$$
+Q_{\alpha\beta}^{\lambda\mu}\equiv e\langle\alpha|r^\lambda Y_{\lambda\mu}(\theta,\varphi)|\beta\rangle,\qquad \hat Q_{\lambda\mu}=\sum_{\alpha\beta}Q_{\alpha\beta}^{\lambda\mu}\hat c_\alpha^\dagger\hat c_\beta.
+$$
+
+于是库伦电势为
+
+$$
+\boxed{\hat\phi^C(\mathbf r)=\frac{1}{4\pi\epsilon_0}\sum_{\lambda\mu}\frac{4\pi}{2\lambda+1}\frac{\hat Q_{\lambda\mu}}{r^{\lambda+1}}Y_{\lambda\mu}^{*}(\hat{\mathbf r}).}
+$$
+
+进一步取通道 $c=\{l,I\}$，将相对轨道角动量 $l$ 与核自旋 $I$ 耦合到总角动量 $J$。按照 [cc.md 的角动量约定](C:/Users/caile/Desktop/myPhysics/notes/methods/cc.md:79)，库伦耦合矩阵为
+
+$$
+\boxed{V_{cc'}^{C;J}(r)=\sum_\lambda(-1)^{l'+I+J}\begin{Bmatrix}l&I&J\\I'&l'&\lambda\end{Bmatrix}\langle l\Vert Y_\lambda\Vert l'\rangle\langle\Phi_I\Vert\hat V_\lambda^C(r)\Vert\Phi_{I'}\rangle.}
+$$
+
+这里核结构信息包含在 $\langle\Phi_I\Vert\hat V_\lambda^C(r)\Vert\Phi_{I'}\rangle$ 中；球谐函数约化矩阵元与 $6j$ 符号给出通道的角动量耦合。
