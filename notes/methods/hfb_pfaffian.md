@@ -367,11 +367,11 @@ $$
 For the two-body transition density,
 
 $$
-\langle\hat c_\alpha^\dagger\hat c_\beta^\dagger\hat c_\delta\hat c_\gamma\rangle_{12}=\langle\hat c_\alpha^\dagger\hat c_\gamma\rangle_{12}\langle\hat c_\beta^\dagger\hat c_\delta\rangle_{12}-\langle\hat c_\alpha^\dagger\hat c_\delta\rangle_{12}\langle\hat c_\beta^\dagger\hat c_\gamma\rangle_{12}+\langle\hat c_\alpha^\dagger\hat c_\beta^\dagger\rangle_{12}\langle\hat c_\delta\hat c_\gamma\rangle_{12}.
+\langle\hat c_\alpha^*\hat c_\beta^*\hat c_\delta\hat c_\gamma\rangle_{12}=\langle\hat c_\alpha^*\hat c_\gamma\rangle_{12}\langle\hat c_\beta^*\hat c_\delta\rangle_{12}-\langle\hat c_\alpha^*\hat c_\delta\rangle_{12}\langle\hat c_\beta^*\hat c_\gamma\rangle_{12}+\langle\hat c_\alpha^*\hat c_\beta^*\rangle_{12}\langle\hat c_\delta\hat c_\gamma\rangle_{12}.
 $$
 
 $$
-\rho_{\alpha\beta\gamma\delta}\equiv\langle\hat c_\alpha^\dagger\hat c_\beta^\dagger\hat c_\delta\hat c_\gamma\rangle_{12}=\rho_{\gamma\alpha}\rho_{\delta\beta}-\rho_{\delta\alpha}\rho_{\gamma\beta}-\bar\kappa_{\alpha\beta}\kappa_{\gamma\delta}.
+\rho_{\alpha\beta\gamma\delta}\equiv\langle\hat c_\alpha^*\hat c_\beta^*\hat c_\delta\hat c_\gamma\rangle_{12}=\rho_{\gamma\alpha}\rho_{\delta\beta}-\rho_{\delta\alpha}\rho_{\gamma\beta}-\bar\kappa_{\alpha\beta}\kappa_{\gamma\delta}.
 $$
 
 ##### One-Body Matrix Elements between Multiquasiparticle States

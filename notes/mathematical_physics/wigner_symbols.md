@@ -179,7 +179,15 @@ $$
 For angular-momentum eigenstates $|\alpha_i j_i m_i\rangle$, the Wigner–Eckart theorem states
 
 $$
-\boxed{\langle\alpha_1j_1m_1|\hat T_q^{(k)}|\alpha_2j_2m_2\rangle=(-1)^{j_1-m_1}\begin{pmatrix}j_1&k&j_2\\-m_1&q&m_2\end{pmatrix}\langle\alpha_1j_1\|\hat T^{(k)}\|\alpha_2j_2\rangle=(-1)^{j_1+k-j_2}\frac{\langle kq;j_2m_2|j_1m_1\rangle}{\hat j_1}\langle\alpha_1j_1\|\hat T^{(k)}\|\alpha_2j_2\rangle}.
+\boxed{\langle\alpha_1j_1m_1|\hat T_q^{(k)}|\alpha_2j_2m_2\rangle=(-1)^{j_1-m_1}\begin{pmatrix}j_1&k&j_2\\-m_1&q&m_2\end{pmatrix}\langle\alpha_1j_1\|\hat T^{(k)}\|\alpha_2j_2\rangle}.
+$$
+
+we can also write the Wigner–Eckart theorem in terms of Clebsch–Gordan coefficients:
+
+$$
+\langle\alpha_1j_1m_1|\hat T_q^{(k)}|\alpha_2j_2m_2\rangle
+=(-1)^{j_1+k-j_2}\frac{\langle kq;j_2m_2|j_1m_1\rangle}{\hat j_1}\langle\alpha_1j_1\|\hat T^{(k)}\|\alpha_2j_2\rangle
+=(-1)^{2k}\frac{\langle j_2m_2;kq|j_1m_1\rangle}{\sqrt{2j_1+1}}\langle\alpha_1j_1\|\hat T^{(k)}\|\alpha_2j_2\rangle
 $$
 
 The reduced matrix element is independent of $m_1,m_2$, and $q$.
