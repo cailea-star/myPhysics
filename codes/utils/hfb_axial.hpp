@@ -125,9 +125,10 @@ public:
      * @math   H⁺ = [h⁺⁺-λI, Δ⁺⁻; (Δ⁺⁻)†, -(h⁻⁻)*+λI].
      * @math   H⁻ = [h⁻⁻-λI, -(Δ⁺⁻)ᵀ; -(Δ⁺⁻)*, -(h⁺⁺)*+λI].
      * @output Updated quasiparticle solutions and densities.
+     * @output Mean particle number N = Σ_b Re Tr(ρ_b⁺⁺+ρ_b⁻⁻).
      * @note   No zero modes; T = k_B T_phys ≥ 0.
      */
-    void update_UV_E_rho_kappa(double lambda_F, double temperature_F);
+    double update_UV_E_rho_kappa(double lambda_F, double temperature_F);
 };
 
 class HFBAxialNucleus {
@@ -181,11 +182,13 @@ public:
  * @brief  Solve thermal branches using self-adjoint eigendecomposition.
  * @math   H±X± = X±E±; f± = 1/(1+exp(E±/T)).
  * @output Updated quasiparticle solutions and densities.
+ * @output Mean particle number N = Σ_b Re Tr(ρ_b⁺⁺+ρ_b⁻⁻).
  */
-inline void HFBAxial::update_UV_E_rho_kappa(double lambda_F, double temperature_F) {
+inline double HFBAxial::update_UV_E_rho_kappa(double lambda_F, double temperature_F) {
     assert(temperature_F >= 0.0);
     assert(static_cast<int>(hfb_axial_fields.size()) == Nblock_I);
     assert(static_cast<int>(hfb_axial_solutions.size()) == Nblock_I);
+    double N_F = 0.0;
 
     // block_b → (E_b, U_b, V_b, f_b, ρ_b, κ_b).
     for (int block_I = 0; block_I < Nblock_I; ++block_I) {
@@ -271,7 +274,11 @@ inline void HFBAxial::update_UV_E_rho_kappa(double lambda_F, double temperature_
         // κ⁺⁻ = (V⁺)*(1-f⁻)(U⁻)ᵀ + U⁺f⁺(V⁻)†.
         solution.kappaPosNeg_C2D_bsp_bsp.noalias() = solution.VPos_C2D_bsp_bqp.conjugate() * (1.0 - solution.fNeg_F1D_bqp.array()).matrix().asDiagonal() * solution.UNeg_C2D_bsp_bqp.transpose();
         solution.kappaPosNeg_C2D_bsp_bsp.noalias() += solution.UPos_C2D_bsp_bqp * solution.fPos_F1D_bqp.asDiagonal() * solution.VNeg_C2D_bsp_bqp.adjoint();
+
+        // N = Σ_b Re Tr(ρ_b⁺⁺+ρ_b⁻⁻).
+        N_F += solution.rhoPosPos_C2D_bsp_bsp.trace().real() + solution.rhoNegNeg_C2D_bsp_bsp.trace().real();
     }
+    return N_F;
 }
 
 /**
