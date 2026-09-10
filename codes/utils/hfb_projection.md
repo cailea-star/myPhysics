@@ -26,7 +26,7 @@ $$
 \hat R(\Omega)=e^{-i\alpha\hat I_z/\hbar}e^{-i\beta\hat I_y/\hbar}e^{-i\gamma\hat I_z/\hbar},\qquad D^I_{MK}(\Omega)=\langle IM|\hat R(\Omega)|IK\rangle.
 $$
 
-Use the integration convention in [SO(3) and SU(2)](../group_theory/so3_su2.md#wigner-d-functions):
+Use the integration convention in [SO(3) and SU(2)](../../notes/group_theory/so3_su2.md#wigner-d-functions):
 
 $$
 \mathrm d\Omega=\sin\beta\,\mathrm d\alpha\,\mathrm d\beta\,\mathrm d\gamma,\qquad \alpha\in[0,2\pi),\quad\beta\in[0,\pi],\quad\gamma\in[0,\gamma_{\max}),\qquad \mathcal V_\Omega=4\pi\gamma_{\max}.
@@ -228,7 +228,7 @@ $$
 
 ### Projected Matrix Elements of Multipole Interactions
 
-Use the multipole interaction and angular-momentum conventions in [Multipole Interactions and Matrix Elements](../quantum_mechanics/second_quantization_multipole.md#multipole-interactions-and-matrix-elements). Define
+Use the multipole interaction and angular-momentum conventions in [Multipole Interactions and Matrix Elements](../../notes/quantum_mechanics/second_quantization_multipole.md#multipole-interactions-and-matrix-elements). Define
 
 $$
 \hat H_\lambda=\frac{\chi_\lambda}{2}\sum_{\mu=-\lambda}^{\lambda}\hat Q_{\lambda\mu}^\dagger\hat Q_{\lambda\mu},\qquad \hat Q_{\lambda\mu}=\sum_{\alpha,\beta}\langle\alpha|\hat q_{\lambda\mu}|\beta\rangle\hat c_\alpha^*\hat c_\beta,\qquad \hat Q_{\lambda\mu}^\dagger=(-1)^\mu\hat Q_{\lambda,-\mu}.
@@ -272,7 +272,7 @@ $$
 
 ### Projected Matrix Elements of Multipole Pairing Interactions
 
-Use the pairing interaction and angular-momentum conventions in [Multipole Pairing Interactions and Matrix Elements](../quantum_mechanics/second_quantization_multipole.md#multipole-pairing-interactions-and-matrix-elements). Define
+Use the pairing interaction and angular-momentum conventions in [Multipole Pairing Interactions and Matrix Elements](../../notes/quantum_mechanics/second_quantization_multipole.md#multipole-pairing-interactions-and-matrix-elements). Define
 
 $$
 \hat H_\lambda^{\mathrm{pair}}=-G_\lambda\sum_{\mu=-\lambda}^{\lambda}\hat P_{\lambda\mu}^\dagger\hat P_{\lambda\mu},\qquad \hat P_{\lambda\mu}^\dagger=\frac12\sum_{\alpha,\beta}(-1)^{j_b-m_b}\langle\alpha|\hat q_{\lambda\mu}|\beta\rangle\hat c_{a m_a}^*\hat c_{b,-m_b}^*.
