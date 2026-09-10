@@ -164,4 +164,4 @@ $$
 \boxed{\bar v_{\mathrm{cross}}=\delta_{\sigma_1\sigma_3}\delta_{\sigma_2\sigma_4}\left(V^W_{12,34}+V^M_{12,43}\right)+\delta_{\sigma_1\sigma_4}\delta_{\sigma_2\sigma_3}\left(V^B_{12,34}+V^H_{12,43}\right)}.
 $$
 
-These matrix elements supply the representative $\Gamma$ and $\Delta$ fields defined in [Axial HFB](../../notes/methods/hfb_axial.md#representative-gamma-and-delta-fields).
+These matrix elements supply the representative $\Gamma$ and $\Delta$ fields defined in [Axial HFB](../utils/hfb_kramers.md#representative-gamma-and-delta-fields).
