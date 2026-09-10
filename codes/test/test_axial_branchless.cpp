@@ -12,8 +12,8 @@
 #include <iomanip>
 #include <iostream>
 #include <vector>
-#include "axial_basis.hpp"
-#include "axial_gaussian_kernel.hpp"
+#include "cylindrical_basis.hpp"
+#include "cylindrical_gaussian_kernel.hpp"
 
 /**
  * @brief  Test branchless axial numerical modules.
@@ -30,12 +30,12 @@ int main() {
     const std::array<double, 1> mu_F1D_g{1.0};
     const double tolBasis_F = 1.0e-11;
     const double tolKernel_F = 1.0e-12;
-    AxialConfig config_(bz_F, br_F, Nshell_I, useParity_B, useTimeReversal_B);
+    CylindricalSetting cylindricalsetting_(bz_F, br_F, Nshell_I, useParity_B, useTimeReversal_B);
     Eigen::Vector4i labelCodeRef_I1D_sp;
     Eigen::Vector4i labelCode_I1D_sp = Eigen::Vector4i::Zero();
     labelCodeRef_I1D_sp << 121000, 1100, 21001, 23100;
-    for (int sp_I = 0; sp_I < std::min<int>(4, config_.labels_S1D_sp.size()); ++sp_I) {
-        const AxialSPLabel& label_ = config_.labels_S1D_sp[sp_I];
+    for (int sp_I = 0; sp_I < std::min<int>(4, cylindricalsetting_.labels_S1D_sp.size()); ++sp_I) {
+        const CylindricalSPLabel& label_ = cylindricalsetting_.labels_S1D_sp[sp_I];
         labelCode_I1D_sp(sp_I) = label_.nz_I + 10 * label_.nr_I + 100 * label_.Lambda_I + 1000 * label_.twoOmega_I + 10000 * (label_.twoSigma_I + 1) + 100000 * static_cast<int>(label_.isParityPositive_B);
     }
     // symmetry blocks → size/index codes.
@@ -45,16 +45,16 @@ int main() {
     Eigen::Vector2i indexCode_I1D_block = Eigen::Vector2i::Zero();
     blockSizeRef_I1D_block << 3, 1;
     indexCodeRef_I1D_block << 12, 3;
-    for (int block_I = 0; block_I < std::min<int>(2, config_.labels_S2D_block_bsp.size()); ++block_I) {
-        blockSize_I1D_block(block_I) = config_.labels_S2D_block_bsp[block_I].size();
-        for (int bsp_I = 0; bsp_I < config_.indices_I2D_block_bsp[block_I].size(); ++bsp_I) {indexCode_I1D_block(block_I) = 10 * indexCode_I1D_block(block_I) + config_.indices_I2D_block_bsp[block_I][bsp_I];}
+    for (int block_I = 0; block_I < std::min<int>(2, cylindricalsetting_.labels_S2D_block_bsp.size()); ++block_I) {
+        blockSize_I1D_block(block_I) = cylindricalsetting_.labels_S2D_block_bsp[block_I].size();
+        for (int bsp_I = 0; bsp_I < cylindricalsetting_.indices_I2D_block_bsp[block_I].size(); ++bsp_I) {indexCode_I1D_block(block_I) = 10 * indexCode_I1D_block(block_I) + cylindricalsetting_.indices_I2D_block_bsp[block_I][bsp_I];}
     }
-    int configError_I = std::max({(labelCode_I1D_sp - labelCodeRef_I1D_sp).cwiseAbs().maxCoeff(), (blockSize_I1D_block - blockSizeRef_I1D_block).cwiseAbs().maxCoeff(), (indexCode_I1D_block - indexCodeRef_I1D_block).cwiseAbs().maxCoeff(), std::abs(static_cast<int>(config_.labels_S1D_sp.size()) - 4), std::abs(static_cast<int>(config_.labels_S2D_block_bsp.size()) - 2), std::abs(config_.Nz_I - 10), std::abs(config_.Nr_I - 9)});
+    int configError_I = std::max({(labelCode_I1D_sp - labelCodeRef_I1D_sp).cwiseAbs().maxCoeff(), (blockSize_I1D_block - blockSizeRef_I1D_block).cwiseAbs().maxCoeff(), (indexCode_I1D_block - indexCodeRef_I1D_block).cwiseAbs().maxCoeff(), std::abs(static_cast<int>(cylindricalsetting_.labels_S1D_sp.size()) - 4), std::abs(static_cast<int>(cylindricalsetting_.labels_S2D_block_bsp.size()) - 2), std::abs(cylindricalsetting_.Nz_I - 10), std::abs(cylindricalsetting_.Nr_I - 9)});
 
     // φ_{n_z}(z) → axial Hermite references.
-    std::vector<AxialSPLabel> labelsBasis_S1D_sp{AxialSPLabel(0, 0, 0, 1), AxialSPLabel(1, 1, 0, 1)};
-    AxialHermiteBasis zBasis_(bz_F, config_.Nz_I, labelsBasis_S1D_sp, false);
-    AxialLaguerreBasis rBasis_(br_F, config_.Nr_I, labelsBasis_S1D_sp);
+    std::vector<CylindricalSPLabel> labelsBasis_S1D_sp{CylindricalSPLabel(0, 0, 0, 1), CylindricalSPLabel(1, 1, 0, 1)};
+    CylindricalHermiteBasis zBasis_(bz_F, cylindricalsetting_.Nz_I, labelsBasis_S1D_sp, false);
+    CylindricalLaguerreBasis rBasis_(br_F, cylindricalsetting_.Nr_I, labelsBasis_S1D_sp);
     const double pi_F = std::acos(-1.0);
     const double sqrt2_F = std::sqrt(2.0);
     Eigen::MatrixXd phiZRef_F2D_sp_z(2, zBasis_.z_F1D_z.size());
@@ -89,7 +89,7 @@ int main() {
     double rBasisError_F = std::max({(rBasis_.phi_F2D_sp_r - phiRRef_F2D_sp_r).cwiseAbs().maxCoeff(), (rBasis_.dphi_F2D_sp_r - dphiRRef_F2D_sp_r).cwiseAbs().maxCoeff(), (rBasis_.ddphi_F2D_sp_r - ddphiRRef_F2D_sp_r).cwiseAbs().maxCoeff()});
 
     // (config,μ) → (G^z,G^r) references.
-    AxialGaussianKernel<1> kernel_(config_, mu_F1D_g);
+    CylindricalGaussianKernel<1> kernel_(cylindricalsetting_, mu_F1D_g);
     kernel_.build_tables();
     Eigen::Vector4d kernelRef_F1D_value;
     Eigen::Vector4d kernel_F1D_value;

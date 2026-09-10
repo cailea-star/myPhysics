@@ -52,7 +52,7 @@ $$
 V_{12,34}=\int\mathrm{d}^3r_1\,\mathrm{d}^3r_2\,\phi_1^*(\boldsymbol{r}_1)\phi_2^*(\boldsymbol{r}_2)v_{\mathrm{C}}(r_{12})\phi_3(\boldsymbol{r}_1)\phi_4(\boldsymbol{r}_2).
 $$
 
-For each $g$, let $G^z_{12,34}(g)$ and $G^r_{12,34}(g)$ denote the axial and transverse matrix elements of the corresponding Gaussian term; see [Axial Gaussian Matrix Elements](axial_gaussian_kernel.md). The Coulomb matrix element is
+For each $g$, let $G^z_{12,34}(g)$ and $G^r_{12,34}(g)$ denote the axial and transverse matrix elements of the corresponding Gaussian term; see [Axial Gaussian Matrix Elements](cylindrical_gaussian_kernel.md). The Coulomb matrix element is
 
 $$
 \boxed{V_{12,34}\approx\sum_{g=1}^{N_g}W_gG^z_{12,34}(g)G^r_{12,34}(g)}.
