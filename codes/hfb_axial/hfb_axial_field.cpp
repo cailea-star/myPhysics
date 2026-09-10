@@ -227,7 +227,7 @@ void AxialHFBField::add_nuclei_fields(AxialHFBField& field_p_, AxialHFBField& fi
  * @math   v_C=K_Cρ_p-e²C_{ex}(3ρ_p/π)^{1/3}
  * @output Updated proton central field.
  */
-void AxialHFBField::add_coulomb_field(AxialHFBField& field_p_, const AxialHFBDensity& density_p_, const AxialCoulombField& coulomb_field_, const EDFParamsSkyrme& edf_skyrme_) {
+void AxialHFBField::add_coulomb_field(AxialHFBField& field_p_, const AxialHFBDensity& density_p_, const CylindricalCoulombField& coulomb_field_, const EDFParamsSkyrme& edf_skyrme_) {
     assert(coulomb_field_.isBuilt_B);
 
     const int Nz_I = static_cast<int>(field_p_.vcent_F2D_z_r.rows());

@@ -27,9 +27,9 @@ int main() {
     const int Ztarget_I = 24;
     const int Nshell_I = 12;
     const double b0_F = 1.76221461551038;
-    AxialConfig axialconfig_(b0_F, b0_F, Nshell_I, true, true);
-    axialconfig_.Nr_I = 40;
-    axialconfig_.Nz_I = 40;
+    CylindricalSetting cylindricalsetting_(b0_F, b0_F, Nshell_I, true, true);
+    cylindricalsetting_.Nr_I = 40;
+    cylindricalsetting_.Nz_I = 40;
 
     // P_{HFB} ← run 000008.
     HFBSettings hfbsettings_ = HFBSettings::setting_skyrme();
@@ -41,7 +41,7 @@ int main() {
 
     // (C_{axial},P_{HFB},SLY4) → O_{C++}.
     const EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::SLY4();
-    AxialHFB hfb_(axialconfig_, hfbsettings_, edf_skyrme_);
+    AxialHFB hfb_(cylindricalsetting_, hfbsettings_, edf_skyrme_);
     hfb_.initialize_WS_field(Ntarget_I, Ztarget_I);
     hfb_.iterate(Ntarget_I, Ztarget_I);
     AxialHFBObservable observable_;

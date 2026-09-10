@@ -66,7 +66,7 @@ $$
 \hat G(g)=e^{i\varphi\hat N}\hat R(\Omega).
 $$
 
-Using [Axial-Basis Rotation Matrix](axial_rotation.md#axial-basis-rotation-matrix), the restricted single-particle matrix is
+Using [Axial-Basis Rotation Matrix](cylindrical_rotation.md#axial-basis-rotation-matrix), the restricted single-particle matrix is
 
 $$
 D_{ab}(g)=e^{i\varphi}e^{-i\alpha\Omega_a}d_{ab}(\beta)e^{-i\gamma\Omega_b},\qquad d_{ab}(\beta)=\langle\phi_a|e^{-i\beta\hat J_y/\hbar}|\phi_b\rangle.

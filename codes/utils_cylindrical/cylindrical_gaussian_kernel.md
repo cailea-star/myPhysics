@@ -1,6 +1,6 @@
 # Axial Gaussian Matrix Elements
 
-The Gaussian matrix elements are evaluated in the [axial harmonic-oscillator basis](axial_basis.md), whose factors follow the canonical [coordinate-space harmonic-oscillator solutions](../../notes/quantum_mechanics/harmonic_oscillator_coordinate_space.md).
+The Gaussian matrix elements are evaluated in the [axial harmonic-oscillator basis](cylindrical_basis.md), whose factors follow the canonical [coordinate-space harmonic-oscillator solutions](../../notes/quantum_mechanics/harmonic_oscillator_coordinate_space.md).
 
 ### Gaussian Kernel Separation
 

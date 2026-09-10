@@ -27,9 +27,9 @@ int main() {
     const int Ztarget_I = 24;
     const int Nshell_I = 8;
     const double b0_F = 1.76223445103162;
-    AxialConfig axialconfig_(b0_F, b0_F, Nshell_I, true, true);
-    axialconfig_.Nr_I = 40;
-    axialconfig_.Nz_I = 40;
+    CylindricalSetting cylindricalsetting_(b0_F, b0_F, Nshell_I, true, true);
+    cylindricalsetting_.Nr_I = 40;
+    cylindricalsetting_.Nz_I = 40;
 
     // P_{HFB} ← D1S run 000005.
     HFBSettings hfbsettings_ = HFBSettings::setting_gogny();
@@ -39,7 +39,7 @@ int main() {
 
     // (C_{axial},P_{HFB},D1S) → O_{C++}.
     const EDFParamsGogny edf_gogny_ = EDFParamsGogny::D1S();
-    AxialHFB hfb_(axialconfig_, hfbsettings_, edf_gogny_.make_local_edf(), edf_gogny_);
+    AxialHFB hfb_(cylindricalsetting_, hfbsettings_, edf_gogny_.make_local_edf(), edf_gogny_);
     hfb_.initialize_WS_field(Ntarget_I, Ztarget_I);
     hfb_.iterate(Ntarget_I, Ztarget_I);
     AxialHFBObservable observable_;
