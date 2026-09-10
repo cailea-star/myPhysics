@@ -138,7 +138,7 @@ $$
 \hat{\mathcal T}|\Phi_a\rangle=|\Phi_a\rangle,\qquad a=1,2.
 $$
 
-Use the basis phases and paired quasiparticle columns defined in [Kramers-Representative Formulation](../../notes/methods/hfb_axial.md#kramers-representative-formulation). With particle rows ordered as $(\alpha,\bar\alpha)$ and quasiparticle columns as $(\mu,\bar\mu)$,
+Use the basis phases and paired quasiparticle columns defined in [Kramers-Representative Formulation](../utils/hfb_kramers.md#kramers-representative-formulation). With particle rows ordered as $(\alpha,\bar\alpha)$ and quasiparticle columns as $(\mu,\bar\mu)$,
 
 $$
 \boxed{U_a=\begin{pmatrix}U_a^+&0\\0&\operatorname{diag}(\eta_\alpha)(U_a^+)^*\end{pmatrix},\qquad V_a=\begin{pmatrix}0&-\operatorname{diag}(\eta_\alpha)(V_a^-)^*\\V_a^-&0\end{pmatrix}}.
