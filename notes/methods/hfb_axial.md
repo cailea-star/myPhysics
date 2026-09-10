@@ -2,7 +2,7 @@
 
 ### Symmetry Assumptions
 
-This note specializes the general [Hartree–Fock–Bogoliubov Method](hfb.md) to an even-even nucleus without quasiparticle blocking.
+This note specializes the general [Hartree–Fock–Bogoliubov Method](../../codes/utils/hfb.md) to an even-even nucleus without quasiparticle blocking.
 
 ##### Axial Symmetry
 
@@ -352,7 +352,7 @@ $$
 
 ##### Representative $\Gamma$ and $\Delta$ Fields
 
-Let $N_{\mathrm{sp}}$ denote the full single-particle dimension. Using the field definitions in [Hartree–Fock–Bogoliubov Method](hfb.md),
+Let $N_{\mathrm{sp}}$ denote the full single-particle dimension. Using the field definitions in [Hartree–Fock–Bogoliubov Method](../../codes/utils/hfb.md),
 
 $$
 \Gamma_{\alpha\beta}=\sum_{\gamma,\delta=1}^{N_{\mathrm{sp}}}\bar v_{\alpha\gamma;\beta\delta}\rho_{\delta\gamma},\qquad \alpha,\beta=1,\ldots,N_{\mathrm{sp}}.

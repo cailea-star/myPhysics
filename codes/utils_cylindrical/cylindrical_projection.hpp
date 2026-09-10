@@ -1,5 +1,5 @@
 /**
- * @file    axial_projection.hpp
+ * @file    cylindrical_projection.hpp
  * @author  cailea
  * @date    2026-09-07
  * @brief   Axial Bogoliubov overlaps and transition densities.
@@ -17,17 +17,17 @@
 #include <Eigen/LU>
 #include <unsupported/Eigen/CXX11/Tensor>
 
-#include "axial_rotation.hpp"
+#include "cylindrical_rotation.hpp"
 
 using doubleC = std::complex<double>;
 
-class AxialProjection {
+class CylindricalProjection {
 public:
     int Nbeta_I = 1; // Number of β quadrature nodes.
     int Nphi_I = 0; // Number of gauge-angle quadrature nodes.
     Eigen::VectorXd beta_F1D_beta{}; // β_i = acos x_i ∈ (0,π) [rad].
     Eigen::VectorXd weight_F1D_beta{}; // Σ_i w_i f(β_i) ≈ ∫₀^π sinβ f(β)dβ.
-    std::vector<AxialSPLabel> labels_S1D_sp{}; // Positive-Ω labels.
+    std::vector<CylindricalSPLabel> labels_S1D_sp{}; // Positive-Ω labels.
 
     doubleC overlap_C = doubleC(0, 0); // ⟨Φ₁|R_y(β)e^{iφN̂}|Φ₂⟩.
     Eigen::MatrixXcd rho_C2D_2sp_2sp{}; // ρ(g).
@@ -68,7 +68,7 @@ public:
      * @note   Single species; unblocked K = 0 vacua; ordering (+Ω,-Ω).
      * @note   Weights exclude projection normalization factors.
      */
-    AxialProjection(const AxialConfig& axialconfig_, const std::vector<AxialSPLabel>& labels_S1D_sp_, int Nbeta_I_, int Nphi_I_) {
+    CylindricalProjection(const CylindricalSetting& cylindricalsetting_, const std::vector<CylindricalSPLabel>& labels_S1D_sp_, int Nbeta_I_, int Nphi_I_) {
         labels_S1D_sp = labels_S1D_sp_;
         Nbeta_I = Nbeta_I_;
         Nphi_I = Nphi_I_;
@@ -76,7 +76,7 @@ public:
 
         // Retain β geometry; release rotation-generation workspace.
         {
-            AxialRotation axialrotation(axialconfig_, labels_S1D_sp, 1, Nbeta_I, 1);
+            CylindricalRotation axialrotation(cylindricalsetting_, labels_S1D_sp, 1, Nbeta_I, 1);
             axialrotation.build_Ry();
             beta_F1D_beta = std::move(axialrotation.beta_F1D_beta);
             weight_F1D_beta = std::move(axialrotation.weight_F1D_beta);
@@ -146,7 +146,7 @@ public:
 
 };
 
-inline void AxialProjection::update_U1V1(const Eigen::MatrixXd& U1Kramers_F2D_sp_qp_, const Eigen::MatrixXd& V1Kramers_F2D_sp_qp_) {
+inline void CylindricalProjection::update_U1V1(const Eigen::MatrixXd& U1Kramers_F2D_sp_qp_, const Eigen::MatrixXd& V1Kramers_F2D_sp_qp_) {
     // N_sp = N_qp; Kramers representatives.
     const Eigen::Index Nsp_I = static_cast<Eigen::Index>(labels_S1D_sp.size());
     assert(U1Kramers_F2D_sp_qp_.rows() == Nsp_I && U1Kramers_F2D_sp_qp_.cols() == Nsp_I);
@@ -168,7 +168,7 @@ inline void AxialProjection::update_U1V1(const Eigen::MatrixXd& U1Kramers_F2D_sp
     assert(std::isfinite(detU1_F) && detU1_F != 0.0);
 }
 
-inline void AxialProjection::update_U2V2(const Eigen::MatrixXd& U2Kramers_F2D_sp_qp_, const Eigen::MatrixXd& V2Kramers_F2D_sp_qp_) {
+inline void CylindricalProjection::update_U2V2(const Eigen::MatrixXd& U2Kramers_F2D_sp_qp_, const Eigen::MatrixXd& V2Kramers_F2D_sp_qp_) {
     // N_sp = N_qp; Kramers representatives.
     const Eigen::Index Nsp_I = static_cast<Eigen::Index>(labels_S1D_sp.size());
     assert(U2Kramers_F2D_sp_qp_.rows() == Nsp_I && U2Kramers_F2D_sp_qp_.cols() == Nsp_I);
@@ -190,7 +190,7 @@ inline void AxialProjection::update_U2V2(const Eigen::MatrixXd& U2Kramers_F2D_sp
     assert(std::isfinite(detU2_F) && detU2_F != 0.0);
 }
 
-inline void AxialProjection::update_AUV(int beta_I) {
+inline void CylindricalProjection::update_AUV(int beta_I) {
     betaCurrent_I = -1; // β cache invalid.
 
     // N_sp = N_qp; fixed β.
@@ -244,7 +244,7 @@ inline void AxialProjection::update_AUV(int beta_I) {
     betaCurrent_I = beta_I;
 }
 
-inline void AxialProjection::update_densities(int beta_I, int phi_I) {
+inline void CylindricalProjection::update_densities(int beta_I, int phi_I) {
     // Invalidate overlap before evaluation.
     overlap_C = doubleC(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN());
 

@@ -1,6 +1,6 @@
 # Axial Direct Coulomb Field
 
-The direct Coulomb field is evaluated on the coordinate grid defined by the [Axial Harmonic-Oscillator Basis](axial_basis.md).
+The direct Coulomb field is evaluated on the coordinate grid defined by the [Axial Harmonic-Oscillator Basis](cylindrical_basis.md).
 
 ### Axial Coulomb Kernel
 

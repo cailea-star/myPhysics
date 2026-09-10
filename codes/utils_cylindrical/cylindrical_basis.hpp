@@ -1,5 +1,5 @@
 /**
- * @file    axial_basis.hpp
+ * @file    cylindrical_basis.hpp
  * @author  cailea
  * @date    2026-05-02
  * @brief   Axial harmonic-oscillator basis functions, derivatives, and quadrature weights.
@@ -16,14 +16,14 @@
 #include <gsl/gsl_sf_hermite.h>
 #include <gsl/gsl_sf_laguerre.h>
 
-#include "axial_config.hpp"
+#include "cylindrical_config.hpp"
 #include "integration_gauss.hpp"
 
 /** @brief Axial Hermite basis on a Gauss-Hermite mesh. */
-class AxialHermiteBasis {
+class CylindricalHermiteBasis {
 public:
     double bz_F = 0.0;                          // b_z = √[ℏ / (mω_z)].
-    std::vector<AxialSPLabel> labels_S1D_sp{};  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp.
+    std::vector<CylindricalSPLabel> labels_S1D_sp{};  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp.
     Eigen::VectorXd z_F1D_z{};                  // z_i = b_zζ_i.
     Eigen::VectorXd w_F1D_z{};                  // w_z,i = b_z w_i^GH e^(ζ_i²).
     Eigen::VectorXd zeta_F1D_z{};               // ζ_i: Gauss-Hermite nodes.
@@ -37,7 +37,7 @@ public:
      * @output Nodes, weights, basis functions, and first two derivatives.
      * @note   useHalf_B retains z > 0 and doubles the weights.
      */
-    AxialHermiteBasis(double bz_F_, int Nz_I_, const std::vector<AxialSPLabel>& labels_S1D_sp_, bool useHalf_B = false) {
+    CylindricalHermiteBasis(double bz_F_, int Nz_I_, const std::vector<CylindricalSPLabel>& labels_S1D_sp_, bool useHalf_B = false) {
         bz_F = bz_F_;
         labels_S1D_sp = labels_S1D_sp_;
         z_F1D_z.resize(Nz_I_);
@@ -79,10 +79,10 @@ protected:
 };
 
 /** @brief Radial Laguerre basis on a Gauss-Laguerre mesh. */
-class AxialLaguerreBasis {
+class CylindricalLaguerreBasis {
 public:
     double br_F = 0.0;                          // b_r = √[ℏ / (mω_r)].
-    std::vector<AxialSPLabel> labels_S1D_sp{};  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp.
+    std::vector<CylindricalSPLabel> labels_S1D_sp{};  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp.
     Eigen::VectorXd r_F1D_r{};                  // r_j = b_r√η_j.
     Eigen::VectorXd w_F1D_r{};                  // w_r,j = b_r² w_j^GL e^(η_j) / 2.
     Eigen::VectorXd eta_F1D_r{};                // η_j: Gauss-Laguerre nodes.
@@ -95,7 +95,7 @@ public:
      * @math   η = (r / b_r)²
      * @output Nodes, weights, basis functions, and first two derivatives.
      */
-    AxialLaguerreBasis(double br_F_, int Nr_I_, const std::vector<AxialSPLabel>& labels_S1D_sp_) {
+    CylindricalLaguerreBasis(double br_F_, int Nr_I_, const std::vector<CylindricalSPLabel>& labels_S1D_sp_) {
         br_F = br_F_;
         labels_S1D_sp = labels_S1D_sp_;
         r_F1D_r.resize(Nr_I_);
@@ -128,13 +128,13 @@ protected:
 };
 
 /** @brief Separable axial harmonic-oscillator basis. */
-class AxialBasis {
+class CylindricalBasis {
 public:
     using BasisTensor = Eigen::Tensor<double, 3, Eigen::ColMajor>;
 
     double br_F = 0.0;                          // b_r = √[ℏ / (mω_r)].
     double bz_F = 0.0;                          // b_z = √[ℏ / (mω_z)].
-    std::vector<AxialSPLabel> labels_S1D_sp{};  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp.
+    std::vector<CylindricalSPLabel> labels_S1D_sp{};  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp.
     Eigen::VectorXi twoSigma_I1D_sp{};          // 2Σ_sp = 2Ω_sp - 2Λ_sp.
     Eigen::VectorXd z_F1D_z{};                  // z_i = b_zζ_i.
     Eigen::VectorXd r_F1D_r{};                  // r_j = b_r√η_j.
@@ -152,16 +152,16 @@ public:
      * @math   φ_sp(z,r) = φ_nz(z)φ_nr^Λ(r) / √(2π)
      * @output Axial basis functions, derivatives, nodes, and weights.
      */
-    explicit AxialBasis(const AxialConfig& axialconfig_) {
-        br_F = axialconfig_.br_F;
-        bz_F = axialconfig_.bz_F;
-        labels_S1D_sp = axialconfig_.labels_S1D_sp;
+    explicit CylindricalBasis(const CylindricalSetting& cylindricalsetting_) {
+        br_F = cylindricalsetting_.br_F;
+        bz_F = cylindricalsetting_.bz_F;
+        labels_S1D_sp = cylindricalsetting_.labels_S1D_sp;
         twoSigma_I1D_sp.resize(labels_S1D_sp.size());
 
         // config → (rBasis,zBasis,{2Σ_sp}) → basis.
-        AxialLaguerreBasis rBasis(axialconfig_.br_F, axialconfig_.Nr_I, labels_S1D_sp);
+        CylindricalLaguerreBasis rBasis(cylindricalsetting_.br_F, cylindricalsetting_.Nr_I, labels_S1D_sp);
 
-        AxialHermiteBasis zBasis(axialconfig_.bz_F, axialconfig_.Nz_I, labels_S1D_sp, axialconfig_.useParity_B);
+        CylindricalHermiteBasis zBasis(cylindricalsetting_.bz_F, cylindricalsetting_.Nz_I, labels_S1D_sp, cylindricalsetting_.useParity_B);
 
         for (int sp_I = 0; sp_I < labels_S1D_sp.size(); ++sp_I) {twoSigma_I1D_sp(sp_I) = labels_S1D_sp[sp_I].twoSigma_I;}
 
@@ -174,10 +174,10 @@ private:
      * @math   φ_sp(z,r) = φ_nz(z)φ_nr^Λ(r) / √(2π)
      * @output Filled basis tensors and product quadrature weights.
      */
-    void fill_from_separable_basis(const AxialHermiteBasis& zBasis, const AxialLaguerreBasis& rBasis);
+    void fill_from_separable_basis(const CylindricalHermiteBasis& zBasis, const CylindricalLaguerreBasis& rBasis);
 };
 
-inline void AxialHermiteBasis::fill_grid(const GaussHermiteMeshes& gh_meshes) {
+inline void CylindricalHermiteBasis::fill_grid(const GaussHermiteMeshes& gh_meshes) {
     // ζ=z/b_z; dz=b_z dζ.
     const double jacobian_F = bz_F;
     zeta_F1D_z = gh_meshes.x_F1D_x;
@@ -224,7 +224,7 @@ inline void AxialHermiteBasis::fill_grid(const GaussHermiteMeshes& gh_meshes) {
     ddphi_F2D_sp_z.array().rowwise() *= expHalf_F1D_z.transpose().array();
 }
 
-inline void AxialLaguerreBasis::fill_grid(const GaussLaguerreMeshes& gl_meshes) {
+inline void CylindricalLaguerreBasis::fill_grid(const GaussLaguerreMeshes& gl_meshes) {
     // η=(r/b_r)²; r dr=(b_r²/2)dη.
     const double jacobian_F = 0.5 * br_F * br_F;
     eta_F1D_r = gl_meshes.x_F1D_x;
@@ -296,7 +296,7 @@ inline void AxialLaguerreBasis::fill_grid(const GaussLaguerreMeshes& gl_meshes) 
     ddphi_F2D_sp_r.array().rowwise() *= expHalf_F1D_r.transpose().array();
 }
 
-inline void AxialBasis::fill_from_separable_basis(const AxialHermiteBasis& zBasis, const AxialLaguerreBasis& rBasis) {
+inline void CylindricalBasis::fill_from_separable_basis(const CylindricalHermiteBasis& zBasis, const CylindricalLaguerreBasis& rBasis) {
     // (z,r,ζ,η,w_z,w_r) ← (zBasis,rBasis).
     z_F1D_z = zBasis.z_F1D_z;
     r_F1D_r = rBasis.r_F1D_r;

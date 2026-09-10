@@ -1,5 +1,5 @@
 /**
- * @file    axial_gaussian_kernel.hpp
+ * @file    cylindrical_gaussian_kernel.hpp
  * @author  cailea
  * @date    2026-05-27
  * @brief   Shared axial-HO Gaussian matrix-element cache and kernels.
@@ -22,16 +22,16 @@
 #include <vector>
 #include <gsl/gsl_sf_gamma.h>
 
-#include "axial_config.hpp"
+#include "cylindrical_config.hpp"
 #include "tools_hashtable.hpp"
 
 template <int Ng_I>
-class AxialGaussianKernel {
+class CylindricalGaussianKernel {
 public:
     using AxialGaussianKey = std::array<int, 4>;
     using AxialGaussianValues = std::array<double, Ng_I>;
     bool isBuilt_B = false;
-    static_assert(Ng_I > 0, "AxialGaussianKernel requires at least one Gaussian.");
+    static_assert(Ng_I > 0, "CylindricalGaussianKernel requires at least one Gaussian.");
 
 protected:
     struct Metadata {
@@ -55,7 +55,7 @@ protected:
     static_assert(std::is_trivially_copyable_v<Metadata>, "Metadata must be trivially copyable.");
 
     Metadata metadata{};
-    std::vector<AxialSPLabel> labels_S1D_sp{};
+    std::vector<CylindricalSPLabel> labels_S1D_sp{};
     PackedHashTable<AxialGaussianValues, 4> Gz_Table{{0, 0, 0, 0}, {0, 0, 0, 0}};
     PackedHashTable<AxialGaussianValues, 4> Gr_Table{{0, 0, 0, 0}, {0, 0, 0, 0}};
 
@@ -65,10 +65,10 @@ public:
      * @math   G = G^zG^r.
      * @output Empty configured tables.
      */
-    AxialGaussianKernel(const AxialConfig& axialconfig_, const AxialGaussianValues& mu_F1D_g_) {
-        labels_S1D_sp = axialconfig_.labels_S1D_sp;
-        metadata.br_F = axialconfig_.br_F;
-        metadata.bz_F = axialconfig_.bz_F;
+    CylindricalGaussianKernel(const CylindricalSetting& cylindricalsetting_, const AxialGaussianValues& mu_F1D_g_) {
+        labels_S1D_sp = cylindricalsetting_.labels_S1D_sp;
+        metadata.br_F = cylindricalsetting_.br_F;
+        metadata.bz_F = cylindricalsetting_.bz_F;
         metadata.mu_F1D_g = mu_F1D_g_;
 
         assert((std::all_of(metadata.mu_F1D_g.begin(), metadata.mu_F1D_g.end(), [](double mu_F) {
@@ -76,7 +76,7 @@ public:
         })));
 
         // {α_sp} → (n_z^max,n_r^max,Λ^max,rorder^max).
-        for (const AxialSPLabel& label_ : labels_S1D_sp) {
+        for (const CylindricalSPLabel& label_ : labels_S1D_sp) {
             metadata.nzMax_I = std::max(metadata.nzMax_I, label_.nz_I);
             metadata.nrMax_I = std::max(metadata.nrMax_I, label_.nr_I);
             metadata.LambdaMax_I = std::max(metadata.LambdaMax_I, std::abs(label_.Lambda_I));
@@ -163,9 +163,9 @@ private:
 };
 
 template <int Ng_I>
-void AxialGaussianKernel<Ng_I>::build_tables() {
+void CylindricalGaussianKernel<Ng_I>::build_tables() {
     if (isBuilt_B) {return;}
-    std::cout << "[AxialGaussianKernel]: Building Gaussian tables for " << Ng_I << " Gaussians..." << std::endl;
+    std::cout << "[CylindricalGaussianKernel]: Building Gaussian tables for " << Ng_I << " Gaussians..." << std::endl;
 
     // n_z1+n_z2+n_z3+n_z4 ≡ 0 (mod 2).
     std::set<AxialGaussianKey> Gzkeys_Set;
@@ -203,7 +203,7 @@ void AxialGaussianKernel<Ng_I>::build_tables() {
 
     // {α_sp} → {(n_r,±Λ)}.
     std::set<std::array<int, 2>> nrLambda_Set;
-    for (const AxialSPLabel& label_ : labels_S1D_sp) {
+    for (const CylindricalSPLabel& label_ : labels_S1D_sp) {
         nrLambda_Set.insert({label_.nr_I, label_.Lambda_I});
         nrLambda_Set.insert({label_.nr_I, -label_.Lambda_I});
     }
@@ -258,27 +258,27 @@ void AxialGaussianKernel<Ng_I>::build_tables() {
 }
 
 template <int Ng_I>
-void AxialGaussianKernel<Ng_I>::to_cache(const std::string& filepath_Str) {
+void CylindricalGaussianKernel<Ng_I>::to_cache(const std::string& filepath_Str) {
     build_tables();
 
     // metadata ⊕ (Gz_Table,Gr_Table) → stream.
     std::ofstream output_(filepath_Str, std::ios::binary | std::ios::trunc);
-    assert(output_ && "[ERROR]: [AxialGaussianKernel::to_cache] cannot open cache file");
+    assert(output_ && "[ERROR]: [CylindricalGaussianKernel::to_cache] cannot open cache file");
     output_.write(reinterpret_cast<const char*>(&metadata), sizeof(metadata));
-    assert(output_ && "[ERROR]: [AxialGaussianKernel::to_cache] metadata write failed");
+    assert(output_ && "[ERROR]: [CylindricalGaussianKernel::to_cache] metadata write failed");
     Gz_Table.to_stream(output_);
     Gr_Table.to_stream(output_);
 }
 
 template <int Ng_I>
-void AxialGaussianKernel<Ng_I>::from_stream(std::istream& input_) {
+void CylindricalGaussianKernel<Ng_I>::from_stream(std::istream& input_) {
     // stream → cache metadata.
-    assert(input_ && "[ERROR]: [AxialGaussianKernel::from_stream] invalid input stream");
+    assert(input_ && "[ERROR]: [CylindricalGaussianKernel::from_stream] invalid input stream");
     Metadata cachedMetadata_{};
     input_.read(reinterpret_cast<char*>(&cachedMetadata_), sizeof(cachedMetadata_));
-    assert(input_ && "[ERROR]: [AxialGaussianKernel::from_stream] metadata read failed");
+    assert(input_ && "[ERROR]: [CylindricalGaussianKernel::from_stream] metadata read failed");
 
-    assert(cachedMetadata_ == metadata && "[ERROR]: [AxialGaussianKernel::from_stream] metadata mismatch");
+    assert(cachedMetadata_ == metadata && "[ERROR]: [CylindricalGaussianKernel::from_stream] metadata mismatch");
 
     // stream → (Gz_Table,Gr_Table).
     Gz_Table.from_stream(input_);
@@ -288,7 +288,7 @@ void AxialGaussianKernel<Ng_I>::from_stream(std::istream& input_) {
 }
 
 template <int Ng_I>
-const typename AxialGaussianKernel<Ng_I>::AxialGaussianValues& AxialGaussianKernel<Ng_I>::read_Gz(int nz1_I, int nz2_I, int nz3_I, int nz4_I) const {
+const typename CylindricalGaussianKernel<Ng_I>::AxialGaussianValues& CylindricalGaussianKernel<Ng_I>::read_Gz(int nz1_I, int nz2_I, int nz3_I, int nz4_I) const {
     assert(isBuilt_B);
     assert((nz1_I + nz2_I + nz3_I + nz4_I) % 2 == 0);
     const AxialGaussianKey key_I1D_q = canonicalize_key(nz1_I, nz2_I, nz3_I, nz4_I);
@@ -296,7 +296,7 @@ const typename AxialGaussianKernel<Ng_I>::AxialGaussianValues& AxialGaussianKern
 }
 
 template <int Ng_I>
-const typename AxialGaussianKernel<Ng_I>::AxialGaussianValues& AxialGaussianKernel<Ng_I>::read_Gr(int nr1_I, int Lambda1_I, int nr2_I, int Lambda2_I, int nr3_I, int Lambda3_I, int nr4_I, int Lambda4_I) const {
+const typename CylindricalGaussianKernel<Ng_I>::AxialGaussianValues& CylindricalGaussianKernel<Ng_I>::read_Gr(int nr1_I, int Lambda1_I, int nr2_I, int Lambda2_I, int nr3_I, int Lambda3_I, int nr4_I, int Lambda4_I) const {
     // {(n_ra,Λ_a)} → {k_a} → canonical key.
     assert(isBuilt_B);
     assert(Lambda1_I + Lambda2_I == Lambda3_I + Lambda4_I);
@@ -309,12 +309,12 @@ const typename AxialGaussianKernel<Ng_I>::AxialGaussianValues& AxialGaussianKern
 }
 
 template <int Ng_I>
-int AxialGaussianKernel<Ng_I>::pack_rkey(int nr_I, int Lambda_I) const {
+int CylindricalGaussianKernel<Ng_I>::pack_rkey(int nr_I, int Lambda_I) const {
     return nr_I * (2 * metadata.LambdaMax_I + 1) + Lambda_I + metadata.LambdaMax_I;
 }
 
 template <int Ng_I>
-typename AxialGaussianKernel<Ng_I>::AxialGaussianKey AxialGaussianKernel<Ng_I>::canonicalize_key(int key1_I, int key2_I, int key3_I, int key4_I) {
+typename CylindricalGaussianKernel<Ng_I>::AxialGaussianKey CylindricalGaussianKernel<Ng_I>::canonicalize_key(int key1_I, int key2_I, int key3_I, int key4_I) {
     // (1234,2143,3412,4321) → lexicographic minimum.
     const AxialGaussianKey key1234_I1D_q{key1_I, key2_I, key3_I, key4_I};
     const AxialGaussianKey key2143_I1D_q{key2_I, key1_I, key4_I, key3_I};
@@ -324,7 +324,7 @@ typename AxialGaussianKernel<Ng_I>::AxialGaussianKey AxialGaussianKernel<Ng_I>::
 }
 
 template <int Ng_I>
-double AxialGaussianKernel<Ng_I>::calc_G1D(int n1_I, int n2_I, int n3_I, int n4_I, double mu_F, double b_F) {
+double CylindricalGaussianKernel<Ng_I>::calc_G1D(int n1_I, int n2_I, int n3_I, int n4_I, double mu_F, double b_F) {
     // min(n_a,n_c) ≥ min(n_b,n_d).
     const int isSwap_I = static_cast<int>(std::min(n2_I, n4_I) > std::min(n1_I, n3_I));
     const int na_I = n1_I + isSwap_I * (n2_I - n1_I);
@@ -359,7 +359,7 @@ double AxialGaussianKernel<Ng_I>::calc_G1D(int n1_I, int n2_I, int n3_I, int n4_
 }
 
 template <int Ng_I>
-double AxialGaussianKernel<Ng_I>::calc_polar_cartesian_coeff(int nr_I, int Lambda_I, int ny_I) {
+double CylindricalGaussianKernel<Ng_I>::calc_polar_cartesian_coeff(int nr_I, int Lambda_I, int ny_I) {
     // (n_r,Λ,n_y) → (n_x,q_min,q_max,C).
     assert(ny_I >= 0 && ny_I <= 2 * nr_I + std::abs(Lambda_I));
     const int nx_I = 2 * nr_I + std::abs(Lambda_I) - ny_I;
@@ -375,7 +375,7 @@ double AxialGaussianKernel<Ng_I>::calc_polar_cartesian_coeff(int nr_I, int Lambd
 }
 
 template <int Ng_I>
-double AxialGaussianKernel<Ng_I>::calc_Gr(int nr1_I, int Lambda1_I, int nr2_I, int Lambda2_I, int nr3_I, int Lambda3_I, int nr4_I, int Lambda4_I, double mu_F, double br_F) {
+double CylindricalGaussianKernel<Ng_I>::calc_Gr(int nr1_I, int Lambda1_I, int nr2_I, int Lambda2_I, int nr3_I, int Lambda3_I, int nr4_I, int Lambda4_I, double mu_F, double br_F) {
     // {(n_ra,Λ_a)} → Σ_{n_ya} P_y Π_a C_a G_x^1D G_y^1D.
     assert(Lambda1_I + Lambda2_I == Lambda3_I + Lambda4_I);
     double Gr_F = 0.0;
