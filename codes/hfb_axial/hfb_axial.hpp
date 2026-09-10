@@ -14,11 +14,11 @@
 #include <Eigen/Core>
 #include <Eigen/Eigenvalues>
 
-#include "axial_basis.hpp"
-#include "axial_config.hpp"
-#include "axial_coulomb_field.hpp"
-#include "axial_gaussian_coulomb.hpp"
-#include "axial_gaussian_gogny.hpp"
+#include "cylindrical_basis.hpp"
+#include "cylindrical_config.hpp"
+#include "cylindrical_coulomb_field.hpp"
+#include "cylindrical_gaussian_coulomb.hpp"
+#include "cylindrical_gaussian_gogny.hpp"
 #include "hfb_edf_gogny.hpp"
 #include "hfb_edf_skyrme.hpp"
 #include "hfb_settings.hpp"
@@ -35,7 +35,7 @@ class AxialHFBField;
 class AxialHFBBlock {
 public:
     int twoOmega_I = 0; // 2Ω = 2Λ + 2Σ.
-    std::vector<AxialSPLabel> labels_S1D_bsp{}; // {α_bsp} within one block.
+    std::vector<CylindricalSPLabel> labels_S1D_bsp{}; // {α_bsp} within one block.
     std::vector<int> indices_I1D_bsp{}; // sp(block,bsp): global indices.
     std::vector<int> indices_I1D_bup{}; // {bsp | Σ=+1/2}.
     std::vector<int> indices_I1D_bdn{}; // {bsp | Σ=-1/2}.
@@ -60,7 +60,7 @@ public:
      * @math {α_{bsp},sp_{global}} → B_{2Ω}
      * @output Zero-initialized block matrices.
     */
-    AxialHFBBlock(const std::vector<AxialSPLabel>& labels_S1D_bsp_, const std::vector<int>& indices_I1D_bsp_) {
+    AxialHFBBlock(const std::vector<CylindricalSPLabel>& labels_S1D_bsp_, const std::vector<int>& indices_I1D_bsp_) {
         // ({α_bsp},{sp_global}) → block metadata.
         labels_S1D_bsp = labels_S1D_bsp_;
         indices_I1D_bsp = indices_I1D_bsp_;
@@ -119,7 +119,7 @@ public:
      * @math (Γ_q,Δ_q) → (Γ_q,Δ_q)+(Γ_q^{loc},Δ_q^{loc})
      * @output Accumulated block fields.
      */
-    void add_Gamma_Delta_from_field(const AxialHFBField& field_, const AxialBasis& global_basis_);
+    void add_Gamma_Delta_from_field(const AxialHFBField& field_, const CylindricalBasis& global_basis_);
 
     /**
      * @brief Add the Lipkin-Nogami field correction.
@@ -153,14 +153,14 @@ public:
      * @math C_{axial} → {B_{2Ω,π}}
      * @output Zero-initialized block list.
      */
-    AxialHFBBlockList(const AxialConfig& axialconfig_, const HFBSettings&, bool isNeutron_B_) {
+    AxialHFBBlockList(const CylindricalSetting& cylindricalsetting_, const HFBSettings&, bool isNeutron_B_) {
         isNeutron_B = isNeutron_B_;
         // C_axial → {B_{2Ω,π}}.
-        assert(axialconfig_.labels_S2D_block_bsp.size() == axialconfig_.indices_I2D_block_bsp.size());
-        const int Nblock_I = static_cast<int>(axialconfig_.labels_S2D_block_bsp.size());
+        assert(cylindricalsetting_.labels_S2D_block_bsp.size() == cylindricalsetting_.indices_I2D_block_bsp.size());
+        const int Nblock_I = static_cast<int>(cylindricalsetting_.labels_S2D_block_bsp.size());
         blocks_X1D_block.reserve(Nblock_I);
         for (int block_I = 0; block_I < Nblock_I; ++block_I) {
-            blocks_X1D_block.emplace_back(axialconfig_.labels_S2D_block_bsp[block_I], axialconfig_.indices_I2D_block_bsp[block_I]);
+            blocks_X1D_block.emplace_back(cylindricalsetting_.labels_S2D_block_bsp[block_I], cylindricalsetting_.indices_I2D_block_bsp[block_I]);
         }
     }
 
@@ -176,7 +176,7 @@ public:
      * @math {Γ_q,Δ_q}_{block} → {Γ_q+Γ_q^{loc},Δ_q+Δ_q^{loc}}_{block}
      * @output Accumulated block fields.
      */
-    void add_Gamma_Delta_from_field(const AxialHFBField& field_, const AxialBasis& global_basis_);
+    void add_Gamma_Delta_from_field(const AxialHFBField& field_, const CylindricalBasis& global_basis_);
 
     /**
      * @brief Apply the Lipkin-Nogami correction.
@@ -198,21 +198,21 @@ public:
      * @math \bar v_Gρ → (Γ_n,Γ_p)
      * @output Updated particle-hole matrices.
      */
-    static void add_Gamma_from_Gogny(AxialHFBBlockList& blocklist_p_, AxialHFBBlockList& blocklist_n_, const AxialGaussianGogny& gogny_);
+    static void add_Gamma_from_Gogny(AxialHFBBlockList& blocklist_p_, AxialHFBBlockList& blocklist_n_, const CylindricalGaussianGogny& gogny_);
 
     /**
      * @brief Add finite-range Gogny pairing fields.
      * @math \bar v_Gκ → (Δ_n,Δ_p)
      * @output Updated pairing matrices.
      */
-    static void add_Delta_from_Gogny(AxialHFBBlockList& blocklist_p_, AxialHFBBlockList& blocklist_n_, const AxialGaussianGogny& gogny_);
+    static void add_Delta_from_Gogny(AxialHFBBlockList& blocklist_p_, AxialHFBBlockList& blocklist_n_, const CylindricalGaussianGogny& gogny_);
 
     /**
      * @brief Add finite-range Coulomb matrix elements.
      * @math \bar v_Cρ_p → Γ_p
      * @output Updated proton particle-hole matrices.
      */
-    static void add_coulomb_from_Gaussian(AxialHFBBlockList& blocklist_p_, const AxialGaussianCoulomb& coulomb_);
+    static void add_coulomb_from_Gaussian(AxialHFBBlockList& blocklist_p_, const CylindricalGaussianCoulomb& coulomb_);
 };
 
 /**
@@ -286,19 +286,19 @@ public:
      * @math (N_z,N_r) → 0_{N_z×N_r}
      * @output Zero-initialized density grids.
      */
-    explicit AxialHFBDensity(const AxialConfig& axialconfig_) {
+    explicit AxialHFBDensity(const CylindricalSetting& cylindricalsetting_) {
         // (N_z,N_r) → {D(z,r)}=0.
-        rho_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        tau_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        kappa_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        rhoD2_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        rhoDr_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        rhoDz_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        Jzphi_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        Jphiz_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        Jphir_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        Jrphi_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        dJ_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        rho_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        tau_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        kappa_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        rhoD2_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        rhoDr_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        rhoDz_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        Jzphi_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        Jphiz_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        Jphir_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        Jrphi_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        dJ_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
 
         set_zero();
     }
@@ -315,7 +315,7 @@ public:
      * @math {B_{block}} → (ρ,τ,κ,Δρ,∇ρ,J)
      * @output Updated density grids.
      */
-    void update_density(const AxialBasis& global_basis_, const AxialHFBBlockList& blocklist_);
+    void update_density(const CylindricalBasis& global_basis_, const AxialHFBBlockList& blocklist_);
 };
 
 /**
@@ -341,19 +341,19 @@ public:
      * @math (N_z,N_r) → 0_{N_z×N_r}
      * @output Zero-initialized field grids.
      */
-    explicit AxialHFBField(const AxialConfig& axialconfig_) {
+    explicit AxialHFBField(const CylindricalSetting& cylindricalsetting_) {
         // (N_z,N_r) → {F(z,r)}=0.
-        vcent_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        vmass_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        vpair_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        vD2_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        vDr_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        vDz_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        vJzphi_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        vJphiz_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        vJphir_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        vJrphi_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
-        vdJ_F2D_z_r.resize(axialconfig_.Nz_I, axialconfig_.Nr_I);
+        vcent_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        vmass_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        vpair_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        vD2_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        vDr_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        vDz_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        vJzphi_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        vJphiz_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        vJphir_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        vJrphi_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        vdJ_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
 
         set_zero();
     }
@@ -370,7 +370,7 @@ public:
      * @math ρ_p → v_C^{dir}+v_C^{Slater}
      * @output Updated proton central field.
      */
-    static void add_coulomb_field(AxialHFBField& field_p_, const AxialHFBDensity& density_p_, const AxialCoulombField& coulomb_field_, const EDFParamsSkyrme& edf_skyrme_);
+    static void add_coulomb_field(AxialHFBField& field_p_, const AxialHFBDensity& density_p_, const CylindricalCoulombField& coulomb_field_, const EDFParamsSkyrme& edf_skyrme_);
 
     /**
      * @brief Add local pairing fields.
@@ -392,19 +392,19 @@ public:
  */
 class AxialHFB {
 public:
-    AxialConfig axialconfig; // Axial basis configuration.
+    CylindricalSetting cylindricalsetting; // Axial basis configuration.
     HFBSettings hfbsettings; // HFB iteration controls.
     EDFParamsSkyrme edf_skyrme; // Base local EDF.
-    AxialGaussianGogny gogny; // Finite-range Gogny interaction.
-    AxialGaussianCoulomb coulomb; // Finite-range Coulomb interaction.
-    AxialBasis global_basis; // Global axial basis.
+    CylindricalGaussianGogny gogny; // Finite-range Gogny interaction.
+    CylindricalGaussianCoulomb coulomb; // Finite-range Coulomb interaction.
+    CylindricalBasis global_basis; // Global axial basis.
     AxialHFBBlockList blocklist_n; // Neutron HFB blocks.
     AxialHFBBlockList blocklist_p; // Proton HFB blocks.
     AxialHFBDensity density_p; // Proton local densities.
     AxialHFBDensity density_n; // Neutron local densities.
     AxialHFBField field_p; // Proton local fields.
     AxialHFBField field_n; // Neutron local fields.
-    AxialCoulombField coulombField; // ρ_p → v_C^{dir}.
+    CylindricalCoulombField coulombField; // ρ_p → v_C^{dir}.
 
 public:
     /**
@@ -412,24 +412,24 @@ public:
      * @math (C_{axial},P_{HFB},C_{Skyrme}) → HFB[D1S]
      * @output Initialized HFB solver.
      */
-    AxialHFB(const AxialConfig& axialconfig_, const HFBSettings& hfbsettings_, const EDFParamsSkyrme& edf_skyrme_)
-    : AxialHFB(axialconfig_, hfbsettings_, edf_skyrme_, EDFParamsGogny::D1S()) {}
+    AxialHFB(const CylindricalSetting& cylindricalsetting_, const HFBSettings& hfbsettings_, const EDFParamsSkyrme& edf_skyrme_)
+    : AxialHFB(cylindricalsetting_, hfbsettings_, edf_skyrme_, EDFParamsGogny::D1S()) {}
 
     /**
      * @brief Construct an axial HFB solver from Gogny parameters.
      * @math (C_{axial},P_{HFB},C_{Skyrme},P_G) → HFB
      * @output Initialized HFB solver.
      */
-    AxialHFB(const AxialConfig& axialconfig_, const HFBSettings& hfbsettings_, const EDFParamsSkyrme& edf_skyrme_, const EDFParamsGogny& edf_gogny_)
-    : AxialHFB(axialconfig_, hfbsettings_, edf_skyrme_, AxialGaussianGogny(axialconfig_, edf_gogny_.forceName_Str, edf_gogny_.mu_F1D_g, edf_gogny_.W_F1D_g, edf_gogny_.B_F1D_g, edf_gogny_.H_F1D_g, edf_gogny_.M_F1D_g)) {}
+    AxialHFB(const CylindricalSetting& cylindricalsetting_, const HFBSettings& hfbsettings_, const EDFParamsSkyrme& edf_skyrme_, const EDFParamsGogny& edf_gogny_)
+    : AxialHFB(cylindricalsetting_, hfbsettings_, edf_skyrme_, CylindricalGaussianGogny(cylindricalsetting_, edf_gogny_.forceName_Str, edf_gogny_.mu_F1D_g, edf_gogny_.W_F1D_g, edf_gogny_.B_F1D_g, edf_gogny_.H_F1D_g, edf_gogny_.M_F1D_g)) {}
 
     /**
      * @brief Construct an axial HFB solver from interactions.
      * @math (C_{axial},P_{HFB},C_{Skyrme},V_G) → HFB
      * @output Initialized HFB solver.
      */
-    AxialHFB(const AxialConfig& axialconfig_, const HFBSettings& hfbsettings_, const EDFParamsSkyrme& edf_skyrme_, AxialGaussianGogny gogny_)
-    : axialconfig(axialconfig_), hfbsettings(hfbsettings_), edf_skyrme(edf_skyrme_), gogny(std::move(gogny_)), coulomb(axialconfig_, edf_skyrme_.e2charg_F), global_basis(axialconfig_), blocklist_n(axialconfig_, hfbsettings_, true), blocklist_p(axialconfig_, hfbsettings_, false), density_p(axialconfig_), density_n(axialconfig_), field_p(axialconfig_), field_n(axialconfig_), coulombField(global_basis) {}
+    AxialHFB(const CylindricalSetting& cylindricalsetting_, const HFBSettings& hfbsettings_, const EDFParamsSkyrme& edf_skyrme_, CylindricalGaussianGogny gogny_)
+    : cylindricalsetting(cylindricalsetting_), hfbsettings(hfbsettings_), edf_skyrme(edf_skyrme_), gogny(std::move(gogny_)), coulomb(cylindricalsetting_, edf_skyrme_.e2charg_F), global_basis(cylindricalsetting_), blocklist_n(cylindricalsetting_, hfbsettings_, true), blocklist_p(cylindricalsetting_, hfbsettings_, false), density_p(cylindricalsetting_), density_n(cylindricalsetting_), field_p(cylindricalsetting_), field_n(cylindricalsetting_), coulombField(global_basis) {}
 
     /**
      * @brief Initialize deformed Woods-Saxon fields.

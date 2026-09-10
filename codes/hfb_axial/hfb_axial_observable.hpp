@@ -107,8 +107,8 @@ LocalEnergyTrace calc_local_energy_trace(const AxialHFB& hfb_, const EDFParamsSk
     const auto& field_n_ = hfb_.field_n;
     const auto& field_p_ = hfb_.field_p;
     const auto& w_F2D_z_r = hfb_.global_basis.w_F2D_z_r;
-    const int Nr_I = hfb_.axialconfig.Nr_I;
-    const int Nz_I = hfb_.axialconfig.Nz_I;
+    const int Nr_I = hfb_.cylindricalsetting.Nr_I;
+    const int Nz_I = hfb_.cylindricalsetting.Nz_I;
 
     // E_C^{Slater} = C_Cρ_p^{4/3}.
     constexpr double pi_F = 3.141592653589793238462643383279502884;
@@ -278,8 +278,8 @@ inline void AxialHFBObservable::update_observable(const AxialHFB& hfb_, const Ax
 inline void AxialHFBObservable::update_observable(const AxialHFB& hfb_, const std::vector<AxialHFBBlocking>& activeBlockings_) {
     const auto& density_n_ = hfb_.density_n;
     const auto& density_p_ = hfb_.density_p;
-    const int Nr_I = hfb_.axialconfig.Nr_I;
-    const int Nz_I = hfb_.axialconfig.Nz_I;
+    const int Nr_I = hfb_.cylindricalsetting.Nr_I;
+    const int Nz_I = hfb_.cylindricalsetting.Nz_I;
     const auto& blocklist_n_ = hfb_.blocklist_n;
     const auto& blocklist_p_ = hfb_.blocklist_p;
     const auto& hfbsettings_ = hfb_.hfbsettings;

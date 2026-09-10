@@ -29,9 +29,9 @@ int main() {
     const int Ztarget_I = 50;
     const int Nshell_I = 20;
     const double b0_F = 2.03901407814296;
-    AxialConfig axialconfig_(b0_F, b0_F, Nshell_I, true, true);
-    axialconfig_.Nr_I = 40;
-    axialconfig_.Nz_I = 40;
+    CylindricalSetting cylindricalsetting_(b0_F, b0_F, Nshell_I, true, true);
+    cylindricalsetting_.Nr_I = 40;
+    cylindricalsetting_.Nz_I = 40;
 
     // S_HFB → S_SLY4+regularized-pairing.
     HFBSettings hfbsettings_ = HFBSettings::setting_skyrme();
@@ -45,11 +45,11 @@ int main() {
     edf_skyrme_.CpV0_1_F = -370.2;
 
     // Inputs → stdout.
-    std::cout << "[Input] (N,Z,Nshell,b0,Nz,Nr) = (" << Ntarget_I << "," << Ztarget_I << "," << Nshell_I << "," << b0_F << "," << axialconfig_.Nz_I << "," << axialconfig_.Nr_I << ")\n";
+    std::cout << "[Input] (N,Z,Nshell,b0,Nz,Nr) = (" << Ntarget_I << "," << Ztarget_I << "," << Nshell_I << "," << b0_F << "," << cylindricalsetting_.Nz_I << "," << cylindricalsetting_.Nr_I << ")\n";
     std::cout << "[Input] functional = " << edf_skyrme_.functionalName_Str << ", EspCut [MeV] = " << hfbsettings_.EspCut_F << "\n";
 
     // (C_axial,S_HFB,SLY4) → HFB → O.
-    AxialHFB hfb_(axialconfig_, hfbsettings_, edf_skyrme_);
+    AxialHFB hfb_(cylindricalsetting_, hfbsettings_, edf_skyrme_);
     hfb_.initialize_WS_field(Ntarget_I, Ztarget_I);
     hfb_.iterate(Ntarget_I, Ztarget_I);
     AxialHFBObservable observable_;

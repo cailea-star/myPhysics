@@ -95,8 +95,8 @@ void AxialHFB::initialize_WS_field(int Ntarget_I, int Ztarget_I, double beta2_F,
     const double amu_F = 931.494013;
 
     // (N,Z) → (A,R_{WS},R_{LS}).
-    const int Nz_I = axialconfig.Nz_I;
-    const int Nr_I = axialconfig.Nr_I;
+    const int Nz_I = cylindricalsetting.Nz_I;
+    const int Nr_I = cylindricalsetting.Nr_I;
     const int Atarget_I = Ntarget_I + Ztarget_I;
     const double Atarget_F = static_cast<double>(Atarget_I);
     const EDFParamsSkyrme active_edf_ = hfbsettings.make_active_edf(edf_skyrme, Atarget_I);
@@ -104,7 +104,7 @@ void AxialHFB::initialize_WS_field(int Ntarget_I, int Ztarget_I, double beta2_F,
     const double R0LS_F = r0LS_F * std::cbrt(Atarget_F);
 
     // (b_z,b_r,β_2,β_3,β_4) → G_{WS}.
-    const double b0_basis_F = AxialConfig::bzbr_to_b0beta20(axialconfig.bz_F, axialconfig.br_F).first;
+    const double b0_basis_F = CylindricalSetting::bzbr_to_b0beta20(cylindricalsetting.bz_F, cylindricalsetting.br_F).first;
     const WSShapeGeometry ws_shape_ = WSShapeGeometry::from_beta(beta2_F, beta3_F, beta4_F, b0_basis_F, edf_skyrme.hbzero_F, Atarget_F);
 
     // I_n=(N-Z)/A; I_p=(Z-N)/A.

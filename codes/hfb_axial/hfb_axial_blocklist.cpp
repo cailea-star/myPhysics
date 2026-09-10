@@ -24,7 +24,7 @@ void AxialHFBBlockList::set_zero_Gamma_Delta() {
  * @math   {Γ_q,Δ_q}_{block} → {Γ_q+Γ_q^{loc},Δ_q+Δ_q^{loc}}_{block}
  * @output Accumulated block fields.
  */
-void AxialHFBBlockList::add_Gamma_Delta_from_field(const AxialHFBField& field_, const AxialBasis& global_basis_) {
+void AxialHFBBlockList::add_Gamma_Delta_from_field(const AxialHFBField& field_, const CylindricalBasis& global_basis_) {
     const int Nblock_I = static_cast<int>(blocks_X1D_block.size());
 
     #pragma omp parallel for schedule(static)
@@ -126,7 +126,7 @@ void AxialHFBBlockList::update_UV_E_rho_kappa(const HFBSettings& hfbsettings_) {
  * @math   Γ^q_{13}=Σ_{24}(\bar v^{same}_{12;34}ρ^q_{42}+\bar v^{cross}_{12;34}ρ^{\bar q}_{42})
  * @output Updated neutron and proton Γ matrices.
  */
-void AxialHFBBlockList::add_Gamma_from_Gogny(AxialHFBBlockList& blocklist_p_, AxialHFBBlockList& blocklist_n_, const AxialGaussianGogny& gogny_) {
+void AxialHFBBlockList::add_Gamma_from_Gogny(AxialHFBBlockList& blocklist_p_, AxialHFBBlockList& blocklist_n_, const CylindricalGaussianGogny& gogny_) {
     assert(blocklist_n_.blocks_X1D_block.size() == blocklist_p_.blocks_X1D_block.size());
     const int Nblock_I = static_cast<int>(blocklist_n_.blocks_X1D_block.size());
 
@@ -152,7 +152,7 @@ void AxialHFBBlockList::add_Gamma_from_Gogny(AxialHFBBlockList& blocklist_p_, Ax
                 for (int bsp4_I = 0; bsp4_I < Nbsp24_I; ++bsp4_I) {
                     const int sp2_I = block24n_.indices_I1D_bsp[bsp2_I];
                     const int sp4_I = block24n_.indices_I1D_bsp[bsp4_I];
-                    const AxialGaussianGogny::GognyElements gognyElements1234_ = gogny_.read_v(sp1_I, sp2_I, sp3_I, sp4_I);
+                    const CylindricalGaussianGogny::GognyElements gognyElements1234_ = gogny_.read_v(sp1_I, sp2_I, sp3_I, sp4_I);
 
                     // (ρ⁺⁺_{42},ρ⁻⁻_{42}) → (Γ⁺⁺,Γ⁻⁻).
                     const double rho42PosPosn_F = block24n_.rhoPosPos_F2D_bsp_bsp(bsp4_I, bsp2_I);
@@ -221,7 +221,7 @@ void AxialHFBBlockList::add_Gamma_from_Gogny(AxialHFBBlockList& blocklist_p_, Ax
  * @math   Δ^q_{12̄}=Σ_{34}v̄^{same}_{12̄34̄}κ^q_{34̄}
  * @output Updated neutron and proton Δ matrices.
  */
-void AxialHFBBlockList::add_Delta_from_Gogny(AxialHFBBlockList& blocklist_p_, AxialHFBBlockList& blocklist_n_, const AxialGaussianGogny& gogny_) {
+void AxialHFBBlockList::add_Delta_from_Gogny(AxialHFBBlockList& blocklist_p_, AxialHFBBlockList& blocklist_n_, const CylindricalGaussianGogny& gogny_) {
     assert(blocklist_n_.blocks_X1D_block.size() == blocklist_p_.blocks_X1D_block.size());
     const int Nblock_I = static_cast<int>(blocklist_n_.blocks_X1D_block.size());
 
@@ -246,7 +246,7 @@ void AxialHFBBlockList::add_Delta_from_Gogny(AxialHFBBlockList& blocklist_p_, Ax
                 for (int bsp4_I = 0; bsp4_I < Nbsp34_I; ++bsp4_I) {
                     const int sp3_I = block34n_.indices_I1D_bsp[bsp3_I];
                     const int sp4_I = block34n_.indices_I1D_bsp[bsp4_I];
-                    const AxialGaussianGogny::GognyElements gognyElements1234_ = gogny_.read_v(sp1_I, sp2_I, sp3_I, sp4_I);
+                    const CylindricalGaussianGogny::GognyElements gognyElements1234_ = gogny_.read_v(sp1_I, sp2_I, sp3_I, sp4_I);
                     const double kappa34PosNegn_F = block34n_.kappaPosNeg_F2D_bsp_bsp(bsp3_I, bsp4_I);
                     const double kappa34NegPosn_F = block34n_.kappaNegPos_F2D_bsp_bsp(bsp3_I, bsp4_I);
                     const double kappa34PosNegp_F = block34p_.kappaPosNeg_F2D_bsp_bsp(bsp3_I, bsp4_I);
@@ -297,7 +297,7 @@ void AxialHFBBlockList::add_Delta_from_Gogny(AxialHFBBlockList& blocklist_p_, Ax
  * @math   Γ^{p,s}_{13}=Σ_{24,t}v̄^{C,stst}_{12;34}ρ^{p,t}_{42}; s,t=±
  * @output Updated proton Γ matrices.
  */
-void AxialHFBBlockList::add_coulomb_from_Gaussian(AxialHFBBlockList& blocklist_p_, const AxialGaussianCoulomb& coulomb_) {
+void AxialHFBBlockList::add_coulomb_from_Gaussian(AxialHFBBlockList& blocklist_p_, const CylindricalGaussianCoulomb& coulomb_) {
     const int Nblock_I = static_cast<int>(blocklist_p_.blocks_X1D_block.size());
 
     // (block_{13},bsp_1,bsp_3) → Γ^{C,p}_{13}.
@@ -317,7 +317,7 @@ void AxialHFBBlockList::add_coulomb_from_Gaussian(AxialHFBBlockList& blocklist_p
                 for (int bsp4_I = 0; bsp4_I < Nbsp24_I; ++bsp4_I) {
                     const int sp2_I = block24p_.indices_I1D_bsp[bsp2_I];
                     const int sp4_I = block24p_.indices_I1D_bsp[bsp4_I];
-                    const AxialGaussianCoulomb::GammaElements coulombElements1234_ = coulomb_.read_v(sp1_I, sp2_I, sp3_I, sp4_I);
+                    const CylindricalGaussianCoulomb::GammaElements coulombElements1234_ = coulomb_.read_v(sp1_I, sp2_I, sp3_I, sp4_I);
 
                     // (ρ⁺⁺_{42},ρ⁻⁻_{42}) → (Γ⁺⁺,Γ⁻⁻).
                     const double rho42PosPosp_F = block24p_.rhoPosPos_F2D_bsp_bsp(bsp4_I, bsp2_I);

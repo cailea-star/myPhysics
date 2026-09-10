@@ -30,20 +30,20 @@ int main() {
     const int Ntarget_I = Atarget_I - Ztarget_I;
     const int Nshell_I = 20;
     const double b0_F = 2.07166250195026;
-    AxialConfig axialconfig_(b0_F, b0_F, Nshell_I, true, true);
-    axialconfig_.Nr_I = 40;
-    axialconfig_.Nz_I = 40;
+    CylindricalSetting cylindricalsetting_(b0_F, b0_F, Nshell_I, true, true);
+    cylindricalsetting_.Nr_I = 40;
+    cylindricalsetting_.Nz_I = 40;
 
     // (C_axial,S_HFB,UNEDF1) → inputs.
     HFBSettings hfbsettings_ = HFBSettings::setting_skyrme();
     hfbsettings_.useEspCut_B = true;
     hfbsettings_.useLipkinNogami_B = true;
     const EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::UNEDF1();
-    std::cout << "[Input] (N,Z,Nshell,b0,Nz,Nr) = (" << Ntarget_I << "," << Ztarget_I << "," << Nshell_I << "," << b0_F << "," << axialconfig_.Nz_I << "," << axialconfig_.Nr_I << ")\n";
+    std::cout << "[Input] (N,Z,Nshell,b0,Nz,Nr) = (" << Ntarget_I << "," << Ztarget_I << "," << Nshell_I << "," << b0_F << "," << cylindricalsetting_.Nz_I << "," << cylindricalsetting_.Nr_I << ")\n";
     std::cout << "[Input] functional = " << edf_skyrme_.functionalName_Str << ", Lipkin-Nogami = true\n";
 
     // (C_axial,S_HFB,UNEDF1) → HFB → O.
-    AxialHFB hfb_(axialconfig_, hfbsettings_, edf_skyrme_);
+    AxialHFB hfb_(cylindricalsetting_, hfbsettings_, edf_skyrme_);
     hfb_.initialize_WS_field(Ntarget_I, Ztarget_I);
     hfb_.iterate(Ntarget_I, Ztarget_I);
     AxialHFBObservable observable_;

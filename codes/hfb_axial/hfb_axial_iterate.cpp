@@ -176,18 +176,18 @@ void print_summary(const AxialHFBObservable& observable_, const HFBSettings& hfb
  * @math {B_μ} → stdout
  * @output Formatted blocking rows.
  */
-void print_blocking(const AxialConfig& axialconfig_, const std::vector<AxialHFBBlocking>& activeBlockings_) {
+void print_blocking(const CylindricalSetting& cylindricalsetting_, const std::vector<AxialHFBBlocking>& activeBlockings_) {
     for (const AxialHFBBlocking& blocking_ : activeBlockings_) {
-        if (blocking_.block_I < 0 || blocking_.block_I >= static_cast<int>(axialconfig_.labels_S2D_block_bsp.size())) {continue;}
+        if (blocking_.block_I < 0 || blocking_.block_I >= static_cast<int>(cylindricalsetting_.labels_S2D_block_bsp.size())) {continue;}
         if (blocking_.bqp_I < 0) {continue;}
-        const auto& labels_S1D_bsp = axialconfig_.labels_S2D_block_bsp[blocking_.block_I];
+        const auto& labels_S1D_bsp = cylindricalsetting_.labels_S2D_block_bsp[blocking_.block_I];
         if (blocking_.blockedU_F1D_bsp.size() != labels_S1D_bsp.size()) {continue;}
         if (blocking_.blockedV_F1D_bsp.size() != labels_S1D_bsp.size()) {continue;}
 
         // max(|U|,|V|) → bsp_max.
         Eigen::Index bspMax_I = 0;
         (blocking_.blockedU_F1D_bsp.cwiseAbs().cwiseMax(blocking_.blockedV_F1D_bsp.cwiseAbs())).maxCoeff(&bspMax_I);
-        const AxialSPLabel& label_ = labels_S1D_bsp[bspMax_I];
+        const CylindricalSPLabel& label_ = labels_S1D_bsp[bspMax_I];
 
         // (q,block,bqp,overlap,α_bsp) → stdout.
         std::cout << "      blocking " << (blocking_.isNeutron_B ? "n" : "p");
@@ -228,7 +228,7 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
     // Selected kernels → cached tables.
     if (hfbsettings.termSwitches.addFiniteRangeGogny_B) {gogny.build_tables();}
     if (hfbsettings.termSwitches.addFiniteRangeCoulomb_B) {coulomb.build_tables();}
-    if (hfbsettings.termSwitches.addLocalCoulomb_B) {coulombField.build(axialconfig.useParity_B, edfActive_.e2charg_F);}
+    if (hfbsettings.termSwitches.addLocalCoulomb_B) {coulombField.build(cylindricalsetting.useParity_B, edfActive_.e2charg_F);}
 
     // (D_p,D_n) → (F_p,F_n).
     const auto rebuild_fields_Func = [&]() {
@@ -290,7 +290,7 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
     BroydenIterator broyden_(7, calc_Gx_Func, mixingInitial_F, x_F1D_packed, Gx_F1D_packed);
     observable_.update_observable(*this, activeBlockings_);
     print_summary(observable_, hfbsettings, 0, 0.0, mixingInitial_F);
-    print_blocking(axialconfig, activeBlockings_);
+    print_blocking(cylindricalsetting, activeBlockings_);
 
     // x_i → x_{i+1}, ||G(x_i)-x_i||_∞ → ε_i.
     const int NiterationsMax_I = 100;
@@ -301,7 +301,7 @@ void AxialHFB::iterate(int Ntarget_I, int Ztarget_I, std::vector<AxialHFBBlockin
         const double error_F = broyden_.iterate(calc_Gx_Func, alpha_F);
         observable_.update_observable(*this, activeBlockings_);
         print_summary(observable_, hfbsettings, iteration_I, error_F, alpha_F);
-        print_blocking(axialconfig, activeBlockings_);
+        print_blocking(cylindricalsetting, activeBlockings_);
         if (std::isfinite(error_F) && error_F <= hfbsettings.accuracy_F) {break;}
         if (std::isfinite(error_F) && error_F < errorPrevious_F) {
             alpha_F = std::min(alphaMax_F, alpha_F * 1.10);

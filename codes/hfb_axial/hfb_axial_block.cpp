@@ -20,7 +20,7 @@ void AxialHFBBlock::set_zero_Gamma_Delta() {
     DeltaNegPos_F2D_bsp_bsp.setZero();
 }
 
-void AxialHFBBlock::add_Gamma_Delta_from_field(const AxialHFBField& field_, const AxialBasis& global_basis_) {
+void AxialHFBBlock::add_Gamma_Delta_from_field(const AxialHFBField& field_, const CylindricalBasis& global_basis_) {
     // Real time-even fields; local spin-singlet pairing.
     const int Nz_I = static_cast<int>(field_.vcent_F2D_z_r.rows());
     const int Nr_I = static_cast<int>(field_.vcent_F2D_z_r.cols());

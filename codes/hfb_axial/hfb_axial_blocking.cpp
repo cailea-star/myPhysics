@@ -137,7 +137,7 @@ std::vector<AxialHFBBlocking> AxialHFBBlocking::list_candidates(const HFBSetting
         const AxialHFBBlock& block_ = blocklist_.blocks_X1D_block[candidate_.block_I];
         Eigen::Index bspMax_I = 0;
         blocking_.blockedU_F1D_bsp.cwiseAbs().cwiseMax(blocking_.blockedV_F1D_bsp.cwiseAbs()).maxCoeff(&bspMax_I);
-        const AxialSPLabel& label_ = block_.labels_S1D_bsp[bspMax_I];
+        const CylindricalSPLabel& label_ = block_.labels_S1D_bsp[bspMax_I];
         std::cout << "  num=" << std::setw(3) << blockings_X1D_candidate.size() + 1 << " block=" << std::setw(3) << candidate_.block_I + 1 << " qp=" << std::setw(3) << candidate_.bqp_I + 1 << " Eqp=" << std::setw(12) << std::setprecision(6) << candidate_.Eqp_F << " diff=" << std::setw(12) << candidate_.EqpDifference_F << " v2=" << std::setw(10) << candidate_.Vnorm2_F << " label=" << label_.twoOmega_I << "/2" << (label_.isParityPositive_B ? "+" : "-") << "[" << label_.N_I << "," << label_.nz_I << "," << label_.Lambda_I << "]\n";
         blocking_.overlap_F = 1.0;
         blockings_X1D_candidate.push_back(std::move(blocking_));

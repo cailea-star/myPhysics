@@ -16,7 +16,7 @@
 
 #include <Eigen/Core>
 
-#include "axial_basis.hpp"
+#include "cylindrical_basis.hpp"
 #include "hfb_axial.hpp"
 
 /**
@@ -56,7 +56,7 @@ inline void debug_print_matrix(const char* name_Str_, const Eigen::MatrixXd& mat
  * @math (ζ_z,η_r) → stdout
  * @output Selected mesh endpoints.
  */
-inline void debug_meshes(const AxialBasis& basis_) {
+inline void debug_meshes(const CylindricalBasis& basis_) {
     const auto& zeta_F1D_z = basis_.zeta_F1D_z;
     const auto& eta_F1D_r = basis_.eta_F1D_r;
 
@@ -75,21 +75,21 @@ inline void debug_meshes(const AxialBasis& basis_) {
  * @math {α_{sp}} → stdout
  * @output Selected basis labels.
  */
-inline void debug_labels(const AxialBasis& basis_) {
+inline void debug_labels(const CylindricalBasis& basis_) {
     const int Nsp_I = static_cast<int>(basis_.labels_S1D_sp.size());
     const int Nshow_I = Nsp_I <= 10 ? Nsp_I : 5;
 
     // {α_{sp}}_{first} → stdout.
     std::cout << "\n【debug begin】spLabels::C++  (sp_num =" << Nsp_I << ")" << std::endl;
     for (int sp_I = 0; sp_I < Nshow_I; ++sp_I) {
-        const AxialSPLabel& label_ = basis_.labels_S1D_sp[sp_I];
+        const CylindricalSPLabel& label_ = basis_.labels_S1D_sp[sp_I];
         std::cout << "  [" << sp_I << "] (nz=" << label_.nz_I << ",nr=" << label_.nr_I << ",L=" << label_.Lambda_I << ",N=" << label_.N_I << "," << (label_.twoSigma_I > 0 ? "up" : "dn") << ")" << std::endl;
     }
 
     // {α_{sp}}_{last} → stdout.
     if (Nsp_I > 10) {std::cout << "  ..." << std::endl;}
     for (int sp_I = std::max(Nshow_I, Nsp_I - 5); sp_I < Nsp_I; ++sp_I) {
-        const AxialSPLabel& label_ = basis_.labels_S1D_sp[sp_I];
+        const CylindricalSPLabel& label_ = basis_.labels_S1D_sp[sp_I];
         std::cout << "  [" << sp_I << "] (nz=" << label_.nz_I << ",nr=" << label_.nr_I << ",L=" << label_.Lambda_I << ",N=" << label_.N_I << "," << (label_.twoSigma_I > 0 ? "up" : "dn") << ")" << std::endl;
     }
     std::cout << "【debug end】spLabels::C++" << std::endl;
@@ -181,7 +181,7 @@ inline void override_UV(std::vector<AxialHFBBlock>& blocks_X1D_block_, double la
  * @math D_q(z,r) → stdout
  * @output Density normalization and submatrices.
  */
-inline void debug_density(const AxialBasis& basis_, const AxialHFBDensity& density_) {
+inline void debug_density(const CylindricalBasis& basis_, const AxialHFBDensity& density_) {
     const auto weight_Func = [&](int r_I, int z_I) {
         return basis_.w_F2D_z_r(z_I, r_I);
     };

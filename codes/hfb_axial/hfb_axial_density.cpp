@@ -30,7 +30,7 @@ void AxialHFBDensity::set_zero() {
  * @output Updated density grids.
  * @note   Real axial matrices; time-odd densities are omitted.
  */
-void AxialHFBDensity::update_density(const AxialBasis& global_basis_, const AxialHFBBlockList& blocklist_) {
+void AxialHFBDensity::update_density(const CylindricalBasis& global_basis_, const AxialHFBBlockList& blocklist_) {
     set_zero();
     const int Nz_I = static_cast<int>(rho_F2D_z_r.rows());
     const int Nr_I = static_cast<int>(rho_F2D_z_r.cols());

@@ -28,9 +28,9 @@ int main() {
     // (b₀,N_shell,N_r,N_z) ← run_000001.
     const int Nshell_I = 10;
     const double b0_F = 1.75000371403579;
-    AxialConfig axialconfig_(b0_F, b0_F, Nshell_I, true, true);
-    axialconfig_.Nr_I = 40;
-    axialconfig_.Nz_I = 40;
+    CylindricalSetting cylindricalsetting_(b0_F, b0_F, Nshell_I, true, true);
+    cylindricalsetting_.Nr_I = 40;
+    cylindricalsetting_.Nz_I = 40;
 
     // ⁴⁸Ca → ⁴⁷Ca(n⁻¹).
     const int Ncore_I = 28;
@@ -51,7 +51,7 @@ int main() {
 
     // ⁴⁸Ca → {B_μ | μ=1,…,6}.
     EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::SKMstar();
-    AxialHFB hfb_(axialconfig_, hfbsettings_, edf_skyrme_);
+    AxialHFB hfb_(cylindricalsetting_, hfbsettings_, edf_skyrme_);
     hfb_.initialize_WS_field(Ncore_I, Zcore_I);
     hfb_.iterate(Ncore_I, Zcore_I);
     const AxialHFB hfbCore_ = hfb_;

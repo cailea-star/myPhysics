@@ -30,10 +30,10 @@ int main() {
     const int Nshell_I = 20;
     const double b0_F = 2.13396610;
     const double beta20_F = 0.40;
-    const auto [bz_F, br_F] = AxialConfig::b0beta20_to_bzbr(b0_F, beta20_F);
-    AxialConfig axialconfig_(bz_F, br_F, Nshell_I, true, true);
-    axialconfig_.Nr_I = 50;
-    axialconfig_.Nz_I = 50;
+    const auto [bz_F, br_F] = CylindricalSetting::b0beta20_to_bzbr(b0_F, beta20_F);
+    CylindricalSetting cylindricalsetting_(bz_F, br_F, Nshell_I, true, true);
+    cylindricalsetting_.Nr_I = 50;
+    cylindricalsetting_.Nz_I = 50;
 
     // S_HFB → S_D1S.
     HFBSettings hfbsettings_ = HFBSettings::setting_gogny();
@@ -43,11 +43,11 @@ int main() {
     const EDFParamsGogny edf_gogny_ = EDFParamsGogny::D1S();
 
     // Inputs → stdout.
-    std::cout << "[Input] (N,Z,Nshell,b0,beta20,Nz,Nr) = (" << Ntarget_I << "," << Ztarget_I << "," << Nshell_I << "," << b0_F << "," << beta20_F << "," << axialconfig_.Nz_I << "," << axialconfig_.Nr_I << ")\n";
+    std::cout << "[Input] (N,Z,Nshell,b0,beta20,Nz,Nr) = (" << Ntarget_I << "," << Ztarget_I << "," << Nshell_I << "," << b0_F << "," << beta20_F << "," << cylindricalsetting_.Nz_I << "," << cylindricalsetting_.Nr_I << ")\n";
     std::cout << "[Input] force = " << edf_gogny_.forceName_Str << ", Coulomb = false\n";
 
     // (C_axial,S_HFB,D1S) → HFB → O.
-    AxialHFB hfb_(axialconfig_, hfbsettings_, edf_gogny_.make_local_edf(), edf_gogny_);
+    AxialHFB hfb_(cylindricalsetting_, hfbsettings_, edf_gogny_.make_local_edf(), edf_gogny_);
     hfb_.initialize_WS_field(Ntarget_I, Ztarget_I, beta20_F);
     hfb_.iterate(Ntarget_I, Ztarget_I);
     AxialHFBObservable observable_;
