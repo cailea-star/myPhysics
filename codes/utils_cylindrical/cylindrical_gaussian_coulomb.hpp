@@ -1,5 +1,5 @@
 /**
- * @file    axial_gaussian_coulomb.hpp
+ * @file    cylindrical_gaussian_coulomb.hpp
  * @author  cailea
  * @date    2026-05-27
  * @brief   Gaussian Coulomb interaction in an axial HO basis.
@@ -17,13 +17,13 @@
 #include <iostream>
 #include <string>
 
-#include "axial_gaussian_kernel.hpp"
+#include "cylindrical_gaussian_kernel.hpp"
 #include "integration_gauss.hpp"
 
 /**
  * @brief Represent Gaussian Coulomb matrix elements.
  */
-class AxialGaussianCoulomb {
+class CylindricalGaussianCoulomb {
 public:
     static constexpr int Ng_I = 9;
     using GaussianValues = std::array<double, Ng_I>;
@@ -42,9 +42,9 @@ private:
     };
 
     int Nshell_I = 0;
-    std::vector<AxialSPLabel> labels_S1D_sp{};
+    std::vector<CylindricalSPLabel> labels_S1D_sp{};
     CoulombExpansion expansion;
-    AxialGaussianKernel<Ng_I> kernel;
+    CylindricalGaussianKernel<Ng_I> kernel;
 
 public:
     /**
@@ -52,10 +52,10 @@ public:
      * @math   r^{-1} \approx \sum_g W_g\exp(-r^2/\mu_g^2)
      * @output Initialized Coulomb interaction.
      */
-    AxialGaussianCoulomb(const AxialConfig& axialconfig_, double e2_F_ = 1.439978408596513)
-    : expansion(calc_coulomb_expansion(axialconfig_.bz_F, axialconfig_.br_F, e2_F_)), kernel(axialconfig_, expansion.mu_F1D_g) {
-        Nshell_I = axialconfig_.Nshell_I;
-        labels_S1D_sp = axialconfig_.labels_S1D_sp;
+    CylindricalGaussianCoulomb(const CylindricalSetting& cylindricalsetting_, double e2_F_ = 1.439978408596513)
+    : expansion(calc_coulomb_expansion(cylindricalsetting_.bz_F, cylindricalsetting_.br_F, e2_F_)), kernel(cylindricalsetting_, expansion.mu_F1D_g) {
+        Nshell_I = cylindricalsetting_.Nshell_I;
+        labels_S1D_sp = cylindricalsetting_.labels_S1D_sp;
     }
 
     /**
@@ -70,12 +70,12 @@ public:
         const std::string filepath_Str = kernel_cache_path(Nshell_I);
         if (std::filesystem::exists(filepath_Str)) {
             std::ifstream input_(filepath_Str, std::ios::binary);
-            assert(input_ && "[ERROR]: [AxialGaussianCoulomb::build_tables] cannot open cache file");
+            assert(input_ && "[ERROR]: [CylindricalGaussianCoulomb::build_tables] cannot open cache file");
             kernel.from_stream(input_);
-            std::cout << "[AxialGaussianCoulomb]: Loaded Gaussian kernel cache: " << filepath_Str << std::endl;
+            std::cout << "[CylindricalGaussianCoulomb]: Loaded Gaussian kernel cache: " << filepath_Str << std::endl;
             return;
         }
-        std::cout << "[AxialGaussianCoulomb]: Writing Gaussian kernel cache: " << filepath_Str << std::endl;
+        std::cout << "[CylindricalGaussianCoulomb]: Writing Gaussian kernel cache: " << filepath_Str << std::endl;
         kernel.build_tables();
         kernel.to_cache(filepath_Str);
     }
@@ -93,10 +93,10 @@ public:
         assert(sp4_I >= 0 && sp4_I < static_cast<int>(labels_S1D_sp.size()));
 
         // sp_a → α_a.
-        const AxialSPLabel& label1_ = labels_S1D_sp[sp1_I];
-        const AxialSPLabel& label2_ = labels_S1D_sp[sp2_I];
-        const AxialSPLabel& label3_ = labels_S1D_sp[sp3_I];
-        const AxialSPLabel& label4_ = labels_S1D_sp[sp4_I];
+        const CylindricalSPLabel& label1_ = labels_S1D_sp[sp1_I];
+        const CylindricalSPLabel& label2_ = labels_S1D_sp[sp2_I];
+        const CylindricalSPLabel& label3_ = labels_S1D_sp[sp3_I];
+        const CylindricalSPLabel& label4_ = labels_S1D_sp[sp4_I];
 
         // (Λ, 2Σ) → (-Λ, -2Σ).
         const auto apply_reversal_sign_Func = [](int quantum_I, bool isReversed_B) {
@@ -133,10 +133,10 @@ private:
      */
     double calc_spatial_v(int sp1_I, bool isReversed1_B, int sp2_I, bool isReversed2_B, int sp3_I, bool isReversed3_B, int sp4_I, bool isReversed4_B) const {
         // sp_a → α_a.
-        const AxialSPLabel& label1_ = labels_S1D_sp[sp1_I];
-        const AxialSPLabel& label2_ = labels_S1D_sp[sp2_I];
-        const AxialSPLabel& label3_ = labels_S1D_sp[sp3_I];
-        const AxialSPLabel& label4_ = labels_S1D_sp[sp4_I];
+        const CylindricalSPLabel& label1_ = labels_S1D_sp[sp1_I];
+        const CylindricalSPLabel& label2_ = labels_S1D_sp[sp2_I];
+        const CylindricalSPLabel& label3_ = labels_S1D_sp[sp3_I];
+        const CylindricalSPLabel& label4_ = labels_S1D_sp[sp4_I];
 
         // Λ_a → (-1)^{bar_a} Λ_a.
         const auto apply_reversal_sign_Func = [](int quantum_I, bool isReversed_B) {

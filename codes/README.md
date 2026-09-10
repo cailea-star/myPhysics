@@ -6,7 +6,7 @@ C++20 computational-physics tools. Each numerical module pairs a header implemen
 codes/
 ├── utils/             # general numerical tools
 ├── utils_spherical/   # spherical-coordinate tools
-├── utils_axial/       # axial-coordinate tools
+├── utils_cylindrical/ # cylindrical-coordinate tools
 ├── test/              # usage and acceptance tests
 ├── CMakeLists.txt     # build configuration
 ├── install.bat        # compiler and dependency installation

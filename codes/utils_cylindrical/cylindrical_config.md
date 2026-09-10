@@ -4,7 +4,7 @@ An axial harmonic-oscillator configuration specifies the coordinate scales, fini
 
 ### Coordinate Scales
 
-The coordinate conventions follow [Axial Harmonic-Oscillator Basis](axial_basis.md). Let $z$ and $r_\perp$ denote the axial and radial coordinates. The oscillator lengths $b_z$ and $b_{r_\perp}$ define
+The coordinate conventions follow [Axial Harmonic-Oscillator Basis](cylindrical_basis.md). Let $z$ and $r_\perp$ denote the axial and radial coordinates. The oscillator lengths $b_z$ and $b_{r_\perp}$ define
 
 $$
 \zeta=\frac{z}{b_z},\qquad \eta=\left(\frac{r_\perp}{b_{r_\perp}}\right)^2.
@@ -30,7 +30,7 @@ $$
 
 ### Single-Particle Labels
 
-The harmonic-oscillator single-particle states follow [Axial Harmonic-Oscillator Hamiltonian](axial_basis.md#axial-harmonic-oscillator-hamiltonian). Let $n_z$ and $n_r$ be nonnegative axial and radial quantum numbers. Let $\Lambda$ denote the $z$ projection of orbital angular momentum and $\Sigma=\pm\frac12$ the $z$ projection of spin. A state is labeled by
+The harmonic-oscillator single-particle states follow [Axial Harmonic-Oscillator Hamiltonian](cylindrical_basis.md#axial-harmonic-oscillator-hamiltonian). Let $n_z$ and $n_r$ be nonnegative axial and radial quantum numbers. Let $\Lambda$ denote the $z$ projection of orbital angular momentum and $\Sigma=\pm\frac12$ the $z$ projection of spin. A state is labeled by
 
 $$
 \alpha\equiv(n_z,n_r,\Lambda,\Sigma).
@@ -78,7 +78,7 @@ The positive-$\Omega$ blocks contain one representative of each time-reversal pa
 
 ### Energy Cutoff
 
-The single-particle spectrum follows [Axial Harmonic-Oscillator Hamiltonian](axial_basis.md#axial-harmonic-oscillator-hamiltonian). Let $m$ be the particle mass. The axial and transverse oscillator energies are
+The single-particle spectrum follows [Axial Harmonic-Oscillator Hamiltonian](cylindrical_basis.md#axial-harmonic-oscillator-hamiltonian). Let $m$ be the particle mass. The axial and transverse oscillator energies are
 
 $$
 \hbar\omega_z=\frac{\hbar^2}{mb_z^2},\qquad \hbar\omega_{r_\perp}=\frac{\hbar^2}{mb_{r_\perp}^2}.

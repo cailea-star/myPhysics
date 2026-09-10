@@ -1,5 +1,5 @@
 /**
- * @file    axial_gaussian_gogny.hpp
+ * @file    cylindrical_gaussian_gogny.hpp
  * @author  cailea
  * @date    2026-05-23
  * @brief   Gaussian Gogny interaction in an axial HO basis.
@@ -18,12 +18,12 @@
 #include <tuple>
 #include <utility>
 
-#include "axial_gaussian_kernel.hpp"
+#include "cylindrical_gaussian_kernel.hpp"
 
 /**
  * @brief Represent Gaussian Gogny matrix elements.
  */
-class AxialGaussianGogny {
+class CylindricalGaussianGogny {
 public:
     using GaussianValues = std::array<double, 2>;
 
@@ -51,14 +51,14 @@ public:
 
 private:
     int Nshell_I = 0;
-    std::vector<AxialSPLabel> labels_S1D_sp{};
+    std::vector<CylindricalSPLabel> labels_S1D_sp{};
     std::string forceName_Str{};
     GaussianValues mu_F1D_g{};
     GaussianValues W_F1D_g{};
     GaussianValues B_F1D_g{};
     GaussianValues H_F1D_g{};
     GaussianValues M_F1D_g{};
-    AxialGaussianKernel<2> kernel;
+    CylindricalGaussianKernel<2> kernel;
 
 public:
     /**
@@ -66,10 +66,10 @@ public:
      * @math   P_G \oplus C_{axial} \rightarrow V_G
      * @output Initialized Gogny interaction.
      */
-    AxialGaussianGogny(const AxialConfig& axialconfig_, const std::string& forceName_Str_, const GaussianValues& mu_F1D_g_, const GaussianValues& W_F1D_g_, const GaussianValues& B_F1D_g_, const GaussianValues& H_F1D_g_, const GaussianValues& M_F1D_g_)
-    : kernel(axialconfig_, mu_F1D_g_) {
-        Nshell_I = axialconfig_.Nshell_I;
-        labels_S1D_sp = axialconfig_.labels_S1D_sp;
+    CylindricalGaussianGogny(const CylindricalSetting& cylindricalsetting_, const std::string& forceName_Str_, const GaussianValues& mu_F1D_g_, const GaussianValues& W_F1D_g_, const GaussianValues& B_F1D_g_, const GaussianValues& H_F1D_g_, const GaussianValues& M_F1D_g_)
+    : kernel(cylindricalsetting_, mu_F1D_g_) {
+        Nshell_I = cylindricalsetting_.Nshell_I;
+        labels_S1D_sp = cylindricalsetting_.labels_S1D_sp;
         forceName_Str = forceName_Str_;
         mu_F1D_g = mu_F1D_g_;
         W_F1D_g = W_F1D_g_;
@@ -90,12 +90,12 @@ public:
         const std::string filepath_Str = kernel_cache_path(forceName_Str, Nshell_I);
         if (std::filesystem::exists(filepath_Str)) {
             std::ifstream input_(filepath_Str, std::ios::binary);
-            assert(input_ && "[ERROR]: [AxialGaussianGogny::build_tables] cannot open cache file");
+            assert(input_ && "[ERROR]: [CylindricalGaussianGogny::build_tables] cannot open cache file");
             kernel.from_stream(input_);
-            std::cout << "[AxialGaussianGogny]: Loaded Gaussian kernel cache: " << filepath_Str << std::endl;
+            std::cout << "[CylindricalGaussianGogny]: Loaded Gaussian kernel cache: " << filepath_Str << std::endl;
             return;
         }
-        std::cout << "[AxialGaussianGogny]: Writing Gaussian kernel cache: " << filepath_Str << std::endl;
+        std::cout << "[CylindricalGaussianGogny]: Writing Gaussian kernel cache: " << filepath_Str << std::endl;
         kernel.build_tables();
         kernel.to_cache(filepath_Str);
     }
@@ -113,10 +113,10 @@ public:
         assert(sp4_I >= 0 && sp4_I < static_cast<int>(labels_S1D_sp.size()));
 
         // sp_a → α_a.
-        const AxialSPLabel& label1_ = labels_S1D_sp[sp1_I];
-        const AxialSPLabel& label2_ = labels_S1D_sp[sp2_I];
-        const AxialSPLabel& label3_ = labels_S1D_sp[sp3_I];
-        const AxialSPLabel& label4_ = labels_S1D_sp[sp4_I];
+        const CylindricalSPLabel& label1_ = labels_S1D_sp[sp1_I];
+        const CylindricalSPLabel& label2_ = labels_S1D_sp[sp2_I];
+        const CylindricalSPLabel& label3_ = labels_S1D_sp[sp3_I];
+        const CylindricalSPLabel& label4_ = labels_S1D_sp[sp4_I];
 
         // (Λ, 2Σ) → (-Λ, -2Σ).
         const auto apply_reversal_sign_Func = [](int quantum_I, bool isReversed_B) {
@@ -176,10 +176,10 @@ private:
      */
     GognyChannels calc_spatial_v(int sp1_I, bool isReversed1_B, int sp2_I, bool isReversed2_B, int sp3_I, bool isReversed3_B, int sp4_I, bool isReversed4_B) const {
         // sp_a → α_a.
-        const AxialSPLabel& label1_ = labels_S1D_sp[sp1_I];
-        const AxialSPLabel& label2_ = labels_S1D_sp[sp2_I];
-        const AxialSPLabel& label3_ = labels_S1D_sp[sp3_I];
-        const AxialSPLabel& label4_ = labels_S1D_sp[sp4_I];
+        const CylindricalSPLabel& label1_ = labels_S1D_sp[sp1_I];
+        const CylindricalSPLabel& label2_ = labels_S1D_sp[sp2_I];
+        const CylindricalSPLabel& label3_ = labels_S1D_sp[sp3_I];
+        const CylindricalSPLabel& label4_ = labels_S1D_sp[sp4_I];
 
         // Λ_a → (-1)^{bar_a} Λ_a.
         const auto apply_reversal_sign_Func = [](int quantum_I, bool isReversed_B) {
