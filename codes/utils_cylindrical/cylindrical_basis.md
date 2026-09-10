@@ -1,6 +1,6 @@
 # Axial Harmonic-Oscillator Basis
 
-The state labels and oscillator lengths follow [Axial Harmonic-Oscillator Configuration](axial_config.md). The basis combines the one-dimensional and polar [harmonic-oscillator solutions](../../notes/quantum_mechanics/harmonic_oscillator_coordinate_space.md), with [Hermite](../../notes/mathematical_physics/specialfunction_hermite_polynomials.md) and [generalized Laguerre polynomials](../../notes/mathematical_physics/specialfunction_generalized_laguerre_polynomials.md).
+The state labels and oscillator lengths follow [Axial Harmonic-Oscillator Configuration](cylindrical_config.md). The basis combines the one-dimensional and polar [harmonic-oscillator solutions](../../notes/quantum_mechanics/harmonic_oscillator_coordinate_space.md), with [Hermite](../../notes/mathematical_physics/specialfunction_hermite_polynomials.md) and [generalized Laguerre polynomials](../../notes/mathematical_physics/specialfunction_generalized_laguerre_polynomials.md).
 
 ### Axial Harmonic-Oscillator Hamiltonian
 

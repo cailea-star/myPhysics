@@ -1,5 +1,5 @@
 /**
- * @file    axial_config.hpp
+ * @file    cylindrical_config.hpp
  * @author  cailea
  * @date    2026-05-02
  * @brief   Define axial harmonic-oscillator labels and configurations.
@@ -13,7 +13,7 @@
 #include <vector>
 #include <utility>
 
-class AxialSPLabel {
+class CylindricalSPLabel {
 public:
     int N_I = 0;                     // N = n_z + 2n_r + Λ
     int nz_I = 0;                    // n_z ≥ 0
@@ -28,7 +28,7 @@ public:
      * @math   N = n_z + 2n_r + Λ, 2Ω = 2Λ ± 1, π = (-1)^(n_z + Λ)
      * @output Initialized label.
      */
-    AxialSPLabel(int nz_I_, int nr_I_, int Lambda_I_, int twoOmega_I_) {
+    CylindricalSPLabel(int nz_I_, int nr_I_, int Lambda_I_, int twoOmega_I_) {
         N_I = nz_I_ + 2 * nr_I_ + Lambda_I_;
         nz_I = nz_I_;
         nr_I = nr_I_;
@@ -56,7 +56,7 @@ inline bool is_valid(int nz_I, int nr_I, int Lambda_I, int twoOmega_I, int twoSi
     return nzisNonnegative_B & nrisNonnegative_B & LambdaisNonnegative_B & twoOmegaisPositive_B & twoSigmaisValid_B & twoOmegaisConsistent_B & parityisConsistent_B;
 }
 
-class AxialConfig {
+class CylindricalSetting {
 public:
     int Nshell_I = 0;                                           // N_shell ≥ 0
     int Nz_I = 0;                                               // N_z = 2n_z^max + 8
@@ -65,8 +65,8 @@ public:
     double br_F = 0.0;                                          // η = (r / b_r)^2
     bool useParity_B = false;                                   // (Ω,π) blocks; z > 0 quadrature.
     bool useTimeReversal_B = false;                             // Ω > 0 representatives.
-    std::vector<AxialSPLabel> labels_S1D_sp{};                  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp
-    std::vector<std::vector<AxialSPLabel>> labels_S2D_block_bsp{}; // α_(block,bsp): labels grouped by Ω or (Ω,π)
+    std::vector<CylindricalSPLabel> labels_S1D_sp{};                  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp
+    std::vector<std::vector<CylindricalSPLabel>> labels_S2D_block_bsp{}; // α_(block,bsp): labels grouped by Ω or (Ω,π)
     std::vector<std::vector<int>> indices_I2D_block_bsp{};      // sp(block,bsp): global indices of block labels
 
     /**
@@ -75,7 +75,7 @@ public:
      * @output Single-particle labels, symmetry blocks, and quadrature orders.
      * @note   Only time-reversal reduction is implemented.
      */
-    AxialConfig(double bz_F_, double br_F_, int Nshell_I_, bool useParity_B_, bool useTimeReversal_B_) {
+    CylindricalSetting(double bz_F_, double br_F_, int Nshell_I_, bool useParity_B_, bool useTimeReversal_B_) {
         Nshell_I = Nshell_I_;
         bz_F = bz_F_;
         br_F = br_F_;
@@ -94,7 +94,7 @@ public:
         int nzMax_I = 0;
         int nrMax_I = 0;
         int LambdaMax_I = 0;
-        for (const AxialSPLabel& label_ : labels_S1D_sp) {
+        for (const CylindricalSPLabel& label_ : labels_S1D_sp) {
             nzMax_I = std::max(nzMax_I, label_.nz_I);
             nrMax_I = std::max(nrMax_I, label_.nr_I);
             LambdaMax_I = std::max(LambdaMax_I, label_.Lambda_I);
@@ -141,7 +141,7 @@ private:
     void fill_labels();
 };
 
-inline std::pair<double, double> AxialConfig::b0beta20_to_bzbr(double b0_F, double beta20_F) {
+inline std::pair<double, double> CylindricalSetting::b0beta20_to_bzbr(double b0_F, double beta20_F) {
     // (b_0,β_20) → (b_z,b_r)
     assert(std::isfinite(b0_F) && b0_F > 0.0);
     assert(std::isfinite(beta20_F));
@@ -150,7 +150,7 @@ inline std::pair<double, double> AxialConfig::b0beta20_to_bzbr(double b0_F, doub
     return {b0_F * std::exp(deformation_F), b0_F * std::exp(-0.5 * deformation_F)};
 }
 
-inline std::pair<double, double> AxialConfig::bzbr_to_b0beta20(double bz_F, double br_F) {
+inline std::pair<double, double> CylindricalSetting::bzbr_to_b0beta20(double bz_F, double br_F) {
     // (b_z,b_r) → (b_0,β_20)
     assert(std::isfinite(bz_F) && bz_F > 0.0);
     assert(std::isfinite(br_F) && br_F > 0.0);
@@ -160,14 +160,14 @@ inline std::pair<double, double> AxialConfig::bzbr_to_b0beta20(double bz_F, doub
     return {b0_F, beta20_F};
 }
 
-inline double AxialConfig::calc_epsilon(int nz_I, int nr_I, int Lambda_I) const {
+inline double CylindricalSetting::calc_epsilon(int nz_I, int nr_I, int Lambda_I) const {
     // (b_z,b_r) → (ε_z,ε_r)
     const double epsilonz_F = 1.0 / (bz_F * bz_F);
     const double epsilonr_F = 1.0 / (br_F * br_F);
     return epsilonz_F * (nz_I + 0.5) + epsilonr_F * (2 * nr_I + Lambda_I + 1);
 }
 
-inline double AxialConfig::calc_Ecut() const {
+inline double CylindricalSetting::calc_Ecut() const {
     // N_HO=Σ_{N=0}^{N_shell}(N+1)(N+2)/2; n_z^cut=ν^cut=N_HO/2.
     const int NHO_I = (Nshell_I + 1) * (Nshell_I + 2) * (Nshell_I + 3) / 6;
     const int nzCut_I = NHO_I / 2;
@@ -201,7 +201,7 @@ inline double AxialConfig::calc_Ecut() const {
     return calc_epsilon(candidates_I2D_candidate_field[candidate_I][0], 0, candidates_I2D_candidate_field[candidate_I][1]);
 }
 
-inline void AxialConfig::fill_labels() {
+inline void CylindricalSetting::fill_labels() {
     // (N_shell,b_z,b_r) → (bounds,E_cut).
     const int NHO_I = (Nshell_I + 1) * (Nshell_I + 2) * (Nshell_I + 3) / 6;
     const int nzCut_I = NHO_I / 2;
@@ -216,13 +216,13 @@ inline void AxialConfig::fill_labels() {
 
     // Ω → π → n_r → n_z → Λ_± → Σ_±
     for (int twoOmega_I = 1; twoOmega_I <= 2 * nuCut_I + 1; ++twoOmega_I) {
-        std::vector<AxialSPLabel> labelsOmega_S1D_bsp;
+        std::vector<CylindricalSPLabel> labelsOmega_S1D_bsp;
         std::vector<int> indicesOmega_I1D_bsp;
         const int LambdaUp_I = (twoOmega_I - 1) / 2;
         const int LambdaDown_I = (twoOmega_I + 1) / 2;
         const int nrMax_I = (nuCut_I - LambdaUp_I + 1) / 2;
         for (bool isParityPositive_B : {true, false}) {
-            std::vector<AxialSPLabel> labelsParity_S1D_bsp;
+            std::vector<CylindricalSPLabel> labelsParity_S1D_bsp;
             std::vector<int> indicesParity_I1D_bsp;
             auto& labelsTarget_S1D_bsp = useParity_B ? labelsParity_S1D_bsp : labelsOmega_S1D_bsp;
             auto& indicesTarget_I1D_bsp = useParity_B ? indicesParity_I1D_bsp : indicesOmega_I1D_bsp;
@@ -232,7 +232,7 @@ inline void AxialConfig::fill_labels() {
                         for (int twoSigma_I : {1, -1}) {
                             if (!is_valid(nz_I, nr_I, Lambda_I, twoOmega_I, twoSigma_I, isParityPositive_B)) {continue;}
                             if (calc_epsilon(nz_I, nr_I, Lambda_I) > Ecut_F) {continue;}
-                            const AxialSPLabel label_(nz_I, nr_I, Lambda_I, twoOmega_I);
+                            const CylindricalSPLabel label_(nz_I, nr_I, Lambda_I, twoOmega_I);
                             const int sp_I = static_cast<int>(labels_S1D_sp.size());
                             labels_S1D_sp.push_back(label_);
                             labelsTarget_S1D_bsp.push_back(label_);

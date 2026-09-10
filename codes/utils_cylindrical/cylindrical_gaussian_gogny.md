@@ -14,7 +14,7 @@ $$
 V_{\mathrm G}=\sum_{g=1}^{N_g}\left(W_g+B_gP_\sigma-H_gP_\tau-M_gP_\sigma P_\tau\right)f_g(r_{12}),
 $$
 
-where $P_\sigma$ and $P_\tau$ exchange spin and isospin, respectively. The spatial integrals follow [Axial Gaussian Matrix Elements](axial_gaussian_kernel.md).
+where $P_\sigma$ and $P_\tau$ exchange spin and isospin, respectively. The spatial integrals follow [Axial Gaussian Matrix Elements](cylindrical_gaussian_kernel.md).
 
 Each channel is antisymmetrized by
 
