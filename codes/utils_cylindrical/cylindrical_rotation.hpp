@@ -1,5 +1,5 @@
 /**
- * @file    axial_rotation.hpp
+ * @file    cylindrical_rotation.hpp
  * @author  cailea
  * @date    2026-09-06
  * @brief   Axial harmonic-oscillator rotation matrices.
@@ -19,12 +19,12 @@
 #include <unsupported/Eigen/CXX11/Tensor>
 #include <gsl/gsl_sf_gamma.h>
 
-#include "axial_config.hpp"
+#include "cylindrical_config.hpp"
 #include "integration_gauss.hpp"
 
 using doubleC = std::complex<double>;
 
-class AxialRotation {
+class CylindricalRotation {
 public:
     bool isBuilt_B = false; // True after successful build().
     int Nalpha_I = 1; // Number of α quadrature nodes.
@@ -34,7 +34,7 @@ public:
     Eigen::VectorXd weight_F1D_beta{}; // Σ_i w_i f(β_i) ≈ ∫₀^π sinβ f(β)dβ.
     double bz_F = 0.0; // Axial oscillator length.
     double br_F = 0.0; // Radial oscillator length.
-    std::vector<AxialSPLabel> labels_S1D_sp{}; // Positive-Ω labels.
+    std::vector<CylindricalSPLabel> labels_S1D_sp{}; // Positive-Ω labels.
 
     // Rows and columns: (+Ω,-Ω).
     Eigen::VectorXcd detRySimplexP_C1D_beta{}; // det d₊(β); det d₋ = (det d₊)*.
@@ -59,9 +59,9 @@ public:
      * @note   N_α,N_β,N_γ > 0.
      * @note   Weights exclude projection normalization factors.
      */
-    AxialRotation(const AxialConfig& axialconfig_, const std::vector<AxialSPLabel>& labels_S1D_sp_, int Nalpha_I_, int Nbeta_I_, int Ngamma_I_) {
-        bz_F = axialconfig_.bz_F;
-        br_F = axialconfig_.br_F;
+    CylindricalRotation(const CylindricalSetting& cylindricalsetting_, const std::vector<CylindricalSPLabel>& labels_S1D_sp_, int Nalpha_I_, int Nbeta_I_, int Ngamma_I_) {
+        bz_F = cylindricalsetting_.bz_F;
+        br_F = cylindricalsetting_.br_F;
         labels_S1D_sp = labels_S1D_sp_;
         Nalpha_I = Nalpha_I_;
         Nbeta_I = Nbeta_I_;
@@ -83,7 +83,7 @@ public:
         nu_I1D_sp.resize(Nsp_I);
         int nuMax_I = 0;
         for (int sp_I = 0; sp_I < Nsp_I; ++sp_I) {
-            const AxialSPLabel& label_ = labels_S1D_sp[sp_I];
+            const CylindricalSPLabel& label_ = labels_S1D_sp[sp_I];
             assert(is_valid(label_.nz_I, label_.nr_I, label_.Lambda_I, label_.twoOmega_I, label_.twoSigma_I, label_.isParityPositive_B));
             nu_I1D_sp(sp_I) = 2 * label_.nr_I + label_.Lambda_I;
             nuMax_I = std::max(nuMax_I, nu_I1D_sp(sp_I));
@@ -103,7 +103,7 @@ public:
 
         // C_sp,ny^± = C(n_r,±Λ,n_y).
         for (int sp_I = 0; sp_I < Nsp_I; ++sp_I) {
-            const AxialSPLabel& label_ = labels_S1D_sp[sp_I];
+            const CylindricalSPLabel& label_ = labels_S1D_sp[sp_I];
             for (int ny_I = 0; ny_I <= nu_I1D_sp(sp_I); ++ny_I) {
                 COmegaPos_F2D_sp_ny(sp_I, ny_I) = calc_polar_cartesian_coeff(label_.nr_I, label_.Lambda_I, ny_I);
                 COmegaNeg_F2D_sp_ny(sp_I, ny_I) = calc_polar_cartesian_coeff(label_.nr_I, -label_.Lambda_I, ny_I);
@@ -123,7 +123,7 @@ public:
      * @math   d_ab(β) = (C† R_Cartesian C)_ab d_spin(β)
      * @output R_y(β) and det d₊(β), ordered (+Ω,-Ω).
      * @note   Deformed truncation generally breaks matrix unitarity.
-     * @note   Changed configuration or angles require reconstructing AxialRotation.
+     * @note   Changed configuration or angles require reconstructing CylindricalRotation.
      */
     void build_Ry();
 
@@ -166,7 +166,7 @@ public:
     static double calc_polar_cartesian_coeff(int nr_I, int Lambda_I, int ny_I);
 };
 
-inline void AxialRotation::build() {
+inline void CylindricalRotation::build() {
     // Ready only after both rotation caches complete.
     isBuilt_B = false;
     build_Ry();
@@ -174,7 +174,7 @@ inline void AxialRotation::build() {
     isBuilt_B = true;
 }
 
-inline void AxialRotation::build_Rz() {
+inline void CylindricalRotation::build_Rz() {
     // α ∈ [0,2π); γ ∈ [0,4π).
     const Eigen::Index Nsp_I = static_cast<Eigen::Index>(labels_S1D_sp.size());
     const double pi_F = std::acos(-1.0);
@@ -215,7 +215,7 @@ inline void AxialRotation::build_Rz() {
     }
 }
 
-inline void AxialRotation::build_Ry() {
+inline void CylindricalRotation::build_Ry() {
     // {Ω > 0,β} → (N_sp,N_β).
     const int Nsp_I = static_cast<int>(labels_S1D_sp.size());
     const int Nbeta_I = static_cast<int>(beta_F1D_beta.size());
@@ -232,7 +232,7 @@ inline void AxialRotation::build_Ry() {
     nu_I1D_sp.resize(Nsp_I);
     int nuMax_I = 0;
     for (int sp_I = 0; sp_I < Nsp_I; ++sp_I) {
-        const AxialSPLabel& label_ = labels_S1D_sp[sp_I];
+        const CylindricalSPLabel& label_ = labels_S1D_sp[sp_I];
         assert(is_valid(label_.nz_I, label_.nr_I, label_.Lambda_I, label_.twoOmega_I, label_.twoSigma_I, label_.isParityPositive_B));
         nu_I1D_sp(sp_I) = 2 * label_.nr_I + label_.Lambda_I;
         nuMax_I = std::max(nuMax_I, nu_I1D_sp(sp_I));
@@ -262,8 +262,8 @@ inline void AxialRotation::build_Ry() {
         for (int sp2_I = 0; sp2_I < Nsp_I; ++sp2_I) {
             for (int sp1_I = 0; sp1_I < Nsp_I; ++sp1_I) {
                 // (sp1,sp2) → labels, spin indices, shared n_y range.
-                const AxialSPLabel& label1_ = labels_S1D_sp[sp1_I];
-                const AxialSPLabel& label2_ = labels_S1D_sp[sp2_I];
+                const CylindricalSPLabel& label1_ = labels_S1D_sp[sp1_I];
+                const CylindricalSPLabel& label2_ = labels_S1D_sp[sp2_I];
                 const int spin1_I = (1 - label1_.twoSigma_I) / 2;
                 const int spin2_I = (1 - label2_.twoSigma_I) / 2;
                 const int nyMax_I = std::min(nu_I1D_sp(sp1_I), nu_I1D_sp(sp2_I));
@@ -325,7 +325,7 @@ inline void AxialRotation::build_Ry() {
     }
 }
 
-inline double AxialRotation::calc_Ry_cartesian(int nx1_I, int nz1_I, int nx2_I, int nz2_I, int beta_I) const {
+inline double CylindricalRotation::calc_Ry_cartesian(int nx1_I, int nz1_I, int nx2_I, int nz2_I, int beta_I) const {
     // {n_x1,n_z1,n_x2,n_z2} ≥ 0; 0 ≤ i_β < N_β.
     assert(nx1_I >= 0 && nz1_I >= 0 && nx2_I >= 0 && nz2_I >= 0);
     assert(beta_I >= 0 && beta_I < K0_F1D_beta.size());
@@ -383,7 +383,7 @@ inline double AxialRotation::calc_Ry_cartesian(int nx1_I, int nz1_I, int nx2_I, 
     return d_F4D_nx1_nz1_nx2_nz2(nx1_I, nz1_I, nx2_I, nz2_I);
 }
 
-inline std::pair<Eigen::Matrix4d, double> AxialRotation::calc_H_K0(double bz_F, double br_F, double beta_F) {
+inline std::pair<Eigen::Matrix4d, double> CylindricalRotation::calc_H_K0(double bz_F, double br_F, double beta_F) {
     // b_r,b_z > 0; β ∈ ℝ.
     assert(std::isfinite(br_F) && br_F > 0.0);
     assert(std::isfinite(bz_F) && bz_F > 0.0);
@@ -425,7 +425,7 @@ inline std::pair<Eigen::Matrix4d, double> AxialRotation::calc_H_K0(double bz_F, 
     return {H_F2D_t_t, K0_F};
 }
 
-inline double AxialRotation::calc_polar_cartesian_coeff(int nr_I, int Lambda_I, int ny_I) {
+inline double CylindricalRotation::calc_polar_cartesian_coeff(int nr_I, int Lambda_I, int ny_I) {
     // (n_r,Λ,n_y) → (n_x,q_min,q_max,C).
     assert(ny_I >= 0 && ny_I <= 2 * nr_I + std::abs(Lambda_I));
     const int nx_I = 2 * nr_I + std::abs(Lambda_I) - ny_I;

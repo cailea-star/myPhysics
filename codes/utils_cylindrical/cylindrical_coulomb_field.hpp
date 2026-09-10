@@ -1,5 +1,5 @@
 /**
- * @file    axial_coulomb_field.hpp
+ * @file    cylindrical_coulomb_field.hpp
  * @author  cailea
  * @date    2026-09-03
  * @brief   Build and apply the axial direct-Coulomb kernel.
@@ -15,10 +15,10 @@
 #include <gsl/gsl_sf_bessel.h>
 #include <unsupported/Eigen/CXX11/Tensor>
 
-#include "axial_basis.hpp"
+#include "cylindrical_basis.hpp"
 #include "integration_gauss.hpp"
 
-class AxialCoulombField {
+class CylindricalCoulombField {
 public:
     bool isBuilt_B = false;
 
@@ -34,7 +34,7 @@ public:
      * @math   (z_i,r_j,w_{ij}) → K_C
      * @output Stored grid and unbuilt kernel.
      */
-    explicit AxialCoulombField(const AxialBasis& basis_) {
+    explicit CylindricalCoulombField(const CylindricalBasis& basis_) {
         z_F1D_z = basis_.z_F1D_z;
         r_F1D_r = basis_.r_F1D_r;
         w_F2D_z_r = basis_.w_F2D_z_r;
@@ -56,7 +56,7 @@ public:
     Eigen::MatrixXd calc_direct_field(const Eigen::MatrixXd& rho_F2D_z_r) const;
 };
 
-inline void AxialCoulombField::build(bool useParity_B, double e2_F) {
+inline void CylindricalCoulombField::build(bool useParity_B, double e2_F) {
     if (isBuilt_B) {return;}
 
     constexpr int Nlegendre_I = 80;
@@ -85,7 +85,7 @@ inline void AxialCoulombField::build(bool useParity_B, double e2_F) {
     // w_s contains the 2π azimuthal weight.
     const double factor_F = e2_F * 2.0 / std::sqrt(pi_F);
     const double reflectionWeight_F = static_cast<double>(useParity_B);
-    std::cout << "[AxialCoulombField] Building kernel (nleg=" << Nlegendre_I << ", grid=" << Nz_I << "x" << Nr_I << ")..." << std::endl;
+    std::cout << "[CylindricalCoulombField] Building kernel (nleg=" << Nlegendre_I << ", grid=" << Nz_I << "x" << Nr_I << ")..." << std::endl;
 
     // (u_x,s,t) → K_C(s,t).
     coulomb_F4D_zs_rs_zt_rt.setZero();
@@ -114,10 +114,10 @@ inline void AxialCoulombField::build(bool useParity_B, double e2_F) {
         }
     }
     isBuilt_B = true;
-    std::cout << "[AxialCoulombField] Kernel built." << std::endl;
+    std::cout << "[CylindricalCoulombField] Kernel built." << std::endl;
 }
 
-inline Eigen::MatrixXd AxialCoulombField::calc_direct_field(const Eigen::MatrixXd& rho_F2D_z_r) const {
+inline Eigen::MatrixXd CylindricalCoulombField::calc_direct_field(const Eigen::MatrixXd& rho_F2D_z_r) const {
     assert(isBuilt_B);
     assert(rho_F2D_z_r.rows() == z_F1D_z.size());
     assert(rho_F2D_z_r.cols() == r_F1D_r.size());

@@ -1,6 +1,6 @@
 # Axial Harmonic-Oscillator Rotations
 
-The oscillator lengths $b_{r_\perp},b_z>0$ follow [Axial Harmonic-Oscillator Basis](axial_basis.md).
+The oscillator lengths $b_{r_\perp},b_z>0$ follow [Axial Harmonic-Oscillator Basis](cylindrical_basis.md).
 
 ### Cartesian Harmonic-Oscillator Rotations
 
@@ -166,7 +166,7 @@ $$
 
 ### Cartesian-to-Cylindrical Transformation
 
-Using the radial functions in [Axial Harmonic-Oscillator Basis](axial_basis.md), define
+Using the radial functions in [Axial Harmonic-Oscillator Basis](cylindrical_basis.md), define
 
 $$
 \langle r_\perp,\varphi|n_r,\Lambda\rangle=\phi_{n_r}^{|\Lambda|}(r_\perp)\frac{e^{i\Lambda\varphi}}{\sqrt{2\pi}},\qquad n_r\in\mathbb N_0,\quad\Lambda\in\mathbb Z.

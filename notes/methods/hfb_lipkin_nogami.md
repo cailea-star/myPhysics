@@ -2,7 +2,7 @@
 
 ### Formulation
 
-Use the conventions of the [Hartree–Fock–Bogoliubov Method](hfb.md). Consider one particle species and a normalized zero-temperature HFB vacuum $|\Phi\rangle$, with $\langle\hat O\rangle\equiv\langle\Phi|\hat O|\Phi\rangle$.
+Use the conventions of the [Hartree–Fock–Bogoliubov Method](../../codes/utils/hfb.md). Consider one particle species and a normalized zero-temperature HFB vacuum $|\Phi\rangle$, with $\langle\hat O\rangle\equiv\langle\Phi|\hat O|\Phi\rangle$.
 
 The particle-number operator and its expectation value are
 
