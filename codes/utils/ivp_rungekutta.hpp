@@ -17,7 +17,7 @@ template<typename T> using RealT2TFunc = std::function<T(double, T)>;
 template<typename T> using RealTVec2TVecFunc = std::function<void(double, const Eigen::Ref<const Eigen::Vector<T, Eigen::Dynamic>>&, Eigen::Ref<Eigen::Vector<T, Eigen::Dynamic>>)>;
 
 template<typename T>
-class IVP_RK4State {
+class IVPRK4State {
 public:
     double tcurr_F = 0.0;
     Eigen::Vector<T, Eigen::Dynamic> ycurr_T1D_i{};
@@ -36,14 +36,14 @@ public:
      * @output Empty RK4 state.
      * @note   Requires assignment before stepping.
      */
-    IVP_RK4State() = default;
+    IVPRK4State() = default;
 
     /**
      * @brief  Initialize a vector RK4 recurrence.
      * @math   t_curr=t₀, y_curr=y₀
      * @output Initialized RK4 state.
      */
-    IVP_RK4State(const RealTVec2TVecFunc<T>& f_Func_, double t0_F, const Eigen::Ref<const Eigen::Vector<T, Eigen::Dynamic>>& y0_T1D_i) {
+    IVPRK4State(const RealTVec2TVecFunc<T>& f_Func_, double t0_F, const Eigen::Ref<const Eigen::Vector<T, Eigen::Dynamic>>& y0_T1D_i) {
         tcurr_F = t0_F;
         ycurr_T1D_i = y0_T1D_i;
         f_Func = f_Func_;
@@ -67,7 +67,7 @@ public:
 };
 
 template<typename T>
-Eigen::Vector<T, Eigen::Dynamic>& IVP_RK4State<T>::step(double tnext_F) {
+Eigen::Vector<T, Eigen::Dynamic>& IVPRK4State<T>::step(double tnext_F) {
     // (t_n,y_n) → {k_1,k_2,k_3,k_4} → (t_{n+1},y_{n+1}).
     assert(f_Func && ycurr_T1D_i.size() > 0);
     double dt_F = tnext_F - tcurr_F;
@@ -137,7 +137,7 @@ Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> ivp_rk4_vec(const RealTVec2TVec
     assert(Nt_I >= 2 && t_F1D_t.allFinite());
     assert(Ni_I > 0 && y0_T1D_i.allFinite());
     Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> y_T2D_i_t(Ni_I, Nt_I);
-    IVP_RK4State<T> rk4_State(f_Func, t_F1D_t(0), y0_T1D_i);
+    IVPRK4State<T> rk4_State(f_Func, t_F1D_t(0), y0_T1D_i);
     y_T2D_i_t.col(0) = y0_T1D_i;
     for (int t_I = 0; t_I < Nt_I - 1; ++t_I) {y_T2D_i_t.col(t_I + 1) = rk4_State.step(t_F1D_t(t_I + 1));}
     return y_T2D_i_t;
