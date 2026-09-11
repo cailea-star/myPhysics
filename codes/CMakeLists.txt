@@ -34,6 +34,7 @@ find_package(OpenMP REQUIRED)
 # 收集 cc 库的源文件, 配置库目标
 file(GLOB UTILS_CPPS CONFIGURE_DEPENDS "utils/*.cpp")
 file(GLOB UTILS_SPHERICAL_CPPS CONFIGURE_DEPENDS "utils_spherical/*.cpp")
+file(GLOB UTILS_CYLINDRICAL_CPPS CONFIGURE_DEPENDS "utils_cylindrical/*.cpp")
 add_library(mylib INTERFACE)                                        # 添加库目标, INTERFACE or SHARED 模式
 target_include_directories(mylib INTERFACE cc)                      # Propagate coupled-channel headers
 target_include_directories(mylib INTERFACE utils)                   # Propagate general utility headers
