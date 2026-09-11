@@ -116,11 +116,11 @@ public:
 
     /**
      * @brief  Store the reference Bogoliubov matrices.
-     * @math   U0,V0 ∈ ℂ^{Nsp×Nsp}.
+     * @math   U0,V0 ∈ ℝ^{Nsp×Nsp} → complex caches.
      * @output Updated U0 and V0.
      * @note   Requires canonical U0,V0 and invertible U0.
      */
-    void update_UV(const Eigen::MatrixXcd& U0_C2D_sp_qp_, const Eigen::MatrixXcd& V0_C2D_sp_qp_);
+    void update_UV(const Eigen::MatrixXd& U0_F2D_sp_qp_, const Eigen::MatrixXd& V0_F2D_sp_qp_);
 
     /**
      * @brief  Store alpha rotations, nodes, and quadrature weights.
@@ -172,11 +172,11 @@ public:
     const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& calc_two_body(const Eigen::Tensor<double, 4, Eigen::ColMajor>& TwoBody_F4D_sp_sp_sp_sp);
 };
 
-inline void HFBProjection::update_UV(const Eigen::MatrixXcd& U0_C2D_sp_qp_, const Eigen::MatrixXcd& V0_C2D_sp_qp_) {
-    assert(U0_C2D_sp_qp_.rows() == Nsp_I && U0_C2D_sp_qp_.cols() == Nsp_I);
-    assert(V0_C2D_sp_qp_.rows() == Nsp_I && V0_C2D_sp_qp_.cols() == Nsp_I);
-    U0_C2D_sp_qp = U0_C2D_sp_qp_;
-    V0_C2D_sp_qp = V0_C2D_sp_qp_;
+inline void HFBProjection::update_UV(const Eigen::MatrixXd& U0_F2D_sp_qp_, const Eigen::MatrixXd& V0_F2D_sp_qp_) {
+    assert(U0_F2D_sp_qp_.rows() == Nsp_I && U0_F2D_sp_qp_.cols() == Nsp_I);
+    assert(V0_F2D_sp_qp_.rows() == Nsp_I && V0_F2D_sp_qp_.cols() == Nsp_I);
+    U0_C2D_sp_qp = U0_F2D_sp_qp_.cast<doubleC>();
+    V0_C2D_sp_qp = V0_F2D_sp_qp_.cast<doubleC>();
 }
 
 inline void HFBProjection::update_alpha(const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Rz_C3D_sp_sp_alpha_, const Eigen::VectorXd& alpha_F1D_alpha_, const Eigen::VectorXd& weight_F1D_alpha_) {

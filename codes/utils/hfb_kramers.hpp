@@ -23,17 +23,17 @@ struct HFBKramersBlockSolution {
     Eigen::VectorXd f_F1D_bqp{};
 
     // X⁺ = [U⁺; V⁻].
-    Eigen::MatrixXcd UPos_C2D_bsp_bqp{};
-    Eigen::MatrixXcd VNeg_C2D_bsp_bqp{};
+    Eigen::MatrixXd UPos_F2D_bsp_bqp{};
+    Eigen::MatrixXd VNeg_F2D_bsp_bqp{};
 
-    Eigen::MatrixXcd rhoPosPos_C2D_bsp_bsp{};
-    Eigen::MatrixXcd kappaPosNeg_C2D_bsp_bsp{};
+    Eigen::MatrixXd rhoPosPos_F2D_bsp_bsp{};
+    Eigen::MatrixXd kappaPosNeg_F2D_bsp_bsp{};
 };
 
 struct HFBKramersBlockField {
-    Eigen::MatrixXcd h0PosPos_C2D_bsp_bsp{};
-    Eigen::MatrixXcd GammaPosPos_C2D_bsp_bsp{};
-    Eigen::MatrixXcd DeltaPosNeg_C2D_bsp_bsp{};
+    Eigen::MatrixXd h0PosPos_F2D_bsp_bsp{};
+    Eigen::MatrixXd GammaPosPos_F2D_bsp_bsp{};
+    Eigen::MatrixXd DeltaPosNeg_F2D_bsp_bsp{};
 };
 
 class HFBKramers {
@@ -44,8 +44,8 @@ public:
     std::vector<HFBKramersBlockSolution> solutions{};
     std::vector<HFBKramersBlockField> fields{};
 
-    std::vector<Eigen::MatrixXcd> HPos_C3D_block_2bsp_2bsp{};
-    std::vector<Eigen::SelfAdjointEigenSolver<Eigen::MatrixXcd>> HPos_eigensolvers{};
+    std::vector<Eigen::MatrixXd> HPos_F3D_block_2bsp_2bsp{};
+    std::vector<Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>> HPos_eigensolvers{};
 
 public:
     /**
@@ -60,7 +60,7 @@ public:
         Nbsp_I1D_block.resize(Nblock_I);
         solutions.resize(Nblock_I);
         fields.resize(Nblock_I);
-        HPos_C3D_block_2bsp_2bsp.resize(Nblock_I);
+        HPos_F3D_block_2bsp_2bsp.resize(Nblock_I);
         HPos_eigensolvers.resize(Nblock_I);
 
         for (int block_I = 0; block_I < Nblock_I; ++block_I) {
@@ -72,13 +72,13 @@ public:
             HFBKramersBlockSolution& solution = solutions[block_I];
             solution.eta_F1D_bsp = eta_F2D_block_bsp_[block_I];
 
-            // h₀, Γ, Δ ∈ ℂ^{Nbsp×Nbsp}.
-            field.h0PosPos_C2D_bsp_bsp.resize(Nbsp_I, Nbsp_I);
-            field.h0PosPos_C2D_bsp_bsp.setZero();
-            field.GammaPosPos_C2D_bsp_bsp.resize(Nbsp_I, Nbsp_I);
-            field.GammaPosPos_C2D_bsp_bsp.setZero();
-            field.DeltaPosNeg_C2D_bsp_bsp.resize(Nbsp_I, Nbsp_I);
-            field.DeltaPosNeg_C2D_bsp_bsp.setZero();
+            // h₀, Γ, Δ ∈ ℝ^{Nbsp×Nbsp}.
+            field.h0PosPos_F2D_bsp_bsp.resize(Nbsp_I, Nbsp_I);
+            field.h0PosPos_F2D_bsp_bsp.setZero();
+            field.GammaPosPos_F2D_bsp_bsp.resize(Nbsp_I, Nbsp_I);
+            field.GammaPosPos_F2D_bsp_bsp.setZero();
+            field.DeltaPosNeg_F2D_bsp_bsp.resize(Nbsp_I, Nbsp_I);
+            field.DeltaPosNeg_F2D_bsp_bsp.setZero();
 
             // E, f ∈ ℝ^{Nbsp}.
             solution.Eqp_F1D_bqp.resize(Nbsp_I);
@@ -86,37 +86,37 @@ public:
             solution.f_F1D_bqp.resize(Nbsp_I);
             solution.f_F1D_bqp.setZero();
 
-            // U⁺, V⁻, ρ⁺⁺, κ⁺⁻ ∈ ℂ^{Nbsp×Nbsp}.
-            solution.UPos_C2D_bsp_bqp.resize(Nbsp_I, Nbsp_I);
-            solution.UPos_C2D_bsp_bqp.setZero();
-            solution.VNeg_C2D_bsp_bqp.resize(Nbsp_I, Nbsp_I);
-            solution.VNeg_C2D_bsp_bqp.setZero();
-            solution.rhoPosPos_C2D_bsp_bsp.resize(Nbsp_I, Nbsp_I);
-            solution.rhoPosPos_C2D_bsp_bsp.setZero();
-            solution.kappaPosNeg_C2D_bsp_bsp.resize(Nbsp_I, Nbsp_I);
-            solution.kappaPosNeg_C2D_bsp_bsp.setZero();
+            // U⁺, V⁻, ρ⁺⁺, κ⁺⁻ ∈ ℝ^{Nbsp×Nbsp}.
+            solution.UPos_F2D_bsp_bqp.resize(Nbsp_I, Nbsp_I);
+            solution.UPos_F2D_bsp_bqp.setZero();
+            solution.VNeg_F2D_bsp_bqp.resize(Nbsp_I, Nbsp_I);
+            solution.VNeg_F2D_bsp_bqp.setZero();
+            solution.rhoPosPos_F2D_bsp_bsp.resize(Nbsp_I, Nbsp_I);
+            solution.rhoPosPos_F2D_bsp_bsp.setZero();
+            solution.kappaPosNeg_F2D_bsp_bsp.resize(Nbsp_I, Nbsp_I);
+            solution.kappaPosNeg_F2D_bsp_bsp.setZero();
 
-            // H⁺ ∈ ℂ^{2Nbsp×2Nbsp}.
-            HPos_C3D_block_2bsp_2bsp[block_I].resize(2 * Nbsp_I, 2 * Nbsp_I);
-            HPos_C3D_block_2bsp_2bsp[block_I].setZero();
-            HPos_eigensolvers[block_I] = Eigen::SelfAdjointEigenSolver<Eigen::MatrixXcd>(2 * Nbsp_I);
+            // H⁺ ∈ ℝ^{2Nbsp×2Nbsp}.
+            HPos_F3D_block_2bsp_2bsp[block_I].resize(2 * Nbsp_I, 2 * Nbsp_I);
+            HPos_F3D_block_2bsp_2bsp[block_I].setZero();
+            HPos_eigensolvers[block_I] = Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>(2 * Nbsp_I);
         }
     }
 
     /**
-     * @brief  Solve thermal HFB using self-adjoint eigendecomposition.
+     * @brief  Solve thermal HFB using real symmetric eigendecomposition.
      * @math   D = diag(η); h = h₀⁺⁺ + Γ⁺⁺.
-     * @math   H⁺ = [h-λI, Δ⁺⁻; (Δ⁺⁻)†, -DhD+λI].
+     * @math   H⁺ = [h-λI, Δ⁺⁻; (Δ⁺⁻)ᵀ, -DhD+λI].
      * @output Updated representative solutions and densities.
-     * @output Mean particle number N = 2Σ_b Re Tr(ρ_b⁺⁺).
-     * @note   Time-reversal-invariant fields; no zero modes; T ≥ 0.
+     * @output Mean particle number N = 2Σ_b Tr(ρ_b⁺⁺).
+     * @note   Real, time-reversal-invariant fields; no zero modes; T ≥ 0.
      */
     double update_UV_E_rho_kappa(double lambda_F, double temperature_F);
 };
 
 class HFBKramersNucleus {
 public:
-    using OneBodyFunc = std::function<void(int block_I, Eigen::MatrixXcd& h0PosPos_C2D_bsp_bsp)>;
+    using OneBodyFunc = std::function<void(int block_I, Eigen::MatrixXd& h0PosPos_F2D_bsp_bsp)>;
 
     using TwoBodyFunc = std::function<void(const std::vector<HFBKramersBlockSolution>& solutions_n, const std::vector<HFBKramersBlockSolution>& solutions_p, std::vector<HFBKramersBlockField>& fields_n, std::vector<HFBKramersBlockField>& fields_p)>;
 
@@ -144,12 +144,12 @@ public:
 
         // block_n → h₀,n⁺⁺.
         for (int block_I = 0; block_I < hfb_neutron.Nblock_I; ++block_I) {
-            build_onebody_neutron(block_I, hfb_neutron.fields[block_I].h0PosPos_C2D_bsp_bsp);
+            build_onebody_neutron(block_I, hfb_neutron.fields[block_I].h0PosPos_F2D_bsp_bsp);
         }
 
         // block_p → h₀,p⁺⁺.
         for (int block_I = 0; block_I < hfb_proton.Nblock_I; ++block_I) {
-            build_onebody_proton(block_I, hfb_proton.fields[block_I].h0PosPos_C2D_bsp_bsp);
+            build_onebody_proton(block_I, hfb_proton.fields[block_I].h0PosPos_F2D_bsp_bsp);
         }
     }
 
@@ -162,10 +162,10 @@ public:
 };
 
 /**
- * @brief  Solve thermal HFB using self-adjoint eigendecomposition.
- * @math   H⁺X⁺ = X⁺E; U⁻ = D(U⁺)*; V⁺ = -D(V⁻)*.
+ * @brief  Solve thermal HFB using real symmetric eigendecomposition.
+ * @math   H⁺X⁺ = X⁺E; U⁻ = DU⁺; V⁺ = -DV⁻.
  * @output Updated representative solutions and densities.
- * @output Mean particle number N = 2Σ_b Re Tr(ρ_b⁺⁺).
+ * @output Mean particle number N = 2Σ_b Tr(ρ_b⁺⁺).
  */
 inline double HFBKramers::update_UV_E_rho_kappa(double lambda_F, double temperature_F) {
     assert(temperature_F >= 0.0);
@@ -178,35 +178,35 @@ inline double HFBKramers::update_UV_E_rho_kappa(double lambda_F, double temperat
         const int Nbsp_I = Nbsp_I1D_block[block_I];
         const HFBKramersBlockField& field = fields[block_I];
         HFBKramersBlockSolution& solution = solutions[block_I];
-        Eigen::MatrixXcd& HPos_C2D_2bsp_2bsp = HPos_C3D_block_2bsp_2bsp[block_I];
-        Eigen::SelfAdjointEigenSolver<Eigen::MatrixXcd>& HPos_eigensolver = HPos_eigensolvers[block_I];
+        Eigen::MatrixXd& HPos_F2D_2bsp_2bsp = HPos_F3D_block_2bsp_2bsp[block_I];
+        Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>& HPos_eigensolver = HPos_eigensolvers[block_I];
 
-        assert(field.h0PosPos_C2D_bsp_bsp.isApprox(field.h0PosPos_C2D_bsp_bsp.adjoint(), 1.0e-12));
-        assert(field.GammaPosPos_C2D_bsp_bsp.isApprox(field.GammaPosPos_C2D_bsp_bsp.adjoint(), 1.0e-12));
-        // Δ = DΔ†D; D = diag(η).
-        assert(field.DeltaPosNeg_C2D_bsp_bsp.isApprox(solution.eta_F1D_bsp.asDiagonal() * field.DeltaPosNeg_C2D_bsp_bsp.adjoint() * solution.eta_F1D_bsp.asDiagonal(), 1.0e-12));
+        assert(field.h0PosPos_F2D_bsp_bsp.isApprox(field.h0PosPos_F2D_bsp_bsp.transpose(), 1.0e-12));
+        assert(field.GammaPosPos_F2D_bsp_bsp.isApprox(field.GammaPosPos_F2D_bsp_bsp.transpose(), 1.0e-12));
+        // Δ = DΔᵀD; D = diag(η).
+        assert(field.DeltaPosNeg_F2D_bsp_bsp.isApprox(solution.eta_F1D_bsp.asDiagonal() * field.DeltaPosNeg_F2D_bsp_bsp.transpose() * solution.eta_F1D_bsp.asDiagonal(), 1.0e-12));
 
         // H⁺₁₁ = h₀⁺⁺ + Γ⁺⁺ - λI.
-        HPos_C2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I) = field.h0PosPos_C2D_bsp_bsp + field.GammaPosPos_C2D_bsp_bsp;
-        HPos_C2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I).diagonal().array() -= lambda_F;
+        HPos_F2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I) = field.h0PosPos_F2D_bsp_bsp + field.GammaPosPos_F2D_bsp_bsp;
+        HPos_F2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I).diagonal().array() -= lambda_F;
 
-        // H⁺₁₂ = Δ; H⁺₂₁ = Δ†; H⁺₂₂ = -DH⁺₁₁D.
-        HPos_C2D_2bsp_2bsp.topRightCorner(Nbsp_I, Nbsp_I) = field.DeltaPosNeg_C2D_bsp_bsp;
-        HPos_C2D_2bsp_2bsp.bottomLeftCorner(Nbsp_I, Nbsp_I) = field.DeltaPosNeg_C2D_bsp_bsp.adjoint();
-        HPos_C2D_2bsp_2bsp.bottomRightCorner(Nbsp_I, Nbsp_I).noalias() = -(solution.eta_F1D_bsp.asDiagonal() * HPos_C2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I) * solution.eta_F1D_bsp.asDiagonal());
+        // H⁺₁₂ = Δ; H⁺₂₁ = Δᵀ; H⁺₂₂ = -DH⁺₁₁D.
+        HPos_F2D_2bsp_2bsp.topRightCorner(Nbsp_I, Nbsp_I) = field.DeltaPosNeg_F2D_bsp_bsp;
+        HPos_F2D_2bsp_2bsp.bottomLeftCorner(Nbsp_I, Nbsp_I) = field.DeltaPosNeg_F2D_bsp_bsp.transpose();
+        HPos_F2D_2bsp_2bsp.bottomRightCorner(Nbsp_I, Nbsp_I).noalias() = -(solution.eta_F1D_bsp.asDiagonal() * HPos_F2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I) * solution.eta_F1D_bsp.asDiagonal());
 
         // H⁺ → (E, X⁺).
-        HPos_eigensolver.compute(HPos_C2D_2bsp_2bsp);
+        HPos_eigensolver.compute(HPos_F2D_2bsp_2bsp);
         assert(HPos_eigensolver.info() == Eigen::Success);
         const Eigen::VectorXd& eigenvalues_F1D_state = HPos_eigensolver.eigenvalues();
-        const Eigen::MatrixXcd& eigenvectors_C2D_2bsp_state = HPos_eigensolver.eigenvectors();
+        const Eigen::MatrixXd& eigenvectors_F2D_2bsp_state = HPos_eigensolver.eigenvectors();
 
         // E₁ ≤ ⋯ ≤ E₂Nbsp; retain Nbsp positive-energy modes.
         assert(eigenvalues_F1D_state(Nbsp_I - 1) < 0.0);
         assert(eigenvalues_F1D_state(Nbsp_I) > 0.0);
         solution.Eqp_F1D_bqp = eigenvalues_F1D_state.tail(Nbsp_I);
-        solution.UPos_C2D_bsp_bqp = eigenvectors_C2D_2bsp_state.topRightCorner(Nbsp_I, Nbsp_I);
-        solution.VNeg_C2D_bsp_bqp = eigenvectors_C2D_2bsp_state.bottomRightCorner(Nbsp_I, Nbsp_I);
+        solution.UPos_F2D_bsp_bqp = eigenvectors_F2D_2bsp_state.topRightCorner(Nbsp_I, Nbsp_I);
+        solution.VNeg_F2D_bsp_bqp = eigenvectors_F2D_2bsp_state.bottomRightCorner(Nbsp_I, Nbsp_I);
 
         // T ≤ 10⁻¹² → f = 0; otherwise f = e⁻ᴱᐟᵀ/(1+e⁻ᴱᐟᵀ).
         solution.f_F1D_bqp.setZero();
@@ -217,16 +217,16 @@ inline double HFBKramers::update_UV_E_rho_kappa(double lambda_F, double temperat
             }
         }
 
-        // ρ⁺⁺ = DV⁻(1-f)(V⁻)†D + U⁺f(U⁺)†.
-        solution.rhoPosPos_C2D_bsp_bsp.noalias() = solution.eta_F1D_bsp.asDiagonal() * solution.VNeg_C2D_bsp_bqp * (1.0 - solution.f_F1D_bqp.array()).matrix().asDiagonal() * solution.VNeg_C2D_bsp_bqp.adjoint() * solution.eta_F1D_bsp.asDiagonal();
-        solution.rhoPosPos_C2D_bsp_bsp.noalias() += solution.UPos_C2D_bsp_bqp * solution.f_F1D_bqp.asDiagonal() * solution.UPos_C2D_bsp_bqp.adjoint();
+        // ρ⁺⁺ = DV⁻(1-f)(V⁻)ᵀD + U⁺f(U⁺)ᵀ.
+        solution.rhoPosPos_F2D_bsp_bsp.noalias() = solution.eta_F1D_bsp.asDiagonal() * solution.VNeg_F2D_bsp_bqp * (1.0 - solution.f_F1D_bqp.array()).matrix().asDiagonal() * solution.VNeg_F2D_bsp_bqp.transpose() * solution.eta_F1D_bsp.asDiagonal();
+        solution.rhoPosPos_F2D_bsp_bsp.noalias() += solution.UPos_F2D_bsp_bqp * solution.f_F1D_bqp.asDiagonal() * solution.UPos_F2D_bsp_bqp.transpose();
 
-        // κ⁺⁻ = -DV⁻(1-f)(U⁺)†D + U⁺f(V⁻)†.
-        solution.kappaPosNeg_C2D_bsp_bsp.noalias() = -(solution.eta_F1D_bsp.asDiagonal() * solution.VNeg_C2D_bsp_bqp * (1.0 - solution.f_F1D_bqp.array()).matrix().asDiagonal() * solution.UPos_C2D_bsp_bqp.adjoint() * solution.eta_F1D_bsp.asDiagonal());
-        solution.kappaPosNeg_C2D_bsp_bsp.noalias() += solution.UPos_C2D_bsp_bqp * solution.f_F1D_bqp.asDiagonal() * solution.VNeg_C2D_bsp_bqp.adjoint();
+        // κ⁺⁻ = -DV⁻(1-f)(U⁺)ᵀD + U⁺f(V⁻)ᵀ.
+        solution.kappaPosNeg_F2D_bsp_bsp.noalias() = -(solution.eta_F1D_bsp.asDiagonal() * solution.VNeg_F2D_bsp_bqp * (1.0 - solution.f_F1D_bqp.array()).matrix().asDiagonal() * solution.UPos_F2D_bsp_bqp.transpose() * solution.eta_F1D_bsp.asDiagonal());
+        solution.kappaPosNeg_F2D_bsp_bsp.noalias() += solution.UPos_F2D_bsp_bqp * solution.f_F1D_bqp.asDiagonal() * solution.VNeg_F2D_bsp_bqp.transpose();
 
-        // N = 2Σ_b Re Tr(ρ_b⁺⁺).
-        N_F += 2.0 * solution.rhoPosPos_C2D_bsp_bsp.trace().real();
+        // N = 2Σ_b Tr(ρ_b⁺⁺).
+        N_F += 2.0 * solution.rhoPosPos_F2D_bsp_bsp.trace();
     }
     return N_F;
 }
