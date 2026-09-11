@@ -8,10 +8,13 @@
 #pragma once
 
 #include <cassert>
+#include <cmath>
+#include <numbers>
 
 #include <Eigen/Core>
 #include <unsupported/Eigen/CXX11/Tensor>
 
+#include "group_so3_su2.hpp"
 #include "hfb_pfaffian.hpp"
 
 /**
@@ -52,6 +55,7 @@ public:
     Eigen::MatrixXcd V0_C2D_sp_qp{};
 
     HFBPfaffian hfb_pfaffian;
+    RepresentationSpin representation_spin;
 
     Eigen::Tensor<doubleC, 4, Eigen::ColMajor> result_C4D_cfg_cfg_K_K{};
 
@@ -70,7 +74,7 @@ public:
      * @note   NcqpMax selects configuration parity and maximum quasiparticle count.
      */
     HFBProjection(int TargetN_I_, int TargetTwoJ_I_, int Nsp_I_, int NcqpMax_I_, int Nphi_I_, int Nalpha_I_, int Nbeta_I_, int Ngamma_I_)
-    : hfb_pfaffian(Nsp_I_, NcqpMax_I_, NcqpMax_I_) {
+    : hfb_pfaffian(Nsp_I_, NcqpMax_I_, NcqpMax_I_), representation_spin(TargetTwoJ_I_) {
         assert(TargetN_I_ >= 0 && TargetN_I_ <= Nsp_I_ && TargetTwoJ_I_ >= 0);
         assert(Nphi_I_ > 0 && Nalpha_I_ > 0 && Nbeta_I_ > 0 && Ngamma_I_ > 0);
 
@@ -207,4 +211,170 @@ inline void HFBProjection::update_gamma(const Eigen::Tensor<doubleC, 3, Eigen::C
     Rz_C3D_sp_sp_gamma = Rz_C3D_sp_sp_gamma_;
     gamma_F1D_gamma = gamma_F1D_gamma_;
     weight_F1D_gamma = weight_F1D_gamma_;
+}
+
+inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_overlap() {
+    // (2J+1)/(VΩ Nφ); weights contain sinβ dβ.
+    const double volume_F = weight_F1D_alpha.sum() * weight_F1D_beta.sum() * weight_F1D_gamma.sum();
+    assert(std::isfinite(volume_F) && volume_F > 0.0);
+    const double normalization_F = (TargetTwoJ_I + 1.0) / (volume_F * Nphi_I);
+    result_C4D_cfg_cfg_K_K.setZero();
+
+    // dᴶ(β) is reused over α, γ, φ.
+    for (int beta_I = 0; beta_I < Nbeta_I; ++beta_I) {
+        const auto& RyJ_C2D_K_K = representation_spin.calc_Ry(beta_F1D_beta(beta_I));
+        const Eigen::Map<const Eigen::MatrixXcd> Ry_C2D_sp_sp(Ry_C3D_sp_sp_beta.data() + static_cast<Eigen::Index>(beta_I) * Nsp_I * Nsp_I, Nsp_I, Nsp_I);
+        for (int alpha_I = 0; alpha_I < Nalpha_I; ++alpha_I) {
+            const Eigen::Map<const Eigen::MatrixXcd> RzAlpha_C2D_sp_sp(Rz_C3D_sp_sp_alpha.data() + static_cast<Eigen::Index>(alpha_I) * Nsp_I * Nsp_I, Nsp_I, Nsp_I);
+            RzRy_C2D_sp_sp.noalias() = RzAlpha_C2D_sp_sp * Ry_C2D_sp_sp;
+            for (int gamma_I = 0; gamma_I < Ngamma_I; ++gamma_I) {
+                const Eigen::Map<const Eigen::MatrixXcd> RzGamma_C2D_sp_sp(Rz_C3D_sp_sp_gamma.data() + static_cast<Eigen::Index>(gamma_I) * Nsp_I * Nsp_I, Nsp_I, Nsp_I);
+                RzRyRz_C2D_sp_sp.noalias() = RzRy_C2D_sp_sp * RzGamma_C2D_sp_sp;
+                // w = (2J+1) wα wβ wγ/(VΩ Nφ).
+                const double weight_F = normalization_F * weight_F1D_alpha(alpha_I) * weight_F1D_beta(beta_I) * weight_F1D_gamma(gamma_I);
+                for (int phi_I = 0; phi_I < Nphi_I; ++phi_I) {
+                    // Ug = exp(-iφ) R U₀; Vg = exp(iφ) R* V₀.
+                    const double phi_F = 2.0 * std::numbers::pi * phi_I / Nphi_I;
+                    const doubleC gauge_C = std::exp(doubleC(0.0, -phi_F));
+                    Ug_C2D_sp_qp.noalias() = gauge_C * RzRyRz_C2D_sp_sp * U0_C2D_sp_qp;
+                    Vg_C2D_sp_qp.noalias() = std::conj(gauge_C) * RzRyRz_C2D_sp_sp.conjugate() * V0_C2D_sp_qp;
+                    hfb_pfaffian.update_contractions(U0_C2D_sp_qp, V0_C2D_sp_qp, Ug_C2D_sp_qp, Vg_C2D_sp_qp, doubleC(1.0, 0.0));
+                    const auto& overlap_C2D_cfg_cfg = hfb_pfaffian.calc_overlap();
+
+                    const doubleC factorPhi_C = std::exp(doubleC(0.0, TargetN_I * phi_F));
+                    for (int K2_I = 0; K2_I <= TargetTwoJ_I; ++K2_I) {
+                        const double K2_F = K2_I - 0.5 * TargetTwoJ_I;
+                        for (int K1_I = 0; K1_I <= TargetTwoJ_I; ++K1_I) {
+                            // Dᴶ* = exp(iK₁α) dᴶ* exp(iK₂γ).
+                            const double K1_F = K1_I - 0.5 * TargetTwoJ_I;
+                            const doubleC factorOmega_C = std::conj(RyJ_C2D_K_K(K1_I, K2_I)) * std::exp(doubleC(0.0, K1_F * alpha_F1D_alpha(alpha_I) + K2_F * gamma_F1D_gamma(gamma_I)));
+                            const doubleC weight_factor_C = weight_F * factorPhi_C * factorOmega_C;
+                            Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg_cfg(result_C4D_cfg_cfg_K_K.data() + (static_cast<Eigen::Index>(K2_I) * (TargetTwoJ_I + 1) + K1_I) * Ncfg_I * Ncfg_I, Ncfg_I, Ncfg_I);
+                            result_C2D_cfg_cfg += weight_factor_C * overlap_C2D_cfg_cfg;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return result_C4D_cfg_cfg_K_K;
+}
+
+inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_one_body(const Eigen::MatrixXd& OneBody_F2D_sp_sp) {
+    assert(OneBody_F2D_sp_sp.rows() == Nsp_I && OneBody_F2D_sp_sp.cols() == Nsp_I && OneBody_F2D_sp_sp.allFinite());
+    Eigen::MatrixXcd OneBody_C2D_cfg_cfg{};
+    OneBody_C2D_cfg_cfg.resize(Ncfg_I, Ncfg_I);
+
+    // (2J+1)/(VΩ Nφ); weights contain sinβ dβ.
+    const double volume_F = weight_F1D_alpha.sum() * weight_F1D_beta.sum() * weight_F1D_gamma.sum();
+    assert(std::isfinite(volume_F) && volume_F > 0.0);
+    const double normalization_F = (TargetTwoJ_I + 1.0) / (volume_F * Nphi_I);
+    result_C4D_cfg_cfg_K_K.setZero();
+
+    // dᴶ(β) is reused over α, γ, φ.
+    for (int beta_I = 0; beta_I < Nbeta_I; ++beta_I) {
+        const auto& RyJ_C2D_K_K = representation_spin.calc_Ry(beta_F1D_beta(beta_I));
+        const Eigen::Map<const Eigen::MatrixXcd> Ry_C2D_sp_sp(Ry_C3D_sp_sp_beta.data() + static_cast<Eigen::Index>(beta_I) * Nsp_I * Nsp_I, Nsp_I, Nsp_I);
+        for (int alpha_I = 0; alpha_I < Nalpha_I; ++alpha_I) {
+            const Eigen::Map<const Eigen::MatrixXcd> RzAlpha_C2D_sp_sp(Rz_C3D_sp_sp_alpha.data() + static_cast<Eigen::Index>(alpha_I) * Nsp_I * Nsp_I, Nsp_I, Nsp_I);
+            RzRy_C2D_sp_sp.noalias() = RzAlpha_C2D_sp_sp * Ry_C2D_sp_sp;
+            for (int gamma_I = 0; gamma_I < Ngamma_I; ++gamma_I) {
+                const Eigen::Map<const Eigen::MatrixXcd> RzGamma_C2D_sp_sp(Rz_C3D_sp_sp_gamma.data() + static_cast<Eigen::Index>(gamma_I) * Nsp_I * Nsp_I, Nsp_I, Nsp_I);
+                RzRyRz_C2D_sp_sp.noalias() = RzRy_C2D_sp_sp * RzGamma_C2D_sp_sp;
+                // w = (2J+1) wα wβ wγ/(VΩ Nφ).
+                const double weight_F = normalization_F * weight_F1D_alpha(alpha_I) * weight_F1D_beta(beta_I) * weight_F1D_gamma(gamma_I);
+                for (int phi_I = 0; phi_I < Nphi_I; ++phi_I) {
+                    // Ug = exp(-iφ) R U₀; Vg = exp(iφ) R* V₀.
+                    const double phi_F = 2.0 * std::numbers::pi * phi_I / Nphi_I;
+                    const doubleC gauge_C = std::exp(doubleC(0.0, -phi_F));
+                    Ug_C2D_sp_qp.noalias() = gauge_C * RzRyRz_C2D_sp_sp * U0_C2D_sp_qp;
+                    Vg_C2D_sp_qp.noalias() = std::conj(gauge_C) * RzRyRz_C2D_sp_sp.conjugate() * V0_C2D_sp_qp;
+                    hfb_pfaffian.update_contractions(U0_C2D_sp_qp, V0_C2D_sp_qp, Ug_C2D_sp_qp, Vg_C2D_sp_qp, doubleC(1.0, 0.0));
+                    // H¹_ab(g) = Σ_ij h_ij OBTD_ab(i,j;g).
+                    OneBody_C2D_cfg_cfg.setZero();
+                    for (int sp2_I = 0; sp2_I < Nsp_I; ++sp2_I) {
+                        for (int sp1_I = 0; sp1_I < Nsp_I; ++sp1_I) {
+                            OneBody_C2D_cfg_cfg += OneBody_F2D_sp_sp(sp1_I, sp2_I) * hfb_pfaffian.calc_obtd(sp1_I, sp2_I);
+                        }
+                    }
+
+                    const doubleC factorPhi_C = std::exp(doubleC(0.0, TargetN_I * phi_F));
+                    for (int K2_I = 0; K2_I <= TargetTwoJ_I; ++K2_I) {
+                        const double K2_F = K2_I - 0.5 * TargetTwoJ_I;
+                        for (int K1_I = 0; K1_I <= TargetTwoJ_I; ++K1_I) {
+                            // Dᴶ* = exp(iK₁α) dᴶ* exp(iK₂γ).
+                            const double K1_F = K1_I - 0.5 * TargetTwoJ_I;
+                            const doubleC factorOmega_C = std::conj(RyJ_C2D_K_K(K1_I, K2_I)) * std::exp(doubleC(0.0, K1_F * alpha_F1D_alpha(alpha_I) + K2_F * gamma_F1D_gamma(gamma_I)));
+                            const doubleC weight_factor_C = weight_F * factorPhi_C * factorOmega_C;
+                            Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg_cfg(result_C4D_cfg_cfg_K_K.data() + (static_cast<Eigen::Index>(K2_I) * (TargetTwoJ_I + 1) + K1_I) * Ncfg_I * Ncfg_I, Ncfg_I, Ncfg_I);
+                            result_C2D_cfg_cfg += weight_factor_C * OneBody_C2D_cfg_cfg;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return result_C4D_cfg_cfg_K_K;
+}
+
+inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_two_body(const Eigen::Tensor<double, 4, Eigen::ColMajor>& TwoBody_F4D_sp_sp_sp_sp) {
+    assert(TwoBody_F4D_sp_sp_sp_sp.dimension(0) == Nsp_I && TwoBody_F4D_sp_sp_sp_sp.dimension(1) == Nsp_I && TwoBody_F4D_sp_sp_sp_sp.dimension(2) == Nsp_I && TwoBody_F4D_sp_sp_sp_sp.dimension(3) == Nsp_I);
+    assert(Eigen::Map<const Eigen::VectorXd>(TwoBody_F4D_sp_sp_sp_sp.data(), TwoBody_F4D_sp_sp_sp_sp.size()).allFinite());
+    Eigen::MatrixXcd TwoBody_C2D_cfg_cfg{};
+    TwoBody_C2D_cfg_cfg.resize(Ncfg_I, Ncfg_I);
+
+    // (2J+1)/(VΩ Nφ); weights contain sinβ dβ.
+    const double volume_F = weight_F1D_alpha.sum() * weight_F1D_beta.sum() * weight_F1D_gamma.sum();
+    assert(std::isfinite(volume_F) && volume_F > 0.0);
+    const double normalization_F = (TargetTwoJ_I + 1.0) / (volume_F * Nphi_I);
+    result_C4D_cfg_cfg_K_K.setZero();
+
+    // dᴶ(β) is reused over α, γ, φ.
+    for (int beta_I = 0; beta_I < Nbeta_I; ++beta_I) {
+        const auto& RyJ_C2D_K_K = representation_spin.calc_Ry(beta_F1D_beta(beta_I));
+        const Eigen::Map<const Eigen::MatrixXcd> Ry_C2D_sp_sp(Ry_C3D_sp_sp_beta.data() + static_cast<Eigen::Index>(beta_I) * Nsp_I * Nsp_I, Nsp_I, Nsp_I);
+        for (int alpha_I = 0; alpha_I < Nalpha_I; ++alpha_I) {
+            const Eigen::Map<const Eigen::MatrixXcd> RzAlpha_C2D_sp_sp(Rz_C3D_sp_sp_alpha.data() + static_cast<Eigen::Index>(alpha_I) * Nsp_I * Nsp_I, Nsp_I, Nsp_I);
+            RzRy_C2D_sp_sp.noalias() = RzAlpha_C2D_sp_sp * Ry_C2D_sp_sp;
+            for (int gamma_I = 0; gamma_I < Ngamma_I; ++gamma_I) {
+                const Eigen::Map<const Eigen::MatrixXcd> RzGamma_C2D_sp_sp(Rz_C3D_sp_sp_gamma.data() + static_cast<Eigen::Index>(gamma_I) * Nsp_I * Nsp_I, Nsp_I, Nsp_I);
+                RzRyRz_C2D_sp_sp.noalias() = RzRy_C2D_sp_sp * RzGamma_C2D_sp_sp;
+                // w = (2J+1) wα wβ wγ/(VΩ Nφ).
+                const double weight_F = normalization_F * weight_F1D_alpha(alpha_I) * weight_F1D_beta(beta_I) * weight_F1D_gamma(gamma_I);
+                for (int phi_I = 0; phi_I < Nphi_I; ++phi_I) {
+                    // Ug = exp(-iφ) R U₀; Vg = exp(iφ) R* V₀.
+                    const double phi_F = 2.0 * std::numbers::pi * phi_I / Nphi_I;
+                    const doubleC gauge_C = std::exp(doubleC(0.0, -phi_F));
+                    Ug_C2D_sp_qp.noalias() = gauge_C * RzRyRz_C2D_sp_sp * U0_C2D_sp_qp;
+                    Vg_C2D_sp_qp.noalias() = std::conj(gauge_C) * RzRyRz_C2D_sp_sp.conjugate() * V0_C2D_sp_qp;
+                    hfb_pfaffian.update_contractions(U0_C2D_sp_qp, V0_C2D_sp_qp, Ug_C2D_sp_qp, Vg_C2D_sp_qp, doubleC(1.0, 0.0));
+                    // H²_ab(g) = ½Σ_ijkl v_ijkl TBTD_ab(i,j,k,l;g).
+                    TwoBody_C2D_cfg_cfg.setZero();
+                    for (int sp4_I = 0; sp4_I < Nsp_I; ++sp4_I) {
+                        for (int sp3_I = 0; sp3_I < Nsp_I; ++sp3_I) {
+                            for (int sp2_I = 0; sp2_I < Nsp_I; ++sp2_I) {
+                                for (int sp1_I = 0; sp1_I < Nsp_I; ++sp1_I) {
+                                    TwoBody_C2D_cfg_cfg += 0.5 * TwoBody_F4D_sp_sp_sp_sp(sp1_I, sp2_I, sp3_I, sp4_I) * hfb_pfaffian.calc_tbtd(sp1_I, sp2_I, sp3_I, sp4_I);
+                                }
+                            }
+                        }
+                    }
+
+                    const doubleC factorPhi_C = std::exp(doubleC(0.0, TargetN_I * phi_F));
+                    for (int K2_I = 0; K2_I <= TargetTwoJ_I; ++K2_I) {
+                        const double K2_F = K2_I - 0.5 * TargetTwoJ_I;
+                        for (int K1_I = 0; K1_I <= TargetTwoJ_I; ++K1_I) {
+                            // Dᴶ* = exp(iK₁α) dᴶ* exp(iK₂γ).
+                            const double K1_F = K1_I - 0.5 * TargetTwoJ_I;
+                            const doubleC factorOmega_C = std::conj(RyJ_C2D_K_K(K1_I, K2_I)) * std::exp(doubleC(0.0, K1_F * alpha_F1D_alpha(alpha_I) + K2_F * gamma_F1D_gamma(gamma_I)));
+                            const doubleC weight_factor_C = weight_F * factorPhi_C * factorOmega_C;
+                            Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg_cfg(result_C4D_cfg_cfg_K_K.data() + (static_cast<Eigen::Index>(K2_I) * (TargetTwoJ_I + 1) + K1_I) * Ncfg_I * Ncfg_I, Ncfg_I, Ncfg_I);
+                            result_C2D_cfg_cfg += weight_factor_C * TwoBody_C2D_cfg_cfg;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return result_C4D_cfg_cfg_K_K;
 }
