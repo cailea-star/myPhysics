@@ -105,8 +105,8 @@ public:
 
     /**
      * @brief  Solve thermal HFB using real symmetric eigendecomposition.
-     * @math   D = diag(η); h = h₀⁺⁺ + Γ⁺⁺.
-     * @math   H⁺ = [h-λI, Δ⁺⁻; (Δ⁺⁻)ᵀ, -DhD+λI].
+     * @math   h = h₀⁺⁺ + Γ⁺⁺.
+     * @math   H⁺ = [h-λI, Δ⁺⁻; (Δ⁺⁻)ᵀ, -diag(η)h diag(η)+λI].
      * @output Updated representative solutions and densities.
      * @output Mean particle number N = 2Σ_b Tr(ρ_b⁺⁺).
      * @note   Real, time-reversal-invariant fields; no zero modes; T ≥ 0.
@@ -163,7 +163,7 @@ public:
 
 /**
  * @brief  Solve thermal HFB using real symmetric eigendecomposition.
- * @math   H⁺X⁺ = X⁺E; U⁻ = DU⁺; V⁺ = -DV⁻.
+ * @math   H⁺X⁺ = X⁺E; U⁻ = diag(η)U⁺; V⁺ = -diag(η)V⁻.
  * @output Updated representative solutions and densities.
  * @output Mean particle number N = 2Σ_b Tr(ρ_b⁺⁺).
  */
@@ -183,14 +183,14 @@ inline double HFBKramers::update_UV_E_rho_kappa(double lambda_F, double temperat
 
         assert(field.h0PosPos_F2D_bsp_bsp.isApprox(field.h0PosPos_F2D_bsp_bsp.transpose(), 1.0e-12));
         assert(field.GammaPosPos_F2D_bsp_bsp.isApprox(field.GammaPosPos_F2D_bsp_bsp.transpose(), 1.0e-12));
-        // Δ = DΔᵀD; D = diag(η).
+        // Δ = diag(η)Δᵀdiag(η).
         assert(field.DeltaPosNeg_F2D_bsp_bsp.isApprox(solution.eta_F1D_bsp.asDiagonal() * field.DeltaPosNeg_F2D_bsp_bsp.transpose() * solution.eta_F1D_bsp.asDiagonal(), 1.0e-12));
 
         // H⁺₁₁ = h₀⁺⁺ + Γ⁺⁺ - λI.
         HPos_F2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I) = field.h0PosPos_F2D_bsp_bsp + field.GammaPosPos_F2D_bsp_bsp;
         HPos_F2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I).diagonal().array() -= lambda_F;
 
-        // H⁺₁₂ = Δ; H⁺₂₁ = Δᵀ; H⁺₂₂ = -DH⁺₁₁D.
+        // H⁺₁₂ = Δ; H⁺₂₁ = Δᵀ; H⁺₂₂ = -diag(η)H⁺₁₁diag(η).
         HPos_F2D_2bsp_2bsp.topRightCorner(Nbsp_I, Nbsp_I) = field.DeltaPosNeg_F2D_bsp_bsp;
         HPos_F2D_2bsp_2bsp.bottomLeftCorner(Nbsp_I, Nbsp_I) = field.DeltaPosNeg_F2D_bsp_bsp.transpose();
         HPos_F2D_2bsp_2bsp.bottomRightCorner(Nbsp_I, Nbsp_I).noalias() = -(solution.eta_F1D_bsp.asDiagonal() * HPos_F2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I) * solution.eta_F1D_bsp.asDiagonal());
@@ -217,11 +217,11 @@ inline double HFBKramers::update_UV_E_rho_kappa(double lambda_F, double temperat
             }
         }
 
-        // ρ⁺⁺ = DV⁻(1-f)(V⁻)ᵀD + U⁺f(U⁺)ᵀ.
+        // ρ⁺⁺ = diag(η)V⁻(1-f)(V⁻)ᵀdiag(η) + U⁺f(U⁺)ᵀ.
         solution.rhoPosPos_F2D_bsp_bsp.noalias() = solution.eta_F1D_bsp.asDiagonal() * solution.VNeg_F2D_bsp_bqp * (1.0 - solution.f_F1D_bqp.array()).matrix().asDiagonal() * solution.VNeg_F2D_bsp_bqp.transpose() * solution.eta_F1D_bsp.asDiagonal();
         solution.rhoPosPos_F2D_bsp_bsp.noalias() += solution.UPos_F2D_bsp_bqp * solution.f_F1D_bqp.asDiagonal() * solution.UPos_F2D_bsp_bqp.transpose();
 
-        // κ⁺⁻ = -DV⁻(1-f)(U⁺)ᵀD + U⁺f(V⁻)ᵀ.
+        // κ⁺⁻ = -diag(η)V⁻(1-f)(U⁺)ᵀdiag(η) + U⁺f(V⁻)ᵀ.
         solution.kappaPosNeg_F2D_bsp_bsp.noalias() = -(solution.eta_F1D_bsp.asDiagonal() * solution.VNeg_F2D_bsp_bqp * (1.0 - solution.f_F1D_bqp.array()).matrix().asDiagonal() * solution.UPos_F2D_bsp_bqp.transpose() * solution.eta_F1D_bsp.asDiagonal());
         solution.kappaPosNeg_F2D_bsp_bsp.noalias() += solution.UPos_F2D_bsp_bqp * solution.f_F1D_bqp.asDiagonal() * solution.VNeg_F2D_bsp_bqp.transpose();
 
