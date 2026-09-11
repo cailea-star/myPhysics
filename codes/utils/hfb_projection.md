@@ -13,7 +13,7 @@ All configurations share the same vacuum; the zero-quasiparticle configuration i
 **Particle-number projection.** For a nonnegative integer $N$,
 
 $$
-\hat N=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\hat c_\alpha^*\hat c_\alpha,\qquad \hat P^N=\frac{1}{2\pi}\int_0^{2\pi}e^{i\varphi(\hat N-N)}\,\mathrm d\varphi.
+\hat N=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\hat c_\alpha^*\hat c_\alpha,\qquad \hat P^N=\frac{1}{2\pi}\int_0^{2\pi}e^{-i\varphi(\hat N-N)}\,\mathrm d\varphi.
 $$
 
 $$
@@ -51,7 +51,7 @@ $$
 Define the unnormalized projected state by
 
 $$
-\boxed{|\Phi^{I;N}_{M,K;\kappa}\rangle=\hat P^I_{MK}\hat P^N|\Phi_\kappa\rangle=\frac{2I+1}{2\pi\mathcal V_\Omega}\int\mathrm d\Omega\int_0^{2\pi}\mathrm d\varphi\,D^{I*}_{MK}(\Omega)e^{-iN\varphi}\hat R(\Omega)e^{i\varphi\hat N}|\Phi_\kappa\rangle}.
+\boxed{|\Phi^{I;N}_{M,K;\kappa}\rangle=\hat P^I_{MK}\hat P^N|\Phi_\kappa\rangle=\frac{2I+1}{2\pi\mathcal V_\Omega}\int\mathrm d\Omega\int_0^{2\pi}\mathrm d\varphi\,D^{I*}_{MK}(\Omega)e^{iN\varphi}\hat R(\Omega)e^{-i\varphi\hat N}|\Phi_\kappa\rangle}.
 $$
 
 Here $I$ is total angular momentum, $M$ its laboratory-frame projection, and $K$ the projector’s second index. No axial symmetry is assumed.
@@ -79,13 +79,13 @@ $$
 For fixed $I,N$, define the Hamiltonian matrix
 
 $$
-\mathcal H^{I;N}_{K_1,\kappa_1;K_2,\kappa_2}\equiv\langle\Phi_{\kappa_1}|\hat H\hat P^N\hat P^I_{K_1K_2}|\Phi_{\kappa_2}\rangle=\frac{2I+1}{2\pi\mathcal V_\Omega}\int\mathrm d\Omega\int_0^{2\pi}\mathrm d\varphi\,D^{I*}_{K_1K_2}(\Omega)e^{-iN\varphi}\langle\Phi_{\kappa_1}|\hat H\hat R(\Omega)e^{i\varphi\hat N}|\Phi_{\kappa_2}\rangle.
+\mathcal H^{I;N}_{K_1,\kappa_1;K_2,\kappa_2}\equiv\langle\Phi_{\kappa_1}|\hat H\hat P^N\hat P^I_{K_1K_2}|\Phi_{\kappa_2}\rangle=\frac{2I+1}{2\pi\mathcal V_\Omega}\int\mathrm d\Omega\int_0^{2\pi}\mathrm d\varphi\,D^{I*}_{K_1K_2}(\Omega)e^{iN\varphi}\langle\Phi_{\kappa_1}|\hat H\hat R(\Omega)e^{-i\varphi\hat N}|\Phi_{\kappa_2}\rangle.
 $$
 
 The norm matrix is
 
 $$
-\mathcal N^{I;N}_{K_1,\kappa_1;K_2,\kappa_2}\equiv\langle\Phi_{\kappa_1}|\hat P^N\hat P^I_{K_1K_2}|\Phi_{\kappa_2}\rangle=\frac{2I+1}{2\pi\mathcal V_\Omega}\int\mathrm d\Omega\int_0^{2\pi}\mathrm d\varphi\,D^{I*}_{K_1K_2}(\Omega)e^{-iN\varphi}\langle\Phi_{\kappa_1}|\hat R(\Omega)e^{i\varphi\hat N}|\Phi_{\kappa_2}\rangle.
+\mathcal N^{I;N}_{K_1,\kappa_1;K_2,\kappa_2}\equiv\langle\Phi_{\kappa_1}|\hat P^N\hat P^I_{K_1K_2}|\Phi_{\kappa_2}\rangle=\frac{2I+1}{2\pi\mathcal V_\Omega}\int\mathrm d\Omega\int_0^{2\pi}\mathrm d\varphi\,D^{I*}_{K_1K_2}(\Omega)e^{iN\varphi}\langle\Phi_{\kappa_1}|\hat R(\Omega)e^{-i\varphi\hat N}|\Phi_{\kappa_2}\rangle.
 $$
 
 Define the mixed state with coefficients $f_{K,\kappa}$ by
@@ -223,7 +223,7 @@ $$
 The remaining matrix element is
 
 $$
-\langle\Phi_{\kappa_1}|\hat T_{\lambda\mu'}\hat P^{I_2}_{K_1-\mu',K_2}\hat P^{N_2}|\Phi_{\kappa_2}\rangle=\frac{2I_2+1}{2\pi\mathcal V_\Omega}\int\mathrm d\Omega\int_0^{2\pi}\mathrm d\varphi\,D^{I_2*}_{K_1-\mu',K_2}(\Omega)e^{-iN_2\varphi}\langle\Phi_{\kappa_1}|\hat T_{\lambda\mu'}\hat R(\Omega)e^{i\varphi\hat N}|\Phi_{\kappa_2}\rangle.
+\langle\Phi_{\kappa_1}|\hat T_{\lambda\mu'}\hat P^{I_2}_{K_1-\mu',K_2}\hat P^{N_2}|\Phi_{\kappa_2}\rangle=\frac{2I_2+1}{2\pi\mathcal V_\Omega}\int\mathrm d\Omega\int_0^{2\pi}\mathrm d\varphi\,D^{I_2*}_{K_1-\mu',K_2}(\Omega)e^{iN_2\varphi}\langle\Phi_{\kappa_1}|\hat T_{\lambda\mu'}\hat R(\Omega)e^{-i\varphi\hat N}|\Phi_{\kappa_2}\rangle.
 $$
 
 ### Projected Matrix Elements of Multipole Interactions

@@ -549,6 +549,48 @@ $$
 
 The Thouless matrix relative to $|0\rangle$ is then undefined, although the quasiparticle-vacuum condition remains valid. One must choose another reference vacuum or use a Pfaffian expression constructed directly from $U$ and $V$.
 
+### Finite Temperature
+
+At finite temperature, replace vacuum expectation values by thermal averages. Let $T$ denote temperature in energy units, with $k_{\mathrm B}=1$. For positive quasiparticle energies $E_\mu$, define
+
+$$
+f_\mu=\frac{1}{1+e^{E_\mu/T}},\qquad f=\operatorname{diag}(f_\mu).
+$$
+
+The quasiparticle contractions are
+
+$$
+\langle\hat\beta_\nu^*\hat\beta_\mu\rangle_T=f_\mu\delta_{\mu\nu},\qquad \langle\hat\beta_\nu\hat\beta_\mu^*\rangle_T=(1-f_\mu)\delta_{\mu\nu},\qquad \langle\hat\beta_\nu\hat\beta_\mu\rangle_T=0.
+$$
+
+The normal density and pairing tensor become
+
+$$
+\boxed{\rho=UfU^\dagger+V^*(I-f)V^T,\qquad \kappa=UfV^\dagger+V^*(I-f)U^T.}
+$$
+
+Consequently,
+
+$$
+\boxed{\mathcal R=\begin{pmatrix}U&V^*\\V&U^*\end{pmatrix}\begin{pmatrix}f&0\\0&I-f\end{pmatrix}\begin{pmatrix}U^\dagger&V^\dagger\\V^T&U^T\end{pmatrix}=\left[I+e^{\mathcal H/T}\right]^{-1}.}
+$$
+
+At finite temperature, $\mathcal R^2=\mathcal R$ no longer holds in general. For $E_\mu>0$, the limit $T\to0$ gives $f_\mu\to0$ and recovers the vacuum densities.
+
+The quasiparticle entropy is
+
+$$
+\mathcal S=-\sum_{\mu=1}^{N_{\mathrm{sp}}}\left[f_\mu\ln f_\mu+(1-f_\mu)\ln(1-f_\mu)\right],
+$$
+
+with $0\ln0=0$. Thermal equilibrium follows from stationarity of
+
+$$
+\mathcal L_T=E-T\mathcal S-\lambda(\operatorname{Tr}\rho-N_0).
+$$
+
+The fields retain their definitions in terms of $\rho$ and $\kappa$. At each self-consistent iteration, update the thermal occupations and densities together, and enforce $\operatorname{Tr}\rho=N_0$.
+
 ### Self-Consistent Iteration
 
 The HFB equation is solved through nested outer and inner iterations:
