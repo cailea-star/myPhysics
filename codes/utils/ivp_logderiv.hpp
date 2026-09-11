@@ -20,14 +20,14 @@
 template<typename T> using Real2TMatFunc = std::function<void(double, Eigen::Ref<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>)>;
 
 template<typename T>
-class IVP_RK4QRState {
+class IVPRK4QRState {
 public:
     double xcurr_F;
     Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Qcurr_T2D_ch_sol{};
     Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> dQcurr_T2D_ch_sol{};
     Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Rcurr_T2D_sol_sol{};
 private:
-    IVP_RK4State<T> rk4_State;
+    IVPRK4State<T> rk4_State;
     Eigen::HouseholderQR<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> qrSolver_QR;
     Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Rtmp_T2D_sol_sol{};
 
@@ -38,7 +38,7 @@ public:
      * @output Initialized QR-stabilized RK4 state.
      * @note   Requires full-column-rank u₀.
      */
-    IVP_RK4QRState(const Real2TMatFunc<T>& F_Func_, double x0_F, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& u0_T2D_ch_sol, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& du0_T2D_ch_sol) {
+    IVPRK4QRState(const Real2TMatFunc<T>& F_Func_, double x0_F, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& u0_T2D_ch_sol, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& du0_T2D_ch_sol) {
         xcurr_F = x0_F;
         Qcurr_T2D_ch_sol.resize(u0_T2D_ch_sol.rows(), u0_T2D_ch_sol.cols());
         dQcurr_T2D_ch_sol.resize(du0_T2D_ch_sol.rows(), du0_T2D_ch_sol.cols());
@@ -73,7 +73,7 @@ public:
             dydx_T2D_ch_2sol.leftCols(Nsol_I) = y_T2D_ch_2sol.rightCols(Nsol_I);
             dydx_T2D_ch_2sol.rightCols(Nsol_I).noalias() = F_T2D_ch_ch * y_T2D_ch_2sol.leftCols(Nsol_I);
         };
-        rk4_State = IVP_RK4State<T>(dydx_Func, x0_F, y0_T1D_ch2sol);
+        rk4_State = IVPRK4State<T>(dydx_Func, x0_F, y0_T1D_ch2sol);
     }
 
     /**
@@ -81,11 +81,11 @@ public:
      * @math   (Q,dQ,R) → (Q⁺,dQ⁺,R⁺)
      * @output Mutable reference to the updated QR state.
      */
-    IVP_RK4QRState<T>& step(double xnext_F);
+    IVPRK4QRState<T>& step(double xnext_F);
 };
 
 template<typename T>
-IVP_RK4QRState<T>& IVP_RK4QRState<T>::step(double xnext_F) {
+IVPRK4QRState<T>& IVPRK4QRState<T>::step(double xnext_F) {
     int Nch_I = static_cast<int>(Qcurr_T2D_ch_sol.rows());
     int Nsol_I = static_cast<int>(Qcurr_T2D_ch_sol.cols());
     Eigen::Vector<T, Eigen::Dynamic>& y_T1D_ch2sol = rk4_State.step(xnext_F);
@@ -120,7 +120,7 @@ Eigen::Tensor<T, 3, Eigen::ColMajor> ivp_logderiv_rk4(const Real2TMatFunc<T>& F_
     assert(Nch_I > 0 && Y0_T2D_ch_ch.cols() == Nch_I && Y0_T2D_ch_ch.allFinite());
     int Nchch_I = Nch_I * Nch_I;
     Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> Q0_T2D_ch_sol = Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::Identity(Nch_I, Nch_I);
-    IVP_RK4QRState<T> qr_State(F_Func, x_F1D_x(0), Q0_T2D_ch_sol, Y0_T2D_ch_ch);
+    IVPRK4QRState<T> qr_State(F_Func, x_F1D_x(0), Q0_T2D_ch_sol, Y0_T2D_ch_ch);
 
     // Y(x₀) = Y₀.
     Eigen::Tensor<T, 3, Eigen::ColMajor> Y_T3D_ch_ch_x(Nch_I, Nch_I, Nx_I);
