@@ -51,8 +51,10 @@ public:
     Eigen::VectorXd weight_F1D_beta{};
     Eigen::VectorXd weight_F1D_gamma{};
 
-    Eigen::MatrixXcd U0_C2D_sp_qp{};
-    Eigen::MatrixXcd V0_C2D_sp_qp{};
+    Eigen::MatrixXcd U1_C2D_sp_qp1{};
+    Eigen::MatrixXcd V1_C2D_sp_qp1{};
+    Eigen::MatrixXcd U2_C2D_sp_qp2{};
+    Eigen::MatrixXcd V2_C2D_sp_qp2{};
 
     HFBPfaffian hfb_pfaffian;
     RepresentationSpin representation_spin;
@@ -62,15 +64,15 @@ public:
 private:
     Eigen::MatrixXcd RzRy_C2D_sp_sp{};
     Eigen::MatrixXcd RzRyRz_C2D_sp_sp{};
-    Eigen::MatrixXcd Ug_C2D_sp_qp{};
-    Eigen::MatrixXcd Vg_C2D_sp_qp{};
+    Eigen::MatrixXcd U2g_C2D_sp_qp2{};
+    Eigen::MatrixXcd V2g_C2D_sp_qp2{};
 
 public:
     /**
      * @brief  Allocate projection and Pfaffian workspaces.
      * @math   φ_k = 2πk/Nphi; Δφ/(2π) = 1/Nphi.
      * @output Stored dimensions, target quantum numbers, and allocated workspaces.
-     * @note   Rotations, Euler meshes, weights, and vacuum require updates.
+     * @note   Rotations, Euler meshes, weights, and vacua require updates.
      * @note   NcqpMax selects configuration parity and maximum quasiparticle count.
      */
     HFBProjection(int TargetN_I_, int TargetTwoJ_I_, int Nsp_I_, int NcqpMax_I_, int Nphi_I_, int Nalpha_I_, int Nbeta_I_, int Ngamma_I_)
@@ -104,27 +106,29 @@ public:
         weight_F1D_beta.resize(Nbeta_I);
         weight_F1D_gamma.resize(Ngamma_I);
 
-        // U₀,V₀ ∈ ℂ^{Nsp×Nsp}.
-        U0_C2D_sp_qp.resize(Nsp_I, Nsp_I);
-        V0_C2D_sp_qp.resize(Nsp_I, Nsp_I);
+        // U₁,V₁,U₂,V₂ ∈ ℂ^{Nsp×Nsp}.
+        U1_C2D_sp_qp1.resize(Nsp_I, Nsp_I);
+        V1_C2D_sp_qp1.resize(Nsp_I, Nsp_I);
+        U2_C2D_sp_qp2.resize(Nsp_I, Nsp_I);
+        V2_C2D_sp_qp2.resize(Nsp_I, Nsp_I);
 
         // result ∈ ℂ^{Ncfg×Ncfg×(2J+1)×(2J+1)}.
         result_C4D_cfg_cfg_K_K.resize(Ncfg_I, Ncfg_I, TargetTwoJ_I + 1, TargetTwoJ_I + 1);
 
-        // RzRy,RzRyRz,Ug,Vg ∈ ℂ^{Nsp×Nsp}.
+        // RzRy,RzRyRz,U₂g,V₂g ∈ ℂ^{Nsp×Nsp}.
         RzRy_C2D_sp_sp.resize(Nsp_I, Nsp_I);
         RzRyRz_C2D_sp_sp.resize(Nsp_I, Nsp_I);
-        Ug_C2D_sp_qp.resize(Nsp_I, Nsp_I);
-        Vg_C2D_sp_qp.resize(Nsp_I, Nsp_I);
+        U2g_C2D_sp_qp2.resize(Nsp_I, Nsp_I);
+        V2g_C2D_sp_qp2.resize(Nsp_I, Nsp_I);
     }
 
     /**
-     * @brief  Store the reference Bogoliubov matrices.
-     * @math   U0,V0 ∈ ℝ^{Nsp×Nsp} → complex caches.
-     * @output Updated U0 and V0.
-     * @note   Requires canonical U0,V0 and invertible U0.
+     * @brief  Store left and right Bogoliubov matrices.
+     * @math   U₁,V₁,U₂,V₂ ∈ ℝ^{Nsp×Nsp} → complex caches.
+     * @output Updated U₁,V₁,U₂,V₂.
+     * @note   Requires canonical pairs and invertible U₁,U₂.
      */
-    void update_UV(const Eigen::MatrixXd& U0_F2D_sp_qp_, const Eigen::MatrixXd& V0_F2D_sp_qp_);
+    void update_UV(const Eigen::MatrixXd& U1_F2D_sp_qp1_, const Eigen::MatrixXd& V1_F2D_sp_qp1_, const Eigen::MatrixXd& U2_F2D_sp_qp2_, const Eigen::MatrixXd& V2_F2D_sp_qp2_);
 
     /**
      * @brief  Store alpha rotations, nodes, and quadrature weights.
@@ -149,7 +153,7 @@ public:
 
     /**
      * @brief  Integrate overlaps using Euler-angle and uniform gauge quadrature.
-     * @math   result_abk₁k₂ = ⟨Φ_a|Pᴺ Pᴶ_{K₁K₂}|Φ_b⟩.
+     * @math   result_abk₁k₂ = ⟨Φ₁;a|Pᴺ Pᴶ_{K₁K₂}|Φ₂;b⟩.
      * @output Updated result_C4D_cfg_cfg_K_K and its const reference.
      * @note   VΩ = Σwα Σwβ Σwγ for complete integration domains.
      * @note   Integer J permits SO(3); half-integer J requires SU(2).
@@ -159,7 +163,7 @@ public:
     /**
      * @brief  Integrate one-body kernels using Euler-angle and uniform gauge quadrature.
      * @math   H¹_ab(g) = Σ_ij OneBody_ij OBTD_ab(i,j;g).
-     * @math   result_abk₁k₂ = ⟨Φ_a|H¹ Pᴺ Pᴶ_{K₁K₂}|Φ_b⟩.
+     * @math   result_abk₁k₂ = ⟨Φ₁;a|H¹ Pᴺ Pᴶ_{K₁K₂}|Φ₂;b⟩.
      * @output Updated result_C4D_cfg_cfg_K_K and its const reference.
      * @note   Requires rotational invariance and particle-number conservation.
      */
@@ -168,7 +172,7 @@ public:
     /**
      * @brief  Integrate two-body kernels using Euler-angle and uniform gauge quadrature.
      * @math   H²_ab(g) = ½Σ_ijkl TwoBody_ijkl TBTD_ab(i,j,k,l;g).
-     * @math   result_abk₁k₂ = ⟨Φ_a|H² Pᴺ Pᴶ_{K₁K₂}|Φ_b⟩.
+     * @math   result_abk₁k₂ = ⟨Φ₁;a|H² Pᴺ Pᴶ_{K₁K₂}|Φ₂;b⟩.
      * @output Updated result_C4D_cfg_cfg_K_K and its const reference.
      * @note   TwoBody contains unsymmetrized matrix elements ⟨ij|v|kl⟩.
      * @note   Requires rotational invariance and particle-number conservation.
@@ -176,11 +180,16 @@ public:
     const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& calc_two_body(const Eigen::Tensor<double, 4, Eigen::ColMajor>& TwoBody_F4D_sp_sp_sp_sp);
 };
 
-inline void HFBProjection::update_UV(const Eigen::MatrixXd& U0_F2D_sp_qp_, const Eigen::MatrixXd& V0_F2D_sp_qp_) {
-    assert(U0_F2D_sp_qp_.rows() == Nsp_I && U0_F2D_sp_qp_.cols() == Nsp_I);
-    assert(V0_F2D_sp_qp_.rows() == Nsp_I && V0_F2D_sp_qp_.cols() == Nsp_I);
-    U0_C2D_sp_qp = U0_F2D_sp_qp_.cast<doubleC>();
-    V0_C2D_sp_qp = V0_F2D_sp_qp_.cast<doubleC>();
+inline void HFBProjection::update_UV(const Eigen::MatrixXd& U1_F2D_sp_qp1_, const Eigen::MatrixXd& V1_F2D_sp_qp1_, const Eigen::MatrixXd& U2_F2D_sp_qp2_, const Eigen::MatrixXd& V2_F2D_sp_qp2_) {
+    assert(U1_F2D_sp_qp1_.rows() == Nsp_I && U1_F2D_sp_qp1_.cols() == Nsp_I);
+    assert(V1_F2D_sp_qp1_.rows() == Nsp_I && V1_F2D_sp_qp1_.cols() == Nsp_I);
+    assert(U2_F2D_sp_qp2_.rows() == Nsp_I && U2_F2D_sp_qp2_.cols() == Nsp_I);
+    assert(V2_F2D_sp_qp2_.rows() == Nsp_I && V2_F2D_sp_qp2_.cols() == Nsp_I);
+    // (U₁,V₁,U₂,V₂) ∈ ℝ → ℂ.
+    U1_C2D_sp_qp1 = U1_F2D_sp_qp1_.cast<doubleC>();
+    V1_C2D_sp_qp1 = V1_F2D_sp_qp1_.cast<doubleC>();
+    U2_C2D_sp_qp2 = U2_F2D_sp_qp2_.cast<doubleC>();
+    V2_C2D_sp_qp2 = V2_F2D_sp_qp2_.cast<doubleC>();
 }
 
 inline void HFBProjection::update_alpha(const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Rz_C3D_sp_sp_alpha_, const Eigen::VectorXd& alpha_F1D_alpha_, const Eigen::VectorXd& weight_F1D_alpha_) {
@@ -233,12 +242,12 @@ inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_ove
                 // w = (2J+1) wα wβ wγ/(VΩ Nφ).
                 const double weight_F = normalization_F * weight_F1D_alpha(alpha_I) * weight_F1D_beta(beta_I) * weight_F1D_gamma(gamma_I);
                 for (int phi_I = 0; phi_I < Nphi_I; ++phi_I) {
-                    // Ug = exp(-iφ) R U₀; Vg = exp(iφ) R* V₀.
+                    // U₂g = exp(-iφ) R U₂; V₂g = exp(iφ) R* V₂.
                     const double phi_F = 2.0 * std::numbers::pi * phi_I / Nphi_I;
                     const doubleC gauge_C = std::exp(doubleC(0.0, -phi_F));
-                    Ug_C2D_sp_qp.noalias() = gauge_C * RzRyRz_C2D_sp_sp * U0_C2D_sp_qp;
-                    Vg_C2D_sp_qp.noalias() = std::conj(gauge_C) * RzRyRz_C2D_sp_sp.conjugate() * V0_C2D_sp_qp;
-                    hfb_pfaffian.update_contractions(U0_C2D_sp_qp, V0_C2D_sp_qp, Ug_C2D_sp_qp, Vg_C2D_sp_qp, doubleC(1.0, 0.0));
+                    U2g_C2D_sp_qp2.noalias() = gauge_C * RzRyRz_C2D_sp_sp * U2_C2D_sp_qp2;
+                    V2g_C2D_sp_qp2.noalias() = std::conj(gauge_C) * RzRyRz_C2D_sp_sp.conjugate() * V2_C2D_sp_qp2;
+                    hfb_pfaffian.update_contractions(U1_C2D_sp_qp1, V1_C2D_sp_qp1, U2g_C2D_sp_qp2, V2g_C2D_sp_qp2, doubleC(1.0, 0.0));
                     const auto& overlap_C2D_cfg_cfg = hfb_pfaffian.calc_overlap();
 
                     const doubleC factorPhi_C = std::exp(doubleC(0.0, TargetN_I * phi_F));
@@ -284,12 +293,12 @@ inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_one
                 // w = (2J+1) wα wβ wγ/(VΩ Nφ).
                 const double weight_F = normalization_F * weight_F1D_alpha(alpha_I) * weight_F1D_beta(beta_I) * weight_F1D_gamma(gamma_I);
                 for (int phi_I = 0; phi_I < Nphi_I; ++phi_I) {
-                    // Ug = exp(-iφ) R U₀; Vg = exp(iφ) R* V₀.
+                    // U₂g = exp(-iφ) R U₂; V₂g = exp(iφ) R* V₂.
                     const double phi_F = 2.0 * std::numbers::pi * phi_I / Nphi_I;
                     const doubleC gauge_C = std::exp(doubleC(0.0, -phi_F));
-                    Ug_C2D_sp_qp.noalias() = gauge_C * RzRyRz_C2D_sp_sp * U0_C2D_sp_qp;
-                    Vg_C2D_sp_qp.noalias() = std::conj(gauge_C) * RzRyRz_C2D_sp_sp.conjugate() * V0_C2D_sp_qp;
-                    hfb_pfaffian.update_contractions(U0_C2D_sp_qp, V0_C2D_sp_qp, Ug_C2D_sp_qp, Vg_C2D_sp_qp, doubleC(1.0, 0.0));
+                    U2g_C2D_sp_qp2.noalias() = gauge_C * RzRyRz_C2D_sp_sp * U2_C2D_sp_qp2;
+                    V2g_C2D_sp_qp2.noalias() = std::conj(gauge_C) * RzRyRz_C2D_sp_sp.conjugate() * V2_C2D_sp_qp2;
+                    hfb_pfaffian.update_contractions(U1_C2D_sp_qp1, V1_C2D_sp_qp1, U2g_C2D_sp_qp2, V2g_C2D_sp_qp2, doubleC(1.0, 0.0));
                     // H¹_ab(g) = Σ_ij h_ij OBTD_ab(i,j;g).
                     OneBody_C2D_cfg_cfg.setZero();
                     for (int sp2_I = 0; sp2_I < Nsp_I; ++sp2_I) {
@@ -342,12 +351,12 @@ inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_two
                 // w = (2J+1) wα wβ wγ/(VΩ Nφ).
                 const double weight_F = normalization_F * weight_F1D_alpha(alpha_I) * weight_F1D_beta(beta_I) * weight_F1D_gamma(gamma_I);
                 for (int phi_I = 0; phi_I < Nphi_I; ++phi_I) {
-                    // Ug = exp(-iφ) R U₀; Vg = exp(iφ) R* V₀.
+                    // U₂g = exp(-iφ) R U₂; V₂g = exp(iφ) R* V₂.
                     const double phi_F = 2.0 * std::numbers::pi * phi_I / Nphi_I;
                     const doubleC gauge_C = std::exp(doubleC(0.0, -phi_F));
-                    Ug_C2D_sp_qp.noalias() = gauge_C * RzRyRz_C2D_sp_sp * U0_C2D_sp_qp;
-                    Vg_C2D_sp_qp.noalias() = std::conj(gauge_C) * RzRyRz_C2D_sp_sp.conjugate() * V0_C2D_sp_qp;
-                    hfb_pfaffian.update_contractions(U0_C2D_sp_qp, V0_C2D_sp_qp, Ug_C2D_sp_qp, Vg_C2D_sp_qp, doubleC(1.0, 0.0));
+                    U2g_C2D_sp_qp2.noalias() = gauge_C * RzRyRz_C2D_sp_sp * U2_C2D_sp_qp2;
+                    V2g_C2D_sp_qp2.noalias() = std::conj(gauge_C) * RzRyRz_C2D_sp_sp.conjugate() * V2_C2D_sp_qp2;
+                    hfb_pfaffian.update_contractions(U1_C2D_sp_qp1, V1_C2D_sp_qp1, U2g_C2D_sp_qp2, V2g_C2D_sp_qp2, doubleC(1.0, 0.0));
                     // H²_ab(g) = ½Σ_ijkl v_ijkl TBTD_ab(i,j,k,l;g).
                     TwoBody_C2D_cfg_cfg.setZero();
                     for (int sp4_I = 0; sp4_I < Nsp_I; ++sp4_I) {
