@@ -23,11 +23,11 @@ class RepresentationSpin {
 public:
     int twoJ_I = 0;
 
-    Eigen::MatrixXcd Jx_C2D_M_M{};
+    Eigen::MatrixXd Jx_F2D_M_M{};
     Eigen::MatrixXcd Jy_C2D_M_M{};
-    Eigen::MatrixXcd Jz_C2D_M_M{};
-    Eigen::MatrixXcd Jp_C2D_M_M{};
-    Eigen::MatrixXcd Jm_C2D_M_M{};
+    Eigen::MatrixXd Jz_F2D_M_M{};
+    Eigen::MatrixXd Jp_F2D_M_M{};
+    Eigen::MatrixXd Jm_F2D_M_M{};
 
     Eigen::VectorXd JyEigenvalue_F1D_eigen{};
     Eigen::MatrixXcd JyEigenvector_C2D_M_eigen{};
@@ -47,11 +47,11 @@ public:
         twoJ_I = twoJ_I_;
 
         // dim = 2J + 1.
-        Jx_C2D_M_M.resize(twoJ_I + 1, twoJ_I + 1);
+        Jx_F2D_M_M.resize(twoJ_I + 1, twoJ_I + 1);
         Jy_C2D_M_M.resize(twoJ_I + 1, twoJ_I + 1);
-        Jz_C2D_M_M.resize(twoJ_I + 1, twoJ_I + 1);
-        Jp_C2D_M_M.resize(twoJ_I + 1, twoJ_I + 1);
-        Jm_C2D_M_M.resize(twoJ_I + 1, twoJ_I + 1);
+        Jz_F2D_M_M.resize(twoJ_I + 1, twoJ_I + 1);
+        Jp_F2D_M_M.resize(twoJ_I + 1, twoJ_I + 1);
+        Jm_F2D_M_M.resize(twoJ_I + 1, twoJ_I + 1);
         JyEigenvalue_F1D_eigen.resize(twoJ_I + 1);
         JyEigenvector_C2D_M_eigen.resize(twoJ_I + 1, twoJ_I + 1);
 
@@ -67,7 +67,7 @@ public:
     /**
      * @brief  Build ladder and diagonal angular-momentum matrices.
      * @math   (J±)_(M±1,M) = √((J∓M)(J±M+1)); (Jz)_(M,M) = M.
-     * @output Jp_C2D_M_M, Jm_C2D_M_M, Jz_C2D_M_M.
+     * @output Jp_F2D_M_M, Jm_F2D_M_M, Jz_F2D_M_M.
      */
     void build_Jp_Jm_Jz();
 
@@ -100,24 +100,24 @@ public:
 
 inline void RepresentationSpin::build_Jp_Jm_Jz() {
     const double J_F = 0.5 * twoJ_I;
-    Jp_C2D_M_M.setZero();
-    Jz_C2D_M_M.setZero();
+    Jp_F2D_M_M.setZero();
+    Jz_F2D_M_M.setZero();
 
     // (Jp)_(M+1,M) = √((J-M)(J+M+1)).
     for (int M_I = 0; M_I < twoJ_I; ++M_I) {
         const double M_F = M_I - J_F;
-        Jp_C2D_M_M(M_I + 1, M_I) = std::sqrt((J_F - M_F) * (J_F + M_F + 1.0));
+        Jp_F2D_M_M(M_I + 1, M_I) = std::sqrt((J_F - M_F) * (J_F + M_F + 1.0));
     }
-    Jm_C2D_M_M = Jp_C2D_M_M.adjoint();
-    for (int M_I = 0; M_I <= twoJ_I; ++M_I) { Jz_C2D_M_M(M_I, M_I) = M_I - J_F; }
+    Jm_F2D_M_M = Jp_F2D_M_M.transpose();
+    for (int M_I = 0; M_I <= twoJ_I; ++M_I) { Jz_F2D_M_M(M_I, M_I) = M_I - J_F; }
 }
 
 inline void RepresentationSpin::build_Jx_Jy_Jz() {
     // Jx = (Jp+Jm)/2; Jy = (Jp-Jm)/(2i); Jz|M⟩ = M|M⟩.
-    Jx_C2D_M_M = 0.5 * (Jp_C2D_M_M + Jm_C2D_M_M);
-    Jy_C2D_M_M = std::complex<double>(0.0, -0.5) * (Jp_C2D_M_M - Jm_C2D_M_M);
-    Jz_C2D_M_M.setZero();
-    for (int M_I = 0; M_I <= twoJ_I; ++M_I) { Jz_C2D_M_M(M_I, M_I) = M_I - 0.5 * twoJ_I; }
+    Jx_F2D_M_M = 0.5 * (Jp_F2D_M_M + Jm_F2D_M_M);
+    Jy_C2D_M_M = std::complex<double>(0.0, -0.5) * (Jp_F2D_M_M - Jm_F2D_M_M);
+    Jz_F2D_M_M.setZero();
+    for (int M_I = 0; M_I <= twoJ_I; ++M_I) { Jz_F2D_M_M(M_I, M_I) = M_I - 0.5 * twoJ_I; }
 
     // Jy = Q diag(λ) Q†.
     Eigen::SelfAdjointEigenSolver<Eigen::MatrixXcd> Jy_solver(Jy_C2D_M_M);
@@ -139,11 +139,11 @@ inline const Eigen::MatrixXcd& RepresentationSpin::calc_R(double alpha_F, double
 
     // Rz(α) Ry(β).
     Rz_C2D_M_M.setZero();
-    Rz_C2D_M_M.diagonal() = (std::complex<double>(0.0, -alpha_F) * Jz_C2D_M_M.diagonal().array()).exp().matrix();
+    Rz_C2D_M_M.diagonal() = (std::complex<double>(0.0, -alpha_F) * Jz_F2D_M_M.diagonal().array()).exp().matrix();
     RzRyRz_C2D_M_M.noalias() = Rz_C2D_M_M.diagonal().asDiagonal() * Ry_C2D_M_M;
 
     // R_(M',M) *= exp(-iγM).
-    Rz_C2D_M_M.diagonal() = (std::complex<double>(0.0, -gamma_F) * Jz_C2D_M_M.diagonal().array()).exp().matrix();
+    Rz_C2D_M_M.diagonal() = (std::complex<double>(0.0, -gamma_F) * Jz_F2D_M_M.diagonal().array()).exp().matrix();
     for (int M_I = 0; M_I <= twoJ_I; ++M_I) { RzRyRz_C2D_M_M.col(M_I) *= Rz_C2D_M_M(M_I, M_I); }
     return RzRyRz_C2D_M_M;
 }
