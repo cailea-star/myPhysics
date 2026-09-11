@@ -17,6 +17,11 @@
 
 using doubleC = std::complex<double>;
 
+/**
+ * @brief  Evaluate HFB configuration kernels using Pfaffians.
+ * @note   calc_overlap/obtd/tbtd require current contractions and nonzero overlap.
+ * @note   Returned references alias reusable outputs; indices are zero-based.
+ */
 class HFBPfaffian {
 public:
     int Nsp_I = 0;
@@ -67,7 +72,6 @@ public:
      * @brief  Enumerate lexicographic configurations and allocate HFB workspaces.
      * @math   U₁,V₁,U₂,V₂ ∈ ℂ^{Nsp×Nsp}.
      * @output Generated both configuration tables; allocated matrices and workspaces.
-     * @note   Requires Nsp > 0; 0 ≤ NcqpMax1,NcqpMax2 ≤ Nsp.
      * @note   Each side uses its maximum's parity; step = 2.
      */
     HFBPfaffian(int Nsp_I_, int NcqpMax1_I_, int NcqpMax2_I_) {
@@ -138,16 +142,15 @@ public:
      * @math   A = U₁ᵀU₂* + V₁ᵀV₂*; Qp1Qp2Dag = A⁻ᵀ.
      * @output Updated U,V,Z, overlap, A, AInv, and eleven contractions.
      * @note   Requires canonical U,V and numerically invertible U₁,U₂,A.
-     * @note   Vacuum phases: ν₁ = √|det U₁| > 0; ν₂ = √|det U₂| > 0.
+     * @note   Positive reference phases: ν_a = √|det U_a|.
+     * @note   phase_C = exp[i(θ₂-θ₁)] multiplies the vacuum overlap.
      */
-    void update_contractions(const Eigen::MatrixXcd& U1_C2D_sp_qp1_, const Eigen::MatrixXcd& V1_C2D_sp_qp1_, const Eigen::MatrixXcd& U2_C2D_sp_qp2_, const Eigen::MatrixXcd& V2_C2D_sp_qp2_);
+    void update_contractions(const Eigen::MatrixXcd& U1_C2D_sp_qp1_, const Eigen::MatrixXcd& V1_C2D_sp_qp1_, const Eigen::MatrixXcd& U2_C2D_sp_qp2_, const Eigen::MatrixXcd& V2_C2D_sp_qp2_, doubleC phase_C);
 
     /**
      * @brief  Calculate configuration overlaps using Wick Pfaffians.
      * @math   N_ab = ⟨Φ₁;a|Φ₂;b⟩.
      * @output Updated overlap_C2D_cfg1_cfg2 and its const reference.
-     * @note   Requires current contractions and vacuum overlap.
-     * @note   The next call overwrites the returned matrix.
      */
     const Eigen::MatrixXcd& calc_overlap();
 
@@ -156,8 +159,6 @@ public:
      * @math   OBTD_ab(i,j) = ⟨Φ₁;a|c†ᵢcⱼ|Φ₂;b⟩.
      * @output Updated OBTD_C2D_cfg1_cfg2 and its const reference.
      * @note   Includes vacuum overlap; excludes operator coefficients.
-     * @note   Requires current contractions; particle indices are zero-based.
-     * @note   The next call overwrites the returned matrix.
      */
     const Eigen::MatrixXcd& calc_obtd(int sp1_I, int sp2_I);
 
@@ -166,8 +167,6 @@ public:
      * @math   TBTD_ab(i,j,k,l) = ⟨Φ₁;a|c†ᵢc†ⱼcₗcₖ|Φ₂;b⟩.
      * @output Updated TBTD_C2D_cfg1_cfg2 and its const reference.
      * @note   Includes vacuum overlap; excludes coefficients and symmetry factors.
-     * @note   Requires current contractions; particle indices are zero-based.
-     * @note   The next call overwrites the returned matrix.
      */
     const Eigen::MatrixXcd& calc_tbtd(int sp1_I, int sp2_I, int sp3_I, int sp4_I);
 
@@ -184,7 +183,6 @@ public:
      * @brief  Enumerate fixed-size configurations in lexicographic order.
      * @math   0 ≤ μ₀ < ⋯ < μ_{Ncqp-1} < Nsp.
      * @output All C(Nsp,Ncqp) configurations; Ncqp = 0 returns {{}}.
-     * @note   Requires 0 ≤ Ncqp ≤ Nsp.
      */
     static std::vector<std::vector<int>> build_configs(int Nsp_I, int Ncqp_I);
 };
@@ -193,10 +191,8 @@ public:
  * @brief  Update overlap and contractions using Pfaffians and full-pivot LU.
  * @math   A = U₁ᵀU₂* + V₁ᵀV₂*; Qp1Qp2Dag = A⁻ᵀ.
  * @output Updated U,V,Z, overlap, A, AInv, and eleven contractions.
- * @note   Requires canonical U,V and numerically invertible U₁,U₂,A.
- * @note   Vacuum phases: ν₁ = √|det U₁| > 0; ν₂ = √|det U₂| > 0.
  */
-inline void HFBPfaffian::update_contractions(const Eigen::MatrixXcd& U1_C2D_sp_qp1_, const Eigen::MatrixXcd& V1_C2D_sp_qp1_, const Eigen::MatrixXcd& U2_C2D_sp_qp2_, const Eigen::MatrixXcd& V2_C2D_sp_qp2_) {
+inline void HFBPfaffian::update_contractions(const Eigen::MatrixXcd& U1_C2D_sp_qp1_, const Eigen::MatrixXcd& V1_C2D_sp_qp1_, const Eigen::MatrixXcd& U2_C2D_sp_qp2_, const Eigen::MatrixXcd& V2_C2D_sp_qp2_, doubleC phase_C) {
     // U₁,V₁,U₂,V₂ ∈ ℂ^{Nsp×Nsp}.
     assert(U1_C2D_sp_qp1_.rows() == Nsp_I && U1_C2D_sp_qp1_.cols() == Nsp_I);
     assert(V1_C2D_sp_qp1_.rows() == Nsp_I && V1_C2D_sp_qp1_.cols() == Nsp_I);
@@ -220,7 +216,7 @@ inline void HFBPfaffian::update_contractions(const Eigen::MatrixXcd& U1_C2D_sp_q
     const double nu1_F = std::sqrt(std::abs(U1_lu.determinant()));
     const double nu2_F = std::sqrt(std::abs(U2_lu.determinant()));
 
-    // X = [Z₂,-I; I,-Z₁*]; overlap = ν₁ν₂s_Nsp pf(X).
+    // X = [Z₂,-I; I,-Z₁*]; overlap = phase × ν₁ν₂s_Nsp pf(X).
     Eigen::Map<Eigen::MatrixXcd> X_C2D_sp_sp(Sworkspace_C1D_element.data(), 2 * Nsp_I, 2 * Nsp_I);
     X_C2D_sp_sp.topLeftCorner(Nsp_I, Nsp_I) = Z2_C2D_sp_sp;
     X_C2D_sp_sp.bottomRightCorner(Nsp_I, Nsp_I) = -Z1_C2D_sp_sp.conjugate();
@@ -228,7 +224,7 @@ inline void HFBPfaffian::update_contractions(const Eigen::MatrixXcd& U1_C2D_sp_q
     X_C2D_sp_sp.topRightCorner(Nsp_I, Nsp_I) *= -1.0;
     X_C2D_sp_sp.bottomLeftCorner(Nsp_I, Nsp_I).setIdentity();
     const int sign_I = (Nsp_I % 4 == 0 || Nsp_I % 4 == 3) ? 1 : -1;
-    overlap_C = nu1_F * nu2_F * static_cast<double>(sign_I) * calc_pfaffian(X_C2D_sp_sp);
+    overlap_C = phase_C * nu1_F * nu2_F * static_cast<double>(sign_I) * calc_pfaffian(X_C2D_sp_sp);
 
     // A = U₁ᵀU₂* + V₁ᵀV₂*.
     A_C2D_qp1_qp2.noalias() = U1_C2D_sp_qp1.transpose() * U2_C2D_sp_qp2.conjugate();
@@ -268,8 +264,6 @@ inline void HFBPfaffian::update_contractions(const Eigen::MatrixXcd& U1_C2D_sp_q
  * @brief  Calculate configuration overlaps using Wick Pfaffians.
  * @math   N_ab = ⟨Φ₁|Φ₂⟩ pf(S_ab).
  * @output Updated overlap_C2D_cfg1_cfg2 and its const reference.
- * @note   Requires current contractions and nonzero vacuum overlap.
- * @note   Left annihilators reverse the stored configuration order.
  */
 inline const Eigen::MatrixXcd& HFBPfaffian::calc_overlap() {
     assert(overlap_C != doubleC(0.0, 0.0));
@@ -327,8 +321,6 @@ inline const Eigen::MatrixXcd& HFBPfaffian::calc_overlap() {
  * @brief  Calculate one-body kernels using Wick Pfaffians.
  * @math   OBTD_ab(i,j) = ⟨Φ₁;a|c†ᵢcⱼ|Φ₂;b⟩.
  * @output Updated OBTD_C2D_cfg1_cfg2 and its const reference.
- * @note   Requires current contractions and nonzero vacuum overlap.
- * @note   Excludes operator coefficients.
  */
 inline const Eigen::MatrixXcd& HFBPfaffian::calc_obtd(int sp1_I, int sp2_I) {
     assert(sp1_I >= 0 && sp1_I < Nsp_I && sp2_I >= 0 && sp2_I < Nsp_I);
@@ -401,8 +393,6 @@ inline const Eigen::MatrixXcd& HFBPfaffian::calc_obtd(int sp1_I, int sp2_I) {
  * @brief  Calculate two-body kernels using Wick Pfaffians.
  * @math   TBTD_ab(i,j,k,l) = ⟨Φ₁;a|c†ᵢc†ⱼcₗcₖ|Φ₂;b⟩.
  * @output Updated TBTD_C2D_cfg1_cfg2 and its const reference.
- * @note   Requires current contractions and nonzero vacuum overlap.
- * @note   Excludes operator coefficients and symmetry factors.
  */
 inline const Eigen::MatrixXcd& HFBPfaffian::calc_tbtd(int sp1_I, int sp2_I, int sp3_I, int sp4_I) {
     assert(sp1_I >= 0 && sp1_I < Nsp_I && sp2_I >= 0 && sp2_I < Nsp_I);
@@ -486,8 +476,6 @@ inline const Eigen::MatrixXcd& HFBPfaffian::calc_tbtd(int sp1_I, int sp2_I, int 
  * @brief  Calculate Pfaffians using pivoted skew-symmetric elimination.
  * @math   pf(PXPᵀ) = det(P)pf(X); pf(∅) = 1.
  * @output Pfaffian value; input matrix overwritten.
- * @note   Requires finite, even-order square X with Xᵀ = -X.
- * @note   Exact-zero pivots return zero; no magnitude cutoff.
  */
 inline doubleC HFBPfaffian::calc_pfaffian(Eigen::Ref<Eigen::MatrixXcd> X_C2D_chain_chain) {
     const Eigen::Index Nchain_I = X_C2D_chain_chain.rows();
