@@ -89,9 +89,9 @@ inline std::tuple<double, Eigen::MatrixXcd> decay_match(const CCParams& params, 
     Eigen::MatrixXcd outBoundary_C2D_ch_2sol = decay_coulomb_boundary(rmax_F, params);
 
     // (Bᵢₙ,Bₒᵤₜ) → (Qᵢₙ,dQᵢₙ,Rᵢₙ,Qₒᵤₜ,dQₒᵤₜ,Rₒᵤₜ).
-    IVP_RK4QRState<std::complex<double>> inState_QR(F_Func, rmin_F, inBoundary_C2D_ch_2sol.leftCols(Nch_I), inBoundary_C2D_ch_2sol.rightCols(Nch_I));
+    IVPRK4QRState<std::complex<double>> inState_QR(F_Func, rmin_F, inBoundary_C2D_ch_2sol.leftCols(Nch_I), inBoundary_C2D_ch_2sol.rightCols(Nch_I));
     for (int r_I = 1; r_I <= rmatch_I; ++r_I) {inState_QR.step(r_F1D_r(r_I));}
-    IVP_RK4QRState<std::complex<double>> outState_QR(F_Func, rmax_F, outBoundary_C2D_ch_2sol.leftCols(Nch_I), outBoundary_C2D_ch_2sol.rightCols(Nch_I));
+    IVPRK4QRState<std::complex<double>> outState_QR(F_Func, rmax_F, outBoundary_C2D_ch_2sol.leftCols(Nch_I), outBoundary_C2D_ch_2sol.rightCols(Nch_I));
     for (int r_I = Nr_I - 2; r_I >= rmatch_I; --r_I) {outState_QR.step(r_F1D_r(r_I));}
 
     // Y=(∂ᵣu)u⁻¹=dQ Q⁻¹.
@@ -126,7 +126,7 @@ inline std::tuple<double, Eigen::MatrixXcd> decay_match(const CCParams& params, 
     Eigen::MatrixXcd y_C2D_ch_2(Nch_I, 2);
     y_C2D_ch_2.leftCols(1).noalias() = inBoundary_C2D_ch_2sol.leftCols(Nch_I) * cIn_C1D_sol;
     y_C2D_ch_2.rightCols(1).noalias() = inBoundary_C2D_ch_2sol.rightCols(Nch_I) * cIn_C1D_sol;
-    IVP_RK4QRState<std::complex<double>> inWaveState_QR(F_Func, rmin_F, y_C2D_ch_2.leftCols(1), y_C2D_ch_2.rightCols(1));
+    IVPRK4QRState<std::complex<double>> inWaveState_QR(F_Func, rmin_F, y_C2D_ch_2.leftCols(1), y_C2D_ch_2.rightCols(1));
     umatch_C2D_ch_r.col(0) = y_C2D_ch_2.col(0);
     double norm_F = 0.0;
     double density_F = y_C2D_ch_2.col(0).squaredNorm();
@@ -141,7 +141,7 @@ inline std::tuple<double, Eigen::MatrixXcd> decay_match(const CCParams& params, 
 
     y_C2D_ch_2.leftCols(1).noalias() = outBoundary_C2D_ch_2sol.leftCols(Nch_I) * cOut_C1D_sol;
     y_C2D_ch_2.rightCols(1).noalias() = outBoundary_C2D_ch_2sol.rightCols(Nch_I) * cOut_C1D_sol;
-    IVP_RK4QRState<std::complex<double>> outWaveState_QR(F_Func, rmax_F, y_C2D_ch_2.leftCols(1), y_C2D_ch_2.rightCols(1));
+    IVPRK4QRState<std::complex<double>> outWaveState_QR(F_Func, rmax_F, y_C2D_ch_2.leftCols(1), y_C2D_ch_2.rightCols(1));
     umatch_C2D_ch_r.col(Nr_I - 1) = y_C2D_ch_2.col(0);
     density_F = y_C2D_ch_2.col(0).squaredNorm();
     for (int r_I = Nr_I - 2; r_I >= rmatch_I; --r_I) {

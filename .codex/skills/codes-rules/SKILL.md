@@ -12,6 +12,7 @@ description: Establishes variable-naming, construction, formatting, comment, API
 - `dD` MUST encode rank when present: scalars use `name_T`, such as `{hbar_F, x_F, i_I}`; vectors use `name_T1D_index`, such as `{x_F1D_x, n_I1D_n}`; multidimensional arrays use `name_TdD_indexes`, such as `{H_F2D_x_n, psi_C2D_x_n}`.
 - `_indexes` MUST list each dimension's physical index in array order, such as `{_x, _x_y, _x_y_z}`.
 - Function names MUST use `snake_case`; mathematical symbols MAY preserve canonical capitalization, such as `{calc_energy, build_tables, read_Gz}`.
+- Class and struct names MUST use `PascalCase`; established acronyms MUST retain uppercase, such as `{HFBPfaffian, HFBProjection}`.
 
 ## Formatting Rules
 

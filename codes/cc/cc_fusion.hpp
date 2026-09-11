@@ -80,7 +80,7 @@ inline Eigen::Tensor<std::complex<double>, 3, Eigen::ColMajor> fusion_wavefuncti
         dydr_C2D_ch_2sol.rightCols(Nsol_I).noalias() = F_C2D_ch_ch * y_C2D_ch_2sol.leftCols(Nsol_I);
     };
     Eigen::VectorXcd y0_C1D_ch2sol = Eigen::Map<const Eigen::VectorXcd>(y0_C2D_ch_2sol.data(), y0_C2D_ch_2sol.size());
-    IVP_RK4State<std::complex<double>> rk4_State(dydr_Func, r_F1D_r(0), y0_C1D_ch2sol);
+    IVPRK4State<std::complex<double>> rk4_State(dydr_Func, r_F1D_r(0), y0_C1D_ch2sol);
     Eigen::Tensor<std::complex<double>, 3, Eigen::ColMajor> u_C3D_ch_sol_r(Nch_I, Nsol_I, Nr_I);
     Eigen::TensorMap<Eigen::Tensor<const std::complex<double>, 2, Eigen::ColMajor>> u0_C2D_ch_sol(y0_C2D_ch_2sol.data(), Nch_I, Nsol_I);
     u_C3D_ch_sol_r.chip(0, 2) = u0_C2D_ch_sol;
