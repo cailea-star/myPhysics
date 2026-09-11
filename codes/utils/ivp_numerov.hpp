@@ -16,7 +16,7 @@
 template<typename T> using Real2TMatFunc = std::function<void(double, Eigen::Ref<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>)>;
 
 template<typename T>
-class IVP_NumerovState {
+class IVPNumerovState {
 private:
     Real2TMatFunc<T> F_Func;
     double xcurr_F;
@@ -38,7 +38,7 @@ public:
      * @math   h=x₁-x₀, (F₀,F₁)=(F(x₀),F(x₁))
      * @output Initialized Numerov state at x₁.
      */
-    IVP_NumerovState(const Real2TMatFunc<T>& F_Func_, double x0_F, double x1_F, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& y0_T2D_ch_sol, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& y1_T2D_ch_sol) {
+    IVPNumerovState(const Real2TMatFunc<T>& F_Func_, double x0_F, double x1_F, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& y0_T2D_ch_sol, const Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>& y1_T2D_ch_sol) {
         F_Func = F_Func_;
         xcurr_F = x1_F;
         dx_F = x1_F - x0_F;
@@ -72,7 +72,7 @@ public:
 };
 
 template<typename T>
-const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>& IVP_NumerovState<T>::step(double xnext_F) {
+const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>& IVPNumerovState<T>::step(double xnext_F) {
     assert(std::isfinite(xnext_F) && std::abs(xnext_F - xcurr_F - dx_F) <= 1.0e-10 * std::abs(dx_F));
     F_Func(xnext_F, Fnext_T2D_ch_ch);
     assert(Fnext_T2D_ch_ch.allFinite());
@@ -193,7 +193,7 @@ Eigen::Tensor<T, 3, Eigen::ColMajor> ivp_numerov_mat(const Real2TMatFunc<T>& F_F
     y_T3D_ch_sol_x.chip(0, 2) = y0map_T2D_ch_sol;
     y_T3D_ch_sol_x.chip(1, 2) = y1map_T2D_ch_sol;
     using YMap_T2D_ch_sol = Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>>;
-    IVP_NumerovState<T> numerov_State(F_Func, x_F1D_x(0), x_F1D_x(1), y0_T2D_ch_sol, y1_T2D_ch_sol);
+    IVPNumerovState<T> numerov_State(F_Func, x_F1D_x(0), x_F1D_x(1), y0_T2D_ch_sol, y1_T2D_ch_sol);
     for (int x_I = 1; x_I <= Nx_I - 2; ++x_I) {
         YMap_T2D_ch_sol ycurrMap_T2D_ch_sol(&y_T3D_ch_sol_x(0, 0, x_I + 1), Nch_I, Nsol_I);
         ycurrMap_T2D_ch_sol = numerov_State.step(x_F1D_x(x_I + 1));
