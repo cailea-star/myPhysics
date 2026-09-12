@@ -7,11 +7,18 @@
 
 #pragma once
 
+#include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <functional>
+#include <initializer_list>
+#include <map>
 
 #include <Eigen/Core>
 #include <Eigen/Eigenvalues>
+
+#include "root.hpp"
+#include "root_broyden.hpp"
 
 struct HFBSolution {
     Eigen::VectorXd Eqp_F1D_qp{};
@@ -30,6 +37,8 @@ struct HFBField {
 
 class HFB {
 public:
+    using BlockingFunc = std::function<double(HFBSolution& solution, bool updateTracking_B)>;
+
     double lambda_F = -7.0; // Fermi energy [MeV].
     double lambda2_F = 0.0; // Lipkin-Nogami λ₂ [MeV].
     double temperature_F = 0.0;
@@ -39,6 +48,7 @@ public:
 
     HFBField hfb_field{};
     HFBSolution hfb_solution{};
+    BlockingFunc blocking_Func{}; // updateTracking_B: commit blocking trackers.
 
     Eigen::MatrixXd H_F2D_2sp_2sp{};
     Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> H_eigensolver{};
@@ -47,8 +57,7 @@ public:
     /**
      * @brief  Initialize the single-species HFB workspace.
      * @math   h = h₀ + Γ.
-     * @output Zeroed matrices and allocated eigensolver workspace.
-     * @note   Requires Nsp > 0.
+     * @output Allocated matrices and eigensolver workspace.
      */
     HFB(int Nsp_I_) {
         assert(Nsp_I_ > 0);
@@ -57,50 +66,43 @@ public:
 
         // h₀, Γ, Δ ∈ ℝ^{Nsp×Nsp}.
         hfb_field.h0_F2D_sp_sp.resize(Nsp_I, Nsp_I);
-        hfb_field.h0_F2D_sp_sp.setZero();
         hfb_field.Gamma_F2D_sp_sp.resize(Nsp_I, Nsp_I);
-        hfb_field.Gamma_F2D_sp_sp.setZero();
         hfb_field.Delta_F2D_sp_sp.resize(Nsp_I, Nsp_I);
-        hfb_field.Delta_F2D_sp_sp.setZero();
 
         // E, f ∈ ℝ^{Nsp}; U, V ∈ ℝ^{Nsp×Nsp}.
         hfb_solution.Eqp_F1D_qp.resize(Nsp_I);
         hfb_solution.f_F1D_qp.resize(Nsp_I);
         hfb_solution.U_F2D_sp_qp.resize(Nsp_I, Nsp_I);
         hfb_solution.V_F2D_sp_qp.resize(Nsp_I, Nsp_I);
-        hfb_solution.Eqp_F1D_qp.setZero();
-        hfb_solution.f_F1D_qp.setZero();
-        hfb_solution.U_F2D_sp_qp.setZero();
-        hfb_solution.V_F2D_sp_qp.setZero();
 
         // ρ, κ ∈ ℝ^{Nsp×Nsp}.
         hfb_solution.rho_F2D_sp_sp.resize(Nsp_I, Nsp_I);
         hfb_solution.kappa_F2D_sp_sp.resize(Nsp_I, Nsp_I);
-        hfb_solution.rho_F2D_sp_sp.setZero();
-        hfb_solution.kappa_F2D_sp_sp.setZero();
 
         // H ∈ ℝ^{2Nsp×2Nsp}.
         H_F2D_2sp_2sp.resize(2 * Nsp_I, 2 * Nsp_I);
-        H_F2D_2sp_2sp.setZero();
         H_eigensolver = Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>(2 * Nsp_I);
 
     }
 
     /**
      * @brief  Solve thermal HFB using self-adjoint eigendecomposition.
-     * @math   H = [h_LN-λI, Δ; -Δ, -h_LN+λI].
+     * @math   H = [h₀+Γ-λI, Δ; -Δ, -h₀-Γ+λI].
      * @math   H[U;V] = [U;V]E; f = 1/(1+exp(E/T)).
      * @math   ρ = V(1-f)Vᵀ + UfUᵀ.
      * @math   κ = V(1-f)Uᵀ + UfVᵀ.
      * @output Updated H, U, V, Eqp, f, rho, and kappa.
      * @output Returned mean particle number N = Tr(ρ).
-     * @note   T = k_B T_phys; same energy units as Eqp.
-     * @note   Requires T ≥ 0 and no zero-energy modes.
-     * @note   ε = λ + E(1-2‖V‖²); cutoff affects ρ and κ.
-     * @note   EspCut_F = ∞ disables the cutoff.
-     * @note   h_LN = h₀ + Γ + 4λ₂ρ - 2λ₂I; pre-solve ρ.
+     * @note   ε = λ+E(1-2‖V‖²) cuts ρ,κ; Ecut = ∞ disables.
      */
     double update_UV_E_rho_kappa();
+
+    /**
+     * @brief  Search chemical potential using bracket expansion and Brent.
+     * @math   Tr(ρ_blocked(λ)) = TargetN.
+     * @output Updated chemical potential, solution, and densities.
+     */
+    void search_lambda(int TargetN_I, double lambdaTolerance_F);
 };
 
 
@@ -108,6 +110,9 @@ class HFBNucleus {
 public:
     HFB hfb_neutron;
     HFB hfb_proton;
+
+    double accuracy_F = 1.0e-5;
+    double mixingInitial_F = 0.20;
 
 public:
     /**
@@ -120,15 +125,16 @@ public:
 
     /**
      * @brief  Initialize one-body fields in the derived model.
-     * @math   h₀,n, h₀,p.
+     * @math   (N,Z) → (h₀,n,h₀,p).
      * @output Initialized neutron and proton one-body fields.
      */
-    virtual void initialize_h0() = 0;
+    virtual void initialize_h0(int TargetN_I, int TargetZ_I) = 0;
 
     /**
      * @brief  Initialize HFB fields in the derived model.
      * @math   (N,Z) → (Γ_n,Δ_n,Γ_p,Δ_p)_initial.
      * @output Initialized Gamma and Delta for both species.
+     * @note   Include model-specific LN corrections when enabled.
      */
     virtual void initialize_GammaDelta(int TargetN_I, int TargetZ_I) = 0;
 
@@ -136,16 +142,24 @@ public:
      * @brief  Update both species using their joint densities.
      * @math   (ρ_n,κ_n,ρ_p,κ_p) → (Γ_n,Δ_n,Γ_p,Δ_p).
      * @output Overwritten neutron and proton fields.
+     * @note   Rebuild bare Gamma, then add LN once when enabled.
      */
     virtual void update_Gamma_Delta() = 0;
 
     /**
-     * @brief  Iterate the unblocked HFB equations.
-     * @math   (N,Z) → HFB_converged.
-     * @output Updated converged solver state.
+     * @brief  Print the current iteration summary.
+     * @math   (i,ε,α) → stdout.
+     * @output Iteration diagnostics.
      */
-    void iterate(int TargetN_I, int TargetZ_I);
+    virtual void print_abstract(int iteration_I, double error_F, double mixing_F) {}
 
+    /**
+     * @brief  Iterate HFB using modified Broyden mixing.
+     * @note   Requires initialized fields; continuation starts fresh Broyden history.
+     * @math   (N,Z) → HFB_converged.
+     * @output Updated neutron and proton fields and solutions.
+     */
+    void iterate(int TargetN_I, int TargetZ_I, bool useCurrentFields_B = false);
 };
 
 inline double HFB::update_UV_E_rho_kappa() {
@@ -157,9 +171,9 @@ inline double HFB::update_UV_E_rho_kappa() {
     assert(hfb_field.Gamma_F2D_sp_sp.isApprox(hfb_field.Gamma_F2D_sp_sp.transpose(), 1.0e-12));
     assert(hfb_field.Delta_F2D_sp_sp.isApprox(-hfb_field.Delta_F2D_sp_sp.transpose(), 1.0e-12));
 
-    // H₁₁ = h₀ + Γ + 4λ₂ρ - (λ+2λ₂)I.
-    H_F2D_2sp_2sp.topLeftCorner(Nsp_I, Nsp_I) = hfb_field.h0_F2D_sp_sp + hfb_field.Gamma_F2D_sp_sp + 4.0 * lambda2_F * hfb_solution.rho_F2D_sp_sp;
-    H_F2D_2sp_2sp.topLeftCorner(Nsp_I, Nsp_I).diagonal().array() -= lambda_F + 2.0 * lambda2_F;
+    // H₁₁ = h₀ + Γ - λI; Γ includes LN.
+    H_F2D_2sp_2sp.topLeftCorner(Nsp_I, Nsp_I) = hfb_field.h0_F2D_sp_sp + hfb_field.Gamma_F2D_sp_sp;
+    H_F2D_2sp_2sp.topLeftCorner(Nsp_I, Nsp_I).diagonal().array() -= lambda_F;
 
     // H₁₂ = Δ; H₂₁ = -Δ; H₂₂ = -H₁₁.
     H_F2D_2sp_2sp.topRightCorner(Nsp_I, Nsp_I) = hfb_field.Delta_F2D_sp_sp;
@@ -207,4 +221,159 @@ inline double HFB::update_UV_E_rho_kappa() {
     hfb_solution.kappa_F2D_sp_sp.noalias() += hfb_solution.U_F2D_sp_qp * factorU_F1D_qp.asDiagonal() * hfb_solution.V_F2D_sp_qp.transpose();
 
     return hfb_solution.rho_F2D_sp_sp.trace();
+}
+
+inline void HFB::search_lambda(int TargetN_I, double lambdaTolerance_F) {
+    assert(TargetN_I >= 0 && TargetN_I <= Nsp_I);
+    assert(std::isfinite(lambda_F));
+    assert(std::isfinite(lambdaTolerance_F) && lambdaTolerance_F > 0.0);
+    const double Ntolerance_F = std::max(1.0e-8, 1.0e-10 * std::max(1, TargetN_I));
+    std::map<double, double> NerrorByLambda_Map{};
+
+    // Fixed fields; trial blocking preserves external trackers.
+    const auto calc_N_Func = [&](double lambdaTrial_F, bool updateTracking_B) {
+        lambda_F = lambdaTrial_F;
+        const double Ncalc_F = update_UV_E_rho_kappa();
+        if (blocking_Func) {return blocking_Func(hfb_solution, updateTracking_B);}
+        return Ncalc_F;
+    };
+
+    // λ → N(λ)-TargetN; cache trial residuals.
+    const auto calc_Nerror_Func = [&](double lambdaTrial_F) {
+        const auto NerrorIt_ = NerrorByLambda_Map.find(lambdaTrial_F);
+        if (NerrorIt_ != NerrorByLambda_Map.end()) {return NerrorIt_->second;}
+        const double Nerror_F = calc_N_Func(lambdaTrial_F, false) - static_cast<double>(TargetN_I);
+        assert(std::isfinite(Nerror_F));
+        NerrorByLambda_Map.emplace(lambdaTrial_F, Nerror_F);
+        return Nerror_F;
+    };
+
+    // λ_initial → N(λ_initial); commit the accepted blocking state.
+    const double lambdaInitial_F = lambda_F;
+    const double NerrorInitial_F = calc_Nerror_Func(lambdaInitial_F);
+    if (std::abs(NerrorInitial_F) <= Ntolerance_F) {
+        calc_N_Func(lambdaInitial_F, true);
+        return;
+    }
+
+    // [λ_min,λ_max] = [λ_initial-2,λ_initial+2].
+    double lambdaMax_F = lambdaInitial_F + 2.0;
+    double lambdaMin_F = lambdaInitial_F - 2.0;
+    double NerrorMin_F = calc_Nerror_Func(lambdaMin_F);
+    double NerrorMax_F = calc_Nerror_Func(lambdaMax_F);
+    const double NerrorSlope_F = (NerrorMax_F - NerrorMin_F) / (lambdaMax_F - lambdaMin_F);
+
+    // f(λ_min)f(λ_max)>0 → expand one boundary.
+    const bool shouldShiftLambdaMin_B = NerrorMin_F * NerrorSlope_F > 0.0;
+    double& lambdaBound_F = shouldShiftLambdaMin_B ? lambdaMin_F : lambdaMax_F;
+    double& NerrorBound_F = shouldShiftLambdaMin_B ? NerrorMin_F : NerrorMax_F;
+    const double lambdaStep_F = shouldShiftLambdaMin_B ? -5.0 : 5.0;
+    constexpr int NexpandMax_I = 100;
+    int Nexpand_I = 0;
+    while (NerrorMin_F * NerrorMax_F > 0.0 && NerrorSlope_F != 0.0 && Nexpand_I < NexpandMax_I) {
+        lambdaBound_F += lambdaStep_F;
+        NerrorBound_F = calc_Nerror_Func(lambdaBound_F);
+        ++Nexpand_I;
+    }
+    assert(NerrorMin_F * NerrorMax_F <= 0.0);
+
+    // Recompute at λ_root and commit blocking trackers.
+    const double lambdaRoot_F = root_brent(calc_Nerror_Func, lambdaMin_F, lambdaMax_F, lambdaTolerance_F);
+    assert(std::isfinite(lambdaRoot_F));
+    calc_N_Func(lambdaRoot_F, true);
+}
+
+inline void HFBNucleus::iterate(int TargetN_I, int TargetZ_I, bool useCurrentFields_B) {
+    assert(std::isfinite(accuracy_F) && accuracy_F > 0.0);
+    assert(std::isfinite(mixingInitial_F) && mixingInitial_F > 0.0 && mixingInitial_F <= 1.0);
+
+    const int Npacked_I = 2 * (hfb_neutron.Nsp_I * hfb_neutron.Nsp_I + hfb_proton.Nsp_I * hfb_proton.Nsp_I);
+    assert(Npacked_I >= 7);
+
+    Eigen::VectorXd x_F1D_packed{};
+    Eigen::VectorXd Gx_F1D_packed{};
+    x_F1D_packed.resize(Npacked_I);
+    Gx_F1D_packed.resize(Npacked_I);
+
+    // x ← (h₀,n+Γ_n) ⊕ Δ_n ⊕ (h₀,p+Γ_p) ⊕ Δ_p.
+    const auto pack_h_Delta_Func = [&](Eigen::VectorXd& data_F1D_packed) {
+        int packed_I = 0;
+        for (const HFB* hfb_Ptr : {&hfb_neutron, &hfb_proton}) {
+            for (int column_I = 0; column_I < hfb_Ptr->Nsp_I; ++column_I) {
+                for (int row_I = 0; row_I < hfb_Ptr->Nsp_I; ++row_I) {
+                    data_F1D_packed(packed_I++) = hfb_Ptr->hfb_field.h0_F2D_sp_sp(row_I, column_I) + hfb_Ptr->hfb_field.Gamma_F2D_sp_sp(row_I, column_I);
+                }
+            }
+            for (int column_I = 0; column_I < hfb_Ptr->Nsp_I; ++column_I) {
+                for (int row_I = 0; row_I < hfb_Ptr->Nsp_I; ++row_I) {
+                    data_F1D_packed(packed_I++) = hfb_Ptr->hfb_field.Delta_F2D_sp_sp(row_I, column_I);
+                }
+            }
+        }
+        assert(packed_I == Npacked_I);
+    };
+
+    // x → Γ = h-h₀; Δ.
+    const auto unpack_h_Delta_Func = [&](const Eigen::VectorXd& data_F1D_packed) {
+        int packed_I = 0;
+        for (HFB* hfb_Ptr : {&hfb_neutron, &hfb_proton}) {
+            for (int column_I = 0; column_I < hfb_Ptr->Nsp_I; ++column_I) {
+                for (int row_I = 0; row_I < hfb_Ptr->Nsp_I; ++row_I) {
+                    hfb_Ptr->hfb_field.Gamma_F2D_sp_sp(row_I, column_I) = data_F1D_packed(packed_I++) - hfb_Ptr->hfb_field.h0_F2D_sp_sp(row_I, column_I);
+                }
+            }
+            for (int column_I = 0; column_I < hfb_Ptr->Nsp_I; ++column_I) {
+                for (int row_I = 0; row_I < hfb_Ptr->Nsp_I; ++row_I) {
+                    hfb_Ptr->hfb_field.Delta_F2D_sp_sp(row_I, column_I) = data_F1D_packed(packed_I++);
+                }
+            }
+        }
+        assert(packed_I == Npacked_I);
+    };
+
+    // G:x → (λ,U,V,E,ρ,κ) → (Γ,Δ) → (h₀+Γ,Δ).
+    const double lambdaToleranceMin_F = accuracy_F * 1.0e-6;
+    double lambdaTolerance_F = accuracy_F;
+    const auto calc_Gx_Func = [&](const Eigen::VectorXd& x_F1D_packed_, Eigen::VectorXd& Gx_F1D_packed_) {
+        unpack_h_Delta_Func(x_F1D_packed_);
+        hfb_neutron.search_lambda(TargetN_I, lambdaTolerance_F);
+        hfb_proton.search_lambda(TargetZ_I, lambdaTolerance_F);
+        update_Gamma_Delta();
+        pack_h_Delta_Func(Gx_F1D_packed_);
+    };
+
+    // Initial fields → G(x₀); fresh x₀ = 0.
+    pack_h_Delta_Func(Gx_F1D_packed);
+    x_F1D_packed.setZero();
+    if (useCurrentFields_B) {
+        x_F1D_packed = Gx_F1D_packed;
+        calc_Gx_Func(x_F1D_packed, Gx_F1D_packed);
+    }
+
+    // (x₀,G(x₀)) → Broyden history.
+    double alpha_F = mixingInitial_F;
+    BroydenIterator broyden_(7, calc_Gx_Func, mixingInitial_F, x_F1D_packed, Gx_F1D_packed);
+    print_abstract(0, 0.0, mixingInitial_F);
+
+    // ||G(x_i)-x_i||∞ → ε_i; adaptive α and λ tolerance.
+    const int NiterationsMax_I = 100;
+    const double alphaMax_F = 0.90;
+    const double alphaMin_F = 0.20;
+    double errorPrevious_F = 1.0;
+    for (int iteration_I = 1; iteration_I <= NiterationsMax_I; ++iteration_I) {
+        const double error_F = broyden_.iterate(calc_Gx_Func, alpha_F);
+        print_abstract(iteration_I, error_F, alpha_F);
+        if (std::isfinite(error_F) && error_F <= accuracy_F) {break;}
+        if (std::isfinite(error_F) && error_F < errorPrevious_F) {
+            alpha_F = std::min(alphaMax_F, alpha_F * 1.10);
+            errorPrevious_F = error_F;
+            continue;
+        }
+        alpha_F = alphaMin_F;
+        const bool tightenLambdaTolerance_B = lambdaTolerance_F > lambdaToleranceMin_F * (1.0 + 1.0e-12);
+        if (iteration_I > 1 && tightenLambdaTolerance_B) {
+            lambdaTolerance_F = std::max(lambdaToleranceMin_F, lambdaTolerance_F * 0.1);
+        }
+        errorPrevious_F = error_F;
+    }
 }
