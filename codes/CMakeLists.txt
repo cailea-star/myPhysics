@@ -37,12 +37,14 @@ find_package(OpenMP REQUIRED)
 # ================ 源代码编译 + PUBLIC 传递依赖 ====================
 # 收集 cc 库的源文件, 配置库目标
 file(GLOB HFB_AXIAL_CPPS CONFIGURE_DEPENDS "hfb_axial/*.cpp")
-add_library(mylib SHARED ${HFB_AXIAL_CPPS})                         # 添加共享库目标
+file(GLOB HFB_CYLINDRICAL_CPPS CONFIGURE_DEPENDS "hfb_cylindrical/*.cpp")
+add_library(mylib SHARED ${HFB_AXIAL_CPPS} ${HFB_CYLINDRICAL_CPPS})                         # 添加共享库目标
 target_include_directories(mylib PUBLIC utils)                      # Propagate general utility headers
 target_include_directories(mylib PUBLIC utils_spherical)            # Propagate spherical utility headers
 target_include_directories(mylib PUBLIC utils_cylindrical)          # Propagate cylindrical utility headers
 target_include_directories(mylib PUBLIC hfb_axial)                  # Propagate axial HFB headers
 target_include_directories(mylib PUBLIC utils_hfb)                  # Propagate HFB utility headers
+target_include_directories(mylib PUBLIC hfb_cylindrical)            # Propagate cylindrical HFB headers
 target_link_libraries(mylib PUBLIC Eigen3::Eigen)                   # 传递依赖库
 target_link_libraries(mylib PUBLIC GSL::gsl GSL::gslcblas)          # 传递依赖库
 target_link_libraries(mylib PUBLIC OpenMP::OpenMP_CXX)              # 传递依赖库
