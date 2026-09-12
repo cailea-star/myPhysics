@@ -2,7 +2,7 @@
 
 ### Symmetry Assumptions
 
-This note specializes the general [Hartree–Fock–Bogoliubov Method](../utils/hfb.md) to an even-even nucleus without quasiparticle blocking.
+This note specializes the general [Hartree–Fock–Bogoliubov Method](hfb.md) to an even-even nucleus without quasiparticle blocking.
 
 ##### Axial Symmetry
 
