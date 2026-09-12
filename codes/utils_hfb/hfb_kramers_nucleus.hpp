@@ -73,7 +73,7 @@ public:
      * @math   (i,ε,α) → stdout.
      * @output Iteration diagnostics.
      */
-    virtual void print_abstract(int iteration_I, double error_F, double mixing_F) {}
+    virtual void print_abstract(int iteration_I, double error_F, double mixing_F) const {}
 
     /**
      * @brief  Iterate HFB using modified Broyden mixing.
