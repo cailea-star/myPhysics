@@ -11,7 +11,6 @@
 #include <cassert>
 #include <cmath>
 #include <functional>
-#include <initializer_list>
 #include <map>
 #include <numeric>
 #include <vector>
@@ -20,7 +19,6 @@
 #include <Eigen/Eigenvalues>
 
 #include "root.hpp"
-#include "root_broyden.hpp"
 
 struct HFBKramersBlockSolution {
     // T|α⟩ = ηα|ᾱ⟩; ηα = (-1)^(j - mj).
@@ -45,12 +43,23 @@ struct HFBKramersBlockField {
 
 class HFBKramers {
 public:
-    using BlockingFunc = std::function<double(std::vector<HFBKramersBlockSolution>& solutions, bool updateTracking_B)>;
+    struct Element {
+        double vPosPosPosPos_F = 0.0;
+        double vPosNegPosNeg_F = 0.0;
+    };
 
+    using BlockingFunc = std::function<double(std::vector<HFBKramersBlockSolution>& solutions, bool updateTracking_B)>;
+    // v̄_{12;34}: Γ uses block13, block24; Δ uses block12, block34.
+    // bsp indices follow 1,2,3,4.
+    using GammaElementFunc = std::function<Element(int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
+    using DeltaElementFunc = std::function<Element(int block12_I, int block34_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
+
+    int TargetN_I = 0; // Target particle number.
     double lambda_F = -7.0; // Fermi energy [MeV].
     double lambda2_F = 0.0; // Lipkin-Nogami λ₂ [MeV].
     double temperature_F = 0.0;
     double EspCut_F = 60.0; // Equivalent single-particle energy cutoff [MeV].
+    double ELipkinNogami_F = 0.0; // Lipkin-Nogami energy [MeV].
 
     int Nblock_I = 0;
     std::vector<int> Nbsp_I1D_block{};
@@ -123,64 +132,99 @@ public:
      * @math   N_blocked(λ) = TargetN.
      * @output Updated chemical potential, blocked solutions, and densities.
      */
-    void search_lambda(int TargetN_I, double lambdaTolerance_F);
+    void search_lambda(double lambdaTolerance_F);
+
+    /**
+     * @brief Accumulate particle-hole fields by direct matrix-element contraction.
+     * @math Γ_{13} += Σ_{24}v̄_{12;34}ρ_42.
+     * @output Accumulated Gamma from this species' density.
+     * @note Requires time-reversal-invariant matrix elements and density.
+     * @note Requires thread-safe matrix-element callbacks.
+     */
+    void add_Gamma_from_Element(const GammaElementFunc& read_element_Func);
+
+    /**
+     * @brief Accumulate pairing fields by direct matrix-element contraction.
+     * @math Δ⁺⁻_{12} += Σ_{34}v̄⁺⁻⁺⁻_{12;34}κ⁺⁻_{34}.
+     * @output Accumulated Delta from this species' pairing tensor.
+     * @note Requires time-reversal-invariant matrix elements.
+     * @note Requires thread-safe matrix-element callbacks.
+     */
+    void add_Delta_from_Element(const DeltaElementFunc& read_element_Func);
 };
 
-class HFBKramersNucleus {
-public:
-    HFBKramers hfb_neutron;
-    HFBKramers hfb_proton;
+inline void HFBKramers::add_Gamma_from_Element(const GammaElementFunc& read_element_Func) {
+    assert(read_element_Func);
 
-    double accuracy_F = 1.0e-5;
-    double mixingInitial_F = 0.20;
+    // Γ⁺⁺_{13} += Σ_{24}(v̄⁺⁺⁺⁺ρ⁺⁺_{42}+v̄⁺⁻⁺⁻ρ⁻⁻_{42}).
+    const auto add_Gamma_Func = [&](int block13_I, int bsp1_I, int bsp3_I) {
+        double Gamma13PosPos_F = 0.0;
+        for (int block24_I = 0; block24_I < Nblock_I; ++block24_I) {
+            const auto& solution = solutions[block24_I];
+            for (int bsp2_I = 0; bsp2_I < Nbsp_I1D_block[block24_I]; ++bsp2_I) {
+                for (int bsp4_I = 0; bsp4_I < Nbsp_I1D_block[block24_I]; ++bsp4_I) {
+                    const Element element = read_element_Func(block13_I, block24_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I);
+                    const double rho42PosPos_F = solution.rhoPosPos_F2D_bsp_bsp(bsp4_I, bsp2_I);
+                    // ρ⁻⁻_{42} = η₄η₂ρ⁺⁺_{42} (real).
+                    const double rho42NegNeg_F = solution.eta_F1D_bsp(bsp4_I) * solution.eta_F1D_bsp(bsp2_I) * rho42PosPos_F;
+                    Gamma13PosPos_F += element.vPosPosPosPos_F * rho42PosPos_F + element.vPosNegPosNeg_F * rho42NegNeg_F;
+                }
+            }
+        }
+        fields[block13_I].GammaPosPos_F2D_bsp_bsp(bsp1_I, bsp3_I) += Gamma13PosPos_F;
+    };
 
-public:
-    /**
-     * @brief  Initialize species dimensions and workspaces.
-     * @math   {η_q,b} → {Nbsp_q,b}; q ∈ {n,p}.
-     * @output Allocated solutions, fields, and workspaces.
-     */
-    HFBKramersNucleus(const std::vector<Eigen::VectorXd>& etaN_F2D_block_bsp_, const std::vector<Eigen::VectorXd>& etaP_F2D_block_bsp_)
-    : hfb_neutron(etaN_F2D_block_bsp_), hfb_proton(etaP_F2D_block_bsp_) {}
+    #pragma omp parallel
+    {
+        #pragma omp single
+        for (int block13_I = 0; block13_I < Nblock_I; ++block13_I) {
+            for (int bsp1_I = 0; bsp1_I < Nbsp_I1D_block[block13_I]; ++bsp1_I) {
+                for (int bsp3_I = 0; bsp3_I < Nbsp_I1D_block[block13_I]; ++bsp3_I) {
+                    #pragma omp task firstprivate(block13_I, bsp1_I, bsp3_I)
+                    {
+                        add_Gamma_Func(block13_I, bsp1_I, bsp3_I);
+                    }
+                }
+            }
+        }
+    }
 
-    /**
-     * @brief  Initialize one-body fields in the derived model.
-     * @math   (N,Z) → (h₀,n,h₀,p).
-     * @output Initialized neutron and proton one-body fields.
-     */
-    virtual void initialize_h0(int TargetN_I, int TargetZ_I) = 0;
+}
 
-    /**
-     * @brief  Initialize HFB fields in the derived model.
-     * @math   (N,Z) → (Γ_n,Δ_n,Γ_p,Δ_p)_initial.
-     * @output Initialized Gamma and Delta for both species.
-     * @note   Include model-specific LN corrections when enabled.
-     */
-    virtual void initialize_GammaDelta(int TargetN_I, int TargetZ_I) = 0;
+inline void HFBKramers::add_Delta_from_Element(const DeltaElementFunc& read_element_Func) {
+    assert(read_element_Func);
 
-    /**
-     * @brief  Update both species using all representative densities.
-     * @math   {ρ_q,b⁺⁺,κ_q,b⁺⁻,η_q,b} → {Γ_q,b⁺⁺,Δ_q,b⁺⁻}.
-     * @output Overwritten neutron and proton Gamma and Delta.
-     * @note   Rebuild bare Gamma, then add LN once when enabled.
-     */
-    virtual void update_Gamma_Delta() = 0;
+    // κ⁻⁺ = −(κ⁺⁻)ᵀ and v̄_{12;43} = −v̄_{12;34} cancel ½.
+    const auto add_Delta_Func = [&](int block12_I, int bsp1_I, int bsp2_I) {
+        double Delta12PosNeg_F = 0.0;
+        for (int block34_I = 0; block34_I < Nblock_I; ++block34_I) {
+            const auto& solution = solutions[block34_I];
+            for (int bsp3_I = 0; bsp3_I < Nbsp_I1D_block[block34_I]; ++bsp3_I) {
+                for (int bsp4_I = 0; bsp4_I < Nbsp_I1D_block[block34_I]; ++bsp4_I) {
+                    const Element element = read_element_Func(block12_I, block34_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I);
+                    Delta12PosNeg_F += element.vPosNegPosNeg_F * solution.kappaPosNeg_F2D_bsp_bsp(bsp3_I, bsp4_I);
+                }
+            }
+        }
+        fields[block12_I].DeltaPosNeg_F2D_bsp_bsp(bsp1_I, bsp2_I) += Delta12PosNeg_F;
+    };
 
-    /**
-     * @brief  Print the current iteration summary.
-     * @math   (i,ε,α) → stdout.
-     * @output Iteration diagnostics.
-     */
-    virtual void print_abstract(int iteration_I, double error_F, double mixing_F) {}
+    #pragma omp parallel
+    {
+        #pragma omp single
+        for (int block12_I = 0; block12_I < Nblock_I; ++block12_I) {
+            for (int bsp1_I = 0; bsp1_I < Nbsp_I1D_block[block12_I]; ++bsp1_I) {
+                for (int bsp2_I = 0; bsp2_I < Nbsp_I1D_block[block12_I]; ++bsp2_I) {
+                    #pragma omp task firstprivate(block12_I, bsp1_I, bsp2_I)
+                    {
+                        add_Delta_Func(block12_I, bsp1_I, bsp2_I);
+                    }
+                }
+            }
+        }
+    }
 
-    /**
-     * @brief  Iterate HFB using modified Broyden mixing.
-     * @note   Requires initialized fields; continuation starts fresh Broyden history.
-     * @math   (N,Z) → HFB_converged.
-     * @output Updated neutron and proton fields and solutions.
-     */
-    void iterate(int TargetN_I, int TargetZ_I, bool useCurrentFields_B = false);
-};
+}
 
 inline double HFBKramers::update_UV_E_rho_kappa() {
     assert(temperature_F >= 0.0);
@@ -256,11 +300,11 @@ inline double HFBKramers::update_UV_E_rho_kappa() {
     return N_F;
 }
 
-inline void HFBKramers::search_lambda(int TargetN_I, double lambdaTolerance_F) {
+inline void HFBKramers::search_lambda(double lambdaTolerance_F) {
     assert(TargetN_I >= 0 && TargetN_I <= 2 * std::accumulate(Nbsp_I1D_block.begin(), Nbsp_I1D_block.end(), 0));
     assert(std::isfinite(lambda_F));
     assert(std::isfinite(lambdaTolerance_F) && lambdaTolerance_F > 0.0);
-    const double Ntolerance_F = std::max(1.0e-8, 1.0e-10 * std::max(1, TargetN_I));
+    const double Ntolerance_F = std::min(1.0e-12, lambdaTolerance_F);
     std::map<double, double> NerrorByLambda_Map{};
 
     // Fixed fields; trial blocking preserves external trackers.
@@ -314,111 +358,4 @@ inline void HFBKramers::search_lambda(int TargetN_I, double lambdaTolerance_F) {
     const double lambdaRoot_F = root_brent(calc_Nerror_Func, lambdaMin_F, lambdaMax_F, lambdaTolerance_F);
     assert(std::isfinite(lambdaRoot_F));
     calc_N_Func(lambdaRoot_F, true);
-}
-
-inline void HFBKramersNucleus::iterate(int TargetN_I, int TargetZ_I, bool useCurrentFields_B) {
-    assert(std::isfinite(accuracy_F) && accuracy_F > 0.0);
-    assert(std::isfinite(mixingInitial_F) && mixingInitial_F > 0.0 && mixingInitial_F <= 1.0);
-
-    // Each block packs 2 full matrices.
-    int Npacked_I = 0;
-    for (const HFBKramers* hfb_Ptr : {&hfb_neutron, &hfb_proton}) {
-        for (int Nbsp_I : hfb_Ptr->Nbsp_I1D_block) {Npacked_I += 2 * Nbsp_I * Nbsp_I;}
-    }
-    assert(Npacked_I >= 7);
-
-    Eigen::VectorXd x_F1D_packed{};
-    Eigen::VectorXd Gx_F1D_packed{};
-    x_F1D_packed.resize(Npacked_I);
-    Gx_F1D_packed.resize(Npacked_I);
-
-    // pack: species → blocks → full h and Delta matrices.
-    const auto pack_h_Delta_Func = [&](Eigen::VectorXd& data_F1D_packed) {
-        int packed_I = 0;
-        for (const HFBKramers* hfb_Ptr : {&hfb_neutron, &hfb_proton}) {
-            for (int block_I = 0; block_I < hfb_Ptr->Nblock_I; ++block_I) {
-                const int Nbsp_I = hfb_Ptr->Nbsp_I1D_block[block_I];
-                const HFBKramersBlockField& field = hfb_Ptr->fields[block_I];
-                for (int column_I = 0; column_I < Nbsp_I; ++column_I) {
-                    for (int row_I = 0; row_I < Nbsp_I; ++row_I) {
-                        data_F1D_packed(packed_I++) = field.h0PosPos_F2D_bsp_bsp(row_I, column_I) + field.GammaPosPos_F2D_bsp_bsp(row_I, column_I);
-                    }
-                }
-                for (int column_I = 0; column_I < Nbsp_I; ++column_I) {
-                    for (int row_I = 0; row_I < Nbsp_I; ++row_I) {
-                        data_F1D_packed(packed_I++) = field.DeltaPosNeg_F2D_bsp_bsp(row_I, column_I);
-                    }
-                }
-            }
-        }
-        assert(packed_I == Npacked_I);
-    };
-
-    // unpack: species → blocks → full h and Delta matrices.
-    const auto unpack_h_Delta_Func = [&](const Eigen::VectorXd& data_F1D_packed) {
-        int packed_I = 0;
-        for (HFBKramers* hfb_Ptr : {&hfb_neutron, &hfb_proton}) {
-            for (int block_I = 0; block_I < hfb_Ptr->Nblock_I; ++block_I) {
-                const int Nbsp_I = hfb_Ptr->Nbsp_I1D_block[block_I];
-                HFBKramersBlockField& field = hfb_Ptr->fields[block_I];
-                for (int column_I = 0; column_I < Nbsp_I; ++column_I) {
-                    for (int row_I = 0; row_I < Nbsp_I; ++row_I) {
-                        field.GammaPosPos_F2D_bsp_bsp(row_I, column_I) = data_F1D_packed(packed_I++) - field.h0PosPos_F2D_bsp_bsp(row_I, column_I);
-                    }
-                }
-                for (int column_I = 0; column_I < Nbsp_I; ++column_I) {
-                    for (int row_I = 0; row_I < Nbsp_I; ++row_I) {
-                        field.DeltaPosNeg_F2D_bsp_bsp(row_I, column_I) = data_F1D_packed(packed_I++);
-                    }
-                }
-            }
-        }
-        assert(packed_I == Npacked_I);
-    };
-
-    // G:x → (λ,U,V,E,ρ,κ) → (Γ,Δ) → (h₀+Γ,Δ).
-    const double lambdaToleranceMin_F = accuracy_F * 1.0e-6;
-    double lambdaTolerance_F = accuracy_F;
-    const auto calc_Gx_Func = [&](const Eigen::VectorXd& x_F1D_packed_, Eigen::VectorXd& Gx_F1D_packed_) {
-        unpack_h_Delta_Func(x_F1D_packed_);
-        hfb_neutron.search_lambda(TargetN_I, lambdaTolerance_F);
-        hfb_proton.search_lambda(TargetZ_I, lambdaTolerance_F);
-        update_Gamma_Delta();
-        pack_h_Delta_Func(Gx_F1D_packed_);
-    };
-
-    // Initial fields → G(x₀); fresh x₀ = 0.
-    pack_h_Delta_Func(Gx_F1D_packed);
-    x_F1D_packed.setZero();
-    if (useCurrentFields_B) {
-        x_F1D_packed = Gx_F1D_packed;
-        calc_Gx_Func(x_F1D_packed, Gx_F1D_packed);
-    }
-
-    // (x₀,G(x₀)) → Broyden history.
-    double alpha_F = mixingInitial_F;
-    BroydenIterator broyden_(7, calc_Gx_Func, mixingInitial_F, x_F1D_packed, Gx_F1D_packed);
-    print_abstract(0, 0.0, mixingInitial_F);
-
-    // ||G(x_i)-x_i||∞ → ε_i; adaptive α and λ tolerance.
-    const int NiterationsMax_I = 100;
-    const double alphaMax_F = 0.90;
-    const double alphaMin_F = 0.20;
-    double errorPrevious_F = 1.0;
-    for (int iteration_I = 1; iteration_I <= NiterationsMax_I; ++iteration_I) {
-        const double error_F = broyden_.iterate(calc_Gx_Func, alpha_F);
-        print_abstract(iteration_I, error_F, alpha_F);
-        if (std::isfinite(error_F) && error_F <= accuracy_F) {break;}
-        if (std::isfinite(error_F) && error_F < errorPrevious_F) {
-            alpha_F = std::min(alphaMax_F, alpha_F * 1.10);
-            errorPrevious_F = error_F;
-            continue;
-        }
-        alpha_F = alphaMin_F;
-        const bool tightenLambdaTolerance_B = lambdaTolerance_F > lambdaToleranceMin_F * (1.0 + 1.0e-12);
-        if (iteration_I > 1 && tightenLambdaTolerance_B) {
-            lambdaTolerance_F = std::max(lambdaToleranceMin_F, lambdaTolerance_F * 0.1);
-        }
-        errorPrevious_F = error_F;
-    }
 }

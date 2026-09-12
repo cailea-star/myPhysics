@@ -10,7 +10,6 @@
 #include <array>
 #include <vector>
 #include <cassert>
-#include <exception>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -39,14 +38,10 @@ public:
         double vSameNegNegNegNeg_F = 0.0;
         double vSameNegPosNegPos_F = 0.0;
         double vSamePosNegPosNeg_F = 0.0;
-        double vSamePosNegNegPos_F = 0.0;
-        double vSameNegPosPosNeg_F = 0.0;
         double vCrossPosPosPosPos_F = 0.0;
         double vCrossNegNegNegNeg_F = 0.0;
         double vCrossNegPosNegPos_F = 0.0;
         double vCrossPosNegPosNeg_F = 0.0;
-        double vCrossPosNegNegPos_F = 0.0;
-        double vCrossNegPosPosNeg_F = 0.0;
     };
 
 private:
@@ -152,19 +147,16 @@ public:
             return std::pair<double, double>{vSame_F, vCross_F};
         };
 
-        // {++++, +-+-, +--+} → {(same,cross)}.
+        // {++++, +-+-} → {(same,cross)}.
         GognyElements elements_;
         std::tie(elements_.vSamePosPosPosPos_F, elements_.vCrossPosPosPosPos_F) = calc_vbar_Func(false, false, false, false);
         std::tie(elements_.vSamePosNegPosNeg_F, elements_.vCrossPosNegPosNeg_F) = calc_vbar_Func(false, true, false, true);
-        std::tie(elements_.vSamePosNegNegPos_F, elements_.vCrossPosNegNegPos_F) = calc_vbar_Func(false, true, true, false);
 
-        // (----, -+-+, -++-) ← (++++, +-+-, +--+).
+        // (----, -+-+) ← (++++, +-+-).
         elements_.vSameNegNegNegNeg_F = elements_.vSamePosPosPosPos_F;
         elements_.vSameNegPosNegPos_F = elements_.vSamePosNegPosNeg_F;
-        elements_.vSameNegPosPosNeg_F = elements_.vSamePosNegNegPos_F;
         elements_.vCrossNegNegNegNeg_F = elements_.vCrossPosPosPosPos_F;
         elements_.vCrossNegPosNegPos_F = elements_.vCrossPosNegPosNeg_F;
-        elements_.vCrossNegPosPosNeg_F = elements_.vCrossPosNegNegPos_F;
         return elements_;
     }
 
