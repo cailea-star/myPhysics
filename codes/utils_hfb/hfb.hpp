@@ -38,7 +38,11 @@ struct HFBField {
 class HFB {
 public:
     using BlockingFunc = std::function<double(HFBSolution& solution, bool updateTracking_B)>;
+    // Antisymmetrized matrix elements v̄_{12;34}.
+    using GammaElementFunc = std::function<double(int sp1_I, int sp2_I, int sp3_I, int sp4_I)>;
+    using DeltaElementFunc = std::function<double(int sp1_I, int sp2_I, int sp3_I, int sp4_I)>;
 
+    int TargetN_I = 0; // Target particle number.
     double lambda_F = -7.0; // Fermi energy [MeV].
     double lambda2_F = 0.0; // Lipkin-Nogami λ₂ [MeV].
     double temperature_F = 0.0;
@@ -102,7 +106,21 @@ public:
      * @math   Tr(ρ_blocked(λ)) = TargetN.
      * @output Updated chemical potential, solution, and densities.
      */
-    void search_lambda(int TargetN_I, double lambdaTolerance_F);
+    void search_lambda(double lambdaTolerance_F);
+
+    /**
+     * @brief Accumulate particle-hole fields by direct matrix-element contraction.
+     * @math Γ_{13} += Σ_{24}v̄_{12;34}ρ_source,42.
+     * @output Accumulated Gamma; source supplies the contracted species.
+     */
+    void add_Gamma_from_Element(const HFB& source_, const GammaElementFunc& read_element_Func);
+
+    /**
+     * @brief Accumulate pairing fields by direct matrix-element contraction.
+     * @math Δ_{12} += ½Σ_{34}v̄_{12;34}κ_{34}.
+     * @output Accumulated Delta from this species' pairing tensor.
+     */
+    void add_Delta_from_Element(const DeltaElementFunc& read_element_Func);
 };
 
 
@@ -112,7 +130,9 @@ public:
     HFB hfb_proton;
 
     double accuracy_F = 1.0e-5;
-    double mixingInitial_F = 0.20;
+    double mixingMin_F = 0.20;
+    double mixingMax_F = 0.90;
+    int NiterationsMax_I = 100;
 
 public:
     /**
@@ -128,7 +148,7 @@ public:
      * @math   (N,Z) → (h₀,n,h₀,p).
      * @output Initialized neutron and proton one-body fields.
      */
-    virtual void initialize_h0(int TargetN_I, int TargetZ_I) = 0;
+    virtual void initialize_h0() = 0;
 
     /**
      * @brief  Initialize HFB fields in the derived model.
@@ -136,7 +156,7 @@ public:
      * @output Initialized Gamma and Delta for both species.
      * @note   Include model-specific LN corrections when enabled.
      */
-    virtual void initialize_GammaDelta(int TargetN_I, int TargetZ_I) = 0;
+    virtual void initialize_GammaDelta() = 0;
 
     /**
      * @brief  Update both species using their joint densities.
@@ -159,8 +179,44 @@ public:
      * @math   (N,Z) → HFB_converged.
      * @output Updated neutron and proton fields and solutions.
      */
-    void iterate(int TargetN_I, int TargetZ_I, bool useCurrentFields_B = false);
+    void iterate(bool useCurrentFields_B = false);
 };
+
+inline void HFB::add_Gamma_from_Element(const HFB& source_, const GammaElementFunc& read_element_Func) {
+    assert(read_element_Func);
+    assert(source_.hfb_solution.rho_F2D_sp_sp.rows() == source_.Nsp_I && source_.hfb_solution.rho_F2D_sp_sp.cols() == source_.Nsp_I);
+
+    // Γ_{13} += Σ_{24}v̄_{12;34}ρ_source,42.
+    for (int sp1_I = 0; sp1_I < Nsp_I; ++sp1_I) {
+        for (int sp3_I = 0; sp3_I < Nsp_I; ++sp3_I) {
+            double Gamma13_F = 0.0;
+            for (int sp2_I = 0; sp2_I < source_.Nsp_I; ++sp2_I) {
+                for (int sp4_I = 0; sp4_I < source_.Nsp_I; ++sp4_I) {
+                    Gamma13_F += read_element_Func(sp1_I, sp2_I, sp3_I, sp4_I) * source_.hfb_solution.rho_F2D_sp_sp(sp4_I, sp2_I);
+                }
+            }
+            hfb_field.Gamma_F2D_sp_sp(sp1_I, sp3_I) += Gamma13_F;
+        }
+    }
+}
+
+inline void HFB::add_Delta_from_Element(const DeltaElementFunc& read_element_Func) {
+    assert(read_element_Func);
+    assert(hfb_solution.kappa_F2D_sp_sp.rows() == Nsp_I && hfb_solution.kappa_F2D_sp_sp.cols() == Nsp_I);
+
+    // Δ_{12} += ½Σ_{34}v̄_{12;34}κ_{34}.
+    for (int sp1_I = 0; sp1_I < Nsp_I; ++sp1_I) {
+        for (int sp2_I = 0; sp2_I < Nsp_I; ++sp2_I) {
+            double Delta12_F = 0.0;
+            for (int sp3_I = 0; sp3_I < Nsp_I; ++sp3_I) {
+                for (int sp4_I = 0; sp4_I < Nsp_I; ++sp4_I) {
+                    Delta12_F += 0.5 * read_element_Func(sp1_I, sp2_I, sp3_I, sp4_I) * hfb_solution.kappa_F2D_sp_sp(sp3_I, sp4_I);
+                }
+            }
+            hfb_field.Delta_F2D_sp_sp(sp1_I, sp2_I) += Delta12_F;
+        }
+    }
+}
 
 inline double HFB::update_UV_E_rho_kappa() {
     assert(temperature_F >= 0.0);
@@ -223,7 +279,7 @@ inline double HFB::update_UV_E_rho_kappa() {
     return hfb_solution.rho_F2D_sp_sp.trace();
 }
 
-inline void HFB::search_lambda(int TargetN_I, double lambdaTolerance_F) {
+inline void HFB::search_lambda(double lambdaTolerance_F) {
     assert(TargetN_I >= 0 && TargetN_I <= Nsp_I);
     assert(std::isfinite(lambda_F));
     assert(std::isfinite(lambdaTolerance_F) && lambdaTolerance_F > 0.0);
@@ -283,9 +339,10 @@ inline void HFB::search_lambda(int TargetN_I, double lambdaTolerance_F) {
     calc_N_Func(lambdaRoot_F, true);
 }
 
-inline void HFBNucleus::iterate(int TargetN_I, int TargetZ_I, bool useCurrentFields_B) {
+inline void HFBNucleus::iterate(bool useCurrentFields_B) {
     assert(std::isfinite(accuracy_F) && accuracy_F > 0.0);
-    assert(std::isfinite(mixingInitial_F) && mixingInitial_F > 0.0 && mixingInitial_F <= 1.0);
+    assert(NiterationsMax_I > 0);
+    assert(std::isfinite(mixingMin_F) && std::isfinite(mixingMax_F) && mixingMin_F > 0.0 && mixingMin_F <= mixingMax_F && mixingMax_F <= 1.0);
 
     const int Npacked_I = 2 * (hfb_neutron.Nsp_I * hfb_neutron.Nsp_I + hfb_proton.Nsp_I * hfb_proton.Nsp_I);
     assert(Npacked_I >= 7);
@@ -336,8 +393,8 @@ inline void HFBNucleus::iterate(int TargetN_I, int TargetZ_I, bool useCurrentFie
     double lambdaTolerance_F = accuracy_F;
     const auto calc_Gx_Func = [&](const Eigen::VectorXd& x_F1D_packed_, Eigen::VectorXd& Gx_F1D_packed_) {
         unpack_h_Delta_Func(x_F1D_packed_);
-        hfb_neutron.search_lambda(TargetN_I, lambdaTolerance_F);
-        hfb_proton.search_lambda(TargetZ_I, lambdaTolerance_F);
+        hfb_neutron.search_lambda(lambdaTolerance_F);
+        hfb_proton.search_lambda(lambdaTolerance_F);
         update_Gamma_Delta();
         pack_h_Delta_Func(Gx_F1D_packed_);
     };
@@ -351,25 +408,22 @@ inline void HFBNucleus::iterate(int TargetN_I, int TargetZ_I, bool useCurrentFie
     }
 
     // (x₀,G(x₀)) → Broyden history.
-    double alpha_F = mixingInitial_F;
-    BroydenIterator broyden_(7, calc_Gx_Func, mixingInitial_F, x_F1D_packed, Gx_F1D_packed);
-    print_abstract(0, 0.0, mixingInitial_F);
+    double alpha_F = mixingMin_F;
+    BroydenIterator broyden_(7, calc_Gx_Func, mixingMin_F, x_F1D_packed, Gx_F1D_packed);
+    print_abstract(0, 0.0, mixingMin_F);
 
     // ||G(x_i)-x_i||∞ → ε_i; adaptive α and λ tolerance.
-    const int NiterationsMax_I = 100;
-    const double alphaMax_F = 0.90;
-    const double alphaMin_F = 0.20;
     double errorPrevious_F = 1.0;
     for (int iteration_I = 1; iteration_I <= NiterationsMax_I; ++iteration_I) {
         const double error_F = broyden_.iterate(calc_Gx_Func, alpha_F);
         print_abstract(iteration_I, error_F, alpha_F);
         if (std::isfinite(error_F) && error_F <= accuracy_F) {break;}
         if (std::isfinite(error_F) && error_F < errorPrevious_F) {
-            alpha_F = std::min(alphaMax_F, alpha_F * 1.10);
+            alpha_F = std::min(mixingMax_F, alpha_F * 1.10);
             errorPrevious_F = error_F;
             continue;
         }
-        alpha_F = alphaMin_F;
+        alpha_F = mixingMin_F;
         const bool tightenLambdaTolerance_B = lambdaTolerance_F > lambdaToleranceMin_F * (1.0 + 1.0e-12);
         if (iteration_I > 1 && tightenLambdaTolerance_B) {
             lambdaTolerance_F = std::max(lambdaToleranceMin_F, lambdaTolerance_F * 0.1);
