@@ -8,7 +8,6 @@
 #pragma once
 
 #include <algorithm>
-#include <array>
 #include <cassert>
 #include <cmath>
 #include <functional>
@@ -44,12 +43,16 @@ struct HFBKramersBlockField {
 
 class HFBKramers {
 public:
+    struct Element {
+        double vPosPosPosPos_F = 0.0;
+        double vPosNegPosNeg_F = 0.0;
+    };
+
     using BlockingFunc = std::function<double(std::vector<HFBKramersBlockSolution>& solutions, bool updateTracking_B)>;
     // v̄_{12;34}: Γ uses block13, block24; Δ uses block12, block34.
     // bsp indices follow 1,2,3,4.
-    // Γ entries: ++++, +-+-, -+-+, ----; Δ entry: +-+-.
-    using GammaElementFunc = std::function<std::array<double, 4>(int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
-    using DeltaElementFunc = std::function<double(int block12_I, int block34_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
+    using GammaElementFunc = std::function<Element(int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
+    using DeltaElementFunc = std::function<Element(int block12_I, int block34_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
 
     int TargetN_I = 0; // Target particle number.
     double lambda_F = -7.0; // Fermi energy [MeV].
@@ -133,67 +136,94 @@ public:
 
     /**
      * @brief Accumulate particle-hole fields by direct matrix-element contraction.
-     * @math Γ_{13} += Σ_{24}v̄_{12;34}ρ_source,42.
-     * @output Accumulated Gamma; source supplies the contracted species.
-     * @note Requires time-reversal-invariant matrix elements and source density.
+     * @math Γ_{13} += Σ_{24}v̄_{12;34}ρ_42.
+     * @output Accumulated Gamma from this species' density.
+     * @note Requires time-reversal-invariant matrix elements and density.
+     * @note Requires thread-safe matrix-element callbacks.
      */
-    void add_Gamma_from_Element(const HFBKramers& source_, const GammaElementFunc& read_element_Func);
+    void add_Gamma_from_Element(const GammaElementFunc& read_element_Func);
 
     /**
      * @brief Accumulate pairing fields by direct matrix-element contraction.
      * @math Δ⁺⁻_{12} += Σ_{34}v̄⁺⁻⁺⁻_{12;34}κ⁺⁻_{34}.
      * @output Accumulated Delta from this species' pairing tensor.
      * @note Requires time-reversal-invariant matrix elements.
+     * @note Requires thread-safe matrix-element callbacks.
      */
     void add_Delta_from_Element(const DeltaElementFunc& read_element_Func);
 };
 
-inline void HFBKramers::add_Gamma_from_Element(const HFBKramers& source_, const GammaElementFunc& read_element_Func) {
+inline void HFBKramers::add_Gamma_from_Element(const GammaElementFunc& read_element_Func) {
     assert(read_element_Func);
 
     // Γ⁺⁺_{13} += Σ_{24}(v̄⁺⁺⁺⁺ρ⁺⁺_{42}+v̄⁺⁻⁺⁻ρ⁻⁻_{42}).
-    for (int block13_I = 0; block13_I < Nblock_I; ++block13_I) {
-        for (int bsp1_I = 0; bsp1_I < Nbsp_I1D_block[block13_I]; ++bsp1_I) {
-            for (int bsp3_I = 0; bsp3_I < Nbsp_I1D_block[block13_I]; ++bsp3_I) {
-                double Gamma13PosPos_F = 0.0;
-                for (int block24_I = 0; block24_I < source_.Nblock_I; ++block24_I) {
-                    const auto& solution = source_.solutions[block24_I];
-                    for (int bsp2_I = 0; bsp2_I < source_.Nbsp_I1D_block[block24_I]; ++bsp2_I) {
-                        for (int bsp4_I = 0; bsp4_I < source_.Nbsp_I1D_block[block24_I]; ++bsp4_I) {
-                            const auto v_F1D_branch = read_element_Func(block13_I, block24_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I);
-                            const double rho42PosPos_F = solution.rhoPosPos_F2D_bsp_bsp(bsp4_I, bsp2_I);
-                            // ρ⁻⁻_{42} = η₄η₂ρ⁺⁺_{42} (real).
-                            const double rho42NegNeg_F = solution.eta_F1D_bsp(bsp4_I) * solution.eta_F1D_bsp(bsp2_I) * rho42PosPos_F;
-                            Gamma13PosPos_F += v_F1D_branch[0] * rho42PosPos_F + v_F1D_branch[1] * rho42NegNeg_F;
-                        }
+    const auto add_Gamma_Func = [&](int block13_I, int bsp1_I, int bsp3_I) {
+        double Gamma13PosPos_F = 0.0;
+        for (int block24_I = 0; block24_I < Nblock_I; ++block24_I) {
+            const auto& solution = solutions[block24_I];
+            for (int bsp2_I = 0; bsp2_I < Nbsp_I1D_block[block24_I]; ++bsp2_I) {
+                for (int bsp4_I = 0; bsp4_I < Nbsp_I1D_block[block24_I]; ++bsp4_I) {
+                    const Element element = read_element_Func(block13_I, block24_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I);
+                    const double rho42PosPos_F = solution.rhoPosPos_F2D_bsp_bsp(bsp4_I, bsp2_I);
+                    // ρ⁻⁻_{42} = η₄η₂ρ⁺⁺_{42} (real).
+                    const double rho42NegNeg_F = solution.eta_F1D_bsp(bsp4_I) * solution.eta_F1D_bsp(bsp2_I) * rho42PosPos_F;
+                    Gamma13PosPos_F += element.vPosPosPosPos_F * rho42PosPos_F + element.vPosNegPosNeg_F * rho42NegNeg_F;
+                }
+            }
+        }
+        fields[block13_I].GammaPosPos_F2D_bsp_bsp(bsp1_I, bsp3_I) += Gamma13PosPos_F;
+    };
+
+    // #pragma omp parallel
+    {
+        // #pragma omp single
+        for (int block13_I = 0; block13_I < Nblock_I; ++block13_I) {
+            for (int bsp1_I = 0; bsp1_I < Nbsp_I1D_block[block13_I]; ++bsp1_I) {
+                for (int bsp3_I = 0; bsp3_I < Nbsp_I1D_block[block13_I]; ++bsp3_I) {
+                    // #pragma omp task firstprivate(block13_I, bsp1_I, bsp3_I)
+                    {
+                        add_Gamma_Func(block13_I, bsp1_I, bsp3_I);
                     }
                 }
-                fields[block13_I].GammaPosPos_F2D_bsp_bsp(bsp1_I, bsp3_I) += Gamma13PosPos_F;
             }
         }
     }
+
 }
 
 inline void HFBKramers::add_Delta_from_Element(const DeltaElementFunc& read_element_Func) {
     assert(read_element_Func);
 
     // κ⁻⁺ = −(κ⁺⁻)ᵀ and v̄_{12;43} = −v̄_{12;34} cancel ½.
-    for (int block12_I = 0; block12_I < Nblock_I; ++block12_I) {
-        for (int bsp1_I = 0; bsp1_I < Nbsp_I1D_block[block12_I]; ++bsp1_I) {
-            for (int bsp2_I = 0; bsp2_I < Nbsp_I1D_block[block12_I]; ++bsp2_I) {
-                double Delta12PosNeg_F = 0.0;
-                for (int block34_I = 0; block34_I < Nblock_I; ++block34_I) {
-                    const auto& solution = solutions[block34_I];
-                    for (int bsp3_I = 0; bsp3_I < Nbsp_I1D_block[block34_I]; ++bsp3_I) {
-                        for (int bsp4_I = 0; bsp4_I < Nbsp_I1D_block[block34_I]; ++bsp4_I) {
-                            Delta12PosNeg_F += read_element_Func(block12_I, block34_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I) * solution.kappaPosNeg_F2D_bsp_bsp(bsp3_I, bsp4_I);
-                        }
+    const auto add_Delta_Func = [&](int block12_I, int bsp1_I, int bsp2_I) {
+        double Delta12PosNeg_F = 0.0;
+        for (int block34_I = 0; block34_I < Nblock_I; ++block34_I) {
+            const auto& solution = solutions[block34_I];
+            for (int bsp3_I = 0; bsp3_I < Nbsp_I1D_block[block34_I]; ++bsp3_I) {
+                for (int bsp4_I = 0; bsp4_I < Nbsp_I1D_block[block34_I]; ++bsp4_I) {
+                    const Element element = read_element_Func(block12_I, block34_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I);
+                    Delta12PosNeg_F += element.vPosNegPosNeg_F * solution.kappaPosNeg_F2D_bsp_bsp(bsp3_I, bsp4_I);
+                }
+            }
+        }
+        fields[block12_I].DeltaPosNeg_F2D_bsp_bsp(bsp1_I, bsp2_I) += Delta12PosNeg_F;
+    };
+
+    // #pragma omp parallel
+    {
+        // #pragma omp single
+        for (int block12_I = 0; block12_I < Nblock_I; ++block12_I) {
+            for (int bsp1_I = 0; bsp1_I < Nbsp_I1D_block[block12_I]; ++bsp1_I) {
+                for (int bsp2_I = 0; bsp2_I < Nbsp_I1D_block[block12_I]; ++bsp2_I) {
+                    // #pragma omp task firstprivate(block12_I, bsp1_I, bsp2_I)
+                    {
+                        add_Delta_Func(block12_I, bsp1_I, bsp2_I);
                     }
                 }
-                fields[block12_I].DeltaPosNeg_F2D_bsp_bsp(bsp1_I, bsp2_I) += Delta12PosNeg_F;
             }
         }
     }
+
 }
 
 inline double HFBKramers::update_UV_E_rho_kappa() {
@@ -274,7 +304,7 @@ inline void HFBKramers::search_lambda(double lambdaTolerance_F) {
     assert(TargetN_I >= 0 && TargetN_I <= 2 * std::accumulate(Nbsp_I1D_block.begin(), Nbsp_I1D_block.end(), 0));
     assert(std::isfinite(lambda_F));
     assert(std::isfinite(lambdaTolerance_F) && lambdaTolerance_F > 0.0);
-    const double Ntolerance_F = std::max(1.0e-8, 1.0e-10 * std::max(1, TargetN_I));
+    const double Ntolerance_F = std::min(1.0e-12, lambdaTolerance_F);
     std::map<double, double> NerrorByLambda_Map{};
 
     // Fixed fields; trial blocking preserves external trackers.
