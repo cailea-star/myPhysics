@@ -10,7 +10,6 @@
 #include <array>
 #include <vector>
 #include <cassert>
-#include <exception>
 #include <filesystem>
 #include <fstream>
 #include <iostream>

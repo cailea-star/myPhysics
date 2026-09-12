@@ -108,33 +108,41 @@ public:
 
     /**
      * @brief Accumulate particle-hole fields by direct matrix-element contraction.
-     * @math Γ_{13} += Σ_{24}v̄_{12;34}ρ_source,42.
-     * @output Accumulated Gamma; source supplies the contracted species.
+     * @math Γ_{13} += Σ_{24}v̄_{12;34}ρ_42.
+     * @output Accumulated Gamma; this species supplies the density.
+     * @note Requires thread-safe matrix-element callbacks.
      */
-    void add_Gamma_from_Element(const HFB& source_, const GammaElementFunc& read_element_Func);
+    void add_Gamma_from_Element(const GammaElementFunc& read_element_Func);
 
     /**
      * @brief Accumulate pairing fields by direct matrix-element contraction.
      * @math Δ_{12} += ½Σ_{34}v̄_{12;34}κ_{34}.
      * @output Accumulated Delta from this species' pairing tensor.
+     * @note Requires thread-safe matrix-element callbacks.
      */
     void add_Delta_from_Element(const DeltaElementFunc& read_element_Func);
 };
 
-inline void HFB::add_Gamma_from_Element(const HFB& source_, const GammaElementFunc& read_element_Func) {
+inline void HFB::add_Gamma_from_Element(const GammaElementFunc& read_element_Func) {
     assert(read_element_Func);
-    assert(source_.hfb_solution.rho_F2D_sp_sp.rows() == source_.Nsp_I && source_.hfb_solution.rho_F2D_sp_sp.cols() == source_.Nsp_I);
+    assert(hfb_solution.rho_F2D_sp_sp.rows() == Nsp_I && hfb_solution.rho_F2D_sp_sp.cols() == Nsp_I);
 
-    // Γ_{13} += Σ_{24}v̄_{12;34}ρ_source,42.
+    // Γ_{13} += Σ_{24}v̄_{12;34}ρ_42.
+    const auto add_Gamma_Func = [&](int sp1_I, int sp3_I) {
+        double Gamma13_F = 0.0;
+        for (int sp2_I = 0; sp2_I < Nsp_I; ++sp2_I) {
+            for (int sp4_I = 0; sp4_I < Nsp_I; ++sp4_I) {
+                const double v_F = read_element_Func(sp1_I, sp2_I, sp3_I, sp4_I);
+                Gamma13_F += v_F * hfb_solution.rho_F2D_sp_sp(sp4_I, sp2_I);
+            }
+        }
+        hfb_field.Gamma_F2D_sp_sp(sp1_I, sp3_I) += Gamma13_F;
+    };
+
+    #pragma omp parallel for collapse(2) schedule(static)
     for (int sp1_I = 0; sp1_I < Nsp_I; ++sp1_I) {
         for (int sp3_I = 0; sp3_I < Nsp_I; ++sp3_I) {
-            double Gamma13_F = 0.0;
-            for (int sp2_I = 0; sp2_I < source_.Nsp_I; ++sp2_I) {
-                for (int sp4_I = 0; sp4_I < source_.Nsp_I; ++sp4_I) {
-                    Gamma13_F += read_element_Func(sp1_I, sp2_I, sp3_I, sp4_I) * source_.hfb_solution.rho_F2D_sp_sp(sp4_I, sp2_I);
-                }
-            }
-            hfb_field.Gamma_F2D_sp_sp(sp1_I, sp3_I) += Gamma13_F;
+            add_Gamma_Func(sp1_I, sp3_I);
         }
     }
 }
@@ -144,15 +152,21 @@ inline void HFB::add_Delta_from_Element(const DeltaElementFunc& read_element_Fun
     assert(hfb_solution.kappa_F2D_sp_sp.rows() == Nsp_I && hfb_solution.kappa_F2D_sp_sp.cols() == Nsp_I);
 
     // Δ_{12} += ½Σ_{34}v̄_{12;34}κ_{34}.
+    const auto add_Delta_Func = [&](int sp1_I, int sp2_I) {
+        double Delta12_F = 0.0;
+        for (int sp3_I = 0; sp3_I < Nsp_I; ++sp3_I) {
+            for (int sp4_I = 0; sp4_I < Nsp_I; ++sp4_I) {
+                const double v_F = read_element_Func(sp1_I, sp2_I, sp3_I, sp4_I);
+                Delta12_F += 0.5 * v_F * hfb_solution.kappa_F2D_sp_sp(sp3_I, sp4_I);
+            }
+        }
+        hfb_field.Delta_F2D_sp_sp(sp1_I, sp2_I) += Delta12_F;
+    };
+
+    #pragma omp parallel for collapse(2) schedule(static)
     for (int sp1_I = 0; sp1_I < Nsp_I; ++sp1_I) {
         for (int sp2_I = 0; sp2_I < Nsp_I; ++sp2_I) {
-            double Delta12_F = 0.0;
-            for (int sp3_I = 0; sp3_I < Nsp_I; ++sp3_I) {
-                for (int sp4_I = 0; sp4_I < Nsp_I; ++sp4_I) {
-                    Delta12_F += 0.5 * read_element_Func(sp1_I, sp2_I, sp3_I, sp4_I) * hfb_solution.kappa_F2D_sp_sp(sp3_I, sp4_I);
-                }
-            }
-            hfb_field.Delta_F2D_sp_sp(sp1_I, sp2_I) += Delta12_F;
+            add_Delta_Func(sp1_I, sp2_I);
         }
     }
 }
@@ -222,7 +236,7 @@ inline void HFB::search_lambda(double lambdaTolerance_F) {
     assert(TargetN_I >= 0 && TargetN_I <= Nsp_I);
     assert(std::isfinite(lambda_F));
     assert(std::isfinite(lambdaTolerance_F) && lambdaTolerance_F > 0.0);
-    const double Ntolerance_F = std::max(1.0e-8, 1.0e-10 * std::max(1, TargetN_I));
+    const double Ntolerance_F = std::min(1.0e-12, lambdaTolerance_F);
     std::map<double, double> NerrorByLambda_Map{};
 
     // Fixed fields; trial blocking preserves external trackers.

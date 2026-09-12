@@ -116,7 +116,7 @@ public:
      * @output Allocated species, basis, densities, fields, and interaction objects.
      */
     HFBKramersNucleusCylindrical(const CylindricalSetting& cylindricalsetting_, const HFBEDFSetting& hfbedfsetting_, const EDFParamsSkyrme& edf_skyrme_, const EDFParamsGogny& edf_gogny_ = EDFParamsGogny::D1S())
-    : HFBKramersNucleus(cylindricalsetting_.eta_F2D_block_bsp, cylindricalsetting_.eta_F2D_block_bsp), hfbedfsetting(hfbedfsetting_), cylindricalsetting(cylindricalsetting_), cylindricalbasis(cylindricalsetting), edf_skyrme(edf_skyrme_), gaussian_gogny(cylindricalsetting, edf_gogny_.forceName_Str, edf_gogny_.mu_F1D_g, edf_gogny_.W_F1D_g, edf_gogny_.B_F1D_g, edf_gogny_.H_F1D_g, edf_gogny_.M_F1D_g), gaussian_coulomb(cylindricalsetting, edf_skyrme.e2charg_F), coulomb_field(cylindricalbasis), density_neutron(cylindricalsetting, cylindricalbasis), density_proton(cylindricalsetting, cylindricalbasis), field_neutron(cylindricalsetting), field_proton(cylindricalsetting) {
+    : HFBKramersNucleus(cylindricalsetting_.eta_F2D_block_bsp), hfbedfsetting(hfbedfsetting_), cylindricalsetting(cylindricalsetting_), cylindricalbasis(cylindricalsetting), edf_skyrme(edf_skyrme_), gaussian_gogny(cylindricalsetting, edf_gogny_.forceName_Str, edf_gogny_.mu_F1D_g, edf_gogny_.W_F1D_g, edf_gogny_.B_F1D_g, edf_gogny_.H_F1D_g, edf_gogny_.M_F1D_g), gaussian_coulomb(cylindricalsetting, edf_skyrme.e2charg_F), coulomb_field(cylindricalbasis), density_neutron(cylindricalsetting, cylindricalbasis), density_proton(cylindricalsetting, cylindricalbasis), field_neutron(cylindricalsetting), field_proton(cylindricalsetting) {
         assert(cylindricalsetting.useTimeReversal_B);
 
         // P_HFB → common tolerance and species temperature/cutoff.

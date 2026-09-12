@@ -12,6 +12,14 @@
 
 class HFBNucleus {
 public:
+    struct Element {
+        double vSame_F = 0.0;
+        double vCross_F = 0.0;
+    };
+
+    using GammaElementFunc = std::function<Element(int sp1_I, int sp2_I, int sp3_I, int sp4_I)>;
+    using DeltaElementFunc = std::function<Element(int sp1_I, int sp2_I, int sp3_I, int sp4_I)>;
+
     HFB hfb_neutron;
     HFB hfb_proton;
 
@@ -23,11 +31,27 @@ public:
 public:
     /**
      * @brief  Initialize species dimensions and workspaces.
-     * @math   Nsp_n, Nsp_p.
+     * @math   Nsp_n = Nsp_p = Nsp.
      * @output Allocated solutions, fields, and workspaces.
      */
-    HFBNucleus(int NspN_I_, int NspP_I_)
-    : hfb_neutron(NspN_I_), hfb_proton(NspP_I_) {}
+    HFBNucleus(int Nsp_I_)
+    : hfb_neutron(Nsp_I_), hfb_proton(Nsp_I_) {}
+
+    /**
+     * @brief Accumulate joint particle-hole fields using parallel direct contraction.
+     * @math Γ_n += v_same ρ_n + v_cross ρ_p; n ↔ p.
+     * @output Accumulated neutron and proton Gamma matrices.
+     * @note Requires matching species bases and thread-safe callbacks.
+     */
+    void add_Gamma_from_Element(const GammaElementFunc& read_element_Func);
+
+    /**
+     * @brief Accumulate joint pairing fields using parallel direct contraction.
+     * @math Δ_q += ½ v_same κ_q; q ∈ {n,p}.
+     * @output Accumulated neutron and proton Delta matrices.
+     * @note Requires matching species bases and thread-safe callbacks.
+     */
+    void add_Delta_from_Element(const DeltaElementFunc& read_element_Func);
 
     /**
      * @brief  Initialize one-body fields in the derived model.
@@ -67,6 +91,60 @@ public:
      */
     void iterate(bool useCurrentFields_B = false);
 };
+
+inline void HFBNucleus::add_Gamma_from_Element(const GammaElementFunc& read_element_Func) {
+    assert(read_element_Func);
+    assert(hfb_neutron.Nsp_I == hfb_proton.Nsp_I);
+    const int Nsp_I = hfb_neutron.Nsp_I;
+
+    #pragma omp parallel for collapse(2) schedule(static)
+    for (int sp1_I = 0; sp1_I < Nsp_I; ++sp1_I) {
+        for (int sp3_I = 0; sp3_I < Nsp_I; ++sp3_I) {
+            double GammaSameN_F = 0.0;
+            double GammaCrossN_F = 0.0;
+            double GammaSameP_F = 0.0;
+            double GammaCrossP_F = 0.0;
+            for (int sp2_I = 0; sp2_I < Nsp_I; ++sp2_I) {
+                for (int sp4_I = 0; sp4_I < Nsp_I; ++sp4_I) {
+                    const Element element = read_element_Func(sp1_I, sp2_I, sp3_I, sp4_I);
+                    const double rhoN_F = hfb_neutron.hfb_solution.rho_F2D_sp_sp(sp4_I, sp2_I);
+                    const double rhoP_F = hfb_proton.hfb_solution.rho_F2D_sp_sp(sp4_I, sp2_I);
+                    GammaSameN_F += element.vSame_F * rhoN_F;
+                    GammaCrossN_F += element.vCross_F * rhoP_F;
+                    GammaSameP_F += element.vSame_F * rhoP_F;
+                    GammaCrossP_F += element.vCross_F * rhoN_F;
+                }
+            }
+            hfb_neutron.hfb_field.Gamma_F2D_sp_sp(sp1_I, sp3_I) += GammaSameN_F;
+            hfb_neutron.hfb_field.Gamma_F2D_sp_sp(sp1_I, sp3_I) += GammaCrossN_F;
+            hfb_proton.hfb_field.Gamma_F2D_sp_sp(sp1_I, sp3_I) += GammaSameP_F;
+            hfb_proton.hfb_field.Gamma_F2D_sp_sp(sp1_I, sp3_I) += GammaCrossP_F;
+        }
+    }
+}
+
+inline void HFBNucleus::add_Delta_from_Element(const DeltaElementFunc& read_element_Func) {
+    assert(read_element_Func);
+    assert(hfb_neutron.Nsp_I == hfb_proton.Nsp_I);
+    const int Nsp_I = hfb_neutron.Nsp_I;
+
+    #pragma omp parallel for collapse(2) schedule(static)
+    for (int sp1_I = 0; sp1_I < Nsp_I; ++sp1_I) {
+        for (int sp2_I = 0; sp2_I < Nsp_I; ++sp2_I) {
+            double DeltaN_F = 0.0;
+            double DeltaP_F = 0.0;
+            for (int sp3_I = 0; sp3_I < Nsp_I; ++sp3_I) {
+                for (int sp4_I = 0; sp4_I < Nsp_I; ++sp4_I) {
+                    const Element element = read_element_Func(sp1_I, sp2_I, sp3_I, sp4_I);
+                    DeltaN_F += 0.5 * element.vSame_F * hfb_neutron.hfb_solution.kappa_F2D_sp_sp(sp3_I, sp4_I);
+                    DeltaP_F += 0.5 * element.vSame_F * hfb_proton.hfb_solution.kappa_F2D_sp_sp(sp3_I, sp4_I);
+                }
+            }
+            hfb_neutron.hfb_field.Delta_F2D_sp_sp(sp1_I, sp2_I) += DeltaN_F;
+            hfb_proton.hfb_field.Delta_F2D_sp_sp(sp1_I, sp2_I) += DeltaP_F;
+        }
+    }
+}
 
 inline void HFBNucleus::iterate(bool useCurrentFields_B) {
     assert(std::isfinite(accuracy_F) && accuracy_F > 0.0);

@@ -12,6 +12,20 @@
 
 class HFBAxialNucleus {
 public:
+    struct Element {
+        double vSamePosPosPosPos_F = 0.0;
+        double vSamePosNegPosNeg_F = 0.0;
+        double vSameNegPosNegPos_F = 0.0;
+        double vSameNegNegNegNeg_F = 0.0;
+        double vCrossPosPosPosPos_F = 0.0;
+        double vCrossPosNegPosNeg_F = 0.0;
+        double vCrossNegPosNegPos_F = 0.0;
+        double vCrossNegNegNegNeg_F = 0.0;
+    };
+
+    using GammaElementFunc = std::function<Element(int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
+    using DeltaElementFunc = std::function<Element(int block12_I, int block34_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
+
     HFBAxial hfb_axial_neutron;
     HFBAxial hfb_axial_proton;
 
@@ -23,11 +37,27 @@ public:
 public:
     /**
      * @brief  Initialize species dimensions and workspaces.
-     * @math   {Nbsp_n,b, Nbsp_p,b}.
+     * @math   Nbsp_n,b = Nbsp_p,b = Nbsp_b.
      * @output Allocated solutions, fields, and workspaces.
      */
-    HFBAxialNucleus(const std::vector<int>& NbspN_I1D_block_, const std::vector<int>& NbspP_I1D_block_)
-    : hfb_axial_neutron(NbspN_I1D_block_), hfb_axial_proton(NbspP_I1D_block_) {}
+    HFBAxialNucleus(const std::vector<int>& Nbsp_I1D_block_)
+    : hfb_axial_neutron(Nbsp_I1D_block_), hfb_axial_proton(Nbsp_I1D_block_) {}
+
+    /**
+     * @brief Accumulate joint particle-hole fields using parallel direct contraction.
+     * @math Γ_n += v_same ρ_n + v_cross ρ_p; n ↔ p.
+     * @output Accumulated neutron and proton Gamma matrices.
+     * @note Requires matching species bases and thread-safe callbacks.
+     */
+    void add_Gamma_from_Element(const GammaElementFunc& read_element_Func);
+
+    /**
+     * @brief Accumulate joint pairing fields using parallel direct contraction.
+     * @math Δ_q += v_same κ_q; q ∈ {n,p}.
+     * @output Accumulated neutron and proton Delta matrices.
+     * @note Requires matching species bases and thread-safe callbacks.
+     */
+    void add_Delta_from_Element(const DeltaElementFunc& read_element_Func);
 
     /**
      * @brief  Initialize one-body fields in the derived model.
@@ -67,6 +97,108 @@ public:
      */
     void iterate(bool useCurrentFields_B = false);
 };
+
+inline void HFBAxialNucleus::add_Gamma_from_Element(const GammaElementFunc& read_element_Func) {
+    assert(read_element_Func);
+    assert(hfb_axial_neutron.Nbsp_I1D_block == hfb_axial_proton.Nbsp_I1D_block);
+
+    const auto add_Gamma_Func = [&](int block13_I, int bsp1_I, int bsp3_I) {
+        double GammaSameN_F = 0.0;
+        double GammaSameNNegNeg_F = 0.0;
+        double GammaCrossN_F = 0.0;
+        double GammaCrossNNegNeg_F = 0.0;
+        double GammaSameP_F = 0.0;
+        double GammaSamePNegNeg_F = 0.0;
+        double GammaCrossP_F = 0.0;
+        double GammaCrossPNegNeg_F = 0.0;
+        for (int block24_I = 0; block24_I < hfb_axial_neutron.Nblock_I; ++block24_I) {
+            const auto& solutionN = hfb_axial_neutron.hfb_axial_solutions[block24_I];
+            const auto& solutionP = hfb_axial_proton.hfb_axial_solutions[block24_I];
+            const int Nbsp_I = hfb_axial_neutron.Nbsp_I1D_block[block24_I];
+            for (int bsp2_I = 0; bsp2_I < Nbsp_I; ++bsp2_I) {
+                for (int bsp4_I = 0; bsp4_I < Nbsp_I; ++bsp4_I) {
+                    const Element element = read_element_Func(block13_I, block24_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I);
+                    const double rhoNPosPos_F = solutionN.rhoPosPos_F2D_bsp_bsp(bsp4_I, bsp2_I);
+                    const double rhoPPosPos_F = solutionP.rhoPosPos_F2D_bsp_bsp(bsp4_I, bsp2_I);
+                    const double rhoNNegNeg_F = solutionN.rhoNegNeg_F2D_bsp_bsp(bsp4_I, bsp2_I);
+                    const double rhoPNegNeg_F = solutionP.rhoNegNeg_F2D_bsp_bsp(bsp4_I, bsp2_I);
+                    GammaSameN_F += element.vSamePosPosPosPos_F * rhoNPosPos_F + element.vSamePosNegPosNeg_F * rhoNNegNeg_F;
+                    GammaSameNNegNeg_F += element.vSameNegPosNegPos_F * rhoNPosPos_F + element.vSameNegNegNegNeg_F * rhoNNegNeg_F;
+                    GammaCrossN_F += element.vCrossPosPosPosPos_F * rhoPPosPos_F + element.vCrossPosNegPosNeg_F * rhoPNegNeg_F;
+                    GammaCrossNNegNeg_F += element.vCrossNegPosNegPos_F * rhoPPosPos_F + element.vCrossNegNegNegNeg_F * rhoPNegNeg_F;
+                    GammaSameP_F += element.vSamePosPosPosPos_F * rhoPPosPos_F + element.vSamePosNegPosNeg_F * rhoPNegNeg_F;
+                    GammaSamePNegNeg_F += element.vSameNegPosNegPos_F * rhoPPosPos_F + element.vSameNegNegNegNeg_F * rhoPNegNeg_F;
+                    GammaCrossP_F += element.vCrossPosPosPosPos_F * rhoNPosPos_F + element.vCrossPosNegPosNeg_F * rhoNNegNeg_F;
+                    GammaCrossPNegNeg_F += element.vCrossNegPosNegPos_F * rhoNPosPos_F + element.vCrossNegNegNegNeg_F * rhoNNegNeg_F;
+                }
+            }
+        }
+        hfb_axial_neutron.hfb_axial_fields[block13_I].GammaPosPos_F2D_bsp_bsp(bsp1_I, bsp3_I) += GammaSameN_F;
+        hfb_axial_neutron.hfb_axial_fields[block13_I].GammaNegNeg_F2D_bsp_bsp(bsp1_I, bsp3_I) += GammaSameNNegNeg_F;
+        hfb_axial_neutron.hfb_axial_fields[block13_I].GammaPosPos_F2D_bsp_bsp(bsp1_I, bsp3_I) += GammaCrossN_F;
+        hfb_axial_neutron.hfb_axial_fields[block13_I].GammaNegNeg_F2D_bsp_bsp(bsp1_I, bsp3_I) += GammaCrossNNegNeg_F;
+        hfb_axial_proton.hfb_axial_fields[block13_I].GammaPosPos_F2D_bsp_bsp(bsp1_I, bsp3_I) += GammaSameP_F;
+        hfb_axial_proton.hfb_axial_fields[block13_I].GammaNegNeg_F2D_bsp_bsp(bsp1_I, bsp3_I) += GammaSamePNegNeg_F;
+        hfb_axial_proton.hfb_axial_fields[block13_I].GammaPosPos_F2D_bsp_bsp(bsp1_I, bsp3_I) += GammaCrossP_F;
+        hfb_axial_proton.hfb_axial_fields[block13_I].GammaNegNeg_F2D_bsp_bsp(bsp1_I, bsp3_I) += GammaCrossPNegNeg_F;
+    };
+
+    #pragma omp parallel
+    {
+        #pragma omp single
+        for (int block13_I = 0; block13_I < hfb_axial_neutron.Nblock_I; ++block13_I) {
+            const int Nbsp_I = hfb_axial_neutron.Nbsp_I1D_block[block13_I];
+            for (int bsp1_I = 0; bsp1_I < Nbsp_I; ++bsp1_I) {
+                for (int bsp3_I = 0; bsp3_I < Nbsp_I; ++bsp3_I) {
+                    #pragma omp task firstprivate(block13_I, bsp1_I, bsp3_I)
+                    {
+                        add_Gamma_Func(block13_I, bsp1_I, bsp3_I);
+                    }
+                }
+            }
+        }
+    }
+}
+
+inline void HFBAxialNucleus::add_Delta_from_Element(const DeltaElementFunc& read_element_Func) {
+    assert(read_element_Func);
+    assert(hfb_axial_neutron.Nbsp_I1D_block == hfb_axial_proton.Nbsp_I1D_block);
+
+    const auto add_Delta_Func = [&](int block12_I, int bsp1_I, int bsp2_I) {
+        double DeltaN_F = 0.0;
+        double DeltaP_F = 0.0;
+        for (int block34_I = 0; block34_I < hfb_axial_neutron.Nblock_I; ++block34_I) {
+            const auto& solutionN = hfb_axial_neutron.hfb_axial_solutions[block34_I];
+            const auto& solutionP = hfb_axial_proton.hfb_axial_solutions[block34_I];
+            const int Nbsp_I = hfb_axial_neutron.Nbsp_I1D_block[block34_I];
+            for (int bsp3_I = 0; bsp3_I < Nbsp_I; ++bsp3_I) {
+                for (int bsp4_I = 0; bsp4_I < Nbsp_I; ++bsp4_I) {
+                    const Element element = read_element_Func(block12_I, block34_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I);
+                    DeltaN_F += element.vSamePosNegPosNeg_F * solutionN.kappaPosNeg_F2D_bsp_bsp(bsp3_I, bsp4_I);
+                    DeltaP_F += element.vSamePosNegPosNeg_F * solutionP.kappaPosNeg_F2D_bsp_bsp(bsp3_I, bsp4_I);
+                }
+            }
+        }
+        hfb_axial_neutron.hfb_axial_fields[block12_I].DeltaPosNeg_F2D_bsp_bsp(bsp1_I, bsp2_I) += DeltaN_F;
+        hfb_axial_proton.hfb_axial_fields[block12_I].DeltaPosNeg_F2D_bsp_bsp(bsp1_I, bsp2_I) += DeltaP_F;
+    };
+
+    #pragma omp parallel
+    {
+        #pragma omp single
+        for (int block12_I = 0; block12_I < hfb_axial_neutron.Nblock_I; ++block12_I) {
+            const int Nbsp_I = hfb_axial_neutron.Nbsp_I1D_block[block12_I];
+            for (int bsp1_I = 0; bsp1_I < Nbsp_I; ++bsp1_I) {
+                for (int bsp2_I = 0; bsp2_I < Nbsp_I; ++bsp2_I) {
+                    #pragma omp task firstprivate(block12_I, bsp1_I, bsp2_I)
+                    {
+                        add_Delta_Func(block12_I, bsp1_I, bsp2_I);
+                    }
+                }
+            }
+        }
+    }
+}
 
 inline void HFBAxialNucleus::iterate(bool useCurrentFields_B) {
     assert(std::isfinite(accuracy_F) && accuracy_F > 0.0);

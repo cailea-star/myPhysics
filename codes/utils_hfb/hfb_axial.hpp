@@ -8,7 +8,6 @@
 #pragma once
 
 #include <algorithm>
-#include <array>
 #include <cassert>
 #include <cmath>
 #include <functional>
@@ -51,12 +50,18 @@ struct HFBAxialBlockField {
 
 class HFBAxial {
 public:
+    struct Element {
+        double vPosPosPosPos_F = 0.0;
+        double vPosNegPosNeg_F = 0.0;
+        double vNegPosNegPos_F = 0.0;
+        double vNegNegNegNeg_F = 0.0;
+    };
+
     using BlockingFunc = std::function<double(std::vector<HFBAxialBlockSolution>& solutions, bool updateTracking_B)>;
     // v̄_{12;34}: Γ uses block13, block24; Δ uses block12, block34.
     // bsp indices follow 1,2,3,4.
-    // Γ entries: ++++, +-+-, -+-+, ----; Δ entry: +-+-.
-    using GammaElementFunc = std::function<std::array<double, 4>(int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
-    using DeltaElementFunc = std::function<double(int block12_I, int block34_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
+    using GammaElementFunc = std::function<Element(int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
+    using DeltaElementFunc = std::function<Element(int block12_I, int block34_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
 
     int TargetN_I = 0; // Target particle number.
     double lambda_F = -7.0; // Fermi energy [MeV].
@@ -145,67 +150,94 @@ public:
 
     /**
      * @brief Accumulate particle-hole fields by direct matrix-element contraction.
-     * @math Γ_{13} += Σ_{24}v̄_{12;34}ρ_source,42.
-     * @output Accumulated Gamma; source supplies the contracted species.
+     * @math Γ_{13} += Σ_{24}v̄_{12;34}ρ_42.
+     * @output Accumulated Gamma; this species supplies the density.
+     * @note Requires thread-safe matrix-element callbacks.
      */
-    void add_Gamma_from_Element(const HFBAxial& source_, const GammaElementFunc& read_element_Func);
+    void add_Gamma_from_Element(const GammaElementFunc& read_element_Func);
 
     /**
      * @brief Accumulate pairing fields by direct matrix-element contraction.
      * @math Δ⁺⁻_{12} += Σ_{34}v̄⁺⁻⁺⁻_{12;34}κ⁺⁻_{34}.
      * @output Accumulated Delta from this species' pairing tensor.
+     * @note Requires thread-safe matrix-element callbacks.
      */
     void add_Delta_from_Element(const DeltaElementFunc& read_element_Func);
 };
 
-inline void HFBAxial::add_Gamma_from_Element(const HFBAxial& source_, const GammaElementFunc& read_element_Func) {
+inline void HFBAxial::add_Gamma_from_Element(const GammaElementFunc& read_element_Func) {
     assert(read_element_Func);
 
     // Γ⁺⁺_{13} += Σ_{24}(v̄⁺⁺⁺⁺ρ⁺⁺_{42}+v̄⁺⁻⁺⁻ρ⁻⁻_{42}).
-    for (int block13_I = 0; block13_I < Nblock_I; ++block13_I) {
-        for (int bsp1_I = 0; bsp1_I < Nbsp_I1D_block[block13_I]; ++bsp1_I) {
-            for (int bsp3_I = 0; bsp3_I < Nbsp_I1D_block[block13_I]; ++bsp3_I) {
-                double Gamma13PosPos_F = 0.0;
-                double Gamma13NegNeg_F = 0.0;
-                for (int block24_I = 0; block24_I < source_.Nblock_I; ++block24_I) {
-                    const auto& solution = source_.hfb_axial_solutions[block24_I];
-                    for (int bsp2_I = 0; bsp2_I < source_.Nbsp_I1D_block[block24_I]; ++bsp2_I) {
-                        for (int bsp4_I = 0; bsp4_I < source_.Nbsp_I1D_block[block24_I]; ++bsp4_I) {
-                            const auto v_F1D_branch = read_element_Func(block13_I, block24_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I);
-                            const double rho42PosPos_F = solution.rhoPosPos_F2D_bsp_bsp(bsp4_I, bsp2_I);
-                            const double rho42NegNeg_F = solution.rhoNegNeg_F2D_bsp_bsp(bsp4_I, bsp2_I);
-                            Gamma13PosPos_F += v_F1D_branch[0] * rho42PosPos_F + v_F1D_branch[1] * rho42NegNeg_F;
-                            Gamma13NegNeg_F += v_F1D_branch[2] * rho42PosPos_F + v_F1D_branch[3] * rho42NegNeg_F;
-                        }
+    const auto add_Gamma_Func = [&](int block13_I, int bsp1_I, int bsp3_I) {
+        double Gamma13PosPos_F = 0.0;
+        double Gamma13NegNeg_F = 0.0;
+        for (int block24_I = 0; block24_I < Nblock_I; ++block24_I) {
+            const auto& solution = hfb_axial_solutions[block24_I];
+            for (int bsp2_I = 0; bsp2_I < Nbsp_I1D_block[block24_I]; ++bsp2_I) {
+                for (int bsp4_I = 0; bsp4_I < Nbsp_I1D_block[block24_I]; ++bsp4_I) {
+                    const Element element = read_element_Func(block13_I, block24_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I);
+                    const double rho42PosPos_F = solution.rhoPosPos_F2D_bsp_bsp(bsp4_I, bsp2_I);
+                    const double rho42NegNeg_F = solution.rhoNegNeg_F2D_bsp_bsp(bsp4_I, bsp2_I);
+                    Gamma13PosPos_F += element.vPosPosPosPos_F * rho42PosPos_F + element.vPosNegPosNeg_F * rho42NegNeg_F;
+                    Gamma13NegNeg_F += element.vNegPosNegPos_F * rho42PosPos_F + element.vNegNegNegNeg_F * rho42NegNeg_F;
+                }
+            }
+        }
+        hfb_axial_fields[block13_I].GammaPosPos_F2D_bsp_bsp(bsp1_I, bsp3_I) += Gamma13PosPos_F;
+        hfb_axial_fields[block13_I].GammaNegNeg_F2D_bsp_bsp(bsp1_I, bsp3_I) += Gamma13NegNeg_F;
+    };
+
+    #pragma omp parallel
+    {
+        #pragma omp single
+        for (int block13_I = 0; block13_I < Nblock_I; ++block13_I) {
+            for (int bsp1_I = 0; bsp1_I < Nbsp_I1D_block[block13_I]; ++bsp1_I) {
+                for (int bsp3_I = 0; bsp3_I < Nbsp_I1D_block[block13_I]; ++bsp3_I) {
+                    #pragma omp task firstprivate(block13_I, bsp1_I, bsp3_I)
+                    {
+                        add_Gamma_Func(block13_I, bsp1_I, bsp3_I);
                     }
                 }
-                hfb_axial_fields[block13_I].GammaPosPos_F2D_bsp_bsp(bsp1_I, bsp3_I) += Gamma13PosPos_F;
-                hfb_axial_fields[block13_I].GammaNegNeg_F2D_bsp_bsp(bsp1_I, bsp3_I) += Gamma13NegNeg_F;
             }
         }
     }
+
 }
 
 inline void HFBAxial::add_Delta_from_Element(const DeltaElementFunc& read_element_Func) {
     assert(read_element_Func);
 
     // κ⁻⁺ = −(κ⁺⁻)ᵀ and v̄_{12;43} = −v̄_{12;34} cancel ½.
-    for (int block12_I = 0; block12_I < Nblock_I; ++block12_I) {
-        for (int bsp1_I = 0; bsp1_I < Nbsp_I1D_block[block12_I]; ++bsp1_I) {
-            for (int bsp2_I = 0; bsp2_I < Nbsp_I1D_block[block12_I]; ++bsp2_I) {
-                double Delta12PosNeg_F = 0.0;
-                for (int block34_I = 0; block34_I < Nblock_I; ++block34_I) {
-                    const auto& solution = hfb_axial_solutions[block34_I];
-                    for (int bsp3_I = 0; bsp3_I < Nbsp_I1D_block[block34_I]; ++bsp3_I) {
-                        for (int bsp4_I = 0; bsp4_I < Nbsp_I1D_block[block34_I]; ++bsp4_I) {
-                            Delta12PosNeg_F += read_element_Func(block12_I, block34_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I) * solution.kappaPosNeg_F2D_bsp_bsp(bsp3_I, bsp4_I);
-                        }
+    const auto add_Delta_Func = [&](int block12_I, int bsp1_I, int bsp2_I) {
+        double Delta12PosNeg_F = 0.0;
+        for (int block34_I = 0; block34_I < Nblock_I; ++block34_I) {
+            const auto& solution = hfb_axial_solutions[block34_I];
+            for (int bsp3_I = 0; bsp3_I < Nbsp_I1D_block[block34_I]; ++bsp3_I) {
+                for (int bsp4_I = 0; bsp4_I < Nbsp_I1D_block[block34_I]; ++bsp4_I) {
+                    const Element element = read_element_Func(block12_I, block34_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I);
+                    Delta12PosNeg_F += element.vPosNegPosNeg_F * solution.kappaPosNeg_F2D_bsp_bsp(bsp3_I, bsp4_I);
+                }
+            }
+        }
+        hfb_axial_fields[block12_I].DeltaPosNeg_F2D_bsp_bsp(bsp1_I, bsp2_I) += Delta12PosNeg_F;
+    };
+
+    #pragma omp parallel
+    {
+        #pragma omp single
+        for (int block12_I = 0; block12_I < Nblock_I; ++block12_I) {
+            for (int bsp1_I = 0; bsp1_I < Nbsp_I1D_block[block12_I]; ++bsp1_I) {
+                for (int bsp2_I = 0; bsp2_I < Nbsp_I1D_block[block12_I]; ++bsp2_I) {
+                    #pragma omp task firstprivate(block12_I, bsp1_I, bsp2_I)
+                    {
+                        add_Delta_Func(block12_I, bsp1_I, bsp2_I);
                     }
                 }
-                hfb_axial_fields[block12_I].DeltaPosNeg_F2D_bsp_bsp(bsp1_I, bsp2_I) += Delta12PosNeg_F;
             }
         }
     }
+
 }
 
 inline double HFBAxial::update_UV_E_rho_kappa() {
@@ -215,6 +247,7 @@ inline double HFBAxial::update_UV_E_rho_kappa() {
     double N_F = 0.0;
 
     // block_b → (E_b, U_b, V_b, f_b, ρ_b, κ_b).
+    #pragma omp parallel for schedule(static) reduction(+:N_F)
     for (int block_I = 0; block_I < Nblock_I; ++block_I) {
         const int Nbsp_I = Nbsp_I1D_block[block_I];
         const HFBAxialBlockField& field = hfb_axial_fields[block_I];
@@ -330,7 +363,7 @@ inline void HFBAxial::search_lambda(double lambdaTolerance_F) {
     assert(TargetN_I >= 0 && TargetN_I <= 2 * std::accumulate(Nbsp_I1D_block.begin(), Nbsp_I1D_block.end(), 0));
     assert(std::isfinite(lambda_F));
     assert(std::isfinite(lambdaTolerance_F) && lambdaTolerance_F > 0.0);
-    const double Ntolerance_F = std::max(1.0e-8, 1.0e-10 * std::max(1, TargetN_I));
+    const double Ntolerance_F = std::min(1.0e-12, lambdaTolerance_F);
     std::map<double, double> NerrorByLambda_Map{};
 
     // Fixed fields; trial blocking preserves external trackers.
