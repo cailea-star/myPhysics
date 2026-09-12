@@ -141,26 +141,8 @@ public:
      */
     void add_Gamma_Delta_from_field();
 
-    /**
-     * @brief Add finite-range Gogny mean fields.
-     * @math Γ_q += v̄_same ρ_q + v̄_cross ρ_other.
-     * @output Accumulated neutron and proton Gamma matrices.
-     */
-    void add_Gamma_from_Gogny();
 
-    /**
-     * @brief Add finite-range Gogny pairing fields.
-     * @math Δ_q⁺⁻ += Σ_{34}v̄_same⁺⁻⁺⁻_{12;34}κ_q,34⁺⁻.
-     * @output Accumulated neutron and proton Delta matrices.
-     */
-    void add_Delta_from_Gogny();
 
-    /**
-     * @brief Add Gaussian Coulomb mean fields.
-     * @math Γ_p += v̄_C ρ_p.
-     * @output Accumulated proton Gamma matrices.
-     */
-    void add_Gamma_from_Coulomb();
 
     /**
      * @brief Initialize neutron and proton one-body fields.

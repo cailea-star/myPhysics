@@ -174,13 +174,13 @@ inline void HFBKramers::add_Gamma_from_Element(const GammaElementFunc& read_elem
         fields[block13_I].GammaPosPos_F2D_bsp_bsp(bsp1_I, bsp3_I) += Gamma13PosPos_F;
     };
 
-    // #pragma omp parallel
+    #pragma omp parallel
     {
-        // #pragma omp single
+        #pragma omp single
         for (int block13_I = 0; block13_I < Nblock_I; ++block13_I) {
             for (int bsp1_I = 0; bsp1_I < Nbsp_I1D_block[block13_I]; ++bsp1_I) {
                 for (int bsp3_I = 0; bsp3_I < Nbsp_I1D_block[block13_I]; ++bsp3_I) {
-                    // #pragma omp task firstprivate(block13_I, bsp1_I, bsp3_I)
+                    #pragma omp task firstprivate(block13_I, bsp1_I, bsp3_I)
                     {
                         add_Gamma_Func(block13_I, bsp1_I, bsp3_I);
                     }
@@ -209,13 +209,13 @@ inline void HFBKramers::add_Delta_from_Element(const DeltaElementFunc& read_elem
         fields[block12_I].DeltaPosNeg_F2D_bsp_bsp(bsp1_I, bsp2_I) += Delta12PosNeg_F;
     };
 
-    // #pragma omp parallel
+    #pragma omp parallel
     {
-        // #pragma omp single
+        #pragma omp single
         for (int block12_I = 0; block12_I < Nblock_I; ++block12_I) {
             for (int bsp1_I = 0; bsp1_I < Nbsp_I1D_block[block12_I]; ++bsp1_I) {
                 for (int bsp2_I = 0; bsp2_I < Nbsp_I1D_block[block12_I]; ++bsp2_I) {
-                    // #pragma omp task firstprivate(block12_I, bsp1_I, bsp2_I)
+                    #pragma omp task firstprivate(block12_I, bsp1_I, bsp2_I)
                     {
                         add_Delta_Func(block12_I, bsp1_I, bsp2_I);
                     }
