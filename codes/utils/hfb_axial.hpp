@@ -9,7 +9,6 @@
 
 #include <cassert>
 #include <cmath>
-#include <functional>
 #include <vector>
 
 #include <Eigen/Core>
@@ -45,6 +44,11 @@ struct HFBAxialBlockField {
 
 class HFBAxial {
 public:
+    double lambda_F = -7.0; // Fermi energy [MeV].
+    double lambda2_F = 0.0; // Lipkin-Nogami λ₂ [MeV].
+    double temperature_F = 0.0;
+    double EspCut_F = 60.0; // Equivalent single-particle energy cutoff [MeV].
+
     int Nblock_I = 0;
     std::vector<int> Nbsp_I1D_block{};
 
@@ -127,55 +131,54 @@ public:
      * @output Updated quasiparticle solutions and densities.
      * @output Mean particle number N = Σ_b Tr(ρ_b⁺⁺+ρ_b⁻⁻).
      * @note   Real fields; no zero modes; T = k_B T_phys ≥ 0.
+     * @note   ε = λ + E(1-2‖V‖²); cutoff affects ρ and κ.
+     * @note   EspCut_F = ∞ disables the cutoff.
+     * @note   h_LN = h₀ + Γ + 4λ₂ρ - 2λ₂I; pre-solve ρ.
      */
-    double update_UV_E_rho_kappa(double lambda_F, double temperature_F);
+    double update_UV_E_rho_kappa();
 };
 
 class HFBAxialNucleus {
 public:
-    using OneBodyFunc = std::function<void(int block_I, Eigen::MatrixXd& h0PosPos_F2D_bsp_bsp, Eigen::MatrixXd& h0NegNeg_F2D_bsp_bsp)>;
-
-    using TwoBodyFunc = std::function<void(const std::vector<HFBAxialBlockSolution>& solutions_n, const std::vector<HFBAxialBlockSolution>& solutions_p, std::vector<HFBAxialBlockField>& fields_n, std::vector<HFBAxialBlockField>& fields_p)>;
-
     HFBAxial hfb_axial_neutron;
     HFBAxial hfb_axial_proton;
 
-    OneBodyFunc build_onebody_neutron{};
-    OneBodyFunc build_onebody_proton{};
-    TwoBodyFunc build_twobody{};
-
 public:
     /**
-     * @brief  Initialize species and build their one-body matrices.
-     * @math   h_q,b = h₀,q,b + Γ_q,b; q ∈ {n,p}.
-     * @output Initialized species and stored field callbacks.
+     * @brief  Initialize species dimensions and workspaces.
+     * @math   {Nbsp_n,b, Nbsp_p,b}.
+     * @output Allocated solutions, fields, and workspaces.
      */
-    HFBAxialNucleus(const std::vector<int>& NbspN_I1D_block_, const std::vector<int>& NbspP_I1D_block_, const OneBodyFunc& build_onebodyN_, const OneBodyFunc& build_onebodyP_, const TwoBodyFunc& build_twobody_)
-    : hfb_axial_neutron(NbspN_I1D_block_), hfb_axial_proton(NbspP_I1D_block_) {
-        assert(build_onebodyN_);
-        assert(build_onebodyP_);
-        assert(build_twobody_);
-        build_onebody_neutron = build_onebodyN_;
-        build_onebody_proton = build_onebodyP_;
-        build_twobody = build_twobody_;
+    HFBAxialNucleus(const std::vector<int>& NbspN_I1D_block_, const std::vector<int>& NbspP_I1D_block_)
+    : hfb_axial_neutron(NbspN_I1D_block_), hfb_axial_proton(NbspP_I1D_block_) {}
 
-        // block_n → (h₀,n⁺⁺, h₀,n⁻⁻).
-        for (int block_I = 0; block_I < hfb_axial_neutron.Nblock_I; ++block_I) {
-            build_onebody_neutron(block_I, hfb_axial_neutron.hfb_axial_fields[block_I].h0PosPos_F2D_bsp_bsp, hfb_axial_neutron.hfb_axial_fields[block_I].h0NegNeg_F2D_bsp_bsp);
-        }
+    /**
+     * @brief  Initialize one-body fields in the derived model.
+     * @math   h₀,n, h₀,p.
+     * @output Initialized neutron and proton one-body fields.
+     */
+    virtual void initialize_h0() = 0;
 
-        // block_p → (h₀,p⁺⁺, h₀,p⁻⁻).
-        for (int block_I = 0; block_I < hfb_axial_proton.Nblock_I; ++block_I) {
-            build_onebody_proton(block_I, hfb_axial_proton.hfb_axial_fields[block_I].h0PosPos_F2D_bsp_bsp, hfb_axial_proton.hfb_axial_fields[block_I].h0NegNeg_F2D_bsp_bsp);
-        }
-    }
+    /**
+     * @brief  Initialize HFB fields in the derived model.
+     * @math   (N,Z) → (Γ_n,Δ_n,Γ_p,Δ_p)_initial.
+     * @output Initialized Gamma and Delta for both species.
+     */
+    virtual void initialize_GammaDelta(int TargetN_I, int TargetZ_I) = 0;
 
     /**
      * @brief  Update both species using all block densities.
      * @math   {ρ_n,b,κ_n,b,ρ_p,b,κ_p,b} → {Γ_n,b,Δ_n,b,Γ_p,b,Δ_p,b}.
      * @output Overwritten neutron and proton Gamma and Delta.
      */
-    void update_Gamma_Delta();
+    virtual void update_Gamma_Delta() = 0;
+
+    /**
+     * @brief  Iterate the unblocked HFB equations.
+     * @math   (N,Z) → HFB_converged.
+     * @output Updated converged solver state.
+     */
+    void iterate(int TargetN_I, int TargetZ_I);
 };
 
 /**
@@ -184,7 +187,7 @@ public:
  * @output Updated quasiparticle solutions and densities.
  * @output Mean particle number N = Σ_b Tr(ρ_b⁺⁺+ρ_b⁻⁻).
  */
-inline double HFBAxial::update_UV_E_rho_kappa(double lambda_F, double temperature_F) {
+inline double HFBAxial::update_UV_E_rho_kappa() {
     assert(temperature_F >= 0.0);
     assert(static_cast<int>(hfb_axial_fields.size()) == Nblock_I);
     assert(static_cast<int>(hfb_axial_solutions.size()) == Nblock_I);
@@ -205,11 +208,11 @@ inline double HFBAxial::update_UV_E_rho_kappa(double lambda_F, double temperatur
         assert(field.GammaPosPos_F2D_bsp_bsp.isApprox(field.GammaPosPos_F2D_bsp_bsp.transpose(), 1.0e-12));
         assert(field.GammaNegNeg_F2D_bsp_bsp.isApprox(field.GammaNegNeg_F2D_bsp_bsp.transpose(), 1.0e-12));
 
-        // H⁺₁₁ = h⁺⁺ - λI; H⁻₁₁ = h⁻⁻ - λI.
-        HPos_F2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I) = field.h0PosPos_F2D_bsp_bsp + field.GammaPosPos_F2D_bsp_bsp;
-        HNeg_F2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I) = field.h0NegNeg_F2D_bsp_bsp + field.GammaNegNeg_F2D_bsp_bsp;
-        HPos_F2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I).diagonal().array() -= lambda_F;
-        HNeg_F2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I).diagonal().array() -= lambda_F;
+        // H±₁₁ = h₀±± + Γ±± + 4λ₂ρ±± - (λ+2λ₂)I.
+        HPos_F2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I) = field.h0PosPos_F2D_bsp_bsp + field.GammaPosPos_F2D_bsp_bsp + 4.0 * lambda2_F * solution.rhoPosPos_F2D_bsp_bsp;
+        HNeg_F2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I) = field.h0NegNeg_F2D_bsp_bsp + field.GammaNegNeg_F2D_bsp_bsp + 4.0 * lambda2_F * solution.rhoNegNeg_F2D_bsp_bsp;
+        HPos_F2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I).diagonal().array() -= lambda_F + 2.0 * lambda2_F;
+        HNeg_F2D_2bsp_2bsp.topLeftCorner(Nbsp_I, Nbsp_I).diagonal().array() -= lambda_F + 2.0 * lambda2_F;
 
         // H⁺ = [h⁺⁺-λI, Δ; Δᵀ, -h⁻⁻+λI].
         HPos_F2D_2bsp_2bsp.topRightCorner(Nbsp_I, Nbsp_I) = field.DeltaPosNeg_F2D_bsp_bsp;
@@ -246,46 +249,58 @@ inline double HFBAxial::update_UV_E_rho_kappa(double lambda_F, double temperatur
         solution.UNeg_F2D_bsp_bqp = eigenvectorsNeg_F2D_2bsp_state.topRightCorner(Nbsp_I, solution.EqpNeg_F1D_bqp.size());
         solution.VPos_F2D_bsp_bqp = eigenvectorsNeg_F2D_2bsp_state.bottomRightCorner(Nbsp_I, solution.EqpNeg_F1D_bqp.size());
 
-        // T ≤ 10⁻¹² → f± = 0.
+        // ε± = λ + E±(1-2‖V∓‖²); ε± > Ecut + tail → factors = 0.
+        const double EspCutTail_F = std::log(1.0 / 1.0e-6 - 1.0) / 100.0;
         solution.fPos_F1D_bqp.resize(solution.EqpPos_F1D_bqp.size());
+        Eigen::VectorXd factorUPos_F1D_bqp{};
+        factorUPos_F1D_bqp.resize(solution.EqpPos_F1D_bqp.size());
+        factorUPos_F1D_bqp.setZero();
+        Eigen::VectorXd factorVPos_F1D_bqp{};
+        factorVPos_F1D_bqp.resize(solution.EqpPos_F1D_bqp.size());
+        factorVPos_F1D_bqp.setZero();
+
+        // f = (1-tanh(E/(2T)))/2; active factors = (f,1-f).
+        for (int bqp_I = 0; bqp_I < solution.EqpPos_F1D_bqp.size(); ++bqp_I) {
+            const double Eqp_F = solution.EqpPos_F1D_bqp(bqp_I);
+            solution.fPos_F1D_bqp(bqp_I) = temperature_F > 1.0e-12 ? 0.5 * (1.0 - std::tanh(0.5 * Eqp_F / temperature_F)) : 0.0;
+            const double Esp_F = lambda_F + Eqp_F * (1.0 - 2.0 * solution.VNeg_F2D_bsp_bqp.col(bqp_I).squaredNorm());
+            if (Esp_F > EspCut_F + EspCutTail_F) {continue;}
+            factorUPos_F1D_bqp(bqp_I) = solution.fPos_F1D_bqp(bqp_I);
+            factorVPos_F1D_bqp(bqp_I) = 1.0 - solution.fPos_F1D_bqp(bqp_I);
+        }
+
         solution.fNeg_F1D_bqp.resize(solution.EqpNeg_F1D_bqp.size());
-        solution.fPos_F1D_bqp.setZero();
-        solution.fNeg_F1D_bqp.setZero();
-        if (temperature_F > 1.0e-12) {
-            // f± = e⁻ᴱ±ᐟᵀ/(1+e⁻ᴱ±ᐟᵀ).
-            for (int bqp_I = 0; bqp_I < solution.EqpPos_F1D_bqp.size(); ++bqp_I) {
-                const double expMinusEOverT_F = std::exp(-solution.EqpPos_F1D_bqp(bqp_I) / temperature_F);
-                solution.fPos_F1D_bqp(bqp_I) = expMinusEOverT_F / (1.0 + expMinusEOverT_F);
-            }
-            for (int bqp_I = 0; bqp_I < solution.EqpNeg_F1D_bqp.size(); ++bqp_I) {
-                const double expMinusEOverT_F = std::exp(-solution.EqpNeg_F1D_bqp(bqp_I) / temperature_F);
-                solution.fNeg_F1D_bqp(bqp_I) = expMinusEOverT_F / (1.0 + expMinusEOverT_F);
-            }
+        Eigen::VectorXd factorUNeg_F1D_bqp{};
+        factorUNeg_F1D_bqp.resize(solution.EqpNeg_F1D_bqp.size());
+        factorUNeg_F1D_bqp.setZero();
+        Eigen::VectorXd factorVNeg_F1D_bqp{};
+        factorVNeg_F1D_bqp.resize(solution.EqpNeg_F1D_bqp.size());
+        factorVNeg_F1D_bqp.setZero();
+
+        // f = (1-tanh(E/(2T)))/2; active factors = (f,1-f).
+        for (int bqp_I = 0; bqp_I < solution.EqpNeg_F1D_bqp.size(); ++bqp_I) {
+            const double Eqp_F = solution.EqpNeg_F1D_bqp(bqp_I);
+            solution.fNeg_F1D_bqp(bqp_I) = temperature_F > 1.0e-12 ? 0.5 * (1.0 - std::tanh(0.5 * Eqp_F / temperature_F)) : 0.0;
+            const double Esp_F = lambda_F + Eqp_F * (1.0 - 2.0 * solution.VPos_F2D_bsp_bqp.col(bqp_I).squaredNorm());
+            if (Esp_F > EspCut_F + EspCutTail_F) {continue;}
+            factorUNeg_F1D_bqp(bqp_I) = solution.fNeg_F1D_bqp(bqp_I);
+            factorVNeg_F1D_bqp(bqp_I) = 1.0 - solution.fNeg_F1D_bqp(bqp_I);
         }
 
         // ρ⁺⁺ = V⁺(1-f⁻)(V⁺)ᵀ + U⁺f⁺(U⁺)ᵀ.
-        solution.rhoPosPos_F2D_bsp_bsp.noalias() = solution.VPos_F2D_bsp_bqp * (1.0 - solution.fNeg_F1D_bqp.array()).matrix().asDiagonal() * solution.VPos_F2D_bsp_bqp.transpose();
-        solution.rhoPosPos_F2D_bsp_bsp.noalias() += solution.UPos_F2D_bsp_bqp * solution.fPos_F1D_bqp.asDiagonal() * solution.UPos_F2D_bsp_bqp.transpose();
+        solution.rhoPosPos_F2D_bsp_bsp.noalias() = solution.VPos_F2D_bsp_bqp * factorVNeg_F1D_bqp.asDiagonal() * solution.VPos_F2D_bsp_bqp.transpose();
+        solution.rhoPosPos_F2D_bsp_bsp.noalias() += solution.UPos_F2D_bsp_bqp * factorUPos_F1D_bqp.asDiagonal() * solution.UPos_F2D_bsp_bqp.transpose();
 
         // ρ⁻⁻ = V⁻(1-f⁺)(V⁻)ᵀ + U⁻f⁻(U⁻)ᵀ.
-        solution.rhoNegNeg_F2D_bsp_bsp.noalias() = solution.VNeg_F2D_bsp_bqp * (1.0 - solution.fPos_F1D_bqp.array()).matrix().asDiagonal() * solution.VNeg_F2D_bsp_bqp.transpose();
-        solution.rhoNegNeg_F2D_bsp_bsp.noalias() += solution.UNeg_F2D_bsp_bqp * solution.fNeg_F1D_bqp.asDiagonal() * solution.UNeg_F2D_bsp_bqp.transpose();
+        solution.rhoNegNeg_F2D_bsp_bsp.noalias() = solution.VNeg_F2D_bsp_bqp * factorVPos_F1D_bqp.asDiagonal() * solution.VNeg_F2D_bsp_bqp.transpose();
+        solution.rhoNegNeg_F2D_bsp_bsp.noalias() += solution.UNeg_F2D_bsp_bqp * factorUNeg_F1D_bqp.asDiagonal() * solution.UNeg_F2D_bsp_bqp.transpose();
 
         // κ⁺⁻ = V⁺(1-f⁻)(U⁻)ᵀ + U⁺f⁺(V⁻)ᵀ.
-        solution.kappaPosNeg_F2D_bsp_bsp.noalias() = solution.VPos_F2D_bsp_bqp * (1.0 - solution.fNeg_F1D_bqp.array()).matrix().asDiagonal() * solution.UNeg_F2D_bsp_bqp.transpose();
-        solution.kappaPosNeg_F2D_bsp_bsp.noalias() += solution.UPos_F2D_bsp_bqp * solution.fPos_F1D_bqp.asDiagonal() * solution.VNeg_F2D_bsp_bqp.transpose();
+        solution.kappaPosNeg_F2D_bsp_bsp.noalias() = solution.VPos_F2D_bsp_bqp * factorVNeg_F1D_bqp.asDiagonal() * solution.UNeg_F2D_bsp_bqp.transpose();
+        solution.kappaPosNeg_F2D_bsp_bsp.noalias() += solution.UPos_F2D_bsp_bqp * factorUPos_F1D_bqp.asDiagonal() * solution.VNeg_F2D_bsp_bqp.transpose();
 
         // N = Σ_b Tr(ρ_b⁺⁺+ρ_b⁻⁻).
         N_F += solution.rhoPosPos_F2D_bsp_bsp.trace() + solution.rhoNegNeg_F2D_bsp_bsp.trace();
     }
     return N_F;
-}
-
-/**
- * @brief  Update both species using all block densities.
- * @math   {ρ_n,b,κ_n,b,ρ_p,b,κ_p,b} → {Γ_n,b,Δ_n,b,Γ_p,b,Δ_p,b}.
- * @output Overwritten neutron and proton Gamma and Delta.
- */
-inline void HFBAxialNucleus::update_Gamma_Delta() {
-    build_twobody(hfb_axial_neutron.hfb_axial_solutions, hfb_axial_proton.hfb_axial_solutions, hfb_axial_neutron.hfb_axial_fields, hfb_axial_proton.hfb_axial_fields);
 }
