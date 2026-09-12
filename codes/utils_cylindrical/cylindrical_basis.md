@@ -4,28 +4,60 @@ The state labels and oscillator lengths follow [Axial Harmonic-Oscillator Config
 
 ### Axial Harmonic-Oscillator Hamiltonian
 
-Let $m$ be the particle mass and $\omega_z,\omega_{r_\perp}>0$ the axial and radial oscillator frequencies. In Cartesian coordinates,
+Let $m$ be the particle mass and $\omega_z,\omega_{r_\perp}>0$ the oscillator frequencies. In Cartesian coordinates,
 
 $$
-\hat H_0=-\frac{\hbar^2}{2m}\left(\partial_x^2+\partial_y^2+\partial_z^2\right)+\frac12m\omega_{r_\perp}^2(x^2+y^2)+\frac12m\omega_z^2z^2.
+\hat H_0=-\frac{\hbar^2}{2m}\left(\partial_x^2+\partial_y^2+\partial_z^2\right)+\frac12m\omega_z^2z^2+\frac12m\omega_{r_\perp}^2(x^2+y^2).
 $$
 
-Using
+Using cylindrical coordinates,
 
 $$
-x=r_\perp\cos\varphi,\qquad y=r_\perp\sin\varphi,\qquad \partial_x^2+\partial_y^2=\partial_{r_\perp}^2+\frac{1}{r_\perp}\partial_{r_\perp}+\frac1{r_\perp^2}\partial_\varphi^2,
+x=r_\perp\cos\varphi,\qquad y=r_\perp\sin\varphi,\qquad \partial_x^2+\partial_y^2=\partial_{r_\perp}^2+\frac1{r_\perp}\partial_{r_\perp}+\frac1{r_\perp^2}\partial_\varphi^2,
 $$
 
 the Hamiltonian becomes
 
 $$
-\hat H_0=-\frac{\hbar^2}{2m}\left(\partial_z^2+\partial_{r_\perp}^2+\frac{1}{r_\perp}\partial_{r_\perp}+\frac1{r_\perp^2}\partial_\varphi^2\right)+\frac12m\omega_z^2z^2+\frac12m\omega_{r_\perp}^2r_\perp^2.
+\hat H_0=-\frac{\hbar^2}{2m}\left(\partial_z^2+\partial_{r_\perp}^2+\frac1{r_\perp}\partial_{r_\perp}+\frac1{r_\perp^2}\partial_\varphi^2\right)+\frac12m\omega_z^2z^2+\frac12m\omega_{r_\perp}^2r_\perp^2.
 $$
 
-For $n_z,n_r,\Lambda\in\mathbb N_0$, the energy spectrum is
+Define the single-particle label,
 
 $$
-\boxed{E(n_z,n_r,\Lambda)=\hbar\omega_z\left(n_z+\frac12\right)+\hbar\omega_{r_\perp}(2n_r+\Lambda+1).}
+\alpha=\{n_z,n_r,\Lambda,\Sigma\},\qquad\bar\alpha=\{n_z,n_r,-\Lambda,-\Sigma\}.
+$$
+
+where $n_z,n_r,\Lambda\in\mathbb N_0$ label the retained representative states and $\Sigma=\pm\tfrac12$.
+
+Define the real spatial amplitude,
+
+$$
+\phi_\alpha(z,r_\perp)=\phi_{n_z}(z)\phi_{n_r}^{\Lambda}(r_\perp).
+$$
+
+The basis spinor and its opposite-projection partner are
+
+$$
+\boxed{\phi_\alpha(z,r_\perp,\varphi)=\phi_\alpha(z,r_\perp)\frac{e^{i\Lambda\varphi}}{\sqrt{2\pi}}\chi_\Sigma,\qquad \phi_{\bar\alpha}(z,r_\perp,\varphi)=\phi_\alpha(z,r_\perp)\frac{e^{-i\Lambda\varphi}}{\sqrt{2\pi}}\chi_{-\Sigma}.}
+$$
+
+The spinors are
+
+$$
+\chi_\uparrow=\begin{pmatrix}1\\0\end{pmatrix},\qquad \chi_\downarrow=\begin{pmatrix}0\\1\end{pmatrix}.
+$$
+
+The spin-independent Hamiltonian satisfies
+
+$$
+\hat H_0\phi_\alpha=E_\alpha\phi_\alpha,\qquad \hat H_0\phi_{\bar\alpha}=E_\alpha\phi_{\bar\alpha},
+$$
+
+with
+
+$$
+\boxed{E_\alpha=\hbar\omega_z\left(n_z+\frac12\right)+\hbar\omega_{r_\perp}(2n_r+\Lambda+1).}
 $$
 
 ### Axial Basis Functions along the $z$ Direction
@@ -126,6 +158,36 @@ $$
 
 $$
 \boxed{\partial_{r_\perp}^2\phi_{n_r}^{\Lambda}(r_\perp)=\frac{\sqrt2N_{n_r}^{\Lambda}}{b_{r_\perp}}\left[\frac{4r_\perp^2}{b_{r_\perp}^4}\partial_\eta^2u_{n_r}^{\Lambda}(\eta)+\frac{2}{b_{r_\perp}^2}\partial_\eta u_{n_r}^{\Lambda}(\eta)\right].}
+$$
+
+### Axial Basis Functions along the $\varphi$ Direction
+
+For orbital angular-momentum projection $\Lambda\in\mathbb Z$, the normalized azimuthal basis function is
+
+$$
+\boxed{\phi_\Lambda(\varphi)=\frac{e^{i\Lambda\varphi}}{\sqrt{2\pi}}.}
+$$
+
+It satisfies periodicity and orthonormality,
+
+$$
+\phi_\Lambda(\varphi+2\pi)=\phi_\Lambda(\varphi),
+$$
+
+$$
+\int_0^{2\pi}\phi_\Lambda^*(\varphi)\phi_{\Lambda'}(\varphi)\,d\varphi=\delta_{\Lambda\Lambda'}.
+$$
+
+The coordinate derivatives are
+
+$$
+\boxed{\partial_\varphi\phi_\Lambda(\varphi)=i\Lambda\phi_\Lambda(\varphi),\qquad \partial_\varphi^2\phi_\Lambda(\varphi)=-\Lambda^2\phi_\Lambda(\varphi).}
+$$
+
+Opposite projections are related by complex conjugation,
+
+$$
+\phi_{-\Lambda}(\varphi)=\phi_\Lambda^*(\varphi).
 $$
 
 ### Quadrature Weights
