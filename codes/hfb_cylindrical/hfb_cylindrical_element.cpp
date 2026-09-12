@@ -166,49 +166,6 @@ void HFBKramersNucleusCylindrical::add_Gamma_Delta_from_field() {
     }
 }
 
-void HFBKramersNucleusCylindrical::add_Gamma_from_Gogny() {
-    assert(hfb_neutron.Nbsp_I1D_block == hfb_proton.Nbsp_I1D_block);
-
-    // (block13,block24,bsp1,bsp2,bsp3,bsp4) → v̄_{12;34}.
-    const auto read_element_Func = [&](int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I) {
-        const auto& indices13_I1D_bsp = cylindricalsetting.indices_I2D_block_bsp[block13_I];
-        const auto& indices24_I1D_bsp = cylindricalsetting.indices_I2D_block_bsp[block24_I];
-        return gaussian_gogny.read_v(indices13_I1D_bsp[bsp1_I], indices24_I1D_bsp[bsp2_I], indices13_I1D_bsp[bsp3_I], indices24_I1D_bsp[bsp4_I]);
-    };
-
-    const HFBKramersNucleus::GammaElementFunc read_joint_Func = [&](int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I) {
-        const auto elements = read_element_Func(block13_I, block24_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I);
-        return HFBKramersNucleus::Element{elements.vSamePosPosPosPos_F, elements.vSamePosNegPosNeg_F, elements.vCrossPosPosPosPos_F, elements.vCrossPosNegPosNeg_F};
-    };
-    add_Gamma_from_Element(read_joint_Func);
-}
-
-void HFBKramersNucleusCylindrical::add_Delta_from_Gogny() {
-    assert(hfb_neutron.Nbsp_I1D_block == hfb_proton.Nbsp_I1D_block);
-
-    // (block12,block34,bsp1,bsp2,bsp3,bsp4) → v̄_same⁺⁻⁺⁻_{12;34}.
-    const HFBKramersNucleus::DeltaElementFunc read_element_Func = [&](int block12_I, int block34_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I) {
-        const auto& indices12_I1D_bsp = cylindricalsetting.indices_I2D_block_bsp[block12_I];
-        const auto& indices34_I1D_bsp = cylindricalsetting.indices_I2D_block_bsp[block34_I];
-        const auto elements = gaussian_gogny.read_v(indices12_I1D_bsp[bsp1_I], indices12_I1D_bsp[bsp2_I], indices34_I1D_bsp[bsp3_I], indices34_I1D_bsp[bsp4_I]);
-        return HFBKramersNucleus::Element{elements.vSamePosPosPosPos_F, elements.vSamePosNegPosNeg_F, elements.vCrossPosPosPosPos_F, elements.vCrossPosNegPosNeg_F};
-    };
-
-    // Δ_q⁺⁻ += v̄_same⁺⁻⁺⁻ κ_q⁺⁻; q ∈ {n,p}.
-    add_Delta_from_Element(read_element_Func);
-}
-
-void HFBKramersNucleusCylindrical::add_Gamma_from_Coulomb() {
-    // (block13,block24,bsp1,bsp2,bsp3,bsp4) → v̄_C,12;34.
-    const HFBKramers::GammaElementFunc read_element_Func = [&](int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I) {
-        const auto& indices13_I1D_bsp = cylindricalsetting.indices_I2D_block_bsp[block13_I];
-        const auto& indices24_I1D_bsp = cylindricalsetting.indices_I2D_block_bsp[block24_I];
-        const auto elements = gaussian_coulomb.read_v(indices13_I1D_bsp[bsp1_I], indices24_I1D_bsp[bsp2_I], indices13_I1D_bsp[bsp3_I], indices24_I1D_bsp[bsp4_I]);
-        return HFBKramers::Element{elements.vPosPosPosPos_F, elements.vPosNegPosNeg_F};
-    };
-    hfb_proton.add_Gamma_from_Element(read_element_Func);
-}
-
 void HFBKramersNucleusCylindrical::update_Gamma_Delta() {
     const int TargetA_I = hfb_neutron.TargetN_I + hfb_proton.TargetN_I;
     assert(hfb_neutron.TargetN_I >= 0 && hfb_proton.TargetN_I >= 0 && TargetA_I > 0);
@@ -256,9 +213,46 @@ void HFBKramersNucleusCylindrical::update_Gamma_Delta() {
     }
     add_Gamma_Delta_from_field();
     if (hfbedfsetting.termSwitches.addFiniteRangeGogny_B) {
-        add_Gamma_from_Gogny();
-        add_Delta_from_Gogny();
+        {
+            assert(hfb_neutron.Nbsp_I1D_block == hfb_proton.Nbsp_I1D_block);
+
+            // (block13,block24,bsp1,bsp2,bsp3,bsp4) → v̄_{12;34}.
+            const auto read_element_Func = [&](int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I) {
+                const auto& indices13_I1D_bsp = cylindricalsetting.indices_I2D_block_bsp[block13_I];
+                const auto& indices24_I1D_bsp = cylindricalsetting.indices_I2D_block_bsp[block24_I];
+                return gaussian_gogny.read_v(indices13_I1D_bsp[bsp1_I], indices24_I1D_bsp[bsp2_I], indices13_I1D_bsp[bsp3_I], indices24_I1D_bsp[bsp4_I]);
+            };
+
+            const HFBKramersNucleus::GammaElementFunc read_joint_Func = [&](int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I) {
+                const auto elements = read_element_Func(block13_I, block24_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I);
+                return HFBKramersNucleus::Element{elements.vSamePosPosPosPos_F, elements.vSamePosNegPosNeg_F, elements.vCrossPosPosPosPos_F, elements.vCrossPosNegPosNeg_F};
+            };
+            add_Gamma_from_Element(read_joint_Func);
+        }
+        {
+            assert(hfb_neutron.Nbsp_I1D_block == hfb_proton.Nbsp_I1D_block);
+
+            // (block12,block34,bsp1,bsp2,bsp3,bsp4) → v̄_same⁺⁻⁺⁻_{12;34}.
+            const HFBKramersNucleus::DeltaElementFunc read_element_Func = [&](int block12_I, int block34_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I) {
+                const auto& indices12_I1D_bsp = cylindricalsetting.indices_I2D_block_bsp[block12_I];
+                const auto& indices34_I1D_bsp = cylindricalsetting.indices_I2D_block_bsp[block34_I];
+                const auto elements = gaussian_gogny.read_v(indices12_I1D_bsp[bsp1_I], indices12_I1D_bsp[bsp2_I], indices34_I1D_bsp[bsp3_I], indices34_I1D_bsp[bsp4_I]);
+                return HFBKramersNucleus::Element{elements.vSamePosPosPosPos_F, elements.vSamePosNegPosNeg_F, elements.vCrossPosPosPosPos_F, elements.vCrossPosNegPosNeg_F};
+            };
+
+            // Δ_q⁺⁻ += v̄_same⁺⁻⁺⁻ κ_q⁺⁻; q ∈ {n,p}.
+            add_Delta_from_Element(read_element_Func);
+        }
     }
-    if (hfbedfsetting.termSwitches.addFiniteRangeCoulomb_B) {add_Gamma_from_Coulomb();}
+    if (hfbedfsetting.termSwitches.addFiniteRangeCoulomb_B) {
+        // (block13,block24,bsp1,bsp2,bsp3,bsp4) → v̄_C,12;34.
+        const HFBKramers::GammaElementFunc read_element_Func = [&](int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I) {
+            const auto& indices13_I1D_bsp = cylindricalsetting.indices_I2D_block_bsp[block13_I];
+            const auto& indices24_I1D_bsp = cylindricalsetting.indices_I2D_block_bsp[block24_I];
+            const auto elements = gaussian_coulomb.read_v(indices13_I1D_bsp[bsp1_I], indices24_I1D_bsp[bsp2_I], indices13_I1D_bsp[bsp3_I], indices24_I1D_bsp[bsp4_I]);
+            return HFBKramers::Element{elements.vPosPosPosPos_F, elements.vPosNegPosNeg_F};
+        };
+        hfb_proton.add_Gamma_from_Element(read_element_Func);
+    }
     if (hfbedfsetting.useLipkinNogami_B) {add_Gamma_from_lipkin_nogami();}
 }
