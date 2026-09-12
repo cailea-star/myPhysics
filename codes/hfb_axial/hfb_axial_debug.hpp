@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <numbers>
 #include <iomanip>
 #include <iostream>
 #include <vector>
@@ -56,7 +57,7 @@ inline void debug_print_matrix(const char* name_Str_, const Eigen::MatrixXd& mat
  * @math (ζ_z,η_r) → stdout
  * @output Selected mesh endpoints.
  */
-inline void debug_meshes(const CylindricalBasis& basis_) {
+inline void debug_meshes(const CylindricalBasis2D& basis_) {
     const auto& zeta_F1D_z = basis_.zeta_F1D_z;
     const auto& eta_F1D_r = basis_.eta_F1D_r;
 
@@ -75,7 +76,7 @@ inline void debug_meshes(const CylindricalBasis& basis_) {
  * @math {α_{sp}} → stdout
  * @output Selected basis labels.
  */
-inline void debug_labels(const CylindricalBasis& basis_) {
+inline void debug_labels(const CylindricalBasis2D& basis_) {
     const int Nsp_I = static_cast<int>(basis_.labels_S1D_sp.size());
     const int Nshow_I = Nsp_I <= 10 ? Nsp_I : 5;
 
@@ -181,9 +182,9 @@ inline void override_UV(std::vector<AxialHFBBlock>& blocks_X1D_block_, double la
  * @math D_q(z,r) → stdout
  * @output Density normalization and submatrices.
  */
-inline void debug_density(const CylindricalBasis& basis_, const AxialHFBDensity& density_) {
+inline void debug_density(const CylindricalBasis2D& basis_, const AxialHFBDensity& density_) {
     const auto weight_Func = [&](int r_I, int z_I) {
-        return basis_.w_F2D_z_r(z_I, r_I);
+        return 2.0 * std::numbers::pi * basis_.w_F2D_z_r(z_I, r_I);
     };
     const auto calc_particle_number_Func = [&](const AxialHFBDensity& densityInput_) {
         double Nparticle_F = 0.0;

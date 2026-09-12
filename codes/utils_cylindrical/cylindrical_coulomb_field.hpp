@@ -9,6 +9,7 @@
 
 #include <cassert>
 #include <cmath>
+#include <numbers>
 #include <iostream>
 
 #include <Eigen/Core>
@@ -34,10 +35,11 @@ public:
      * @math   (z_i,r_j,w_{ij}) → K_C
      * @output Stored grid and unbuilt kernel.
      */
-    explicit CylindricalCoulombField(const CylindricalBasis& basis_) {
+    explicit CylindricalCoulombField(const CylindricalBasis2D& basis_) {
         z_F1D_z = basis_.z_F1D_z;
         r_F1D_r = basis_.r_F1D_r;
-        w_F2D_z_r = basis_.w_F2D_z_r;
+        // d³r = 2π dz r dr.
+        w_F2D_z_r = (2.0 * std::numbers::pi) * basis_.w_F2D_z_r;
         coulomb_F4D_zs_rs_zt_rt.resize(z_F1D_z.size(), r_F1D_r.size(), z_F1D_z.size(), r_F1D_r.size());
     }
 
@@ -60,7 +62,7 @@ inline void CylindricalCoulombField::build(bool useParity_B, double e2_F) {
     if (isBuilt_B) {return;}
 
     constexpr int Nlegendre_I = 80;
-    const double pi_F = std::acos(-1.0);
+    const double pi_F = std::numbers::pi;
     const int Nz_I = static_cast<int>(z_F1D_z.size());
     const int Nr_I = static_cast<int>(r_F1D_r.size());
 
