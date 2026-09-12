@@ -40,7 +40,7 @@ $$
 \rho_{\alpha\beta}^{++}=\left\langle(\hat c_\beta^+)^\dagger\hat c_\alpha^+\right\rangle,\qquad \rho_{\alpha\beta}^{--}=\left\langle(\hat c_\beta^-)^\dagger\hat c_\alpha^-\right\rangle,\qquad \kappa_{\alpha\beta}^{+-}=\left\langle\hat c_\beta^-\hat c_\alpha^+\right\rangle,\qquad \kappa_{\alpha\beta}^{-+}=\left\langle\hat c_\beta^+\hat c_\alpha^-\right\rangle.
 $$
 
-Following the [axial block structure](../utils/hfb_axial.md#density-blocks), order positive-branch states before their partners within each block:
+Following the [axial block structure](../utils_hfb/hfb_axial.md#density-blocks), order positive-branch states before their partners within each block:
 
 $$
 \rho=\begin{pmatrix}\rho^{++}&0\\0&\rho^{--}\end{pmatrix},\qquad \kappa=\begin{pmatrix}0&\kappa^{+-}\\\kappa^{-+}&0\end{pmatrix}.
