@@ -1,7 +1,7 @@
 @echo off
 cd /d "%~dp0"
 
-set "TEST_NAME=test_hfb_axial_01"
+set "TEST_NAME=test_hfb_cylindrical_01"
 
 cmake -S . -B build -G "MinGW Makefiles" ^
     -DCMAKE_CXX_COMPILER="%LOCALAPPDATA%\LLVM\bin\clang++.exe" ^
