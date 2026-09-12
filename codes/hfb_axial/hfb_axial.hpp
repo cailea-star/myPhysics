@@ -119,7 +119,7 @@ public:
      * @math (Γ_q,Δ_q) → (Γ_q,Δ_q)+(Γ_q^{loc},Δ_q^{loc})
      * @output Accumulated block fields.
      */
-    void add_Gamma_Delta_from_field(const AxialHFBField& field_, const CylindricalBasis& global_basis_);
+    void add_Gamma_Delta_from_field(const AxialHFBField& field_, const CylindricalBasis2D& global_basis_);
 
     /**
      * @brief Add the Lipkin-Nogami field correction.
@@ -176,7 +176,7 @@ public:
      * @math {Γ_q,Δ_q}_{block} → {Γ_q+Γ_q^{loc},Δ_q+Δ_q^{loc}}_{block}
      * @output Accumulated block fields.
      */
-    void add_Gamma_Delta_from_field(const AxialHFBField& field_, const CylindricalBasis& global_basis_);
+    void add_Gamma_Delta_from_field(const AxialHFBField& field_, const CylindricalBasis2D& global_basis_);
 
     /**
      * @brief Apply the Lipkin-Nogami correction.
@@ -315,7 +315,7 @@ public:
      * @math {B_{block}} → (ρ,τ,κ,Δρ,∇ρ,J)
      * @output Updated density grids.
      */
-    void update_density(const CylindricalBasis& global_basis_, const AxialHFBBlockList& blocklist_);
+    void update_density(const CylindricalBasis2D& global_basis_, const AxialHFBBlockList& blocklist_);
 };
 
 /**
@@ -397,7 +397,7 @@ public:
     EDFParamsSkyrme edf_skyrme; // Base local EDF.
     CylindricalGaussianGogny gogny; // Finite-range Gogny interaction.
     CylindricalGaussianCoulomb coulomb; // Finite-range Coulomb interaction.
-    CylindricalBasis global_basis; // Global axial basis.
+    CylindricalBasis2D global_basis; // Global axial basis.
     AxialHFBBlockList blocklist_n; // Neutron HFB blocks.
     AxialHFBBlockList blocklist_p; // Proton HFB blocks.
     AxialHFBDensity density_p; // Proton local densities.

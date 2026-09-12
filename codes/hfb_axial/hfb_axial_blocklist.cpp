@@ -24,7 +24,7 @@ void AxialHFBBlockList::set_zero_Gamma_Delta() {
  * @math   {Γ_q,Δ_q}_{block} → {Γ_q+Γ_q^{loc},Δ_q+Δ_q^{loc}}_{block}
  * @output Accumulated block fields.
  */
-void AxialHFBBlockList::add_Gamma_Delta_from_field(const AxialHFBField& field_, const CylindricalBasis& global_basis_) {
+void AxialHFBBlockList::add_Gamma_Delta_from_field(const AxialHFBField& field_, const CylindricalBasis2D& global_basis_) {
     const int Nblock_I = static_cast<int>(blocks_X1D_block.size());
 
     #pragma omp parallel for schedule(static)

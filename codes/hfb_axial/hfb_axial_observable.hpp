@@ -9,6 +9,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <numbers>
 #include <vector>
 
 #include "hfb_axial.hpp"
@@ -131,7 +132,7 @@ LocalEnergyTrace calc_local_energy_trace(const AxialHFB& hfb_, const EDFParamsSk
     // E_{local} = ∫d³r ℰ_{Skyrme}.
     for (int r_I = 0; r_I < Nr_I; ++r_I) {
         for (int z_I = 0; z_I < Nz_I; ++z_I) {
-            const double w_F = w_F2D_z_r(z_I, r_I);
+            const double w_F = 2.0 * std::numbers::pi * w_F2D_z_r(z_I, r_I);
             const double rho_n_F = density_n_.rho_F2D_z_r(z_I, r_I);
             const double rho_p_F = density_p_.rho_F2D_z_r(z_I, r_I);
             const double tau_n_F = density_n_.tau_F2D_z_r(z_I, r_I);
@@ -200,7 +201,7 @@ LocalEnergyTrace calc_local_energy_trace(const AxialHFB& hfb_, const EDFParamsSk
 
         for (int r_I = 0; r_I < Nr_I; ++r_I) {
             for (int z_I = 0; z_I < Nz_I; ++z_I) {
-                trace_.Ephysical_F += 0.5 * w_F2D_z_r(z_I, r_I) * density_p_.rho_F2D_z_r(z_I, r_I) * Vcoulomb_F2D_z_r(z_I, r_I);
+                trace_.Ephysical_F += 0.5 * (2.0 * std::numbers::pi) * w_F2D_z_r(z_I, r_I) * density_p_.rho_F2D_z_r(z_I, r_I) * Vcoulomb_F2D_z_r(z_I, r_I);
             }
         }
     }
@@ -289,7 +290,7 @@ inline void AxialHFBObservable::update_observable(const AxialHFB& hfb_, const st
 
     // ∫d³r = Σ_{z,r}w_{zr}.
     const auto weight3D_Func = [&](int r_I, int z_I) {
-        return w_F2D_z_r(z_I, r_I);
+        return 2.0 * std::numbers::pi * w_F2D_z_r(z_I, r_I);
     };
 
     double r2Sum_n_F = 0.0;

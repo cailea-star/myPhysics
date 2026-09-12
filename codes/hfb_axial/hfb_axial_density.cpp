@@ -8,6 +8,7 @@
 #include "hfb_axial.hpp"
 
 #include <cmath>
+#include <numbers>
 #include <vector>
 
 void AxialHFBDensity::set_zero() {
@@ -30,7 +31,7 @@ void AxialHFBDensity::set_zero() {
  * @output Updated density grids.
  * @note   Real axial matrices; time-odd densities are omitted.
  */
-void AxialHFBDensity::update_density(const CylindricalBasis& global_basis_, const AxialHFBBlockList& blocklist_) {
+void AxialHFBDensity::update_density(const CylindricalBasis2D& global_basis_, const AxialHFBBlockList& blocklist_) {
     set_zero();
     const int Nz_I = static_cast<int>(rho_F2D_z_r.rows());
     const int Nr_I = static_cast<int>(rho_F2D_z_r.cols());
@@ -162,17 +163,18 @@ void AxialHFBDensity::update_density(const CylindricalBasis& global_basis_, cons
                 add_opposite_spin_at_oneBlockPoint_Func(densityValues_, block_, z_I, r_I);
             }
 
-            rho_F2D_z_r(z_I, r_I) = densityValues_.rho_F;
-            tau_F2D_z_r(z_I, r_I) = densityValues_.tau_F;
-            kappa_F2D_z_r(z_I, r_I) = densityValues_.kappa_F;
-            rhoD2_F2D_z_r(z_I, r_I) = densityValues_.rhoD2_F;
-            rhoDr_F2D_z_r(z_I, r_I) = densityValues_.rhoDr_F;
-            rhoDz_F2D_z_r(z_I, r_I) = densityValues_.rhoDz_F;
-            dJ_F2D_z_r(z_I, r_I) = densityValues_.dJ_F;
-            Jzphi_F2D_z_r(z_I, r_I) = densityValues_.Jzphi_F;
-            Jphiz_F2D_z_r(z_I, r_I) = densityValues_.Jphiz_F;
-            Jphir_F2D_z_r(z_I, r_I) = densityValues_.Jphir_F;
-            Jrphi_F2D_z_r(z_I, r_I) = densityValues_.Jrphi_F;
+            // D(r) = Σ ρ φφ / (2π).
+            rho_F2D_z_r(z_I, r_I) = densityValues_.rho_F / (2.0 * std::numbers::pi);
+            tau_F2D_z_r(z_I, r_I) = densityValues_.tau_F / (2.0 * std::numbers::pi);
+            kappa_F2D_z_r(z_I, r_I) = densityValues_.kappa_F / (2.0 * std::numbers::pi);
+            rhoD2_F2D_z_r(z_I, r_I) = densityValues_.rhoD2_F / (2.0 * std::numbers::pi);
+            rhoDr_F2D_z_r(z_I, r_I) = densityValues_.rhoDr_F / (2.0 * std::numbers::pi);
+            rhoDz_F2D_z_r(z_I, r_I) = densityValues_.rhoDz_F / (2.0 * std::numbers::pi);
+            dJ_F2D_z_r(z_I, r_I) = densityValues_.dJ_F / (2.0 * std::numbers::pi);
+            Jzphi_F2D_z_r(z_I, r_I) = densityValues_.Jzphi_F / (2.0 * std::numbers::pi);
+            Jphiz_F2D_z_r(z_I, r_I) = densityValues_.Jphiz_F / (2.0 * std::numbers::pi);
+            Jphir_F2D_z_r(z_I, r_I) = densityValues_.Jphir_F / (2.0 * std::numbers::pi);
+            Jrphi_F2D_z_r(z_I, r_I) = densityValues_.Jrphi_F / (2.0 * std::numbers::pi);
         }
     }
 }
