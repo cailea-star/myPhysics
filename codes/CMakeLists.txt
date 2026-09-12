@@ -40,6 +40,7 @@ target_include_directories(mylib INTERFACE cc)                      # Propagate 
 target_include_directories(mylib INTERFACE utils)                   # Propagate general utility headers
 target_include_directories(mylib INTERFACE utils_spherical)         # Propagate spherical utility headers
 target_include_directories(mylib INTERFACE utils_cylindrical)       # Propagate cylindrical utility headers
+target_include_directories(mylib INTERFACE utils_hfb)               # Propagate HFB utility headers
 target_link_libraries(mylib INTERFACE Eigen3::Eigen)                # 传递依赖库, INTERFACE or PUBLIC 模式
 target_link_libraries(mylib INTERFACE GSL::gsl GSL::gslcblas)       # 传递依赖库, INTERFACE or PUBLIC 模式
 target_link_libraries(mylib INTERFACE OpenMP::OpenMP_CXX)           # 传递依赖库, INTERFACE or PUBLIC 模式

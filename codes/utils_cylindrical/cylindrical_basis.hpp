@@ -128,7 +128,7 @@ protected:
 };
 
 /** @brief Separable axial harmonic-oscillator basis. */
-class CylindricalBasis {
+class CylindricalBasis2D {
 public:
     using BasisTensor = Eigen::Tensor<double, 3, Eigen::ColMajor>;
 
@@ -140,19 +140,19 @@ public:
     Eigen::VectorXd r_F1D_r{};                  // r_j = b_r√η_j.
     Eigen::VectorXd zeta_F1D_z{};               // ζ_i: Gauss-Hermite nodes.
     Eigen::VectorXd eta_F1D_r{};                // η_j: Gauss-Laguerre nodes.
-    Eigen::MatrixXd w_F2D_z_r{};                // w_ij = 2π w_z,i w_r,j.
-    BasisTensor phi_F3D_sp_z_r{};               // φ_sp(z_i,r_j) = φ_nz(z_i)φ_nr^Λ(r_j) / √(2π).
-    BasisTensor dphidr_F3D_sp_z_r{};            // dφ_sp/dr = φ_nz(z_i)∂_rφ_nr^Λ(r_j) / √(2π).
-    BasisTensor dphidz_F3D_sp_z_r{};            // dφ_sp/dz = ∂_zφ_nz(z_i)φ_nr^Λ(r_j) / √(2π).
-    BasisTensor ddphidr_F3D_sp_z_r{};           // d²φ_sp/dr² = φ_nz(z_i)∂_r²φ_nr^Λ(r_j) / √(2π).
-    BasisTensor ddphidz_F3D_sp_z_r{};           // d²φ_sp/dz² = ∂_z²φ_nz(z_i)φ_nr^Λ(r_j) / √(2π).
+    Eigen::MatrixXd w_F2D_z_r{};                // w_ij = w_z,i w_r,j; dz r dr.
+    BasisTensor phi_F3D_sp_z_r{};               // φ_sp(z_i,r_j) = φ_nz(z_i)φ_nr^Λ(r_j).
+    BasisTensor dphidr_F3D_sp_z_r{};            // dφ_sp/dr = φ_nz(z_i)∂_rφ_nr^Λ(r_j).
+    BasisTensor dphidz_F3D_sp_z_r{};            // dφ_sp/dz = ∂_zφ_nz(z_i)φ_nr^Λ(r_j).
+    BasisTensor ddphidr_F3D_sp_z_r{};           // d²φ_sp/dr² = φ_nz(z_i)∂_r²φ_nr^Λ(r_j).
+    BasisTensor ddphidz_F3D_sp_z_r{};           // d²φ_sp/dz² = ∂_z²φ_nz(z_i)φ_nr^Λ(r_j).
 
     /**
      * @brief  Generate a separable axial harmonic-oscillator basis.
-     * @math   φ_sp(z,r) = φ_nz(z)φ_nr^Λ(r) / √(2π)
+     * @math   φ_sp(z,r) = φ_nz(z)φ_nr^Λ(r)
      * @output Axial basis functions, derivatives, nodes, and weights.
      */
-    explicit CylindricalBasis(const CylindricalSetting& cylindricalsetting_) {
+    explicit CylindricalBasis2D(const CylindricalSetting& cylindricalsetting_) {
         br_F = cylindricalsetting_.br_F;
         bz_F = cylindricalsetting_.bz_F;
         labels_S1D_sp = cylindricalsetting_.labels_S1D_sp;
@@ -171,7 +171,7 @@ public:
 private:
     /**
      * @brief  Combine axial and radial basis functions.
-     * @math   φ_sp(z,r) = φ_nz(z)φ_nr^Λ(r) / √(2π)
+     * @math   φ_sp(z,r) = φ_nz(z)φ_nr^Λ(r)
      * @output Filled basis tensors and product quadrature weights.
      */
     void fill_from_separable_basis(const CylindricalHermiteBasis& zBasis, const CylindricalLaguerreBasis& rBasis);
@@ -296,7 +296,7 @@ inline void CylindricalLaguerreBasis::fill_grid(const GaussLaguerreMeshes& gl_me
     ddphi_F2D_sp_r.array().rowwise() *= expHalf_F1D_r.transpose().array();
 }
 
-inline void CylindricalBasis::fill_from_separable_basis(const CylindricalHermiteBasis& zBasis, const CylindricalLaguerreBasis& rBasis) {
+inline void CylindricalBasis2D::fill_from_separable_basis(const CylindricalHermiteBasis& zBasis, const CylindricalLaguerreBasis& rBasis) {
     // (z,r,ζ,η,w_z,w_r) ← (zBasis,rBasis).
     z_F1D_z = zBasis.z_F1D_z;
     r_F1D_r = rBasis.r_F1D_r;
@@ -315,18 +315,16 @@ inline void CylindricalBasis::fill_from_separable_basis(const CylindricalHermite
     ddphidr_F3D_sp_z_r = BasisTensor(Nsp_I, Nz_I, Nr_I);
     ddphidz_F3D_sp_z_r = BasisTensor(Nsp_I, Nz_I, Nr_I);
 
-    // (φ_z,φ_r)/√(2π) → {φ,∂_rφ,∂_zφ,∂²_rφ,∂²_zφ}; w=2πw_zw_r.
-    const double pi_F = std::acos(-1.0);
-    const double Nphi_F = 1.0 / std::sqrt(2.0 * pi_F);
+    // φ_zφ_r → {φ,∂_rφ,∂_zφ,∂²_rφ,∂²_zφ}; w=w_zw_r.
     for (int r_I = 0; r_I < Nr_I; ++r_I) {
         for (int z_I = 0; z_I < Nz_I; ++z_I) {
-            w_F2D_z_r(z_I, r_I) = 2.0 * pi_F * zBasis.w_F1D_z(z_I) * rBasis.w_F1D_r(r_I);
+            w_F2D_z_r(z_I, r_I) = zBasis.w_F1D_z(z_I) * rBasis.w_F1D_r(r_I);
             for (int sp_I = 0; sp_I < Nsp_I; ++sp_I) {
-                phi_F3D_sp_z_r(sp_I, z_I, r_I) = Nphi_F * zBasis.phi_F2D_sp_z(sp_I, z_I) * rBasis.phi_F2D_sp_r(sp_I, r_I);
-                dphidr_F3D_sp_z_r(sp_I, z_I, r_I) = Nphi_F * zBasis.phi_F2D_sp_z(sp_I, z_I) * rBasis.dphi_F2D_sp_r(sp_I, r_I);
-                dphidz_F3D_sp_z_r(sp_I, z_I, r_I) = Nphi_F * zBasis.dphi_F2D_sp_z(sp_I, z_I) * rBasis.phi_F2D_sp_r(sp_I, r_I);
-                ddphidr_F3D_sp_z_r(sp_I, z_I, r_I) = Nphi_F * zBasis.phi_F2D_sp_z(sp_I, z_I) * rBasis.ddphi_F2D_sp_r(sp_I, r_I);
-                ddphidz_F3D_sp_z_r(sp_I, z_I, r_I) = Nphi_F * zBasis.ddphi_F2D_sp_z(sp_I, z_I) * rBasis.phi_F2D_sp_r(sp_I, r_I);
+                phi_F3D_sp_z_r(sp_I, z_I, r_I) = zBasis.phi_F2D_sp_z(sp_I, z_I) * rBasis.phi_F2D_sp_r(sp_I, r_I);
+                dphidr_F3D_sp_z_r(sp_I, z_I, r_I) = zBasis.phi_F2D_sp_z(sp_I, z_I) * rBasis.dphi_F2D_sp_r(sp_I, r_I);
+                dphidz_F3D_sp_z_r(sp_I, z_I, r_I) = zBasis.dphi_F2D_sp_z(sp_I, z_I) * rBasis.phi_F2D_sp_r(sp_I, r_I);
+                ddphidr_F3D_sp_z_r(sp_I, z_I, r_I) = zBasis.phi_F2D_sp_z(sp_I, z_I) * rBasis.ddphi_F2D_sp_r(sp_I, r_I);
+                ddphidz_F3D_sp_z_r(sp_I, z_I, r_I) = zBasis.ddphi_F2D_sp_z(sp_I, z_I) * rBasis.phi_F2D_sp_r(sp_I, r_I);
             }
         }
     }
