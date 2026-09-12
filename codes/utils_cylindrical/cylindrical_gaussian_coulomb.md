@@ -64,7 +64,7 @@ Parity and angular-projection selection rules follow from the canonical Gaussian
 
 Coulomb contributes only to the proton field $\Gamma$; Coulomb pairing is omitted.
 
-Let $\alpha,\beta,\gamma,\delta$ denote positive-$\Omega$ representatives and barred indices their [Kramers partners](../utils/hfb_kramers.md#kramers-representative-formulation). Define $\sigma_a=2\Sigma_a\in\{-1,+1\}$, $\sigma_{\bar a}=-\sigma_a$, and the Kronecker delta $\delta_{xy}$.
+Let $\alpha,\beta,\gamma,\delta$ denote positive-$\Omega$ representatives and barred indices their [Kramers partners](../utils_hfb/hfb_kramers.md#kramers-representative-formulation). Define $\sigma_a=2\Sigma_a\in\{-1,+1\}$, $\sigma_{\bar a}=-\sigma_a$, and the Kronecker delta $\delta_{xy}$.
 
 $$
 \bar v_{12;34}=\delta_{\sigma_1\sigma_3}\delta_{\sigma_2\sigma_4}V_{12,34}-\delta_{\sigma_1\sigma_4}\delta_{\sigma_2\sigma_3}V_{12,43}.
@@ -82,4 +82,4 @@ $$
 \boxed{\bar v^{-+}=\bar v^{+-},\qquad \bar v^{--}=\bar v^{++}}.
 $$
 
-Density contractions and time-reversal phases follow [Axial HFB](../utils/hfb_kramers.md#representative-gamma-and-delta-fields).
+Density contractions and time-reversal phases follow [Axial HFB](../utils_hfb/hfb_kramers.md#representative-gamma-and-delta-fields).
