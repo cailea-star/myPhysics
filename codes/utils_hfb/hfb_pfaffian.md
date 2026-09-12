@@ -2,7 +2,7 @@
 
 ### Quasiparticle Vacuum Representation
 
-Let $N_{\mathrm{sp}}$ denote the number of single-particle states and $|0\rangle$ the particle vacuum. Use the Bogoliubov convention in [Quasiparticle Vacuum](hfb.md#quasiparticle-vacuum), with operator vectors arranged as columns:
+Let $N_{\mathrm{sp}}$ denote the number of single-particle states and $|0\rangle$ the particle vacuum. Use the Bogoliubov convention in [Quasiparticle Vacuum](hfb_full.md#quasiparticle-vacuum), with operator vectors arranged as columns:
 
 $$
 \hat{\boldsymbol\beta}=U^\dagger\hat{\boldsymbol c}+V^\dagger\hat{\boldsymbol c}^*,\qquad \hat{\boldsymbol c}=U\hat{\boldsymbol\beta}+V^*\hat{\boldsymbol\beta}^*.

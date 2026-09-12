@@ -1,0 +1,315 @@
+/**
+ * @file    hfb_kramers_nucleus.hpp
+ * @author  cailea
+ * @date    2026-09-12
+ * @brief   Joint neutron-proton HFB iteration.
+ */
+
+#pragma once
+
+#include "hfb_kramers.hpp"
+#include "hfb_kramers_ln.hpp"
+#include "root_broyden.hpp"
+
+class HFBKramersNucleus {
+public:
+    struct Element {
+        double vSamePosPosPosPos_F = 0.0;
+        double vSamePosNegPosNeg_F = 0.0;
+        double vCrossPosPosPosPos_F = 0.0;
+        double vCrossPosNegPosNeg_F = 0.0;
+    };
+
+    using GammaElementFunc = std::function<Element(int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
+    using DeltaElementFunc = std::function<Element(int block12_I, int block34_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
+    HFBKramers hfb_neutron;
+    HFBKramers hfb_proton;
+
+    double accuracy_F = 1.0e-5;
+    double mixingMin_F = 0.20;
+    double mixingMax_F = 0.90;
+    int NiterationsMax_I = 100;
+
+public:
+    /**
+     * @brief  Initialize species dimensions and workspaces.
+     * @math   {η_b} → {Nbsp_b}; q ∈ {n,p}.
+     * @output Allocated solutions, fields, and workspaces.
+     */
+    HFBKramersNucleus(const std::vector<Eigen::VectorXd>& eta_F2D_block_bsp_)
+    : hfb_neutron(eta_F2D_block_bsp_), hfb_proton(eta_F2D_block_bsp_) {}
+
+    /**
+     * @brief Set neutron and proton blocking callbacks.
+     * @math (B_n,B_p) → (HFB_n,HFB_p).
+     * @output Assigned species callbacks for chemical-potential searches.
+     */
+    void set_blocking(const HFBKramers::BlockingFunc& neutronBlocking_Func, const HFBKramers::BlockingFunc& protonBlocking_Func);
+
+    /**
+     * @brief Accumulate joint particle-hole fields using parallel direct contraction.
+     * @math Γ_n += v_same ρ_n + v_cross ρ_p; n ↔ p.
+     * @output Accumulated neutron and proton Gamma matrices.
+     * @note Requires matching species bases and thread-safe callbacks.
+     */
+    void add_Gamma_from_Element(const GammaElementFunc& read_element_Func);
+
+    /**
+     * @brief Accumulate joint pairing fields using parallel direct contraction.
+     * @math Δ_q += v_same κ_q; q ∈ {n,p}.
+     * @output Accumulated neutron and proton Delta matrices.
+     * @note Requires matching species bases and thread-safe callbacks.
+     */
+    void add_Delta_from_Element(const DeltaElementFunc& read_element_Func);
+
+    /**
+     * @brief Apply effective-seniority Lipkin-Nogami corrections to both species.
+     * @math Γ_q += 4λ₂,q ρ_q − 2λ₂,q I; q ∈ {n,p}.
+     * @output Updated species lambda2, ELipkinNogami, and Gamma matrices.
+     * @note Rebuild bare Gamma before calling.
+     */
+    void add_Gamma_from_lipkin_nogami();
+
+    /**
+     * @brief  Initialize one-body fields in the derived model.
+     * @math   (N,Z) → (h₀,n,h₀,p).
+     * @output Initialized neutron and proton one-body fields.
+     */
+    virtual void initialize_h0() = 0;
+
+    /**
+     * @brief  Initialize HFB fields in the derived model.
+     * @math   (N,Z) → (Γ_n,Δ_n,Γ_p,Δ_p)_initial.
+     * @output Initialized Gamma and Delta for both species.
+     * @note   Include model-specific LN corrections when enabled.
+     */
+    virtual void initialize_GammaDelta() = 0;
+
+    /**
+     * @brief  Update both species using all representative densities.
+     * @math   {ρ_q,b⁺⁺,κ_q,b⁺⁻,η_q,b} → {Γ_q,b⁺⁺,Δ_q,b⁺⁻}.
+     * @output Overwritten neutron and proton Gamma and Delta.
+     * @note   Rebuild bare Gamma, then add LN once when enabled.
+     */
+    virtual void update_Gamma_Delta() = 0;
+
+    /**
+     * @brief  Print the current iteration summary.
+     * @math   (i,ε,α) → stdout.
+     * @output Iteration diagnostics.
+     */
+    virtual void print_abstract(int iteration_I, double error_F, double mixing_F) const {}
+
+    /**
+     * @brief  Iterate HFB using modified Broyden mixing.
+     * @note   Requires initialized fields; continuation starts fresh Broyden history.
+     * @math   (N,Z) → HFB_converged.
+     * @output Updated neutron and proton fields and solutions.
+     */
+    void iterate(bool useCurrentFields_B = false);
+};
+
+inline void HFBKramersNucleus::set_blocking(const HFBKramers::BlockingFunc& neutronBlocking_Func, const HFBKramers::BlockingFunc& protonBlocking_Func) {
+    hfb_neutron.blocking_Func = neutronBlocking_Func;
+    hfb_proton.blocking_Func = protonBlocking_Func;
+}
+
+inline void HFBKramersNucleus::add_Gamma_from_lipkin_nogami() {
+    ::add_Gamma_from_lipkin_nogami(hfb_neutron);
+    ::add_Gamma_from_lipkin_nogami(hfb_proton);
+}
+
+inline void HFBKramersNucleus::add_Gamma_from_Element(const GammaElementFunc& read_element_Func) {
+    assert(read_element_Func);
+    assert(hfb_neutron.Nbsp_I1D_block == hfb_proton.Nbsp_I1D_block);
+
+    const auto add_Gamma_Func = [&](int block13_I, int bsp1_I, int bsp3_I) {
+        double GammaSameN_F = 0.0;
+        double GammaCrossN_F = 0.0;
+        double GammaSameP_F = 0.0;
+        double GammaCrossP_F = 0.0;
+        for (int block24_I = 0; block24_I < hfb_neutron.Nblock_I; ++block24_I) {
+            const auto& solutionN = hfb_neutron.solutions[block24_I];
+            const auto& solutionP = hfb_proton.solutions[block24_I];
+            const int Nbsp_I = hfb_neutron.Nbsp_I1D_block[block24_I];
+            for (int bsp2_I = 0; bsp2_I < Nbsp_I; ++bsp2_I) {
+                for (int bsp4_I = 0; bsp4_I < Nbsp_I; ++bsp4_I) {
+                    const Element element = read_element_Func(block13_I, block24_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I);
+                    const double rhoNPosPos_F = solutionN.rhoPosPos_F2D_bsp_bsp(bsp4_I, bsp2_I);
+                    const double rhoPPosPos_F = solutionP.rhoPosPos_F2D_bsp_bsp(bsp4_I, bsp2_I);
+                    const double rhoNNegNeg_F = solutionN.eta_F1D_bsp(bsp4_I) * solutionN.eta_F1D_bsp(bsp2_I) * rhoNPosPos_F;
+                    const double rhoPNegNeg_F = solutionP.eta_F1D_bsp(bsp4_I) * solutionP.eta_F1D_bsp(bsp2_I) * rhoPPosPos_F;
+                    GammaSameN_F += element.vSamePosPosPosPos_F * rhoNPosPos_F + element.vSamePosNegPosNeg_F * rhoNNegNeg_F;
+                    GammaCrossN_F += element.vCrossPosPosPosPos_F * rhoPPosPos_F + element.vCrossPosNegPosNeg_F * rhoPNegNeg_F;
+                    GammaSameP_F += element.vSamePosPosPosPos_F * rhoPPosPos_F + element.vSamePosNegPosNeg_F * rhoPNegNeg_F;
+                    GammaCrossP_F += element.vCrossPosPosPosPos_F * rhoNPosPos_F + element.vCrossPosNegPosNeg_F * rhoNNegNeg_F;
+                }
+            }
+        }
+        hfb_neutron.fields[block13_I].GammaPosPos_F2D_bsp_bsp(bsp1_I, bsp3_I) += GammaSameN_F;
+        hfb_neutron.fields[block13_I].GammaPosPos_F2D_bsp_bsp(bsp1_I, bsp3_I) += GammaCrossN_F;
+        hfb_proton.fields[block13_I].GammaPosPos_F2D_bsp_bsp(bsp1_I, bsp3_I) += GammaSameP_F;
+        hfb_proton.fields[block13_I].GammaPosPos_F2D_bsp_bsp(bsp1_I, bsp3_I) += GammaCrossP_F;
+    };
+
+    #pragma omp parallel
+    {
+        #pragma omp single
+        for (int block13_I = 0; block13_I < hfb_neutron.Nblock_I; ++block13_I) {
+            const int Nbsp_I = hfb_neutron.Nbsp_I1D_block[block13_I];
+            for (int bsp1_I = 0; bsp1_I < Nbsp_I; ++bsp1_I) {
+                for (int bsp3_I = 0; bsp3_I < Nbsp_I; ++bsp3_I) {
+                    #pragma omp task firstprivate(block13_I, bsp1_I, bsp3_I)
+                    {
+                        add_Gamma_Func(block13_I, bsp1_I, bsp3_I);
+                    }
+                }
+            }
+        }
+    }
+}
+
+inline void HFBKramersNucleus::add_Delta_from_Element(const DeltaElementFunc& read_element_Func) {
+    assert(read_element_Func);
+    assert(hfb_neutron.Nbsp_I1D_block == hfb_proton.Nbsp_I1D_block);
+
+    const auto add_Delta_Func = [&](int block12_I, int bsp1_I, int bsp2_I) {
+        double DeltaN_F = 0.0;
+        double DeltaP_F = 0.0;
+        for (int block34_I = 0; block34_I < hfb_neutron.Nblock_I; ++block34_I) {
+            const auto& solutionN = hfb_neutron.solutions[block34_I];
+            const auto& solutionP = hfb_proton.solutions[block34_I];
+            const int Nbsp_I = hfb_neutron.Nbsp_I1D_block[block34_I];
+            for (int bsp3_I = 0; bsp3_I < Nbsp_I; ++bsp3_I) {
+                for (int bsp4_I = 0; bsp4_I < Nbsp_I; ++bsp4_I) {
+                    const Element element = read_element_Func(block12_I, block34_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I);
+                    DeltaN_F += element.vSamePosNegPosNeg_F * solutionN.kappaPosNeg_F2D_bsp_bsp(bsp3_I, bsp4_I);
+                    DeltaP_F += element.vSamePosNegPosNeg_F * solutionP.kappaPosNeg_F2D_bsp_bsp(bsp3_I, bsp4_I);
+                }
+            }
+        }
+        hfb_neutron.fields[block12_I].DeltaPosNeg_F2D_bsp_bsp(bsp1_I, bsp2_I) += DeltaN_F;
+        hfb_proton.fields[block12_I].DeltaPosNeg_F2D_bsp_bsp(bsp1_I, bsp2_I) += DeltaP_F;
+    };
+
+    #pragma omp parallel
+    {
+        #pragma omp single
+        for (int block12_I = 0; block12_I < hfb_neutron.Nblock_I; ++block12_I) {
+            const int Nbsp_I = hfb_neutron.Nbsp_I1D_block[block12_I];
+            for (int bsp1_I = 0; bsp1_I < Nbsp_I; ++bsp1_I) {
+                for (int bsp2_I = 0; bsp2_I < Nbsp_I; ++bsp2_I) {
+                    #pragma omp task firstprivate(block12_I, bsp1_I, bsp2_I)
+                    {
+                        add_Delta_Func(block12_I, bsp1_I, bsp2_I);
+                    }
+                }
+            }
+        }
+    }
+}
+
+inline void HFBKramersNucleus::iterate(bool useCurrentFields_B) {
+    assert(std::isfinite(accuracy_F) && accuracy_F > 0.0);
+    assert(NiterationsMax_I > 0);
+    assert(std::isfinite(mixingMin_F) && std::isfinite(mixingMax_F) && mixingMin_F > 0.0 && mixingMin_F <= mixingMax_F && mixingMax_F <= 1.0);
+
+    // Each block packs 2 full matrices.
+    int Npacked_I = 0;
+    for (const HFBKramers* hfb_Ptr : {&hfb_neutron, &hfb_proton}) {
+        for (int Nbsp_I : hfb_Ptr->Nbsp_I1D_block) {Npacked_I += 2 * Nbsp_I * Nbsp_I;}
+    }
+    assert(Npacked_I >= 7);
+
+    Eigen::VectorXd x_F1D_packed{};
+    Eigen::VectorXd Gx_F1D_packed{};
+    x_F1D_packed.resize(Npacked_I);
+    Gx_F1D_packed.resize(Npacked_I);
+
+    // pack: species → blocks → full h and Delta matrices.
+    const auto pack_h_Delta_Func = [&](Eigen::VectorXd& data_F1D_packed) {
+        int packed_I = 0;
+        for (const HFBKramers* hfb_Ptr : {&hfb_neutron, &hfb_proton}) {
+            for (int block_I = 0; block_I < hfb_Ptr->Nblock_I; ++block_I) {
+                const int Nbsp_I = hfb_Ptr->Nbsp_I1D_block[block_I];
+                const HFBKramersBlockField& field = hfb_Ptr->fields[block_I];
+                for (int column_I = 0; column_I < Nbsp_I; ++column_I) {
+                    for (int row_I = 0; row_I < Nbsp_I; ++row_I) {
+                        data_F1D_packed(packed_I++) = field.h0PosPos_F2D_bsp_bsp(row_I, column_I) + field.GammaPosPos_F2D_bsp_bsp(row_I, column_I);
+                    }
+                }
+                for (int column_I = 0; column_I < Nbsp_I; ++column_I) {
+                    for (int row_I = 0; row_I < Nbsp_I; ++row_I) {
+                        data_F1D_packed(packed_I++) = field.DeltaPosNeg_F2D_bsp_bsp(row_I, column_I);
+                    }
+                }
+            }
+        }
+        assert(packed_I == Npacked_I);
+    };
+
+    // unpack: species → blocks → full h and Delta matrices.
+    const auto unpack_h_Delta_Func = [&](const Eigen::VectorXd& data_F1D_packed) {
+        int packed_I = 0;
+        for (HFBKramers* hfb_Ptr : {&hfb_neutron, &hfb_proton}) {
+            for (int block_I = 0; block_I < hfb_Ptr->Nblock_I; ++block_I) {
+                const int Nbsp_I = hfb_Ptr->Nbsp_I1D_block[block_I];
+                HFBKramersBlockField& field = hfb_Ptr->fields[block_I];
+                for (int column_I = 0; column_I < Nbsp_I; ++column_I) {
+                    for (int row_I = 0; row_I < Nbsp_I; ++row_I) {
+                        field.GammaPosPos_F2D_bsp_bsp(row_I, column_I) = data_F1D_packed(packed_I++) - field.h0PosPos_F2D_bsp_bsp(row_I, column_I);
+                    }
+                }
+                for (int column_I = 0; column_I < Nbsp_I; ++column_I) {
+                    for (int row_I = 0; row_I < Nbsp_I; ++row_I) {
+                        field.DeltaPosNeg_F2D_bsp_bsp(row_I, column_I) = data_F1D_packed(packed_I++);
+                    }
+                }
+            }
+        }
+        assert(packed_I == Npacked_I);
+    };
+
+    // G:x → (λ,U,V,E,ρ,κ) → (Γ,Δ) → (h₀+Γ,Δ).
+    const double lambdaToleranceMin_F = accuracy_F * 1.0e-6;
+    double lambdaTolerance_F = accuracy_F;
+    const auto calc_Gx_Func = [&](const Eigen::VectorXd& x_F1D_packed_, Eigen::VectorXd& Gx_F1D_packed_) {
+        unpack_h_Delta_Func(x_F1D_packed_);
+        hfb_neutron.search_lambda(lambdaTolerance_F);
+        hfb_proton.search_lambda(lambdaTolerance_F);
+        update_Gamma_Delta();
+        pack_h_Delta_Func(Gx_F1D_packed_);
+    };
+
+    // Initial fields → G(x₀); fresh x₀ = 0.
+    pack_h_Delta_Func(Gx_F1D_packed);
+    x_F1D_packed.setZero();
+    if (useCurrentFields_B) {
+        x_F1D_packed = Gx_F1D_packed;
+        calc_Gx_Func(x_F1D_packed, Gx_F1D_packed);
+    }
+
+    // (x₀,G(x₀)) → Broyden history.
+    double alpha_F = mixingMin_F;
+    BroydenIterator broyden_(7, calc_Gx_Func, mixingMin_F, x_F1D_packed, Gx_F1D_packed);
+    print_abstract(0, 0.0, mixingMin_F);
+
+    // ||G(x_i)-x_i||∞ → ε_i; adaptive α and λ tolerance.
+    double errorPrevious_F = 1.0;
+    for (int iteration_I = 1; iteration_I <= NiterationsMax_I; ++iteration_I) {
+        const double error_F = broyden_.iterate(calc_Gx_Func, alpha_F);
+        print_abstract(iteration_I, error_F, alpha_F);
+        if (std::isfinite(error_F) && error_F <= accuracy_F) {break;}
+        if (std::isfinite(error_F) && error_F < errorPrevious_F) {
+            alpha_F = std::min(mixingMax_F, alpha_F * 1.10);
+            errorPrevious_F = error_F;
+            continue;
+        }
+        alpha_F = mixingMin_F;
+        const bool tightenLambdaTolerance_B = lambdaTolerance_F > lambdaToleranceMin_F * (1.0 + 1.0e-12);
+        if (iteration_I > 1 && tightenLambdaTolerance_B) {
+            lambdaTolerance_F = std::max(lambdaToleranceMin_F, lambdaTolerance_F * 0.1);
+        }
+        errorPrevious_F = error_F;
+    }
+}
