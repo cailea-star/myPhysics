@@ -13,6 +13,8 @@
 #include <vector>
 #include <utility>
 
+#include <Eigen/Core>
+
 class CylindricalSPLabel {
 public:
     int N_I = 0;                     // N = n_z + 2n_r + Λ
@@ -68,6 +70,7 @@ public:
     std::vector<CylindricalSPLabel> labels_S1D_sp{};                  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp
     std::vector<std::vector<CylindricalSPLabel>> labels_S2D_block_bsp{}; // α_(block,bsp): labels grouped by Ω or (Ω,π)
     std::vector<std::vector<int>> indices_I2D_block_bsp{};      // sp(block,bsp): global indices of block labels
+    std::vector<Eigen::VectorXd> eta_F2D_block_bsp{}; // η_(block,bsp) = 2Σ.
 
     /**
      * @brief  Construct an axial harmonic-oscillator configuration.
@@ -89,6 +92,16 @@ public:
         // (N_shell,b_z,b_r,parity) → ({α_sp},{α_block},{sp_block}).
         fill_labels();
         assert(!labels_S1D_sp.empty());
+
+        // α_(block,bsp) → η_(block,bsp) = 2Σ.
+        eta_F2D_block_bsp.resize(labels_S2D_block_bsp.size());
+        for (int block_I = 0; block_I < static_cast<int>(labels_S2D_block_bsp.size()); ++block_I) {
+            const auto& labels_S1D_bsp = labels_S2D_block_bsp[block_I];
+            eta_F2D_block_bsp[block_I].resize(labels_S1D_bsp.size());
+            for (int bsp_I = 0; bsp_I < static_cast<int>(labels_S1D_bsp.size()); ++bsp_I) {
+                eta_F2D_block_bsp[block_I](bsp_I) = labels_S1D_bsp[bsp_I].twoSigma_I;
+            }
+        }
 
         // {α_sp} → (n_z^max,n_r^max,Λ^max)
         int nzMax_I = 0;

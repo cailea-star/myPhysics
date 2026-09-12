@@ -360,6 +360,8 @@ inline void CylindricalDensity::update_density(const std::vector<Eigen::MatrixXd
         }
     };
 
+    // Each thread owns complete density sums at its grid points.
+    #pragma omp parallel for collapse(2) schedule(static)
     for (int r_I = 0; r_I < basis.r_F1D_r.size(); ++r_I) {
         for (int z_I = 0; z_I < basis.z_F1D_z.size(); ++z_I) {
             for (int block_I = 0; block_I < labels_S2D_block_bsp.size(); ++block_I) {
