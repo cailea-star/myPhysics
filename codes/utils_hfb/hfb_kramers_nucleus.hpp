@@ -8,6 +8,7 @@
 #pragma once
 
 #include "hfb_kramers.hpp"
+#include "hfb_kramers_ln.hpp"
 #include "root_broyden.hpp"
 
 class HFBKramersNucleus {
@@ -28,6 +29,21 @@ public:
      */
     HFBKramersNucleus(const std::vector<Eigen::VectorXd>& etaN_F2D_block_bsp_, const std::vector<Eigen::VectorXd>& etaP_F2D_block_bsp_)
     : hfb_neutron(etaN_F2D_block_bsp_), hfb_proton(etaP_F2D_block_bsp_) {}
+
+    /**
+     * @brief Set neutron and proton blocking callbacks.
+     * @math (B_n,B_p) → (HFB_n,HFB_p).
+     * @output Assigned species callbacks for chemical-potential searches.
+     */
+    void set_blocking(const HFBKramers::BlockingFunc& neutronBlocking_Func, const HFBKramers::BlockingFunc& protonBlocking_Func);
+
+    /**
+     * @brief Apply effective-seniority Lipkin-Nogami corrections to both species.
+     * @math Γ_q += 4λ₂,q ρ_q − 2λ₂,q I; q ∈ {n,p}.
+     * @output Updated species lambda2, ELipkinNogami, and Gamma matrices.
+     * @note Rebuild bare Gamma before calling.
+     */
+    void add_Gamma_from_lipkin_nogami();
 
     /**
      * @brief  Initialize one-body fields in the derived model.
@@ -67,6 +83,16 @@ public:
      */
     void iterate(bool useCurrentFields_B = false);
 };
+
+inline void HFBKramersNucleus::set_blocking(const HFBKramers::BlockingFunc& neutronBlocking_Func, const HFBKramers::BlockingFunc& protonBlocking_Func) {
+    hfb_neutron.blocking_Func = neutronBlocking_Func;
+    hfb_proton.blocking_Func = protonBlocking_Func;
+}
+
+inline void HFBKramersNucleus::add_Gamma_from_lipkin_nogami() {
+    ::add_Gamma_from_lipkin_nogami(hfb_neutron);
+    ::add_Gamma_from_lipkin_nogami(hfb_proton);
+}
 
 inline void HFBKramersNucleus::iterate(bool useCurrentFields_B) {
     assert(std::isfinite(accuracy_F) && accuracy_F > 0.0);

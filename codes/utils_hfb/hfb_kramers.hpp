@@ -56,6 +56,7 @@ public:
     double lambda2_F = 0.0; // Lipkin-Nogami λ₂ [MeV].
     double temperature_F = 0.0;
     double EspCut_F = 60.0; // Equivalent single-particle energy cutoff [MeV].
+    double ELipkinNogami_F = 0.0; // Lipkin-Nogami energy [MeV].
 
     int Nblock_I = 0;
     std::vector<int> Nbsp_I1D_block{};
