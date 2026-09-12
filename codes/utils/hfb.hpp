@@ -9,7 +9,6 @@
 
 #include <cassert>
 #include <cmath>
-#include <functional>
 
 #include <Eigen/Core>
 #include <Eigen/Eigenvalues>
@@ -31,6 +30,11 @@ struct HFBField {
 
 class HFB {
 public:
+    double lambda_F = -7.0; // Fermi energy [MeV].
+    double lambda2_F = 0.0; // Lipkin-Nogami λ₂ [MeV].
+    double temperature_F = 0.0;
+    double EspCut_F = 60.0; // Equivalent single-particle energy cutoff [MeV].
+
     int Nsp_I = 0;
 
     HFBField hfb_field{};
@@ -84,7 +88,7 @@ public:
 
     /**
      * @brief  Solve thermal HFB using self-adjoint eigendecomposition.
-     * @math   H = [h₀+Γ-λI, Δ; -Δ, -h₀-Γ+λI].
+     * @math   H = [h_LN-λI, Δ; -Δ, -h_LN+λI].
      * @math   H[U;V] = [U;V]E; f = 1/(1+exp(E/T)).
      * @math   ρ = V(1-f)Vᵀ + UfUᵀ.
      * @math   κ = V(1-f)Uᵀ + UfVᵀ.
@@ -92,53 +96,59 @@ public:
      * @output Returned mean particle number N = Tr(ρ).
      * @note   T = k_B T_phys; same energy units as Eqp.
      * @note   Requires T ≥ 0 and no zero-energy modes.
+     * @note   ε = λ + E(1-2‖V‖²); cutoff affects ρ and κ.
+     * @note   EspCut_F = ∞ disables the cutoff.
+     * @note   h_LN = h₀ + Γ + 4λ₂ρ - 2λ₂I; pre-solve ρ.
      */
-    double update_UV_E_rho_kappa(double lambda_F, double temperature_F);
+    double update_UV_E_rho_kappa();
 };
 
 
 class HFBNucleus {
 public:
-    using OneBodyFunc = std::function<void(Eigen::MatrixXd& h0_F2D_sp_sp)>;
-    using TwoBodyFunc = std::function<void(const HFBSolution& solution_n, const HFBSolution& solution_p, HFBField& field_n, HFBField& field_p)>;
-
     HFB hfb_neutron;
     HFB hfb_proton;
 
-    OneBodyFunc build_onebody_neutron{};
-    OneBodyFunc build_onebody_proton{};
-    TwoBodyFunc build_twobody{};
-
 public:
     /**
-     * @brief  Initialize species and build their one-body matrices.
-     * @math   h_q = h₀,q + Γ_q; q ∈ {n,p}.
-     * @output Built one-body matrices, zeroed fields, stored callbacks.
+     * @brief  Initialize species dimensions and workspaces.
+     * @math   Nsp_n, Nsp_p.
+     * @output Allocated solutions, fields, and workspaces.
      */
-    HFBNucleus(int NspN_I_, int NspP_I_, const OneBodyFunc& build_onebodyN_, const OneBodyFunc& build_onebodyP_, const TwoBodyFunc& build_twobody_)
-    : hfb_neutron(NspN_I_), hfb_proton(NspP_I_) {
-        assert(build_onebodyN_);
-        assert(build_onebodyP_);
-        assert(build_twobody_);
-        build_onebody_neutron = build_onebodyN_;
-        build_onebody_proton = build_onebodyP_;
-        build_twobody = build_twobody_;
+    HFBNucleus(int NspN_I_, int NspP_I_)
+    : hfb_neutron(NspN_I_), hfb_proton(NspP_I_) {}
 
-        // (h₀,n, h₀,p) ← one-body callbacks.
-        build_onebody_neutron(hfb_neutron.hfb_field.h0_F2D_sp_sp);
-        build_onebody_proton(hfb_proton.hfb_field.h0_F2D_sp_sp);
-    }
+    /**
+     * @brief  Initialize one-body fields in the derived model.
+     * @math   h₀,n, h₀,p.
+     * @output Initialized neutron and proton one-body fields.
+     */
+    virtual void initialize_h0() = 0;
+
+    /**
+     * @brief  Initialize HFB fields in the derived model.
+     * @math   (N,Z) → (Γ_n,Δ_n,Γ_p,Δ_p)_initial.
+     * @output Initialized Gamma and Delta for both species.
+     */
+    virtual void initialize_GammaDelta(int TargetN_I, int TargetZ_I) = 0;
 
     /**
      * @brief  Update both species using their joint densities.
      * @math   (ρ_n,κ_n,ρ_p,κ_p) → (Γ_n,Δ_n,Γ_p,Δ_p).
      * @output Overwritten neutron and proton fields.
      */
-    void update_Gamma_Delta();
+    virtual void update_Gamma_Delta() = 0;
+
+    /**
+     * @brief  Iterate the unblocked HFB equations.
+     * @math   (N,Z) → HFB_converged.
+     * @output Updated converged solver state.
+     */
+    void iterate(int TargetN_I, int TargetZ_I);
 
 };
 
-inline double HFB::update_UV_E_rho_kappa(double lambda_F, double temperature_F) {
+inline double HFB::update_UV_E_rho_kappa() {
     assert(temperature_F >= 0.0);
     assert(hfb_field.h0_F2D_sp_sp.rows() == Nsp_I && hfb_field.h0_F2D_sp_sp.cols() == Nsp_I);
     assert(hfb_field.Gamma_F2D_sp_sp.rows() == Nsp_I && hfb_field.Gamma_F2D_sp_sp.cols() == Nsp_I);
@@ -147,9 +157,9 @@ inline double HFB::update_UV_E_rho_kappa(double lambda_F, double temperature_F) 
     assert(hfb_field.Gamma_F2D_sp_sp.isApprox(hfb_field.Gamma_F2D_sp_sp.transpose(), 1.0e-12));
     assert(hfb_field.Delta_F2D_sp_sp.isApprox(-hfb_field.Delta_F2D_sp_sp.transpose(), 1.0e-12));
 
-    // H₁₁ = h₀ + Γ - λI.
-    H_F2D_2sp_2sp.topLeftCorner(Nsp_I, Nsp_I) = hfb_field.h0_F2D_sp_sp + hfb_field.Gamma_F2D_sp_sp;
-    H_F2D_2sp_2sp.topLeftCorner(Nsp_I, Nsp_I).diagonal().array() -= lambda_F;
+    // H₁₁ = h₀ + Γ + 4λ₂ρ - (λ+2λ₂)I.
+    H_F2D_2sp_2sp.topLeftCorner(Nsp_I, Nsp_I) = hfb_field.h0_F2D_sp_sp + hfb_field.Gamma_F2D_sp_sp + 4.0 * lambda2_F * hfb_solution.rho_F2D_sp_sp;
+    H_F2D_2sp_2sp.topLeftCorner(Nsp_I, Nsp_I).diagonal().array() -= lambda_F + 2.0 * lambda2_F;
 
     // H₁₂ = Δ; H₂₁ = -Δ; H₂₂ = -H₁₁.
     H_F2D_2sp_2sp.topRightCorner(Nsp_I, Nsp_I) = hfb_field.Delta_F2D_sp_sp;
@@ -169,32 +179,32 @@ inline double HFB::update_UV_E_rho_kappa(double lambda_F, double temperature_F) 
     hfb_solution.U_F2D_sp_qp = eigenvectors_F2D_2sp_state.topRightCorner(Nsp_I, Nsp_I);
     hfb_solution.V_F2D_sp_qp = eigenvectors_F2D_2sp_state.bottomRightCorner(Nsp_I, Nsp_I);
 
-    // T ≤ 10⁻¹² → f = 0; otherwise f = e⁻ᴱᐟᵀ/(1+e⁻ᴱᐟᵀ).
-    hfb_solution.f_F1D_qp.setZero();
-    if (temperature_F > 1.0e-12) {
-        for (int qp_I = 0; qp_I < Nsp_I; ++qp_I) {
-            const double expMinusEOverT_F = std::exp(-hfb_solution.Eqp_F1D_qp(qp_I) / temperature_F);
-            hfb_solution.f_F1D_qp(qp_I) = expMinusEOverT_F / (1.0 + expMinusEOverT_F);
-        }
+    // ε = λ + E(1-2‖V‖²); ε > Ecut + tail → factors = 0.
+    const double EspCutTail_F = std::log(1.0 / 1.0e-6 - 1.0) / 100.0;
+    Eigen::VectorXd factorU_F1D_qp{};
+    Eigen::VectorXd factorV_F1D_qp{};
+    factorU_F1D_qp.resize(Nsp_I);
+    factorV_F1D_qp.resize(Nsp_I);
+    factorU_F1D_qp.setZero();
+    factorV_F1D_qp.setZero();
+
+    // f = (1-tanh(E/(2T)))/2; active factors = (f,1-f).
+    for (int qp_I = 0; qp_I < Nsp_I; ++qp_I) {
+        const double Eqp_F = hfb_solution.Eqp_F1D_qp(qp_I);
+        hfb_solution.f_F1D_qp(qp_I) = temperature_F > 1.0e-12 ? 0.5 * (1.0 - std::tanh(0.5 * Eqp_F / temperature_F)) : 0.0;
+        const double Esp_F = lambda_F + Eqp_F * (1.0 - 2.0 * hfb_solution.V_F2D_sp_qp.col(qp_I).squaredNorm());
+        if (Esp_F > EspCut_F + EspCutTail_F) {continue;}
+        factorU_F1D_qp(qp_I) = hfb_solution.f_F1D_qp(qp_I);
+        factorV_F1D_qp(qp_I) = 1.0 - hfb_solution.f_F1D_qp(qp_I);
     }
 
     // ρ = V(1-f)Vᵀ + UfUᵀ.
-    hfb_solution.rho_F2D_sp_sp.noalias() = hfb_solution.V_F2D_sp_qp * (1.0 - hfb_solution.f_F1D_qp.array()).matrix().asDiagonal() * hfb_solution.V_F2D_sp_qp.transpose();
-    hfb_solution.rho_F2D_sp_sp.noalias() += hfb_solution.U_F2D_sp_qp * hfb_solution.f_F1D_qp.asDiagonal() * hfb_solution.U_F2D_sp_qp.transpose();
+    hfb_solution.rho_F2D_sp_sp.noalias() = hfb_solution.V_F2D_sp_qp * factorV_F1D_qp.asDiagonal() * hfb_solution.V_F2D_sp_qp.transpose();
+    hfb_solution.rho_F2D_sp_sp.noalias() += hfb_solution.U_F2D_sp_qp * factorU_F1D_qp.asDiagonal() * hfb_solution.U_F2D_sp_qp.transpose();
 
     // κ = V(1-f)Uᵀ + UfVᵀ.
-    hfb_solution.kappa_F2D_sp_sp.noalias() = hfb_solution.V_F2D_sp_qp * (1.0 - hfb_solution.f_F1D_qp.array()).matrix().asDiagonal() * hfb_solution.U_F2D_sp_qp.transpose();
-    hfb_solution.kappa_F2D_sp_sp.noalias() += hfb_solution.U_F2D_sp_qp * hfb_solution.f_F1D_qp.asDiagonal() * hfb_solution.V_F2D_sp_qp.transpose();
+    hfb_solution.kappa_F2D_sp_sp.noalias() = hfb_solution.V_F2D_sp_qp * factorV_F1D_qp.asDiagonal() * hfb_solution.U_F2D_sp_qp.transpose();
+    hfb_solution.kappa_F2D_sp_sp.noalias() += hfb_solution.U_F2D_sp_qp * factorU_F1D_qp.asDiagonal() * hfb_solution.V_F2D_sp_qp.transpose();
 
     return hfb_solution.rho_F2D_sp_sp.trace();
-}
-
-
-/**
- * @brief  Update both species using their joint densities.
- * @math   (ρ_n,κ_n,ρ_p,κ_p) → (Γ_n,Δ_n,Γ_p,Δ_p).
- * @output Overwritten neutron and proton fields.
- */
-inline void HFBNucleus::update_Gamma_Delta() {
-    build_twobody(hfb_neutron.hfb_solution, hfb_proton.hfb_solution, hfb_neutron.hfb_field, hfb_proton.hfb_field);
 }
