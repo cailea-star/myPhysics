@@ -1,5 +1,5 @@
 /**
- * @file    hfb.hpp
+ * @file    hfb_full.hpp
  * @author  cailea
  * @date    2026-09-10
  * @brief   Real finite-temperature HFB matrix calculations.
