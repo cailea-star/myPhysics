@@ -12,7 +12,7 @@
 #include "hfb_edf_setting.hpp"
 #include "hfb_edf_skyrme.hpp"
 #include "hfb_edf_gogny.hpp"
-#include "cylindrical_config.hpp"
+#include "cylindrical_setting.hpp"
 #include "cylindrical_basis.hpp"
 #include "cylindrical_density.hpp"
 #include "cylindrical_coulomb_field.hpp"
