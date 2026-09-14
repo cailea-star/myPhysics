@@ -11,12 +11,14 @@
 #include <cassert>
 #include <cmath>
 #include <complex>
+#include <numbers>
 #include <vector>
 #include <Eigen/Core>
 #include <unsupported/Eigen/CXX11/Tensor>
 
 #include "spherical_setting.hpp"
 #include "group_so3_su2.hpp"
+#include "integration_gauss.hpp"
 
 using doubleC = std::complex<double>;
 
@@ -48,7 +50,40 @@ public:
      * @note   N_α,N_β,N_γ > 0; complete m > 0 multiplet representatives.
      * @note   Weights exclude projection normalization factors.
      */
-    SphericalRotation(const std::vector<SphericalSPLabel>& labels_S1D_sp_, int Nalpha_I_, int Nbeta_I_, int Ngamma_I_);
+    SphericalRotation(const std::vector<SphericalSPLabel>& labels_S1D_sp_, int Nalpha_I_, int Nbeta_I_, int Ngamma_I_) {
+        labels_S1D_sp = labels_S1D_sp_;
+        Nalpha_I = Nalpha_I_;
+        Nbeta_I = Nbeta_I_;
+        Ngamma_I = Ngamma_I_;
+        assert(Nalpha_I > 0 && Nbeta_I > 0 && Ngamma_I > 0);
+        assert(!labels_S1D_sp.empty());
+
+        // (N,j): m = 1/2,3/2,...,j, each once.
+        for (const SphericalSPLabel& label : labels_S1D_sp) {
+            assert(label.twoj_I > 0 && label.twoj_I % 2 == 1);
+            assert(label.twom_I > 0 && label.twom_I <= label.twoj_I && label.twom_I % 2 == 1);
+            assert(std::count_if(labels_S1D_sp.begin(), labels_S1D_sp.end(), [&](const SphericalSPLabel& other) { return other.N_I == label.N_I && other.twoj_I == label.twoj_I; }) == (label.twoj_I + 1) / 2);
+            assert(std::count_if(labels_S1D_sp.begin(), labels_S1D_sp.end(), [&](const SphericalSPLabel& other) { return other.N_I == label.N_I && other.twoj_I == label.twoj_I && other.twom_I == label.twom_I; }) == 1);
+        }
+
+        // α_i = 2πi/N_α; w_α,i = 2π/N_α.
+        const double pi_F = std::numbers::pi;
+        alpha_F1D_alpha.resize(Nalpha_I);
+        weight_F1D_alpha.resize(Nalpha_I);
+        weight_F1D_alpha.setConstant(2.0 * pi_F / Nalpha_I);
+        for (int alpha_I = 0; alpha_I < Nalpha_I; ++alpha_I) {alpha_F1D_alpha(alpha_I) = 2.0 * pi_F * alpha_I / Nalpha_I;}
+
+        // γ_i = 4πi/N_γ; w_γ,i = 4π/N_γ.
+        gamma_F1D_gamma.resize(Ngamma_I);
+        weight_F1D_gamma.resize(Ngamma_I);
+        weight_F1D_gamma.setConstant(4.0 * pi_F / Ngamma_I);
+        for (int gamma_I = 0; gamma_I < Ngamma_I; ++gamma_I) {gamma_F1D_gamma(gamma_I) = 4.0 * pi_F * gamma_I / Ngamma_I;}
+
+        // Gauss-Legendre: x_i = cosβ_i; Σ_i w_i = 2.
+        const GaussLegendreMeshes legendre_meshes(Nbeta_I);
+        beta_F1D_beta = legendre_meshes.x_F1D_x.array().acos().matrix();
+        weight_F1D_beta = legendre_meshes.w_F1D_x;
+    }
 
     /**
      * @brief  Build y rotations using Jy eigendecomposition.
