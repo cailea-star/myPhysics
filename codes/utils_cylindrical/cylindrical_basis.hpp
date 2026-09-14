@@ -16,7 +16,7 @@
 #include <gsl/gsl_sf_hermite.h>
 #include <gsl/gsl_sf_laguerre.h>
 
-#include "cylindrical_config.hpp"
+#include "cylindrical_setting.hpp"
 #include "integration_gauss.hpp"
 
 /** @brief Axial Hermite basis on a Gauss-Hermite mesh. */

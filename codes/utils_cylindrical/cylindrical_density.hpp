@@ -13,7 +13,7 @@
 #include <Eigen/Core>
 
 #include "cylindrical_basis.hpp"
-#include "cylindrical_config.hpp"
+#include "cylindrical_setting.hpp"
 
 class CylindricalDensity {
 public:
