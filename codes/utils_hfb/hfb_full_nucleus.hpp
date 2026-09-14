@@ -27,9 +27,6 @@ public:
     HFB hfb_proton;
     HFBSetting hfbsetting;
 
-    double lambda2_n_F = 0.0; // Neutron LN coefficient [MeV].
-    double lambda2_p_F = 0.0; // Proton LN coefficient [MeV].
-
 public:
     /**
      * @brief  Initialize species dimensions and workspaces.
@@ -198,12 +195,12 @@ inline void HFBNucleus::iterate(bool useCurrentFields_B) {
     };
 
     // G:x → (λ,U,V,E,ρ,κ) → (Γ,Δ) → (h₀+Γ,Δ).
-    const double lambdaToleranceMin_F = hfbsetting.accuracy_F * 1.0e-6;
-    double lambdaTolerance_F = hfbsetting.accuracy_F;
+    const double lambdaAccuracyMin_F = hfbsetting.accuracy_F * 1.0e-6;
+    double lambdaAccuracy_F = hfbsetting.accuracy_F;
     const auto calc_Gx_Func = [&](const Eigen::VectorXd& x_F1D_packed_, Eigen::VectorXd& Gx_F1D_packed_) {
         unpack_h_Delta_Func(x_F1D_packed_);
-        hfb_neutron.search_lambda(hfbsetting.temperature_F, EspCut_F, lambdaTolerance_F);
-        hfb_proton.search_lambda(hfbsetting.temperature_F, EspCut_F, lambdaTolerance_F);
+        hfb_neutron.search_lambda(hfbsetting.temperature_F, EspCut_F, lambdaAccuracy_F);
+        hfb_proton.search_lambda(hfbsetting.temperature_F, EspCut_F, lambdaAccuracy_F);
         update_Gamma_Delta();
         pack_h_Delta_Func(Gx_F1D_packed_);
     };
@@ -233,9 +230,9 @@ inline void HFBNucleus::iterate(bool useCurrentFields_B) {
             continue;
         }
         alpha_F = hfbsetting.mixingMin_F;
-        const bool tightenLambdaTolerance_B = lambdaTolerance_F > lambdaToleranceMin_F * (1.0 + 1.0e-12);
-        if (iteration_I > 1 && tightenLambdaTolerance_B) {
-            lambdaTolerance_F = std::max(lambdaToleranceMin_F, lambdaTolerance_F * 0.1);
+        const bool tightenLambdaAccuracy_B = lambdaAccuracy_F > lambdaAccuracyMin_F * (1.0 + 1.0e-12);
+        if (iteration_I > 1 && tightenLambdaAccuracy_B) {
+            lambdaAccuracy_F = std::max(lambdaAccuracyMin_F, lambdaAccuracy_F * 0.1);
         }
         errorPrevious_F = error_F;
     }
