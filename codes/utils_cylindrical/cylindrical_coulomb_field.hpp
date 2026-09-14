@@ -21,6 +21,8 @@
 
 class CylindricalCoulombField {
 public:
+    double e2_F = 1.439978408596513; // e² [MeV fm].
+    double CExPar_F = 1.0; // Slater exchange factor.
     bool isBuilt_B = false;
 
 private:
@@ -33,7 +35,8 @@ public:
     /**
      * @brief  Construct an empty axial Coulomb field.
      * @math   (z_i,r_j,w_{ij}) → K_C
-     * @output Stored grid and unbuilt kernel.
+     * @output Stored couplings, grid, and unbuilt kernel.
+     * @note Default couplings match UNEDF1.
      */
     explicit CylindricalCoulombField(const CylindricalBasis2D& basis_) {
         z_F1D_z = basis_.z_F1D_z;
@@ -48,7 +51,7 @@ public:
      * @math   K_C(s,t)=2e²/√π∫_0^∞e^{-u²d_{st}²}I_0^e(2r_sr_tu²)du
      * @output Built direct-Coulomb kernel.
      */
-    void build(bool useParity_B, double e2_F);
+    void build(bool useParity_B);
 
     /**
      * @brief  Apply the direct-Coulomb kernel.
@@ -58,7 +61,7 @@ public:
     Eigen::MatrixXd calc_direct_field(const Eigen::MatrixXd& rho_F2D_z_r) const;
 };
 
-inline void CylindricalCoulombField::build(bool useParity_B, double e2_F) {
+inline void CylindricalCoulombField::build(bool useParity_B) {
     if (isBuilt_B) {return;}
 
     constexpr int Nlegendre_I = 80;
