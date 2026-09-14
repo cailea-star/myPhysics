@@ -101,15 +101,16 @@ public:
 
 /**
  * @brief Gauss-Laguerre mesh and polynomials.
- * @note  Q_α[f]=Σ_iw_ix_i^αf(x_i).
+ * @note  Q_α[f]=Σ_iw_ix_i^(α-α_w)f(x_i).
  */
 class GaussLaguerreMeshes {
 public:
+    double weightAlpha_F = 0.0;    // W(x) = x^α_w e^-x.
     Eigen::VectorXi n_I1D_na{};     // n ≥ 0.
     Eigen::VectorXd alpha_F1D_na{}; // α > -1.
     Eigen::VectorXd N_F1D_na{};     // ∫(N_nL_n^α)²x^αe^-xdx = 1.
     Eigen::VectorXd x_F1D_x{};      // {x_i}: Gauss-Laguerre nodes.
-    Eigen::VectorXd w_F1D_x{};      // {w_i}: e^-x quadrature.
+    Eigen::VectorXd w_F1D_x{};      // {w_i}: x^α_w e^-x quadrature.
     Eigen::MatrixXd L_F2D_na_x{};   // L_n^α(x_i).
 
     /**
@@ -121,11 +122,12 @@ public:
 
     /**
      * @brief  Generate Gauss-Laguerre nodes and weights.
-     * @math   W(x) = e^-x
+     * @math   W(x) = x^α_w e^-x
      * @output Nodes and weights.
-     * @note   N_x>0.
+     * @note   N_x>0, α_w≥0; default α_w=0.
      */
-    GaussLaguerreMeshes(int Nx_I) {
+    GaussLaguerreMeshes(int Nx_I, double weightAlpha_F_ = 0.0) {
+        weightAlpha_F = weightAlpha_F_;
         n_I1D_na.resize(1);
         alpha_F1D_na.resize(1);
         N_F1D_na.resize(1);
@@ -141,7 +143,7 @@ public:
         // (N_x,W) → {x_i,w_i}.
         assert(Nx_I > 0);
         double b_F = 1.0;           // x → x/b.
-        double weightAlpha_F = 0.0; // W(x) = x^α e^(-x/b).
+        assert(std::isfinite(weightAlpha_F_) && weightAlpha_F_ >= 0.0);
         gsl_integration_fixed_workspace* workspace = gsl_integration_fixed_alloc(gsl_integration_fixed_laguerre, Nx_I, 0.0, b_F, weightAlpha_F, 0.0);
         const double* nodes_F1D_x = gsl_integration_fixed_nodes(workspace);
         const double* weights_F1D_x = gsl_integration_fixed_weights(workspace);
@@ -155,8 +157,11 @@ public:
      * @math   ∫N_nL_n^αN_mL_m^α x^αe^-x dx = δ_nm
      * @output Nodes, weights, normalizations, and polynomials.
      * @note   n_i≥0, α_i>-1; |n|=|α|; N_x>0.
+     * @note   Quadrature exponent α_w≥0 is independent of polynomial α_i.
+     * @note   Default α_w=0 preserves ordinary Gauss-Laguerre weights.
      */
-    GaussLaguerreMeshes(const Eigen::VectorXi& n_I1D_na_, const Eigen::VectorXd& alpha_F1D_na_, int Nx_I) {
+    GaussLaguerreMeshes(const Eigen::VectorXi& n_I1D_na_, const Eigen::VectorXd& alpha_F1D_na_, int Nx_I, double weightAlpha_F_ = 0.0) {
+        weightAlpha_F = weightAlpha_F_;
         n_I1D_na = n_I1D_na_;
         alpha_F1D_na = alpha_F1D_na_;
         N_F1D_na.resize(n_I1D_na_.size());
@@ -169,7 +174,7 @@ public:
         assert((n_I1D_na_.array() >= 0).all());
         assert((alpha_F1D_na_.array() > -1.0).all());
         double b_F = 1.0;           // x → x/b.
-        double weightAlpha_F = 0.0; // W(x) = x^α e^(-x/b).
+        assert(std::isfinite(weightAlpha_F_) && weightAlpha_F_ >= 0.0);
         gsl_integration_fixed_workspace* workspace = gsl_integration_fixed_alloc(gsl_integration_fixed_laguerre, Nx_I, 0.0, b_F, weightAlpha_F, 0.0);
         const double* nodes_F1D_x = gsl_integration_fixed_nodes(workspace);
         const double* weights_F1D_x = gsl_integration_fixed_weights(workspace);
