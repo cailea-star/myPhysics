@@ -11,6 +11,7 @@
 #include <vector>
 #include <cassert>
 #include <cmath>
+#include <numbers>
 #include <complex>
 #include <utility>
 #include <Eigen/Cholesky>
@@ -30,15 +31,19 @@ public:
     int Nalpha_I = 1; // Number of α quadrature nodes.
     int Nbeta_I = 1; // Number of β quadrature nodes.
     int Ngamma_I = 1; // Number of γ quadrature nodes.
+    Eigen::VectorXd alpha_F1D_alpha{}; // α_i = 2πi/N_α ∈ [0,2π) [rad].
+    Eigen::VectorXd weight_F1D_alpha{}; // w_α,i = 2π/N_α.
     Eigen::VectorXd beta_F1D_beta{}; // β_i = acos x_i ∈ (0,π) [rad].
     Eigen::VectorXd weight_F1D_beta{}; // Σ_i w_i f(β_i) ≈ ∫₀^π sinβ f(β)dβ.
+    Eigen::VectorXd gamma_F1D_gamma{}; // γ_i = 4πi/N_γ ∈ [0,4π) [rad].
+    Eigen::VectorXd weight_F1D_gamma{}; // w_γ,i = 4π/N_γ.
     double bz_F = 0.0; // Axial oscillator length.
     double br_F = 0.0; // Radial oscillator length.
     std::vector<CylindricalSPLabel> labels_S1D_sp{}; // Positive-Ω labels.
 
     // Rows and columns: (+Ω,-Ω).
     Eigen::VectorXcd detRySimplexP_C1D_beta{}; // det d₊(β); det d₋ = (det d₊)*.
-    Eigen::Tensor<double, 3, Eigen::ColMajor> Ry_F3D_2sp_2sp_beta{}; // ⟨φ_a|R_y(β_i)|φ_b⟩.
+    Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Ry_C3D_2sp_2sp_beta{}; // ⟨φ_a|R_y(β_i)|φ_b⟩.
     Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Rz_C3D_2sp_2sp_alpha{}; // δ_ab exp(-iΩ_a α_i).
     Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Rz_C3D_2sp_2sp_gamma{}; // δ_ab exp(-iΩ_a γ_i).
 
@@ -71,6 +76,19 @@ public:
         assert(std::isfinite(br_F) && br_F > 0.0);
         assert(std::isfinite(bz_F) && bz_F > 0.0);
         assert(Nalpha_I > 0 && Nbeta_I > 0 && Ngamma_I > 0);
+
+        // α_i = 2πi/N_α; w_α,i = 2π/N_α.
+        const double pi_F = std::numbers::pi;
+        alpha_F1D_alpha.resize(Nalpha_I);
+        weight_F1D_alpha.resize(Nalpha_I);
+        weight_F1D_alpha.setConstant(2.0 * pi_F / Nalpha_I);
+        for (int alpha_I = 0; alpha_I < Nalpha_I; ++alpha_I) {alpha_F1D_alpha(alpha_I) = 2.0 * pi_F * alpha_I / Nalpha_I;}
+
+        // γ_i = 4πi/N_γ; w_γ,i = 4π/N_γ.
+        gamma_F1D_gamma.resize(Ngamma_I);
+        weight_F1D_gamma.resize(Ngamma_I);
+        weight_F1D_gamma.setConstant(4.0 * pi_F / Ngamma_I);
+        for (int gamma_I = 0; gamma_I < Ngamma_I; ++gamma_I) {gamma_F1D_gamma(gamma_I) = 4.0 * pi_F * gamma_I / Ngamma_I;}
 
         // Gauss-Legendre: x_i = cosβ_i; Σ_i w_i = 2.
         const GaussLegendreMeshes legendre_meshes(Nbeta_I);
@@ -177,7 +195,6 @@ inline void CylindricalRotation::build() {
 inline void CylindricalRotation::build_Rz() {
     // α ∈ [0,2π); γ ∈ [0,4π).
     const Eigen::Index Nsp_I = static_cast<Eigen::Index>(labels_S1D_sp.size());
-    const double pi_F = std::acos(-1.0);
     assert(Nalpha_I > 0 && Ngamma_I > 0);
 
     // {R_z(α),R_z(γ)} → allocated storage → 0.
@@ -188,7 +205,7 @@ inline void CylindricalRotation::build_Rz() {
 
     // R_z(α) = diag(exp(-iΩα),exp(+iΩα)).
     for (int alpha_I = 0; alpha_I < Nalpha_I; ++alpha_I) {
-        const double alpha_F = 2.0 * pi_F * alpha_I / Nalpha_I;
+        const double alpha_F = alpha_F1D_alpha(alpha_I);
         for (Eigen::Index sp_I = 0; sp_I < Nsp_I; ++sp_I) {
             const double Omega_F = 0.5 * labels_S1D_sp[sp_I].twoOmega_I;
             const double cosOmegaAngle_F = std::cos(Omega_F * alpha_F);
@@ -202,7 +219,7 @@ inline void CylindricalRotation::build_Rz() {
 
     // R_z(γ) = diag(exp(-iΩγ),exp(+iΩγ)).
     for (int gamma_I = 0; gamma_I < Ngamma_I; ++gamma_I) {
-        const double gamma_F = 4.0 * pi_F * gamma_I / Ngamma_I;
+        const double gamma_F = gamma_F1D_gamma(gamma_I);
         for (Eigen::Index sp_I = 0; sp_I < Nsp_I; ++sp_I) {
             const double Omega_F = 0.5 * labels_S1D_sp[sp_I].twoOmega_I;
             const double cosOmegaAngle_F = std::cos(Omega_F * gamma_F);
@@ -244,9 +261,9 @@ inline void CylindricalRotation::build_Ry() {
     // R_y: (+Ω,-Ω) × (+Ω,-Ω).
     Eigen::MatrixXd Ry_F2D_2sp_2sp{};
     Ry_F2D_2sp_2sp.resize(2 * static_cast<Eigen::Index>(Nsp_I), 2 * static_cast<Eigen::Index>(Nsp_I));
-    Ry_F3D_2sp_2sp_beta.resize(2 * static_cast<Eigen::Index>(Nsp_I), 2 * static_cast<Eigen::Index>(Nsp_I), Nbeta_I);
+    Ry_C3D_2sp_2sp_beta.resize(2 * static_cast<Eigen::Index>(Nsp_I), 2 * static_cast<Eigen::Index>(Nsp_I), Nbeta_I);
     Ry_F2D_2sp_2sp.setZero();
-    Ry_F3D_2sp_2sp_beta.setZero();
+    Ry_C3D_2sp_2sp_beta.setZero();
 
     for (int beta_I = 0; beta_I < Nbeta_I; ++beta_I) {
         // d_spin: (+½,-½) × (+½,-½).
@@ -294,7 +311,7 @@ inline void CylindricalRotation::build_Ry() {
             }
         }
         // ColMajor slices: offset = (2N_sp)² i_β.
-        Eigen::Map<Eigen::MatrixXd>(Ry_F3D_2sp_2sp_beta.data() + 4 * static_cast<Eigen::Index>(Nsp_I) * Nsp_I * beta_I, 2 * static_cast<Eigen::Index>(Nsp_I), 2 * static_cast<Eigen::Index>(Nsp_I)) = Ry_F2D_2sp_2sp;
+        Eigen::Map<Eigen::MatrixXcd>(Ry_C3D_2sp_2sp_beta.data() + 4 * static_cast<Eigen::Index>(Nsp_I) * Nsp_I * beta_I, 2 * static_cast<Eigen::Index>(Nsp_I), 2 * static_cast<Eigen::Index>(Nsp_I)) = Ry_F2D_2sp_2sp.cast<doubleC>();
     }
 
     // T = [I,I;-iE,iE]/√2; E_aa = 2Σ_a.
@@ -316,10 +333,10 @@ inline void CylindricalRotation::build_Ry() {
 
     for (int beta_I = 0; beta_I < Nbeta_I; ++beta_I) {
         // R_y(β): contiguous ColMajor slice.
-        const Eigen::Map<const Eigen::MatrixXd> Ry_F2D_2sp_2sp(Ry_F3D_2sp_2sp_beta.data() + 4 * static_cast<Eigen::Index>(Nsp_I) * Nsp_I * beta_I, 2 * Nsp_I, 2 * Nsp_I);
+        const Eigen::Map<const Eigen::MatrixXcd> Ry_C2D_2sp_2sp(Ry_C3D_2sp_2sp_beta.data() + 4 * static_cast<Eigen::Index>(Nsp_I) * Nsp_I * beta_I, 2 * Nsp_I, 2 * Nsp_I);
 
         // T†R_yT = diag(d₊,d₋).
-        RySimplex_C2D_2sp_2sp.noalias() = T_C2D_Omega2sp_Simplex2sp.adjoint() * Ry_F2D_2sp_2sp.cast<doubleC>() * T_C2D_Omega2sp_Simplex2sp;
+        RySimplex_C2D_2sp_2sp.noalias() = T_C2D_Omega2sp_Simplex2sp.adjoint() * Ry_C2D_2sp_2sp * T_C2D_Omega2sp_Simplex2sp;
         assert(RySimplex_C2D_2sp_2sp.allFinite());
         detRySimplexP_C1D_beta(beta_I) = RySimplex_C2D_2sp_2sp.topLeftCorner(Nsp_I, Nsp_I).determinant();
     }
