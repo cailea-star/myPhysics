@@ -52,7 +52,7 @@ public:
     int Nr_I = 0;                            // N_r = 2n_max + l_max + 8
     bool useAxialSym_B = false;              // false: N → j → m; true: m → N → j.
     bool useParity_B = false;                // Retain separate N blocks within each group.
-    bool useTimeReversal_B = false;          // m > 0 representatives.
+    bool useTimeReversal_B = false;          // Does not control label enumeration.
     std::vector<int> Nshell_I1D_Nshell{};           // {N₁,N₂,...}
     std::vector<SphericalSPLabel> labels_S1D_sp{}; // α_sp = (n,l,j,m)_sp
     std::vector<std::vector<SphericalSPLabel>> labels_S2D_block_bsp{}; // α_(block,bsp).
@@ -65,11 +65,7 @@ public:
      * @math   N ∈ {N₁,N₂,...}, N_r = 2n_max + l_max + 8
      * @output Labels, blocks, indices, time-reversal phases, and quadrature order.
      * @note   Shells must be nonempty, nonnegative, and strictly increasing.
-     * @note   useAxialSym_B selects m-based instead of N-based enumeration.
-     * @note   useParity_B retains N or (m,N) blocks when enabled.
-     * @note   Otherwise, use one total block or separate m blocks.
-     * @note   useTimeReversal_B retains only m > 0 representatives.
-     * @note   Partner states follow from time reversal.
+     * @note   Labels always retain only m > 0 representatives.
      * @note   Shell groups need not decouple the Hamiltonian.
      */
     SphericalSetting(double b_F_, const std::vector<int>& Nshell_I1D_Nshell_, bool useAxialSym_B_, bool useParity_B_, bool useTimeReversal_B_) {
@@ -121,20 +117,17 @@ public:
 private:
     /**
      * @brief  Enumerate spherical harmonic-oscillator labels.
-     * @math   N → j(n,l) → m
+     * @math   N → j(n,l) → m > 0
      * @output Updated labels, shell groups, and global indices.
-     * @note   Time-reversal reduction applies to all label/index containers.
-     * @note   Disabled useParity_B merges all N blocks.
+     * @note   useParity_B: true → N blocks; false → one block.
      */
     void fill_labels_by_N();
 
     /**
      * @brief  Enumerate labels by angular-momentum projection.
-     * @math   m → N → j(n,l)
+     * @math   m > 0 → N → j(n,l)
      * @output Updated labels, projection groups, and global indices.
-     * @note   useParity_B retains separate (m,N) blocks when enabled.
-     * @note   Otherwise, each m forms one block.
-     * @note   useTimeReversal_B retains only m > 0 representatives.
+     * @note   useParity_B: true → (m,N) blocks; false → m blocks.
      */
     void fill_labels_by_m();
 };
@@ -152,9 +145,8 @@ inline void SphericalSetting::fill_labels_by_N() {
         indices_I2D_block_bsp.emplace_back();
 
         for (int twoj_I = 1; twoj_I <= 2 * N_I + 1; twoj_I += 2) {
-            // 2m_min = -2j (full), 1 (time reversal).
-            const int twomMin_I = -twoj_I + static_cast<int>(useTimeReversal_B) * (twoj_I + 1);
-            for (int twom_I = twomMin_I; twom_I <= twoj_I; twom_I += 2) {
+            // 2m = 1,3,...,2j.
+            for (int twom_I = 1; twom_I <= twoj_I; twom_I += 2) {
                 // (N,2j,2m) → α_sp → (α_block,bsp,sp_block,bsp).
                 const int sp_I = static_cast<int>(labels_S1D_sp.size());
                 labels_S1D_sp.emplace_back(N_I, twoj_I, twom_I);
@@ -184,12 +176,11 @@ inline void SphericalSetting::fill_labels_by_m() {
     labels_S2D_block_bsp.clear();
     indices_I2D_block_bsp.clear();
 
-    // 2m_max = 2N_max+1; 2m_min = -2m_max or 1.
+    // 2m_max = 2N_max+1.
     const int twomMax_I = 2 * Nshell_I1D_Nshell.back() + 1;
-    const int twomMin_I = -twomMax_I + static_cast<int>(useTimeReversal_B) * (twomMax_I + 1);
 
     // m → N → j(n,l).
-    for (int twom_I = twomMin_I; twom_I <= twomMax_I; twom_I += 2) {
+    for (int twom_I = 1; twom_I <= twomMax_I; twom_I += 2) {
         std::vector<SphericalSPLabel> labelsM_S1D_bsp{};
         std::vector<int> indicesM_I1D_bsp{};
 
