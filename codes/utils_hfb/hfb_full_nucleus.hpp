@@ -7,7 +7,10 @@
 
 #pragma once
 
+#include <limits>
+
 #include "hfb_full.hpp"
+#include "hfb_setting.hpp"
 #include "root_broyden.hpp"
 
 class HFBNucleus {
@@ -22,11 +25,7 @@ public:
 
     HFB hfb_neutron;
     HFB hfb_proton;
-
-    double accuracy_F = 1.0e-5;
-    double mixingMin_F = 0.20;
-    double mixingMax_F = 0.90;
-    int NiterationsMax_I = 100;
+    HFBSetting hfbsetting;
 
 public:
     /**
@@ -34,8 +33,8 @@ public:
      * @math   Nsp_n = Nsp_p = Nsp.
      * @output Allocated solutions, fields, and workspaces.
      */
-    HFBNucleus(int Nsp_I_)
-    : hfb_neutron(Nsp_I_), hfb_proton(Nsp_I_) {}
+    HFBNucleus(int Nsp_I_, const HFBSetting& hfbsetting_)
+    : hfb_neutron(Nsp_I_), hfb_proton(Nsp_I_), hfbsetting(hfbsetting_) {}
 
     /**
      * @brief Accumulate joint particle-hole fields using parallel direct contraction.
@@ -147,12 +146,12 @@ inline void HFBNucleus::add_Delta_from_Element(const DeltaElementFunc& read_elem
 }
 
 inline void HFBNucleus::iterate(bool useCurrentFields_B) {
-    assert(std::isfinite(accuracy_F) && accuracy_F > 0.0);
-    assert(NiterationsMax_I > 0);
-    assert(std::isfinite(mixingMin_F) && std::isfinite(mixingMax_F) && mixingMin_F > 0.0 && mixingMin_F <= mixingMax_F && mixingMax_F <= 1.0);
+    const double EspCut_F = hfbsetting.useEspCut_B ? hfbsetting.EspCut_F : std::numeric_limits<double>::infinity();
+    assert(std::isfinite(hfbsetting.accuracy_F) && hfbsetting.accuracy_F > 0.0);
+    assert(hfbsetting.NiterationsMax_I > 0);
+    assert(std::isfinite(hfbsetting.mixingMin_F) && std::isfinite(hfbsetting.mixingMax_F) && hfbsetting.mixingMin_F > 0.0 && hfbsetting.mixingMin_F <= hfbsetting.mixingMax_F && hfbsetting.mixingMax_F <= 1.0);
 
     const int Npacked_I = 2 * (hfb_neutron.Nsp_I * hfb_neutron.Nsp_I + hfb_proton.Nsp_I * hfb_proton.Nsp_I);
-    assert(Npacked_I >= 7);
 
     Eigen::VectorXd x_F1D_packed{};
     Eigen::VectorXd Gx_F1D_packed{};
@@ -196,12 +195,12 @@ inline void HFBNucleus::iterate(bool useCurrentFields_B) {
     };
 
     // G:x → (λ,U,V,E,ρ,κ) → (Γ,Δ) → (h₀+Γ,Δ).
-    const double lambdaToleranceMin_F = accuracy_F * 1.0e-6;
-    double lambdaTolerance_F = accuracy_F;
+    const double lambdaAccuracyMin_F = hfbsetting.accuracy_F * 1.0e-6;
+    double lambdaAccuracy_F = hfbsetting.accuracy_F;
     const auto calc_Gx_Func = [&](const Eigen::VectorXd& x_F1D_packed_, Eigen::VectorXd& Gx_F1D_packed_) {
         unpack_h_Delta_Func(x_F1D_packed_);
-        hfb_neutron.search_lambda(lambdaTolerance_F);
-        hfb_proton.search_lambda(lambdaTolerance_F);
+        hfb_neutron.search_lambda(hfbsetting.temperature_F, EspCut_F, lambdaAccuracy_F);
+        hfb_proton.search_lambda(hfbsetting.temperature_F, EspCut_F, lambdaAccuracy_F);
         update_Gamma_Delta();
         pack_h_Delta_Func(Gx_F1D_packed_);
     };
@@ -215,25 +214,25 @@ inline void HFBNucleus::iterate(bool useCurrentFields_B) {
     }
 
     // (x₀,G(x₀)) → Broyden history.
-    double alpha_F = mixingMin_F;
-    BroydenIterator broyden_(7, calc_Gx_Func, mixingMin_F, x_F1D_packed, Gx_F1D_packed);
-    print_abstract(0, 0.0, mixingMin_F);
+    double alpha_F = hfbsetting.mixingMin_F;
+    BroydenIterator broyden_(7, calc_Gx_Func, hfbsetting.mixingMin_F, x_F1D_packed, Gx_F1D_packed);
+    print_abstract(0, 0.0, hfbsetting.mixingMin_F);
 
     // ||G(x_i)-x_i||∞ → ε_i; adaptive α and λ tolerance.
     double errorPrevious_F = 1.0;
-    for (int iteration_I = 1; iteration_I <= NiterationsMax_I; ++iteration_I) {
+    for (int iteration_I = 1; iteration_I <= hfbsetting.NiterationsMax_I; ++iteration_I) {
         const double error_F = broyden_.iterate(calc_Gx_Func, alpha_F);
         print_abstract(iteration_I, error_F, alpha_F);
-        if (std::isfinite(error_F) && error_F <= accuracy_F) {break;}
+        if (std::isfinite(error_F) && error_F <= hfbsetting.accuracy_F) {break;}
         if (std::isfinite(error_F) && error_F < errorPrevious_F) {
-            alpha_F = std::min(mixingMax_F, alpha_F * 1.10);
+            alpha_F = std::min(hfbsetting.mixingMax_F, alpha_F * 1.10);
             errorPrevious_F = error_F;
             continue;
         }
-        alpha_F = mixingMin_F;
-        const bool tightenLambdaTolerance_B = lambdaTolerance_F > lambdaToleranceMin_F * (1.0 + 1.0e-12);
-        if (iteration_I > 1 && tightenLambdaTolerance_B) {
-            lambdaTolerance_F = std::max(lambdaToleranceMin_F, lambdaTolerance_F * 0.1);
+        alpha_F = hfbsetting.mixingMin_F;
+        const bool tightenLambdaAccuracy_B = lambdaAccuracy_F > lambdaAccuracyMin_F * (1.0 + 1.0e-12);
+        if (iteration_I > 1 && tightenLambdaAccuracy_B) {
+            lambdaAccuracy_F = std::max(lambdaAccuracyMin_F, lambdaAccuracy_F * 0.1);
         }
         errorPrevious_F = error_F;
     }

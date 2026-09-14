@@ -42,9 +42,6 @@ public:
 
     int TargetN_I = 0; // Target particle number.
     double lambda_F = -7.0; // Fermi energy [MeV].
-    double lambda2_F = 0.0; // Lipkin-Nogami λ₂ [MeV].
-    double temperature_F = 0.0;
-    double EspCut_F = 60.0; // Equivalent single-particle energy cutoff [MeV].
 
     int Nsp_I = 0;
 
@@ -97,14 +94,14 @@ public:
      * @output Returned mean particle number N = Tr(ρ).
      * @note   ε = λ+E(1-2‖V‖²) cuts ρ,κ; Ecut = ∞ disables.
      */
-    double update_UV_E_rho_kappa();
+    double update_UV_E_rho_kappa(double lambda_F_, double temperature_F, double EspCut_F);
 
     /**
      * @brief  Search chemical potential using bracket expansion and Brent.
      * @math   Tr(ρ_blocked(λ)) = TargetN.
      * @output Updated chemical potential, solution, and densities.
      */
-    void search_lambda(double lambdaTolerance_F);
+    void search_lambda(double temperature_F, double EspCut_F, double accuracy_F);
 
     /**
      * @brief Accumulate particle-hole fields by direct matrix-element contraction.
@@ -171,7 +168,8 @@ inline void HFB::add_Delta_from_Element(const DeltaElementFunc& read_element_Fun
     }
 }
 
-inline double HFB::update_UV_E_rho_kappa() {
+inline double HFB::update_UV_E_rho_kappa(double lambda_F_, double temperature_F, double EspCut_F) {
+    lambda_F = lambda_F_;
     assert(temperature_F >= 0.0);
     assert(hfb_field.h0_F2D_sp_sp.rows() == Nsp_I && hfb_field.h0_F2D_sp_sp.cols() == Nsp_I);
     assert(hfb_field.Gamma_F2D_sp_sp.rows() == Nsp_I && hfb_field.Gamma_F2D_sp_sp.cols() == Nsp_I);
@@ -232,17 +230,17 @@ inline double HFB::update_UV_E_rho_kappa() {
     return hfb_solution.rho_F2D_sp_sp.trace();
 }
 
-inline void HFB::search_lambda(double lambdaTolerance_F) {
+inline void HFB::search_lambda(double temperature_F, double EspCut_F, double accuracy_F) {
     assert(TargetN_I >= 0 && TargetN_I <= Nsp_I);
     assert(std::isfinite(lambda_F));
-    assert(std::isfinite(lambdaTolerance_F) && lambdaTolerance_F > 0.0);
-    const double Ntolerance_F = std::min(1.0e-12, lambdaTolerance_F);
+    assert(std::isfinite(accuracy_F) && accuracy_F > 0.0);
+    const double Ntolerance_F = std::min(1.0e-12, accuracy_F);
     std::map<double, double> NerrorByLambda_Map{};
 
     // Fixed fields; trial blocking preserves external trackers.
     const auto calc_N_Func = [&](double lambdaTrial_F, bool updateTracking_B) {
         lambda_F = lambdaTrial_F;
-        const double Ncalc_F = update_UV_E_rho_kappa();
+        const double Ncalc_F = update_UV_E_rho_kappa(lambdaTrial_F, temperature_F, EspCut_F);
         if (blocking_Func) {return blocking_Func(hfb_solution, updateTracking_B);}
         return Ncalc_F;
     };
@@ -287,7 +285,7 @@ inline void HFB::search_lambda(double lambdaTolerance_F) {
     assert(NerrorMin_F * NerrorMax_F <= 0.0);
 
     // Recompute at λ_root and commit blocking trackers.
-    const double lambdaRoot_F = root_brent(calc_Nerror_Func, lambdaMin_F, lambdaMax_F, lambdaTolerance_F);
+    const double lambdaRoot_F = root_brent(calc_Nerror_Func, lambdaMin_F, lambdaMax_F, accuracy_F);
     assert(std::isfinite(lambdaRoot_F));
     calc_N_Func(lambdaRoot_F, true);
 }
