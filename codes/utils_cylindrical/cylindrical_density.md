@@ -234,7 +234,7 @@ $$
 \boxed{j_z(z,r_\perp)=\frac{1}{4\pi i}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\uparrow}R_{\alpha^\uparrow,\beta^\uparrow}^{(+)}\left(\phi_{\beta^\uparrow}\partial_z\phi_{\alpha^\uparrow}-\phi_{\alpha^\uparrow}\partial_z\phi_{\beta^\uparrow}\right)+\sum_{\alpha^\downarrow,\beta^\downarrow}R_{\alpha^\downarrow,\beta^\downarrow}^{(+)}\left(\phi_{\beta^\downarrow}\partial_z\phi_{\alpha^\downarrow}-\phi_{\alpha^\downarrow}\partial_z\phi_{\beta^\downarrow}\right)\right].}
 $$
 
-All spatial amplitudes are real, evaluated at $(z,r_\perp)$, and carry positive-branch labels. Hermiticity makes all three components real. For real density matrices, $j_r=j_z=0$, while $j_\varphi$ may remain nonzero. The definition of $\mathbf j$ does not include a factor of $\hbar/m$.
+All spatial amplitudes are real, evaluated at $(z,r_\perp)$, and carry positive-branch labels. Hermiticity makes all three components real. For real density matrices, $j_r=j_z=0$, while $j_\varphi$ may remain nonzero. The definition of $\mathbf j$ does not include a factor of $\hbar/M$.
 
 ### Spin Density
 
