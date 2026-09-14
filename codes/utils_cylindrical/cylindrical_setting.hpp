@@ -70,6 +70,7 @@ public:
     std::vector<CylindricalSPLabel> labels_S1D_sp{};                  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp
     std::vector<std::vector<CylindricalSPLabel>> labels_S2D_block_bsp{}; // α_(block,bsp): labels grouped by Ω or (Ω,π)
     std::vector<std::vector<int>> indices_I2D_block_bsp{};      // sp(block,bsp): global indices of block labels
+    Eigen::VectorXd eta_F1D_sp{}; // η_sp = 2Σ_sp.
     std::vector<Eigen::VectorXd> eta_F2D_block_bsp{}; // η_(block,bsp) = 2Σ.
 
     /**
@@ -93,13 +94,19 @@ public:
         fill_labels();
         assert(!labels_S1D_sp.empty());
 
-        // α_(block,bsp) → η_(block,bsp) = 2Σ.
+        // α_sp → η_sp = 2Σ_sp.
+        eta_F1D_sp.resize(labels_S1D_sp.size());
+        for (int sp_I = 0; sp_I < static_cast<int>(labels_S1D_sp.size()); ++sp_I) {
+            eta_F1D_sp(sp_I) = labels_S1D_sp[sp_I].twoSigma_I;
+        }
+
+        // η_(block,bsp) = η_sp(block,bsp).
         eta_F2D_block_bsp.resize(labels_S2D_block_bsp.size());
         for (int block_I = 0; block_I < static_cast<int>(labels_S2D_block_bsp.size()); ++block_I) {
             const auto& labels_S1D_bsp = labels_S2D_block_bsp[block_I];
             eta_F2D_block_bsp[block_I].resize(labels_S1D_bsp.size());
             for (int bsp_I = 0; bsp_I < static_cast<int>(labels_S1D_bsp.size()); ++bsp_I) {
-                eta_F2D_block_bsp[block_I](bsp_I) = labels_S1D_bsp[bsp_I].twoSigma_I;
+                eta_F2D_block_bsp[block_I](bsp_I) = eta_F1D_sp(indices_I2D_block_bsp[block_I][bsp_I]);
             }
         }
 

@@ -84,6 +84,46 @@ $$
 \pi_N=(-1)^N,\qquad d_N=\sum_{j=1/2}^{N+1/2}(2j+1)=(N+1)(N+2).
 $$
 
+### Time-Reversal Phases
+
+With $\hat T=-i\sigma_yK$ and real Condon–Shortley Clebsch–Gordan coefficients, the spinor spherical harmonics are
+
+$$
+\mathcal Y^l_{jm}=\sum_{m_l,m_s}\langle l,m_l;\tfrac12,m_s|j,m\rangle Y_{lm_l}\chi_{m_s}.
+$$
+
+Using
+
+$$
+Y_{lm_l}^{*}=(-1)^{m_l}Y_{l,-m_l},\qquad \hat T\chi_{m_s}=(-1)^{1/2-m_s}\chi_{-m_s},
+$$
+
+the time-reversed spinor spherical harmonic becomes
+
+$$
+\hat T\mathcal Y^l_{jm}=(-1)^{1/2-m}\sum_{m_l,m_s}\langle l,m_l;\tfrac12,m_s|j,m\rangle Y_{l,-m_l}\chi_{-m_s}.
+$$
+
+The Clebsch–Gordan reversal identity is
+
+$$
+\langle l,m_l;\tfrac12,m_s|j,m\rangle=(-1)^{l+1/2-j}\langle l,-m_l;\tfrac12,-m_s|j,-m\rangle.
+$$
+
+Since $1-2j$ is even, the resulting phase is
+
+$$
+\boxed{\hat T\mathcal Y^l_{jm}=(-1)^{l+1-j-m}\mathcal Y^l_{j,-m}=(-1)^{l+j-m}\mathcal Y^l_{j,-m}.}
+$$
+
+For $\alpha=(n,l,j,m)$ and $\bar\alpha=(n,l,j,-m)$, the radial functions are real, so
+
+$$
+\hat T\Phi_\alpha=\eta_\alpha\Phi_{\bar\alpha},\qquad \eta_\alpha=(-1)^{l+j-m},\qquad \eta_\alpha\eta_{\bar\alpha}=-1.
+$$
+
+The phases $\eta_\alpha$ follow the single-particle ordering within each block. Under time-reversal reduction, only the $m>0$ representatives are retained.
+
 ### Quadrature Orders
 
 Let $n^{\max}$ and $l^{\max}$ be the largest quantum numbers among the retained labels. Let $\deg_v$ denote the polynomial degree of the radial potential in $\eta=(r/b)^2$.

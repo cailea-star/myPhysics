@@ -12,6 +12,7 @@
 #include <cmath>
 #include <utility>
 #include <vector>
+#include <Eigen/Core>
 
 class SphericalSPLabel {
 public:
@@ -56,11 +57,13 @@ public:
     std::vector<SphericalSPLabel> labels_S1D_sp{}; // α_sp = (n,l,j,m)_sp
     std::vector<std::vector<SphericalSPLabel>> labels_S2D_block_bsp{}; // α_(block,bsp).
     std::vector<std::vector<int>> indices_I2D_block_bsp{}; // sp(block,bsp).
+    Eigen::VectorXd eta_F1D_sp{}; // η_sp = (-1)^(l+j-m).
+    std::vector<Eigen::VectorXd> eta_F2D_block_bsp{}; // η_(block,bsp) = (-1)^(l+j-m).
 
     /**
      * @brief  Construct a spherical harmonic-oscillator setting.
      * @math   N ∈ {N₁,N₂,...}, N_r = 2n_max + l_max + 8
-     * @output Labels, shell groups, indices, and radial quadrature order.
+     * @output Labels, blocks, indices, time-reversal phases, and quadrature order.
      * @note   Shells must be nonempty, nonnegative, and strictly increasing.
      * @note   useAxialSym_B selects m-based instead of N-based enumeration.
      * @note   useParity_B retains N or (m,N) blocks when enabled.
@@ -86,6 +89,24 @@ public:
         // useAxialSym: (N → j → m) → (m → N → j).
         if (useAxialSym_B) {fill_labels_by_m();} else {fill_labels_by_N();}
         assert(!labels_S1D_sp.empty());
+
+        // α_sp → η_sp = (-1)^(l+j-m).
+        eta_F1D_sp.resize(labels_S1D_sp.size());
+        for (int sp_I = 0; sp_I < static_cast<int>(labels_S1D_sp.size()); ++sp_I) {
+            const SphericalSPLabel& label = labels_S1D_sp[sp_I];
+            const int phase_I = label.l_I + (label.twoj_I - label.twom_I) / 2;
+            eta_F1D_sp(sp_I) = 1.0 - 2.0 * static_cast<double>(phase_I % 2 != 0);
+        }
+
+        // η_(block,bsp) = η_sp(block,bsp).
+        eta_F2D_block_bsp.resize(labels_S2D_block_bsp.size());
+        for (int block_I = 0; block_I < static_cast<int>(labels_S2D_block_bsp.size()); ++block_I) {
+            const auto& labels_S1D_bsp = labels_S2D_block_bsp[block_I];
+            eta_F2D_block_bsp[block_I].resize(labels_S1D_bsp.size());
+            for (int bsp_I = 0; bsp_I < static_cast<int>(labels_S1D_bsp.size()); ++bsp_I) {
+                eta_F2D_block_bsp[block_I](bsp_I) = eta_F1D_sp(indices_I2D_block_bsp[block_I][bsp_I]);
+            }
+        }
 
         // {α_sp} → (n_max,l_max) → N_r.
         int nMax_I = 0;
