@@ -1,5 +1,5 @@
 /**
- * @file    cylindrical_config.hpp
+ * @file    cylindrical_setting.hpp
  * @author  cailea
  * @date    2026-05-02
  * @brief   Define axial harmonic-oscillator labels and configurations.
