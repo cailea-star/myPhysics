@@ -89,7 +89,6 @@ public:
      * @math   Φ_α(r,θ,φ) = φ_nl(r) Σ_μ C_αμ Y_l,m-μ(θ,φ) χ_μ
      * @output Radial mesh, functions, derivatives, and CG coefficients.
      * @note   ms=0 corresponds to μ=+1/2; ms=1 to μ=-1/2.
-     * @note   Labels follow labels_S1D_sp.
      * @note   Angular dependence remains in analytic spherical harmonics.
      */
     explicit SphericalBasis1D(const SphericalSetting& sphericalsetting_) {
