@@ -99,7 +99,7 @@ inline LocalEnergyTrace calc_local_energy_trace(const HFBKramersNucleusCylindric
 
     // E_C^{Slater} = C_Cρ_p^{4/3}.
     constexpr double pi_F = 3.141592653589793238462643383279502884;
-    const double coulombExchangeCoeff_F = -0.75 * edf_skyrme_.CExPar_F * edf_skyrme_.e2charg_F * std::cbrt(3.0 / pi_F);
+    const double coulombExchangeCoeff_F = -0.75 * hfb_.coulomb_field.CExPar_F * hfb_.coulomb_field.e2_F * std::cbrt(3.0 / pi_F);
 
     // Tr[h_qρ_q](z,r).
     const auto calc_species_ph_trace_Func = [](const CylindricalDensity& density_, const HFBCylindricalField& field_, int z_I, int r_I) {

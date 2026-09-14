@@ -36,7 +36,7 @@ int main() {
 
     // (C_axial,S_HFB,UNEDF1) → inputs.
     HFBSetting hfbsettings_{};
-    HFBTermSwitches termSwitches_ = HFBTermSwitches::skyrme();
+    EDFTermSwitches termSwitches_ = EDFTermSwitches::skyrme();
     hfbsettings_.useEspCut_B = true;
     hfbsettings_.useLipkinNogami_B = true;
     const EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::UNEDF1();

@@ -16,7 +16,7 @@
 /**
  * @brief Store enabled HFB energy terms.
  */
-class HFBTermSwitches {
+class EDFTermSwitches {
 public:
     bool useCmCorrection_B = false; // ℏ²/(2m) → [1-1/A]ℏ²/(2m).
     bool addKinetic_B = false; // E_kin = (ℏ²/2m)τ.
@@ -38,15 +38,15 @@ public:
      * @math ∅ → 0
      * @output Disabled HFB terms.
      */
-    HFBTermSwitches() = default;
+    EDFTermSwitches() = default;
 
     /**
      * @brief Build local Skyrme term switches.
      * @math ∅ → S_{Skyrme}
      * @output Standard local-EDF switches.
      */
-    static HFBTermSwitches skyrme() {
-        HFBTermSwitches termSwitches_;
+    static EDFTermSwitches skyrme() {
+        EDFTermSwitches termSwitches_;
         termSwitches_.addKinetic_B = true;
         termSwitches_.addLocalRhoRho_B = true;
         termSwitches_.addLocalRhoAlpha_B = true;
@@ -63,8 +63,8 @@ public:
      * @math ∅ → S_{Gogny}
      * @output Gogny interaction switches.
      */
-    static HFBTermSwitches gogny() {
-        HFBTermSwitches termSwitches_;
+    static EDFTermSwitches gogny() {
+        EDFTermSwitches termSwitches_;
         termSwitches_.addKinetic_B = true;
         termSwitches_.addLocalRhoAlpha_B = true;
         termSwitches_.addLocalSpinOrbit_B = true;

@@ -217,7 +217,7 @@ void HFBCylindricalField::add_nuclei_fields(HFBCylindricalField& field_p_, HFBCy
     }
 }
 
-void HFBCylindricalField::add_coulomb_field(HFBCylindricalField& field_p_, const CylindricalDensity& density_p_, const CylindricalCoulombField& coulomb_field_, const EDFParamsSkyrme& edf_skyrme_) {
+void HFBCylindricalField::add_coulomb_field(HFBCylindricalField& field_p_, const CylindricalDensity& density_p_, const CylindricalCoulombField& coulomb_field_) {
     assert(coulomb_field_.isBuilt_B);
 
     const int Nz_I = static_cast<int>(field_p_.vcent_F2D_z_r.rows());
@@ -225,20 +225,20 @@ void HFBCylindricalField::add_coulomb_field(HFBCylindricalField& field_p_, const
 
     // ρ_p → v_C^{dir}.
     const Eigen::MatrixXd vCoulombDirect_F2D_z_r = coulomb_field_.calc_direct_field(density_p_.rho_F2D_z_r);
-    const double coex_F = -edf_skyrme_.e2charg_F * std::cbrt(3.0 / std::numbers::pi);
+    const double coex_F = -coulomb_field_.e2_F * std::cbrt(3.0 / std::numbers::pi);
 
     // v_C=v_C^{dir}+v_C^{Slater}.
     #pragma omp parallel for collapse(2) schedule(static)
     for (int r_I = 0; r_I < Nr_I; ++r_I) {
         for (int z_I = 0; z_I < Nz_I; ++z_I) {
             const double rhoPositive_p_F = std::max(density_p_.rho_F2D_z_r(z_I, r_I), 0.0);
-            const double vCoulomb_F = vCoulombDirect_F2D_z_r(z_I, r_I) + edf_skyrme_.CExPar_F * coex_F * std::cbrt(rhoPositive_p_F);
+            const double vCoulomb_F = vCoulombDirect_F2D_z_r(z_I, r_I) + coulomb_field_.CExPar_F * coex_F * std::cbrt(rhoPositive_p_F);
             field_p_.vcent_F2D_z_r(z_I, r_I) += vCoulomb_F;
         }
     }
 }
 
-void HFBCylindricalField::add_pairing_fields(HFBCylindricalField& field_p_, HFBCylindricalField& field_n_, const CylindricalDensity& density_p_, const CylindricalDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSetting& hfbsetting_, const HFBTermSwitches& termSwitches_, double lambda_n_F, double lambda_p_F) {
+void HFBCylindricalField::add_pairing_fields(HFBCylindricalField& field_p_, HFBCylindricalField& field_n_, const CylindricalDensity& density_p_, const CylindricalDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSetting& hfbsetting_, const EDFTermSwitches& termSwitches_, double lambda_n_F, double lambda_p_F) {
     assert(termSwitches_.addLocalPair_B);
 
     const int Nz_I = static_cast<int>(field_n_.vcent_F2D_z_r.rows());
