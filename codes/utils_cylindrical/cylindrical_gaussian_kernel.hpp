@@ -22,7 +22,7 @@
 #include <vector>
 #include <gsl/gsl_sf_gamma.h>
 
-#include "cylindrical_config.hpp"
+#include "cylindrical_setting.hpp"
 #include "tools_hashtable.hpp"
 
 template <int Ng_I>
