@@ -33,7 +33,7 @@ int main() {
 
     // P_{HFB} ← run 000008.
     HFBSetting hfbsettings_{};
-    HFBTermSwitches termSwitches_ = HFBTermSwitches::skyrme();
+    EDFTermSwitches termSwitches_ = EDFTermSwitches::skyrme();
     hfbsettings_.useEspCut_B = true;
     termSwitches_.useCmCorrection_B = true;
     hfbsettings_.temperature_F = 1.5;

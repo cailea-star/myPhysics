@@ -40,7 +40,7 @@ int main() {
 
     // P_HFB ← run_000002.
     HFBSetting hfbsettings_{};
-    HFBTermSwitches termSwitches_ = HFBTermSwitches::skyrme();
+    EDFTermSwitches termSwitches_ = EDFTermSwitches::skyrme();
     hfbsettings_.useEspCut_B = true;
     termSwitches_.useCmCorrection_B = true;
     hfbsettings_.NblockingCandidates_I = 6;

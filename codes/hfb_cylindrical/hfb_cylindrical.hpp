@@ -73,14 +73,14 @@ public:
      * @math ρ_p → v_C^{dir}+v_C^{Slater}
      * @output Updated proton central field.
      */
-    static void add_coulomb_field(HFBCylindricalField& field_p_, const CylindricalDensity& density_p_, const CylindricalCoulombField& coulomb_field_, const EDFParamsSkyrme& edf_skyrme_);
+    static void add_coulomb_field(HFBCylindricalField& field_p_, const CylindricalDensity& density_p_, const CylindricalCoulombField& coulomb_field_);
 
     /**
      * @brief Add local pairing fields.
      * @math (ρ_0,κ_q,λ_q) → Δ_q
      * @output Updated neutron and proton pairing fields.
      */
-    static void add_pairing_fields(HFBCylindricalField& field_p_, HFBCylindricalField& field_n_, const CylindricalDensity& density_p_, const CylindricalDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSetting& hfbsetting_, const HFBTermSwitches& termSwitches_, double lambda_n_F, double lambda_p_F);
+    static void add_pairing_fields(HFBCylindricalField& field_p_, HFBCylindricalField& field_n_, const CylindricalDensity& density_p_, const CylindricalDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSetting& hfbsetting_, const EDFTermSwitches& termSwitches_, double lambda_n_F, double lambda_p_F);
 
     /**
      * @brief Add local neutron and proton fields.
@@ -95,8 +95,8 @@ public:
     double beta2Initial_F = 0.0; // Initial quadrupole deformation.
     double beta3Initial_F = 0.0; // Initial octupole deformation.
     double beta4Initial_F = 0.0; // Initial hexadecapole deformation.
-    const HFBTermSwitches termSwitches;
-    const CylindricalSetting cylindricalsetting;
+    EDFTermSwitches termSwitches;
+    CylindricalSetting cylindricalsetting;
     CylindricalBasis2D cylindricalbasis;
     EDFParamsSkyrme edf_skyrme; // Base local EDF.
     CylindricalGaussianGogny gaussian_gogny; // Finite-range Gogny interaction.
@@ -113,10 +113,22 @@ public:
      * @math (C_cyl,P_HFB,P_Skyrme,P_Gogny) → HFB; η = 2Σ.
      * @output Allocated species, basis, densities, fields, and interaction objects.
      */
-    HFBKramersNucleusCylindrical(const CylindricalSetting& cylindricalsetting_, const HFBSetting& hfbsetting_, const HFBTermSwitches& termSwitches_, const EDFParamsSkyrme& edf_skyrme_, const EDFParamsGogny& edf_gogny_ = EDFParamsGogny::D1S())
-    : HFBKramersNucleus(cylindricalsetting_.eta_F2D_block_bsp, hfbsetting_), termSwitches(termSwitches_), cylindricalsetting(cylindricalsetting_), cylindricalbasis(cylindricalsetting), edf_skyrme(edf_skyrme_), gaussian_gogny(cylindricalsetting, edf_gogny_.forceName_Str, edf_gogny_.mu_F1D_g, edf_gogny_.W_F1D_g, edf_gogny_.B_F1D_g, edf_gogny_.H_F1D_g, edf_gogny_.M_F1D_g), gaussian_coulomb(cylindricalsetting, edf_skyrme.e2charg_F), coulomb_field(cylindricalbasis), density_neutron(cylindricalsetting, cylindricalbasis), density_proton(cylindricalsetting, cylindricalbasis), field_neutron(cylindricalsetting), field_proton(cylindricalsetting) {
+    HFBKramersNucleusCylindrical(const CylindricalSetting& cylindricalsetting_, const HFBSetting& hfbsetting_, const EDFTermSwitches& termSwitches_, const EDFParamsSkyrme& edf_skyrme_, const EDFParamsGogny& edf_gogny_ = EDFParamsGogny::D1S())
+    : HFBKramersNucleus(cylindricalsetting_.eta_F2D_block_bsp, hfbsetting_), 
+    termSwitches(termSwitches_), 
+    cylindricalsetting(cylindricalsetting_), 
+    cylindricalbasis(cylindricalsetting), 
+    edf_skyrme(edf_skyrme_), 
+    gaussian_gogny(cylindricalsetting, edf_gogny_.forceName_Str, edf_gogny_.mu_F1D_g, edf_gogny_.W_F1D_g, edf_gogny_.B_F1D_g, edf_gogny_.H_F1D_g, edf_gogny_.M_F1D_g), 
+    gaussian_coulomb(cylindricalsetting, edf_skyrme.e2charg_F), 
+    coulomb_field(cylindricalbasis), 
+    density_neutron(cylindricalsetting, cylindricalbasis), 
+    density_proton(cylindricalsetting, cylindricalbasis), 
+    field_neutron(cylindricalsetting), 
+    field_proton(cylindricalsetting) {
+        coulomb_field.e2_F = edf_skyrme.e2charg_F;
+        coulomb_field.CExPar_F = edf_skyrme.CExPar_F;
         assert(cylindricalsetting.useTimeReversal_B);
-
     }
 
     /**
