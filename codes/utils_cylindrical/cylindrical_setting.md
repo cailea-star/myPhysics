@@ -78,10 +78,10 @@ The positive-$\Omega$ blocks contain one representative of each time-reversal pa
 
 ### Energy Cutoff
 
-The single-particle spectrum follows [Axial Harmonic-Oscillator Hamiltonian](cylindrical_basis.md#axial-harmonic-oscillator-hamiltonian). Let $m$ be the particle mass. The axial and transverse oscillator energies are
+The single-particle spectrum follows [Axial Harmonic-Oscillator Hamiltonian](cylindrical_basis.md#axial-harmonic-oscillator-hamiltonian). Let $M$ be the particle mass. The axial and transverse oscillator energies are
 
 $$
-\hbar\omega_z=\frac{\hbar^2}{mb_z^2},\qquad \hbar\omega_{r_\perp}=\frac{\hbar^2}{mb_{r_\perp}^2}.
+\hbar\omega_z=\frac{\hbar^2}{Mb_z^2},\qquad \hbar\omega_{r_\perp}=\frac{\hbar^2}{Mb_{r_\perp}^2}.
 $$
 
 Define the transverse oscillator quantum number $\nu$ and the single-particle energy by

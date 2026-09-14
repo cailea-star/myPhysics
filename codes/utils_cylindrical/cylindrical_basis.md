@@ -4,10 +4,10 @@ The state labels and oscillator lengths follow [Axial Harmonic-Oscillator Config
 
 ### Axial Harmonic-Oscillator Hamiltonian
 
-Let $m$ be the particle mass and $\omega_z,\omega_{r_\perp}>0$ the oscillator frequencies. In Cartesian coordinates,
+Let $M$ be the particle mass and $\omega_z,\omega_{r_\perp}>0$ the oscillator frequencies. In Cartesian coordinates,
 
 $$
-\hat H_0=-\frac{\hbar^2}{2m}\left(\partial_x^2+\partial_y^2+\partial_z^2\right)+\frac12m\omega_z^2z^2+\frac12m\omega_{r_\perp}^2(x^2+y^2).
+\hat H_0=-\frac{\hbar^2}{2M}\left(\partial_x^2+\partial_y^2+\partial_z^2\right)+\frac12M\omega_z^2z^2+\frac12M\omega_{r_\perp}^2(x^2+y^2).
 $$
 
 Using cylindrical coordinates,
@@ -19,7 +19,7 @@ $$
 the Hamiltonian becomes
 
 $$
-\hat H_0=-\frac{\hbar^2}{2m}\left(\partial_z^2+\partial_{r_\perp}^2+\frac1{r_\perp}\partial_{r_\perp}+\frac1{r_\perp^2}\partial_\varphi^2\right)+\frac12m\omega_z^2z^2+\frac12m\omega_{r_\perp}^2r_\perp^2.
+\hat H_0=-\frac{\hbar^2}{2M}\left(\partial_z^2+\partial_{r_\perp}^2+\frac1{r_\perp}\partial_{r_\perp}+\frac1{r_\perp^2}\partial_\varphi^2\right)+\frac12M\omega_z^2z^2+\frac12M\omega_{r_\perp}^2r_\perp^2.
 $$
 
 Define the single-particle label,
@@ -65,7 +65,7 @@ $$
 Following the [one-dimensional harmonic-oscillator solution](../../notes/quantum_mechanics/harmonic_oscillator_coordinate_space.md#one-dimensional-harmonic-oscillator), define
 
 $$
-b_z=\sqrt{\frac{\hbar}{m\omega_z}},\qquad \zeta=\frac{z}{b_z}.
+b_z=\sqrt{\frac{\hbar}{M\omega_z}},\qquad \zeta=\frac{z}{b_z}.
 $$
 
 For $n_z\in\mathbb N_0$, the normalized axial basis function is
@@ -107,7 +107,7 @@ $$
 Following the [two-dimensional polar harmonic-oscillator solution](../../notes/quantum_mechanics/harmonic_oscillator_coordinate_space.md#two-dimensional-isotropic-harmonic-oscillator), define
 
 $$
-b_{r_\perp}=\sqrt{\frac{\hbar}{m\omega_{r_\perp}}},\qquad \eta=\left(\frac{r_\perp}{b_{r_\perp}}\right)^2.
+b_{r_\perp}=\sqrt{\frac{\hbar}{M\omega_{r_\perp}}},\qquad \eta=\left(\frac{r_\perp}{b_{r_\perp}}\right)^2.
 $$
 
 For $n_r,\Lambda\in\mathbb N_0$, the normalized radial basis function is

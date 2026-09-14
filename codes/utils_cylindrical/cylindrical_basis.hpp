@@ -26,7 +26,6 @@ public:
     std::vector<CylindricalSPLabel> labels_S1D_sp{};  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp.
     Eigen::VectorXd z_F1D_z{};                  // z_i = b_zζ_i.
     Eigen::VectorXd w_F1D_z{};                  // w_z,i = b_z w_i^GH e^(ζ_i²).
-    Eigen::VectorXd zeta_F1D_z{};               // ζ_i: Gauss-Hermite nodes.
     Eigen::MatrixXd phi_F2D_sp_z{};             // φ_sp,i = φ_nz,sp(z_i).
     Eigen::MatrixXd dphi_F2D_sp_z{};            // dφ_sp,i = ∂_zφ_nz,sp(z_i).
     Eigen::MatrixXd ddphi_F2D_sp_z{};           // ddφ_sp,i = ∂_z²φ_nz,sp(z_i).
@@ -42,7 +41,6 @@ public:
         labels_S1D_sp = labels_S1D_sp_;
         z_F1D_z.resize(Nz_I_);
         w_F1D_z.resize(Nz_I_);
-        zeta_F1D_z.resize(Nz_I_);
         phi_F2D_sp_z.resize(labels_S1D_sp_.size(), Nz_I_);
         dphi_F2D_sp_z.resize(labels_S1D_sp_.size(), Nz_I_);
         ddphi_F2D_sp_z.resize(labels_S1D_sp_.size(), Nz_I_);
@@ -59,7 +57,6 @@ public:
             fill_grid(gh_meshes);
             z_F1D_z = z_F1D_z.tail(Nz_I_).eval();
             w_F1D_z = (2.0 * w_F1D_z.tail(Nz_I_)).eval();
-            zeta_F1D_z = zeta_F1D_z.tail(Nz_I_).eval();
             phi_F2D_sp_z = phi_F2D_sp_z.rightCols(Nz_I_).eval();
             dphi_F2D_sp_z = dphi_F2D_sp_z.rightCols(Nz_I_).eval();
             ddphi_F2D_sp_z = ddphi_F2D_sp_z.rightCols(Nz_I_).eval();
@@ -85,7 +82,6 @@ public:
     std::vector<CylindricalSPLabel> labels_S1D_sp{};  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp.
     Eigen::VectorXd r_F1D_r{};                  // r_j = b_r√η_j.
     Eigen::VectorXd w_F1D_r{};                  // w_r,j = b_r² w_j^GL e^(η_j) / 2.
-    Eigen::VectorXd eta_F1D_r{};                // η_j: Gauss-Laguerre nodes.
     Eigen::MatrixXd phi_F2D_sp_r{};             // φ_sp,j = φ_nr,sp^Λ_sp(r_j).
     Eigen::MatrixXd dphi_F2D_sp_r{};            // dφ_sp,j = ∂_rφ_nr,sp^Λ_sp(r_j).
     Eigen::MatrixXd ddphi_F2D_sp_r{};           // ddφ_sp,j = ∂_r²φ_nr,sp^Λ_sp(r_j).
@@ -100,7 +96,6 @@ public:
         labels_S1D_sp = labels_S1D_sp_;
         r_F1D_r.resize(Nr_I_);
         w_F1D_r.resize(Nr_I_);
-        eta_F1D_r.resize(Nr_I_);
         phi_F2D_sp_r.resize(labels_S1D_sp_.size(), Nr_I_);
         dphi_F2D_sp_r.resize(labels_S1D_sp_.size(), Nr_I_);
         ddphi_F2D_sp_r.resize(labels_S1D_sp_.size(), Nr_I_);
@@ -135,11 +130,8 @@ public:
     double br_F = 0.0;                          // b_r = √[ℏ / (mω_r)].
     double bz_F = 0.0;                          // b_z = √[ℏ / (mω_z)].
     std::vector<CylindricalSPLabel> labels_S1D_sp{};  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp.
-    Eigen::VectorXi twoSigma_I1D_sp{};          // 2Σ_sp = 2Ω_sp - 2Λ_sp.
     Eigen::VectorXd z_F1D_z{};                  // z_i = b_zζ_i.
     Eigen::VectorXd r_F1D_r{};                  // r_j = b_r√η_j.
-    Eigen::VectorXd zeta_F1D_z{};               // ζ_i: Gauss-Hermite nodes.
-    Eigen::VectorXd eta_F1D_r{};                // η_j: Gauss-Laguerre nodes.
     Eigen::MatrixXd w_F2D_z_r{};                // w_ij = w_z,i w_r,j; dz r dr.
     BasisTensor phi_F3D_sp_z_r{};               // φ_sp(z_i,r_j) = φ_nz(z_i)φ_nr^Λ(r_j).
     BasisTensor dphidr_F3D_sp_z_r{};            // dφ_sp/dr = φ_nz(z_i)∂_rφ_nr^Λ(r_j).
@@ -156,14 +148,11 @@ public:
         br_F = cylindricalsetting_.br_F;
         bz_F = cylindricalsetting_.bz_F;
         labels_S1D_sp = cylindricalsetting_.labels_S1D_sp;
-        twoSigma_I1D_sp.resize(labels_S1D_sp.size());
 
-        // config → (rBasis,zBasis,{2Σ_sp}) → basis.
+        // config → (rBasis,zBasis) → basis.
         CylindricalLaguerreBasis rBasis(cylindricalsetting_.br_F, cylindricalsetting_.Nr_I, labels_S1D_sp);
 
         CylindricalHermiteBasis zBasis(cylindricalsetting_.bz_F, cylindricalsetting_.Nz_I, labels_S1D_sp, cylindricalsetting_.useParity_B);
-
-        for (int sp_I = 0; sp_I < labels_S1D_sp.size(); ++sp_I) {twoSigma_I1D_sp(sp_I) = labels_S1D_sp[sp_I].twoSigma_I;}
 
         fill_from_separable_basis(zBasis, rBasis);
     }
@@ -180,7 +169,7 @@ private:
 inline void CylindricalHermiteBasis::fill_grid(const GaussHermiteMeshes& gh_meshes) {
     // ζ=z/b_z; dz=b_z dζ.
     const double jacobian_F = bz_F;
-    zeta_F1D_z = gh_meshes.x_F1D_x;
+    const Eigen::VectorXd& zeta_F1D_z = gh_meshes.x_F1D_x;
     z_F1D_z = bz_F * zeta_F1D_z;
     w_F1D_z = jacobian_F * gh_meshes.w_F1D_x;
 
@@ -227,7 +216,7 @@ inline void CylindricalHermiteBasis::fill_grid(const GaussHermiteMeshes& gh_mesh
 inline void CylindricalLaguerreBasis::fill_grid(const GaussLaguerreMeshes& gl_meshes) {
     // η=(r/b_r)²; r dr=(b_r²/2)dη.
     const double jacobian_F = 0.5 * br_F * br_F;
-    eta_F1D_r = gl_meshes.x_F1D_x;
+    const Eigen::VectorXd& eta_F1D_r = gl_meshes.x_F1D_x;
     r_F1D_r = br_F * eta_F1D_r.array().sqrt().matrix();
     w_F1D_r = jacobian_F * gl_meshes.w_F1D_x;
 
@@ -297,11 +286,9 @@ inline void CylindricalLaguerreBasis::fill_grid(const GaussLaguerreMeshes& gl_me
 }
 
 inline void CylindricalBasis2D::fill_from_separable_basis(const CylindricalHermiteBasis& zBasis, const CylindricalLaguerreBasis& rBasis) {
-    // (z,r,ζ,η,w_z,w_r) ← (zBasis,rBasis).
+    // (z,r) ← (zBasis,rBasis).
     z_F1D_z = zBasis.z_F1D_z;
     r_F1D_r = rBasis.r_F1D_r;
-    zeta_F1D_z = zBasis.zeta_F1D_z;
-    eta_F1D_r = rBasis.eta_F1D_r;
 
     const int Nsp_I = labels_S1D_sp.size();
     const int Nz_I = z_F1D_z.size();
