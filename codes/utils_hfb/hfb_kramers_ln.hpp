@@ -2,22 +2,25 @@
  * @file    hfb_kramers_ln.hpp
  * @author  cailea
  * @date    2026-09-12
- * @brief   Kramers Lipkin-Nogami field and energy corrections.
+ * @brief   Kramers Lipkin-Nogami coefficient, energy, and field correction.
  */
 
 #pragma once
+
+#include <utility>
 
 #include "hfb_kramers.hpp"
 
 /**
  * @brief Calculate effective-seniority Lipkin-Nogami corrections.
- * @math λ₂=−G_eff S_N/S_D; E_LN=−4λ₂Σu²v²; Γ+=4λ₂ρ−2λ₂I.
- * @output Updated lambda2, ELipkinNogami, and Gamma matrices.
+ * @math λ₂=−G_eff S_N/S_D; Γ+=4λ₂ρ−2λ₂I.
+ * @math E_LN=−4λ₂Σu²v².
+ * @output Returned {lambda2_F, Eln_F} [MeV]; updated Gamma matrices.
  * @note Zero-temperature canonical-pair approximation; rebuild Gamma before calling.
  */
-inline void add_Gamma_from_lipkin_nogami(HFBKramers& hfb_);
+inline std::pair<double, double> add_Gamma_from_lipkin_nogami(HFBKramers& hfb_);
 
-inline void add_Gamma_from_lipkin_nogami(HFBKramers& hfb_) {
+inline std::pair<double, double> add_Gamma_from_lipkin_nogami(HFBKramers& hfb_) {
     double Su1v3_F = 0.0;
     double Su2v2_F = 0.0;
     double Su3v1_F = 0.0;
@@ -55,23 +58,24 @@ inline void add_Gamma_from_lipkin_nogami(HFBKramers& hfb_) {
     }
 
     // Δ̄=−Δρ_weighted/N; G_eff=Δ̄²/E_pair.
+    double lambda2_F = 0.0;
     const double lambda2_numer_F = 8.0 * (Su3v1_F * Su1v3_F - Su4v4_F);
     const double lambda2_denom_F = 32.0 * (Su2v2_F * Su2v2_F - Su4v4_F);
-    hfb_.lambda2_F = 0.0;
     if (Nparticle_F > 0.0 && Epair_F < 0.0 && lambda2_denom_F > 0.0) {
         const double DeltaAverage_F = -DeltaRho_F / Nparticle_F;
         const double Geff_F = DeltaAverage_F * DeltaAverage_F / Epair_F;
-        hfb_.lambda2_F = -Geff_F * lambda2_numer_F / lambda2_denom_F;
+        lambda2_F = -Geff_F * lambda2_numer_F / lambda2_denom_F;
     }
-    if (!std::isfinite(hfb_.lambda2_F)) {hfb_.lambda2_F = 0.0;}
-    if (hfb_.lambda2_F >= 10.0) {hfb_.lambda2_F = 4.0;}
-    hfb_.ELipkinNogami_F = -4.0 * hfb_.lambda2_F * Su2v2_F;
-    if (!std::isfinite(hfb_.ELipkinNogami_F)) {hfb_.ELipkinNogami_F = 0.0;}
+    if (!std::isfinite(lambda2_F)) {lambda2_F = 0.0;}
+    if (lambda2_F >= 10.0) {lambda2_F = 4.0;}
+    double Eln_F = -4.0 * lambda2_F * Su2v2_F;
+    if (!std::isfinite(Eln_F)) {Eln_F = 0.0;}
 
     // Γ⁺⁺ += 4λ₂ρ⁺⁺−2λ₂I.
     #pragma omp parallel for schedule(static)
     for (int block_I = 0; block_I < hfb_.Nblock_I; ++block_I) {
-        hfb_.fields[block_I].GammaPosPos_F2D_bsp_bsp += 4.0 * hfb_.lambda2_F * hfb_.solutions[block_I].rhoPosPos_F2D_bsp_bsp;
-        hfb_.fields[block_I].GammaPosPos_F2D_bsp_bsp.diagonal().array() -= 2.0 * hfb_.lambda2_F;
+        hfb_.fields[block_I].GammaPosPos_F2D_bsp_bsp += 4.0 * lambda2_F * hfb_.solutions[block_I].rhoPosPos_F2D_bsp_bsp;
+        hfb_.fields[block_I].GammaPosPos_F2D_bsp_bsp.diagonal().array() -= 2.0 * lambda2_F;
     }
+    return {lambda2_F, Eln_F};
 }
