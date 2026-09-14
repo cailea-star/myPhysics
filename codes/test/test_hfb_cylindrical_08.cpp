@@ -32,16 +32,17 @@ int main() {
     cylindricalsetting_.Nz_I = 40;
 
     // P_{HFB} ← run 000008.
-    HFBEDFSetting hfbsettings_ = HFBEDFSetting::setting_skyrme();
+    HFBSetting hfbsettings_{};
+    HFBTermSwitches termSwitches_ = HFBTermSwitches::skyrme();
     hfbsettings_.useEspCut_B = true;
-    hfbsettings_.useCmCorrection_B = true;
+    termSwitches_.useCmCorrection_B = true;
     hfbsettings_.temperature_F = 1.5;
     hfbsettings_.EspCut_F = 60.0;
     hfbsettings_.accuracy_F = 1.0e-9;
 
     // (C_{axial},P_{HFB},SLY4) → O_{C++}.
     const EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::SLY4();
-    HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, edf_skyrme_);
+    HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, termSwitches_, edf_skyrme_);
     hfb_.hfb_neutron.TargetN_I = Ntarget_I;
     hfb_.hfb_proton.TargetN_I = Ztarget_I;
     hfb_.initialize_h0();

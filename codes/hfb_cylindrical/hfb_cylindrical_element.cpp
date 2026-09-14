@@ -169,12 +169,12 @@ void HFBKramersNucleusCylindrical::add_Gamma_Delta_from_field() {
 void HFBKramersNucleusCylindrical::update_Gamma_Delta() {
     const int TargetA_I = hfb_neutron.TargetN_I + hfb_proton.TargetN_I;
     assert(hfb_neutron.TargetN_I >= 0 && hfb_proton.TargetN_I >= 0 && TargetA_I > 0);
-    const EDFParamsSkyrme active_edf_ = hfbedfsetting.make_active_edf(edf_skyrme, TargetA_I);
+    const EDFParamsSkyrme active_edf_ = termSwitches.make_active_edf(edf_skyrme, TargetA_I);
 
     // Enabled interactions → reusable kernels.
-    if (hfbedfsetting.termSwitches.addFiniteRangeGogny_B) {gaussian_gogny.build_tables();}
-    if (hfbedfsetting.termSwitches.addFiniteRangeCoulomb_B) {gaussian_coulomb.build_tables();}
-    if (hfbedfsetting.termSwitches.addLocalCoulomb_B) {coulomb_field.build(cylindricalsetting.useParity_B, active_edf_.e2charg_F);}
+    if (termSwitches.addFiniteRangeGogny_B) {gaussian_gogny.build_tables();}
+    if (termSwitches.addFiniteRangeCoulomb_B) {gaussian_coulomb.build_tables();}
+    if (termSwitches.addLocalCoulomb_B) {coulomb_field.build(cylindricalsetting.useParity_B, active_edf_.e2charg_F);}
 
     std::vector<Eigen::MatrixXd> rhoPosPos_F3D_block_bsp_bsp{};
     std::vector<Eigen::MatrixXd> rhoNegNeg_F3D_block_bsp_bsp{};
@@ -199,20 +199,22 @@ void HFBKramersNucleusCylindrical::update_Gamma_Delta() {
     field_neutron.set_zero();
     field_proton.set_zero();
     HFBCylindricalField::add_nuclei_fields(field_proton, field_neutron, density_proton, density_neutron, active_edf_);
-    if (hfbedfsetting.termSwitches.addLocalCoulomb_B) {HFBCylindricalField::add_coulomb_field(field_proton, density_proton, coulomb_field, active_edf_);}
-    if (hfbedfsetting.termSwitches.addLocalPair_B) {HFBCylindricalField::add_pairing_fields(field_proton, field_neutron, density_proton, density_neutron, active_edf_, hfbedfsetting, hfb_neutron.lambda_F, hfb_proton.lambda_F);}
+    if (termSwitches.addLocalCoulomb_B) {HFBCylindricalField::add_coulomb_field(field_proton, density_proton, coulomb_field, active_edf_);}
+    if (termSwitches.addLocalPair_B) {HFBCylindricalField::add_pairing_fields(field_proton, field_neutron, density_proton, density_neutron, active_edf_, hfbsetting, termSwitches, hfb_neutron.lambda_F, hfb_proton.lambda_F);}
 
     // Rebuild (Γ,Δ); clear previous LN diagnostics.
+    lambda2_n_F = 0.0;
+    lambda2_p_F = 0.0;
+    Eln_n_F = 0.0;
+    Eln_p_F = 0.0;
     for (HFBKramers* hfb_ : {&hfb_neutron, &hfb_proton}) {
-        hfb_->lambda2_F = 0.0;
-        hfb_->ELipkinNogami_F = 0.0;
         for (auto& field_ : hfb_->fields) {
             field_.GammaPosPos_F2D_bsp_bsp.setZero();
             field_.DeltaPosNeg_F2D_bsp_bsp.setZero();
         }
     }
     add_Gamma_Delta_from_field();
-    if (hfbedfsetting.termSwitches.addFiniteRangeGogny_B) {
+    if (termSwitches.addFiniteRangeGogny_B) {
         {
             assert(hfb_neutron.Nbsp_I1D_block == hfb_proton.Nbsp_I1D_block);
 
@@ -244,7 +246,7 @@ void HFBKramersNucleusCylindrical::update_Gamma_Delta() {
             add_Delta_from_Element(read_element_Func);
         }
     }
-    if (hfbedfsetting.termSwitches.addFiniteRangeCoulomb_B) {
+    if (termSwitches.addFiniteRangeCoulomb_B) {
         // (block13,block24,bsp1,bsp2,bsp3,bsp4) → v̄_C,12;34.
         const HFBKramers::GammaElementFunc read_element_Func = [&](int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I) {
             const auto& indices13_I1D_bsp = cylindricalsetting.indices_I2D_block_bsp[block13_I];
@@ -254,5 +256,5 @@ void HFBKramersNucleusCylindrical::update_Gamma_Delta() {
         };
         hfb_proton.add_Gamma_from_Element(read_element_Func);
     }
-    if (hfbedfsetting.useLipkinNogami_B) {add_Gamma_from_lipkin_nogami();}
+    if (hfbsetting.useLipkinNogami_B) {add_Gamma_from_lipkin_nogami();}
 }

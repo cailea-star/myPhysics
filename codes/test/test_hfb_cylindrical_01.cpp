@@ -39,10 +39,11 @@ int main() {
     const int Zfinal_I = 20;
 
     // P_HFB ← run_000001.
-    HFBEDFSetting hfbsettings_ = HFBEDFSetting::setting_skyrme();
+    HFBSetting hfbsettings_{};
+    HFBTermSwitches termSwitches_ = HFBTermSwitches::skyrme();
     hfbsettings_.useEspCut_B = true;
-    hfbsettings_.useCmCorrection_B = true;
-    hfbsettings_.Nblocking_I = 6;
+    termSwitches_.useCmCorrection_B = true;
+    hfbsettings_.NblockingCandidates_I = 6;
     hfbsettings_.EspCut_F = 60.0;
     hfbsettings_.accuracy_F = 1.0e-5;
 
@@ -51,14 +52,14 @@ int main() {
 
     // ⁴⁸Ca → {B_μ | μ=1,…,6}.
     EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::SKMstar();
-    HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, edf_skyrme_);
+    HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, termSwitches_, edf_skyrme_);
     hfb_.hfb_neutron.TargetN_I = Ncore_I;
     hfb_.hfb_proton.TargetN_I = Zcore_I;
     hfb_.initialize_h0();
     hfb_.initialize_GammaDelta();
     hfb_.iterate(true);
     const HFBKramersNucleusCylindrical& hfbCore_ = hfb_;
-    std::vector<HFBKramersBlocking> blockings_S1D_candidate = HFBKramersBlocking::list_candidates(hfb_.hfb_neutron.solutions, hfbsettings_.Nblocking_I, hfbsettings_.EblockingCut_F);
+    std::vector<HFBKramersBlocking> blockings_S1D_candidate = HFBKramersBlocking::list_candidates(hfb_.hfb_neutron.solutions, hfbsettings_.NblockingCandidates_I, hfbsettings_.EblockingCut_F);
 
     // O_ref(μ=1,…,6) ← HFBTHO run_000001.
     const std::vector<HFBCylindricalObservableReference> references_S1D_candidate{{-409.353490, -10.181604, -13.510115, -0.000000, -0.000000, 0.000070, -0.000014, 3.573004, 3.442663}, {-409.309844, -10.180494, -13.628915, -0.000000, -0.000000, 0.000054, -0.000010, 3.572602, 3.442358}, {-409.288385, -10.222255, -13.743649, -0.000000, -0.000000, 0.000059, -0.000009, 3.572603, 3.442320}, {-409.437538, -10.222038, -13.407578, -0.000000, -0.000000, 0.000071, -0.000023, 3.573810, 3.443265}, {-407.779143, -9.536332, -13.272025, -5.809006, -0.000000, 1.310967, -0.000024, 3.589751, 3.448737}, {-407.776599, -9.536052, -13.300916, -5.806758, -0.000000, 1.310750, -0.000023, 3.589762, 3.448738}};
@@ -66,7 +67,7 @@ int main() {
 
     for (int candidate_I = 0; candidate_I < static_cast<int>(blockings_S1D_candidate.size()); ++candidate_I) {
         // (HFB_core,B_μ) → O_μ.
-        HFBKramersNucleusCylindrical hfbBlocked_(cylindricalsetting_, hfbsettings_, edf_skyrme_);
+        HFBKramersNucleusCylindrical hfbBlocked_(cylindricalsetting_, hfbsettings_, termSwitches_, edf_skyrme_);
         hfbBlocked_.hfb_neutron = hfbCore_.hfb_neutron;
         hfbBlocked_.hfb_proton = hfbCore_.hfb_proton;
         HFBKramersBlocking& activeBlocking_ = blockings_S1D_candidate[candidate_I];

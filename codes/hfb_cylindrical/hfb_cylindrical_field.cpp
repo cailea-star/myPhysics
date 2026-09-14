@@ -238,15 +238,15 @@ void HFBCylindricalField::add_coulomb_field(HFBCylindricalField& field_p_, const
     }
 }
 
-void HFBCylindricalField::add_pairing_fields(HFBCylindricalField& field_p_, HFBCylindricalField& field_n_, const CylindricalDensity& density_p_, const CylindricalDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBEDFSetting& hfbedfsetting_, double lambda_n_F, double lambda_p_F) {
-    assert(hfbedfsetting_.termSwitches.addLocalPair_B);
+void HFBCylindricalField::add_pairing_fields(HFBCylindricalField& field_p_, HFBCylindricalField& field_n_, const CylindricalDensity& density_p_, const CylindricalDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSetting& hfbsetting_, const HFBTermSwitches& termSwitches_, double lambda_n_F, double lambda_p_F) {
+    assert(termSwitches_.addLocalPair_B);
 
     const int Nz_I = static_cast<int>(field_n_.vcent_F2D_z_r.rows());
     const int Nr_I = static_cast<int>(field_n_.vcent_F2D_z_r.cols());
     const double rhoc_F = 0.16;
 
     // (ρ_0,g_q,κ_q) → (g_{reg,q},Δ_q).
-    if (hfbedfsetting_.termSwitches.useLocalPairRegularization_B) {
+    if (termSwitches_.useLocalPairRegularization_B) {
         #pragma omp parallel for collapse(2) schedule(static)
         for (int r_I = 0; r_I < Nr_I; ++r_I) {
             for (int z_I = 0; z_I < Nz_I; ++z_I) {
@@ -255,8 +255,8 @@ void HFBCylindricalField::add_pairing_fields(HFBCylindricalField& field_p_, HFBC
                 const double kappa_p_F = density_p_.kappa_F2D_z_r(z_I, r_I);
                 double gr_n_F = edf_skyrme_.CpV0_0_F * (1.0 - (rho0_F / rhoc_F) * edf_skyrme_.CpV1_0_F);
                 double gr_p_F = edf_skyrme_.CpV0_1_F * (1.0 - (rho0_F / rhoc_F) * edf_skyrme_.CpV1_1_F);
-                gr_n_F = cylindrical_field_detail::regularize_gr_at_point(hfbedfsetting_.EspCut_F, lambda_n_F, field_n_.vcent_F2D_z_r(z_I, r_I), field_n_.vmass_F2D_z_r(z_I, r_I), gr_n_F);
-                gr_p_F = cylindrical_field_detail::regularize_gr_at_point(hfbedfsetting_.EspCut_F, lambda_p_F, field_p_.vcent_F2D_z_r(z_I, r_I), field_p_.vmass_F2D_z_r(z_I, r_I), gr_p_F);
+                gr_n_F = cylindrical_field_detail::regularize_gr_at_point(hfbsetting_.EspCut_F, lambda_n_F, field_n_.vcent_F2D_z_r(z_I, r_I), field_n_.vmass_F2D_z_r(z_I, r_I), gr_n_F);
+                gr_p_F = cylindrical_field_detail::regularize_gr_at_point(hfbsetting_.EspCut_F, lambda_p_F, field_p_.vcent_F2D_z_r(z_I, r_I), field_p_.vmass_F2D_z_r(z_I, r_I), gr_p_F);
                 field_n_.vpair_F2D_z_r(z_I, r_I) += kappa_n_F * gr_n_F;
                 field_p_.vpair_F2D_z_r(z_I, r_I) += kappa_p_F * gr_p_F;
             }

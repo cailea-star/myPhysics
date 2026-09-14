@@ -2,7 +2,7 @@
  * @file    hfb_edf_setting.hpp
  * @author  cailea
  * @date    2026-09-03
- * @brief   Define HFB iteration controls and term switches.
+ * @brief   Define HFB energy term switches and EDF corrections.
  */
 
 #pragma once
@@ -12,11 +12,13 @@
 
 #include "hfb_edf_skyrme.hpp"
 
+
 /**
  * @brief Store enabled HFB energy terms.
  */
 class HFBTermSwitches {
 public:
+    bool useCmCorrection_B = false; // ℏ²/(2m) → [1-1/A]ℏ²/(2m).
     bool addKinetic_B = false; // E_kin = (ℏ²/2m)τ.
     bool addLocalRhoRho_B = false; // E_ρρ = Σ_t C_t^ρρ_t².
     bool addLocalRhoAlpha_B = false; // E_ρα = Σ_t C_t^{ρ,α}ρ_0^αρ_t².
@@ -70,61 +72,6 @@ public:
         termSwitches_.addFiniteRangeCoulomb_B = true;
         return termSwitches_;
     }
-};
-
-/**
- * @brief Store HFB iteration controls and term switches.
- */
-class HFBEDFSetting {
-public:
-    int Nblocking_I = 6; // Number of blocking candidates.
-    double EblockingCut_F = 1.0; // Blocking window [MeV].
-    double temperature_F = 0.0; // Temperature [MeV].
-    double accuracy_F = 1.0e-5; // SCF convergence tolerance.
-    double EspCut_F = 60.0; // Active quasiparticle cutoff [MeV].
-    bool useEspCut_B = false; // E_qp ≤ E_sp^cut.
-    bool useLipkinNogami_B = false; // Enable Lipkin-Nogami correction.
-    bool useCmCorrection_B = false; // ℏ²/(2m) → [1-1/A]ℏ²/(2m).
-    HFBTermSwitches termSwitches{}; // Enabled energy terms.
-
-public:
-    /**
-     * @brief Construct default HFB controls.
-     * @math ∅ → P_{HFB}
-     * @output Initialized solver settings.
-     */
-    HFBEDFSetting() = default;
-
-    /**
-     * @brief Build standard Skyrme HFB settings.
-     * @math ∅ → P_{HFB}^{Skyrme}
-     * @output Skyrme solver settings.
-     */
-    static HFBEDFSetting setting_skyrme() {
-        HFBEDFSetting hfbedfsetting_;
-        hfbedfsetting_.EspCut_F = 60.0;
-        hfbedfsetting_.useEspCut_B = false;
-        hfbedfsetting_.useLipkinNogami_B = false;
-        hfbedfsetting_.useCmCorrection_B = false;
-        hfbedfsetting_.termSwitches = HFBTermSwitches::skyrme();
-        return hfbedfsetting_;
-    }
-
-    /**
-     * @brief Build standard Gogny HFB settings.
-     * @math ∅ → P_{HFB}^{Gogny}
-     * @output Gogny solver settings.
-     */
-    static HFBEDFSetting setting_gogny() {
-        HFBEDFSetting hfbedfsetting_;
-        hfbedfsetting_.EspCut_F = 60.0;
-        hfbedfsetting_.useEspCut_B = false;
-        hfbedfsetting_.useLipkinNogami_B = false;
-        hfbedfsetting_.useCmCorrection_B = false;
-        hfbedfsetting_.termSwitches = HFBTermSwitches::gogny();
-        return hfbedfsetting_;
-    }
-
     /**
      * @brief Calculate the spherical oscillator length.
      * @math A → b_0
@@ -149,31 +96,31 @@ public:
         const double cm_factor_F = 1.0 - static_cast<double>(useCmCorrection_B) / static_cast<double>(Atarget_I);
 
         // C_{kin} → s_{kin}(1-s_{cm}/A)C_{kin}.
-        active_edf_.hbzero_F *= cm_factor_F * static_cast<double>(termSwitches.addKinetic_B);
-        active_edf_.hbzeron_F *= cm_factor_F * static_cast<double>(termSwitches.addKinetic_B);
-        active_edf_.hbzerop_F *= cm_factor_F * static_cast<double>(termSwitches.addKinetic_B);
+        active_edf_.hbzero_F *= cm_factor_F * static_cast<double>(addKinetic_B);
+        active_edf_.hbzeron_F *= cm_factor_F * static_cast<double>(addKinetic_B);
+        active_edf_.hbzerop_F *= cm_factor_F * static_cast<double>(addKinetic_B);
 
         // C_i → s_i C_i.
-        active_edf_.Crho_0_F *= static_cast<double>(termSwitches.addLocalRhoRho_B);
-        active_edf_.Crho_1_F *= static_cast<double>(termSwitches.addLocalRhoRho_B);
-        active_edf_.Cdrho_0_F *= static_cast<double>(termSwitches.addLocalRhoAlpha_B);
-        active_edf_.Cdrho_1_F *= static_cast<double>(termSwitches.addLocalRhoAlpha_B);
-        active_edf_.Ctau_0_F *= static_cast<double>(termSwitches.addLocalRhoTau_B);
-        active_edf_.Ctau_1_F *= static_cast<double>(termSwitches.addLocalRhoTau_B);
-        active_edf_.CrDr_0_F *= static_cast<double>(termSwitches.addLocalSurface_B);
-        active_edf_.CrDr_1_F *= static_cast<double>(termSwitches.addLocalSurface_B);
-        active_edf_.Cnrho_0_F *= static_cast<double>(termSwitches.addLocalSurface_B);
-        active_edf_.Cnrho_1_F *= static_cast<double>(termSwitches.addLocalSurface_B);
-        active_edf_.CrdJ_0_F *= static_cast<double>(termSwitches.addLocalSpinOrbit_B);
-        active_edf_.CrdJ_1_F *= static_cast<double>(termSwitches.addLocalSpinOrbit_B);
-        active_edf_.CJdr_0_F *= static_cast<double>(termSwitches.addLocalSpinOrbit_B);
-        active_edf_.CJdr_1_F *= static_cast<double>(termSwitches.addLocalSpinOrbit_B);
-        active_edf_.CJ_0_F *= static_cast<double>(termSwitches.addLocalTensor_B);
-        active_edf_.CJ_1_F *= static_cast<double>(termSwitches.addLocalTensor_B);
-        active_edf_.CJbar_0_F *= static_cast<double>(termSwitches.addLocalTensor_B);
-        active_edf_.CJbar_1_F *= static_cast<double>(termSwitches.addLocalTensor_B);
-        active_edf_.CpV0_0_F *= static_cast<double>(termSwitches.addLocalPair_B);
-        active_edf_.CpV0_1_F *= static_cast<double>(termSwitches.addLocalPair_B);
+        active_edf_.Crho_0_F *= static_cast<double>(addLocalRhoRho_B);
+        active_edf_.Crho_1_F *= static_cast<double>(addLocalRhoRho_B);
+        active_edf_.Cdrho_0_F *= static_cast<double>(addLocalRhoAlpha_B);
+        active_edf_.Cdrho_1_F *= static_cast<double>(addLocalRhoAlpha_B);
+        active_edf_.Ctau_0_F *= static_cast<double>(addLocalRhoTau_B);
+        active_edf_.Ctau_1_F *= static_cast<double>(addLocalRhoTau_B);
+        active_edf_.CrDr_0_F *= static_cast<double>(addLocalSurface_B);
+        active_edf_.CrDr_1_F *= static_cast<double>(addLocalSurface_B);
+        active_edf_.Cnrho_0_F *= static_cast<double>(addLocalSurface_B);
+        active_edf_.Cnrho_1_F *= static_cast<double>(addLocalSurface_B);
+        active_edf_.CrdJ_0_F *= static_cast<double>(addLocalSpinOrbit_B);
+        active_edf_.CrdJ_1_F *= static_cast<double>(addLocalSpinOrbit_B);
+        active_edf_.CJdr_0_F *= static_cast<double>(addLocalSpinOrbit_B);
+        active_edf_.CJdr_1_F *= static_cast<double>(addLocalSpinOrbit_B);
+        active_edf_.CJ_0_F *= static_cast<double>(addLocalTensor_B);
+        active_edf_.CJ_1_F *= static_cast<double>(addLocalTensor_B);
+        active_edf_.CJbar_0_F *= static_cast<double>(addLocalTensor_B);
+        active_edf_.CJbar_1_F *= static_cast<double>(addLocalTensor_B);
+        active_edf_.CpV0_0_F *= static_cast<double>(addLocalPair_B);
+        active_edf_.CpV0_1_F *= static_cast<double>(addLocalPair_B);
         return active_edf_;
     }
 };

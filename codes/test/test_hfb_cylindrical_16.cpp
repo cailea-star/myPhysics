@@ -35,7 +35,8 @@ int main() {
     cylindricalsetting_.Nz_I = 40;
 
     // (C_axial,S_HFB,UNEDF1) → inputs.
-    HFBEDFSetting hfbsettings_ = HFBEDFSetting::setting_skyrme();
+    HFBSetting hfbsettings_{};
+    HFBTermSwitches termSwitches_ = HFBTermSwitches::skyrme();
     hfbsettings_.useEspCut_B = true;
     hfbsettings_.useLipkinNogami_B = true;
     const EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::UNEDF1();
@@ -43,7 +44,7 @@ int main() {
     std::cout << "[Input] functional = " << edf_skyrme_.functionalName_Str << ", Lipkin-Nogami = true\n";
 
     // (C_axial,S_HFB,UNEDF1) → HFB → O.
-    HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, edf_skyrme_);
+    HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, termSwitches_, edf_skyrme_);
     hfb_.hfb_neutron.TargetN_I = Ntarget_I;
     hfb_.hfb_proton.TargetN_I = Ztarget_I;
     hfb_.initialize_h0();
