@@ -86,9 +86,11 @@ void HFBKramersNucleusCylindrical::initialize_GammaDelta() {
     initialize_WS_field();
 
     // (Γ,Δ,λ₂,E_LN) → 0 before constructing the initial fields.
+    lambda2_n_F = 0.0;
+    lambda2_p_F = 0.0;
+    Eln_n_F = 0.0;
+    Eln_p_F = 0.0;
     for (HFBKramers* hfb_ : {&hfb_neutron, &hfb_proton}) {
-        hfb_->lambda2_F = 0.0;
-        hfb_->ELipkinNogami_F = 0.0;
         for (auto& field_ : hfb_->fields) {
             field_.GammaPosPos_F2D_bsp_bsp.setZero();
             field_.DeltaPosNeg_F2D_bsp_bsp.setZero();
@@ -127,7 +129,7 @@ void HFBKramersNucleusCylindrical::initialize_WS_field() {
     const int Nr_I = cylindricalsetting.Nr_I;
     const int Atarget_I = TargetN_I + TargetZ_I;
     const double Atarget_F = static_cast<double>(Atarget_I);
-    const EDFParamsSkyrme active_edf_ = hfbedfsetting.make_active_edf(edf_skyrme, Atarget_I);
+    const EDFParamsSkyrme active_edf_ = termSwitches.make_active_edf(edf_skyrme, Atarget_I);
     const double R0WS_F = r0WS_F * std::cbrt(Atarget_F);
     const double R0LS_F = r0LS_F * std::cbrt(Atarget_F);
 

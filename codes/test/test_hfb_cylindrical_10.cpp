@@ -37,16 +37,17 @@ int main() {
     const int Zfinal_I = 19;
 
     // P_{HFB} ← run 000010.
-    HFBEDFSetting hfbsettings_ = HFBEDFSetting::setting_skyrme();
+    HFBSetting hfbsettings_{};
+    HFBTermSwitches termSwitches_ = HFBTermSwitches::skyrme();
     hfbsettings_.useEspCut_B = true;
-    hfbsettings_.useCmCorrection_B = true;
-    hfbsettings_.Nblocking_I = 7;
+    termSwitches_.useCmCorrection_B = true;
+    hfbsettings_.NblockingCandidates_I = 7;
     hfbsettings_.EspCut_F = 60.0;
     hfbsettings_.accuracy_F = 1.0e-5;
 
     // ^{48}Ca → HFB_{core}.
     const EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::SKMstar();
-    HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, edf_skyrme_);
+    HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, termSwitches_, edf_skyrme_);
     hfb_.hfb_neutron.TargetN_I = Ncore_I;
     hfb_.hfb_proton.TargetN_I = Zcore_I;
     hfb_.initialize_h0();
@@ -54,8 +55,8 @@ int main() {
     hfb_.iterate(true);
 
     // HFB_{core} → B_n ⊕ B_p.
-    const std::vector<HFBKramersBlocking> blockingCandidates_S1D_n = HFBKramersBlocking::list_candidates(hfb_.hfb_neutron.solutions, hfbsettings_.Nblocking_I, hfbsettings_.EblockingCut_F);
-    const std::vector<HFBKramersBlocking> blockingCandidates_S1D_p = HFBKramersBlocking::list_candidates(hfb_.hfb_proton.solutions, hfbsettings_.Nblocking_I, hfbsettings_.EblockingCut_F);
+    const std::vector<HFBKramersBlocking> blockingCandidates_S1D_n = HFBKramersBlocking::list_candidates(hfb_.hfb_neutron.solutions, hfbsettings_.NblockingCandidates_I, hfbsettings_.EblockingCut_F);
+    const std::vector<HFBKramersBlocking> blockingCandidates_S1D_p = HFBKramersBlocking::list_candidates(hfb_.hfb_proton.solutions, hfbsettings_.NblockingCandidates_I, hfbsettings_.EblockingCut_F);
     assert(blockingCandidates_S1D_n.size() > 4);
     assert(blockingCandidates_S1D_p.size() > 3);
     std::vector<HFBKramersBlocking> activeBlockings_S1D_q;

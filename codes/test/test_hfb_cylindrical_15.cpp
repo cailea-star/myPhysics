@@ -34,10 +34,11 @@ int main() {
     cylindricalsetting_.Nz_I = 40;
 
     // S_HFB → S_SLY4+regularized-pairing.
-    HFBEDFSetting hfbsettings_ = HFBEDFSetting::setting_skyrme();
+    HFBSetting hfbsettings_{};
+    HFBTermSwitches termSwitches_ = HFBTermSwitches::skyrme();
     hfbsettings_.useEspCut_B = true;
-    hfbsettings_.useCmCorrection_B = true;
-    hfbsettings_.termSwitches.useLocalPairRegularization_B = true;
+    termSwitches_.useCmCorrection_B = true;
+    termSwitches_.useLocalPairRegularization_B = true;
     hfbsettings_.EspCut_F = 80.0;
     hfbsettings_.accuracy_F = 1.0e-8;
     EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::SLY4();
@@ -49,7 +50,7 @@ int main() {
     std::cout << "[Input] functional = " << edf_skyrme_.functionalName_Str << ", EspCut [MeV] = " << hfbsettings_.EspCut_F << "\n";
 
     // (C_axial,S_HFB,SLY4) → HFB → O.
-    HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, edf_skyrme_);
+    HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, termSwitches_, edf_skyrme_);
     hfb_.hfb_neutron.TargetN_I = Ntarget_I;
     hfb_.hfb_proton.TargetN_I = Ztarget_I;
     hfb_.initialize_h0();

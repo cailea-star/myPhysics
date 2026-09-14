@@ -9,6 +9,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <numbers>
 #include <vector>
 
@@ -170,7 +171,7 @@ inline LocalEnergyTrace calc_local_energy_trace(const HFBKramersNucleusCylindric
             energyDensity_F += 2.0 * edf_skyrme_.CJbar_0_F * (Jphiz0_F * Jzphi0_F + Jphir0_F * Jrphi0_F);
             energyDensity_F += 2.0 * edf_skyrme_.CJbar_1_F * (Jphiz1_F * Jzphi1_F + Jphir1_F * Jrphi1_F);
 
-            if (hfb_.hfbedfsetting.termSwitches.addLocalCoulomb_B) {
+            if (hfb_.termSwitches.addLocalCoulomb_B) {
                 const double rho_pPositive_F = std::max(rho_p_F, 0.0);
                 energyDensity_F += coulombExchangeCoeff_F * std::pow(rho_pPositive_F, 4.0 / 3.0);
             }
@@ -181,7 +182,7 @@ inline LocalEnergyTrace calc_local_energy_trace(const HFBKramersNucleusCylindric
     }
 
     // E_C^{dir} = 1/2 ∫ρ_pV_C^{dir}d³r.
-    if (hfb_.hfbedfsetting.termSwitches.addLocalCoulomb_B && hfb_.coulomb_field.isBuilt_B) {
+    if (hfb_.termSwitches.addLocalCoulomb_B && hfb_.coulomb_field.isBuilt_B) {
         const Eigen::MatrixXd Vcoulomb_F2D_z_r = hfb_.coulomb_field.calc_direct_field(density_p_.rho_F2D_z_r);
 
         for (int r_I = 0; r_I < Nr_I; ++r_I) {
@@ -199,11 +200,11 @@ inline LocalEnergyTrace calc_local_energy_trace(const HFBKramersNucleusCylindric
  * @math λ_{last}=E_{sp,N/2}
  * @output Estimated last occupied energy.
  */
-inline double estimate_last_lambda(const HFBKramers& blocklist_, const std::vector<HFBKramersBlocking>& activeBlockings_, double Nparticle_F_, double pairTrace_F_) {
+inline double estimate_last_lambda(const HFBKramers& blocklist_, const std::vector<HFBKramersBlocking>& activeBlockings_, double Nparticle_F_, double pairTrace_F_, double temperature_F, double EspCut_F) {
     double lambdaLast_F = blocklist_.lambda_F;
 
     // Pairing or T>0 → λ_{last}=λ.
-    if (std::abs(pairTrace_F_) >= 1.0e-4 || blocklist_.temperature_F > 0.0) {
+    if (std::abs(pairTrace_F_) >= 1.0e-4 || temperature_F > 0.0) {
         return lambdaLast_F;
     }
 
@@ -231,7 +232,7 @@ inline double estimate_last_lambda(const HFBKramers& blocklist_, const std::vect
             }
 
             const double Esp_F = blocklist_.lambda_F + Eqp_F * (1.0 - 2.0 * V2_F);
-            if (Esp_F > blocklist_.EspCut_F + EspCutTail_F) {
+            if (Esp_F > EspCut_F + EspCutTail_F) {
                 continue;
             }
             Esp_F1D_bqp.push_back(Esp_F);
@@ -259,7 +260,7 @@ inline void HFBCylindricalObservable::update_observable(const HFBKramersNucleusC
     const int Nz_I = hfb_.cylindricalsetting.Nz_I;
     const auto& blocklist_n_ = hfb_.hfb_neutron;
     const auto& blocklist_p_ = hfb_.hfb_proton;
-    const auto& hfbsettings_ = hfb_.hfbedfsetting;
+    const auto& termSwitches_ = hfb_.termSwitches;
     const auto& w_F2D_z_r = hfb_.cylindricalbasis.w_F2D_z_r;
     const auto& r_F1D_r = hfb_.cylindricalbasis.r_F1D_r;
     const auto& z_F1D_z = hfb_.cylindricalbasis.z_F1D_z;
@@ -304,12 +305,12 @@ inline void HFBCylindricalObservable::update_observable(const HFBKramersNucleusC
     const double Epair_n_F = matrixTrace_n_.Epair_F;
     const double Epair_p_F = matrixTrace_p_.Epair_F;
     const int Atarget_I = static_cast<int>(std::floor(NSum_n_F + NSum_p_F + 0.5));
-    const EDFParamsSkyrme activeEDF_ = hfbsettings_.make_active_edf(hfb_.edf_skyrme, Atarget_I);
+    const EDFParamsSkyrme activeEDF_ = termSwitches_.make_active_edf(hfb_.edf_skyrme, Atarget_I);
     const LocalEnergyTrace localEnergyTrace_ = calc_local_energy_trace(hfb_, activeEDF_);
     const double EphMatrixTrace_F = matrixTrace_n_.Eph_F + matrixTrace_p_.Eph_F;
     double EnonlocalPh_F = 0.0;
 
-    if (hfbsettings_.termSwitches.addFiniteRangeGogny_B || hfbsettings_.termSwitches.addFiniteRangeCoulomb_B) {
+    if (termSwitches_.addFiniteRangeGogny_B || termSwitches_.addFiniteRangeCoulomb_B) {
         EnonlocalPh_F = EphMatrixTrace_F - 0.5 * localEnergyTrace_.EphTrace_F;
     }
 
@@ -333,14 +334,15 @@ inline void HFBCylindricalObservable::update_observable(const HFBKramersNucleusC
     double lambda2_n_F_ = 0.0;
     double lambda2_p_F_ = 0.0;
 
-    if (hfbsettings_.useLipkinNogami_B) {
-        lambda2_n_F_ = blocklist_n_.lambda2_F;
-        lambda2_p_F_ = blocklist_p_.lambda2_F;
-        Etot_F_ += blocklist_n_.ELipkinNogami_F + blocklist_p_.ELipkinNogami_F;
+    if (hfb_.hfbsetting.useLipkinNogami_B) {
+        lambda2_n_F_ = hfb_.lambda2_n_F;
+        lambda2_p_F_ = hfb_.lambda2_p_F;
+        Etot_F_ += hfb_.Eln_n_F + hfb_.Eln_p_F;
     }
 
-    const double lambda_n_F_ = estimate_last_lambda(blocklist_n_, neutronBlockings_, N_n_F, Epair_n_F);
-    const double lambda_p_F_ = estimate_last_lambda(blocklist_p_, protonBlockings_, N_p_F, Epair_p_F);
+    const double EspCut_F = hfb_.hfbsetting.useEspCut_B ? hfb_.hfbsetting.EspCut_F : std::numeric_limits<double>::infinity();
+    const double lambda_n_F_ = estimate_last_lambda(blocklist_n_, neutronBlockings_, N_n_F, Epair_n_F, hfb_.hfbsetting.temperature_F, EspCut_F);
+    const double lambda_p_F_ = estimate_last_lambda(blocklist_p_, protonBlockings_, N_p_F, Epair_p_F, hfb_.hfbsetting.temperature_F, EspCut_F);
 
     // O_{new} → this.
     A_F = A_F_;

@@ -19,7 +19,7 @@ namespace {
  * @math (i,ε,α,O) → stdout
  * @output Formatted iteration row.
  */
-void print_summary(const HFBCylindricalObservable& observable_, const HFBEDFSetting& hfbsettings_, int iteration_I, double residual_F, double mixing_F) {
+void print_summary(const HFBCylindricalObservable& observable_, const HFBSetting& hfbsettings_, int iteration_I, double residual_F, double mixing_F) {
     if (iteration_I == 0) {
         std::cout << "  ----------------------------------------------------------------------------------------------------------------------------------\n";
         std::cout << "  i          si     mix   beta      Etot       A       rn      rp         En      Dn      Ep      Dp        Ln      Lp\n";
@@ -96,7 +96,7 @@ void HFBKramersNucleusCylindrical::print_abstract(int iteration_I, double error_
     // Unknown blocked indices: report the actual chemical potential.
     if (hfb_neutron.blocking_Func && neutronBlockings_.empty()) {observable_.lambda_n_F = hfb_neutron.lambda_F;}
     if (hfb_proton.blocking_Func && protonBlockings_.empty()) {observable_.lambda_p_F = hfb_proton.lambda_F;}
-    print_summary(observable_, hfbedfsetting, iteration_I, error_F, mixing_F);
+    print_summary(observable_, hfbsetting, iteration_I, error_F, mixing_F);
     print_blocking(cylindricalsetting, neutronBlockings_, true);
     print_blocking(cylindricalsetting, protonBlockings_, false);
 }

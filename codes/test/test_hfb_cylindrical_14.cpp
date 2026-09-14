@@ -36,9 +36,10 @@ int main() {
     cylindricalsetting_.Nz_I = 50;
 
     // S_HFB → S_D1S.
-    HFBEDFSetting hfbsettings_ = HFBEDFSetting::setting_gogny();
-    hfbsettings_.useCmCorrection_B = true;
-    hfbsettings_.termSwitches.addFiniteRangeCoulomb_B = false;
+    HFBSetting hfbsettings_{};
+    HFBTermSwitches termSwitches_ = HFBTermSwitches::gogny();
+    termSwitches_.useCmCorrection_B = true;
+    termSwitches_.addFiniteRangeCoulomb_B = false;
     hfbsettings_.accuracy_F = 1.0e-8;
     const EDFParamsGogny edf_gogny_ = EDFParamsGogny::D1S();
 
@@ -47,7 +48,7 @@ int main() {
     std::cout << "[Input] force = " << edf_gogny_.forceName_Str << ", Coulomb = false\n";
 
     // (C_axial,S_HFB,D1S) → HFB → O.
-    HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, edf_gogny_.make_local_edf(), edf_gogny_);
+    HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, termSwitches_, edf_gogny_.make_local_edf(), edf_gogny_);
     hfb_.hfb_neutron.TargetN_I = Ntarget_I;
     hfb_.hfb_proton.TargetN_I = Ztarget_I;
     hfb_.beta2Initial_F = beta20_F;
