@@ -19,7 +19,7 @@
 #include <unsupported/Eigen/CXX11/Tensor>
 #include <gsl/gsl_sf_gamma.h>
 
-#include "cylindrical_config.hpp"
+#include "cylindrical_setting.hpp"
 #include "integration_gauss.hpp"
 
 using doubleC = std::complex<double>;
