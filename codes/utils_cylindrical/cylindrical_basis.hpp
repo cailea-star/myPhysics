@@ -130,7 +130,6 @@ public:
     double br_F = 0.0;                          // b_r = √[ℏ / (mω_r)].
     double bz_F = 0.0;                          // b_z = √[ℏ / (mω_z)].
     std::vector<CylindricalSPLabel> labels_S1D_sp{};  // α_sp = (n_z,n_r,Λ,Ω,Σ,π)_sp.
-    Eigen::VectorXi twoSigma_I1D_sp{};          // 2Σ_sp = 2Ω_sp - 2Λ_sp.
     Eigen::VectorXd z_F1D_z{};                  // z_i = b_zζ_i.
     Eigen::VectorXd r_F1D_r{};                  // r_j = b_r√η_j.
     Eigen::MatrixXd w_F2D_z_r{};                // w_ij = w_z,i w_r,j; dz r dr.
@@ -149,14 +148,11 @@ public:
         br_F = cylindricalsetting_.br_F;
         bz_F = cylindricalsetting_.bz_F;
         labels_S1D_sp = cylindricalsetting_.labels_S1D_sp;
-        twoSigma_I1D_sp.resize(labels_S1D_sp.size());
 
-        // config → (rBasis,zBasis,{2Σ_sp}) → basis.
+        // config → (rBasis,zBasis) → basis.
         CylindricalLaguerreBasis rBasis(cylindricalsetting_.br_F, cylindricalsetting_.Nr_I, labels_S1D_sp);
 
         CylindricalHermiteBasis zBasis(cylindricalsetting_.bz_F, cylindricalsetting_.Nz_I, labels_S1D_sp, cylindricalsetting_.useParity_B);
-
-        for (int sp_I = 0; sp_I < labels_S1D_sp.size(); ++sp_I) {twoSigma_I1D_sp(sp_I) = labels_S1D_sp[sp_I].twoSigma_I;}
 
         fill_from_separable_basis(zBasis, rBasis);
     }
