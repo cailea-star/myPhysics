@@ -349,3 +349,73 @@ $$
 $$
 
 All radial functions and their derivatives are evaluated at $r$.
+
+### Spin Density
+
+The spin density is defined without the factor $\hbar/2$ as
+
+$$
+\boldsymbol s(\boldsymbol r)=\left\langle\hat\psi^\dagger(\boldsymbol r)\boldsymbol\sigma\hat\psi(\boldsymbol r)\right\rangle,
+$$
+
+where $\boldsymbol\sigma$ denotes the Pauli matrices. Under axial symmetry,
+
+$$
+\boldsymbol s(\boldsymbol r)=\sum_{\text{blocks}}\sum_{\alpha,\beta}\left[\rho_{\alpha\beta}^{++}(\phi_\beta^+)^\dagger\boldsymbol\sigma\phi_\alpha^++\rho_{\alpha\beta}^{--}(\phi_\beta^-)^\dagger\boldsymbol\sigma\phi_\alpha^-\right].
+$$
+
+With the real radial functions $\phi_\alpha(r)=\phi_{n_\alpha l_\alpha}(r)$, define the spin-density angular factors as
+
+$$
+\boldsymbol A_{s,\alpha\beta}^{++}(\hat{\mathbf r})=\left[\mathcal Y^{l_\beta}_{j_\beta m_\beta}(\hat{\mathbf r})\right]^\dagger\boldsymbol\sigma\mathcal Y^{l_\alpha}_{j_\alpha m_\alpha}(\hat{\mathbf r}),
+$$
+
+$$
+\boldsymbol A_{s,\alpha\beta}^{--}(\hat{\mathbf r})=\left[\mathcal Y^{l_\beta}_{j_\beta,-m_\beta}(\hat{\mathbf r})\right]^\dagger\boldsymbol\sigma\mathcal Y^{l_\alpha}_{j_\alpha,-m_\alpha}(\hat{\mathbf r}).
+$$
+
+The spin density can have both radial and tangential components. Following the [coupled vector spherical harmonics](../../notes/mathematical_physics/specialfunction_spherical_harmonics.md#vector-spherical-harmonics), use
+
+$$
+\mathbf Y_{LM}^{\lambda}(\hat{\mathbf r})=\sum_{\mu=-1}^{1}\langle\lambda,M-\mu;1,\mu|L,M\rangle Y_{\lambda,M-\mu}(\hat{\mathbf r})\mathbf e_\mu,
+$$
+
+where $\lambda$ is the orbital rank, $L=|\lambda-1|,\ldots,\lambda+1$ is the total rank, and $M=-L,\ldots,L$. Expand the angular factors as
+
+$$
+\boldsymbol A_{s,\alpha\beta}^{++}(\hat{\mathbf r})=\sum_{\lambda LM}A_{s,\alpha\beta}^{++,\lambda LM}\mathbf Y_{LM}^{\lambda}(\hat{\mathbf r}),
+$$
+
+$$
+\boldsymbol A_{s,\alpha\beta}^{--}(\hat{\mathbf r})=\sum_{\lambda LM}A_{s,\alpha\beta}^{--,\lambda LM}\mathbf Y_{LM}^{\lambda}(\hat{\mathbf r}).
+$$
+
+Using $[\mathbf Y_{LM}^{\lambda}]^*=(-1)^{L+\lambda+M+1}\mathbf Y_{L,-M}^{\lambda}$, the expansion coefficients become
+
+$$
+A_{s,\alpha\beta}^{++,\lambda LM}=\int d\hat{\mathbf r}\,[\mathbf Y_{LM}^{\lambda}]^*\cdot\boldsymbol A_{s,\alpha\beta}^{++}=(-1)^{L+\lambda+M+1}\left\langle(l_\beta s)j_\beta m_\beta\middle|[Y_\lambda\otimes\boldsymbol\sigma]_{L,-M}\middle|(l_\alpha s)j_\alpha m_\alpha\right\rangle,
+$$
+
+$$
+A_{s,\alpha\beta}^{--,\lambda LM}=\int d\hat{\mathbf r}\,[\mathbf Y_{LM}^{\lambda}]^*\cdot\boldsymbol A_{s,\alpha\beta}^{--}=(-1)^{L+\lambda+M+1}\left\langle(l_\beta s)j_\beta,-m_\beta\middle|[Y_\lambda\otimes\boldsymbol\sigma]_{L,-M}\middle|(l_\alpha s)j_\alpha,-m_\alpha\right\rangle.
+$$
+
+Here $s=\frac12$. The coupled operator acts on the orbital and spin spaces separately:
+
+$$
+[Y_\lambda\otimes\boldsymbol\sigma]_{LM}=\sum_{\mu=-1}^{1}\langle\lambda,M-\mu;1,\mu|L,M\rangle Y_{\lambda,M-\mu}\sigma_\mu,
+$$
+
+with $\sigma_0=\sigma_z$ and $\sigma_{\pm1}=\mp(\sigma_x\pm i\sigma_y)/\sqrt2$.
+
+Combining both branches gives the vector multipole expansion
+
+$$
+\boldsymbol s(\boldsymbol r)=\sum_{\text{blocks}}\sum_{\alpha,\beta}\phi_\beta(r)\phi_\alpha(r)\left[\rho_{\alpha\beta}^{++}\boldsymbol A_{s,\alpha\beta}^{++}(\hat{\mathbf r})+\rho_{\alpha\beta}^{--}\boldsymbol A_{s,\alpha\beta}^{--}(\hat{\mathbf r})\right]=\sum_{\lambda LM}s_{\lambda LM}(r)\mathbf Y_{LM}^{\lambda}(\hat{\mathbf r}),
+$$
+
+with radial coefficients
+
+$$
+\boxed{s_{\lambda LM}(r)=\sum_{\text{blocks}}\sum_{\alpha,\beta}\phi_\beta(r)\phi_\alpha(r)\left[\rho_{\alpha\beta}^{++}A_{s,\alpha\beta}^{++,\lambda LM}+\rho_{\alpha\beta}^{--}A_{s,\alpha\beta}^{--,\lambda LM}\right].}
+$$
