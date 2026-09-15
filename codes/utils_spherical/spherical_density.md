@@ -184,30 +184,20 @@ $$
 \nabla(\Phi_\beta^-)^\dagger\cdot\nabla\Phi_\alpha^-=\partial_r\phi_\beta\,\partial_r\phi_\alpha\,A_{\rho,\alpha\beta}^{--}(\hat{\mathbf r})+\frac{\phi_\beta\phi_\alpha}{r^2}A_{\tau,\alpha\beta}^{--}(\hat{\mathbf r}).
 $$
 
-Define the kinetic-density angular factors as
+For angular spinors $u,v$ in a fixed spin basis, use the spherical Laplacian product rule,
 
 $$
-A_{\tau,\alpha\beta}^{++}(\hat{\mathbf r})=\left[\nabla_{\hat{\mathbf r}}\mathcal Y^{l_\beta}_{j_\beta m_\beta}(\hat{\mathbf r})\right]^\dagger\cdot\nabla_{\hat{\mathbf r}}\mathcal Y^{l_\alpha}_{j_\alpha m_\alpha}(\hat{\mathbf r}),
+2(\nabla_{\hat{\mathbf r}}u)^\dagger\cdot\nabla_{\hat{\mathbf r}}v=\Delta_{\hat{\mathbf r}}(u^\dagger v)-(\Delta_{\hat{\mathbf r}}u)^\dagger v-u^\dagger\Delta_{\hat{\mathbf r}}v,
 $$
 
-$$
-A_{\tau,\alpha\beta}^{--}(\hat{\mathbf r})=\left[\nabla_{\hat{\mathbf r}}\mathcal Y^{l_\beta}_{j_\beta,-m_\beta}(\hat{\mathbf r})\right]^\dagger\cdot\nabla_{\hat{\mathbf r}}\mathcal Y^{l_\alpha}_{j_\alpha,-m_\alpha}(\hat{\mathbf r}).
-$$
-
-The angular derivatives act componentwise in the fixed spin basis. Each spinor spherical harmonic satisfies
+and $\Delta_{\hat{\mathbf r}}\mathcal Y^l_{jm}=-l(l+1)\mathcal Y^l_{jm}$ to define the kinetic-density angular factors as
 
 $$
-\Delta_{\hat{\mathbf r}}\mathcal Y^l_{jm}(\hat{\mathbf r})=-l(l+1)\mathcal Y^l_{jm}(\hat{\mathbf r}).
-$$
-
-The spherical Laplacian product rule therefore gives
-
-$$
-A_{\tau,\alpha\beta}^{++}(\hat{\mathbf r})=\frac12\left[\Delta_{\hat{\mathbf r}}+l_\alpha(l_\alpha+1)+l_\beta(l_\beta+1)\right]A_{\rho,\alpha\beta}^{++}(\hat{\mathbf r}),
+A_{\tau,\alpha\beta}^{++}(\hat{\mathbf r})=\left[\nabla_{\hat{\mathbf r}}\mathcal Y^{l_\beta}_{j_\beta m_\beta}(\hat{\mathbf r})\right]^\dagger\cdot\nabla_{\hat{\mathbf r}}\mathcal Y^{l_\alpha}_{j_\alpha m_\alpha}(\hat{\mathbf r})=\frac12\left[\Delta_{\hat{\mathbf r}}+l_\alpha(l_\alpha+1)+l_\beta(l_\beta+1)\right]A_{\rho,\alpha\beta}^{++}(\hat{\mathbf r}),
 $$
 
 $$
-A_{\tau,\alpha\beta}^{--}(\hat{\mathbf r})=\frac12\left[\Delta_{\hat{\mathbf r}}+l_\alpha(l_\alpha+1)+l_\beta(l_\beta+1)\right]A_{\rho,\alpha\beta}^{--}(\hat{\mathbf r}).
+A_{\tau,\alpha\beta}^{--}(\hat{\mathbf r})=\left[\nabla_{\hat{\mathbf r}}\mathcal Y^{l_\beta}_{j_\beta,-m_\beta}(\hat{\mathbf r})\right]^\dagger\cdot\nabla_{\hat{\mathbf r}}\mathcal Y^{l_\alpha}_{j_\alpha,-m_\alpha}(\hat{\mathbf r})=\frac12\left[\Delta_{\hat{\mathbf r}}+l_\alpha(l_\alpha+1)+l_\beta(l_\beta+1)\right]A_{\rho,\alpha\beta}^{--}(\hat{\mathbf r}).
 $$
 
 Using $\Delta_{\hat{\mathbf r}}Y_{LM}=-L(L+1)Y_{LM}$, define the kinetic-density multipole coefficients as
