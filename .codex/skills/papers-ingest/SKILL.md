@@ -34,7 +34,7 @@ description: Ingest one paper into the literature workspace. Use when user asks 
 
 #### Collect Full Text
 
-- Full text: Download ONLY from arXiv; MUST save PDF or TEX temporarily in `papers/tmp/`.
+- Full text: Download ONLY from arXiv; save same-basename `papers/raw/[json_basename].pdf` or `.tex`.
 - Failure: If arXiv fails, NEVER use other sources; PRINT direct links and target path; STOP.
 
 #### Determine Core Tags
