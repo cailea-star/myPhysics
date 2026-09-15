@@ -2,7 +2,7 @@
  * @file    spherical_basis.hpp
  * @author  cailea
  * @date    2026-09-14
- * @brief   Spherical radial basis and three-dimensional spinor coupling.
+ * @brief   Spherical radial basis on a generalized Gauss-Laguerre mesh.
  */
 
 #pragma once
@@ -13,7 +13,6 @@
 #include <vector>
 #include <Eigen/Core>
 #include <gsl/gsl_sf_laguerre.h>
-#include <gsl/gsl_sf_coupling.h>
 
 #include "spherical_setting.hpp"
 #include "integration_gauss.hpp"
@@ -72,52 +71,7 @@ protected:
     void fill_grid(const GaussLaguerreMeshes& gl_meshes);
 };
 
-/** @brief Spherical spinor basis on a radial mesh. */
-class SphericalBasis1D {
-public:
-    double b_F = 0.0;                       // b = √[ℏ/(Mω)].
-    std::vector<SphericalSPLabel> labels_S1D_sp{}; // α_sp = (n,l,j,m)_sp.
-    Eigen::VectorXd r_F1D_r{};              // r_i = b√η_i.
-    Eigen::VectorXd w_F1D_r{};              // w_r,i = b³ w_i^GL e^η_i / 2.
-    Eigen::MatrixXd phi_F2D_sp_r{};         // φ_sp,i = φ_nl(r_i).
-    Eigen::MatrixXd dphidr_F2D_sp_r{};      // ∂_rφ_nl(r_i).
-    Eigen::MatrixXd ddphidr_F2D_sp_r{};     // ∂_r²φ_nl(r_i).
-    Eigen::MatrixXd CG_F2D_sp_ms{};          // C_αμ = ⟨l,m-μ;1/2,μ|j,m⟩.
-
-    /**
-     * @brief  Construct radial functions and Clebsch-Gordan coupling tables.
-     * @math   Φ_α(r,θ,φ) = φ_nl(r) Σ_μ C_αμ Y_l,m-μ(θ,φ) χ_μ
-     * @output Radial mesh, functions, derivatives, and CG coefficients.
-     * @note   ms=0 corresponds to μ=+1/2; ms=1 to μ=-1/2.
-     * @note   Angular dependence remains in analytic spherical harmonics.
-     */
-    explicit SphericalBasis1D(const SphericalSetting& sphericalsetting_) {
-        b_F = sphericalsetting_.b_F;
-        labels_S1D_sp = sphericalsetting_.labels_S1D_sp;
-
-        // (b,N_r,{α_sp}) → {r,w,φ,∂_rφ,∂_r²φ}.
-        SphericalLaguerreBasis radial_basis(b_F, sphericalsetting_.Nr_I, labels_S1D_sp);
-        r_F1D_r = radial_basis.r_F1D_r;
-        w_F1D_r = radial_basis.w_F1D_r;
-        phi_F2D_sp_r = radial_basis.phi_F2D_sp_r;
-        dphidr_F2D_sp_r = radial_basis.dphi_F2D_sp_r;
-        ddphidr_F2D_sp_r = radial_basis.ddphi_F2D_sp_r;
-
-        // ms={0,1} → μ={+1/2,-1/2}.
-        CG_F2D_sp_ms.resize(labels_S1D_sp.size(), 2);
-        fill_CG();
-    }
-
-private:
-    /**
-     * @brief  Evaluate Clebsch-Gordan coefficients using GSL Wigner 3j.
-     * @math   C_αμ = ⟨l,m-μ;1/2,μ|j,m⟩, 2m_l = 2m-2μ
-     * @output Filled CG coefficient table.
-     * @note   Components with |m_l|>l have zero CG coefficients.
-     * @note   Uses the Condon-Shortley convention.
-     */
-    void fill_CG();
-};
+using SphericalBasis1D = SphericalLaguerreBasis;
 
 inline void SphericalLaguerreBasis::fill_grid(const GaussLaguerreMeshes& gl_meshes) {
     assert(gl_meshes.weightAlpha_F == 0.5);
@@ -196,18 +150,4 @@ inline void SphericalLaguerreBasis::fill_grid(const GaussLaguerreMeshes& gl_mesh
     phi_F2D_sp_r.array().rowwise() *= expHalf_F1D_r.transpose().array();
     dphi_F2D_sp_r.array().rowwise() *= expHalf_F1D_r.transpose().array();
     ddphi_F2D_sp_r.array().rowwise() *= expHalf_F1D_r.transpose().array();
-}
-
-
-inline void SphericalBasis1D::fill_CG() {
-    for (int sp_I = 0; sp_I < static_cast<int>(labels_S1D_sp.size()); ++sp_I) {
-        const SphericalSPLabel& label = labels_S1D_sp[sp_I];
-        const int phase_I = (2 * label.l_I - 1 + label.twom_I) / 2;
-        const double sign_F = 1.0 - 2.0 * static_cast<double>(phase_I % 2 != 0);
-        for (int ms_I = 0; ms_I < 2; ++ms_I) {
-            const int twoms_I = 1 - 2 * ms_I;
-            // ⟨l,m-μ;1/2,μ|j,m⟩ = (-1)^(l-1/2+m)√(2j+1)(l 1/2 j; m-μ μ -m).
-            CG_F2D_sp_ms(sp_I, ms_I) = sign_F * std::sqrt(label.twoj_I + 1.0) * gsl_sf_coupling_3j(2 * label.l_I, 1, label.twoj_I, label.twom_I - twoms_I, twoms_I, -label.twom_I);
-        }
-    }
 }
