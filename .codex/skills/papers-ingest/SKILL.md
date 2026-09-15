@@ -7,48 +7,82 @@ description: Ingest one paper into the literature workspace. Use when user asks 
 
 ## Rules
 
-Before Gate 1, MUST read and follow both [Vocab Rules](../papers-vocab-rules/SKILL.md) and [Raw Rules](../papers-raw-rules/SKILL.md) completely.
+- Before Gate 1, MUST read and follow [Vocab Rules](../papers-vocab-rules/SKILL.md) completely.
+- Before Gate 1, MUST read and follow [Raw Rules](../papers-raw-rules/SKILL.md) completely.
 
 ## Gated Workflow
 
-Run gates strictly in order. At the start of each response, state the current gate, the last completed gate, and the next required user approval. Do not advance past a gate until its listed work and required review are complete.
+- MUST run gates strictly in order.
+- Response opening: MUST state current gate, last completed gate, and next required user approval.
+- Advance ONLY after the current gate's listed work and required review are complete.
 
 ### Gate 1 — Confirm Paper
 
-- Check: Run `git rev-parse --is-inside-work-tree` and `git status --short`; dirty worktrees MUST STOP and report changes.
-- Identify exactly one paper from the user’s DOI, title, PDF, TEX, or JSON.
-- DOI: Run `python papers\scripts\search_a_paper.py [doi_number]`; report `recorded:` reuse/re-ingest options and `md secondary:` hits.
-- Approval: PRINT the identified paper; STOP until explicit user approval.
+#### Identify Paper
 
-### Gate 2 — Generate Raw Files / Collect Full Text
+- Check: MUST run `git rev-parse --is-inside-work-tree` and `git status --short`.
+- Dirty worktrees: MUST STOP and report changes.
+- Identify: MUST identify exactly one paper from the user's DOI, title, PDF, TEX, or JSON.
+- DOI: MUST run `python papers\scripts\search_a_paper.py [doi_number]`.
+- Report: MUST report `recorded:` reuse/re-ingest options and `md secondary:` hits.
 
-- Generate: Run `python papers\scripts\add_raw_json.py [doi_number]`, then `python papers\scripts\add_raw_md.py papers\raw\[json_filename].json`.
-- Identify: Run `git diff --name-only -- papers/raw/*.json`; use `git status --short papers/raw` for untracked JSON.
-- Full text: Download ONLY from arXiv; save same-basename `papers/raw/[json_basename].pdf` or `.tex`.
+#### Confirm Paper
+
+- Approval: MUST PRINT the identified paper; STOP until explicit user approval.
+
+### Gate 2 — Collect Full Text / Confirm Understanding
+
+#### Collect Full Text
+
+- Full text: Download ONLY from arXiv; MUST save PDF or TEX temporarily in `papers/tmp/`.
 - Failure: If arXiv fails, NEVER use other sources; PRINT direct links and target path; STOP.
-- Complete: JSON, Markdown, and same-basename PDF-or-TEX MUST exist before Gate 3.
 
-### Gate 3 — Check Tag & Author
+#### Determine Core Tags
 
-- Author: MUST execute every required step in [Vocab Author-Rules](../papers-vocab-rules/SKILL.md#author-rules) for the current Raw JSON.
-- Identify: Apply [Motivation coverage](../../../papers/scripts/add_raw_md.md#motivation); PRINT exactly three core Abstract concepts.
-- Fix: Keep all three for later Abstract coverage; NEVER substitute easier existing tags.
-- Resolve: MUST execute every required step in [Vocab Draft-Rules](../papers-vocab-rules/SKILL.md#draft-rules) for each concept one-by-one; completion requires verified canonical tags.
+- Core tags: The reader MUST determine exactly three core tags.
+- Changes: NEVER change these core tags without the reader's approval.
+
+#### Confirm Understanding
+
+- Focus: MUST organize the understanding around the reader's three core tags.
+- Summarize: Using full text, MUST give two-sentence Motivation, Methods, Results, and Meanings summaries.
+- Assessment: MUST state the paper's core innovation and gaps, distinguishing explicit statements from inferred limitations.
+- Approval: MUST discuss until the reader explicitly confirms shared understanding before entering Gate 3.
+
+### Gate 3 — Generate Raw Files / Check Tags & Authors
+
+#### Generate Raw Files
+
+- JSON: MUST run `python papers\scripts\add_raw_json.py [doi_number]`.
+- Markdown: MUST then run `python papers\scripts\add_raw_md.py papers\raw\[json_filename].json`.
+- Identify: MUST run `git diff --name-only -- papers/raw/*.json`.
+- Untracked JSON: MUST use `git status --short papers/raw`.
+- Archive: MUST copy the collected full text to same-basename `papers/raw/[json_basename].pdf` or `.tex`.
+
+#### Check Tags & Authors
+
+- Author: MUST execute every required [Vocab Author-Rules](../papers-vocab-rules/SKILL.md#author-rules) step for the current Raw JSON.
+- Resolve: For each concept one-by-one, MUST execute every required [Vocab Draft-Rules](../papers-vocab-rules/SKILL.md#draft-rules) step.
+
+#### Complete Ingestion Setup
+
+- Tags: Completion MUST require verified canonical tags.
+- Files: JSON, Markdown, and same-basename PDF-or-TEX MUST exist before Gate 4.
 
 ### Gate 4 — Discuss Quotations
 
-- Draft: MUST execute every required step in [Raw Draft-Rules](../papers-raw-rules/SKILL.md#draft-rules) until every quotation section completes.
+- Draft: MUST execute every required [Raw Draft-Rules](../papers-raw-rules/SKILL.md#draft-rules) step until every quotation section completes.
 - Advance: Gate 5 begins ONLY after all quotation sections pass Raw verification.
 
 ### Gate 5 — Confirm Wiki
 
-- PRINT: Show the three fixed core TAGs from Abstract and whether each `papers/wiki/TAG.md` exists.
-- Approval: STOP and ask whether to create, update, or skip each Wiki.
-- Route: Approved Wiki work MUST execute every required step in [Wiki Draft-Rules](../papers-wiki-rules/SKILL.md#draft-rules) before Gate 6; skipped work advances directly.
+- PRINT: MUST show three fixed core TAGs from the reader and whether each `papers/wiki/TAG.md` exists.
+- Approval: MUST STOP and ask whether to create, update, or skip each Wiki.
+- Route: Approved Wiki work MUST execute every required [Wiki Draft-Rules](../papers-wiki-rules/SKILL.md#draft-rules) step before Gate 6.
+- Skip: Skipped Wiki work advances directly to Gate 6.
 
-### Gate 6 — Summary & Recommend Next Paper(s)
+### Gate 6 — Log & Recommend Next Paper(s)
 
-- Log: Before recommendations, append Raw filename, DOI, title, and core tags to [papers/log.md](../../../papers/log.md).
-- Summarize: Using completed Raw, give two-sentence Motivation, Methods, Results, and Meanings summaries; state core innovation.
-- Recommend: PRINT at least three central Secondary Citations with DOI, tags, citation, and rationale.
-- Approval: STOP until explicit user approval before selecting another paper.
+- Log: Before recommendations, MUST append Raw filename, DOI, title, and core tags to [papers/log.md](../../../papers/log.md).
+- Recommend: MUST PRINT at least three central Secondary Citations with DOI, tags, citation, and rationale.
+- Approval: MUST STOP until explicit user approval before selecting another paper.
