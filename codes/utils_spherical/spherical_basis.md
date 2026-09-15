@@ -35,13 +35,13 @@ $$
 Let $\phi_{nl}(r)$ be the real radial amplitude and $\mathcal Y_{jm}^{l}(\theta,\varphi)$ the [spinor spherical harmonic](../../notes/mathematical_physics/specialfunction_spherical_harmonics.md#spinor-spherical-harmonics). The basis spinor and its opposite-projection partner are
 
 $$
-\boxed{\Phi_\alpha(r,\theta,\varphi)=\phi_{nl}(r)\mathcal Y_{jm}^{l}(\theta,\varphi),\qquad \Phi_{\bar\alpha}(r,\theta,\varphi)=\phi_{nl}(r)\mathcal Y_{j,-m}^{l}(\theta,\varphi).}
+\boxed{\phi_\alpha(r,\theta,\varphi)=\phi_{nl}(r)\mathcal Y_{jm}^{l}(\theta,\varphi),\qquad \phi_{\bar\alpha}(r,\theta,\varphi)=\phi_{nl}(r)\mathcal Y_{j,-m}^{l}(\theta,\varphi).}
 $$
 
 The spin-independent Hamiltonian satisfies
 
 $$
-\hat H_0\Phi_\alpha=E_\alpha\Phi_\alpha,\qquad \hat H_0\Phi_{\bar\alpha}=E_\alpha\Phi_{\bar\alpha},
+\hat H_0\phi_\alpha=E_\alpha\phi_\alpha,\qquad \hat H_0\phi_{\bar\alpha}=E_\alpha\phi_{\bar\alpha},
 $$
 
 with
@@ -139,7 +139,7 @@ $$
 Together with radial orthonormality, the full basis satisfies
 
 $$
-\boxed{\int_0^\infty r^2\,dr\int d\Omega\,\Phi_\alpha^\dagger(r,\theta,\varphi)\Phi_{\alpha'}(r,\theta,\varphi)=\delta_{nn'}\delta_{ll'}\delta_{jj'}\delta_{mm'}.}
+\boxed{\int_0^\infty r^2\,dr\int d\Omega\,\phi_\alpha^\dagger(r,\theta,\varphi)\phi_{\alpha'}(r,\theta,\varphi)=\delta_{nn'}\delta_{ll'}\delta_{jj'}\delta_{mm'}.}
 $$
 
 ### Quadrature Weights

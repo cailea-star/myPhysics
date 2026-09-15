@@ -5,13 +5,13 @@
 The eigenstates of the spherical harmonic-oscillator Hamiltonian are
 
 $$
-\hat H=\frac{\hat{\boldsymbol p}^{\,2}}{2M}+\frac12M\omega^2r^2,\qquad \hat H\Phi_{nljm}=E_{nl}\Phi_{nljm}.
+\hat H=\frac{\hat{\boldsymbol p}^{\,2}}{2M}+\frac12M\omega^2r^2,\qquad \hat H\phi_{nljm}=E_{nl}\phi_{nljm}.
 $$
 
 Following [Spherical Harmonic-Oscillator Basis](spherical_basis.md), the solutions separate into radial functions and spinor spherical harmonics:
 
 $$
-\boxed{\Phi_{nljm}(\boldsymbol r)=\phi_{nl}(r)\mathcal Y^l_{jm}(\theta,\varphi),\qquad E_{nl}=\hbar\omega\left(2n+l+\frac32\right).}
+\boxed{\phi_{nljm}(\boldsymbol r)=\phi_{nl}(r)\mathcal Y^l_{jm}(\theta,\varphi),\qquad E_{nl}=\hbar\omega\left(2n+l+\frac32\right).}
 $$
 
 For a rotation $\hat R(\Omega)$, where $\Omega$ denotes the Euler angles, the spinor spherical harmonics transform as
@@ -23,7 +23,7 @@ $$
 The radial coordinate is unchanged, so
 
 $$
-\hat R(\Omega)\Phi_{nljm}=\sum_{m'=-j}^{j}\Phi_{nljm'}D^j_{m'm}(\Omega).
+\hat R(\Omega)\phi_{nljm}=\sum_{m'=-j}^{j}\phi_{nljm'}D^j_{m'm}(\Omega).
 $$
 
 Thus, rotations preserve $n,l,j$ and mix only the magnetic substates within each multiplet.
@@ -36,7 +36,7 @@ $$
 \hat R_z(\theta)=e^{-i\theta\hat J_z/\hbar},\qquad \hat R_y(\beta)=e^{-i\beta\hat J_y/\hbar}.
 $$
 
-Since $\hat J_z\Phi_{nljm}=\hbar m\Phi_{nljm}$, the $z$ rotation is diagonal:
+Since $\hat J_z\phi_{nljm}=\hbar m\phi_{nljm}$, the $z$ rotation is diagonal:
 
 $$
 \boxed{\langle nljm|\hat R_z(\theta)|n'l'j'm'\rangle=\delta_{nn'}\delta_{ll'}\delta_{jj'}\delta_{mm'}e^{-im\theta}.}

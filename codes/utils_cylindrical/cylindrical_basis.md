@@ -233,7 +233,7 @@ $$
 the axial basis functions obey
 
 $$
-\phi_{n_z}(-z)=(-1)^{n_z}\phi_{n_z}(z),\qquad \Phi_\alpha(-z,r_\perp,\varphi,s)=(-1)^{n_z}\Phi_\alpha(z,r_\perp,\varphi,s).
+\phi_{n_z}(-z)=(-1)^{n_z}\phi_{n_z}(z),\qquad \phi_\alpha(-z,r_\perp,\varphi,s)=(-1)^{n_z}\phi_\alpha(z,r_\perp,\varphi,s).
 $$
 
 Their derivatives have the parities

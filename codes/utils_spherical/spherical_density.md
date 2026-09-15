@@ -11,7 +11,7 @@ $$
 Let $\hat{\mathbf r}=\boldsymbol r/r$ denote the radial unit vector. The positive-branch basis spinor and its negative-branch partner are
 
 $$
-\Phi_\alpha^+(\boldsymbol r)=\phi_{n_\alpha l_\alpha}(r)\mathcal Y^{l_\alpha}_{j_\alpha m_\alpha}(\hat{\mathbf r}),\qquad \Phi_\alpha^-(\boldsymbol r)=\phi_{n_\alpha l_\alpha}(r)\mathcal Y^{l_\alpha}_{j_\alpha,-m_\alpha}(\hat{\mathbf r}).
+\phi_\alpha^+(\boldsymbol r)=\phi_{n_\alpha l_\alpha}(r)\mathcal Y^{l_\alpha}_{j_\alpha m_\alpha}(\hat{\mathbf r}),\qquad \phi_\alpha^-(\boldsymbol r)=\phi_{n_\alpha l_\alpha}(r)\mathcal Y^{l_\alpha}_{j_\alpha,-m_\alpha}(\hat{\mathbf r}).
 $$
 
 The spinor spherical harmonics are
@@ -31,11 +31,11 @@ Both branches use the same representative label and radial function. Their total
 Let $\hat c_\alpha^\pm$ annihilate the corresponding branch state. The fields are
 
 $$
-\hat\psi(\boldsymbol r)=\sum_\alpha\left[\hat c_\alpha^+\Phi_\alpha^+(\boldsymbol r)+\hat c_\alpha^-\Phi_\alpha^-(\boldsymbol r)\right],
+\hat\psi(\boldsymbol r)=\sum_\alpha\left[\hat c_\alpha^+\phi_\alpha^+(\boldsymbol r)+\hat c_\alpha^-\phi_\alpha^-(\boldsymbol r)\right],
 $$
 
 $$
-\hat\psi^\dagger(\boldsymbol r)=\sum_\alpha\left[(\hat c_\alpha^+)^\dagger(\Phi_\alpha^+)^\dagger(\boldsymbol r)+(\hat c_\alpha^-)^\dagger(\Phi_\alpha^-)^\dagger(\boldsymbol r)\right].
+\hat\psi^\dagger(\boldsymbol r)=\sum_\alpha\left[(\hat c_\alpha^+)^\dagger(\phi_\alpha^+)^\dagger(\boldsymbol r)+(\hat c_\alpha^-)^\dagger(\phi_\alpha^-)^\dagger(\boldsymbol r)\right].
 $$
 
 Order all positive-branch states before their partners. The normal density matrix is
@@ -73,7 +73,7 @@ No spherical, axial, or time-reversal symmetry is assumed; all four branch block
 Under a rotation about the $z$ axis,
 
 $$
-\hat R_z(\theta)\Phi_\alpha^+=e^{-im_\alpha\theta}\Phi_\alpha^+,\qquad \hat R_z(\theta)\Phi_\alpha^-=e^{+im_\alpha\theta}\Phi_\alpha^-.
+\hat R_z(\theta)\phi_\alpha^+=e^{-im_\alpha\theta}\phi_\alpha^+,\qquad \hat R_z(\theta)\phi_\alpha^-=e^{+im_\alpha\theta}\phi_\alpha^-.
 $$
 
 Axial invariance requires
@@ -113,17 +113,17 @@ The superscripts on $\rho$ denote the $+m$ and $-m$ branches; the parenthesized 
 The particle density is
 
 $$
-\rho(\boldsymbol r)=\left\langle\hat\psi^\dagger(\boldsymbol r)\hat\psi(\boldsymbol r)\right\rangle=\sum_{\text{blocks}}\sum_{\alpha,\beta}\left[\rho_{\alpha\beta}^{++}(\Phi_\beta^+)^\dagger(\boldsymbol r)\Phi_\alpha^+(\boldsymbol r)+\rho_{\alpha\beta}^{--}(\Phi_\beta^-)^\dagger(\boldsymbol r)\Phi_\alpha^-(\boldsymbol r)\right].
+\rho(\boldsymbol r)=\left\langle\hat\psi^\dagger(\boldsymbol r)\hat\psi(\boldsymbol r)\right\rangle=\sum_{\text{blocks}}\sum_{\alpha,\beta}\left[\rho_{\alpha\beta}^{++}(\phi_\beta^+)^\dagger(\boldsymbol r)\phi_\alpha^+(\boldsymbol r)+\rho_{\alpha\beta}^{--}(\phi_\beta^-)^\dagger(\boldsymbol r)\phi_\alpha^-(\boldsymbol r)\right].
 $$
 
 Write $\phi_\alpha(r)=\phi_{n_\alpha l_\alpha}(r)$. Contracting the spin components gives
 
 $$
-(\Phi_\beta^+)^\dagger(\boldsymbol r)\Phi_\alpha^+(\boldsymbol r)=\phi_\beta(r)\phi_\alpha(r)\left[\mathcal Y^{l_\beta}_{j_\beta m_\beta}(\hat{\mathbf r})\right]^\dagger\mathcal Y^{l_\alpha}_{j_\alpha m_\alpha}(\hat{\mathbf r})=\phi_\beta(r)\phi_\alpha(r)A_{\rho,\alpha\beta}^{++}(\hat{\mathbf r}),
+(\phi_\beta^+)^\dagger(\boldsymbol r)\phi_\alpha^+(\boldsymbol r)=\phi_\beta(r)\phi_\alpha(r)\left[\mathcal Y^{l_\beta}_{j_\beta m_\beta}(\hat{\mathbf r})\right]^\dagger\mathcal Y^{l_\alpha}_{j_\alpha m_\alpha}(\hat{\mathbf r})=\phi_\beta(r)\phi_\alpha(r)A_{\rho,\alpha\beta}^{++}(\hat{\mathbf r}),
 $$
 
 $$
-(\Phi_\beta^-)^\dagger(\boldsymbol r)\Phi_\alpha^-(\boldsymbol r)=\phi_\beta(r)\phi_\alpha(r)\left[\mathcal Y^{l_\beta}_{j_\beta,-m_\beta}(\hat{\mathbf r})\right]^\dagger\mathcal Y^{l_\alpha}_{j_\alpha,-m_\alpha}(\hat{\mathbf r})=\phi_\beta(r)\phi_\alpha(r)A_{\rho,\alpha\beta}^{--}(\hat{\mathbf r}).
+(\phi_\beta^-)^\dagger(\boldsymbol r)\phi_\alpha^-(\boldsymbol r)=\phi_\beta(r)\phi_\alpha(r)\left[\mathcal Y^{l_\beta}_{j_\beta,-m_\beta}(\hat{\mathbf r})\right]^\dagger\mathcal Y^{l_\alpha}_{j_\alpha,-m_\alpha}(\hat{\mathbf r})=\phi_\beta(r)\phi_\alpha(r)A_{\rho,\alpha\beta}^{--}(\hat{\mathbf r}).
 $$
 
 The sums over $\alpha,\beta$ run within each axial block. The particle-density angular factors are
@@ -165,7 +165,7 @@ $$
 The kinetic density is
 
 $$
-\tau(\boldsymbol r)=\left\langle\nabla\hat\psi^\dagger(\boldsymbol r)\cdot\nabla\hat\psi(\boldsymbol r)\right\rangle=\sum_{\text{blocks}}\sum_{\alpha,\beta}\left[\rho_{\alpha\beta}^{++}\nabla(\Phi_\beta^+)^\dagger(\boldsymbol r)\cdot\nabla\Phi_\alpha^+(\boldsymbol r)+\rho_{\alpha\beta}^{--}\nabla(\Phi_\beta^-)^\dagger(\boldsymbol r)\cdot\nabla\Phi_\alpha^-(\boldsymbol r)\right].
+\tau(\boldsymbol r)=\left\langle\nabla\hat\psi^\dagger(\boldsymbol r)\cdot\nabla\hat\psi(\boldsymbol r)\right\rangle=\sum_{\text{blocks}}\sum_{\alpha,\beta}\left[\rho_{\alpha\beta}^{++}\nabla(\phi_\beta^+)^\dagger(\boldsymbol r)\cdot\nabla\phi_\alpha^+(\boldsymbol r)+\rho_{\alpha\beta}^{--}\nabla(\phi_\beta^-)^\dagger(\boldsymbol r)\cdot\nabla\phi_\alpha^-(\boldsymbol r)\right].
 $$
 
 Following the [spherical-coordinate differential operators](../../notes/mathematical_physics/coordinate_spherical.md#differential-operators), use
@@ -177,11 +177,11 @@ $$
 Radial and angular directions are orthogonal. With $\phi_\alpha(r)=\phi_{n_\alpha l_\alpha}(r)$, the branch contractions become
 
 $$
-\nabla(\Phi_\beta^+)^\dagger\cdot\nabla\Phi_\alpha^+=\partial_r\phi_\beta\,\partial_r\phi_\alpha\,A_{\rho,\alpha\beta}^{++}(\hat{\mathbf r})+\frac{\phi_\beta\phi_\alpha}{r^2}A_{\tau,\alpha\beta}^{++}(\hat{\mathbf r}),
+\nabla(\phi_\beta^+)^\dagger\cdot\nabla\phi_\alpha^+=\partial_r\phi_\beta\,\partial_r\phi_\alpha\,A_{\rho,\alpha\beta}^{++}(\hat{\mathbf r})+\frac{\phi_\beta\phi_\alpha}{r^2}A_{\tau,\alpha\beta}^{++}(\hat{\mathbf r}),
 $$
 
 $$
-\nabla(\Phi_\beta^-)^\dagger\cdot\nabla\Phi_\alpha^-=\partial_r\phi_\beta\,\partial_r\phi_\alpha\,A_{\rho,\alpha\beta}^{--}(\hat{\mathbf r})+\frac{\phi_\beta\phi_\alpha}{r^2}A_{\tau,\alpha\beta}^{--}(\hat{\mathbf r}).
+\nabla(\phi_\beta^-)^\dagger\cdot\nabla\phi_\alpha^-=\partial_r\phi_\beta\,\partial_r\phi_\alpha\,A_{\rho,\alpha\beta}^{--}(\hat{\mathbf r})+\frac{\phi_\beta\phi_\alpha}{r^2}A_{\tau,\alpha\beta}^{--}(\hat{\mathbf r}).
 $$
 
 For angular spinors $u,v$ in a fixed spin basis, use the spherical Laplacian product rule,
