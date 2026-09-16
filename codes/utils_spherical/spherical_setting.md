@@ -119,7 +119,7 @@ $$
 For $\alpha=(n,l,j,m)$ and $\bar\alpha=(n,l,j,-m)$, the radial functions are real, so
 
 $$
-\hat T\Phi_\alpha=\eta_\alpha\Phi_{\bar\alpha},\qquad \eta_\alpha=(-1)^{l+j-m},\qquad \eta_\alpha\eta_{\bar\alpha}=-1.
+\hat T\phi_\alpha=\eta_\alpha\phi_{\bar\alpha},\qquad \eta_\alpha=(-1)^{l+j-m},\qquad \eta_\alpha\eta_{\bar\alpha}=-1.
 $$
 
 The phases $\eta_\alpha$ follow the single-particle ordering within each block. Under time-reversal reduction, only the $m>0$ representatives are retained.
