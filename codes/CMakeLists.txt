@@ -1,5 +1,4 @@
 # ==================== 项目配置 ====================
-# 仅生成 compile_commands.json 供 clangd 使用
 cmake_minimum_required(VERSION 3.15)
 
 
@@ -32,9 +31,6 @@ find_package(OpenMP REQUIRED)
 
 # ================ 源代码编译 + PUBLIC 传递依赖 ====================
 # 收集 cc 库的源文件, 配置库目标
-file(GLOB UTILS_CPPS CONFIGURE_DEPENDS "utils/*.cpp")
-file(GLOB UTILS_SPHERICAL_CPPS CONFIGURE_DEPENDS "utils_spherical/*.cpp")
-file(GLOB UTILS_CYLINDRICAL_CPPS CONFIGURE_DEPENDS "utils_cylindrical/*.cpp")
 add_library(mylib INTERFACE)                                        # 添加库目标, INTERFACE or SHARED 模式
 target_include_directories(mylib INTERFACE cc)                      # Propagate coupled-channel headers
 target_include_directories(mylib INTERFACE utils)                   # Propagate general utility headers
