@@ -1,0 +1,20 @@
+|------------------|----+----|----+----|----+----|----------------------------- 
+NUCLEON NUMBER (N,P)   96   70                     ACTIVE = NUCL.NUMBER - CORE  
+DEF.PARAM. EPS2,EPS4   0.246     0.004             STRETCHED DEFORMATION PARAM. 
+NMAX; CUTOFF # (MAX)   16   16   32                # OF 2N, 2P, 2N+2P QP-STATES 
+KMAX; CUTOFF K VALUE   12   10   12                K OF 2N, 2P, 2N+2P QP-STATES 
+EMAX; CUTOFF E VALUE   3.50      3.50      5.00    E OF 2N, 2P, 2N+2P QP-STATES 
+# OF SHELLS,QNUMS(N)    3    4    5    6    3      LAST# = SHELL# FOR BROKEN QP 
+# OF SHELLS,QNUMS(P)    3    3    4    5    3      LAST# = SHELL# FOR BROKEN QP 
+JINI, JFIN, JDIF        0   30    2                RANGE OF SPIN AND STEP       
+GNP; MONOPOLE PAIRNG  20.12     13.13              G1 & G2; G=[G1qG2*(Z-N)/A]/A 
+GQ; QUAD.POLE PAIRNG   0.18                        G(QUADRUPOLE)=GQ*G(MONOPOLE) 
+NDEG                   40                          NUMBER OF BETA MESH          
+LSF                     1                          LS FORCE: 1=NILSSON, 2=ZHANG 
+|------------------|----+----|----+----|----+----|----------------------------- 
+1     COMMENTS    20   25   30   35   40   45   50    ADDITIONAL COMMENTS       
+                                                                                
+INPUT FILE: EE_DATA                                                             
+                                                                                
+Remark: Note the area and position of the data. Format of each line is          
+	either  FORMAT (20X, 6I5)  or  FORMAT (20X, 3F10.5).                           
