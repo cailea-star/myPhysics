@@ -9,18 +9,18 @@ codes/
 ├── utils_cylindrical/ # cylindrical-coordinate tools
 ├── test/              # usage and acceptance tests
 ├── CMakeLists.txt     # build configuration
-├── install.bat        # compiler and dependency installation
-├── run.bat            # build and CTest entry point
+├── install.py         # compiler and dependency installation
+├── run.py             # selected-test build and CTest entry point
 └── README.md
 ```
 
 ## Commands
 
-Run from the repository root:
+On Windows, run from the repository root:
 
 ```powershell
-codes\install.bat   # Install LLVM/Clang, vcpkg, Eigen, and GSL
-codes\run.bat       # Configure, build, and run CTest
+python codes/install.py   # Install LLVM/Clang, vcpkg, Eigen3, and GSL
+python codes/run.py       # Configure, build, and run selected tests
 ```
 
 Use [codes-rules](../.codex/skills/codes-rules/SKILL.md) when adding, migrating, reviewing, or modifying numerical tools.
