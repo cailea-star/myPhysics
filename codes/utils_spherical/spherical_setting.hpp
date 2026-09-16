@@ -13,6 +13,7 @@
 #include <utility>
 #include <vector>
 #include <Eigen/Core>
+#include <gsl/gsl_sf_coupling.h>
 
 class SphericalSPLabel {
 public:
@@ -22,11 +23,13 @@ public:
     int twoj_I = 0;                  // 2j = 2l ± 1 > 0
     int twom_I = 0;                  // 2m = -2j, -2j+2, ..., 2j
     bool isParityPositive_B = false; // π = (-1)^N = +1
+    double CGSpinUp_F = 0.0;         // ⟨l,m-1/2;1/2,+1/2|j,m⟩.
+    double CGSpinDn_F = 0.0;         // ⟨l,m+1/2;1/2,-1/2|j,m⟩.
 
     /**
-     * @brief  Construct a spherical single-particle label.
+     * @brief  Construct a label and CG coefficients using GSL Wigner 3j.
      * @math   l = j-1/2 + [N-(j-1/2)] mod 2, n = (N-l)/2
-     * @output Initialized label.
+     * @output Quantum numbers and two spin-component CG coefficients.
      */
     SphericalSPLabel(int N_I_, int twoj_I_, int twom_I_) {
         assert(N_I_ >= 0);
@@ -43,6 +46,14 @@ public:
         l_I = (twoj_I - 1) / 2;
         l_I += static_cast<int>((l_I % 2 == 0) != isParityPositive_B);
         n_I = (N_I - l_I) / 2;
+
+        // ⟨l,m-μ;1/2,μ|j,m⟩ = (-1)^(l-1/2+m)√(2j+1)(l 1/2 j; m-μ μ -m).
+        const int phase_I = (2 * l_I - 1 + twom_I) / 2;
+        const double sign_F = 1.0 - 2.0 * static_cast<double>(phase_I % 2 != 0);
+        // μ=+1/2.
+        CGSpinUp_F = sign_F * std::sqrt(twoj_I + 1.0) * gsl_sf_coupling_3j(2 * l_I, 1, twoj_I, twom_I - 1, 1, -twom_I);
+        // μ=-1/2.
+        CGSpinDn_F = sign_F * std::sqrt(twoj_I + 1.0) * gsl_sf_coupling_3j(2 * l_I, 1, twoj_I, twom_I + 1, -1, -twom_I);
     }
 };
 

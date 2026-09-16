@@ -12,7 +12,7 @@
 [this_abstract]
 
 <!-- claim-type: ([claim-type]: motivation is required) and ([claim-type]: definition or [claim-type]: background is required for core-tag coverage; prefer definition) -->
-<!-- coverage: (identify the three most central tags from the Abstract, excluding [tag-type]: method and current-work output [tag-type]: quantity) and (for each identified tag, assign >=1 valid quotation to [claim-type]: definition or [claim-type]: background; otherwise report a gap) -->
+<!-- coverage: (identify the three most central tags from reader) and (for each identified tag, assign >=1 valid quotation to [claim-type]: definition or [claim-type]: background; otherwise report a gap) -->
 <!-- quotation: (none) -->
 ### Motivation
 

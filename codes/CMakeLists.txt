@@ -1,5 +1,4 @@
 # ==================== 项目配置 ====================
-# 仅生成 compile_commands.json 供 clangd 使用
 cmake_minimum_required(VERSION 3.15)
 
 
