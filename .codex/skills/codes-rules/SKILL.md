@@ -92,4 +92,4 @@ Before every code write, MUST list all added or renamed variables—or `None`—
 2. MUST draft same-basename theory via `$notes-rules`; prioritize equations; NEVER duplicate implementation; write ONLY after approval.
 3. MUST derive APIs ONLY from approved theory; write ONLY approved declarations and inline constructor definitions.
 4. Present one function's computation outline; implement ONLY that function after explicit approval.
-5. MUST get approval before `$codes-debug` creates test files. Post-write, MUST audit code/theory, run `codes\run.bat` and full CTest; NEVER finish failing.
+5. MUST get approval before `$codes-debug` creates test files. Post-write, MUST audit code/theory, ask the user whether to run specified tests, run ONLY approved tests, and report their results.

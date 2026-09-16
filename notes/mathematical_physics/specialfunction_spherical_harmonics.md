@@ -112,23 +112,87 @@ Let $\hat{\mathbf S}$ act on the vector index and define $\hat{\mathbf J}=\hat{\
   \hat J_\pm\mathbf Y_{jm}^{l}=\hbar\sqrt{j(j+1)-m(m\pm1)}\,\mathbf Y_{j,m\pm1}^{l}.
   $$
 
-- For $j\geq1$, an alternative basis adapted to angular differential operators is
+### Tangential Vector Spherical Harmonics
+
+For $j\geq1$, define the radial and tangential harmonics by
+
+$$
+\mathbf Y_{jm}^{(r)}=\hat{\mathbf r}Y_{jm},\qquad \boldsymbol\Psi_{jm}=\frac{\nabla_{\hat{\mathbf r}}Y_{jm}}{\sqrt{j(j+1)}},\qquad \boldsymbol\Phi_{jm}=\frac{\hat{\mathbf r}\times\nabla_{\hat{\mathbf r}}Y_{jm}}{\sqrt{j(j+1)}}.
+$$
+
+Here $\nabla_{\hat{\mathbf r}}$ is the surface gradient on the unit sphere, and $\Delta_{\hat{\mathbf r}}=\nabla_{\hat{\mathbf r}}^2$. All angular functions are evaluated at $\hat{\mathbf r}$. The radial harmonic also exists for $j=0$.
+
+- Tangentiality and cross products
 
   $$
-  \mathbf Y_{jm}^{(r)}=\hat{\mathbf r}Y_{jm},\qquad \mathbf\Psi_{jm}=\frac{\nabla_{\hat{\mathbf r}} Y_{jm}}{\sqrt{j(j+1)}},\qquad \mathbf\Phi_{jm}=\frac{\hat{\mathbf r}\times\nabla_{\hat{\mathbf r}} Y_{jm}}{\sqrt{j(j+1)}}.
+  \hat{\mathbf r}\cdot\boldsymbol\Psi_{jm}=\hat{\mathbf r}\cdot\boldsymbol\Phi_{jm}=0,\qquad \hat{\mathbf r}\times\boldsymbol\Psi_{jm}=\boldsymbol\Phi_{jm},\qquad \hat{\mathbf r}\times\boldsymbol\Phi_{jm}=-\boldsymbol\Psi_{jm}.
   $$
 
-For fixed $(j,m)$, the coupled and differential basis expansions are
+- Conjugation
 
-$$
-\mathbf F_{jm}(r,\hat{\mathbf r})=\sum_{l=|j-1|}^{j+1}F_{jlm}(r)\mathbf Y_{jm}^{l}(\hat{\mathbf r}).
-$$
+  $$
+  \left[\mathbf Y_{jm}^{(r)}\right]^*=(-1)^m\mathbf Y_{j,-m}^{(r)},\qquad \boldsymbol\Psi_{jm}^{*}=(-1)^m\boldsymbol\Psi_{j,-m},\qquad \boldsymbol\Phi_{jm}^{*}=(-1)^m\boldsymbol\Phi_{j,-m}.
+  $$
 
-$$
-\mathbf F_{jm}(r,\hat{\mathbf r})=F_{jm}^{(r)}(r)\mathbf Y_{jm}^{(r)}(\hat{\mathbf r})+F_{jm}^{(\Psi)}(r)\mathbf\Psi_{jm}(\hat{\mathbf r})+F_{jm}^{(\Phi)}(r)\mathbf\Phi_{jm}(\hat{\mathbf r}).
-$$
+- Orthonormality
 
-For $j\geq1$, the two bases span the same three-dimensional space and are related by a unitary change of basis. For $j=0$, only $\mathbf Y_{00}^{(r)}$ remains.
+  $$
+  \int \mathrm d\hat{\mathbf r}\,\boldsymbol\Psi_{jm}^{*}\cdot\boldsymbol\Psi_{j'm'}=\int \mathrm d\hat{\mathbf r}\,\boldsymbol\Phi_{jm}^{*}\cdot\boldsymbol\Phi_{j'm'}=\delta_{jj'}\delta_{mm'},\qquad \int \mathrm d\hat{\mathbf r}\,\boldsymbol\Psi_{jm}^{*}\cdot\boldsymbol\Phi_{j'm'}=0.
+  $$
+
+  The radial harmonics are orthogonal to both tangential families and satisfy
+
+  $$
+  \int \mathrm d\hat{\mathbf r}\,\left[\mathbf Y_{jm}^{(r)}\right]^*\cdot\mathbf Y_{j'm'}^{(r)}=\delta_{jj'}\delta_{mm'}.
+  $$
+
+- Surface divergence and curl
+
+  For a tangential vector field $\mathbf V$, define the scalar surface curl by
+
+  $$
+  \operatorname{curl}_{\hat{\mathbf r}}\mathbf V\equiv-\nabla_{\hat{\mathbf r}}\cdot(\hat{\mathbf r}\times\mathbf V).
+  $$
+
+  Using $\Delta_{\hat{\mathbf r}}Y_{jm}=-j(j+1)Y_{jm}$ gives
+
+  $$
+  \boxed{\nabla_{\hat{\mathbf r}}\cdot\boldsymbol\Psi_{jm}=-\sqrt{j(j+1)}Y_{jm},\qquad \nabla_{\hat{\mathbf r}}\cdot\boldsymbol\Phi_{jm}=0,}
+  $$
+
+  $$
+  \boxed{\operatorname{curl}_{\hat{\mathbf r}}\boldsymbol\Psi_{jm}=0,\qquad \operatorname{curl}_{\hat{\mathbf r}}\boldsymbol\Phi_{jm}=-\sqrt{j(j+1)}Y_{jm}.}
+  $$
+
+  Thus $\boldsymbol\Psi_{jm}$ is the gradient-type, curl-free harmonic, while $\boldsymbol\Phi_{jm}$ is the rotational-type, divergence-free harmonic.
+
+- Completeness and tangential expansion
+
+  The two families form a complete orthonormal basis for square-integrable tangential vector fields:
+
+  $$
+  \mathbf F_{\mathrm t}(r,\hat{\mathbf r})=\sum_{j=1}^{\infty}\sum_{m=-j}^{j}\left[F_{jm}^{(\Psi)}(r)\boldsymbol\Psi_{jm}(\hat{\mathbf r})+F_{jm}^{(\Phi)}(r)\boldsymbol\Phi_{jm}(\hat{\mathbf r})\right],
+  $$
+
+  $$
+  F_{jm}^{(\Psi)}(r)=\int \mathrm d\hat{\mathbf r}\,\boldsymbol\Psi_{jm}^{*}\cdot\mathbf F_{\mathrm t},\qquad F_{jm}^{(\Phi)}(r)=\int \mathrm d\hat{\mathbf r}\,\boldsymbol\Phi_{jm}^{*}\cdot\mathbf F_{\mathrm t}.
+  $$
+
+  For sufficiently smooth fields, spherical integration by parts gives
+
+  $$
+  F_{jm}^{(\Psi)}(r)=-\frac1{\sqrt{j(j+1)}}\int \mathrm d\hat{\mathbf r}\,Y_{jm}^{*}\nabla_{\hat{\mathbf r}}\cdot\mathbf F_{\mathrm t},\qquad F_{jm}^{(\Phi)}(r)=-\frac1{\sqrt{j(j+1)}}\int \mathrm d\hat{\mathbf r}\,Y_{jm}^{*}\operatorname{curl}_{\hat{\mathbf r}}\mathbf F_{\mathrm t}.
+  $$
+
+- Relation to the coupled basis
+
+  For fixed $(j,m)$, the full vector field has equivalent coupled and differential basis expansions:
+
+  $$
+  \mathbf F_{jm}(r,\hat{\mathbf r})=\sum_{l=|j-1|}^{j+1}F_{jlm}(r)\mathbf Y_{jm}^{l}(\hat{\mathbf r})=F_{jm}^{(r)}(r)\mathbf Y_{jm}^{(r)}(\hat{\mathbf r})+F_{jm}^{(\Psi)}(r)\boldsymbol\Psi_{jm}(\hat{\mathbf r})+F_{jm}^{(\Phi)}(r)\boldsymbol\Phi_{jm}(\hat{\mathbf r}).
+  $$
+
+  For $j\geq1$, the two bases span the same three-dimensional space and are related by a unitary change of basis. For $j=0$, only $\mathbf Y_{00}^{(r)}$ remains.
 
 ### Spinor Spherical Harmonics
 
