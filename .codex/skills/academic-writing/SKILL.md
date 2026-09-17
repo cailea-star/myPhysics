@@ -79,27 +79,21 @@ chain:
 [tags]: [keyword1], [keywordtmp1]
 ```
 
-```quote
-...
-```
+> ...
 
 ```tags
 [source]: [raw-stem]: [source].
 [tags]: [keyword1], [keywordtmp1]
 ```
 
-```quote
-...
-```
+> ...
 
 ```tags
 [source]: [raw-stem]: [source].
 [tags]: [keyword1], [keywordtmp1]
 ```
 
-```quote
-...
-```
+> ...
 
 - [keywordtmp1] → [keywordtmp2] (claim-type)
 
@@ -108,18 +102,14 @@ chain:
 [tags]: [keywordtmp1], [keywordtmp2]
 ```
 
-```quote
-...
-```
+> ...
 
 ```tags
 [source]: [raw-stem]: [source].
 [tags]: [keywordtmp1], [keywordtmp2]
 ```
 
-```quote
-...
-```
+> ...
 
 ...
 

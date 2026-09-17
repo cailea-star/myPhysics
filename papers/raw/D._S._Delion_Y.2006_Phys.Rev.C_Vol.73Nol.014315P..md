@@ -24,9 +24,7 @@ We analyze α decays to rotational states in even-even nuclei by using the stati
 [source]: section I. Introduction
 ```
 
-```quote
-We evidenced the important role played by the preexisting α clustering [6] in addition to the shell-model preformation.
-```
+> We evidenced the important role played by the preexisting α clustering [6] in addition to the shell-model preformation.
 
 ##### quotation-02
 
@@ -36,9 +34,7 @@ We evidenced the important role played by the preexisting α clustering [6] in a
 [source]: section I. Introduction
 ```
 
-```quote
-The first computations of the α-decay widths in rotational nuclei by using the coupled channels method were performed in Ref. [24].
-```
+> The first computations of the α-decay widths in rotational nuclei by using the coupled channels method were performed in Ref. [24].
 
 ##### quotation-03
 
@@ -48,9 +44,7 @@ The first computations of the α-decay widths in rotational nuclei by using the 
 [source]: section I. Introduction
 ```
 
-```quote
-In the last decade the α-decay spectroscopy was used to investigate the 0+ and 2+ excited states in the Pb [12–19] and U region [20]. We analyzed some of the experimental results concerning the fine structure of 2+ states by using the QRPA formalism in Refs. [21–23].
-```
+> In the last decade the α-decay spectroscopy was used to investigate the 0+ and 2+ excited states in the Pb [12–19] and U region [20]. We analyzed some of the experimental results concerning the fine structure of 2+ states by using the QRPA formalism in Refs. [21–23].
 
 ##### quotation-04
 
@@ -60,9 +54,7 @@ In the last decade the α-decay spectroscopy was used to investigate the 0+ and 
 [source]: section I. Introduction
 ```
 
-```quote
-In this way we can test to what extent the microscopically computed interfragment potential is able to describe not only the total decay width but also the very complex picture of decay widths to rotational levels.
-```
+> In this way we can test to what extent the microscopically computed interfragment potential is able to describe not only the total decay width but also the very complex picture of decay widths to rotational levels.
 
 ### Methods
 
@@ -74,9 +66,7 @@ In this way we can test to what extent the microscopically computed interfragmen
 [source]: section II.A. Coupled channels formalism
 ```
 
-```quote
-By using the orthonormality of angular functions entering the superposition in Eq. (8) one obtains in a standard way the coupled system of differential equations for radial components.
-```
+> By using the orthonormality of angular functions entering the superposition in Eq. (8) one obtains in a standard way the coupled system of differential equations for radial components.
 
 ##### quotation-06
 
@@ -86,9 +76,7 @@ By using the orthonormality of angular functions entering the superposition in E
 [source]: section V. Conclusions
 ```
 
-```quote
-The daughter nucleus has as eigenstates the standard K = 0 Wigner functions.
-```
+> The daughter nucleus has as eigenstates the standard K = 0 Wigner functions.
 
 ##### quotation-07
 
@@ -98,9 +86,7 @@ The daughter nucleus has as eigenstates the standard K = 0 Wigner functions.
 [source]: section I. Introduction
 ```
 
-```quote
-The α-core potential was estimated by using the double folding procedure in Refs. [27,28] and more recently in Ref. [29].
-```
+> The α-core potential was estimated by using the double folding procedure in Refs. [27,28] and more recently in Ref. [29].
 
 ##### quotation-08
 
@@ -110,9 +96,7 @@ The α-core potential was estimated by using the double folding procedure in Ref
 [source]: section V. Conclusions
 ```
 
-```quote
-We considered as an effective particle-particle nuclear interaction the superposition of three Yukawa terms (M3Y), able to describe scattering data.
-```
+> We considered as an effective particle-particle nuclear interaction the superposition of three Yukawa terms (M3Y), able to describe scattering data.
 
 
 
@@ -125,9 +109,7 @@ We considered as an effective particle-particle nuclear interaction the superpos
 [source]: abstract
 ```
 
-```quote
-We analyze α decays to rotational states in even-even nuclei by using the stationary coupled channels approach. Collective excitations are described by the rigid rotator model. The α-nucleus interaction is given by a double folding procedure using M3Y plus Coulomb nucleon-nucleon forces.
-```
+> We analyze α decays to rotational states in even-even nuclei by using the stationary coupled channels approach. Collective excitations are described by the rigid rotator model. The α-nucleus interaction is given by a double folding procedure using M3Y plus Coulomb nucleon-nucleon forces.
 
 ##### quotation-10
 
@@ -137,9 +119,7 @@ We analyze α decays to rotational states in even-even nuclei by using the stati
 [source]: section II.A. Coupled channels formalism
 ```
 
-```quote
-Because of the fact that all measured decay widths are by many orders of magnitude smaller than the corresponding Q values the stationarity is a very good assumption and an α-decaying state is identified with a narrow resonant solution, containing only outgoing components.
-```
+> Because of the fact that all measured decay widths are by many orders of magnitude smaller than the corresponding Q values the stationarity is a very good assumption and an α-decaying state is identified with a narrow resonant solution, containing only outgoing components.
 
 ##### quotation-11
 
@@ -149,9 +129,7 @@ Because of the fact that all measured decay widths are by many orders of magnitu
 [source]: section II.A. Coupled channels formalism
 ```
 
-```quote
-To this potential we also add a simple repulsive core, depending on one independent parameter. The role of this potential is similar to that in Refs. [32–34], where we investigated cold fission. Namely it simulates the Pauli principle and adjusts the energy of the system to the experimental Q value.
-```
+> To this potential we also add a simple repulsive core, depending on one independent parameter. The role of this potential is similar to that in Refs. [32–34], where we investigated cold fission. Namely it simulates the Pauli principle and adjusts the energy of the system to the experimental Q value.
 
 ##### quotation-12
 
@@ -161,9 +139,7 @@ To this potential we also add a simple repulsive core, depending on one independ
 [source]: section II. Theoretical background
 ```
 
-```quote
-We supposed that both fragments were left in rotational states. In our case the theoretical description becomes simpler, because only the heavy fragment can be excited.
-```
+> We supposed that both fragments were left in rotational states. In our case the theoretical description becomes simpler, because only the heavy fragment can be excited.
 
 ### Results
 
@@ -175,9 +151,7 @@ We supposed that both fragments were left in rotational states. In our case the 
 [source]: abstract
 ```
 
-```quote
-The decaying state is identified with the first resonance inside the resulting pocketlike potential. The energy of the resonant state is adjusted to the experimental Q value by using the depth of the repulsion.
-```
+> The decaying state is identified with the first resonance inside the resulting pocketlike potential. The energy of the resonant state is adjusted to the experimental Q value by using the depth of the repulsion.
 
 ##### quotation-14
 
@@ -187,9 +161,7 @@ The decaying state is identified with the first resonance inside the resulting p
 [source]: section II.B. Resonant states
 ```
 
-```quote
-The total decay width is a sum over partial channel widths. It can be derived from the continuity equation in a straightforward way and the result is the following:
-```
+> The total decay width is a sum over partial channel widths. It can be derived from the continuity equation in a straightforward way and the result is the following:
 
 ```math
 \Gamma=\sum_J\Gamma_J=\sum_J\hbar v_J\lim_{R\to\infty}|f_J(R)|^2=\sum_J\hbar v_J|N_J|^2
@@ -203,9 +175,7 @@ The total decay width is a sum over partial channel widths. It can be derived fr
 [source]: section II.B. Resonant states
 ```
 
-```quote
-This is the main reason why we prefer to characterize the fine structure by the quantities \(I_J \equiv \log_{10}(\Gamma_0/\Gamma_J)\), instead of the hindrance factors, defined as \(HF(J)=|f_0/f_J|^2\), and that are model dependent.
-```
+> This is the main reason why we prefer to characterize the fine structure by the quantities \(I_J \equiv \log_{10}(\Gamma_0/\Gamma_J)\), instead of the hindrance factors, defined as \(HF(J)=|f_0/f_J|^2\), and that are model dependent.
 
 ##### quotation-16
 
@@ -215,9 +185,7 @@ This is the main reason why we prefer to characterize the fine structure by the 
 [source]: section I. Introduction
 ```
 
-```quote
-The relative values of half-lives can be satisfactorily described within this simple picture. To describe absolute half-lives it is also necessary to consider the α-particle spectroscopic factor, or preformation probability, multiplying the barrier penetrability.
-```
+> The relative values of half-lives can be satisfactorily described within this simple picture. To describe absolute half-lives it is also necessary to consider the α-particle spectroscopic factor, or preformation probability, multiplying the barrier penetrability.
 
 
 
@@ -230,9 +198,7 @@ The relative values of half-lives can be satisfactorily described within this si
 [source]: section III, Fig. 1
 ```
 
-```quote
-The solid pocketlike curves (1) and (2) are the monopole parts of the interaction (31), giving the same Q value. Their parameters are (1) c = 90.117 (MeV fm−2), Qα + v0 = 10.272 (MeV) and (2) c = 30.296 (MeV fm−2), Qα + v0 = −3.816 (MeV).
-```
+> The solid pocketlike curves (1) and (2) are the monopole parts of the interaction (31), giving the same Q value. Their parameters are (1) c = 90.117 (MeV fm−2), Qα + v0 = 10.272 (MeV) and (2) c = 30.296 (MeV fm−2), Qα + v0 = −3.816 (MeV).
 
 ##### quotation-18
 
@@ -242,9 +208,7 @@ The solid pocketlike curves (1) and (2) are the monopole parts of the interactio
 [source]: section III, Fig. 2
 ```
 
-```quote
-Thus, in the spherical case, where the components with λ > 0 vanish, the decay widths to excited states are entirely determined by the corresponding centrifugal barriers.
-```
+> Thus, in the spherical case, where the components with λ > 0 vanish, the decay widths to excited states are entirely determined by the corresponding centrifugal barriers.
 
 ##### quotation-19
 
@@ -254,9 +218,7 @@ Thus, in the spherical case, where the components with λ > 0 vanish, the decay 
 [source]: section III, Fig. 3
 ```
 
-```quote
-The repulsive strength c and the quantity Qα + v0 are strongly related and therefore the repulsive core is charactized by one independent parameter. Indeed, by increasing c one should simultaneously increase the excitation energy Qα + v0, to obtain the same Q value and therefore the total half-life.
-```
+> The repulsive strength c and the quantity Qα + v0 are strongly related and therefore the repulsive core is charactized by one independent parameter. Indeed, by increasing c one should simultaneously increase the excitation energy Qα + v0, to obtain the same Q value and therefore the total half-life.
 
 ##### quotation-20
 
@@ -266,9 +228,7 @@ The repulsive strength c and the quantity Qα + v0 are strongly related and ther
 [source]: section III, Fig. 4
 ```
 
-```quote
-Moreover, our computations showed that the total half-life and the fine structure, defined by (26), is weakly affected by simultaneously changing the parameters of the repulsive potential for this decay process. This is shown in Fig. 4.
-```
+> Moreover, our computations showed that the total half-life and the fine structure, defined by (26), is weakly affected by simultaneously changing the parameters of the repulsive potential for this decay process. This is shown in Fig. 4.
 
 ##### quotation-21
 
@@ -278,9 +238,7 @@ Moreover, our computations showed that the total half-life and the fine structur
 [source]: section III, Fig. 5
 ```
 
-```quote
-We plotted [...] the Q value, [...] log10 T, [...] I2, and [...] I4, as a function of va. One sees a strong dependence of the first two quantities and a weaker variation for I4, whereas I2 is practically a constant.
-```
+> We plotted [...] the Q value, [...] log10 T, [...] I2, and [...] I4, as a function of va. One sees a strong dependence of the first two quantities and a weaker variation for I4, whereas I2 is practically a constant.
 
 ##### quotation-22
 
@@ -290,9 +248,7 @@ We plotted [...] the Q value, [...] log10 T, [...] I2, and [...] I4, as a functi
 [source]: section IV, Fig. 6
 ```
 
-```quote
-From Fig. 6(b) one sees that the computed half-lives (open circles) practically reproduce the experimental values.
-```
+> From Fig. 6(b) one sees that the computed half-lives (open circles) practically reproduce the experimental values.
 
 ##### quotation-23
 
@@ -302,9 +258,7 @@ From Fig. 6(b) one sees that the computed half-lives (open circles) practically 
 [source]: section IV, Fig. 7
 ```
 
-```quote
-Concerning I4, very good agreement was achieved only for the Z = 90 isotope chain. For the last Z = 96 and Z = 98 chains the agreement is within a half-order of magnitude, whereas the central peak, around the Z = 94 chain, is not reproduced.
-```
+> Concerning I4, very good agreement was achieved only for the Z = 90 isotope chain. For the last Z = 96 and Z = 98 chains the agreement is within a half-order of magnitude, whereas the central peak, around the Z = 94 chain, is not reproduced.
 
 ##### quotation-24
 
@@ -314,9 +268,7 @@ Concerning I4, very good agreement was achieved only for the Z = 90 isotope chai
 [source]: section IV, Fig. 8
 ```
 
-```quote
-One sees that the values for I4 are slightly improved with respect to those in Fig. 7(b).
-```
+> One sees that the values for I4 are slightly improved with respect to those in Fig. 7(b).
 
 ##### quotation-25
 
@@ -326,9 +278,7 @@ One sees that the values for I4 are slightly improved with respect to those in F
 [source]: section IV, Table I
 ```
 
-```quote
-The results of our computations are given in Figs. 6 and 7 [...] and in Table I. It turns out that, to satisfy the relation between the half-life and Q value, the quenching strength should slowly decrease from va ≈ 0.6 for A = 226 to va ≈ 0.5 for A = 250.
-```
+> The results of our computations are given in Figs. 6 and 7 [...] and in Table I. It turns out that, to satisfy the relation between the half-life and Q value, the quenching strength should slowly decrease from va ≈ 0.6 for A = 226 to va ≈ 0.5 for A = 250.
 
 ### Meanings
 
@@ -340,9 +290,7 @@ The results of our computations are given in Figs. 6 and 7 [...] and in Table I.
 [source]: abstract
 ```
 
-```quote
-We obtained a good agreement with existing experimental data concerning total half-lives and decay widths to J = 2+ states by changing the factor multiplying the nucleon-nucleon interaction according to the rule va = 0.668 − 0.004 (A − 208).
-```
+> We obtained a good agreement with existing experimental data concerning total half-lives and decay widths to J = 2+ states by changing the factor multiplying the nucleon-nucleon interaction according to the rule va = 0.668 − 0.004 (A − 208).
 
 ##### quotation-27
 
@@ -352,9 +300,7 @@ We obtained a good agreement with existing experimental data concerning total ha
 [source]: section III. Influence of potential parameters on the fine structure
 ```
 
-```quote
-The advantage of the method used in this article is that we completely decouple the internal repulsion from the external part and thus we are able to control the repulsive and attractive parameters independently, at variance with the δ-like force.
-```
+> The advantage of the method used in this article is that we completely decouple the internal repulsion from the external part and thus we are able to control the repulsive and attractive parameters independently, at variance with the δ-like force.
 
 ##### quotation-28
 
@@ -364,9 +310,7 @@ The advantage of the method used in this article is that we completely decouple 
 [source]: section V. Conclusions
 ```
 
-```quote
-However, the α decay is a deep subbarrier process [...]. Thus, α-decay fine structure is potentially a valuable tool to probe the nuclear interaction in the internal region. It is in principle able to improve our knowledge about how the effective nucleon-nucleon potential changes in the presence of α clustering.
-```
+> However, the α decay is a deep subbarrier process [...]. Thus, α-decay fine structure is potentially a valuable tool to probe the nuclear interaction in the internal region. It is in principle able to improve our knowledge about how the effective nucleon-nucleon potential changes in the presence of α clustering.
 
 ##### quotation-29
 
@@ -376,9 +320,7 @@ However, the α decay is a deep subbarrier process [...]. Thus, α-decay fine st
 [source]: abstract
 ```
 
-```quote
-We analyze α decays to rotational states in even-even nuclei by using the stationary coupled channels approach. [...] Concerning the decay widths to J = 4+ states we obtained a good agreement for Z = 90 neutron chain and a satisfactory description for Z = 92, 96, and 98, chains.
-```
+> We analyze α decays to rotational states in even-even nuclei by using the stationary coupled channels approach. [...] Concerning the decay widths to J = 4+ states we obtained a good agreement for Z = 90 neutron chain and a satisfactory description for Z = 92, 96, and 98, chains.
 
 ### Secondary Citations
 
@@ -392,9 +334,7 @@ We analyze α decays to rotational states in even-even nuclei by using the stati
 [doi]: [34] 10.1103/PhysRevC.68.041303
 ```
 
-```quote
-In this section we summarize the main theoretical details necessary to compute the decay width within the coupled channels formalism. The main ingredients were already introduced in Ref. [34] to investigate the double fine structure in cold fission.
-```
+> In this section we summarize the main theoretical details necessary to compute the decay width within the coupled channels formalism. The main ingredients were already introduced in Ref. [34] to investigate the double fine structure in cold fission.
 
 ##### quotation-31
 
@@ -406,9 +346,7 @@ In this section we summarize the main theoretical details necessary to compute t
 [doi]: [29] 10.1103/PhysRevC.63.034007
 ```
 
-```quote
-In our case the density of the daughter nucleus is given by such a distribution, whereas that of the α particle by a Gaussian with standard parameters [29].
-```
+> In our case the density of the daughter nucleus is given by such a distribution, whereas that of the α particle by a Gaussian with standard parameters [29].
 
 ##### quotation-32
 
@@ -420,9 +358,7 @@ In our case the density of the daughter nucleus is given by such a distribution,
 [doi]: [38] 10.1016/0003-4916(92)90153-D; [39] 10.1016/0375-9474(77)90392-X
 ```
 
-```quote
-In our computations we use the M3Y nucleon-nucleon [39] plus Coulomb force. For details see Ref. [38].
-```
+> In our computations we use the M3Y nucleon-nucleon [39] plus Coulomb force. For details see Ref. [38].
 
 ##### quotation-33
 
@@ -434,9 +370,7 @@ In our computations we use the M3Y nucleon-nucleon [39] plus Coulomb force. For 
 [doi]: [36] 10.1006/ndsh.1998.0009; [40] 10.1006/adnd.1995.1002
 ```
 
-```quote
-The experimental data, namely the excitation energies, total half-lives and Q values, are taken from the compilation [36]. [...] The deformation parameters were taken from the systematics in Ref. [40].
-```
+> The experimental data, namely the excitation energies, total half-lives and Q values, are taken from the compilation [36]. [...] The deformation parameters were taken from the systematics in Ref. [40].
 
 
 ### Gaps

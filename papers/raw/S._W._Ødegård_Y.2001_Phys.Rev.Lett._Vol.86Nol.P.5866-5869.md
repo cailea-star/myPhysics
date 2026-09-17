@@ -21,9 +21,7 @@ The nucleus (163)Lu has been populated through the fusion-evaporation reaction (
 [source]: Introduction.
 ```
 
-```quote
-The wobbling mode [...] is a direct consequence of rotational motion of a triaxial body with moments of inertia \(J_x \gg J_y \ne J_z\).
-```
+> The wobbling mode [...] is a direct consequence of rotational motion of a triaxial body with moments of inertia \(J_x \gg J_y \ne J_z\).
 
 ##### quotation-02
 
@@ -33,9 +31,7 @@ The wobbling mode [...] is a direct consequence of rotational motion of a triaxi
 [source]: Introduction.
 ```
 
-```quote
-So far, no direct experimental evidence for the triaxiality of the observed triaxial, strongly deformed (TSD) bands has been given, but one possible and unique consequence of a rotating nucleus with a triaxial shape is the existence of “wobbling bands” [2].
-```
+> So far, no direct experimental evidence for the triaxiality of the observed triaxial, strongly deformed (TSD) bands has been given, but one possible and unique consequence of a rotating nucleus with a triaxial shape is the existence of “wobbling bands” [2].
 
 ### Methods
 
@@ -47,9 +43,7 @@ So far, no direct experimental evidence for the triaxiality of the observed tria
 [source]: Methods.
 ```
 
-```quote
-To find and investigate the nature of the connecting transitions between TSD2 and TSD1, an experiment was performed with Euroball IV [11] in Strasbourg equipped with the BGO inner ball. Approximately 2.4 x 10^9 events [...] were collected and used in 3D and 4D coincidence analyses.
-```
+> To find and investigate the nature of the connecting transitions between TSD2 and TSD1, an experiment was performed with Euroball IV [11] in Strasbourg equipped with the BGO inner ball. Approximately 2.4 x 10^9 events [...] were collected and used in 3D and 4D coincidence analyses.
 
 ##### quotation-04
 
@@ -59,9 +53,7 @@ To find and investigate the nature of the connecting transitions between TSD2 an
 [source]: Methods.
 ```
 
-```quote
-The directional correlation of gamma rays from the oriented states (DCO ratios) [13] were obtained for the strongest connecting transitions [...]. In addition, angular distribution ratios were produced from the same data. Both the angular correlation and angular distribution data are consistent with mixed M1/E2 multipolarity for the connecting transitions.
-```
+> The directional correlation of gamma rays from the oriented states (DCO ratios) [13] were obtained for the strongest connecting transitions [...]. In addition, angular distribution ratios were produced from the same data. Both the angular correlation and angular distribution data are consistent with mixed M1/E2 multipolarity for the connecting transitions.
 
 ##### quotation-05
 
@@ -71,9 +63,7 @@ The directional correlation of gamma rays from the oriented states (DCO ratios) 
 [source]: Results.
 ```
 
-```quote
-Second, a configuration [...] is predicted by the UC calculations. This configuration has a local minimum identical to that of TSD1, but the excitation energy is approximately the same as that of the signature partner, and therefore 3–4 times higher than found experimentally for TSD2.
-```
+> Second, a configuration [...] is predicted by the UC calculations. This configuration has a local minimum identical to that of TSD1, but the excitation energy is approximately the same as that of the signature partner, and therefore 3–4 times higher than found experimentally for TSD2.
 
 ##### quotation-06
 
@@ -83,9 +73,7 @@ Second, a configuration [...] is predicted by the UC calculations. This configur
 [source]: Results.
 ```
 
-```quote
-Finally, based on particle-rotor model calculations [17], the [...] possibility that TSD2 is a wobbling excitation [...] built on [...] TSD1 [...] is suggested. Around the relevant angular-momentum region, a wobbling mode [...] can appear energetically lower than the [...] signature partner [...] if appropriate values of gamma and moments of inertia are chosen.
-```
+> Finally, based on particle-rotor model calculations [17], the [...] possibility that TSD2 is a wobbling excitation [...] built on [...] TSD1 [...] is suggested. Around the relevant angular-momentum region, a wobbling mode [...] can appear energetically lower than the [...] signature partner [...] if appropriate values of gamma and moments of inertia are chosen.
 
 ##### quotation-07
 
@@ -95,9 +83,7 @@ Finally, based on particle-rotor model calculations [17], the [...] possibility 
 [source]: Results; Fig. 5; Table I.
 ```
 
-```quote
-The agreement of the present data with the results calculated for the wobbling mode appears quite satisfactory [...] in view of the schematic character of the particle-rotor calculations [...]. [...] The observed gradual increase of B(M1) values may come from the gradual increase of neutron alignment in the core, which is seen in the observed alignment ix but not included in the calculation of B(M1) values.
-```
+> The agreement of the present data with the results calculated for the wobbling mode appears quite satisfactory [...] in view of the schematic character of the particle-rotor calculations [...]. [...] The observed gradual increase of B(M1) values may come from the gradual increase of neutron alignment in the core, which is seen in the observed alignment ix but not included in the calculation of B(M1) values.
 
 ##### quotation-08
 
@@ -107,9 +93,7 @@ The agreement of the present data with the results calculated for the wobbling m
 [source]: Results; Fig. 4.
 ```
 
-```quote
-In the cranking regime both E2 and M1 (αu, I + 1) → (αf, I) transitions are strongly reduced because ΔRx ≈ 2ℏ and, simultaneously, Δjx ≈ 1ℏ.
-```
+> In the cranking regime both E2 and M1 (αu, I + 1) → (αf, I) transitions are strongly reduced because ΔRx ≈ 2ℏ and, simultaneously, Δjx ≈ 1ℏ.
 
 ### Results
 
@@ -121,9 +105,7 @@ In the cranking regime both E2 and M1 (αu, I + 1) → (αf, I) transitions are 
 [source]: Results; Fig. 1; Fig. 2.
 ```
 
-```quote
-The band TSD2 could be extended to both lower (6 hbar) and higher (4 hbar) spins, and 9 connecting transitions to TSD1 were established; see Fig. 1. Gated spectra illustrating the connecting transitions and their angular dependence [...] are shown in Fig. 2.
-```
+> The band TSD2 could be extended to both lower (6 hbar) and higher (4 hbar) spins, and 9 connecting transitions to TSD1 were established; see Fig. 1. Gated spectra illustrating the connecting transitions and their angular dependence [...] are shown in Fig. 2.
 
 ##### quotation-10
 
@@ -133,9 +115,7 @@ The band TSD2 could be extended to both lower (6 hbar) and higher (4 hbar) spins
 [source]: Methods.
 ```
 
-```quote
-In all cases the data were selected by clean gates in TSD1 [...] in the spin range 21/2–45/2 hbar. The spin alignment, parametrized as s/I for a Gaussian distribution of the m-substate population, was determined for [...] stretched E2 transitions [...].
-```
+> In all cases the data were selected by clean gates in TSD1 [...] in the spin range 21/2–45/2 hbar. The spin alignment, parametrized as s/I for a Gaussian distribution of the m-substate population, was determined for [...] stretched E2 transitions [...].
 
 ##### quotation-11
 
@@ -145,9 +125,7 @@ In all cases the data were selected by clean gates in TSD1 [...] in the spin ran
 [source]: Results; Fig. 4.
 ```
 
-```quote
-The zigzag pattern can be understood by examining Fig. 4, obtained by analyzing the wave functions in the particle-rotor model. The total angular momentum is I=R+j, where the angular momentum of the collective rotation of the core is expressed by R.
-```
+> The zigzag pattern can be understood by examining Fig. 4, obtained by analyzing the wave functions in the particle-rotor model. The total angular momentum is I=R+j, where the angular momentum of the collective rotation of the core is expressed by R.
 
 ##### quotation-12
 
@@ -157,9 +135,7 @@ The zigzag pattern can be understood by examining Fig. 4, obtained by analyzing 
 [source]: Results; Fig. 5.
 ```
 
-```quote
-Calculated values of B(E2)out/B(E2)in and B(M1)/B(E2)in are shown together with the experimental values [...] in Fig. 5. The agreement of the present data with the results calculated for the wobbling mode appears quite satisfactory [...], in view of the [...] particle-rotor calculations [...].
-```
+> Calculated values of B(E2)out/B(E2)in and B(M1)/B(E2)in are shown together with the experimental values [...] in Fig. 5. The agreement of the present data with the results calculated for the wobbling mode appears quite satisfactory [...], in view of the [...] particle-rotor calculations [...].
 
 ##### quotation-13
 
@@ -169,9 +145,7 @@ Calculated values of B(E2)out/B(E2)in and B(M1)/B(E2)in are shown together with 
 [source]: Results; Table I.
 ```
 
-```quote
-From the measured branching ratios, λ = Tγ,out(M1 + E2)/Tγ,in(E2), and mixing ratio δ, the experimental reduced transition probabilities B(M1) and B(E2)out can be determined relative to B(E2)in, and compared to theoretical expectations.
-```
+> From the measured branching ratios, λ = Tγ,out(M1 + E2)/Tγ,in(E2), and mixing ratio δ, the experimental reduced transition probabilities B(M1) and B(E2)out can be determined relative to B(E2)in, and compared to theoretical expectations.
 
 ### Meanings
 
@@ -183,9 +157,7 @@ From the measured branching ratios, λ = Tγ,out(M1 + E2)/Tγ,in(E2), and mixing
 [source]: Abstract.
 ```
 
-```quote
-Evidence is presented for the assignment of the excited TSD band as a wobbling mode built on the yrast TSD band, based on comparisons to new calculations in which an aligned particle is coupled to a strongly deformed triaxial rotor. The wobbling mode is uniquely related to triaxiality in nuclei.
-```
+> Evidence is presented for the assignment of the excited TSD band as a wobbling mode built on the yrast TSD band, based on comparisons to new calculations in which an aligned particle is coupled to a strongly deformed triaxial rotor. The wobbling mode is uniquely related to triaxiality in nuclei.
 
 ##### quotation-15
 
@@ -195,9 +167,7 @@ Evidence is presented for the assignment of the excited TSD band as a wobbling m
 [source]: Results; Fig. 5; Table I.
 ```
 
-```quote
-The agreement of the present data with the results calculated for the wobbling mode appears quite satisfactory from Fig. 5 and Table I, in view of the schematic character of the particle-rotor calculations including a single proton i13/2 subshell.
-```
+> The agreement of the present data with the results calculated for the wobbling mode appears quite satisfactory from Fig. 5 and Table I, in view of the schematic character of the particle-rotor calculations including a single proton i13/2 subshell.
 
 
 ### Secondary Citations
@@ -211,9 +181,7 @@ The agreement of the present data with the results calculated for the wobbling m
 [doi]: unknown
 ```
 
-```quote
-The wobbling phonon energy is hbar omega_w = hbar omega_rot [(Jx-Jy)(Jx-Jz)/(JyJz)]^1/2 with hbar omega_rot = I/Jx [2].
-```
+> The wobbling phonon energy is hbar omega_w = hbar omega_rot [(Jx-Jy)(Jx-Jz)/(JyJz)]^1/2 with hbar omega_rot = I/Jx [2].
 
 ```math
 \hbar\omega_w = \hbar\omega_{\rm rot}\sqrt{\frac{(J_x-J_y)(J_x-J_z)}{J_yJ_z}}, \quad \hbar\omega_{\rm rot}=I/J_x.
@@ -228,9 +196,7 @@ The wobbling phonon energy is hbar omega_w = hbar omega_rot [(Jx-Jy)(Jx-Jz)/(JyJ
 [doi]: unknown
 ```
 
-```quote
-The directional correlation of gamma rays from the oriented states (DCO ratios) [13] were obtained for the strongest connecting transitions using "25 deg" and "90 deg" data.
-```
+> The directional correlation of gamma rays from the oriented states (DCO ratios) [13] were obtained for the strongest connecting transitions using "25 deg" and "90 deg" data.
 
 ##### quotation-18
 ```tags
@@ -241,9 +207,7 @@ The directional correlation of gamma rays from the oriented states (DCO ratios) 
 [doi]: unknown; unknown
 ```
 
-```quote
-First, cranking calculations with the "ultimate cranker" (UC) [15,16], based on a modified harmonic oscillator potential, predict a large signature splitting [...]. The local minimum associated with the unfavored signature [...] is found [...] at a smaller quadrupole deformation, epsilon2 ~ 0.32, and a larger triaxiality, gamma ~ 40 deg.
-```
+> First, cranking calculations with the "ultimate cranker" (UC) [15,16], based on a modified harmonic oscillator potential, predict a large signature splitting [...]. The local minimum associated with the unfavored signature [...] is found [...] at a smaller quadrupole deformation, epsilon2 ~ 0.32, and a larger triaxiality, gamma ~ 40 deg.
 
 ##### quotation-19
 ```tags
@@ -254,9 +218,7 @@ First, cranking calculations with the "ultimate cranker" (UC) [15,16], based on 
 [doi]: unknown
 ```
 
-```quote
-Finally, based on particle-rotor model calculations [17], the most interesting possibility that TSD2 is a wobbling excitation with nw=1 built on the aligned i13/2 proton configuration TSD1 is suggested.
-```
+> Finally, based on particle-rotor model calculations [17], the most interesting possibility that TSD2 is a wobbling excitation with nw=1 built on the aligned i13/2 proton configuration TSD1 is suggested.
 
 ### Gaps
 
