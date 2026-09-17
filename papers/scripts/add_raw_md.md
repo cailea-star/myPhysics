@@ -12,7 +12,7 @@
 [this_abstract]
 
 <!-- claim-type: ([claim-type]: motivation is required) and ([claim-type]: definition or [claim-type]: background is required for core-tag coverage; prefer definition) -->
-<!-- coverage: (identify the three most central tags from the Abstract, excluding [tag-type]: method and current-work output [tag-type]: quantity) and (for each identified tag, assign >=1 valid quotation to [claim-type]: definition or [claim-type]: background; otherwise report a gap) -->
+<!-- coverage: (identify the three most central tags from reader) and (for each identified tag, assign >=1 valid quotation to [claim-type]: definition or [claim-type]: background; otherwise report a gap) -->
 <!-- quotation: (none) -->
 ### Motivation
 
@@ -24,9 +24,7 @@
 [source]: section 1.
 ```
 
-```quote
-This is a quotation from the original paper, which is tagged with the above tags.
-```
+> This is a quotation from the original paper, which is tagged with the above tags.
 
 ##### quotation-02
 
@@ -71,9 +69,7 @@ This is a quotation from the original paper, which is tagged with the above tags
 [doi]: doi number of the reference or unknown.
 ```
 
-```quote
-This is a quotation with secondary citations from the original paper[ab], which is tagged with the above tags.
-```
+> This is a quotation with secondary citations from the original paper[ab], which is tagged with the above tags.
 
 <!-- gaps: record only validated gap verdicts after full-text review; use one bullet per independently counted template item; limit [reason] to 10 words; delete the placeholder when there are no gaps; do not record fix verdicts -->
 ### Gaps
