@@ -1,0 +1,63 @@
+{
+  "source": "Crossref",
+  "language": "en",
+  "title": [
+    "Coupled reaction channels calculations in nuclear physics"
+  ],
+  "author": [
+    {
+      "given": "Ian J.",
+      "family": "Thompson",
+      "sequence": "first",
+      "affiliation": [],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    }
+  ],
+  "author-corresponding-openalex": [
+    {
+      "raw_author_name": "Ian J. Thompson",
+      "given": "Ian J.",
+      "family": "Thompson",
+      "raw_orcid": null,
+      "ORCID": "",
+      "raw_affiliation_strings": [
+        "Department of Engineering Mathematics, Bristol University, Bristol, BS8 1TR, UK",
+        "Department of Engineering Mathematics, Bristol University, Bristol BS8 1TR, UK"
+      ],
+      "is_corresponding": true
+    }
+  ],
+  "DOI": "10.1016/0167-7977(88)90005-6",
+  "URL": "https://doi.org/10.1016/0167-7977(88)90005-6",
+  "is-referenced-by-count": 1720,
+  "reference-count": 95,
+  "abstract": "This paper describes the components and methods of a comprehensive code for coupled reaction channels calculations in nuclear physics. Procedures are described which are common to the modelling of reactions induced by light and medium-mass ions, and which are sufficient to calculate the effects of successive processes to any order.",
+  "publisher": "Elsevier BV",
+  "container-title": [
+    "Computer Physics Reports"
+  ],
+  "short-container-title": [
+    "Computer Physics Reports"
+  ],
+  "type": "journal-article",
+  "volume": "7",
+  "page": "167-212",
+  "article-number": null,
+  "issued": {
+    "date-parts": [
+      [
+        1988,
+        4
+      ]
+    ]
+  },
+  "ISSN": [
+    "0167-7977"
+  ],
+  "stem": "Ian_J._Thompson_Y.1988_ComputerPhysicsReports_Vol.7Nol.P.167-212"
+}

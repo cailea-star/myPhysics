@@ -37,17 +37,19 @@ description: Ingest one paper into the literature workspace. Use when user asks 
 - Full text: Download ONLY from arXiv; save same-basename `papers/raw/[json_basename].pdf` or `.tex`.
 - Failure: If arXiv fails, NEVER use other sources; PRINT direct links and target path; STOP.
 
-#### Determine Core Tags
-
-- Core tags: The reader MUST determine exactly three core tags.
-- Changes: NEVER change these core tags without the reader's approval.
-
 #### Confirm Understanding
 
-- Focus: MUST organize the understanding around the reader's three core tags.
+- Focus: MUST identify the paper's central questions and contributions from the full text.
 - Summarize: Using full text, MUST give two-sentence Motivation, Methods, Results, and Meanings summaries.
 - Assessment: MUST state the paper's core innovation and gaps, distinguishing explicit statements from inferred limitations.
-- Approval: MUST discuss until the reader explicitly confirms shared understanding before entering Gate 3.
+- Approval: MUST obtain explicit confirmation of shared understanding before determining core tags.
+
+#### Determine Core Tags and Ingestion Type
+
+- Core tags: The reader MUST determine exactly three core tags based on the confirmed understanding.
+- Ingestion type: MUST confirm figure/result-focused or theory/method-focused ingestion and its coverage outline.
+- Changes: NEVER change core tags, ingestion type, or coverage outline without the reader's approval.
+- Approval: Before Gate 3, MUST explicitly confirm core tags, ingestion type, and outline with reader.
 
 ### Gate 3 — Generate Raw Files / Check Tags & Authors
 
@@ -81,7 +83,15 @@ description: Ingest one paper into the literature workspace. Use when user asks 
 - Route: Approved Wiki work MUST execute every required [Wiki Draft-Rules](../papers-wiki-rules/SKILL.md#draft-rules) step before Gate 6.
 - Skip: Skipped Wiki work advances directly to Gate 6.
 
-### Gate 6 — Log & Recommend Next Paper(s)
+### Gate 6 — Final Understanding / Log & Recommend Next Paper(s)
+
+#### Final Understanding
+
+- Summarize: MUST present final understanding through two-sentence Motivation, Methods, Results, and Meanings summaries.
+- Revisions: MUST identify corrections to Gate 2 understanding; explicitly state when none occurred.
+- Verification: MUST distinguish source claims, independently verified findings, and unresolved questions.
+
+#### Log & Recommend
 
 - Log: Before recommendations, MUST append Raw filename, DOI, title, and core tags to [papers/log.md](../../../papers/log.md).
 - Recommend: MUST PRINT at least three central Secondary Citations with DOI, tags, citation, and rationale.

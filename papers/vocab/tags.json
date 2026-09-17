@@ -97,7 +97,7 @@
   },
   {
     "tag": "coupled_channels_method",
-    "definition": "coupled-channels method used to calculate alpha transitions, decay widths, and branching to excited nuclear states",
+    "definition": "method that expands a system wave function in channel states and solves the resulting coupled equations for their relative-motion wave functions",
     "types": ["method"],
     "aliases": ["coupled channels method", "coupled channels approach", "coupled channels formalism"]
   },
@@ -862,5 +862,17 @@
     "definition": "squared alpha-particle formation amplitude |R F_alpha(R)|^2 used to quantify alpha-particle clustering and extracted from an alpha-decay half-life",
     "types": ["quantity"],
     "aliases": ["alpha-particle formation probability", "α-particle formation probability"]
+  },
+  {
+    "tag": "coupling_interaction",
+    "definition": "interaction represented by channel-space matrix elements or nonlocal kernels in coupled equations, including spin-dependent interactions, inelastic excitations, and particle transfers",
+    "types": ["quantity"],
+    "aliases": ["coupling interactions"]
+  },
+  {
+    "tag": "nuclear_reaction",
+    "definition": "collision-induced process in which a nucleus changes its internal state or constituent composition through interactions with another particle or nucleus",
+    "types": ["phenomenon"],
+    "aliases": ["nuclear reactions"]
   }
 ]
