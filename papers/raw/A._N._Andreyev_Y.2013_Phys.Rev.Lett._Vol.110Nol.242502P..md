@@ -24,9 +24,7 @@ In recent experiments at the velocity filter Separator for Heavy Ion reaction Pr
 [source]: introduction.
 ```
 
-```quote
-In nuclear science, the constant attention to α decay (and its time-reversal process of fusion reactions with α particles) is due to the relative simplicity of its experimental investigation and the wealth of spectroscopic information it provides [1].
-```
+> In nuclear science, the constant attention to α decay (and its time-reversal process of fusion reactions with α particles) is due to the relative simplicity of its experimental investigation and the wealth of spectroscopic information it provides [1].
 
 ##### quotation-02
 
@@ -36,9 +34,7 @@ In nuclear science, the constant attention to α decay (and its time-reversal pr
 [source]: introduction.
 ```
 
-```quote
-Since then, practically all theoretical and semiempirical methods treat α decay as a two-step process, which involves the preformation of an α particle, followed by its penetration through the barrier.
-```
+> Since then, practically all theoretical and semiempirical methods treat α decay as a two-step process, which involves the preformation of an α particle, followed by its penetration through the barrier.
 
 ##### quotation-03
 
@@ -48,9 +44,7 @@ Since then, practically all theoretical and semiempirical methods treat α decay
 [source]: introduction.
 ```
 
-```quote
-However, fine-structure α-decay studies hinted at a \(Z = 82\) shell closure [12], and the systematics of the \(Q_\alpha\) values do not show any sign of a reduction of the \(Z = 82\) shell closure.
-```
+> However, fine-structure α-decay studies hinted at a \(Z = 82\) shell closure [12], and the systematics of the \(Q_\alpha\) values do not show any sign of a reduction of the \(Z = 82\) shell closure.
 
 
 
@@ -65,9 +59,7 @@ However, fine-structure α-decay studies hinted at a \(Z = 82\) shell closure [1
 [source]: introduction.
 ```
 
-```quote
-Recently, we performed a series of experiments at the Separator for Heavy Ion reaction Products (SHIP) in GSI (Darmstadt, Germany) aimed at detailed α-decay studies of the most neutron-deficient isotopes in the lead to thorium region.
-```
+> Recently, we performed a series of experiments at the Separator for Heavy Ion reaction Products (SHIP) in GSI (Darmstadt, Germany) aimed at detailed α-decay studies of the most neutron-deficient isotopes in the lead to thorium region.
 
 ##### quotation-05
 
@@ -77,9 +69,7 @@ Recently, we performed a series of experiments at the Separator for Heavy Ion re
 [source]: experimental setup.
 ```
 
-```quote
-After separation by SHIP, the nuclei were implanted into a \(300\,\mu\mathrm{m}\) thick, \(35 \times 80\,\mathrm{mm}^2\) 16-strip position-sensitive silicon detector, where their subsequent particle decays were measured.
-```
+> After separation by SHIP, the nuclei were implanted into a \(300\,\mu\mathrm{m}\) thick, \(35 \times 80\,\mathrm{mm}^2\) 16-strip position-sensitive silicon detector, where their subsequent particle decays were measured.
 
 ##### quotation-06
 
@@ -89,9 +79,7 @@ After separation by SHIP, the nuclei were implanted into a \(300\,\mu\mathrm{m}\
 [source]: theoretical analysis.
 ```
 
-```quote
-The new results in the lead to thorium region can now be analyzed with the recently developed Universal Decay Law, which describes in a consistent way the half-lives of all forms of cluster radioactivity [25].
-```
+> The new results in the lead to thorium region can now be analyzed with the recently developed Universal Decay Law, which describes in a consistent way the half-lives of all forms of cluster radioactivity [25].
 
 ##### quotation-07
 
@@ -101,9 +89,7 @@ The new results in the lead to thorium region can now be analyzed with the recen
 [source]: abstract.
 ```
 
-```quote
-From the experimental data, the α-particle formation probabilities are deduced following the Universal Decay Law approach.
-```
+> From the experimental data, the α-particle formation probabilities are deduced following the Universal Decay Law approach.
 
 ##### quotation-08
 
@@ -113,9 +99,7 @@ From the experimental data, the α-particle formation probabilities are deduced 
 [source]: pairing analysis.
 ```
 
-```quote
-Within the BCS approach, the two-particle formation amplitude is proportional to \(\sum_k u_kv_k\), where \(u_k\) and \(v_k\) are the standard occupation numbers.
-```
+> Within the BCS approach, the two-particle formation amplitude is proportional to \(\sum_k u_kv_k\), where \(u_k\) and \(v_k\) are the standard occupation numbers.
 
 ##### quotation-09
 
@@ -125,9 +109,7 @@ Within the BCS approach, the two-particle formation amplitude is proportional to
 [source]: pairing analysis.
 ```
 
-```quote
-To this, one has to add the overlaps of the corresponding proton and neutron radial functions with the α-particle intrinsic wave function on the nuclear surface [2]. For neighboring nuclei, these overlaps of radial wave functions do not differ strongly from each other and may be considered constant.
-```
+> To this, one has to add the overlaps of the corresponding proton and neutron radial functions with the α-particle intrinsic wave function on the nuclear surface [2]. For neighboring nuclei, these overlaps of radial wave functions do not differ strongly from each other and may be considered constant.
 
 
 
@@ -142,9 +124,7 @@ To this, one has to add the overlaps of the corresponding proton and neutron rad
 [source]: introduction.
 ```
 
-```quote
-The gross features of $\Delta L=0$ (no angular momentum change) α transitions (e.g., between the $I^\pi=0^+$ ground states of even-even nuclei) are expressed by the Geiger-Nuttall rule [6], postulated in 1911, which linearly relates the logarithm of the partial half-life $T_{1/2}$ with the inverse square root of the α-decay $Q$ value.
-```
+> The gross features of $\Delta L=0$ (no angular momentum change) α transitions (e.g., between the $I^\pi=0^+$ ground states of even-even nuclei) are expressed by the Geiger-Nuttall rule [6], postulated in 1911, which linearly relates the logarithm of the partial half-life $T_{1/2}$ with the inverse square root of the α-decay $Q$ value.
 
 ##### quotation-11
 
@@ -154,9 +134,7 @@ The gross features of $\Delta L=0$ (no angular momentum change) α transitions (
 [source]: theoretical analysis.
 ```
 
-```quote
-Compared to the reduced width of Ref. [9], the formation probability $|RF_c(R)|^2$ gives a more precise and unambiguous assessment of the clustering process. From Eq. (1), one can extract the experimental formation probability if the corresponding half-life has been determined.
-```
+> Compared to the reduced width of Ref. [9], the formation probability $|RF_c(R)|^2$ gives a more precise and unambiguous assessment of the clustering process. From Eq. (1), one can extract the experimental formation probability if the corresponding half-life has been determined.
 
 ##### quotation-12
 
@@ -166,9 +144,7 @@ Compared to the reduced width of Ref. [9], the formation probability $|RF_c(R)|^
 [source]: pairing analysis.
 ```
 
-```quote
-To probe this conjecture, we compare the formation probabilities extracted from the experimental half-lives to the corresponding pairing gaps. The latter can readily be obtained from the experimental binding energies [29] as
-```
+> To probe this conjecture, we compare the formation probabilities extracted from the experimental half-lives to the corresponding pairing gaps. The latter can readily be obtained from the experimental binding energies [29] as
 
 ```math
 \Delta_n(Z,N)
@@ -187,9 +163,7 @@ B(Z,N)+B(Z,N-2)-2B(Z,N-1)
 [source]: experimental setup.
 ```
 
-```quote
-After separation by SHIP, the nuclei were implanted into a $300\,\mu\mathrm{m}$ thick, $35 \times 80\,\mathrm{mm}^2$ 16-strip position-sensitive silicon detector, where their subsequent particle decays were measured. [...] The $^{186}\mathrm{Po}$ production cross section is only $\sim200(70)$ pb, which corresponds to the production of a few atoms of $^{186}\mathrm{Po}$ per day.
-```
+> After separation by SHIP, the nuclei were implanted into a $300\,\mu\mathrm{m}$ thick, $35 \times 80\,\mathrm{mm}^2$ 16-strip position-sensitive silicon detector, where their subsequent particle decays were measured. [...] The $^{186}\mathrm{Po}$ production cross section is only $\sim200(70)$ pb, which corresponds to the production of a few atoms of $^{186}\mathrm{Po}$ per day.
 
 ##### quotation-14
 
@@ -199,9 +173,7 @@ After separation by SHIP, the nuclei were implanted into a $300\,\mu\mathrm{m}$ 
 [source]: experimental results, figure 1.
 ```
 
-```quote
-On the basis of all eight correlation chains, an α-decay energy of $8320(15)$ keV and a half-life of $28^{+16}_{-6}\,\mu\mathrm{s}$ were deduced for $^{186}\mathrm{Po}$.
-```
+> On the basis of all eight correlation chains, an α-decay energy of $8320(15)$ keV and a half-life of $28^{+16}_{-6}\,\mu\mathrm{s}$ were deduced for $^{186}\mathrm{Po}$.
 
 ##### quotation-15
 
@@ -211,9 +183,7 @@ On the basis of all eight correlation chains, an α-decay energy of $8320(15)$ k
 [source]: theoretical analysis, figure 2(a).
 ```
 
-```quote
-Below the shell closure, $|RF_c(R)|^2$ decreases as a function of rising neutron number, reaching its lowest values at the shell closure.
-```
+> Below the shell closure, $|RF_c(R)|^2$ decreases as a function of rising neutron number, reaching its lowest values at the shell closure.
 
 ##### quotation-16
 
@@ -223,9 +193,7 @@ Below the shell closure, $|RF_c(R)|^2$ decreases as a function of rising neutron
 [source]: pairing analysis, figure 2(b).
 ```
 
-```quote
-One indeed sees a striking similarity between the tendency of the pairing gaps in this figure with the α-particle formation probabilities.
-```
+> One indeed sees a striking similarity between the tendency of the pairing gaps in this figure with the α-particle formation probabilities.
 
 ##### quotation-17
 
@@ -235,9 +203,7 @@ One indeed sees a striking similarity between the tendency of the pairing gaps i
 [source]: theoretical analysis, figure 3(b).
 ```
 
-```quote
-Figure 3(b), where the crossing of the $Z=82$ shell is effectively shown, indicates the typical increase in $|RF_c(R)|^2$ not between lead and polonium isotopes but between lead and radon and higher $Z$ isotones.
-```
+> Figure 3(b), where the crossing of the $Z=82$ shell is effectively shown, indicates the typical increase in $|RF_c(R)|^2$ not between lead and polonium isotopes but between lead and radon and higher $Z$ isotones.
 
 
 
@@ -252,9 +218,7 @@ Figure 3(b), where the crossing of the $Z=82$ shell is effectively shown, indica
 [source]: abstract.
 ```
 
-```quote
-The new α-decay data, of which the $^{186}\mathrm{Po}$ decay is reported here, allowed us for the first time to clearly show that crossing the $Z=82$ shell to higher proton numbers strongly accelerates the α decay.
-```
+> The new α-decay data, of which the $^{186}\mathrm{Po}$ decay is reported here, allowed us for the first time to clearly show that crossing the $Z=82$ shell to higher proton numbers strongly accelerates the α decay.
 
 ##### quotation-19
 
@@ -264,9 +228,7 @@ The new α-decay data, of which the $^{186}\mathrm{Po}$ decay is reported here, 
 [source]: abstract.
 ```
 
-```quote
-A striking resemblance between the phenomenological pairing gap deduced from experimental binding energies and the formation probabilities is noted.
-```
+> A striking resemblance between the phenomenological pairing gap deduced from experimental binding energies and the formation probabilities is noted.
 
 ##### quotation-20
 
@@ -276,9 +238,7 @@ A striking resemblance between the phenomenological pairing gap deduced from exp
 [source]: abstract.
 ```
 
-```quote
-These findings support the conjecture that both the $N=126$ and $Z=82$ shell closures strongly influence the α-formation probability.
-```
+> These findings support the conjecture that both the $N=126$ and $Z=82$ shell closures strongly influence the α-formation probability.
 
 
 
@@ -296,9 +256,7 @@ These findings support the conjecture that both the $N=126$ and $Z=82$ shell clo
 [doi]: 10.1103/PhysRevLett.103.072501; 10.1103/PhysRevC.80.044326
 ```
 
-```quote
-The new results in the lead to thorium region can now be analyzed with the recently developed Universal Decay Law, which describes in a consistent way the half-lives of all forms of cluster radioactivity [25].
-```
+> The new results in the lead to thorium region can now be analyzed with the recently developed Universal Decay Law, which describes in a consistent way the half-lives of all forms of cluster radioactivity [25].
 
 ##### quotation-22
 
@@ -310,9 +268,7 @@ The new results in the lead to thorium region can now be analyzed with the recen
 [doi]: 10.1143/PTP.12.253
 ```
 
-```quote
-In the Universal Decay Law, the half-life corresponding to the emission of a cluster $c$ (in particular an α particle) from a mother nucleus is evaluated starting with the microscopic expression provided by residues of the $R$ matrix [26], i.e.,
-```
+> In the Universal Decay Law, the half-life corresponding to the emission of a cluster $c$ (in particular an α particle) from a mother nucleus is evaluated starting with the microscopic expression provided by residues of the $R$ matrix [26], i.e.,
 
 ```math
 T_{1/2}
@@ -333,9 +289,7 @@ T_{1/2}
 [doi]: 10.1103/PhysRevC.81.064319
 ```
 
-```quote
-Combining these data with our recently obtained results for the neutron-deficient isotopes with $Z>82$, we extracted the α-particle formation probabilities following Ref. [27].
-```
+> Combining these data with our recently obtained results for the neutron-deficient isotopes with $Z>82$, we extracted the α-particle formation probabilities following Ref. [27].
 
 ##### quotation-24
 
@@ -347,9 +301,7 @@ Combining these data with our recently obtained results for the neutron-deficien
 [doi]: 10.1088/1674-1137/36/12/003
 ```
 
-```quote
-To probe this conjecture, we compare the formation probabilities extracted from the experimental half-lives to the corresponding pairing gaps. The latter can readily be obtained from the experimental binding energies [29] as
-```
+> To probe this conjecture, we compare the formation probabilities extracted from the experimental half-lives to the corresponding pairing gaps. The latter can readily be obtained from the experimental binding energies [29] as
 
 ```math
 \Delta_n(Z,N)
@@ -371,9 +323,7 @@ B(Z,N)+B(Z,N-2)-2B(Z,N-1)
 [doi]: 10.1016/S0370-1573(97)00049-5
 ```
 
-```quote
-This clustering is induced by the pairing force acting among the neutrons and the protons that constitute the α particle [2].
-```
+> This clustering is induced by the pairing force acting among the neutrons and the protons that constitute the α particle [2].
 
 
 ### Gaps

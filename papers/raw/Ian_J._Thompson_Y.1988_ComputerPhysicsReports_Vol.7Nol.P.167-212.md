@@ -24,9 +24,7 @@ This paper describes the components and methods of a comprehensive code for coup
 [source]: section 1, p. 170.
 ```
 
-```quote
-Inelastic excitations may occur, for example when one or both of the nuclei are deformed or deformable, with the result that higher-energy states of the nuclei may become populated.
-```
+> Inelastic excitations may occur, for example when one or both of the nuclei are deformed or deformable, with the result that higher-energy states of the nuclei may become populated.
 
 ##### quotation-02
 
@@ -36,9 +34,7 @@ Inelastic excitations may occur, for example when one or both of the nuclei are 
 [source]: section 1, p. 170.
 ```
 
-```quote
-One-step processes have been traditionally described with the Distorted Wave Born Approximation (DWBA), and although second-order DWBA expressions can be written down and computed, I shall be mainly concerned with coupled-channels formalisms, in order to predict the effects of multi-step processes to any or all orders.
-```
+> One-step processes have been traditionally described with the Distorted Wave Born Approximation (DWBA), and although second-order DWBA expressions can be written down and computed, I shall be mainly concerned with coupled-channels formalisms, in order to predict the effects of multi-step processes to any or all orders.
 
 
 
@@ -53,9 +49,7 @@ One-step processes have been traditionally described with the Distorted Wave Bor
 [source]: section 2, p. 171, equation (2.1).
 ```
 
-```quote
-The coupled reaction channels (CRC) model of direct reactions in nuclear physics proceeds by constructing a model of the system wave function, and solving Schrödinger’s equation as accurately as possible within that model space. The model used here projects the complete wave function $\overline{\Psi}$ onto a product $\phi_i\equiv\phi_{ip}\times\phi_{it}$ of projectile and target states with a wave function $\psi_i(\mathbf R_i)$ describing their relative motion:
-```
+> The coupled reaction channels (CRC) model of direct reactions in nuclear physics proceeds by constructing a model of the system wave function, and solving Schrödinger’s equation as accurately as possible within that model space. The model used here projects the complete wave function $\overline{\Psi}$ onto a product $\phi_i\equiv\phi_{ip}\times\phi_{it}$ of projectile and target states with a wave function $\psi_i(\mathbf R_i)$ describing their relative motion:
 
 ```math
 P\overline{\Psi}\equiv\Psi
@@ -73,9 +67,7 @@ P\overline{\Psi}\equiv\Psi
 [source]: section 2, p. 172, equation (2.2).
 ```
 
-```quote
-For a complete Hamiltonian $\overline{\mathcal H}$ and total energy $E$, Schrödinger’s equation $[\overline{\mathcal H}-E]\overline{\Psi}=0$ becomes $[\mathcal H-E]\Psi=0$ in the model space with [14]
-```
+> For a complete Hamiltonian $\overline{\mathcal H}$ and total energy $E$, Schrödinger’s equation $[\overline{\mathcal H}-E]\overline{\Psi}=0$ becomes $[\mathcal H-E]\Psi=0$ in the model space with [14]
 
 ```math
 \mathcal H
@@ -98,9 +90,7 @@ Q\equiv1-P.
 [source]: section 2, p. 172, equation (2.3).
 ```
 
-```quote
-If $E_i$ is the asymptotic kinetic energy in the $i$th channel, then the channel-projected Hamiltonian $H_i$ satisfies [...] and will be composed of a kinetic energy term and a diagonal optical potential.
-```
+> If $E_i$ is the asymptotic kinetic energy in the $i$th channel, then the channel-projected Hamiltonian $H_i$ satisfies [...] and will be composed of a kinetic energy term and a diagonal optical potential.
 
 ```math
 H_i-E_i
@@ -117,9 +107,7 @@ H_i-E_i
 [source]: section 2, p. 172, equation (2.4) and following sentence.
 ```
 
-```quote
-The ‘interaction potential’ $V_i$ is then defined to be everything in $\mathcal H$ not included in $H_i$, so [...] This construction gives $V_i$ which have vanishing diagonal matrix elements $\langle\phi_i|V_i|\phi_i\rangle=0$.
-```
+> The ‘interaction potential’ $V_i$ is then defined to be everything in $\mathcal H$ not included in $H_i$, so [...] This construction gives $V_i$ which have vanishing diagonal matrix elements $\langle\phi_i|V_i|\phi_i\rangle=0$.
 
 ```math
 H_i-E_i+V_i=\mathcal H-E.
@@ -134,9 +122,7 @@ H_i-E_i+V_i=\mathcal H-E.
 [source]: section 2.1, p. 172, equation (2.5).
 ```
 
-```quote
-If we take the model Schrödinger’s equation $[\mathcal H-E]\Psi=0$, and project separately onto the different basis states $\phi_i$, we derive the set of equations [...] which couple together the unknown wave functions $\psi_i(\mathbf R_i)$.
-```
+> If we take the model Schrödinger’s equation $[\mathcal H-E]\Psi=0$, and project separately onto the different basis states $\phi_i$, we derive the set of equations [...] which couple together the unknown wave functions $\psi_i(\mathbf R_i)$.
 
 ```math
 [E_i-H_i]\psi_i(\mathbf R_i)
@@ -155,9 +141,7 @@ If we take the model Schrödinger’s equation $[\mathcal H-E]\Psi=0$, and proje
 [source]: section 2.1, pp. 172–173, equation (2.7) and following definitions.
 ```
 
-```quote
-The matrix element $\langle\phi_i|\mathcal H-E|\phi_j\rangle$ has two different forms, depending on whether we expand [...] where $V_{ij}^{post}\equiv\langle\phi_i|V_i|\phi_j\rangle$, $V_{ij}^{prior}\equiv\langle\phi_i|V_j|\phi_j\rangle$ and $K_{ij}\equiv\langle\phi_i|\phi_j\rangle$.
-```
+> The matrix element $\langle\phi_i|\mathcal H-E|\phi_j\rangle$ has two different forms, depending on whether we expand [...] where $V_{ij}^{post}\equiv\langle\phi_i|V_i|\phi_j\rangle$, $V_{ij}^{prior}\equiv\langle\phi_i|V_j|\phi_j\rangle$ and $K_{ij}\equiv\langle\phi_i|\phi_j\rangle$.
 
 ```math
 \begin{aligned}
@@ -178,9 +162,7 @@ The matrix element $\langle\phi_i|\mathcal H-E|\phi_j\rangle$ has two different 
 [source]: section 2.2, pp. 173–174, equations (2.8)–(2.12), initial-channel equation, and definition of chi_N.
 ```
 
-```quote
-This approximation always feeds flux ‘forwards’ in the sequence $1\to2\to\cdots\to N$ neglecting the back couplings. [...] If the post interaction had been used for all the couplings to this last channel, then
-```
+> This approximation always feeds flux ‘forwards’ in the sequence $1\to2\to\cdots\to N$ neglecting the back couplings. [...] If the post interaction had been used for all the couplings to this last channel, then
 
 ```math
 [E_i-H_i]\psi_i(\mathbf R_i)
@@ -251,9 +233,7 @@ Editorial note: In equation (2.8), the printed \(H_j\) on the left-hand side is 
 [source]: section 2.3, pp. 174–175, equations (2.13)–(2.17).
 ```
 
-```quote
-There are schemes available which can iterate all channels with an arbitrary choice of post or prior interactions for all the couplings. [...] The following iterative scheme [18] ($n=1,2,\ldots$) on convergence then solves the CRC equations (2.5):
-```
+> There are schemes available which can iterate all channels with an arbitrary choice of post or prior interactions for all the couplings. [...] The following iterative scheme [18] ($n=1,2,\ldots$) on convergence then solves the CRC equations (2.5):
 
 ```math
 \theta_{ij}=
@@ -345,9 +325,7 @@ S_j^{(n-1)}
 [doi]: doi number of the reference or unknown.
 ```
 
-```quote
-This is a quotation with secondary citations from the original paper[ab], which is tagged with the above tags.
-```
+> This is a quotation with secondary citations from the original paper[ab], which is tagged with the above tags.
 
 
 ### Gaps
