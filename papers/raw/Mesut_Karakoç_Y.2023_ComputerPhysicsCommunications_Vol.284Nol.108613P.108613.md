@@ -24,9 +24,7 @@ BiFold calculates the density-dependent (DDM3Yn, BDM3Yn, CDM3Yn) or independent 
 [source]: section 1.
 ```
 
-```quote
-Many studies (see the references in the present work) have used these DD treatments of NN interactions, but there are very few published codes [7, 8] to be able to reproduce the results of these works.
-```
+> Many studies (see the references in the present work) have used these DD treatments of NN interactions, but there are very few published codes [7, 8] to be able to reproduce the results of these works.
 
 ##### quotation-02
 
@@ -36,9 +34,7 @@ Many studies (see the references in the present work) have used these DD treatme
 [source]: section 1.
 ```
 
-```quote
-The usual DF potential between two spherical nuclei is constructed by integrating over an effective nucleon-nucleon (NN) interaction with nuclear matter densities representing nucleons of both nuclei.
-```
+> The usual DF potential between two spherical nuclei is constructed by integrating over an effective nucleon-nucleon (NN) interaction with nuclear matter densities representing nucleons of both nuclei.
 
 ##### quotation-03
 
@@ -48,9 +44,7 @@ The usual DF potential between two spherical nuclei is constructed by integratin
 [source]: section 1.
 ```
 
-```quote
-The main reason for density dependence (DD) at NN interaction is the Pauli principle effects in the nuclear medium of both colliding nuclei.
-```
+> The main reason for density dependence (DD) at NN interaction is the Pauli principle effects in the nuclear medium of both colliding nuclei.
 
 
 
@@ -65,9 +59,7 @@ The main reason for density dependence (DD) at NN interaction is the Pauli princ
 [source]: section 2.2.
 ```
 
-```quote
-Although BiFold can use a wide range of density-independent NN interactions in the DF potential calculations, M3Y type interactions [10, 9, 11] are defined by default in the code since they are perhaps the most widely used ones.
-```
+> Although BiFold can use a wide range of density-independent NN interactions in the DF potential calculations, M3Y type interactions [10, 9, 11] are defined by default in the code since they are perhaps the most widely used ones.
 
 ##### quotation-05
 
@@ -77,9 +69,7 @@ Although BiFold can use a wide range of density-independent NN interactions in t
 [source]: section 2.2, Eqs. (15)–(17).
 ```
 
-```quote
-Now, the exchange potential with Fourier transforms in spherical coordinates will take the form [1, 17]:
-```
+> Now, the exchange potential with Fourier transforms in spherical coordinates will take the form [1, 17]:
 
 ```math
 U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
@@ -93,9 +83,7 @@ U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
 [source]: section 4.1.
 ```
 
-```quote
-The reason for choosing this distribution is to obtain an exact analytical double-folded potential since the density-independent NN effective interaction (M3Y-Reid [...] also has a similar mathematical form. Then this is easily achieved by using the Fourier transform techniques [...] for the double folding integral [...], but this time with an analytical integration.
-```
+> The reason for choosing this distribution is to obtain an exact analytical double-folded potential since the density-independent NN effective interaction (M3Y-Reid [...] also has a similar mathematical form. Then this is easily achieved by using the Fourier transform techniques [...] for the double folding integral [...], but this time with an analytical integration.
 
 ##### quotation-07
 
@@ -105,9 +93,7 @@ The reason for choosing this distribution is to obtain an exact analytical doubl
 [source]: section 2.3, Eq. (19).
 ```
 
-```quote
-The overlapping density for the direct part and the ZR exchange part of the folded potential has been approximated in most of the folding potential calculations [2, 33, 34, 27, 9, 35, 29, 32] as
-```
+> The overlapping density for the direct part and the ZR exchange part of the folded potential has been approximated in most of the folding potential calculations [2, 33, 34, 27, 9, 35, 29, 32] as
 
 ```math
 \rho=\rho_p(\vec r_p)+\rho_t(\vec r_t).
@@ -126,9 +112,7 @@ The overlapping density for the direct part and the ZR exchange part of the fold
 [source]: section 3, Fig. 3.
 ```
 
-```quote
-The output of the BiFold calculation shown in Fig. 3 gives individual information about the potentials and the functions used in the calculations. [...] The output also contains printout of the calculated potential UR versus radial distance R between two nuclei.
-```
+> The output of the BiFold calculation shown in Fig. 3 gives individual information about the potentials and the functions used in the calculations. [...] The output also contains printout of the calculated potential UR versus radial distance R between two nuclei.
 
 ##### quotation-09
 
@@ -138,9 +122,7 @@ The output of the BiFold calculation shown in Fig. 3 gives individual informatio
 [source]: Fig. 4.
 ```
 
-```quote
-It is the double folding potential [dash-dot] with direct [solid] and exchange [dash] parts for the α + 40Ca elastic scattering.
-```
+> It is the double folding potential [dash-dot] with direct [solid] and exchange [dash] parts for the α + 40Ca elastic scattering.
 
 ##### quotation-10
 
@@ -150,9 +132,7 @@ It is the double folding potential [dash-dot] with direct [solid] and exchange [
 [source]: section 4, Eq. (24), Table 4.
 ```
 
-```quote
-This formula defines a mean relative error (mre) [8] for comparing BiFold calculations with reference calculations where U A and U B are the reference and the present double folding potentials [...], respectively. [...] The results of the mre calculations are in Table 4, and the details of the test cases are in the following sections.
-```
+> This formula defines a mean relative error (mre) [8] for comparing BiFold calculations with reference calculations where U A and U B are the reference and the present double folding potentials [...], respectively. [...] The results of the mre calculations are in Table 4, and the details of the test cases are in the following sections.
 
 ##### quotation-11
 
@@ -162,9 +142,7 @@ This formula defines a mean relative error (mre) [8] for comparing BiFold calcul
 [source]: section 4.1, Fig. 5, Table 4.
 ```
 
-```quote
-Both computations agree very well, as supported by the ξ² values in Table 4 and shown in Fig. 5a. The ξ² values are almost the same for both integration methods.
-```
+> Both computations agree very well, as supported by the ξ² values in Table 4 and shown in Fig. 5a. The ξ² values are almost the same for both integration methods.
 
 ##### quotation-12
 
@@ -174,9 +152,7 @@ Both computations agree very well, as supported by the ξ² values in Table 4 an
 [source]: Fig. 6.
 ```
 
-```quote
-The full circles, up triangles, and down triangles are the calculations of the total, direct and exchange parts of the double folding potentials using DFPOT [7], respectively. The solid lines are the computations using BiFold.
-```
+> The full circles, up triangles, and down triangles are the calculations of the total, direct and exchange parts of the double folding potentials using DFPOT [7], respectively. The solid lines are the computations using BiFold.
 
 ##### quotation-13
 
@@ -186,9 +162,7 @@ The full circles, up triangles, and down triangles are the calculations of the t
 [source]: Fig. 7.
 ```
 
-```quote
-The full circles, up triangles, and down triangles are the calculations of the total, direct and exchange parts of the double folding potentials from Khoa et al. [35], respectively. The solid lines are the computations using BiFold.
-```
+> The full circles, up triangles, and down triangles are the calculations of the total, direct and exchange parts of the double folding potentials from Khoa et al. [35], respectively. The solid lines are the computations using BiFold.
 
 
 
@@ -203,9 +177,7 @@ The full circles, up triangles, and down triangles are the calculations of the t
 [source]: section 1.
 ```
 
-```quote
-For example, DFPOT [7] cannot calculate the potentials with the DDM3Y, BDM3Yn [...] and CDM3Yn [...] type density-dependent interactions [3]. While DFMSPH [8] can calculate many of those, it does not support BDM3Y2, BDM3Y3 [9], and the first version of DDM3Y [2]. [...] Therefore, the code BiFold will help the community in these manners.
-```
+> For example, DFPOT [7] cannot calculate the potentials with the DDM3Y, BDM3Yn [...] and CDM3Yn [...] type density-dependent interactions [3]. While DFMSPH [8] can calculate many of those, it does not support BDM3Y2, BDM3Y3 [9], and the first version of DDM3Y [2]. [...] Therefore, the code BiFold will help the community in these manners.
 
 ##### quotation-15
 
@@ -215,9 +187,7 @@ For example, DFPOT [7] cannot calculate the potentials with the DDM3Y, BDM3Yn [.
 [source]: section 4.3, Fig. 7, Table 4.
 ```
 
-```quote
-As can be seen from the ξ² values in Table 4 and the potentials in Fig. 7, BiFold is also consistent with the final reference work.
-```
+> As can be seen from the ξ² values in Table 4 and the potentials in Fig. 7, BiFold is also consistent with the final reference work.
 
 
 
@@ -235,9 +205,7 @@ As can be seen from the ξ² values in Table 4 and the potentials in Fig. 7, BiF
 [doi]: 10.1016/0370-1573(79)90081-4
 ```
 
-```quote
-The folded potential model [1] is a well-known model for describing the mean-field nuclear interaction between two colliding nuclei.
-```
+> The folded potential model [1] is a well-known model for describing the mean-field nuclear interaction between two colliding nuclei.
 
 ##### quotation-17
 
@@ -249,9 +217,7 @@ The folded potential model [1] is a well-known model for describing the mean-fie
 [doi]: [1] 10.1016/0370-1573(79)90081-4; [2] 10.1016/0375-9474(82)90305-0; [3] 10.1088/0954-3899/34/3/R01
 ```
 
-```quote
-The DD of NN interaction has several treatments in the literature, but the code BiFold is built on the treatments of Satchler and Love [1], Kobos et al. [2], and Khoa et al. [3]. All these three treatments have the frozen density approximation [...]
-```
+> The DD of NN interaction has several treatments in the literature, but the code BiFold is built on the treatments of Satchler and Love [1], Kobos et al. [2], and Khoa et al. [3]. All these three treatments have the frozen density approximation [...]
 
 ##### quotation-18
 
@@ -263,9 +229,7 @@ The DD of NN interaction has several treatments in the literature, but the code 
 [doi]: [12] 10.1016/0003-4916(68)90126-7; [13] 10.1103/PhysRevC.21.861; [14] 10.1016/0375-9474(83)90487-6
 ```
 
-```quote
-These interactions are called M3Y-Reid [12] and M3Y-Paris [13] effective interactions. The former is derived from the solution of the Bethe-Goldstone equation with Reid [12] soft-core interaction [...] to obtain G-matrix. The latter is derived from a more fundamental Paris NN potential [13] to generate all components of the effective interaction [14].
-```
+> These interactions are called M3Y-Reid [12] and M3Y-Paris [13] effective interactions. The former is derived from the solution of the Bethe-Goldstone equation with Reid [12] soft-core interaction [...] to obtain G-matrix. The latter is derived from a more fundamental Paris NN potential [13] to generate all components of the effective interaction [14].
 
 ##### quotation-19
 
@@ -277,9 +241,7 @@ These interactions are called M3Y-Reid [12] and M3Y-Paris [13] effective interac
 [doi]: 10.1016/j.cpc.2009.09.007
 ```
 
-```quote
-This formula defines a mean relative error (mre) [8] for comparing BiFold calculations with reference calculations where U A and U B are the reference and the present double folding potentials with the radial distance Ri, respectively.
-```
+> This formula defines a mean relative error (mre) [8] for comparing BiFold calculations with reference calculations where U A and U B are the reference and the present double folding potentials with the radial distance Ri, respectively.
 
 
 ### Gaps

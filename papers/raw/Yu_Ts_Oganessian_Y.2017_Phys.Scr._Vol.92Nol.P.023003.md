@@ -24,9 +24,7 @@ A fundamental outcome of modern nuclear microscopic theory is the prediction of 
 [source]: section 1.
 ```
 
-```quote
-It was even proposed to define SHN as the nuclei which exist due to their shell structure [6, 7].
-```
+> It was even proposed to define SHN as the nuclei which exist due to their shell structure [6, 7].
 
 ##### quotation-02
 
@@ -36,9 +34,7 @@ It was even proposed to define SHN as the nuclei which exist due to their shell 
 [source]: abstract.
 ```
 
-```quote
-A fundamental outcome of modern nuclear microscopic theory is the prediction of the ‘islands of stability’ in the region of hypothetical superheavy elements (SHEs).
-```
+> A fundamental outcome of modern nuclear microscopic theory is the prediction of the ‘islands of stability’ in the region of hypothetical superheavy elements (SHEs).
 
 ##### quotation-03
 
@@ -48,9 +44,7 @@ A fundamental outcome of modern nuclear microscopic theory is the prediction of 
 [source]: abstract.
 ```
 
-```quote
-The most striking effect of this coupling is obtained for the case of fission of the heaviest nuclei, whose existence is defined entirely by the nuclear structure, i.e. by the shell effect.
-```
+> The most striking effect of this coupling is obtained for the case of fission of the heaviest nuclei, whose existence is defined entirely by the nuclear structure, i.e. by the shell effect.
 
 ##### quotation-04
 
@@ -60,9 +54,7 @@ The most striking effect of this coupling is obtained for the case of fission of
 [source]: abstract.
 ```
 
-```quote
-From this point of view, the synthesis and study of properties of superheavy nuclei (SHN) is a direct way for checking the basic statements of the microscopic nuclear theory.
-```
+> From this point of view, the synthesis and study of properties of superheavy nuclei (SHN) is a direct way for checking the basic statements of the microscopic nuclear theory.
 
 
 
@@ -77,9 +69,7 @@ From this point of view, the synthesis and study of properties of superheavy nuc
 [source]: section 2.1.
 ```
 
-```quote
-Thus, the approach of calculating the energy of a nucleus as the sum of the macroscopic and the shell correction parts, proposed by Myers and Świątecki [8], may be considered as the macro–micro approach.
-```
+> Thus, the approach of calculating the energy of a nucleus as the sum of the macroscopic and the shell correction parts, proposed by Myers and Świątecki [8], may be considered as the macro–micro approach.
 
 ##### quotation-06
 
@@ -89,9 +79,7 @@ Thus, the approach of calculating the energy of a nucleus as the sum of the macr
 [source]: section 2.1.
 ```
 
-```quote
-As the macroscopic part, the liquid-drop model was used. For the shell correction, a simple phenomenological model was taken. [...] Only the last hypothetical magic number for protons was assumed at Z = 126 and for neutrons at N = 184, to estimate the respective shell corrections.
-```
+> As the macroscopic part, the liquid-drop model was used. For the shell correction, a simple phenomenological model was taken. [...] Only the last hypothetical magic number for protons was assumed at Z = 126 and for neutrons at N = 184, to estimate the respective shell corrections.
 
 ##### quotation-07
 
@@ -101,9 +89,7 @@ As the macroscopic part, the liquid-drop model was used. For the shell correctio
 [source]: section 4.2.
 ```
 
-```quote
-Analysis of data known on different nuclear reactions showed that the complete fusion reactions of heavy nuclei, giving excited compound nuclei coming to the ground state after the emission of neutrons and gamma rays, are the most promising ones for the synthesis of SHN.
-```
+> Analysis of data known on different nuclear reactions showed that the complete fusion reactions of heavy nuclei, giving excited compound nuclei coming to the ground state after the emission of neutrons and gamma rays, are the most promising ones for the synthesis of SHN.
 
 ##### quotation-08
 
@@ -113,9 +99,7 @@ Analysis of data known on different nuclear reactions showed that the complete f
 [source]: section 4.2.
 ```
 
-```quote
-More neutron rich isotopes with Z = 112–118, lying on-upgrade to the top of the stability island of SHEs, can be achieved in the fusion reactions of actinide nuclei with 48Ca.
-```
+> More neutron rich isotopes with Z = 112–118, lying on-upgrade to the top of the stability island of SHEs, can be achieved in the fusion reactions of actinide nuclei with 48Ca.
 
 
 
@@ -130,9 +114,7 @@ More neutron rich isotopes with Z = 112–118, lying on-upgrade to the top of th
 [source]: section 2.
 ```
 
-```quote
-It was shown long time ago [5] that an addition of the ground-state shell correction to the macroscopic mass improves significantly the description of the spontaneous-fission half-lives of heavy nuclei. [...] To move further, one needs some effects, which could increase the fission barrier for heavier nuclei.
-```
+> It was shown long time ago [5] that an addition of the ground-state shell correction to the macroscopic mass improves significantly the description of the spontaneous-fission half-lives of heavy nuclei. [...] To move further, one needs some effects, which could increase the fission barrier for heavier nuclei.
 
 ##### quotation-10
 
@@ -142,9 +124,7 @@ It was shown long time ago [5] that an addition of the ground-state shell correc
 [source]: section 2.1.
 ```
 
-```quote
-The single-particle spectrum of a given nucleus used in this method is usually calculated microscopically.
-```
+> The single-particle spectrum of a given nucleus used in this method is usually calculated microscopically.
 
 ##### quotation-11
 
@@ -154,9 +134,7 @@ The single-particle spectrum of a given nucleus used in this method is usually c
 [source]: section 2.2, figure 12.
 ```
 
-```quote
-A comparison of the calculated α-decay and spontaneous-fission half-lives of SHN with experimental ones is given in figure 12 [20].
-```
+> A comparison of the calculated α-decay and spontaneous-fission half-lives of SHN with experimental ones is given in figure 12 [20].
 
 ##### quotation-12
 
@@ -166,9 +144,7 @@ A comparison of the calculated α-decay and spontaneous-fission half-lives of SH
 [source]: section 2.2, figure 14.
 ```
 
-```quote
-Figure 14 [22] shows the description of the experimental α-transition energy in the decay chain of the nucleus 293117, obtained in Dubna with a large statistics (16 chains) [23].
-```
+> Figure 14 [22] shows the description of the experimental α-transition energy in the decay chain of the nucleus 293117, obtained in Dubna with a large statistics (16 chains) [23].
 
 ##### quotation-13
 
@@ -178,9 +154,7 @@ Figure 14 [22] shows the description of the experimental α-transition energy in
 [source]: section 2.1, figure 1.
 ```
 
-```quote
-As the macroscopic part, the liquid-drop model was used. For the shell correction, a simple phenomenological model was taken. The model is shown in figure 1.
-```
+> As the macroscopic part, the liquid-drop model was used. For the shell correction, a simple phenomenological model was taken. The model is shown in figure 1.
 
 ##### quotation-14
 
@@ -190,9 +164,7 @@ As the macroscopic part, the liquid-drop model was used. For the shell correctio
 [source]: section 2.1, figure 2.
 ```
 
-```quote
-In paper [8] [...], the macroscopic-plus-shell correction model [...] was applied to the description of nuclear masses [...] and fission barriers. [...] This best fit [...] resulted in negative values of the shell correction to mass for nuclei in the superheavy region. This is illustrated in figure 2.
-```
+> In paper [8] [...], the macroscopic-plus-shell correction model [...] was applied to the description of nuclear masses [...] and fission barriers. [...] This best fit [...] resulted in negative values of the shell correction to mass for nuclei in the superheavy region. This is illustrated in figure 2.
 
 ##### quotation-15
 
@@ -202,9 +174,7 @@ In paper [8] [...], the macroscopic-plus-shell correction model [...] was applie
 [source]: section 2.1, figures 3–4.
 ```
 
-```quote
-The Woods–Saxon potential was taken to calculate the single-particle levels for both, protons and neutrons. [...] One can see that the following magic numbers are obtained: Z = 114 for protons and N = 184 for neutrons.
-```
+> The Woods–Saxon potential was taken to calculate the single-particle levels for both, protons and neutrons. [...] One can see that the following magic numbers are obtained: Z = 114 for protons and N = 184 for neutrons.
 
 ##### quotation-16
 
@@ -214,9 +184,7 @@ The Woods–Saxon potential was taken to calculate the single-particle levels fo
 [source]: section 2.1, figure 5.
 ```
 
-```quote
-The shell correction was calculated by the Strutinsky method based on the spectra obtained within the Nilsson model. An example of such a spectrum, calculated for protons as a function of the deformation of a nucleus, is given in figure 5.
-```
+> The shell correction was calculated by the Strutinsky method based on the spectra obtained within the Nilsson model. An example of such a spectrum, calculated for protons as a function of the deformation of a nucleus, is given in figure 5.
 
 ##### quotation-17
 
@@ -226,9 +194,7 @@ The shell correction was calculated by the Strutinsky method based on the spectr
 [source]: section 2.1, figure 6.
 ```
 
-```quote
-The α-decay and spontaneous-fission processes were considered. [...] The results obtained for the half-lives are presented in figure 6.
-```
+> The α-decay and spontaneous-fission processes were considered. [...] The results obtained for the half-lives are presented in figure 6.
 
 ##### quotation-18
 
@@ -238,9 +204,7 @@ The α-decay and spontaneous-fission processes were considered. [...] The result
 [source]: section 2.2, figure 7.
 ```
 
-```quote
-Figure 7 shows the map of the shell correction Esh calculated for nuclei with 82 ≤ Z ≤ 120 and 126 ≤ N ≤ 190 with the use of the seven-dimensional deformation space [...] [18].
-```
+> Figure 7 shows the map of the shell correction Esh calculated for nuclei with 82 ≤ Z ≤ 120 and 126 ≤ N ≤ 190 with the use of the seven-dimensional deformation space [...] [18].
 
 ##### quotation-19
 
@@ -250,9 +214,7 @@ Figure 7 shows the map of the shell correction Esh calculated for nuclei with 82
 [source]: section 2.2, figure 8.
 ```
 
-```quote
-This additional region of increased stability of SHN is concentrated around the new doubly magic deformed nucleus 270108 (270Hs) with the shell correction (Esh = –7.2 MeV) about equal to that for the doubly magic spherical nucleus 298114. [...] The change is illustrated in figure 8 [19].
-```
+> This additional region of increased stability of SHN is concentrated around the new doubly magic deformed nucleus 270108 (270Hs) with the shell correction (Esh = –7.2 MeV) about equal to that for the doubly magic spherical nucleus 298114. [...] The change is illustrated in figure 8 [19].
 
 ##### quotation-20
 
@@ -262,9 +224,7 @@ This additional region of increased stability of SHN is concentrated around the 
 [source]: section 2.2, figures 9–10.
 ```
 
-```quote
-We looked at the dependence of the single-particle spectra of the nucleus on the dimension of the deformation space used in the calculation. The result [4] is shown in figure 9 for protons and in figure 10 for neutrons.
-```
+> We looked at the dependence of the single-particle spectra of the nucleus on the dimension of the deformation space used in the calculation. The result [4] is shown in figure 9 for protons and in figure 10 for neutrons.
 
 ##### quotation-21
 
@@ -274,9 +234,7 @@ We looked at the dependence of the single-particle spectra of the nucleus on the
 [source]: section 2.2, figure 11.
 ```
 
-```quote
-At each point (β2; β4), the energy is minimized in β6 and β8 degrees of freedom. Numbers at the contour lines give the values of the energy. Difference in the values between neighboring solid lines is 2 MeV. Dynamical, Ldyn, and static, Lstat, fission trajectories are shown.
-```
+> At each point (β2; β4), the energy is minimized in β6 and β8 degrees of freedom. Numbers at the contour lines give the values of the energy. Difference in the values between neighboring solid lines is 2 MeV. Dynamical, Ldyn, and static, Lstat, fission trajectories are shown.
 
 ##### quotation-22
 
@@ -286,9 +244,7 @@ At each point (β2; β4), the energy is minimized in β6 and β8 degrees of free
 [source]: section 2.2, figure 13.
 ```
 
-```quote
-It is seen that no spontaneous-fission barrier is created for such heavy nucleus in the case of pure macroscopic energy. Only the addition of the shell correction (Etot) results in the appearance of a quite high fission barrier allowing to the nucleus to exist.
-```
+> It is seen that no spontaneous-fission barrier is created for such heavy nucleus in the case of pure macroscopic energy. Only the addition of the shell correction (Etot) results in the appearance of a quite high fission barrier allowing to the nucleus to exist.
 
 ##### quotation-23
 
@@ -298,9 +254,7 @@ It is seen that no spontaneous-fission barrier is created for such heavy nucleus
 [source]: section 2.2, figure 15.
 ```
 
-```quote
-The calculated half-lives Tαth reproduce the experimental Tαexp with the following average ratios [...] 4.4, 5.4 and 3.3 in the WS3+, WS4+ and HN variants, respectively, i.e. within the factor smaller than 6.
-```
+> The calculated half-lives Tαth reproduce the experimental Tαexp with the following average ratios [...] 4.4, 5.4 and 3.3 in the WS3+, WS4+ and HN variants, respectively, i.e. within the factor smaller than 6.
 
 ##### quotation-24
 
@@ -310,9 +264,7 @@ The calculated half-lives Tαth reproduce the experimental Tαexp with the follo
 [source]: figure 16.
 ```
 
-```quote
-To avoid overloading the picture, half-lives are shown in squares without errors. For the nuclei synthesized in cold fusion reactions the values of T1/2 are taken from the compilation of the published data; for the products of the reactions Act. + 48Ca—the data from table 1.
-```
+> To avoid overloading the picture, half-lives are shown in squares without errors. For the nuclei synthesized in cold fusion reactions the values of T1/2 are taken from the compilation of the published data; for the products of the reactions Act. + 48Ca—the data from table 1.
 
 ##### quotation-25
 
@@ -322,9 +274,7 @@ To avoid overloading the picture, half-lives are shown in squares without errors
 [source]: section 4.2, figure 17.
 ```
 
-```quote
-Certainly, remarkably higher excitation (as compared to the cold fusion) results in the low survival probability of compound nuclei produced by means of these hot-fusion reactions. The production cross sections of evaporation residues are low and depend strongly on the fission-barrier heights.
-```
+> Certainly, remarkably higher excitation (as compared to the cold fusion) results in the low survival probability of compound nuclei produced by means of these hot-fusion reactions. The production cross sections of evaporation residues are low and depend strongly on the fission-barrier heights.
 
 ##### quotation-26
 
@@ -334,9 +284,7 @@ Certainly, remarkably higher excitation (as compared to the cold fusion) results
 [source]: figure 18.
 ```
 
-```quote
-Next to the open squares, indicated are the α-decay energies and half-life times of particular isotopes. Errors for the α-decay energies given in brackets are taken from the measurements performed with the best resolution; smaller fonts distinguish the energies of rare α-decay branches.
-```
+> Next to the open squares, indicated are the α-decay energies and half-life times of particular isotopes. Errors for the α-decay energies given in brackets are taken from the measurements performed with the best resolution; smaller fonts distinguish the energies of rare α-decay branches.
 
 ##### quotation-27
 
@@ -346,9 +294,7 @@ Next to the open squares, indicated are the α-decay energies and half-life time
 [source]: section 4.3.1, figure 19(a).
 ```
 
-```quote
-The experimentally measured α-decay energies are close in value to the predictions made by the macro–microscopic theory [84]. The pattern shown in figure 19(a) demonstrates the validity of this conclusion.
-```
+> The experimentally measured α-decay energies are close in value to the predictions made by the macro–microscopic theory [84]. The pattern shown in figure 19(a) demonstrates the validity of this conclusion.
 
 ##### quotation-28
 
@@ -358,9 +304,7 @@ The experimentally measured α-decay energies are close in value to the predicti
 [source]: section 4.3.2, figure 20.
 ```
 
-```quote
-The respective five decay chains recorded in these experiments are presented in figure 20(a). [...] The spectra of α decay measured for these nuclei are presented in figure 20(b).
-```
+> The respective five decay chains recorded in these experiments are presented in figure 20(a). [...] The spectra of α decay measured for these nuclei are presented in figure 20(b).
 
 ##### quotation-29
 
@@ -370,9 +314,7 @@ The respective five decay chains recorded in these experiments are presented in 
 [source]: section 4.4, figure 21.
 ```
 
-```quote
-Shown in figure 21 are the half-lives of all the known by now nuclei with Z = 110–118. Note that all the experimental data obtained for N ≥ 165 come from the Act. + 48Ca reactions. [...] Open symbols show isotopes undergoing α-decay, filled symbols—those undergoing spontaneous fission.
-```
+> Shown in figure 21 are the half-lives of all the known by now nuclei with Z = 110–118. Note that all the experimental data obtained for N ≥ 165 come from the Act. + 48Ca reactions. [...] Open symbols show isotopes undergoing α-decay, filled symbols—those undergoing spontaneous fission.
 
 ##### quotation-30
 
@@ -382,9 +324,7 @@ Shown in figure 21 are the half-lives of all the known by now nuclei with Z = 11
 [source]: section 4.4, figure 22.
 ```
 
-```quote
-Recent experiments on the synthesis of new light isotopes of element 114 in reactions 48Ca + 239,240Pu [115] could show that the transition to the area N ≤ 170 results in a rapid drop of cross section (i.e. in the decrease of the fission-barrier height) and spontaneous-fission half-lives (figure 22).
-```
+> Recent experiments on the synthesis of new light isotopes of element 114 in reactions 48Ca + 239,240Pu [115] could show that the transition to the area N ≤ 170 results in a rapid drop of cross section (i.e. in the decrease of the fission-barrier height) and spontaneous-fission half-lives (figure 22).
 
 ##### quotation-31
 
@@ -394,9 +334,7 @@ Recent experiments on the synthesis of new light isotopes of element 114 in reac
 [source]: section 4.4, table 1.
 ```
 
-```quote
-In table 1 are given the decay properties of [...] SHEs [...] and their daughter nuclei [...] produced in the Act. + 48Ca reactions. [...] Branch is given for the most probable decay mode (α or SF). It is not shown if only one decay mode was observed.
-```
+> In table 1 are given the decay properties of [...] SHEs [...] and their daughter nuclei [...] produced in the Act. + 48Ca reactions. [...] Branch is given for the most probable decay mode (α or SF). It is not shown if only one decay mode was observed.
 
 
 
@@ -411,9 +349,7 @@ In table 1 are given the decay properties of [...] SHEs [...] and their daughter
 [source]: section 4.3.1.
 ```
 
-```quote
-The experimentally measured α-decay energies are close in value to the predictions made by the macro–microscopic theory [84]. The pattern shown in figure 19(a) demonstrates the validity of this conclusion.
-```
+> The experimentally measured α-decay energies are close in value to the predictions made by the macro–microscopic theory [84]. The pattern shown in figure 19(a) demonstrates the validity of this conclusion.
 
 ##### quotation-33
 
@@ -423,9 +359,7 @@ The experimentally measured α-decay energies are close in value to the predicti
 [source]: section 4.3.1.
 ```
 
-```quote
-Targets made of the isotopes of plutonium [...], curium [...] and californium [...] were exposed to irradiation by the intense beam of 48Ca ions. The results of these long-term experiments proved the synthesis of three new elements [...]. Altogether, eleven new isotopes of these elements were discovered.
-```
+> Targets made of the isotopes of plutonium [...], curium [...] and californium [...] were exposed to irradiation by the intense beam of 48Ca ions. The results of these long-term experiments proved the synthesis of three new elements [...]. Altogether, eleven new isotopes of these elements were discovered.
 
 
 
@@ -443,9 +377,7 @@ Targets made of the isotopes of plutonium [...], curium [...] and californium [.
 [doi]: 10.1103/PhysRevC.52.1871
 ```
 
-```quote
-A comparison of the calculated α-decay and spontaneous-fission half-lives of SHN with experimental ones is given in figure 12 [20].
-```
+> A comparison of the calculated α-decay and spontaneous-fission half-lives of SHN with experimental ones is given in figure 12 [20].
 
 ##### quotation-35
 
@@ -457,9 +389,7 @@ A comparison of the calculated α-decay and spontaneous-fission half-lives of SH
 [doi]: 10.1088/0031-8949/90/11/114018
 ```
 
-```quote
-Figure 14 [22] shows the description of the experimental α-transition energy in the decay chain of the nucleus 293117 [...].
-```
+> Figure 14 [22] shows the description of the experimental α-transition energy in the decay chain of the nucleus 293117 [...].
 
 ##### quotation-36
 
@@ -471,9 +401,7 @@ Figure 14 [22] shows the description of the experimental α-transition energy in
 [doi]: 10.1134/1.1586412
 ```
 
-```quote
-The experimentally measured α-decay energies are close in value to the predictions made by the macro–microscopic theory [84].
-```
+> The experimentally measured α-decay energies are close in value to the predictions made by the macro–microscopic theory [84].
 
 ##### quotation-37
 
@@ -485,9 +413,7 @@ The experimentally measured α-decay energies are close in value to the predicti
 [doi]: 10.1103/PhysRevC.92.034609
 ```
 
-```quote
-Recent experiments on the synthesis of new light isotopes of element 114 in reactions 48Ca + 239,240Pu [115] could show that the transition to the area N ≤ 170 results in a rapid drop of cross section (i.e. in the decrease of the fission-barrier height) and spontaneous-fission half-lives (figure 22).
-```
+> Recent experiments on the synthesis of new light isotopes of element 114 in reactions 48Ca + 239,240Pu [115] could show that the transition to the area N ≤ 170 results in a rapid drop of cross section (i.e. in the decrease of the fission-barrier height) and spontaneous-fission half-lives (figure 22).
 
 
 ### Gaps
