@@ -46,7 +46,7 @@ description: Apply canonical raw evidence rules when creating, drafting, reviewi
 
 - Every quotation MUST contain `tags` and `quote`; `[claim-type]`, `[tags]`, and accurate `[source]` are required.
 - Assign exactly one `[claim-type]` from explicit primary claims; satisfy its requirement and declared `quotation`.
-- Quote wording MUST remain verbatim from source; standalone formulas are NEVER quotes; `math` MAY follow.
+- Quotes MUST remain verbatim; formulas NEVER suffice; optional `math` MUST preserve source numbering via `\tag{...}`.
 - Each quote MUST use 10–50 words from complete sentences supporting one explicit claim and every tag.
 - Overlong evidence MUST join two explicitly-related same-paragraph sentences with `[...]`; NEVER omit meaning-changing text.
 
