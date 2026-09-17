@@ -21,9 +21,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 [source]: introduction, study objective.
 ```
 
-```quote
-In this letter we study possible “data-to-data” relations between the neutron-rich skin of a heavy nucleus and the crust of a neutron star. These relations may impact neutron star observables.
-```
+> In this letter we study possible “data-to-data” relations between the neutron-rich skin of a heavy nucleus and the crust of a neutron star. These relations may impact neutron star observables.
 
 
 ##### quotation-02
@@ -34,9 +32,7 @@ In this letter we study possible “data-to-data” relations between the neutro
 [source]: Table I caption.
 ```
 
-```quote
-$R_p$ is the proton and $R_n-R_p$ is the difference between neutron and proton radii in Pb. Finally, $\rho_c$ is our estimate for the transition density of neutron-rich matter from a nonuniform to uniform phase.
-```
+> $R_p$ is the proton and $R_n-R_p$ is the difference between neutron and proton radii in Pb. Finally, $\rho_c$ is our estimate for the transition density of neutron-rich matter from a nonuniform to uniform phase.
 
 
 ##### quotation-03
@@ -47,9 +43,7 @@ $R_p$ is the proton and $R_n-R_p$ is the difference between neutron and proton r
 [source]: abstract.
 ```
 
-```quote
-An accurate measurement of the neutron radius in $^{208}$Pb---via parity violating electron scattering---may have important implications for the structure of the crust of neutron stars.
-```
+> An accurate measurement of the neutron radius in $^{208}$Pb---via parity violating electron scattering---may have important implications for the structure of the crust of neutron stars.
 
 
 ##### quotation-04
@@ -60,9 +54,7 @@ An accurate measurement of the neutron radius in $^{208}$Pb---via parity violati
 [source]: introduction, finite-nucleus measurement argument.
 ```
 
-```quote
-Thus we feel that it is important to distinguish direct finite-nucleus measurements---such as PREX---from theoretical neutron-matter “observables” based solely on calculations. Indeed, PREX may provide an important test of these calculations~\cite{brown}.
-```
+> Thus we feel that it is important to distinguish direct finite-nucleus measurements---such as PREX---from theoretical neutron-matter “observables” based solely on calculations. Indeed, PREX may provide an important test of these calculations~\cite{brown}.
 
 
 ##### quotation-05
@@ -73,9 +65,7 @@ Thus we feel that it is important to distinguish direct finite-nucleus measureme
 [source]: introduction, neutron-star crust description.
 ```
 
-```quote
-Neutron stars are expected to have a solid crust of nonuniform neutron-rich matter above a liquid mantle. The phase transition from solid to liquid depends on the properties of neutron-rich matter.
-```
+> Neutron stars are expected to have a solid crust of nonuniform neutron-rich matter above a liquid mantle. The phase transition from solid to liquid depends on the properties of neutron-rich matter.
 
 
 ##### quotation-06
@@ -86,9 +76,7 @@ Neutron stars are expected to have a solid crust of nonuniform neutron-rich matt
 [source]: methods, symmetry-energy calibration rationale.
 ```
 
-```quote
-The symmetry energy at saturation density is not well constrained by the binding energy of nuclei. However, some average of the symmetry energy at full density and the surface energy is constrained by binding energies.
-```
+> The symmetry energy at saturation density is not well constrained by the binding energy of nuclei. However, some average of the symmetry energy at full density and the surface energy is constrained by binding energies.
 
 
 ##### quotation-07
@@ -99,9 +87,7 @@ The symmetry energy at saturation density is not well constrained by the binding
 [source]: conclusion, point 1.
 ```
 
-```quote
-We conclude that the neutron-skin thickness is not tightly constrained by these observables. Yet a measurement of the skin thickness will constrain the density dependence of the symmetry energy.
-```
+> We conclude that the neutron-skin thickness is not tightly constrained by these observables. Yet a measurement of the skin thickness will constrain the density dependence of the symmetry energy.
 
 
 ### Methods
@@ -114,9 +100,7 @@ We conclude that the neutron-skin thickness is not tightly constrained by these 
 [source]: methods, interacting Lagrangian density.
 ```
 
-```quote
-The theory has an isoscalar-scalar $\phi$ (sigma) meson field and three vector fields: an isoscalar $V$ (omega), an isovector ${\bf b}$ (rho), and the photon $A$. The interacting Lagrangian density is given by~\cite{horst}.
-```
+> The theory has an isoscalar-scalar $\phi$ (sigma) meson field and three vector fields: an isoscalar $V$ (omega), an isovector ${\bf b}$ (rho), and the photon $A$. The interacting Lagrangian density is given by~\cite{horst}.
 
 ```math
 \begin{aligned}
@@ -144,9 +128,7 @@ The theory has an isoscalar-scalar $\phi$ (sigma) meson field and three vector f
 [source]: methods, model setup.
 ```
 
-```quote
-We now supplement the Lagrangian with new nonlinear sigma-rho and omega-rho couplings. These couplings allow us to change the density dependence of the symmetry energy which changes both the thickness of the neutron skin in $^{208}$Pb and the neutron-star crust.
-```
+> We now supplement the Lagrangian with new nonlinear sigma-rho and omega-rho couplings. These couplings allow us to change the density dependence of the symmetry energy which changes both the thickness of the neutron skin in $^{208}$Pb and the neutron-star crust.
 
 
 ##### quotation-10
@@ -157,9 +139,7 @@ We now supplement the Lagrangian with new nonlinear sigma-rho and omega-rho coup
 [source]: methods, parameter-set simplification.
 ```
 
-```quote
-A nonzero $\Lambda_3$ does change the thickness of the neutron skin in $^{208}$Pb---but at the expense of a change in the proton density. Therefore, we set $\Lambda_3\!\equiv\!0$ and focus exclusively on $\Lambda_4$ and $\Lambda_{\rm v}$.
-```
+> A nonzero $\Lambda_3$ does change the thickness of the neutron skin in $^{208}$Pb---but at the expense of a change in the proton density. Therefore, we set $\Lambda_3\!\equiv\!0$ and focus exclusively on $\Lambda_4$ and $\Lambda_{\rm v}$.
 
 
 ##### quotation-11
@@ -170,9 +150,7 @@ A nonzero $\Lambda_3$ does change the thickness of the neutron skin in $^{208}$P
 [source]: methods, coupling comparison.
 ```
 
-```quote
-The two new couplings ($\Lambda_4$ and $\Lambda_{\rm v}$) change the skin thickness in $^{208}$Pb by similar amounts.
-```
+> The two new couplings ($\Lambda_4$ and $\Lambda_{\rm v}$) change the skin thickness in $^{208}$Pb by similar amounts.
 
 
 ##### quotation-12
@@ -183,9 +161,7 @@ The two new couplings ($\Lambda_4$ and $\Lambda_{\rm v}$) change the skin thickn
 [source]: methods, crust transition calculation.
 ```
 
-```quote
-To study the solid crust of a neutron star we make a simple random-phase-approximation (RPA) calculation of the transition density below which uniform neutron-rich matter becomes unstable against small amplitude density fluctuations.
-```
+> To study the solid crust of a neutron star we make a simple random-phase-approximation (RPA) calculation of the transition density below which uniform neutron-rich matter becomes unstable against small amplitude density fluctuations.
 
 
 ##### quotation-13
@@ -196,9 +172,7 @@ To study the solid crust of a neutron star we make a simple random-phase-approxi
 [source]: conclusion, point 2.
 ```
 
-```quote
-Indeed, our models can provide a Lorentz-covariant extrapolation for the high density equation of state with a symmetry energy that rises slower with density relative to earlier relativistic mean-field models.
-```
+> Indeed, our models can provide a Lorentz-covariant extrapolation for the high density equation of state with a symmetry energy that rises slower with density relative to earlier relativistic mean-field models.
 
 
 ### Results
@@ -211,9 +185,7 @@ Indeed, our models can provide a Lorentz-covariant extrapolation for the high de
 [source]: Table I discussion.
 ```
 
-```quote
-This simple procedure produces a nearly constant binding energy per nucleon for $^{208}$Pb as $\Lambda_{\rm v}$ is changed, as can be seen in Table I. Moreover, Table I shows that increasing $\Lambda_{\rm v}$ reduces the neutron-skin thickness significantly---while maintaining the proton radius nearly constant.
-```
+> This simple procedure produces a nearly constant binding energy per nucleon for $^{208}$Pb as $\Lambda_{\rm v}$ is changed, as can be seen in Table I. Moreover, Table I shows that increasing $\Lambda_{\rm v}$ reduces the neutron-skin thickness significantly---while maintaining the proton radius nearly constant.
 
 
 ##### quotation-15
@@ -224,9 +196,7 @@ This simple procedure produces a nearly constant binding energy per nucleon for 
 [source]: Fig. 1 discussion.
 ```
 
-```quote
-Moreover, this correlation seems to be insensitive to $M^*$ or to using $\Lambda_4$ or $\Lambda_{\rm v}$ to change $R_n\!-\!R_p$. These results suggest that a measurement of the neutron radius in $^{208}$Pb will provide considerable information on the transition density.
-```
+> Moreover, this correlation seems to be insensitive to $M^*$ or to using $\Lambda_4$ or $\Lambda_{\rm v}$ to change $R_n\!-\!R_p$. These results suggest that a measurement of the neutron radius in $^{208}$Pb will provide considerable information on the transition density.
 
 
 ##### quotation-16
@@ -237,9 +207,7 @@ Moreover, this correlation seems to be insensitive to $M^*$ or to using $\Lambda
 [source]: Fig. 2 discussion.
 ```
 
-```quote
-The different curves are for different values of $\Lambda_{\rm v}$ which predict the indicated $R_n\!-\!R_p$ values. The curves start near the transition densities displayed in Fig. 1. The electron fraction $Y_e$ is determined by the symmetry energy while $R_n\!-\!R_p$ is sensitive to the density dependence of the symmetry energy.
-```
+> The different curves are for different values of $\Lambda_{\rm v}$ which predict the indicated $R_n\!-\!R_p$ values. The curves start near the transition densities displayed in Fig. 1. The electron fraction $Y_e$ is determined by the symmetry energy while $R_n\!-\!R_p$ is sensitive to the density dependence of the symmetry energy.
 
 
 ##### quotation-17
@@ -250,9 +218,7 @@ The different curves are for different values of $\Lambda_{\rm v}$ which predict
 [source]: Fig. 2 discussion.
 ```
 
-```quote
-In Fig.~2 we show the electron fraction per baryon $Y_e$ versus density for uniform neutron-rich matter in beta equilibrium. [...] The different curves are for different values of $\Lambda_{\rm v}$ which predict the indicated $R_n\!-\!R_p$ values.
-```
+> In Fig.~2 we show the electron fraction per baryon $Y_e$ versus density for uniform neutron-rich matter in beta equilibrium. [...] The different curves are for different values of $\Lambda_{\rm v}$ which predict the indicated $R_n\!-\!R_p$ values.
 
 
 ##### quotation-18
@@ -263,9 +229,7 @@ In Fig.~2 we show the electron fraction per baryon $Y_e$ versus density for unif
 [source]: Fig. 3 discussion.
 ```
 
-```quote
-We now consider the radius $R$ of a 1.4 solar mass neutron star. [...] Also, the high density equation of state is softer with $\Lambda_{\rm v}$ than with $\Lambda_4$ so Z271v gives slightly smaller stars than parameter set Z2714.
-```
+> We now consider the radius $R$ of a 1.4 solar mass neutron star. [...] Also, the high density equation of state is softer with $\Lambda_{\rm v}$ than with $\Lambda_4$ so Z271v gives slightly smaller stars than parameter set Z2714.
 
 
 ##### quotation-19
@@ -276,9 +240,7 @@ We now consider the radius $R$ of a 1.4 solar mass neutron star. [...] Also, the
 [source]: Fig. 3 discussion.
 ```
 
-```quote
-Also, the high density equation of state is softer with $\Lambda_{\rm v}$ than with $\Lambda_4$ so Z271v gives slightly smaller stars than parameter set Z2714.
-```
+> Also, the high density equation of state is softer with $\Lambda_{\rm v}$ than with $\Lambda_4$ so Z271v gives slightly smaller stars than parameter set Z2714.
 
 
 ### Meanings
@@ -291,9 +253,7 @@ Also, the high density equation of state is softer with $\Lambda_{\rm v}$ than w
 [source]: methods, model setup.
 ```
 
-```quote
-We now supplement the Lagrangian with new nonlinear sigma-rho and omega-rho couplings. These couplings allow us to change the density dependence of the symmetry energy which changes both the thickness of the neutron skin in $^{208}$Pb and the neutron-star crust.
-```
+> We now supplement the Lagrangian with new nonlinear sigma-rho and omega-rho couplings. These couplings allow us to change the density dependence of the symmetry energy which changes both the thickness of the neutron skin in $^{208}$Pb and the neutron-star crust.
 
 
 ##### quotation-21
@@ -304,9 +264,7 @@ We now supplement the Lagrangian with new nonlinear sigma-rho and omega-rho coup
 [source]: conclusion, point 2.
 ```
 
-```quote
-Indeed, our models can provide a Lorentz-covariant extrapolation for the high density equation of state with a symmetry energy that rises slower with density relative to earlier relativistic mean-field models.
-```
+> Indeed, our models can provide a Lorentz-covariant extrapolation for the high density equation of state with a symmetry energy that rises slower with density relative to earlier relativistic mean-field models.
 
 
 ##### quotation-22
@@ -317,9 +275,7 @@ Indeed, our models can provide a Lorentz-covariant extrapolation for the high de
 [source]: abstract.
 ```
 
-```quote
-Relativistic effective field theories with a thicker neutron skin in $^{208}$Pb have a larger electron fraction and a lower liquid-to-solid transition density for neutron-rich matter. These properties are determined by the density dependence of the symmetry energy which we vary by adding nonlinear couplings between isoscalar and isovector mesons.
-```
+> Relativistic effective field theories with a thicker neutron skin in $^{208}$Pb have a larger electron fraction and a lower liquid-to-solid transition density for neutron-rich matter. These properties are determined by the density dependence of the symmetry energy which we vary by adding nonlinear couplings between isoscalar and isovector mesons.
 
 
 ##### quotation-23
@@ -330,9 +286,7 @@ Relativistic effective field theories with a thicker neutron skin in $^{208}$Pb 
 [source]: abstract.
 ```
 
-```quote
-An accurate measurement of the neutron radius in $^{208}$Pb---via parity violating electron scattering---may have important implications for the structure of the crust of neutron stars.
-```
+> An accurate measurement of the neutron radius in $^{208}$Pb---via parity violating electron scattering---may have important implications for the structure of the crust of neutron stars.
 
 
 
@@ -347,9 +301,7 @@ An accurate measurement of the neutron radius in $^{208}$Pb---via parity violati
 [doi]: unknown; 10.1103/PhysRevC.63.025501
 ```
 
-```quote
-The Parity Radius Experiment (PREX) at the Jefferson Laboratory aims to measure the neutron radius in $^{208}$Pb via parity violating electron scattering~\cite{prex,bigpaper}. Parity violation is sensitive to the neutron density because the $Z^0$ boson couples primarily to neutrons.
-```
+> The Parity Radius Experiment (PREX) at the Jefferson Laboratory aims to measure the neutron radius in $^{208}$Pb via parity violating electron scattering~\cite{prex,bigpaper}. Parity violation is sensitive to the neutron density because the $Z^0$ boson couples primarily to neutrons.
 
 
 ##### quotation-25
@@ -361,9 +313,7 @@ The Parity Radius Experiment (PREX) at the Jefferson Laboratory aims to measure 
 [doi]: 10.1016/0375-9474(96)00187-X
 ```
 
-```quote
-We start with a relativistic effective field theory~\cite{horst} that provides a simple description of finite nuclei and a Lorentz covariant extrapolation for the equation of state of dense neutron-rich matter. We now supplement the Lagrangian with new nonlinear sigma-rho and omega-rho couplings.
-```
+> We start with a relativistic effective field theory~\cite{horst} that provides a simple description of finite nuclei and a Lorentz covariant extrapolation for the equation of state of dense neutron-rich matter. We now supplement the Lagrangian with new nonlinear sigma-rho and omega-rho couplings.
 
 
 ##### quotation-26
@@ -375,9 +325,7 @@ We start with a relativistic effective field theory~\cite{horst} that provides a
 [doi]: 10.1016/0375-9474(94)00506-I; 10.1016/S0370-2693(00)00672-9
 ```
 
-```quote
-To study the solid crust of a neutron star we make a simple random-phase-approximation (RPA) calculation of the transition density below which uniform neutron-rich matter becomes unstable against small amplitude density fluctuations. This provides a lower bound to the true transition density~\cite{bound}.
-```
+> To study the solid crust of a neutron star we make a simple random-phase-approximation (RPA) calculation of the transition density below which uniform neutron-rich matter becomes unstable against small amplitude density fluctuations. This provides a lower bound to the true transition density~\cite{bound}.
 
 
 ##### quotation-27
@@ -389,9 +337,7 @@ To study the solid crust of a neutron star we make a simple random-phase-approxi
 [doi]: 10.1016/0375-9474(81)90649-7; 10.1103/PhysRevLett.70.379; 10.1103/PhysRevLett.85.5296
 ```
 
-```quote
-For example, the nonrelativistic microscopic equation of state of Friedman and Pandharipande has a transition density of $\rho_c=0.096$\ fm$^{-3}$\ according to Lorenz et al.~\cite{vj}. For this equation of state Brown finds $R_n-R_p=0.16\pm 0.02$\ fm~\cite{brown}. These numbers are in excellent agreement with Eq. (3).
-```
+> For example, the nonrelativistic microscopic equation of state of Friedman and Pandharipande has a transition density of $\rho_c=0.096$\ fm$^{-3}$\ according to Lorenz et al.~\cite{vj}. For this equation of state Brown finds $R_n-R_p=0.16\pm 0.02$\ fm~\cite{brown}. These numbers are in excellent agreement with Eq. (3).
 
 
 ##### quotation-28
@@ -403,9 +349,7 @@ For example, the nonrelativistic microscopic equation of state of Friedman and P
 [doi]: unknown
 ```
 
-```quote
-If $R_n\!-\!R_p$ is greater than about 0.24 fm, $Y_e$ becomes large enough to allow the direct URCA process~\cite{urca} to cool down a 1.4 solar mass neutron star.
-```
+> If $R_n\!-\!R_p$ is greater than about 0.24 fm, $Y_e$ becomes large enough to allow the direct URCA process~\cite{urca} to cool down a 1.4 solar mass neutron star.
 
 
 ### Gaps
