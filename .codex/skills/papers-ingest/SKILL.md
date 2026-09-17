@@ -83,7 +83,15 @@ description: Ingest one paper into the literature workspace. Use when user asks 
 - Route: Approved Wiki work MUST execute every required [Wiki Draft-Rules](../papers-wiki-rules/SKILL.md#draft-rules) step before Gate 6.
 - Skip: Skipped Wiki work advances directly to Gate 6.
 
-### Gate 6 — Log & Recommend Next Paper(s)
+### Gate 6 — Final Understanding / Log & Recommend Next Paper(s)
+
+#### Final Understanding
+
+- Summarize: MUST present final understanding through two-sentence Motivation, Methods, Results, and Meanings summaries.
+- Revisions: MUST identify corrections to Gate 2 understanding; explicitly state when none occurred.
+- Verification: MUST distinguish source claims, independently verified findings, and unresolved questions.
+
+#### Log & Recommend
 
 - Log: Before recommendations, MUST append Raw filename, DOI, title, and core tags to [papers/log.md](../../../papers/log.md).
 - Recommend: MUST PRINT at least three central Secondary Citations with DOI, tags, citation, and rationale.
