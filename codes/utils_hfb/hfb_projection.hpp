@@ -11,6 +11,7 @@
 #include <cassert>
 #include <cmath>
 #include <numbers>
+#include <vector>
 
 #include <gsl/gsl_sf_coupling.h>
 
@@ -31,11 +32,11 @@
 class HFBProjection {
 public:
     int TargetN_I = 0;
-    int TargetTwoJ_I = 0;
+    int TargetTwoI_I = 0;
 
     int Nsp_I = 0;
-    int Ncfg_I = 0;
-    int NcqpMax_I = 0;
+    int Ncfg1_I = 0;
+    int Ncfg2_I = 0;
 
     int Nphi_I = 0;
     int Nalpha_I = 0;
@@ -62,8 +63,8 @@ public:
     HFBPfaffian hfb_pfaffian;
     RepresentationSpin representation_spin;
 
-    Eigen::Tensor<doubleC, 4, Eigen::ColMajor> result_C4D_cfg_cfg_K_K{};
-    Eigen::Tensor<doubleC, 4, Eigen::ColMajor> multipole_C4D_cfg_cfg_K1_K2{};
+    Eigen::Tensor<doubleC, 4, Eigen::ColMajor> result_C4D_cfg1_cfg2_K_K{};
+    Eigen::Tensor<doubleC, 4, Eigen::ColMajor> multipole_C4D_cfg1_cfg2_K1_K2{};
 
 private:
     Eigen::MatrixXcd RzRy_C2D_sp_sp{};
@@ -77,19 +78,19 @@ public:
      * @math   φ_k = 2πk/Nphi; Δφ/(2π) = 1/Nphi.
      * @output Stored dimensions, target quantum numbers, and allocated workspaces.
      * @note   Rotations, Euler meshes, weights, and vacua require updates.
-     * @note   NcqpMax selects configuration parity and maximum quasiparticle count.
+     * @note   Left and right configuration lists may differ.
      */
-    HFBProjection(int TargetN_I_, int TargetTwoJ_I_, int Nsp_I_, int NcqpMax_I_, int Nphi_I_, int Nalpha_I_, int Nbeta_I_, int Ngamma_I_)
-    : hfb_pfaffian(Nsp_I_, NcqpMax_I_, NcqpMax_I_), representation_spin(TargetTwoJ_I_) {
-        assert(TargetN_I_ >= 0 && TargetN_I_ <= Nsp_I_ && TargetTwoJ_I_ >= 0);
+    HFBProjection(int TargetN_I_, int TargetTwoI_I_, int Nsp_I_, const std::vector<std::vector<int>>& config1_I2D_cfg1_cqp1_, const std::vector<std::vector<int>>& config2_I2D_cfg2_cqp2_, int Nphi_I_, int Nalpha_I_, int Nbeta_I_, int Ngamma_I_)
+    : hfb_pfaffian(Nsp_I_, config1_I2D_cfg1_cqp1_, config2_I2D_cfg2_cqp2_), representation_spin(TargetTwoI_I_) {
+        assert(TargetN_I_ >= 0 && TargetN_I_ <= Nsp_I_ && TargetTwoI_I_ >= 0);
         assert(Nphi_I_ > 0 && Nalpha_I_ > 0 && Nbeta_I_ > 0 && Ngamma_I_ > 0);
 
-        // (N,J,Nsp,NcqpMax) → fixed projection parameters.
+        // (N,J,Nsp,config1,config2) → fixed projection parameters.
         TargetN_I = TargetN_I_;
-        TargetTwoJ_I = TargetTwoJ_I_;
+        TargetTwoI_I = TargetTwoI_I_;
         Nsp_I = Nsp_I_;
-        Ncfg_I = static_cast<int>(hfb_pfaffian.config1_I2D_cfg1_cqp1.size());
-        NcqpMax_I = NcqpMax_I_;
+        Ncfg1_I = static_cast<int>(hfb_pfaffian.config1_I2D_cfg1_cqp1.size());
+        Ncfg2_I = static_cast<int>(hfb_pfaffian.config2_I2D_cfg2_cqp2.size());
 
         // Nφ,Nα,Nβ,Nγ → mesh sizes.
         Nphi_I = Nphi_I_;
@@ -116,8 +117,8 @@ public:
         U2_C2D_sp_qp2.resize(Nsp_I, Nsp_I);
         V2_C2D_sp_qp2.resize(Nsp_I, Nsp_I);
 
-        // result ∈ ℂ^{Ncfg×Ncfg×(2J+1)×(2J+1)}.
-        result_C4D_cfg_cfg_K_K.resize(Ncfg_I, Ncfg_I, TargetTwoJ_I + 1, TargetTwoJ_I + 1);
+        // result ∈ ℂ^{Ncfg1×Ncfg2×(2J+1)×(2J+1)}.
+        result_C4D_cfg1_cfg2_K_K.resize(Ncfg1_I, Ncfg2_I, TargetTwoI_I + 1, TargetTwoI_I + 1);
 
         // RzRy,RzRyRz,U₂g,V₂g ∈ ℂ^{Nsp×Nsp}.
         RzRy_C2D_sp_sp.resize(Nsp_I, Nsp_I);
@@ -186,12 +187,12 @@ public:
     /**
      * @brief  Compute reduced multipoles using quadrature and Clebsch–Gordan coupling.
      * @math   multipole_abk₁k₂ = ⟨Φ₁^{J₁;N};K₁,a‖Q_λ‖Φ₂^{J₂;N};K₂,b⟩.
-     * @math   dim = Ncfg × Ncfg × (TwoJ1+1) × (TwoJ2+1).
+     * @math   dim = Ncfg1 × Ncfg2 × (TwoJ1+1) × (TwoJ2+1).
      * @output Updated multipole_C4D_cfg_cfg_K1_K2 and its const reference.
      * @note   twoLambda_I = 2λ; μ = -λ,…,λ.
      * @note   Number-conserving spherical tensor; unnormalized, unmixed configuration states.
      */
-    const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& calc_multipole(int TwoJ1_I, int TwoJ2_I, int twoLambda_I, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Multipole_C3D_sp_sp_mu);
+    const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& calc_multipole(int TwoI1_I, int TwoI2_I, int twoLambda_I, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Multipole_C3D_sp_sp_mu);
 };
 
 inline void HFBProjection::update_UV(const Eigen::MatrixXd& U1_F2D_sp_qp1_, const Eigen::MatrixXd& V1_F2D_sp_qp1_, const Eigen::MatrixXd& U2_F2D_sp_qp2_, const Eigen::MatrixXd& V2_F2D_sp_qp2_) {
@@ -240,8 +241,8 @@ inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_ove
     // (2J+1)/(VΩ Nφ); weights contain sinβ dβ.
     const double volume_F = weight_F1D_alpha.sum() * weight_F1D_beta.sum() * weight_F1D_gamma.sum();
     assert(std::isfinite(volume_F) && volume_F > 0.0);
-    const double normalization_F = (TargetTwoJ_I + 1.0) / (volume_F * Nphi_I);
-    result_C4D_cfg_cfg_K_K.setZero();
+    const double normalization_F = (TargetTwoI_I + 1.0) / (volume_F * Nphi_I);
+    result_C4D_cfg1_cfg2_K_K.setZero();
 
     // dᴶ(β) is reused over α, γ, φ.
     for (int beta_I = 0; beta_I < Nbeta_I; ++beta_I) {
@@ -265,14 +266,14 @@ inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_ove
                     const auto& overlap_C2D_cfg_cfg = hfb_pfaffian.calc_overlap();
 
                     const doubleC factorPhi_C = std::exp(doubleC(0.0, TargetN_I * phi_F));
-                    for (int K2_I = 0; K2_I <= TargetTwoJ_I; ++K2_I) {
-                        const double K2_F = K2_I - 0.5 * TargetTwoJ_I;
-                        for (int K1_I = 0; K1_I <= TargetTwoJ_I; ++K1_I) {
+                    for (int K2_I = 0; K2_I <= TargetTwoI_I; ++K2_I) {
+                        const double K2_F = K2_I - 0.5 * TargetTwoI_I;
+                        for (int K1_I = 0; K1_I <= TargetTwoI_I; ++K1_I) {
                             // Dᴶ* = exp(iK₁α) dᴶ* exp(iK₂γ).
-                            const double K1_F = K1_I - 0.5 * TargetTwoJ_I;
+                            const double K1_F = K1_I - 0.5 * TargetTwoI_I;
                             const doubleC factorOmega_C = std::conj(RyJ_C2D_K_K(K1_I, K2_I)) * std::exp(doubleC(0.0, K1_F * alpha_F1D_alpha(alpha_I) + K2_F * gamma_F1D_gamma(gamma_I)));
                             const doubleC weight_factor_C = weight_F * factorPhi_C * factorOmega_C;
-                            Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg_cfg(result_C4D_cfg_cfg_K_K.data() + (static_cast<Eigen::Index>(K2_I) * (TargetTwoJ_I + 1) + K1_I) * Ncfg_I * Ncfg_I, Ncfg_I, Ncfg_I);
+                            Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg_cfg(result_C4D_cfg1_cfg2_K_K.data() + (static_cast<Eigen::Index>(K2_I) * (TargetTwoI_I + 1) + K1_I) * Ncfg1_I * Ncfg2_I, Ncfg1_I, Ncfg2_I);
                             result_C2D_cfg_cfg += weight_factor_C * overlap_C2D_cfg_cfg;
                         }
                     }
@@ -280,19 +281,19 @@ inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_ove
             }
         }
     }
-    return result_C4D_cfg_cfg_K_K;
+    return result_C4D_cfg1_cfg2_K_K;
 }
 
 inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_one_body(const Eigen::MatrixXd& OneBody_F2D_sp_sp) {
     assert(OneBody_F2D_sp_sp.rows() == Nsp_I && OneBody_F2D_sp_sp.cols() == Nsp_I && OneBody_F2D_sp_sp.allFinite());
     Eigen::MatrixXcd OneBody_C2D_cfg_cfg{};
-    OneBody_C2D_cfg_cfg.resize(Ncfg_I, Ncfg_I);
+    OneBody_C2D_cfg_cfg.resize(Ncfg1_I, Ncfg2_I);
 
     // (2J+1)/(VΩ Nφ); weights contain sinβ dβ.
     const double volume_F = weight_F1D_alpha.sum() * weight_F1D_beta.sum() * weight_F1D_gamma.sum();
     assert(std::isfinite(volume_F) && volume_F > 0.0);
-    const double normalization_F = (TargetTwoJ_I + 1.0) / (volume_F * Nphi_I);
-    result_C4D_cfg_cfg_K_K.setZero();
+    const double normalization_F = (TargetTwoI_I + 1.0) / (volume_F * Nphi_I);
+    result_C4D_cfg1_cfg2_K_K.setZero();
 
     // dᴶ(β) is reused over α, γ, φ.
     for (int beta_I = 0; beta_I < Nbeta_I; ++beta_I) {
@@ -322,14 +323,14 @@ inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_one
                     }
 
                     const doubleC factorPhi_C = std::exp(doubleC(0.0, TargetN_I * phi_F));
-                    for (int K2_I = 0; K2_I <= TargetTwoJ_I; ++K2_I) {
-                        const double K2_F = K2_I - 0.5 * TargetTwoJ_I;
-                        for (int K1_I = 0; K1_I <= TargetTwoJ_I; ++K1_I) {
+                    for (int K2_I = 0; K2_I <= TargetTwoI_I; ++K2_I) {
+                        const double K2_F = K2_I - 0.5 * TargetTwoI_I;
+                        for (int K1_I = 0; K1_I <= TargetTwoI_I; ++K1_I) {
                             // Dᴶ* = exp(iK₁α) dᴶ* exp(iK₂γ).
-                            const double K1_F = K1_I - 0.5 * TargetTwoJ_I;
+                            const double K1_F = K1_I - 0.5 * TargetTwoI_I;
                             const doubleC factorOmega_C = std::conj(RyJ_C2D_K_K(K1_I, K2_I)) * std::exp(doubleC(0.0, K1_F * alpha_F1D_alpha(alpha_I) + K2_F * gamma_F1D_gamma(gamma_I)));
                             const doubleC weight_factor_C = weight_F * factorPhi_C * factorOmega_C;
-                            Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg_cfg(result_C4D_cfg_cfg_K_K.data() + (static_cast<Eigen::Index>(K2_I) * (TargetTwoJ_I + 1) + K1_I) * Ncfg_I * Ncfg_I, Ncfg_I, Ncfg_I);
+                            Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg_cfg(result_C4D_cfg1_cfg2_K_K.data() + (static_cast<Eigen::Index>(K2_I) * (TargetTwoI_I + 1) + K1_I) * Ncfg1_I * Ncfg2_I, Ncfg1_I, Ncfg2_I);
                             result_C2D_cfg_cfg += weight_factor_C * OneBody_C2D_cfg_cfg;
                         }
                     }
@@ -337,20 +338,20 @@ inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_one
             }
         }
     }
-    return result_C4D_cfg_cfg_K_K;
+    return result_C4D_cfg1_cfg2_K_K;
 }
 
 inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_two_body(const Eigen::Tensor<double, 4, Eigen::ColMajor>& TwoBody_F4D_sp_sp_sp_sp) {
     assert(TwoBody_F4D_sp_sp_sp_sp.dimension(0) == Nsp_I && TwoBody_F4D_sp_sp_sp_sp.dimension(1) == Nsp_I && TwoBody_F4D_sp_sp_sp_sp.dimension(2) == Nsp_I && TwoBody_F4D_sp_sp_sp_sp.dimension(3) == Nsp_I);
     assert(Eigen::Map<const Eigen::VectorXd>(TwoBody_F4D_sp_sp_sp_sp.data(), TwoBody_F4D_sp_sp_sp_sp.size()).allFinite());
     Eigen::MatrixXcd TwoBody_C2D_cfg_cfg{};
-    TwoBody_C2D_cfg_cfg.resize(Ncfg_I, Ncfg_I);
+    TwoBody_C2D_cfg_cfg.resize(Ncfg1_I, Ncfg2_I);
 
     // (2J+1)/(VΩ Nφ); weights contain sinβ dβ.
     const double volume_F = weight_F1D_alpha.sum() * weight_F1D_beta.sum() * weight_F1D_gamma.sum();
     assert(std::isfinite(volume_F) && volume_F > 0.0);
-    const double normalization_F = (TargetTwoJ_I + 1.0) / (volume_F * Nphi_I);
-    result_C4D_cfg_cfg_K_K.setZero();
+    const double normalization_F = (TargetTwoI_I + 1.0) / (volume_F * Nphi_I);
+    result_C4D_cfg1_cfg2_K_K.setZero();
 
     // dᴶ(β) is reused over α, γ, φ.
     for (int beta_I = 0; beta_I < Nbeta_I; ++beta_I) {
@@ -384,14 +385,14 @@ inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_two
                     }
 
                     const doubleC factorPhi_C = std::exp(doubleC(0.0, TargetN_I * phi_F));
-                    for (int K2_I = 0; K2_I <= TargetTwoJ_I; ++K2_I) {
-                        const double K2_F = K2_I - 0.5 * TargetTwoJ_I;
-                        for (int K1_I = 0; K1_I <= TargetTwoJ_I; ++K1_I) {
+                    for (int K2_I = 0; K2_I <= TargetTwoI_I; ++K2_I) {
+                        const double K2_F = K2_I - 0.5 * TargetTwoI_I;
+                        for (int K1_I = 0; K1_I <= TargetTwoI_I; ++K1_I) {
                             // Dᴶ* = exp(iK₁α) dᴶ* exp(iK₂γ).
-                            const double K1_F = K1_I - 0.5 * TargetTwoJ_I;
+                            const double K1_F = K1_I - 0.5 * TargetTwoI_I;
                             const doubleC factorOmega_C = std::conj(RyJ_C2D_K_K(K1_I, K2_I)) * std::exp(doubleC(0.0, K1_F * alpha_F1D_alpha(alpha_I) + K2_F * gamma_F1D_gamma(gamma_I)));
                             const doubleC weight_factor_C = weight_F * factorPhi_C * factorOmega_C;
-                            Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg_cfg(result_C4D_cfg_cfg_K_K.data() + (static_cast<Eigen::Index>(K2_I) * (TargetTwoJ_I + 1) + K1_I) * Ncfg_I * Ncfg_I, Ncfg_I, Ncfg_I);
+                            Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg_cfg(result_C4D_cfg1_cfg2_K_K.data() + (static_cast<Eigen::Index>(K2_I) * (TargetTwoI_I + 1) + K1_I) * Ncfg1_I * Ncfg2_I, Ncfg1_I, Ncfg2_I);
                             result_C2D_cfg_cfg += weight_factor_C * TwoBody_C2D_cfg_cfg;
                         }
                     }
@@ -399,38 +400,38 @@ inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_two
             }
         }
     }
-    return result_C4D_cfg_cfg_K_K;
+    return result_C4D_cfg1_cfg2_K_K;
 }
 
-inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_multipole(int TwoJ1_I, int TwoJ2_I, int twoLambda_I, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Multipole_C3D_sp_sp_mu) {
-    assert(TwoJ1_I >= 0 && TwoJ2_I == TargetTwoJ_I && twoLambda_I >= 0 && twoLambda_I % 2 == 0);
+inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_multipole(int TwoI1_I, int TwoI2_I, int twoLambda_I, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Multipole_C3D_sp_sp_mu) {
+    assert(TwoI1_I >= 0 && TwoI2_I == TargetTwoI_I && twoLambda_I >= 0 && twoLambda_I % 2 == 0);
     assert(Multipole_C3D_sp_sp_mu.dimension(0) == Nsp_I && Multipole_C3D_sp_sp_mu.dimension(1) == Nsp_I && Multipole_C3D_sp_sp_mu.dimension(2) == twoLambda_I + 1);
     assert(Eigen::Map<const Eigen::VectorXcd>(Multipole_C3D_sp_sp_mu.data(), Multipole_C3D_sp_sp_mu.size()).allFinite());
-    multipole_C4D_cfg_cfg_K1_K2.resize(Ncfg_I, Ncfg_I, TwoJ1_I + 1, TwoJ2_I + 1);
-    multipole_C4D_cfg_cfg_K1_K2.setZero();
+    multipole_C4D_cfg1_cfg2_K1_K2.resize(Ncfg1_I, Ncfg2_I, TwoI1_I + 1, TwoI2_I + 1);
+    multipole_C4D_cfg1_cfg2_K1_K2.setZero();
     // |J₁-J₂| ≤ λ ≤ J₁+J₂; J₁-J₂ ∈ ℤ.
-    if (std::abs(TwoJ1_I - TwoJ2_I) > twoLambda_I || TwoJ1_I + TwoJ2_I < twoLambda_I || (TwoJ1_I + TwoJ2_I) % 2 != 0) { return multipole_C4D_cfg_cfg_K1_K2; }
+    if (std::abs(TwoI1_I - TwoI2_I) > twoLambda_I || TwoI1_I + TwoI2_I < twoLambda_I || (TwoI1_I + TwoI2_I) % 2 != 0) { return multipole_C4D_cfg1_cfg2_K1_K2; }
 
     Eigen::MatrixXd CG_F2D_K1_mu{};
-    CG_F2D_K1_mu.resize(TwoJ1_I + 1, twoLambda_I + 1);
+    CG_F2D_K1_mu.resize(TwoI1_I + 1, twoLambda_I + 1);
     Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Multipole_C3D_cfg_cfg_mu{};
-    Multipole_C3D_cfg_cfg_mu.resize(Ncfg_I, Ncfg_I, twoLambda_I + 1);
+    Multipole_C3D_cfg_cfg_mu.resize(Ncfg1_I, Ncfg2_I, twoLambda_I + 1);
     // √(2J₁+1) CG = (-1)^(J₂-λ+K₁) (2J₁+1) (J₂ λ J₁; K₁-μ μ -K₁).
-    for (int K1_I = 0; K1_I <= TwoJ1_I; ++K1_I) {
-        const int TwoK1_I = 2 * K1_I - TwoJ1_I;
-        const int TwoMuMin_I = std::max(-twoLambda_I, TwoK1_I - TwoJ2_I);
-        const int TwoMuMax_I = std::min(twoLambda_I, TwoK1_I + TwoJ2_I);
-        const double sign_F = 1.0 - 2.0 * (std::abs((TwoJ2_I + TwoK1_I - twoLambda_I) / 2) % 2);
+    for (int K1_I = 0; K1_I <= TwoI1_I; ++K1_I) {
+        const int TwoK1_I = 2 * K1_I - TwoI1_I;
+        const int TwoMuMin_I = std::max(-twoLambda_I, TwoK1_I - TwoI2_I);
+        const int TwoMuMax_I = std::min(twoLambda_I, TwoK1_I + TwoI2_I);
+        const double sign_F = 1.0 - 2.0 * (std::abs((TwoI2_I + TwoK1_I - twoLambda_I) / 2) % 2);
         for (int TwoMu_I = TwoMuMin_I; TwoMu_I <= TwoMuMax_I; TwoMu_I += 2) {
             const int mu_I = (TwoMu_I + twoLambda_I) / 2;
-            CG_F2D_K1_mu(K1_I, mu_I) = sign_F * (TwoJ1_I + 1.0) * gsl_sf_coupling_3j(TwoJ2_I, twoLambda_I, TwoJ1_I, TwoK1_I - TwoMu_I, TwoMu_I, -TwoK1_I);
+            CG_F2D_K1_mu(K1_I, mu_I) = sign_F * (TwoI1_I + 1.0) * gsl_sf_coupling_3j(TwoI2_I, twoLambda_I, TwoI1_I, TwoK1_I - TwoMu_I, TwoMu_I, -TwoK1_I);
         }
     }
 
     // (2J+1)/(VΩ Nφ); weights contain sinβ dβ.
     const double volume_F = weight_F1D_alpha.sum() * weight_F1D_beta.sum() * weight_F1D_gamma.sum();
     assert(std::isfinite(volume_F) && volume_F > 0.0);
-    const double normalization_F = (TargetTwoJ_I + 1.0) / (volume_F * Nphi_I);
+    const double normalization_F = (TargetTwoI_I + 1.0) / (volume_F * Nphi_I);
 
 
     // dᴶ(β) is reused over α, γ, φ.
@@ -459,28 +460,28 @@ inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_mul
                             const auto& OBTD_C2D_cfg_cfg = hfb_pfaffian.calc_obtd(sp1_I, sp2_I);
                             for (int TwoMu_I = -twoLambda_I; TwoMu_I <= twoLambda_I; TwoMu_I += 2) {
                                 const int mu_I = (TwoMu_I + twoLambda_I) / 2;
-                                Eigen::Map<Eigen::MatrixXcd> Multipole_C2D_cfg_cfg(Multipole_C3D_cfg_cfg_mu.data() + static_cast<Eigen::Index>(mu_I) * Ncfg_I * Ncfg_I, Ncfg_I, Ncfg_I);
+                                Eigen::Map<Eigen::MatrixXcd> Multipole_C2D_cfg_cfg(Multipole_C3D_cfg_cfg_mu.data() + static_cast<Eigen::Index>(mu_I) * Ncfg1_I * Ncfg2_I, Ncfg1_I, Ncfg2_I);
                                 Multipole_C2D_cfg_cfg += Multipole_C3D_sp_sp_mu(sp1_I, sp2_I, mu_I) * OBTD_C2D_cfg_cfg;
                             }
                         }
                     }
 
                     const doubleC factorPhi_C = std::exp(doubleC(0.0, TargetN_I * phi_F));
-                    for (int K2_I = 0; K2_I <= TargetTwoJ_I; ++K2_I) {
-                        const double K2_F = K2_I - 0.5 * TargetTwoJ_I;
-                        for (int K1_I = 0; K1_I <= TwoJ1_I; ++K1_I) {
-                            const int TwoK1_I = 2 * K1_I - TwoJ1_I;
-                            const int TwoMuMin_I = std::max(-twoLambda_I, TwoK1_I - TwoJ2_I);
-                            const int TwoMuMax_I = std::min(twoLambda_I, TwoK1_I + TwoJ2_I);
-                            Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg_cfg(multipole_C4D_cfg_cfg_K1_K2.data() + (static_cast<Eigen::Index>(K2_I) * (TwoJ1_I + 1) + K1_I) * Ncfg_I * Ncfg_I, Ncfg_I, Ncfg_I);
+                    for (int K2_I = 0; K2_I <= TargetTwoI_I; ++K2_I) {
+                        const double K2_F = K2_I - 0.5 * TargetTwoI_I;
+                        for (int K1_I = 0; K1_I <= TwoI1_I; ++K1_I) {
+                            const int TwoK1_I = 2 * K1_I - TwoI1_I;
+                            const int TwoMuMin_I = std::max(-twoLambda_I, TwoK1_I - TwoI2_I);
+                            const int TwoMuMax_I = std::min(twoLambda_I, TwoK1_I + TwoI2_I);
+                            Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg_cfg(multipole_C4D_cfg1_cfg2_K1_K2.data() + (static_cast<Eigen::Index>(K2_I) * (TwoI1_I + 1) + K1_I) * Ncfg1_I * Ncfg2_I, Ncfg1_I, Ncfg2_I);
                             for (int TwoMu_I = TwoMuMin_I; TwoMu_I <= TwoMuMax_I; TwoMu_I += 2) {
                                 const int mu_I = (TwoMu_I + twoLambda_I) / 2;
                                 // M = K₁-μ; Dᴶ₂*_(M,K₂) = exp(iMα) dᴶ₂*_(M,K₂) exp(iK₂γ).
-                                const int M_I = (TwoK1_I - TwoMu_I + TwoJ2_I) / 2;
+                                const int M_I = (TwoK1_I - TwoMu_I + TwoI2_I) / 2;
                                 const double M_F = 0.5 * (TwoK1_I - TwoMu_I);
                                 const doubleC factorOmega_C = std::conj(RyJ_C2D_K_K(M_I, K2_I)) * std::exp(doubleC(0.0, M_F * alpha_F1D_alpha(alpha_I) + K2_F * gamma_F1D_gamma(gamma_I)));
                                 const doubleC weight_factor_C = weight_F * factorPhi_C * factorOmega_C * CG_F2D_K1_mu(K1_I, mu_I);
-                                const Eigen::Map<const Eigen::MatrixXcd> Multipole_C2D_cfg_cfg(Multipole_C3D_cfg_cfg_mu.data() + static_cast<Eigen::Index>(mu_I) * Ncfg_I * Ncfg_I, Ncfg_I, Ncfg_I);
+                                const Eigen::Map<const Eigen::MatrixXcd> Multipole_C2D_cfg_cfg(Multipole_C3D_cfg_cfg_mu.data() + static_cast<Eigen::Index>(mu_I) * Ncfg1_I * Ncfg2_I, Ncfg1_I, Ncfg2_I);
                                 result_C2D_cfg_cfg += weight_factor_C * Multipole_C2D_cfg_cfg;
                             }
                         }
@@ -489,5 +490,5 @@ inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_mul
             }
         }
     }
-    return multipole_C4D_cfg_cfg_K1_K2;
+    return multipole_C4D_cfg1_cfg2_K1_K2;
 }

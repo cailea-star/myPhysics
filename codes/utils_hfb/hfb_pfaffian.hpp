@@ -25,8 +25,6 @@ using doubleC = std::complex<double>;
 class HFBPfaffian {
 public:
     int Nsp_I = 0;
-    int NcqpMax1_I = 0;
-    int NcqpMax2_I = 0;
 
     Eigen::MatrixXcd U1_C2D_sp_qp1{};
     Eigen::MatrixXcd V1_C2D_sp_qp1{};
@@ -69,17 +67,18 @@ private:
 
 public:
     /**
-     * @brief  Enumerate lexicographic configurations and allocate HFB workspaces.
+     * @brief  Store explicit configurations and allocate HFB workspaces.
      * @math   U₁,V₁,U₂,V₂ ∈ ℂ^{Nsp×Nsp}.
-     * @output Generated both configuration tables; allocated matrices and workspaces.
-     * @note   Each side uses its maximum's parity; step = 2.
+     * @output Stored both configuration tables; allocated matrices and workspaces.
+     * @note   Indices increase strictly; each lies in [0,Nsp).
+     * @note   An empty inner list denotes the vacuum.
      */
-    HFBPfaffian(int Nsp_I_, int NcqpMax1_I_, int NcqpMax2_I_) {
-        assert(Nsp_I_ > 0 && NcqpMax1_I_ >= 0 && NcqpMax1_I_ <= Nsp_I_ && NcqpMax2_I_ >= 0 && NcqpMax2_I_ <= Nsp_I_);
+    HFBPfaffian(int Nsp_I_, const std::vector<std::vector<int>>& config1_I2D_cfg1_cqp1_, const std::vector<std::vector<int>>& config2_I2D_cfg2_cqp2_) {
+        assert(Nsp_I_ > 0);
 
         Nsp_I = Nsp_I_;
-        NcqpMax1_I = NcqpMax1_I_;
-        NcqpMax2_I = NcqpMax2_I_;
+        config1_I2D_cfg1_cqp1 = config1_I2D_cfg1_cqp1_;
+        config2_I2D_cfg2_cqp2 = config2_I2D_cfg2_cqp2_;
 
         // U₁,V₁,U₂,V₂ ∈ ℂ^{Nsp×Nsp}.
         U1_C2D_sp_qp1.resize(Nsp_I, Nsp_I);
@@ -115,16 +114,20 @@ public:
         SpQp2Dag_C2D_sp_qp2.resize(Nsp_I, Nsp_I);
         SpDagQp2Dag_C2D_sp_qp2.resize(Nsp_I, Nsp_I);
 
-        // cfg₁: Ncqp = NcqpMax1 mod 2, …, NcqpMax1; step = 2.
-        for (int Ncqp_I = NcqpMax1_I % 2; Ncqp_I <= NcqpMax1_I; Ncqp_I += 2) {
-            const std::vector<std::vector<int>> config_I2D_cfg_cqp{build_configs(Nsp_I, Ncqp_I)};
-            config1_I2D_cfg1_cqp1.insert(config1_I2D_cfg1_cqp1.end(), config_I2D_cfg_cqp.begin(), config_I2D_cfg_cqp.end());
+        // 0 ≤ μ₀ < ⋯ < μ_last < Nsp.
+        for (const auto& config_I1D_cqp : config1_I2D_cfg1_cqp1) {
+            for (int cqp_I = 0; cqp_I < static_cast<int>(config_I1D_cqp.size()); ++cqp_I) {
+                assert(config_I1D_cqp[cqp_I] >= 0 && config_I1D_cqp[cqp_I] < Nsp_I);
+                assert(cqp_I == 0 || config_I1D_cqp[cqp_I - 1] < config_I1D_cqp[cqp_I]);
+            }
         }
 
-        // cfg₂: Ncqp = NcqpMax2 mod 2, …, NcqpMax2; step = 2.
-        for (int Ncqp_I = NcqpMax2_I % 2; Ncqp_I <= NcqpMax2_I; Ncqp_I += 2) {
-            const std::vector<std::vector<int>> config_I2D_cfg_cqp{build_configs(Nsp_I, Ncqp_I)};
-            config2_I2D_cfg2_cqp2.insert(config2_I2D_cfg2_cqp2.end(), config_I2D_cfg_cqp.begin(), config_I2D_cfg_cqp.end());
+        // 0 ≤ μ₀ < ⋯ < μ_last < Nsp.
+        for (const auto& config_I1D_cqp : config2_I2D_cfg2_cqp2) {
+            for (int cqp_I = 0; cqp_I < static_cast<int>(config_I1D_cqp.size()); ++cqp_I) {
+                assert(config_I1D_cqp[cqp_I] >= 0 && config_I1D_cqp[cqp_I] < Nsp_I);
+                assert(cqp_I == 0 || config_I1D_cqp[cqp_I - 1] < config_I1D_cqp[cqp_I]);
+            }
         }
 
         // N, OBTD, TBTD ∈ ℂ^{Ncfg1×Ncfg2}.
@@ -178,13 +181,6 @@ public:
      * @note   Exact-zero pivots return zero; no magnitude cutoff.
      */
     static doubleC calc_pfaffian(Eigen::Ref<Eigen::MatrixXcd> X_C2D_chain_chain);
-
-    /**
-     * @brief  Enumerate fixed-size configurations in lexicographic order.
-     * @math   0 ≤ μ₀ < ⋯ < μ_{Ncqp-1} < Nsp.
-     * @output All C(Nsp,Ncqp) configurations; Ncqp = 0 returns {{}}.
-     */
-    static std::vector<std::vector<int>> build_configs(int Nsp_I, int Ncqp_I);
 };
 
 /**
@@ -510,27 +506,4 @@ inline doubleC HFBPfaffian::calc_pfaffian(Eigen::Ref<Eigen::MatrixXcd> X_C2D_cha
         }
     }
     return pf_C;
-}
-
-inline std::vector<std::vector<int>> HFBPfaffian::build_configs(int Nsp_I, int Ncqp_I) {
-    assert(Ncqp_I >= 0 && Ncqp_I <= Nsp_I);
-
-    // μ = (0,1,…,Ncqp-1).
-    std::vector<std::vector<int>> config_I2D_cfg_cqp{};
-    std::vector<int> config_I1D_cqp{};
-    config_I1D_cqp.resize(Ncqp_I);
-    for (int cqp_I = 0; cqp_I < Ncqp_I; ++cqp_I) {config_I1D_cqp[cqp_I] = cqp_I;}
-
-    // μ_p < Nsp-Ncqp+p → μ_p+1; reset μ_{p+1},….
-    while (true) {
-        config_I2D_cfg_cqp.push_back(config_I1D_cqp);
-        int pivot_I = Ncqp_I - 1;
-        while (pivot_I >= 0 && config_I1D_cqp[pivot_I] == Nsp_I - Ncqp_I + pivot_I) {
-            --pivot_I;
-        }
-        if (pivot_I < 0) {break;}
-        ++config_I1D_cqp[pivot_I];
-        for (int cqp_I = pivot_I + 1; cqp_I < Ncqp_I; ++cqp_I) {config_I1D_cqp[cqp_I] = config_I1D_cqp[cqp_I - 1] + 1;}
-    }
-    return config_I2D_cfg_cqp;
 }
