@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <functional>
 #include <limits>
 #include <vector>
 
@@ -39,11 +40,20 @@ struct HFBCSBlockSolution {
 
 struct HFBCSBlockField {
     // h = h₀ + Γ.
-    Eigen::MatrixXd hPosPos_F2D_bsp_bsp{};
+    Eigen::MatrixXd h0PosPos_F2D_bsp_bsp{};
+    Eigen::MatrixXd GammaPosPos_F2D_bsp_bsp{};
 };
 
 class HFBCS {
 public:
+    struct Element {
+        double vPosPosPosPos_F = 0.0;
+        double vPosNegPosNeg_F = 0.0;
+    };
+
+    // v̄_{12;34}: Γ uses block13, block24.
+    using GammaElementFunc = std::function<Element(int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
+
     int TargetN_I = 0;
     double lambda_F = -7.0; // Chemical potential [MeV].
     double G_F = 0.0; // Attractive pairing strength [MeV].
@@ -81,8 +91,9 @@ public:
             HFBCSBlockSolution& solution = solutions[block_I];
             solution.eta_F1D_bsp = eta_F2D_block_bsp_[block_I];
 
-            // h, f ∈ ℝ^{Nbsp×Nbsp}.
-            field.hPosPos_F2D_bsp_bsp.resize(Nbsp_I, Nbsp_I);
+            // h₀, Γ, f ∈ ℝ^{Nbsp×Nbsp}.
+            field.h0PosPos_F2D_bsp_bsp.resize(Nbsp_I, Nbsp_I);
+            field.GammaPosPos_F2D_bsp_bsp.resize(Nbsp_I, Nbsp_I);
             solution.fhf_F2D_sp_bhf.resize(Nbsp_I, Nbsp_I);
 
             // Ehf, u, v, Eqp, ρ⁺⁺, κ⁺⁻ ∈ ℝ^{Nbsp}.
@@ -130,6 +141,14 @@ public:
      * @note Each trial λ solves Δ before updating densities.
      */
     void search_lambda(double EspCut_F, double accuracy_F);
+
+    /**
+     * @brief Accumulate particle-hole fields by direct matrix-element contraction.
+     * @math Γ_{13} += Σ_{24}v̄_{12;34}ρ_42.
+     * @output Accumulated Gamma from this species' density.
+     * @note Requires time-reversal invariance and thread-safe callbacks.
+     */
+    void add_Gamma_from_Element(const GammaElementFunc& read_element_Func);
 };
 
 /**
@@ -244,11 +263,12 @@ inline void HFBCS::search_lambda(double EspCut_F, double accuracy_F) {
     for (int block_I = 0; block_I < Nblock_I; ++block_I) {
         HFBCSBlockSolution& solution = solutions[block_I];
         assert(Nbsp_I1D_block[block_I] > 0);
-        assert(fields[block_I].hPosPos_F2D_bsp_bsp.rows() == Nbsp_I1D_block[block_I] && fields[block_I].hPosPos_F2D_bsp_bsp.cols() == Nbsp_I1D_block[block_I]);
-        assert(fields[block_I].hPosPos_F2D_bsp_bsp.allFinite());
+        assert(fields[block_I].h0PosPos_F2D_bsp_bsp.rows() == Nbsp_I1D_block[block_I] && fields[block_I].h0PosPos_F2D_bsp_bsp.cols() == Nbsp_I1D_block[block_I]);
+        assert(fields[block_I].GammaPosPos_F2D_bsp_bsp.rows() == Nbsp_I1D_block[block_I] && fields[block_I].GammaPosPos_F2D_bsp_bsp.cols() == Nbsp_I1D_block[block_I]);
+        assert(fields[block_I].h0PosPos_F2D_bsp_bsp.allFinite() && fields[block_I].GammaPosPos_F2D_bsp_bsp.allFinite());
 
-        // h f = f diag(Ehf).
-        hPos_eigensolvers[block_I].compute(fields[block_I].hPosPos_F2D_bsp_bsp);
+        // (h₀+Γ) f = f diag(Ehf).
+        hPos_eigensolvers[block_I].compute(fields[block_I].h0PosPos_F2D_bsp_bsp + fields[block_I].GammaPosPos_F2D_bsp_bsp);
         assert(hPos_eigensolvers[block_I].info() == Eigen::Success);
         solution.Ehf_F1D_bhf = hPos_eigensolvers[block_I].eigenvalues();
         solution.fhf_F2D_sp_bhf = hPos_eigensolvers[block_I].eigenvectors();
@@ -282,4 +302,48 @@ inline void HFBCS::search_lambda(double EspCut_F, double accuracy_F) {
     assert(std::isfinite(lambdaRoot_F));
     const double Nerror_F = calc_Nerror_Func(lambdaRoot_F);
     assert(std::abs(Nerror_F) <= accuracy_F);
+}
+
+/**
+ * @brief Accumulate particle-hole fields using parallel direct contraction.
+ * @math Γ⁺⁺_{13} += Σ_{24}(v̄⁺⁺⁺⁺ρ⁺⁺_{42}+v̄⁺⁻⁺⁻ρ⁻⁻_{42}).
+ * @output Accumulated Gamma from this species' density.
+ * @note Requires time-reversal invariance and thread-safe callbacks.
+ */
+inline void HFBCS::add_Gamma_from_Element(const GammaElementFunc& read_element_Func) {
+    assert(read_element_Func);
+
+    // Γ⁺⁺_{13} += Σ_{24}(v̄⁺⁺⁺⁺ρ⁺⁺_{42}+v̄⁺⁻⁺⁻ρ⁻⁻_{42}).
+    const auto add_Gamma_Func = [&](int block13_I, int bsp1_I, int bsp3_I) {
+        double Gamma13PosPos_F = 0.0;
+        for (int block24_I = 0; block24_I < Nblock_I; ++block24_I) {
+            const auto& solution = solutions[block24_I];
+            for (int bsp2_I = 0; bsp2_I < Nbsp_I1D_block[block24_I]; ++bsp2_I) {
+                for (int bsp4_I = 0; bsp4_I < Nbsp_I1D_block[block24_I]; ++bsp4_I) {
+                    const Element element = read_element_Func(block13_I, block24_I, bsp1_I, bsp2_I, bsp3_I, bsp4_I);
+                    const double rho42PosPos_F = solution.rhoPosPos_F2D_bsp_bsp(bsp4_I, bsp2_I);
+                    // ρ⁻⁻_{42} = η₄η₂ρ⁺⁺_{42} (real).
+                    const double rho42NegNeg_F = solution.eta_F1D_bsp(bsp4_I) * solution.eta_F1D_bsp(bsp2_I) * rho42PosPos_F;
+                    Gamma13PosPos_F += element.vPosPosPosPos_F * rho42PosPos_F + element.vPosNegPosNeg_F * rho42NegNeg_F;
+                }
+            }
+        }
+        fields[block13_I].GammaPosPos_F2D_bsp_bsp(bsp1_I, bsp3_I) += Gamma13PosPos_F;
+    };
+
+    #pragma omp parallel
+    {
+        #pragma omp single
+        for (int block13_I = 0; block13_I < Nblock_I; ++block13_I) {
+            for (int bsp1_I = 0; bsp1_I < Nbsp_I1D_block[block13_I]; ++bsp1_I) {
+                for (int bsp3_I = 0; bsp3_I < Nbsp_I1D_block[block13_I]; ++bsp3_I) {
+                    #pragma omp task firstprivate(block13_I, bsp1_I, bsp3_I)
+                    {
+                        add_Gamma_Func(block13_I, bsp1_I, bsp3_I);
+                    }
+                }
+            }
+        }
+    }
+
 }
