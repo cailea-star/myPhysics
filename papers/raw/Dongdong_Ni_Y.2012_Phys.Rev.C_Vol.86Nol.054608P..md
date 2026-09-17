@@ -24,9 +24,7 @@ The newly developed multichannel cluster model (MCCM) based on the coupled-chann
 [source]: section I. Introduction
 ```
 
-```quote
-In odd-A and odd-odd nuclei, the ground-state spin-parities of parent and daughter nuclei are generally different, leading to the hinderance of the additional centrifugal barrier ℓ ≠ 0. Therefore, the transitions between ground states are hindered ones.
-```
+> In odd-A and odd-odd nuclei, the ground-state spin-parities of parent and daughter nuclei are generally different, leading to the hinderance of the additional centrifugal barrier ℓ ≠ 0. Therefore, the transitions between ground states are hindered ones.
 
 ##### quotation-02
 
@@ -36,9 +34,7 @@ In odd-A and odd-odd nuclei, the ground-state spin-parities of parent and daught
 [source]: section I. Introduction
 ```
 
-```quote
-Besides, many deformed emitters show a line spectrum of α groups corresponding to α transitions to various daughter states, which is confirmed by the fact that the energy differences between various α groups fit with γ rays [1].
-```
+> Besides, many deformed emitters show a line spectrum of α groups corresponding to α transitions to various daughter states, which is confirmed by the fact that the energy differences between various α groups fit with γ rays [1].
 
 ##### quotation-03
 
@@ -48,9 +44,7 @@ Besides, many deformed emitters show a line spectrum of α groups corresponding 
 [source]: section I. Introduction
 ```
 
-```quote
-This α-decay fine structure was discovered by Rosenblum in 1929 [2]. That is, the low-lying excited states are closely distributed near the ground states in deformed nuclei so that they are all accessible to α transitions; furthermore, there is significant mixing of these decay channels during the tunneling.
-```
+> This α-decay fine structure was discovered by Rosenblum in 1929 [2]. That is, the low-lying excited states are closely distributed near the ground states in deformed nuclei so that they are all accessible to α transitions; furthermore, there is significant mixing of these decay channels during the tunneling.
 
 ##### quotation-04
 
@@ -60,9 +54,7 @@ This α-decay fine structure was discovered by Rosenblum in 1929 [2]. That is, t
 [source]: section I. Introduction
 ```
 
-```quote
-Experimentally, α-decay spectroscopy of heavy odd-A nuclei has been established and recently some new high-statistics data have been obtained [11–14]. Nevertheless, up to now there has been no coupled-channel calculation of the α-decay fine structure in odd-A nuclei, except our tentative attempt made in Ref. [15].
-```
+> Experimentally, α-decay spectroscopy of heavy odd-A nuclei has been established and recently some new high-statistics data have been obtained [11–14]. Nevertheless, up to now there has been no coupled-channel calculation of the α-decay fine structure in odd-A nuclei, except our tentative attempt made in Ref. [15].
 
 
 
@@ -77,9 +69,7 @@ Experimentally, α-decay spectroscopy of heavy odd-A nuclei has been established
 [source]: section I. Introduction
 ```
 
-```quote
-Within the coupled-channel framework, we have proposed the multichannel cluster model (MCCM) for the α-decay fine structure in even-even rotational nuclei [9,10], where the diagonalization technique and the multipole expansion were separately used to deal with the interaction matrix.
-```
+> Within the coupled-channel framework, we have proposed the multichannel cluster model (MCCM) for the α-decay fine structure in even-even rotational nuclei [9,10], where the diagonalization technique and the multipole expansion were separately used to deal with the interaction matrix.
 
 ##### quotation-06
 
@@ -89,9 +79,7 @@ Within the coupled-channel framework, we have proposed the multichannel cluster 
 [source]: section IV. Summary
 ```
 
-```quote
-In summary, we have presented in this paper an extension of the developed MCCM to study the α-decay fine structure in odd-A nuclei. Calculations are performed for the transitions from ground states to favored rotational bands, and enough channels are considered in solving the coupled equations.
-```
+> In summary, we have presented in this paper an extension of the developed MCCM to study the α-decay fine structure in odd-A nuclei. Calculations are performed for the transitions from ground states to favored rotational bands, and enough channels are considered in solving the coupled equations.
 
 ##### quotation-07
 
@@ -101,9 +89,7 @@ In summary, we have presented in this paper an extension of the developed MCCM t
 [source]: section II. Theoretical Framework for α Decay of Deformed Nuclei
 ```
 
-```quote
-Next, the structure part of α decay can be evaluated by using a constant α-preformation factor Pα together with the hypothesis of the Boltzmann distribution (BD) for daughter states ρ(EI) = exp(−cEI) [10,15].
-```
+> Next, the structure part of α decay can be evaluated by using a constant α-preformation factor Pα together with the hypothesis of the Boltzmann distribution (BD) for daughter states ρ(EI) = exp(−cEI) [10,15].
 
 
 
@@ -118,9 +104,7 @@ Next, the structure part of α decay can be evaluated by using a constant α-pre
 [source]: section II. Theoretical Framework for α Decay of Deformed Nuclei, equation 5
 ```
 
-```quote
-Ultimately, the total width representing the tunneling through the deformed barrier is expressed as, Γ = Σ{ℓI} Pαρ(EI)ΓℓI. Then the α-decay half-life is calculated by the relationship T1/2 = ℏ ln 2/Γ, and the branching ratio (BR) for a daughter state I is written as BRI = Pαρ(EI)ΣℓΓℓI/Γ × 100%.
-```
+> Ultimately, the total width representing the tunneling through the deformed barrier is expressed as, Γ = Σ{ℓI} Pαρ(EI)ΓℓI. Then the α-decay half-life is calculated by the relationship T1/2 = ℏ ln 2/Γ, and the branching ratio (BR) for a daughter state I is written as BRI = Pαρ(EI)ΣℓΓℓI/Γ × 100%.
 
 ##### quotation-09
 
@@ -130,9 +114,7 @@ Ultimately, the total width representing the tunneling through the deformed barr
 [source]: section II. Theoretical Framework for α Decay of Deformed Nuclei, equation 6
 ```
 
-```quote
-To gain better insight into the fine structure, one also define the quantity [7,8,15] χI = log10(BR0/BRI), which represents the relative intensity of various daughter states with respect to the first member of the corresponding rotational band.
-```
+> To gain better insight into the fine structure, one also define the quantity [7,8,15] χI = log10(BR0/BRI), which represents the relative intensity of various daughter states with respect to the first member of the corresponding rotational band.
 
 ##### quotation-10
 
@@ -142,9 +124,7 @@ To gain better insight into the fine structure, one also define the quantity [7,
 [source]: section III. Numerical Results and Discussion, table I
 ```
 
-```quote
-The standard deviation of the calculated α-decay half-lives is σ = [Σᵢ₌₁³²(log10(Texptᵢ/Tcalcᵢ))²/31]¹ᐟ² = 0.27, corresponding to a factor of roughly 1.9.
-```
+> The standard deviation of the calculated α-decay half-lives is σ = [Σᵢ₌₁³²(log10(Texptᵢ/Tcalcᵢ))²/31]¹ᐟ² = 0.27, corresponding to a factor of roughly 1.9.
 
 ##### quotation-11
 
@@ -154,9 +134,7 @@ The standard deviation of the calculated α-decay half-lives is σ = [Σᵢ₌�
 [source]: section III. Numerical Results and Discussion, figure 2
 ```
 
-```quote
-The calculated BRs for various daughter states are displayed in Fig. 2 compared with the available experimental data. The blue data denote the experimental measurements and the red data stand for the theoretical results. One can see that the theoretical results follow the experimental data well.
-```
+> The calculated BRs for various daughter states are displayed in Fig. 2 compared with the available experimental data. The blue data denote the experimental measurements and the red data stand for the theoretical results. One can see that the theoretical results follow the experimental data well.
 
 ##### quotation-12
 
@@ -166,9 +144,7 @@ The calculated BRs for various daughter states are displayed in Fig. 2 compared 
 [source]: section IV. Summary, tables II–III
 ```
 
-```quote
-In summary, we have presented in this paper an extension of the developed MCCM to study the α-decay fine structure in odd-A nuclei. [...] The experimental branching ratios for various daughter states are well reproduced within a factor of less than 3, as shown in Tables II and III.
-```
+> In summary, we have presented in this paper an extension of the developed MCCM to study the α-decay fine structure in odd-A nuclei. [...] The experimental branching ratios for various daughter states are well reproduced within a factor of less than 3, as shown in Tables II and III.
 
 ##### quotation-13
 
@@ -178,9 +154,7 @@ In summary, we have presented in this paper an extension of the developed MCCM t
 [source]: section III. Numerical Results and Discussion, tables II–III
 ```
 
-```quote
-The standard deviation of our calculations is given by σ = [Σᵢ₌₁⁸¹(log10(χexptᵢ/χcalcᵢ))²/80]¹ᐟ² = 0.425, which means that the α-decay fine structures are reproduced within a factor of about 2.66.
-```
+> The standard deviation of our calculations is given by σ = [Σᵢ₌₁⁸¹(log10(χexptᵢ/χcalcᵢ))²/80]¹ᐟ² = 0.425, which means that the α-decay fine structures are reproduced within a factor of about 2.66.
 
 ##### quotation-14
 
@@ -190,9 +164,7 @@ The standard deviation of our calculations is given by σ = [Σᵢ₌₁⁸¹(lo
 [source]: section III. Numerical Results and Discussion, table III
 ```
 
-```quote
-Here the BR for the 3/2+ state is predicted to be as large as 20%. Precise measurements of these BRs in the α decay of 245Cf would be a good way to test the validity of the present study.
-```
+> Here the BR for the 3/2+ state is predicted to be as large as 20%. Precise measurements of these BRs in the α decay of 245Cf would be a good way to test the validity of the present study.
 
 ##### quotation-15
 
@@ -202,9 +174,7 @@ Here the BR for the 3/2+ state is predicted to be as large as 20%. Precise measu
 [source]: section III. Numerical Results and Discussion, table III
 ```
 
-```quote
-In some cases the BR for excited (I + 1) states is even larger than that for excited I states, such as the α decay of 251Cf and 253Fm. The present coupled-channel calculations well reproduce such an unexpected behavior, as shown in Table III.
-```
+> In some cases the BR for excited (I + 1) states is even larger than that for excited I states, such as the α decay of 251Cf and 253Fm. The present coupled-channel calculations well reproduce such an unexpected behavior, as shown in Table III.
 
 
 
@@ -219,9 +189,7 @@ In some cases the BR for excited (I + 1) states is even larger than that for exc
 [source]: abstract
 ```
 
-```quote
-The branching ratios for various daughter states are well reproduced without any additional free parameters, and the calculated α-decay half-lives show good agreement with the experimental data. This indicates that the MCCM has universal applicability and equal validity regardless of even-even or odd-A α emitters.
-```
+> The branching ratios for various daughter states are well reproduced without any additional free parameters, and the calculated α-decay half-lives show good agreement with the experimental data. This indicates that the MCCM has universal applicability and equal validity regardless of even-even or odd-A α emitters.
 
 ##### quotation-17
 
@@ -231,9 +199,7 @@ The branching ratios for various daughter states are well reproduced without any
 [source]: section IV. Summary
 ```
 
-```quote
-In summary, we have presented in this paper an extension of the developed MCCM to study the α-decay fine structure in odd-A nuclei. [...] We expect the present analysis to be an important step toward the coupled-channel study of odd-A nuclei.
-```
+> In summary, we have presented in this paper an extension of the developed MCCM to study the α-decay fine structure in odd-A nuclei. [...] We expect the present analysis to be an important step toward the coupled-channel study of odd-A nuclei.
 
 
 
@@ -251,9 +217,7 @@ In summary, we have presented in this paper an extension of the developed MCCM t
 [doi]: 10.1103/PhysRevC.81.064318; 10.1103/PhysRevC.83.067302
 ```
 
-```quote
-Within the coupled-channel framework, we have proposed the multichannel cluster model (MCCM) for the α-decay fine structure in even-even rotational nuclei [9,10], where the diagonalization technique and the multipole expansion were separately used to deal with the interaction matrix.
-```
+> Within the coupled-channel framework, we have proposed the multichannel cluster model (MCCM) for the α-decay fine structure in even-even rotational nuclei [9,10], where the diagonalization technique and the multipole expansion were separately used to deal with the interaction matrix.
 
 ##### quotation-19
 
@@ -265,9 +229,7 @@ Within the coupled-channel framework, we have proposed the multichannel cluster 
 [doi]: 10.1103/PhysRevC.83.067302; 10.1103/PhysRevC.80.051303; 10.1103/PhysRevC.81.024315
 ```
 
-```quote
-Next, the structure part of α decay can be evaluated by using a constant α-preformation factor Pα together with the hypothesis of the Boltzmann distribution (BD) for daughter states ρ(EI) = exp(−cEI) [10,15].
-```
+> Next, the structure part of α decay can be evaluated by using a constant α-preformation factor Pα together with the hypothesis of the Boltzmann distribution (BD) for daughter states ρ(EI) = exp(−cEI) [10,15].
 
 ##### quotation-20
 
@@ -279,9 +241,7 @@ Next, the structure part of α decay can be evaluated by using a constant α-pre
 [doi]: [32] unknown; [33] 10.1016/j.nuclphysa.2003.11.003
 ```
 
-```quote
-In our calculations, the experimental data of α-decay half-lives, branching ratios, α-decay energies, and rotational spectrums are taken from the NuDat database [32] and the AME2003 table [33].
-```
+> In our calculations, the experimental data of α-decay half-lives, branching ratios, α-decay energies, and rotational spectrums are taken from the NuDat database [32] and the AME2003 table [33].
 
 ##### quotation-21
 
@@ -293,9 +253,7 @@ In our calculations, the experimental data of α-decay half-lives, branching rat
 [doi]: 10.1006/adnd.1995.1002
 ```
 
-```quote
-The deformation parameters of the daughter nuclei are set by the theoretical calculations of Möller et al. [34].
-```
+> The deformation parameters of the daughter nuclei are set by the theoretical calculations of Möller et al. [34].
 
 ##### quotation-22
 
@@ -307,9 +265,7 @@ The deformation parameters of the daughter nuclei are set by the theoretical cal
 [doi]: 10.1142/3530-vol1
 ```
 
-```quote
-In some cases, the data on high excitation spectrum EI are absent in experiments. For this, we use the first-order perturbation theory [35]: [...] where ℏ²/𝒥 and a are the parameters to be determined from the known low-lying excitation energies.
-```
+> In some cases, the data on high excitation spectrum EI are absent in experiments. For this, we use the first-order perturbation theory [35]: [...] where ℏ²/𝒥 and a are the parameters to be determined from the known low-lying excitation energies.
 
 
 ### Gaps
