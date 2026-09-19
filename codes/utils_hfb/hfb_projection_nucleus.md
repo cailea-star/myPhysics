@@ -61,7 +61,7 @@ $$
 Let $N,Z$ denote the target neutron and proton numbers. Their independent projectors are
 
 $$
-P_\nu^N=\frac{1}{2\pi}\int_0^{2\pi}d\varphi_\nu\,e^{i\varphi_\nu(\hat N_\nu-N)},\qquad P_\pi^Z=\frac{1}{2\pi}\int_0^{2\pi}d\varphi_\pi\,e^{i\varphi_\pi(\hat N_\pi-Z)}.
+P_\nu^N=\frac{1}{2\pi}\int_0^{2\pi}d\varphi_\nu\,e^{-i\varphi_\nu(\hat N_\nu-N)},\qquad P_\pi^Z=\frac{1}{2\pi}\int_0^{2\pi}d\varphi_\pi\,e^{-i\varphi_\pi(\hat N_\pi-Z)}.
 $$
 
 The total angular momentum is $\hat{\boldsymbol I}=\hat{\boldsymbol I}_\nu+\hat{\boldsymbol I}_\pi$. For Euler angles $\Omega=(\alpha,\beta,\gamma)$, define
@@ -117,7 +117,7 @@ For allowed transitions, only the two right-state gauge integrations are require
 Let $g=(\varphi_\nu,\varphi_\pi,\Omega)$ collect the two gauge angles and the shared Euler angles. Define the species transformations and their nuclear product by
 
 $$
-G_\nu(g)=e^{i\varphi_\nu\hat N_\nu}R_\nu(\Omega),\qquad G_\pi(g)=e^{i\varphi_\pi\hat N_\pi}R_\pi(\Omega),\qquad G(g)=G_\nu(g)\otimes G_\pi(g).
+G_\nu(g)=e^{-i\varphi_\nu\hat N_\nu}R_\nu(\Omega),\qquad G_\pi(g)=e^{-i\varphi_\pi\hat N_\pi}R_\pi(\Omega),\qquad G(g)=G_\nu(g)\otimes G_\pi(g).
 $$
 
 The reference-vacuum overlaps are
@@ -265,7 +265,7 @@ A species-conserving interaction retains only terms with $\Delta N=\Delta Z=0$. 
 For fixed configurations $\kappa_1,\kappa_2$, define the kernel integral
 
 $$
-\mathcal I^{NZI}_{K_1K_2}[\hat O]\equiv\frac{2I+1}{16\pi^2(2\pi)^2}\int d\Omega\int_0^{2\pi}d\varphi_\nu\int_0^{2\pi}d\varphi_\pi\,D^{I*}_{K_1K_2}(\Omega)e^{-i(N\varphi_\nu+Z\varphi_\pi)}\langle\Phi_{1;\kappa_1}|\hat O\,G(g)|\Phi_{2;\kappa_2}\rangle.
+\mathcal I^{NZI}_{K_1K_2}[\hat O]\equiv\frac{2I+1}{16\pi^2(2\pi)^2}\int d\Omega\int_0^{2\pi}d\varphi_\nu\int_0^{2\pi}d\varphi_\pi\,D^{I*}_{K_1K_2}(\Omega)e^{i(N\varphi_\nu+Z\varphi_\pi)}\langle\Phi_{1;\kappa_1}|\hat O\,G(g)|\Phi_{2;\kappa_2}\rangle.
 $$
 
 Here $d\Omega=d\alpha\,\sin\beta\,d\beta\,d\gamma$, with the $SU(2)$ domain defined above. Equivalently,
