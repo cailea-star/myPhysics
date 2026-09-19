@@ -376,22 +376,28 @@ $$
 
 ##### One-Body Matrix Elements between Multiquasiparticle States
 
-Let $N_{\mathrm{qp}}^{(1)}$ and $N_{\mathrm{qp}}^{(2)}$ denote the numbers of excited quasiparticles built on $|\Phi_1\rangle$ and $|\Phi_2\rangle$. Define
+Let $r_1$ and $r_2$ denote the numbers of excited quasiparticles built on $|\Phi_1\rangle$ and $|\Phi_2\rangle$. Define the configuration lists
 
 $$
-|\Phi_{1;\boldsymbol\mu^{(1)}}\rangle\equiv\hat\beta_{1,\mu_1^{(1)}}^*\cdots\hat\beta_{1,\mu_{N_{\mathrm{qp}}^{(1)}}^{(1)}}^*|\Phi_1\rangle,\qquad |\Phi_{2;\boldsymbol\mu^{(2)}}\rangle\equiv\hat\beta_{2,\mu_1^{(2)}}^*\cdots\hat\beta_{2,\mu_{N_{\mathrm{qp}}^{(2)}}^{(2)}}^*|\Phi_2\rangle.
+\kappa_1=(\mu_1,\ldots,\mu_{r_1}),\qquad \kappa_2=(\nu_1,\ldots,\nu_{r_2}).
+$$
+
+Here $\kappa_1,\kappa_2$ label configurations; $\kappa$ without a configuration subscript remains the pairing transition-density matrix. The excited states are
+
+$$
+|\Phi_{1;\kappa_1}\rangle\equiv\hat\beta_{1,\mu_1}^*\cdots\hat\beta_{1,\mu_{r_1}}^*|\Phi_1\rangle,\qquad |\Phi_{2;\kappa_2}\rangle\equiv\hat\beta_{2,\nu_1}^*\cdots\hat\beta_{2,\nu_{r_2}}^*|\Phi_2\rangle.
 $$
 
 The mode labels satisfy
 
 $$
-1\leq\mu_1^{(1)}<\cdots<\mu_{N_{\mathrm{qp}}^{(1)}}^{(1)}\leq N_{\mathrm{sp}},\qquad 1\leq\mu_1^{(2)}<\cdots<\mu_{N_{\mathrm{qp}}^{(2)}}^{(2)}\leq N_{\mathrm{sp}}.
+1\leq \mu_1<\cdots<\mu_{r_1}\leq N_{\mathrm{sp}},\qquad 1\leq \nu_1<\cdots<\nu_{r_2}\leq N_{\mathrm{sp}}.
 $$
 
 Taking the adjoint reverses the operator order:
 
 $$
-\langle\Phi_{1;\boldsymbol\mu^{(1)}}|=\langle\Phi_1|\hat\beta_{1,\mu_{N_{\mathrm{qp}}^{(1)}}^{(1)}}\cdots\hat\beta_{1,\mu_1^{(1)}},\qquad \langle\Phi_{2;\boldsymbol\mu^{(2)}}|=\langle\Phi_2|\hat\beta_{2,\mu_{N_{\mathrm{qp}}^{(2)}}^{(2)}}\cdots\hat\beta_{2,\mu_1^{(2)}}.
+\langle\Phi_{1;\kappa_1}|=\langle\Phi_1|\hat\beta_{1,\mu_{r_1}}\cdots\hat\beta_{1,\mu_1},\qquad \langle\Phi_{2;\kappa_2}|=\langle\Phi_2|\hat\beta_{2,\nu_{r_2}}\cdots\hat\beta_{2,\nu_1}.
 $$
 
 For zero excited quasiparticles, the corresponding operator chain is omitted.
@@ -405,7 +411,7 @@ $$
 For each $(\alpha,\beta)$, use the ordered operator column
 
 $$
-\hat{\boldsymbol a}(\alpha,\beta)\equiv\begin{pmatrix}\hat\beta_{1,\mu_{N_{\mathrm{qp}}^{(1)}}^{(1)}}&\cdots&\hat\beta_{1,\mu_1^{(1)}}&\hat c_\alpha^*&\hat c_\beta&\hat\beta_{2,\mu_1^{(2)}}^*&\cdots&\hat\beta_{2,\mu_{N_{\mathrm{qp}}^{(2)}}^{(2)}}^*\end{pmatrix}^T,\qquad L=N_{\mathrm{qp}}^{(1)}+N_{\mathrm{qp}}^{(2)}+2.
+\hat{\boldsymbol a}(\alpha,\beta)\equiv\begin{pmatrix}\hat\beta_{1,\mu_{r_1}}&\cdots&\hat\beta_{1,\mu_1}&\hat c_\alpha^*&\hat c_\beta&\hat\beta_{2,\nu_1}^*&\cdots&\hat\beta_{2,\nu_{r_2}}^*\end{pmatrix}^T,\qquad L=r_1+r_2+2.
 $$
 
 Construct $S(\alpha,\beta)\in\mathbb C^{L\times L}$ by
@@ -416,15 +422,15 @@ $$
 
 Its entries are given in [Transition Densities](#transition-densities), including [Other Contractions](#other-contractions).
 
-For even $N_{\mathrm{qp}}^{(1)}+N_{\mathrm{qp}}^{(2)}$,
+For even $r_1+r_2$,
 
 $$
-\boxed{\langle\Phi_{1;\boldsymbol\mu^{(1)}}|\hat O^{(1)}|\Phi_{2;\boldsymbol\mu^{(2)}}\rangle=\langle\Phi_1|\Phi_2\rangle\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}\langle\alpha|\hat O|\beta\rangle\operatorname{pf}[S(\alpha,\beta)]}.
+\boxed{\langle\Phi_{1;\kappa_1}|\hat O^{(1)}|\Phi_{2;\kappa_2}\rangle=\langle\Phi_1|\Phi_2\rangle\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}\langle\alpha|\hat O|\beta\rangle\operatorname{pf}[S(\alpha,\beta)]}.
 $$
 
-For odd $N_{\mathrm{qp}}^{(1)}+N_{\mathrm{qp}}^{(2)}$, the matrix element vanishes.
+For odd $r_1+r_2$, the matrix element vanishes.
 
-For $N_{\mathrm{qp}}^{(1)}=N_{\mathrm{qp}}^{(2)}=0$, $S_{12}(\alpha,\beta)=\rho_{\beta\alpha}$, recovering
+For $r_1=r_2=0$, $S_{12}(\alpha,\beta)=\rho_{\beta\alpha}$, recovering
 
 $$
 \langle\Phi_1|\hat O^{(1)}|\Phi_2\rangle=\langle\Phi_1|\Phi_2\rangle\operatorname{Tr}(O\rho).
@@ -441,7 +447,7 @@ $$
 For each $(\alpha,\beta,\gamma,\delta)$, use the ordered operator column
 
 $$
-\hat{\boldsymbol a}(\alpha,\beta,\gamma,\delta)\equiv\begin{pmatrix}\hat\beta_{1,\mu_{N_{\mathrm{qp}}^{(1)}}^{(1)}}&\cdots&\hat\beta_{1,\mu_1^{(1)}}&\hat c_\alpha^*&\hat c_\beta^*&\hat c_\delta&\hat c_\gamma&\hat\beta_{2,\mu_1^{(2)}}^*&\cdots&\hat\beta_{2,\mu_{N_{\mathrm{qp}}^{(2)}}^{(2)}}^*\end{pmatrix}^T,\qquad L=N_{\mathrm{qp}}^{(1)}+N_{\mathrm{qp}}^{(2)}+4.
+\hat{\boldsymbol a}(\alpha,\beta,\gamma,\delta)\equiv\begin{pmatrix}\hat\beta_{1,\mu_{r_1}}&\cdots&\hat\beta_{1,\mu_1}&\hat c_\alpha^*&\hat c_\beta^*&\hat c_\delta&\hat c_\gamma&\hat\beta_{2,\nu_1}^*&\cdots&\hat\beta_{2,\nu_{r_2}}^*\end{pmatrix}^T,\qquad L=r_1+r_2+4.
 $$
 
 Construct $S(\alpha,\beta,\gamma,\delta)\in\mathbb C^{L\times L}$ by
@@ -452,15 +458,15 @@ $$
 
 Its entries are given in [Transition Densities](#transition-densities), including [Other Contractions](#other-contractions).
 
-For even $N_{\mathrm{qp}}^{(1)}+N_{\mathrm{qp}}^{(2)}$,
+For even $r_1+r_2$,
 
 $$
-\boxed{\langle\Phi_{1;\boldsymbol\mu^{(1)}}|\hat O^{(2)}|\Phi_{2;\boldsymbol\mu^{(2)}}\rangle=\frac12\langle\Phi_1|\Phi_2\rangle\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}\langle\alpha\otimes\beta|\hat O|\gamma\otimes\delta\rangle\operatorname{pf}[S(\alpha,\beta,\gamma,\delta)]}.
+\boxed{\langle\Phi_{1;\kappa_1}|\hat O^{(2)}|\Phi_{2;\kappa_2}\rangle=\frac12\langle\Phi_1|\Phi_2\rangle\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}\langle\alpha\otimes\beta|\hat O|\gamma\otimes\delta\rangle\operatorname{pf}[S(\alpha,\beta,\gamma,\delta)]}.
 $$
 
-For odd $N_{\mathrm{qp}}^{(1)}+N_{\mathrm{qp}}^{(2)}$, the matrix element vanishes.
+For odd $r_1+r_2$, the matrix element vanishes.
 
-For $N_{\mathrm{qp}}^{(1)}=N_{\mathrm{qp}}^{(2)}=0$, $\operatorname{pf}[S(\alpha,\beta,\gamma,\delta)]=\rho_{\alpha\beta\gamma\delta}$, recovering
+For $r_1=r_2=0$, $\operatorname{pf}[S(\alpha,\beta,\gamma,\delta)]=\rho_{\alpha\beta\gamma\delta}$, recovering
 
 $$
 \langle\Phi_1|\hat O^{(2)}|\Phi_2\rangle=\frac12\langle\Phi_1|\Phi_2\rangle\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}\langle\alpha\otimes\beta|\hat O|\gamma\otimes\delta\rangle\rho_{\alpha\beta\gamma\delta}.
