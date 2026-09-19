@@ -870,9 +870,10 @@ body {
     padding: var(--content-block-panel-vertical) calc(var(--width-1pct) * 4); /* 上下留 2%，左右留 4% */
   }
 
-  /* `& .multi-row-text ul`：通栏正文中的列表 */
-  & .multi-row-text ul {
-    display: grid; /* 统一控制三条内容的纵向间隔 */
+  /* 通栏正文中的无序列表与有序列表 */
+  & .multi-row-text ul,
+  & .multi-row-text ol {
+    display: grid; /* 统一控制列表条目的纵向间隔 */
     row-gap: var(--body-line-panel); /* 相邻条目之间保留 1% panel */
     width: 100%; /* 使用完整正文宽度 */
     margin: 0; /* 移除列表默认外边距 */
