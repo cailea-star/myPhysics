@@ -25,7 +25,7 @@
         <p>中国科学院近代物理研究所</p>
         <p>汇报人：吴国庆</p>
         <p>导师：董建敏</p>
-        <p>2026-08-27</p>
+        <p>2026-09-18</p>
       </div>
     </section>
 
@@ -40,7 +40,7 @@
         <div class="toc-item"><span class="toc-number">1</span><span>研究背景</span></div>
         <div class="toc-item"><span class="toc-number">2</span><span>耦合道形式理论</span></div>
         <div class="toc-item"><span class="toc-number">3</span><span>当前计算结果</span></div>
-        <div class="toc-item"><span class="toc-number">4</span><span>总结与展望</span></div>
+        <div class="toc-item"><span class="toc-number">4</span><span>与 PSM 结合的初步讨论</span></div>
       </div>
     </section>
 
@@ -319,7 +319,7 @@
               \[\Big\langle\Phi_{IM_IK}(D)\Big|\hat V_{\lambda\mu}(r_\alpha)\Big|\Phi_{I'M_I'K}(D)\Big\rangle=\hat I\hat I'(-1)^{I-M_I}\begin{pmatrix}I&\lambda&I'\\-M_I&\mu&M_I'\end{pmatrix}(-1)^{I-K}\begin{pmatrix}I&\lambda&I'\\-K&0&K\end{pmatrix}V'_{\lambda0;K,K}(r_\alpha).\]
             </div>
             <div class="content-formula-line">
-              \[\boxed{\Big\langle\Phi_I(D)\Big\|\hat V_\lambda(r_\alpha)\Big\|\Phi_{I'}(D)\Big\rangle=\hat I\hat I'(-1)^{I-K}\begin{pmatrix}I&\lambda&I'\\-K&0&K\end{pmatrix}V'_{\lambda0;K,K}(r_\alpha)}.\]
+              \[\boxed{\Big\langle\Phi_{IK}(D)\Big\|\hat V_\lambda(r_\alpha)\Big\|\Phi_{I'K}(D)\Big\rangle=\hat I\hat I'(-1)^{I-K}\begin{pmatrix}I&\lambda&I'\\-K&0&K\end{pmatrix}V'_{\lambda0;K,K}(r_\alpha)}.\]
             </div>
             </div>
           </div>
@@ -411,35 +411,92 @@
       </div>
     </section>
 
-    <section class="slide content-slide multi-row-slide two-row-layout" aria-label="总结与展望">
+    <section class="slide content-slide multi-row-slide two-row-layout auto-row-layout" aria-label="与 PSM 结合的初步讨论">
       <div class="content-block-header">
         <header class="content-header-main">
           <img class="content-header-logo" src="assets/imp_logo_short.png" alt="中国科学院近代物理研究所标志">
-          <h2>总结与展望</h2>
+          <h2>与 PSM 结合的初步讨论</h2>
           <img class="content-header-logo" src="assets/ucas_logo_short.png" alt="中国科学院大学校徽">
         </header>
         <div class="content-divider" aria-hidden="true"></div>
       </div>
       <div class="multi-row-content">
-        <section class="content-block-group">
-          <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>阶段性总结</h3>
-          <div class="content-block-text multi-row-text">
-            <ul>
-              <li>学习 \(\alpha\)-衰变的耦合道形式理论与从内禀系到实验室系的变换。</li>
-              <li>构造库仑耦合与核势耦合矩阵元，并代入多通道径向薛定谔方程。</li>
-              <li>初步复现数值求解流程，获得 \(\alpha\)-衰变分支比与半衰期计算结果。</li>
-            </ul>
+        <div class="content-block-group">
+          <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>PSM 中的不可约张量算符计算</h3>
+          <div class="content-block-formula">
+            <div class="content-formula-line">
+              \[
+              \langle \Psi^{I_1}_{M_1}|\hat{Q}_{\lambda\mu}|\Psi^{I_2}_{M_2}\rangle
+              = \sum_{\alpha,\beta}\langle\alpha|\hat{Q}_{\lambda\mu}|\beta\rangle
+              \langle\Psi^{I_1}_{M_1}|\hat{c}^{\dagger}_{\alpha}\hat{c}_{\beta}|\Psi^{I_2}_{M_2}\rangle .
+              \]
+            </div>
+            <div class="content-formula-line">
+              \[
+              \langle\Psi^{I_1}\|\hat{Q}_{\lambda}\|\Psi^{I_2}\rangle
+              = \sum_{a,b}\frac{\langle a\|\hat{Q}_{\lambda}\|b\rangle}{\sqrt{2\lambda+1}}
+              \langle\Psi^{I_1}\|[\hat{c}^{\dagger}_{a}\otimes\tilde{c}_{b}]_{\lambda}\|\Psi^{I_2}\rangle
+              .
+              \]
+            </div>
+            <div class="content-formula-line">
+              \[
+              \langle\Psi^{I_1}\|\hat{Q}_{\lambda}\|\Psi^{I_2}\rangle = \sum_{\kappa_1,\kappa_2,\mu} f_{\kappa_1,K_1}^{I_1*} f_{\kappa_2,K_2}^{I_2} \langle I_2,K_1-\mu;\lambda,\mu\mid I_1,K_1\rangle \langle\Phi_{\kappa_1}|\hat{Q}_{\lambda\mu}\,\hat{P}^{I_2}_{K_1-\mu,K_2}|\Phi_{\kappa_2}\rangle .
+              \]
+            </div>
           </div>
-        </section>
-        <section class="content-block-group">
-          <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>下一步工作</h3>
+        </div>
+        <div class="content-block-group">
+          <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>上次讨论总结</h3>
           <div class="content-block-text multi-row-text">
-            <ul>
-              <li>结合投影壳模型，引入角动量投影与 \(K\) 混合，改进当前耦合道方法中固定 \(K\) 的近似处理；</li>
-              <li>将现有理论框架推广至奇 \(A\) 核和奇奇核，发展相应的耦合道计算方法。</li>
-            </ul>
+            <ol>
+              <li>PSM 目前可以计算的是实验室系下约化单体矩阵元</li>
+              <li>先计算多极矩矩阵元，代入 \(\alpha\) 粒子感受到的势场表达式</li>
+              <li>由势场输入量完成耦合道计算</li>
+              <li>难点：实验室系下核力的形式</li>
+            </ol>
           </div>
-        </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide content-slide multi-row-slide two-row-layout auto-row-layout" aria-label="新的讨论">
+      <div class="content-block-header">
+        <header class="content-header-main">
+          <img class="content-header-logo" src="assets/imp_logo_short.png" alt="中国科学院近代物理研究所标志">
+          <h2>新的讨论</h2>
+          <img class="content-header-logo" src="assets/ucas_logo_short.png" alt="中国科学院大学校徽">
+        </header>
+        <div class="content-divider" aria-hidden="true"></div>
+      </div>
+      <div class="multi-row-content">
+        <div class="content-block-group">
+          <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>只从 PSM 中获取波函数</h3>
+          <div class="content-block-formula">
+            <div class="content-formula-line">
+              \[
+              \langle\Psi^{I_1}_{M_1}|\hat{Q}_{\lambda\mu}|\Psi^{I_2}_{M_2}\rangle = \sum_{\kappa_1,\kappa_2} f_{\kappa_1,K_1}^{I_1*} f_{\kappa_2,K_2}^{I_2} \langle\Phi_{\kappa_1}|\hat{P}^{I_1\dagger}_{M_1K_1}\,\hat{Q}_{\lambda\mu}\,\hat{P}^{I_2}_{M_2K_2}|\Phi_{\kappa_2}\rangle .
+              \]
+            </div>
+            <div class="content-formula-line">
+              \[
+              \begin{aligned}
+              \langle\Psi^{I_1}\|\hat{Q}_{\lambda}\|\Psi^{I_2}\rangle &= \sum_{\kappa_1,\kappa_2,\mu} f_{\kappa_1,K_1}^{I_1*} f_{\kappa_2,K_2}^{I_2} \langle I_2,K_1-\mu;\lambda,\mu\mid I_1,K_1\rangle \langle\Phi_{\kappa_1}|\hat{Q}_{\lambda\mu}\,\hat{P}^{I_2}_{K_1-\mu,K_2}|\Phi_{\kappa_2}\rangle \\[6pt]
+              &= \sum_{\kappa_1,\kappa_2} f_{\kappa_1,K_1}^{I_1*} f_{\kappa_2,K_2}^{I_2} \langle\Phi^{I_1}_{\kappa_1,K_1}\|\hat{Q}_{\lambda}\|\Phi^{I_2}_{\kappa_2,K_2}\rangle .
+              \end{aligned}
+              \]
+            </div>
+          </div>
+        </div>
+        <div class="content-block-group">
+          <h3 class="content-block-title"><span class="content-block-arrow" aria-hidden="true"><span class="content-block-arrow-outline"></span><span class="content-block-arrow-fill"></span></span>指定 \(K\) 的约化矩阵元使用已有解析表达式</h3>
+          <div class="content-block-text multi-row-text">
+            <ol>
+              <li>指定 \(K\) 的约化矩阵元仍使用现有的解析形变 WS 势</li>
+              <li>使用 PSM 提供波函数 \(f^{I}_{\kappa,K}\) 进行 \(K\) 混合</li>
+            </ol>
+          </div>
+        </div>
       </div>
     </section>
 
