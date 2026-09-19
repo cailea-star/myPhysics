@@ -14,16 +14,16 @@ $$
 r_\alpha=|\mathbf r_\alpha|,\qquad \hat{\mathbf r}_\alpha=\frac{\mathbf r_\alpha}{r_\alpha}.
 $$
 
-总角动量 $J$ 及其投影 $M$ 守恒。$(l,m_l)$ 为 $\alpha$ 粒子的轨道角动量及其投影，$\Phi_{IM_I}(D)$ 为子核态。每组可耦合到 $J$ 的 $\{l,I\}$ 构成一个通道 $c$：
+总角动量 $J$ 及其投影 $M$ 守恒。$(l,m_l)$ 为 $\alpha$ 粒子的轨道角动量及其投影，$\Phi_{IM_IK}(D)$ 为具有确定内禀角动量投影 $K$ 的子核态。每组可耦合到 $J$ 的 $\{l,I,K\}$ 构成一个通道 $c$：
 
 $$
-c=\{l,I\},\qquad |I-l|\leq J\leq I+l,\qquad \pi_P=\pi_D(-1)^l.
+c=\{l,I,K\},\qquad |I-l|\leq J\leq I+l,\qquad \pi_P=\pi_D(-1)^l.
 $$
 
-记 $\Phi_{lm_l}^{(c)}(\mathbf r_\alpha)$ 为通道 $c$ 中的 $\alpha$ 粒子波函数。通道波函数为
+记 $\Phi_{lm_l}^{(c)}(\mathbf r_\alpha)$ 为通道 $c$ 中的 $\alpha$ 粒子波函数。在所选模型空间中，通道波函数取为子核态与 $\alpha$ 粒子相对运动态耦合至总角动量 $J,M$ 的乘积态
 
 $$
-\Psi^{(c)}_{JM}(\mathbf r_\alpha)\equiv\big[\Phi_l^{(c)}(\mathbf r_\alpha)\otimes\Phi_I(D)\big]_{JM}=\sum_{m_l,M_I}\langle lm_l;IM_I|JM\rangle\Phi_{lm_l}^{(c)}(\mathbf r_\alpha)\Phi_{IM_I}(D).
+\Psi^{(c)}_{JM}(\mathbf r_\alpha)\equiv\big[\Phi_l^{(c)}(\mathbf r_\alpha)\otimes\Phi_{IK}(D)\big]_{JM}=\sum_{m_l,M_I}\langle lm_l;IM_I|JM\rangle\Phi_{lm_l}^{(c)}(\mathbf r_\alpha)\Phi_{IM_IK}(D).
 $$
 
 其中 $u_c$ 为约化径向波函数，$Y_{lm_l}$ 为球谐函数：
@@ -35,7 +35,7 @@ $$
 对所有允许通道求和：
 
 $$
-\boxed{\Psi_{JM}(\mathbf r_\alpha)=\sum_{c}a_c\Psi_{JM}^{(c)}(\mathbf r_\alpha)=\sum_{c}a_c\frac{u_c(r_\alpha)}{r_\alpha}\big[Y_l(\hat{\mathbf r}_\alpha)\otimes\Phi_I(D)\big]_{JM}}.
+\boxed{\Psi_{JM}(\mathbf r_\alpha)=\sum_{c}a_c\Psi_{JM}^{(c)}(\mathbf r_\alpha)=\sum_{c}a_c\frac{u_c(r_\alpha)}{r_\alpha}\big[Y_l(\hat{\mathbf r}_\alpha)\otimes\Phi_{IK}(D)\big]_{JM}}.
 $$
 
 ### 耦合道薛定谔方程
@@ -49,7 +49,7 @@ $$
 子核态的本征能量为 $E_I$：
 
 $$
-\hat H_D\Phi_{IM_I}(D)=E_I\Phi_{IM_I}(D).
+\hat H_D\Phi_{IM_IK}(D)=E_I\Phi_{IM_IK}(D).
 $$
 
 以 $\mu$ 表示约化质量，$\hat{\mathbf L}$ 表示 $\alpha$ 粒子的轨道角动量算符。动能算符为
@@ -58,10 +58,10 @@ $$
 \hat T_\alpha=-\frac{\hbar^2}{2\mu}\left[\frac{1}{r_\alpha^2}\frac{\mathrm d}{\mathrm dr_\alpha}\left(r_\alpha^2\frac{\mathrm d}{\mathrm dr_\alpha}\right)-\frac{\hat{\mathbf L}^2}{\hbar^2r_\alpha^2}\right].
 $$
 
-对于通道 $c=\{l,I\}$ 和 $c'=\{l',I'\}$，定义势场矩阵元
+对于通道 $c=\{l,I,K\}$ 和 $c'=\{l',I',K'\}$，定义势场矩阵元
 
 $$
-V_{cc'}^{JM}(r_\alpha)\equiv\left\langle\big[Y_l(\hat{\mathbf r}_\alpha)\otimes\Phi_I(D)\big]_{JM}\right|\hat V(\mathbf r_\alpha)\left|\big[Y_{l'}(\hat{\mathbf r}_\alpha)\otimes\Phi_{I'}(D)\big]_{JM}\right\rangle.
+V_{cc'}^{JM}(r_\alpha)\equiv\left\langle\big[Y_l(\hat{\mathbf r}_\alpha)\otimes\Phi_{IK}(D)\big]_{JM}\right|\hat V(\mathbf r_\alpha)\left|\big[Y_{l'}(\hat{\mathbf r}_\alpha)\otimes\Phi_{I'K'}(D)\big]_{JM}\right\rangle.
 $$
 
 以 $E$ 表示系统总能量，通道能量为
@@ -84,22 +84,22 @@ $$
 \hat V(\mathbf r_\alpha)=\sum_{\lambda,\mu}\hat V_{\lambda\mu}(r_\alpha)Y_{\lambda\mu}^*(\hat{\mathbf r}_\alpha)=\sum_{\lambda,\mu}(-1)^\mu\hat V_{\lambda\mu}(r_\alpha)Y_{\lambda,-\mu}(\hat{\mathbf r}_\alpha).
 $$
 
-对于通道 $c=\{l,I\}$ 和 $c'=\{l',I'\}$，势场矩阵元为
+对于通道 $c=\{l,I,K\}$ 和 $c'=\{l',I',K'\}$，势场矩阵元为
 
 $$
-V_{cc'}^{JM}(r_\alpha)=\left\langle\big[Y_l(\hat{\mathbf r}_\alpha)\otimes\Phi_I(D)\big]_{JM}\right|\sum_{\lambda,\mu}(-1)^\mu\hat V_{\lambda\mu}(r_\alpha)Y_{\lambda,-\mu}(\hat{\mathbf r}_\alpha)\left|\big[Y_{l'}(\hat{\mathbf r}_\alpha)\otimes\Phi_{I'}(D)\big]_{JM}\right\rangle.
+V_{cc'}^{JM}(r_\alpha)=\left\langle\big[Y_l(\hat{\mathbf r}_\alpha)\otimes\Phi_{IK}(D)\big]_{JM}\right|\sum_{\lambda,\mu}(-1)^\mu\hat V_{\lambda\mu}(r_\alpha)Y_{\lambda,-\mu}(\hat{\mathbf r}_\alpha)\left|\big[Y_{l'}(\hat{\mathbf r}_\alpha)\otimes\Phi_{I'K'}(D)\big]_{JM}\right\rangle.
 $$
 
 展开角动量耦合：
 
 $$
-V_{cc'}^{JM}(r_\alpha)=\sum_{\lambda,\mu}\sum_{m_l,M_I}\sum_{m_l',M_I'}(-1)^\mu\langle JM|lm_l;IM_I\rangle\langle l'm_l';I'M_I'|JM\rangle\langle lm_l|Y_{\lambda,-\mu}|l'm_l'\rangle\left\langle\Phi_{IM_I}(D)\right|\hat V_{\lambda\mu}(r_\alpha)\left|\Phi_{I'M_I'}(D)\right\rangle.
+V_{cc'}^{JM}(r_\alpha)=\sum_{\lambda,\mu}\sum_{m_l,M_I}\sum_{m_l',M_I'}(-1)^\mu\langle JM|lm_l;IM_I\rangle\langle l'm_l';I'M_I'|JM\rangle\langle lm_l|Y_{\lambda,-\mu}|l'm_l'\rangle\left\langle\Phi_{IM_IK}(D)\right|\hat V_{\lambda\mu}(r_\alpha)\left|\Phi_{I'M_I'K'}(D)\right\rangle.
 $$
 
 由 Wigner–Eckart 定理：
 
 $$
-\left\langle\Phi_{IM_I}(D)\right|\hat V_{\lambda\mu}(r_\alpha)\left|\Phi_{I'M_I'}(D)\right\rangle=(-1)^{I-M_I}\begin{pmatrix}I&\lambda&I'\\-M_I&\mu&M_I'\end{pmatrix}\left\langle\Phi_I(D)\right\|\hat V_\lambda(r_\alpha)\left\|\Phi_{I'}(D)\right\rangle.
+\left\langle\Phi_{IM_IK}(D)\right|\hat V_{\lambda\mu}(r_\alpha)\left|\Phi_{I'M_I'K'}(D)\right\rangle=(-1)^{I-M_I}\begin{pmatrix}I&\lambda&I'\\-M_I&\mu&M_I'\end{pmatrix}\left\langle\Phi_{IK}(D)\right\|\hat V_\lambda(r_\alpha)\left\|\Phi_{I'K'}(D)\right\rangle.
 $$
 
 球谐函数矩阵元为
@@ -117,7 +117,7 @@ $$
 完成磁量子数求和：
 
 $$
-\boxed{V_{cc'}^{JM}(r_\alpha)=\sum_\lambda(-1)^{l'+I+J}\begin{Bmatrix}l&I&J\\I'&l'&\lambda\end{Bmatrix}\langle l\|Y_\lambda\|l'\rangle\left\langle\Phi_I(D)\right\|\hat V_\lambda(r_\alpha)\left\|\Phi_{I'}(D)\right\rangle}.
+\boxed{V_{cc'}^{JM}(r_\alpha)=\sum_\lambda(-1)^{l'+I+J}\begin{Bmatrix}l&I&J\\I'&l'&\lambda\end{Bmatrix}\langle l\|Y_\lambda\|l'\rangle\left\langle\Phi_{IK}(D)\right\|\hat V_\lambda(r_\alpha)\left\|\Phi_{I'K'}(D)\right\rangle}.
 $$
 
 非零耦合满足
@@ -138,11 +138,7 @@ $$
 
 以 $\Omega_D=(\varphi_D,\theta_D,\psi_D)$ 表示子核取向的 Euler 角。内禀态记为 $\chi_K(D)$，其时间反演伙伴为 $\chi_{-K}(D)$。
 
-只考虑一个固定 $K$ 和固定宇称 $\pi_D$ 的转动带。第一节中的子核态记号表示
-
-$$
-\Phi_{IM_I}(D)\equiv\Phi_{IM_IK}(D).
-$$
+本节只考虑一个固定 $K$ 和固定宇称 $\pi_D$ 的转动带。
 
 对于 $K>0$，归一化子核态为
 
@@ -349,13 +345,13 @@ $$
 因此，约化矩阵元为
 
 $$
-\left\langle\Phi_I(D)\left\|\hat V_\lambda(r_\alpha)\right\|\Phi_{I'}(D)\right\rangle=\hat I\hat I'(-1)^{I-K}\begin{pmatrix}I&\lambda&I'\\-K&0&K\end{pmatrix}V'_{\lambda0;K,K}(r_\alpha).
+\left\langle\Phi_{IK}(D)\left\|\hat V_\lambda(r_\alpha)\right\|\Phi_{I'K}(D)\right\rangle=\hat I\hat I'(-1)^{I-K}\begin{pmatrix}I&\lambda&I'\\-K&0&K\end{pmatrix}V'_{\lambda0;K,K}(r_\alpha).
 $$
 
 对于 $K=0$，约化矩阵元化为
 
 $$
-\left\langle\Phi_I(D)\left\|\hat V_\lambda(r_\alpha)\right\|\Phi_{I'}(D)\right\rangle=\hat I\hat I'(-1)^I\begin{pmatrix}I&\lambda&I'\\0&0&0\end{pmatrix}V'_{\lambda0;0,0}(r_\alpha).
+\left\langle\Phi_{I0}(D)\left\|\hat V_\lambda(r_\alpha)\right\|\Phi_{I'0}(D)\right\rangle=\hat I\hat I'(-1)^I\begin{pmatrix}I&\lambda&I'\\0&0&0\end{pmatrix}V'_{\lambda0;0,0}(r_\alpha).
 $$
 
 ### 库伦耦合势
@@ -418,7 +414,7 @@ $$
 V_{00;K,K'}^{\prime C}(r_\alpha)=\delta_{KK'}\frac{e^2Z_DZ_\alpha}{4\pi\epsilon_0}\frac{\sqrt{4\pi}}{r_\alpha}.
 $$
 
-将 $V_{\lambda0;K,K'}^{\prime C}(r_\alpha)$ 代入前述 $\left\langle\Phi_I(D)\left\|\hat V_\lambda^C(r_\alpha)\right\|\Phi_{I'}(D)\right\rangle$，即可得到库伦耦合矩阵元。
+将 $V_{\lambda0;K,K'}^{\prime C}(r_\alpha)$ 代入前述 $\left\langle\Phi_{IK}(D)\left\|\hat V_\lambda^C(r_\alpha)\right\|\Phi_{I'K'}(D)\right\rangle$，即可得到库伦耦合矩阵元。
 
 ### 核势耦合
 
@@ -458,6 +454,7 @@ $$
 ---
 ---
 
+# 第一次 PSM 讨论
 
 ### 不可约张量算符的矩阵元
 
@@ -501,40 +498,102 @@ $$
 
 ### 电多极算符与库伦势
 
-以 $\mathbf r$ 表示场点，$\mathbf r_s$ 表示源点，$\hat\rho_e(\mathbf r_s)$ 为电荷密度算符。库伦电势为
+对于分别属于体系 $1,2$ 的两个粒子，其位置为 $\mathbf r_1,\mathbf r_2$，电荷为 $q_1,q_2$，库伦相互作用为
 
 $$
-\hat\phi^C(\mathbf r)=\frac{1}{4\pi\epsilon_0}\int d^3r_s\,\frac{\hat\rho_e(\mathbf r_s)}{|\mathbf r-\mathbf r_s|}.
+v^C(\mathbf r_1,\mathbf r_2)=\frac{q_1q_2}{4\pi\epsilon_0|\mathbf r_1-\mathbf r_2|}.
 $$
 
-定义 $r_<\equiv\min(r,r_s)$、$r_>\equiv\max(r,r_s)$，库伦核展开为
+以 $\theta$ 表示阶跃函数，库伦核展开为
 
 $$
-\frac{1}{|\mathbf r-\mathbf r_s|}=\sum_{\lambda\mu}\frac{4\pi}{2\lambda+1}\frac{r_<^\lambda}{r_>^{\lambda+1}}Y_{\lambda\mu}^{*}(\hat{\mathbf r})Y_{\lambda\mu}(\hat{\mathbf r}_s).
+\frac{1}{|\mathbf r_1-\mathbf r_2|}=\sum_{\lambda\mu}\frac{4\pi}{2\lambda+1}\left[\theta(r_1-r_2)\frac{r_2^\lambda}{r_1^{\lambda+1}}+\theta(r_2-r_1)\frac{r_1^\lambda}{r_2^{\lambda+1}}\right]Y_{\lambda\mu}^{*}(\hat{\mathbf r}_1)Y_{\lambda\mu}(\hat{\mathbf r}_2).
 $$
 
-以下假设场点位于电荷分布外部，即积分域内处处满足 $r>r_s$。采用与前述不可约张量变换一致的约定，定义电多极算符：
+两个体系的电多极矩为：
 
 $$
-\boxed{\hat Q_{\lambda\mu}\equiv\int d^3r_s\,r_s^\lambda Y_{\lambda\mu}(\hat{\mathbf r}_s)\hat\rho_e(\mathbf r_s)=\sum_i e_i\,r_i^\lambda Y_{\lambda\mu}(\hat{\mathbf r}_i)}.
+Q_{1;\lambda\mu}=q_1\int d^3r_1\,\psi_1^*(\mathbf r_1)r_1^\lambda Y_{\lambda\mu}(\hat{\mathbf r}_1)\psi_1(\mathbf r_1),\qquad Q_{2;\lambda\mu}=q_2\int d^3r_2\,\psi_2^*(\mathbf r_2)r_2^\lambda Y_{\lambda\mu}(\hat{\mathbf r}_2)\psi_2(\mathbf r_2).
 $$
 
-在单粒子基中，$e$ 表示所考虑粒子的电荷，$\alpha,\beta$ 为单粒子基态指标，电多极算符的矩阵元及其二次量子化形式为
+利用两个体系的电多极矩，库伦相互作用写为：
 
 $$
-Q_{\alpha\beta}^{\lambda\mu}\equiv e\langle\alpha|r^\lambda Y_{\lambda\mu}(\theta,\varphi)|\beta\rangle,\qquad \hat Q_{\lambda\mu}=\sum_{\alpha\beta}Q_{\alpha\beta}^{\lambda\mu}\hat c_\alpha^\dagger\hat c_\beta.
+v^C(\mathbf r_1,\mathbf r_2)=\theta(r_1-r_2)\frac{q_1}{4\pi\epsilon_0}\sum_{\lambda\mu}\frac{4\pi}{2\lambda+1}\frac{Q_{2;\lambda\mu}}{r_1^{\lambda+1}}Y_{\lambda\mu}^{*}(\hat{\mathbf r}_1)+\theta(r_2-r_1)\frac{q_2}{4\pi\epsilon_0}\sum_{\lambda\mu}\frac{4\pi}{2\lambda+1}\frac{Q_{1;\lambda\mu}}{r_2^{\lambda+1}}Y_{\lambda\mu}^{*}(\hat{\mathbf r}_2).
 $$
 
-于是库伦电势为
+假设 $r_1>r_2$，
 
 $$
-\boxed{\hat\phi^C(\mathbf r)=\frac{1}{4\pi\epsilon_0}\sum_{\lambda\mu}\frac{4\pi}{2\lambda+1}\frac{\hat Q_{\lambda\mu}}{r^{\lambda+1}}Y_{\lambda\mu}^{*}(\hat{\mathbf r}).}
+v^C(\mathbf r_1)=\frac{q_1}{4\pi\epsilon_0}\sum_{\lambda\mu}\frac{4\pi}{2\lambda+1}\frac{Q_{2;\lambda\mu}}{r_1^{\lambda+1}}Y_{\lambda\mu}^{*}(\hat{\mathbf r}_1).
 $$
 
-进一步取通道 $c=\{l,I\}$，将相对轨道角动量 $l$ 与核自旋 $I$ 耦合到总角动量 $J$。按照 [cc.md 的角动量约定](C:/Users/caile/Desktop/myPhysics/notes/methods/cc.md:79)，库伦耦合矩阵为
+体系 $2$ 中粒子在态 $\psi_2$ 下的电多极矩为：
 
 $$
-\boxed{V_{cc'}^{C;J}(r)=\sum_\lambda(-1)^{l'+I+J}\begin{Bmatrix}l&I&J\\I'&l'&\lambda\end{Bmatrix}\langle l\Vert Y_\lambda\Vert l'\rangle\langle\Phi_I\Vert\hat V_\lambda^C(r)\Vert\Phi_{I'}\rangle.}
+Q_{2;\lambda\mu}=q_2\int d^3r_2\,\psi_2^*(\mathbf r_2)r_2^\lambda Y_{\lambda\mu}(\hat{\mathbf r}_2)\psi_2(\mathbf r_2)=\langle\psi_2|\hat Q_{\lambda\mu}^{(2)}|\psi_2\rangle.
 $$
 
-这里核结构信息包含在 $\langle\Phi_I\Vert\hat V_\lambda^C(r)\Vert\Phi_{I'}\rangle$ 中；球谐函数约化矩阵元与 $6j$ 符号给出通道的角动量耦合。
+两个体系间的总库伦相互作用为：
+
+$$
+\hat V^C=\sum_{i\in1}\sum_{j\in2}v^C(\mathbf r_i,\mathbf r_j)=\frac{1}{4\pi\epsilon_0}\sum_{i\in1}\sum_{j\in2}\frac{q_iq_j}{|\mathbf r_i-\mathbf r_j|}.
+$$
+
+以体系 $2$ 的中心为原点，假设两体系无相交，且体系 $1$ 中各粒子均位于体系 $2$ 电荷分布的外部，则
+
+$$
+\hat Q_{\lambda\mu}^{(2)}=\sum_{j\in2}q_jr_j^\lambda Y_{\lambda\mu}(\hat{\mathbf r}_j),\qquad \hat V^C=\frac{1}{4\pi\epsilon_0}\sum_{i\in1}q_i\sum_{\lambda\mu}\frac{4\pi}{2\lambda+1}\frac{\hat Q_{\lambda\mu}^{(2)}}{r_i^{\lambda+1}}Y_{\lambda\mu}^{*}(\hat{\mathbf r}_i).
+$$
+
+取体系 $1$ 为点电荷近似下的 $\alpha$ 粒子，体系 $2$ 为子核 $D$，两者的相对坐标为 $\mathbf r_\alpha$。于是
+
+$$
+\hat V^C(\mathbf r_\alpha)=\sum_{\lambda\mu}\hat V_{\lambda\mu}^C(r_\alpha)Y_{\lambda\mu}^*(\hat{\mathbf r}_\alpha),\qquad \hat V_{\lambda\mu}^C(r_\alpha)=\frac{Z_\alpha e}{4\pi\epsilon_0}\frac{4\pi}{2\lambda+1}\frac{\hat Q_{\lambda\mu}^{(D)}}{r_\alpha^{\lambda+1}}.
+$$
+
+因此，CC 所需的子核约化矩阵元为
+
+$$
+\langle\Phi_{IK}\Vert\hat V_\lambda^C(r_\alpha)\Vert\Phi_{I'K'}\rangle=\frac{Z_\alpha e}{4\pi\epsilon_0}\frac{4\pi}{2\lambda+1}\frac{\langle\Phi_{IK}\Vert\hat Q_\lambda^{(D)}\Vert\Phi_{I'K'}\rangle}{r_\alpha^{\lambda+1}}.
+$$
+
+进一步取通道 $c=\{l,I,K\}$，将相对轨道角动量 $l$ 与核自旋 $I$ 耦合到总角动量 $J$。按照 [cc.md 的角动量约定](C:/Users/caile/Desktop/myPhysics/notes/methods/cc.md:79)，库伦耦合矩阵为
+
+$$
+\boxed{V_{cc'}^{C;J}(r_\alpha)=\sum_\lambda(-1)^{l'+I+J}\begin{Bmatrix}l&I&J\\I'&l'&\lambda\end{Bmatrix}\langle l\Vert Y_\lambda\Vert l'\rangle\langle\Phi_{IK}\Vert\hat V_\lambda^C(r_\alpha)\Vert\Phi_{I'K'}\rangle.}
+$$
+
+这里核结构信息包含在 $\langle\Phi_{IK}\Vert\hat V_\lambda^C(r_\alpha)\Vert\Phi_{I'K'}\rangle$ 中；球谐函数约化矩阵元与 $6j$ 符号给出通道的角动量耦合。
+
+# 第二次 PSM 讨论
+
+### 只从 PSM 中获取波函数
+
+省略固定的粒子数标签，PSM 波函数写为
+
+$$
+|\Psi_M^I\rangle=\sum_{\kappa,K}f_{\kappa,K}^{I}|\Phi_{M,K;\kappa}^{I}\rangle,\qquad |\Phi_{M,K;\kappa}^{I}\rangle=\hat P_{MK}^{I}|\Phi_\kappa\rangle.
+$$
+
+混合系数与投影基采用一致的归一化约定。不可约张量算符的矩阵元为
+
+$$
+\langle\Psi_{M_1}^{I_1}|\hat T_{\lambda\mu}|\Psi_{M_2}^{I_2}\rangle=\sum_{\kappa_1,K_1,\kappa_2,K_2}f_{\kappa_1,K_1}^{I_1*}f_{\kappa_2,K_2}^{I_2}\langle\Phi_{\kappa_1}|(\hat P_{M_1K_1}^{I_1})^\dagger\hat T_{\lambda\mu}\hat P_{M_2K_2}^{I_2}|\Phi_{\kappa_2}\rangle.
+$$
+
+相应的约化矩阵元为
+
+$$
+\langle\Psi^{I_1}\Vert\hat T_\lambda\Vert\Psi^{I_2}\rangle=\sum_{\kappa_1,K_1,\kappa_2,K_2}f_{\kappa_1,K_1}^{I_1*}f_{\kappa_2,K_2}^{I_2}\langle\Phi_{K_1;\kappa_1}^{I_1}\Vert\hat T_\lambda\Vert\Phi_{K_2;\kappa_2}^{I_2}\rangle.
+$$
+
+### 指定 $K$ 的约化矩阵元使用已有解析表达式
+
+指定 $K$ 的势场约化矩阵元拟采用现有形变 WS 势的解析表达式，再利用 PSM 提供的混合系数构造
+
+$$
+\langle\Psi^{I_1}\Vert\hat V_\lambda(r_\alpha)\Vert\Psi^{I_2}\rangle=\sum_{\kappa_1,K_1,\kappa_2,K_2}f_{\kappa_1,K_1}^{I_1*}f_{\kappa_2,K_2}^{I_2}\langle\Phi_{K_1;\kappa_1}^{I_1}\Vert\hat V_\lambda(r_\alpha)\Vert\Phi_{K_2;\kappa_2}^{I_2}\rangle.
+$$
+
+将混合后的约化矩阵元代入 CC 耦合矩阵。尚需明确解析势场对不同组态及不同 $K$ 之间矩阵元的描述。
