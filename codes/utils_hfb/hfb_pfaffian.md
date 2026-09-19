@@ -379,25 +379,25 @@ $$
 Let $r_1$ and $r_2$ denote the numbers of excited quasiparticles built on $|\Phi_1\rangle$ and $|\Phi_2\rangle$. Define the configuration lists
 
 $$
-\kappa_1=(i_1,\ldots,i_{r_1}),\qquad \kappa_2=(j_1,\ldots,j_{r_2}).
+\kappa_1=(\mu_1,\ldots,\mu_{r_1}),\qquad \kappa_2=(\nu_1,\ldots,\nu_{r_2}).
 $$
 
 Here $\kappa_1,\kappa_2$ label configurations; $\kappa$ without a configuration subscript remains the pairing transition-density matrix. The excited states are
 
 $$
-|\Phi_{1;\kappa_1}\rangle\equiv\hat\beta_{1,i_1}^*\cdots\hat\beta_{1,i_{r_1}}^*|\Phi_1\rangle,\qquad |\Phi_{2;\kappa_2}\rangle\equiv\hat\beta_{2,j_1}^*\cdots\hat\beta_{2,j_{r_2}}^*|\Phi_2\rangle.
+|\Phi_{1;\kappa_1}\rangle\equiv\hat\beta_{1,\mu_1}^*\cdots\hat\beta_{1,\mu_{r_1}}^*|\Phi_1\rangle,\qquad |\Phi_{2;\kappa_2}\rangle\equiv\hat\beta_{2,\nu_1}^*\cdots\hat\beta_{2,\nu_{r_2}}^*|\Phi_2\rangle.
 $$
 
 The mode labels satisfy
 
 $$
-1\leq i_1<\cdots<i_{r_1}\leq N_{\mathrm{sp}},\qquad 1\leq j_1<\cdots<j_{r_2}\leq N_{\mathrm{sp}}.
+1\leq \mu_1<\cdots<\mu_{r_1}\leq N_{\mathrm{sp}},\qquad 1\leq \nu_1<\cdots<\nu_{r_2}\leq N_{\mathrm{sp}}.
 $$
 
 Taking the adjoint reverses the operator order:
 
 $$
-\langle\Phi_{1;\kappa_1}|=\langle\Phi_1|\hat\beta_{1,i_{r_1}}\cdots\hat\beta_{1,i_1},\qquad \langle\Phi_{2;\kappa_2}|=\langle\Phi_2|\hat\beta_{2,j_{r_2}}\cdots\hat\beta_{2,j_1}.
+\langle\Phi_{1;\kappa_1}|=\langle\Phi_1|\hat\beta_{1,\mu_{r_1}}\cdots\hat\beta_{1,\mu_1},\qquad \langle\Phi_{2;\kappa_2}|=\langle\Phi_2|\hat\beta_{2,\nu_{r_2}}\cdots\hat\beta_{2,\nu_1}.
 $$
 
 For zero excited quasiparticles, the corresponding operator chain is omitted.
@@ -411,7 +411,7 @@ $$
 For each $(\alpha,\beta)$, use the ordered operator column
 
 $$
-\hat{\boldsymbol a}(\alpha,\beta)\equiv\begin{pmatrix}\hat\beta_{1,i_{r_1}}&\cdots&\hat\beta_{1,i_1}&\hat c_\alpha^*&\hat c_\beta&\hat\beta_{2,j_1}^*&\cdots&\hat\beta_{2,j_{r_2}}^*\end{pmatrix}^T,\qquad L=r_1+r_2+2.
+\hat{\boldsymbol a}(\alpha,\beta)\equiv\begin{pmatrix}\hat\beta_{1,\mu_{r_1}}&\cdots&\hat\beta_{1,\mu_1}&\hat c_\alpha^*&\hat c_\beta&\hat\beta_{2,\nu_1}^*&\cdots&\hat\beta_{2,\nu_{r_2}}^*\end{pmatrix}^T,\qquad L=r_1+r_2+2.
 $$
 
 Construct $S(\alpha,\beta)\in\mathbb C^{L\times L}$ by
@@ -447,7 +447,7 @@ $$
 For each $(\alpha,\beta,\gamma,\delta)$, use the ordered operator column
 
 $$
-\hat{\boldsymbol a}(\alpha,\beta,\gamma,\delta)\equiv\begin{pmatrix}\hat\beta_{1,i_{r_1}}&\cdots&\hat\beta_{1,i_1}&\hat c_\alpha^*&\hat c_\beta^*&\hat c_\delta&\hat c_\gamma&\hat\beta_{2,j_1}^*&\cdots&\hat\beta_{2,j_{r_2}}^*\end{pmatrix}^T,\qquad L=r_1+r_2+4.
+\hat{\boldsymbol a}(\alpha,\beta,\gamma,\delta)\equiv\begin{pmatrix}\hat\beta_{1,\mu_{r_1}}&\cdots&\hat\beta_{1,\mu_1}&\hat c_\alpha^*&\hat c_\beta^*&\hat c_\delta&\hat c_\gamma&\hat\beta_{2,\nu_1}^*&\cdots&\hat\beta_{2,\nu_{r_2}}^*\end{pmatrix}^T,\qquad L=r_1+r_2+4.
 $$
 
 Construct $S(\alpha,\beta,\gamma,\delta)\in\mathbb C^{L\times L}$ by
