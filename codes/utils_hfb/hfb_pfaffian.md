@@ -340,97 +340,83 @@ $$
 
 ### Generalized Wick Theorem
 
-Assume $\langle\Phi_1|\Phi_2\rangle\ne0$. Let $\hat a_1,\ldots,\hat a_{2p}$ be linear combinations of particle creation and annihilation operators. Define
+Assume $\langle\Phi_1|\Phi_2\rangle\ne0$. Let $\hat s_1,\ldots,\hat s_{2p}$ be linear combinations of particle creation and annihilation operators. Define
 
 $$
-\langle\hat a_1\cdots\hat a_{2p}\rangle_{12}\equiv\frac{\langle\Phi_1|\hat a_1\cdots\hat a_{2p}|\Phi_2\rangle}{\langle\Phi_1|\Phi_2\rangle}.
+\langle\hat s_1\cdots\hat s_{2p}\rangle_{12}\equiv\frac{\langle\Phi_1|\hat s_1\cdots\hat s_{2p}|\Phi_2\rangle}{\langle\Phi_1|\Phi_2\rangle}.
 $$
 
 For the specified operator ordering, define the contraction matrix $S\in\mathbb C^{2p\times2p}$ by
 
 $$
-S_{ij}\equiv\langle\hat a_i\hat a_j\rangle_{12}\quad(i<j),\qquad S=-S^T.
+S_{ij}\equiv\langle\hat s_i\hat s_j\rangle_{12}\quad(i<j),\qquad S=-S^T.
 $$
 
 The generalized Wick theorem gives
 
 $$
-\boxed{\langle\hat a_1\cdots\hat a_{2p}\rangle_{12}=\operatorname{pf}(S)=\operatorname{pf}\begin{pmatrix}0&S_{12}&\cdots&S_{1,2p}\\-S_{12}&0&\cdots&S_{2,2p}\\\vdots&\vdots&\ddots&\vdots\\-S_{1,2p}&-S_{2,2p}&\cdots&0\end{pmatrix}}.
+\boxed{\langle\hat s_1\cdots\hat s_{2p}\rangle_{12}=\operatorname{pf}(S)=\operatorname{pf}\begin{pmatrix}0&S_{12}&\cdots&S_{1,2p}\\-S_{12}&0&\cdots&S_{2,2p}\\\vdots&\vdots&\ddots&\vdots\\-S_{1,2p}&-S_{2,2p}&\cdots&0\end{pmatrix}}.
 $$
 
 Both Thouless vacua have even particle-number parity, so
 
 $$
-\langle\hat a_1\cdots\hat a_{2p+1}\rangle_{12}=0.
+\langle\hat s_1\cdots\hat s_{2p+1}\rangle_{12}=0.
 $$
 
-For the two-body transition density,
+Let the ordered insertion group be
 
 $$
-\langle\hat c_\alpha^*\hat c_\beta^*\hat c_\delta\hat c_\gamma\rangle_{12}=\langle\hat c_\alpha^*\hat c_\gamma\rangle_{12}\langle\hat c_\beta^*\hat c_\delta\rangle_{12}-\langle\hat c_\alpha^*\hat c_\delta\rangle_{12}\langle\hat c_\beta^*\hat c_\gamma\rangle_{12}+\langle\hat c_\alpha^*\hat c_\beta^*\rangle_{12}\langle\hat c_\delta\hat c_\gamma\rangle_{12}.
+\hat X=(\hat x_1,\ldots,\hat x_{N_X}).
 $$
 
+For configurations
+
 $$
-\rho_{\alpha\beta\gamma\delta}\equiv\langle\hat c_\alpha^*\hat c_\beta^*\hat c_\delta\hat c_\gamma\rangle_{12}=\rho_{\gamma\alpha}\rho_{\delta\beta}-\rho_{\delta\alpha}\rho_{\gamma\beta}-\bar\kappa_{\alpha\beta}\kappa_{\gamma\delta}.
+\kappa_1=(\mu_1,\ldots,\mu_{r_1}),\qquad \kappa_2=(\nu_1,\ldots,\nu_{r_2}),
 $$
+
+the excited states are
+
+$$
+|\Phi_{1;\kappa_1}\rangle=\hat\beta_{1,\mu_1}^*\cdots\hat\beta_{1,\mu_{r_1}}^*|\Phi_1\rangle,\qquad |\Phi_{2;\kappa_2}\rangle=\hat\beta_{2,\nu_1}^*\cdots\hat\beta_{2,\nu_{r_2}}^*|\Phi_2\rangle.
+$$
+
+The full ordered operator column is
+
+$$
+\hat{\boldsymbol s}=\begin{pmatrix}\hat\beta_{1,\mu_{r_1}}&\cdots&\hat\beta_{1,\mu_1}&\hat x_1&\cdots&\hat x_{N_X}&\hat\beta_{2,\nu_1}^*&\cdots&\hat\beta_{2,\nu_{r_2}}^*\end{pmatrix}^T,\qquad L=r_1+N_X+r_2.
+$$
+
+In matrix elements, $\hat X$ denotes the ordered product of its entries. For even $L$,
+
+$$
+\boxed{\langle\Phi_{1;\kappa_1}|\hat X|\Phi_{2;\kappa_2}\rangle\equiv\langle\Phi_{1;\kappa_1}|\hat x_1\cdots\hat x_{N_X}|\Phi_{2;\kappa_2}\rangle=\langle\Phi_1|\Phi_2\rangle\operatorname{pf}(S)}.
+$$
+
+Here $S_{ij}=\langle\hat s_i\hat s_j\rangle_{12}$ for $i<j$, with $S=-S^T$. For odd $L$, the matrix element vanishes.
 
 ##### One-Body Matrix Elements between Multiquasiparticle States
 
-Let $r_1$ and $r_2$ denote the numbers of excited quasiparticles built on $|\Phi_1\rangle$ and $|\Phi_2\rangle$. Define the configuration lists
+For single-particle matrix elements $O_{\alpha\beta}=\langle\alpha|\hat O|\beta\rangle$,
 
 $$
-\kappa_1=(\mu_1,\ldots,\mu_{r_1}),\qquad \kappa_2=(\nu_1,\ldots,\nu_{r_2}).
+\hat O^{(1)}=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}O_{\alpha\beta}\hat c_\alpha^*\hat c_\beta.
 $$
 
-Here $\kappa_1,\kappa_2$ label configurations; $\kappa$ without a configuration subscript remains the pairing transition-density matrix. The excited states are
+Choose the ordered insertion group
 
 $$
-|\Phi_{1;\kappa_1}\rangle\equiv\hat\beta_{1,\mu_1}^*\cdots\hat\beta_{1,\mu_{r_1}}^*|\Phi_1\rangle,\qquad |\Phi_{2;\kappa_2}\rangle\equiv\hat\beta_{2,\nu_1}^*\cdots\hat\beta_{2,\nu_{r_2}}^*|\Phi_2\rangle.
+\hat X(\alpha,\beta)=(\hat c_\alpha^*,\hat c_\beta).
 $$
 
-The mode labels satisfy
+Let $S(\alpha,\beta)$ be the corresponding contraction matrix. For even $r_1+r_2$,
 
 $$
-1\leq \mu_1<\cdots<\mu_{r_1}\leq N_{\mathrm{sp}},\qquad 1\leq \nu_1<\cdots<\nu_{r_2}\leq N_{\mathrm{sp}}.
+\boxed{\langle\Phi_{1;\kappa_1}|\hat O^{(1)}|\Phi_{2;\kappa_2}\rangle=\langle\Phi_1|\Phi_2\rangle\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}O_{\alpha\beta}\operatorname{pf}[S(\alpha,\beta)]}.
 $$
 
-Taking the adjoint reverses the operator order:
-
-$$
-\langle\Phi_{1;\kappa_1}|=\langle\Phi_1|\hat\beta_{1,\mu_{r_1}}\cdots\hat\beta_{1,\mu_1},\qquad \langle\Phi_{2;\kappa_2}|=\langle\Phi_2|\hat\beta_{2,\nu_{r_2}}\cdots\hat\beta_{2,\nu_1}.
-$$
-
-For zero excited quasiparticles, the corresponding operator chain is omitted.
-
-For single-particle matrix elements $\langle\alpha|\hat O|\beta\rangle$, define
-
-$$
-\hat O^{(1)}\equiv\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}\langle\alpha|\hat O|\beta\rangle\hat c_\alpha^*\hat c_\beta.
-$$
-
-For each $(\alpha,\beta)$, use the ordered operator column
-
-$$
-\hat{\boldsymbol a}(\alpha,\beta)\equiv\begin{pmatrix}\hat\beta_{1,\mu_{r_1}}&\cdots&\hat\beta_{1,\mu_1}&\hat c_\alpha^*&\hat c_\beta&\hat\beta_{2,\nu_1}^*&\cdots&\hat\beta_{2,\nu_{r_2}}^*\end{pmatrix}^T,\qquad L=r_1+r_2+2.
-$$
-
-Construct $S(\alpha,\beta)\in\mathbb C^{L\times L}$ by
-
-$$
-S_{ij}(\alpha,\beta)\equiv\langle\hat a_i(\alpha,\beta)\hat a_j(\alpha,\beta)\rangle_{12}\quad(i<j),\qquad S(\alpha,\beta)=-S(\alpha,\beta)^T.
-$$
-
-Its entries are given in [Transition Densities](#transition-densities), including [Other Contractions](#other-contractions).
-
-For even $r_1+r_2$,
-
-$$
-\boxed{\langle\Phi_{1;\kappa_1}|\hat O^{(1)}|\Phi_{2;\kappa_2}\rangle=\langle\Phi_1|\Phi_2\rangle\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}\langle\alpha|\hat O|\beta\rangle\operatorname{pf}[S(\alpha,\beta)]}.
-$$
-
-For odd $r_1+r_2$, the matrix element vanishes.
-
-For $r_1=r_2=0$, $S_{12}(\alpha,\beta)=\rho_{\beta\alpha}$, recovering
+For odd $r_1+r_2$, the matrix element vanishes. For $r_1=r_2=0$,
 
 $$
 \langle\Phi_1|\hat O^{(1)}|\Phi_2\rangle=\langle\Phi_1|\Phi_2\rangle\operatorname{Tr}(O\rho).
@@ -438,38 +424,28 @@ $$
 
 ##### Two-Body Matrix Elements between Multiquasiparticle States
 
-Use the excited states and operator ordering defined in [One-Body Matrix Elements between Multiquasiparticle States](#one-body-matrix-elements-between-multiquasiparticle-states). For unsymmetrized two-body matrix elements $\langle\alpha\otimes\beta|\hat O|\gamma\otimes\delta\rangle$, define
+For unsymmetrized matrix elements $V_{\alpha\beta\gamma\delta}=\langle\alpha\otimes\beta|\hat O|\gamma\otimes\delta\rangle$,
 
 $$
-\hat O^{(2)}\equiv\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}\langle\alpha\otimes\beta|\hat O|\gamma\otimes\delta\rangle\hat c_\alpha^*\hat c_\beta^*\hat c_\delta\hat c_\gamma.
+\hat O^{(2)}=\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}V_{\alpha\beta\gamma\delta}\hat c_\alpha^*\hat c_\beta^*\hat c_\delta\hat c_\gamma.
 $$
 
-For each $(\alpha,\beta,\gamma,\delta)$, use the ordered operator column
+Choose the ordered insertion group
 
 $$
-\hat{\boldsymbol a}(\alpha,\beta,\gamma,\delta)\equiv\begin{pmatrix}\hat\beta_{1,\mu_{r_1}}&\cdots&\hat\beta_{1,\mu_1}&\hat c_\alpha^*&\hat c_\beta^*&\hat c_\delta&\hat c_\gamma&\hat\beta_{2,\nu_1}^*&\cdots&\hat\beta_{2,\nu_{r_2}}^*\end{pmatrix}^T,\qquad L=r_1+r_2+4.
+\hat X(\alpha,\beta,\gamma,\delta)=(\hat c_\alpha^*,\hat c_\beta^*,\hat c_\delta,\hat c_\gamma).
 $$
 
-Construct $S(\alpha,\beta,\gamma,\delta)\in\mathbb C^{L\times L}$ by
+Let $S(\alpha,\beta,\gamma,\delta)$ be the corresponding contraction matrix. For even $r_1+r_2$,
 
 $$
-S_{ij}(\alpha,\beta,\gamma,\delta)\equiv\langle\hat a_i(\alpha,\beta,\gamma,\delta)\hat a_j(\alpha,\beta,\gamma,\delta)\rangle_{12}\quad(i<j),\qquad S(\alpha,\beta,\gamma,\delta)=-S(\alpha,\beta,\gamma,\delta)^T.
+\boxed{\langle\Phi_{1;\kappa_1}|\hat O^{(2)}|\Phi_{2;\kappa_2}\rangle=\frac12\langle\Phi_1|\Phi_2\rangle\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}V_{\alpha\beta\gamma\delta}\operatorname{pf}[S(\alpha,\beta,\gamma,\delta)]}.
 $$
 
-Its entries are given in [Transition Densities](#transition-densities), including [Other Contractions](#other-contractions).
-
-For even $r_1+r_2$,
+For odd $r_1+r_2$, the matrix element vanishes. For $r_1=r_2=0$,
 
 $$
-\boxed{\langle\Phi_{1;\kappa_1}|\hat O^{(2)}|\Phi_{2;\kappa_2}\rangle=\frac12\langle\Phi_1|\Phi_2\rangle\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}\langle\alpha\otimes\beta|\hat O|\gamma\otimes\delta\rangle\operatorname{pf}[S(\alpha,\beta,\gamma,\delta)]}.
-$$
-
-For odd $r_1+r_2$, the matrix element vanishes.
-
-For $r_1=r_2=0$, $\operatorname{pf}[S(\alpha,\beta,\gamma,\delta)]=\rho_{\alpha\beta\gamma\delta}$, recovering
-
-$$
-\langle\Phi_1|\hat O^{(2)}|\Phi_2\rangle=\frac12\langle\Phi_1|\Phi_2\rangle\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}\langle\alpha\otimes\beta|\hat O|\gamma\otimes\delta\rangle\rho_{\alpha\beta\gamma\delta}.
+\operatorname{pf}[S(\alpha,\beta,\gamma,\delta)]=\rho_{\gamma\alpha}\rho_{\delta\beta}-\rho_{\delta\alpha}\rho_{\gamma\beta}-\bar\kappa_{\alpha\beta}\kappa_{\gamma\delta}.
 $$
 
 See [HFB Quantum-Number Projection](hfb_projection.md) for quantum-number restoration.
