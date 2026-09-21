@@ -173,7 +173,7 @@
         align-items: center;
         width: 90%;
         min-height: var(--block-title-height);
-        padding: var(--block-inner-padding) calc(var(--layout-column-gap) * 2);
+        padding: var(--block-inner-padding);
         border-radius: var(--block-border-radius);
         box-shadow: inset 0 0 0 var(--block-border-width) var(--block-border-color);
         color: var(--accent-color);

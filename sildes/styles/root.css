@@ -89,14 +89,14 @@
     --smaller-body-text-height: calc(var(--height-1pct) * 4);
 
     /* 公式：普通 */
-    --formula-color: var(--body-text-color);
+    --formula-color: var(--text-color);
     --formula-size: var(--body-text-size);
-    --formula-height: calc(var(--height-1pct) * 7);
+    --formula-height: calc(var(--height-1pct) * 10);
 
     /* 公式：小号 */
-    --smaller-formula-color: var(--smaller-body-text-color);
-    --smaller-formula-size: var(--smaller-body-text-size);
-    --smaller-formula-height: calc(var(--height-1pct) * 5.5);
+    --smaller-formula-color: var(--formula-color);
+    --smaller-formula-size: calc(var(--height-1pct) * 2.7);
+    --smaller-formula-height: calc(var(--height-1pct) * 8);
 
     /* 内容页：页脚文字 */
     --footer-text-color: var(--muted-text-color);
