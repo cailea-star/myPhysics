@@ -103,6 +103,14 @@
         font-size: var(--formula-size);
     }
 
+    & .formula-arrow {
+        display: block;
+        flex-shrink: 0;
+        width: var(--formula-arrow-width);
+        height: var(--formula-arrow-height);
+        object-fit: contain;
+    }
+
     /* 多行数学环境按内部行高自然撑开。 */
     & > .formula-aligned {
         min-height: 0;
