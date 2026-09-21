@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="440" viewBox="0 0 700 440" role="img" aria-labelledby="title description">
+  <title id="title">生成坐标与参考态能量示意图</title>
+  <desc id="description">横轴为生成坐标 q，纵轴为参考态能量 E。单势阱曲线上标记三个参考态，虚线对应 q1、q2、q3。曲线仅为示意，不代表计算数据。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#174994"/>
+    </marker>
+  </defs>
+  <rect width="700" height="440" fill="#ffffff"/>
+  <g stroke="#174994" stroke-width="2.5" fill="none" marker-end="url(#arrow)">
+    <path d="M 82 360 L 655 360"/>
+    <path d="M 82 360 L 82 45"/>
+  </g>
+  <g fill="#174994" font-family="Times New Roman, serif" font-size="32" font-style="italic">
+    <text x="48" y="58">E</text>
+    <text x="651" y="396">q</text>
+  </g>
+  <g fill="#174994" font-family="Times New Roman, serif" font-size="24" text-anchor="middle">
+    <text x="278" y="87" font-style="italic">E(q) =</text>
+    <text x="449" y="68">⟨Φ(q)|Ĥ|Φ(q)⟩</text>
+    <path d="M 375 79 H 523" fill="none" stroke="#174994" stroke-width="1.5"/>
+    <text x="449" y="106">⟨Φ(q)|Φ(q)⟩</text>
+  </g>
+  <path d="M 130 100 Q 370 540 610 100" fill="none" stroke="#174994" stroke-width="4" stroke-linecap="round"/>
+  <g stroke="#8a9ebc" stroke-width="1.8" stroke-dasharray="6 6">
+    <path d="M 250 265 V 360"/>
+    <path d="M 370 320 V 360"/>
+    <path d="M 490 265 V 360"/>
+  </g>
+  <g fill="#b36924" stroke="#ffffff" stroke-width="2">
+    <circle cx="250" cy="265" r="7"/>
+    <circle cx="370" cy="320" r="7"/>
+    <circle cx="490" cy="265" r="7"/>
+  </g>
+  <g fill="#174994" font-family="Times New Roman, serif" font-size="27" text-anchor="middle">
+    <text x="285" y="241">|Φ(q₁)⟩</text>
+    <text x="370" y="293">|Φ(q₂)⟩</text>
+    <text x="455" y="241">|Φ(q₃)⟩</text>
+    <text x="250" y="393" font-style="italic">q₁</text>
+    <text x="370" y="393" font-style="italic">q₂</text>
+    <text x="490" y="393" font-style="italic">q₃</text>
+  </g>
+  <text x="635" y="426" text-anchor="end" fill="#5d7fbb" font-family="KaiTi, STKaiti, serif" font-size="19">示意，非计算数据</text>
+</svg>
