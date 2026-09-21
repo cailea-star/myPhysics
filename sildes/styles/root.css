@@ -1,0 +1,197 @@
+/* 全局设计参数：优先复用，尺寸由 width-1pct、height-1pct 推导。
+ * 不设置 panel，组件间默认无额外间隔。
+ * 数学使用 MathJax v3。
+ */
+:root {
+
+    /* 基础设置 */
+
+    /* 基础尺寸 */
+    --page-width: 1600px;
+    --page-height: 900px;
+    --width-1pct: calc(var(--page-width) / 100);
+    --height-1pct: calc(var(--page-height) / 100);
+
+    /* 字体：英文优先 Times New Roman，中文回退到楷体 */
+    --font-chinese: KaiTi, STKaiti, "Kaiti SC", serif;
+    --font-english: "Times New Roman";
+    --font-stack: var(--font-english), var(--font-chinese);
+
+    /* 共用颜色 */
+    --text-color: #174994;
+    --dark-text-color: #2d333b;
+    --muted-text-color: #68717d;
+    --accent-color: #174994;
+    --border-color: #5d7fbb;
+    --page-background-color: #fff;
+    --preview-background-color: #000000;
+
+    /* 文字设置 */
+
+    /* 标题页：大标题 */
+    --title-main-color: var(--text-color);
+    --title-main-size: calc(var(--height-1pct) * 10);
+    --title-main-height: calc(var(--height-1pct) * 12);
+
+    /* 标题页：小标题 */
+    --title-subtitle-color: var(--text-color);
+    --title-subtitle-size: calc(var(--height-1pct) * 6);
+    --title-subtitle-height: calc(var(--height-1pct) * 8);
+
+    /* 标题页：说明文字 */
+    --title-description-color: var(--body-text-color);
+    --title-description-size: calc(var(--height-1pct) * 3);
+    --title-description-height: calc(var(--height-1pct) * 5);
+
+    /* 目录页：左侧艺术文字 */
+    --toc-art-color: var(--page-background-color);
+    --toc-art-size: calc(var(--height-1pct) * 12);
+    --toc-art-height: calc(var(--height-1pct) * 16);
+
+    /* 目录页：右侧目录文字 */
+    --toc-item-color: var(--body-text-color);
+    --toc-item-size: calc(var(--height-1pct) * 4);
+    --toc-item-height: calc(var(--height-1pct) * 12);
+
+    /* 致谢页：大致谢文字 */
+    --thanks-main-color: var(--text-color);
+    --thanks-main-size: calc(var(--height-1pct) * 10);
+    --thanks-main-height: calc(var(--height-1pct) * 14);
+
+    /* 致谢页：小致谢文字 */
+    --thanks-subtitle-color: var(--body-text-color);
+    --thanks-subtitle-size: calc(var(--height-1pct) * 5);
+    --thanks-subtitle-height: calc(var(--height-1pct) * 8);
+
+    /* 致谢页：说明文字 */
+    --thanks-description-color: var(--footer-text-color);
+    --thanks-description-size: calc(var(--height-1pct) * 3);
+    --thanks-description-height: calc(var(--height-1pct) * 5);
+
+    /* 内容页：页眉标题文字 */
+    --header-text-color: var(--text-color);
+    --header-text-size: calc(var(--height-1pct) * 5);
+    --header-text-height: calc(var(--height-1pct) * 12);
+
+    /* 内容页：块标题文字 */
+    --block-title-color: var(--text-color);
+    --block-title-size: calc(var(--height-1pct) * 4);
+    --block-title-height: calc(var(--height-1pct) * 8);
+
+    /* 普通正文 */
+    --body-text-color: var(--dark-text-color);
+    --body-text-size: calc(var(--height-1pct) * 3.5);
+    --body-text-height: calc(var(--height-1pct) * 5);
+
+    /* 小号正文 */
+    --smaller-body-text-color: var(--body-text-color);
+    --smaller-body-text-size: calc(var(--height-1pct) * 2.5);
+    --smaller-body-text-height: calc(var(--height-1pct) * 4);
+
+    /* 公式：普通 */
+    --formula-color: var(--body-text-color);
+    --formula-size: var(--body-text-size);
+    --formula-height: calc(var(--height-1pct) * 7);
+
+    /* 公式：小号 */
+    --smaller-formula-color: var(--smaller-body-text-color);
+    --smaller-formula-size: var(--smaller-body-text-size);
+    --smaller-formula-height: calc(var(--height-1pct) * 5.5);
+
+    /* 内容页：页脚文字 */
+    --footer-text-color: var(--muted-text-color);
+    --footer-text-size: calc(var(--height-1pct) * 2);
+    --footer-text-height: calc(var(--height-1pct) * 4);
+
+    /* 页面布局与装饰 */
+
+    /* 标题页：标志尺寸与位置 */
+    --title-logo-size: calc(var(--height-1pct) * 16);
+    --title-side: calc(var(--width-1pct) * 5);
+
+    /* 目录页：左栏宽度、标志大小与边距 */
+    --toc-left-width: calc(var(--width-1pct) * 42);
+    --toc-logo-size: calc(var(--width-1pct) * 28);
+    --toc-logo-top: calc(var(--height-1pct) * 5);
+    --toc-logo-side: calc(var(--width-1pct) * 7);
+
+    /* 致谢页：标志大小与边距 */
+    --thanks-logo-size: calc(var(--height-1pct) * 16);
+    --thanks-side: calc(var(--width-1pct) * 5);
+
+    /* 致谢页：组合相对页面中心上移 3%，中心位于页高 47% */
+    --thanks-content-offset: calc(var(--height-1pct) * -3);
+
+    /* 致谢页：上下短虚线长度与粗细 */
+    --thanks-line-length: calc(var(--width-1pct) * 28);
+    --thanks-line-width: calc(var(--height-1pct) * 0.2);
+
+    /* 内容页：正文区域宽度 */
+    --content-width: calc(var(--width-1pct) * 90);
+
+    /* 内容页：页眉，标题复用 header-text-*，标志宽度按原始比例自动计算 */
+    --content-header-height: calc(var(--height-1pct) * 12);
+    --header-logo-height: calc(var(--height-1pct) * 8);
+    --header-line-width: calc(var(--height-1pct) * 0.2);
+    --header-line-color: var(--accent-color);
+
+    /* 内容页：页脚区域与装饰线 */
+    --content-footer-height: calc(var(--height-1pct) * 6);
+    --footer-line-length: calc(var(--width-1pct) * 25);
+    --footer-line-width: calc(var(--height-1pct) * 0.2);
+    --footer-line-color: var(--accent-color);
+
+    /* 内容页：layout 之相邻 block 之间的间距 */
+    --layout-row-gap: calc(var(--height-1pct) * 1);
+    --layout-column-gap: calc(var(--width-1pct) * 1);
+
+    /* block 设置 */
+
+    /* block：共用外观 */
+    --block-background-color: var(--page-background-color);
+    --block-border-color: var(--border-color);
+    --block-border-width: calc(var(--height-1pct) * 0.25);
+    --block-border-radius: calc(var(--height-1pct) * 1);
+    --block-inner-padding: calc(var(--height-1pct) * 1);
+
+    /* 文字 block：字号与文字行高继承正文或小正文 */
+
+    /* 图片 block：随容器等比例缩放，图注复用小正文 */
+    --figure-fit: contain;
+    --figure-caption-size: var(--smaller-body-text-size);
+    --figure-caption-height: var(--smaller-body-text-height);
+
+}
+
+/* `*`：通配选择器，对页面中的所有 HTML 元素应用统一的基础规则 */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* `html`：整个 HTML 文档的最外层元素，用来设置幻灯片之外的页面背景 */
+html {
+    background: var(--preview-background-color);
+}
+
+/* `body`：网页正文容器，负责屏幕预览留白、文字颜色和全局字体 */
+body {
+    margin: 0;
+    padding: 0;
+    color: var(--body-text-color);
+    font-family: var(--font-stack);
+    font-size: var(--body-text-size);
+    line-height: var(--body-text-height);
+}
+
+/* `.deck`：整套幻灯片的外层容器，负责在浏览器中放置和居中单页 */
+.deck {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--height-1pct) * 4);
+}
+
+@media print {
+    html { background: var(--page-background-color); }
+    .deck { gap: 0; }
+}

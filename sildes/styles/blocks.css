@@ -1,0 +1,224 @@
+/* `.content-block-title`：块标题在统一高度内垂直居中。 */
+.content-block-title {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--block-title-size) * 0.5);
+    height: var(--block-title-height);
+    margin: 0;
+    padding: 0;
+    color: var(--block-title-color);
+    font-size: var(--block-title-size);
+    line-height: var(--block-title-height);
+
+    /* 短竖线与标题字号同步缩放。 */
+    &::before {
+        width: calc(var(--block-title-size) / 8);
+        height: var(--block-title-size);
+        flex: 0 0 auto;
+        background: var(--block-title-color);
+        content: "";
+    }
+}
+
+/* 有序、无序文字块共用正文参数；字号与行高可分别选择。 */
+.content-block-ordered,
+.content-block-unordered {
+    min-width: 0;
+    min-height: 0;
+    color: var(--body-text-color);
+    font-size: var(--body-text-size);
+    line-height: var(--body-text-height);
+    background: var(--block-background-color);
+
+    &.text-small,
+    & .text-small {
+        --body-text-size: var(--smaller-body-text-size);
+        color: var(--smaller-body-text-color);
+        font-size: var(--body-text-size);
+    }
+
+    &.text-compact,
+    & .text-compact {
+        --body-text-height: var(--smaller-body-text-height);
+        line-height: var(--body-text-height);
+    }
+}
+
+/* 1. 有序文字块；2. 无序文字块：使用原生列表编号或项目符号。 */
+.content-block-ordered,
+.content-block-unordered {
+    text-align: left;
+
+    & > ol,
+    & > ul {
+        display: grid;
+        width: 100%;
+        margin: 0;
+        padding-left: var(--body-text-height);
+    }
+
+    & li {
+        min-height: var(--body-text-height);
+    }
+}
+
+/* 3. 公式块：独立使用公式参数，默认带边框。 */
+.content-block-formula {
+    min-width: 0;
+    min-height: 0;
+    color: var(--formula-color);
+    font-size: var(--formula-size);
+    line-height: var(--formula-height);
+    background: var(--block-background-color);
+    display: grid;
+    grid-auto-rows: max-content;
+    align-content: start;
+    padding: var(--block-inner-padding);
+    text-align: center;
+    box-shadow: inset 0 0 0 var(--block-border-width) var(--block-border-color);
+    border-radius: var(--block-border-radius);
+
+    /* 沿用字号、行高独立选择的修饰类。 */
+    &.text-small,
+    & .text-small {
+        --formula-color: var(--smaller-formula-color);
+        --formula-size: var(--smaller-formula-size);
+        color: var(--formula-color);
+        font-size: var(--formula-size);
+    }
+
+    &.text-compact,
+    & .text-compact {
+        --formula-height: var(--smaller-formula-height);
+        line-height: var(--formula-height);
+    }
+
+    & > .formula-line {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        min-height: var(--formula-height);
+        margin: 0;
+        font-size: var(--formula-size);
+    }
+
+    /* 多行数学环境按内部行高自然撑开。 */
+    & > .formula-aligned {
+        min-height: 0;
+
+        & mjx-mtr {
+            height: var(--formula-height);
+        }
+    }
+
+    & mjx-container[jax="CHTML"][display="true"] {
+        margin: 0;
+    }
+}
+
+/* 图片 block：跟随所在布局伸缩，图注占独立行。 */
+.content-block-figure {
+    height: 100%;
+    min-height: 0;
+    & figure {
+        display: grid;
+        place-items: center;
+        min-width: 0;
+        min-height: 0;
+        height: 100%;
+        margin: 0;
+    }
+    & .figure-with-caption { grid-template-rows: minmax(0, 1fr) auto; }
+    & img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        object-fit: var(--figure-fit);
+        border: var(--block-border-width) solid var(--block-border-color);
+        border-radius: var(--block-border-radius);
+    }
+    & figcaption {
+        color: var(--smaller-body-text-color);
+        font-size: var(--figure-caption-size);
+        line-height: var(--figure-caption-height);
+        text-align: center;
+    }
+    &.content-block-figure-auto figure { height: auto; }
+}
+
+/* `.content-block-workflow`：计算流程内容块，独立承载流程标题、节点和连接箭头 */
+.content-block-workflow {
+    align-self: start;
+    height: auto;
+
+    /* `& .workflow`：纵向排列计算步骤和箭头 */
+    & .workflow {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 0;
+    }
+
+    /* `& .workflow-node`：单个流程步骤 */
+    & .workflow-node {
+        display: grid;
+        grid-template-columns: var(--body-text-height) minmax(0, 1fr);
+        column-gap: 0px;
+        align-items: center;
+        width: 90%;
+        height: var(--block-title-height);
+        padding-inline: 0px;
+        border-radius: var(--block-border-radius);
+        box-shadow: inset 0 0 0 var(--block-border-width) var(--block-border-color);
+        color: var(--body-text-color);
+        background: var(--block-background-color);
+        font-size: var(--smaller-body-text-size);
+        text-align: left;
+    }
+
+    /* `& .workflow-node-emphasis`：突出流程中的关键计算步骤 */
+    & .workflow-node-emphasis {
+        background: var(--block-background-color);
+    }
+
+    /* `& .workflow-step`：流程节点左侧的步骤编号圆标 */
+    & .workflow-step {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: var(--body-text-height);
+        height: var(--body-text-height);
+        border-radius: 50%;
+        color: var(--page-background-color);
+        background: var(--body-text-color);
+        line-height: var(--smaller-body-text-height);
+    }
+
+    /* `& .workflow-label`：流程节点中的步骤说明 */
+    & .workflow-label {
+        min-width: 0;
+    }
+
+    /* `& .workflow-arrow`：连接相邻流程节点的向下箭头 */
+    & .workflow-arrow {
+        position: relative;
+        width: var(--block-border-width);
+        height: calc(var(--height-1pct) * 2.5);
+        background: var(--body-text-color);
+
+        /* `&::after`：绘制流程箭头尖 */
+        &::after {
+            position: absolute;
+            left: calc(var(--block-border-width) / 2 - var(--height-1pct) / 2);
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-inline: calc(var(--height-1pct) / 2) solid transparent;
+            border-top: var(--height-1pct) solid var(--body-text-color);
+            content: "";
+        }
+    }
+}

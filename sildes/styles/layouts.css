@@ -1,0 +1,55 @@
+/* 1. 内容区域：统一宽度，默认按内容高度在正文区域居中。 */
+.content-layout {
+    width: var(--content-width);
+    min-width: 0;
+    min-height: 0;
+    justify-self: center;
+    align-self: center;
+
+    &.layout-top { align-self: start; }
+}
+
+/* 2. 行列排列：可以嵌套，间距统一由 root 控制。 */
+.layout-rows,
+.layout-columns {
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+
+    & > * {
+        min-width: 0;
+        min-height: 0;
+    }
+}
+
+.layout-rows {
+    grid-auto-rows: max-content;
+    align-content: start;
+    row-gap: var(--layout-row-gap);
+
+    /* 均分模式填满父布局提供的高度。 */
+    &.layout-equal {
+        grid-auto-rows: minmax(0, 1fr);
+        align-self: stretch;
+    }
+}
+
+.layout-columns {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    align-items: stretch;
+    column-gap: var(--layout-column-gap);
+
+    &.layout-top { align-items: start; }
+    &.layout-equal { grid-auto-columns: minmax(0, 1fr); }
+    &.layout-4-6 { grid-template-columns: minmax(0, 4fr) minmax(0, 6fr); }
+    &.layout-3-7 { grid-template-columns: minmax(0, 3fr) minmax(0, 7fr); }
+}
+
+/* 3. 组合：块标题与所属内容保持为一个整体。 */
+.content-block-group {
+    display: grid;
+    grid-template-rows: var(--block-title-height) auto;
+    min-width: 0;
+    min-height: 0;
+}
