@@ -156,6 +156,10 @@
 
     /* 文字 block：字号与文字行高继承正文或小正文 */
 
+    /* 流程图：普通节点与关键节点的浅蓝底色 */
+    --workflow-node-background: #f6f9fe;
+    --workflow-node-emphasis-background: #e6eefb;
+
     /* 图片 block：随容器等比例缩放，图注复用小正文 */
     --figure-fit: contain;
     --figure-caption-size: var(--smaller-body-text-size);

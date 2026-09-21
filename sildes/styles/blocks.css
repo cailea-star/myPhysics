@@ -124,16 +124,20 @@
     & figure {
         display: grid;
         place-items: center;
+        align-content: start;
         min-width: 0;
         min-height: 0;
         height: 100%;
         margin: 0;
     }
-    & .figure-with-caption { grid-template-rows: minmax(0, 1fr) auto; }
+    & .figure-with-caption { grid-template-rows: auto auto; }
     & img {
         display: block;
-        width: 100%;
-        height: 100%;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+        min-width: 0;
         min-height: 0;
         object-fit: var(--figure-fit);
         border: var(--block-border-width) solid var(--block-border-color);
@@ -148,43 +152,42 @@
     &.content-block-figure-auto figure { height: auto; }
 }
 
-/* `.content-block-workflow`：计算流程内容块，独立承载流程标题、节点和连接箭头 */
+/* 流程图：沿用模板的浅蓝节点、圆形编号和实心箭头。 */
 .content-block-workflow {
     align-self: start;
     height: auto;
 
-    /* `& .workflow`：纵向排列计算步骤和箭头 */
     & .workflow {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
+        min-width: 0;
         min-height: 0;
     }
 
-    /* `& .workflow-node`：单个流程步骤 */
     & .workflow-node {
         display: grid;
         grid-template-columns: var(--body-text-height) minmax(0, 1fr);
-        column-gap: 0px;
+        column-gap: calc(var(--layout-column-gap) * 2);
         align-items: center;
         width: 90%;
-        height: var(--block-title-height);
-        padding-inline: 0px;
+        min-height: var(--block-title-height);
+        padding: var(--block-inner-padding) calc(var(--layout-column-gap) * 2);
         border-radius: var(--block-border-radius);
         box-shadow: inset 0 0 0 var(--block-border-width) var(--block-border-color);
-        color: var(--body-text-color);
-        background: var(--block-background-color);
+        color: var(--accent-color);
+        background: var(--workflow-node-background);
         font-size: var(--smaller-body-text-size);
+        line-height: var(--smaller-body-text-height);
         text-align: left;
     }
 
-    /* `& .workflow-node-emphasis`：突出流程中的关键计算步骤 */
     & .workflow-node-emphasis {
-        background: var(--block-background-color);
+        background: var(--workflow-node-emphasis-background);
     }
 
-    /* `& .workflow-step`：流程节点左侧的步骤编号圆标 */
+    /* 白色编号置于蓝色圆标中央，文字与圆标保持独立留白。 */
     & .workflow-step {
         display: flex;
         align-items: center;
@@ -193,23 +196,22 @@
         height: var(--body-text-height);
         border-radius: 50%;
         color: var(--page-background-color);
-        background: var(--body-text-color);
-        line-height: var(--smaller-body-text-height);
+        background: var(--accent-color);
+        font-family: var(--font-english);
+        font-size: var(--smaller-body-text-size);
+        line-height: var(--smaller-body-text-size);
     }
 
-    /* `& .workflow-label`：流程节点中的步骤说明 */
     & .workflow-label {
         min-width: 0;
     }
 
-    /* `& .workflow-arrow`：连接相邻流程节点的向下箭头 */
     & .workflow-arrow {
         position: relative;
         width: var(--block-border-width);
         height: calc(var(--height-1pct) * 2.5);
-        background: var(--body-text-color);
+        background: var(--accent-color);
 
-        /* `&::after`：绘制流程箭头尖 */
         &::after {
             position: absolute;
             left: calc(var(--block-border-width) / 2 - var(--height-1pct) / 2);
@@ -217,7 +219,7 @@
             width: 0;
             height: 0;
             border-inline: calc(var(--height-1pct) / 2) solid transparent;
-            border-top: var(--height-1pct) solid var(--body-text-color);
+            border-top: var(--height-1pct) solid var(--accent-color);
             content: "";
         }
     }
