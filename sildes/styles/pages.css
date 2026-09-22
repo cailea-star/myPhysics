@@ -4,75 +4,75 @@
     width: var(--page-width);
     height: var(--page-height);
     overflow: hidden;
-    background: var(--page-background-color);
+    background: var(--background-color);
     break-after: page;
 }
 
-/* `.title-page`：标题页及其内部元素的全部样式 */
-.title-page {
+/* `.cover-page`：标题页及其内部元素的全部样式 */
+.cover-page {
     position: relative;
     display: grid;
     grid-template-rows:
-        calc(var(--title-logo-size) + var(--title-side))
+        calc(var(--cover-logo-size) + var(--cover-side))
         auto
         minmax(0, 1fr)
         auto
         minmax(0, 1fr)
         var(--smaller-body-text-height)
-        var(--title-side);
+        var(--cover-side);
     text-align: center;
 
-    /* `& .title-logo`：标题页左右角共用的圆形标志样式 */
-    & .title-logo {
+    /* `& .cover-logo`：标题页左右角共用的圆形标志样式 */
+    & .cover-logo {
         position: absolute;
-        top: var(--title-side);
-        width: var(--title-logo-size);
-        height: var(--title-logo-size);
+        top: var(--cover-side);
+        width: var(--cover-logo-size);
+        height: var(--cover-logo-size);
         object-fit: contain;
     }
 
-    /* `& .title-logo-left`：标题页左上角的近代物理所标志 */
-    & .title-logo-left {
-        left: var(--title-side);
+    /* `& .cover-logo-left`：标题页左上角的近代物理所标志 */
+    & .cover-logo-left {
+        left: var(--cover-side);
     }
 
-    /* `& .title-logo-right`：标题页右上角的中国科学院院徽 */
-    & .title-logo-right {
-        right: var(--title-side);
+    /* `& .cover-logo-right`：标题页右上角的中国科学院院徽 */
+    & .cover-logo-right {
+        right: var(--cover-side);
     }
 
     /* 主副标题组成连续的标题组。 */
-    & .title-heading {
+    & .cover-heading {
         grid-row: 2;
         display: grid;
-        grid-template-rows: var(--title-main-height) var(--title-subtitle-height);
+        grid-template-rows: var(--cover-title-height) var(--cover-subtitle-height);
     }
 
-    /* `& .title-main`：选择当前标题页内部的主标题 */
-    & .title-main {
+    /* `& .cover-title`：选择当前标题页内部的主标题 */
+    & .cover-title {
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0;
-        color: var(--title-main-color);
-        font-size: var(--title-main-size);
-        line-height: var(--title-main-height);
+        color: var(--cover-title-color);
+        font-size: var(--cover-title-size);
+        line-height: var(--cover-title-height);
     }
 
-    /* `& .title-subtitle`：标题页的小标题 */
-    & .title-subtitle {
+    /* `& .cover-subtitle`：标题页的小标题 */
+    & .cover-subtitle {
         margin: 0;
-        color: var(--title-subtitle-color);
-        font-size: var(--title-subtitle-size);
-        line-height: var(--title-subtitle-height);
+        color: var(--cover-subtitle-color);
+        font-size: var(--cover-subtitle-size);
+        line-height: var(--cover-subtitle-height);
     }
 
-    /* `& .title-description`：标题页的补充信息区域 */
-    & .title-description {
+    /* `& .cover-note`：标题页的补充信息区域 */
+    & .cover-note {
         grid-row: 4;
-        color: var(--title-description-color);
-        font-size: var(--title-description-size);
-        line-height: var(--title-description-height);
+        color: var(--cover-note-color);
+        font-size: var(--cover-note-size);
+        line-height: var(--cover-note-height);
 
         & p {
             margin: 0;
@@ -81,10 +81,10 @@
     }
 
     /* 来源说明独立置于底部，复用小正文参数。 */
-    & .title-reference {
+    & .cover-reference {
         grid-row: 6;
         margin: 0;
-        color: var(--muted-text-color);
+        color: var(--main-color);
         font-size: var(--smaller-body-text-size);
         line-height: var(--smaller-body-text-height);
     }
@@ -95,7 +95,7 @@
     display: grid;
     grid-template-columns: var(--toc-left-width) minmax(0, 1fr);
 
-    /* `& .toc-brand`：选择目录页左侧的蓝色品牌区域 */
+    /* `& .toc-brand`：深靛蓝背景搭配白字与 inverse 标志。 */
     & .toc-brand {
         position: relative;
         display: flex;
@@ -104,7 +104,7 @@
         justify-content: center;
         margin: 0;
         color: var(--toc-art-color);
-        background: var(--accent-color);
+        background: var(--main-color);
         text-align: center;
     }
 
@@ -157,7 +157,7 @@
 
     /* `& .toc-number`：蓝色双位章节编号 */
     & .toc-number {
-        color: var(--accent-color);
+        color: var(--main-color);
         font-family: var(--font-english);
         font-size: calc(var(--toc-item-size) * 1.5);
         line-height: var(--toc-item-height);
@@ -170,33 +170,33 @@
     position: relative;
     display: grid;
     place-items: center;
-    color: var(--accent-color);
-    background: var(--page-background-color);
+    color: var(--main-color);
+    background: var(--background-color);
     text-align: center;
 
     /* `& .acknowledgement-logo`：致谢页左右上角共用的机构标志 */
     & .acknowledgement-logo {
         position: absolute;
-        top: var(--thanks-side);
-        width: var(--thanks-logo-size);
-        height: var(--thanks-logo-size);
+        top: var(--acknowledgement-side);
+        width: var(--acknowledgement-logo-size);
+        height: var(--acknowledgement-logo-size);
         object-fit: contain;
     }
 
     /* `& .acknowledgement-logo-left`：左上角研究所标志 */
     & .acknowledgement-logo-left {
-        left: var(--thanks-side);
+        left: var(--acknowledgement-side);
     }
 
     /* `& .acknowledgement-logo-right`：右上角国科大标志 */
     & .acknowledgement-logo-right {
-        right: var(--thanks-side);
+        right: var(--acknowledgement-side);
     }
 
     /* `& .acknowledgement-content`：中央致谢标题与副标题组合 */
     & .acknowledgement-content {
         display: grid;
-        transform: translateY(var(--thanks-content-offset));
+        transform: translateY(var(--acknowledgement-content-offset));
         row-gap: 0;
         align-items: center;
         justify-items: center;
@@ -204,37 +204,37 @@
         /* `&::before, &::after`：在致谢文字上下绘制短点虚线 */
         &::before,
         &::after {
-            width: var(--thanks-line-length);
-            border-top: var(--thanks-line-width) dotted var(--border-color);
+            width: var(--acknowledgement-line-length);
+            border-top: var(--acknowledgement-line-width) dotted var(--main-color);
             content: "";
         }
 
         /* `& h2`：致谢页主标题 */
         & h2 {
             margin: 0;
-            color: var(--thanks-main-color);
-            font-size: var(--thanks-main-size);
-            line-height: var(--thanks-main-height);
+            color: var(--acknowledgement-title-color);
+            font-size: var(--acknowledgement-title-size);
+            line-height: var(--acknowledgement-title-height);
         }
 
         /* `& p`：致谢页副标题 */
         & p {
             margin: 0;
-            color: var(--thanks-subtitle-color);
-            font-size: var(--thanks-subtitle-size);
-            line-height: var(--thanks-subtitle-height);
+            color: var(--acknowledgement-subtitle-color);
+            font-size: var(--acknowledgement-subtitle-size);
+            line-height: var(--acknowledgement-subtitle-height);
         }
     }
 
     /* `& .acknowledgement-author`：致谢页底部署名 */
     & .acknowledgement-author {
         position: absolute;
-        bottom: var(--thanks-side);
+        bottom: var(--acknowledgement-side);
         left: 0;
         right: 0;
-        color: var(--thanks-description-color);
-        font-size: var(--thanks-description-size);
-        line-height: var(--thanks-description-height);
+        color: var(--acknowledgement-note-color);
+        font-size: var(--acknowledgement-note-size);
+        line-height: var(--acknowledgement-note-height);
 
         /* `& p`：单位独占一行，汇报人与导师共用一行 */
         & p {
@@ -250,65 +250,64 @@
 
 /* `.content-page`：所有正文页共用的页头、正文与页脚页面壳 */
 .content-page {
+    /* 块标题编号：每个正文页独立从 01 开始。 */
+    counter-reset: content-block;
     display: grid;
     grid-template-rows:
         var(--content-header-height)
         minmax(0, 1fr)
         var(--content-footer-height);
 
-    /* 页眉：左右 logo 与标题共用主体区域，分隔线位于区域底部。 */
+    /* 页眉：左侧标题组与右侧双标志共用原有页眉高度。 */
     & .content-header {
-        position: relative;
         height: var(--content-header-height);
         display: grid;
         place-items: center;
 
+        /* 主体两列：文字使用剩余宽度，标志组按内容占位。 */
         & .content-header-main {
             display: grid;
-            grid-template-columns: var(--header-logo-height) minmax(0, 1fr) var(--header-logo-height);
-            column-gap: calc(var(--smaller-body-text-size) * 0.5);
+            grid-template-columns: minmax(0, 1fr) auto;
+            column-gap: var(--layout-column-gap);
             align-items: center;
             width: var(--content-width);
             height: 100%;
         }
-        & .content-header-logo {
-            width: auto;
-            max-width: 100%;
-            height: var(--header-logo-height);
-            object-fit: contain;
-        }
-        & .content-header-logo:first-child { justify-self: start; }
-        & .content-header-logo:last-child { justify-self: end; }
-        & h2 {
-            margin: 0;
-            color: var(--header-text-color);
-            font-size: var(--header-text-size);
-            line-height: var(--header-text-height);
-            text-align: center;
-        }
-        /* 章节标识在上，小节标题在下，共用原有页眉高度。 */
+
+        /* 标题组：上方为章节标题，下方为本页子标题，统一左对齐。 */
         & .content-header-titles {
             min-width: 0;
-            text-align: center;
+            text-align: left;
 
-            & .content-header-chapter {
+            & .content-header-title {
                 margin: 0;
-                color: var(--muted-text-color);
-                font-size: var(--smaller-body-text-size);
-                line-height: var(--smaller-body-text-height);
+                font-weight: normal;
+                color: var(--content-header-title-color);
+                font-size: var(--content-header-title-size);
+                line-height: var(--content-header-title-height);
+                text-align: left;
             }
-
-            & h2 {
-                line-height: calc(var(--header-text-height) - var(--smaller-body-text-height));
+            & .content-header-subtitle {
+                margin: 0;
+                font-weight: bold;
+                color: var(--content-header-subtitle-color);
+                font-size: var(--content-header-subtitle-size);
+                line-height: var(--content-header-subtitle-height);
             }
-
         }
 
-        & .content-divider {
-            position: absolute;
-            bottom: 0;
-            width: var(--content-width);
-            border-top: var(--header-line-width) solid var(--header-line-color);
+        /* 标志组：集中排列在右侧，保持原始宽高比。 */
+        & .content-header-logos {
+            display: flex;
+            align-items: center;
+            gap: var(--layout-column-gap);
+        }
+
+        & .content-header-logo {
+            display: block;
+            width: auto;
+            height: var(--content-header-logo-height);
+            object-fit: contain;
         }
     }
 
@@ -322,17 +321,9 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        color: var(--footer-text-color);
-        font-size: var(--footer-text-size);
-        line-height: var(--footer-text-height);
-        &::before {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: var(--footer-line-length);
-            border-top: var(--footer-line-width) dotted var(--footer-line-color);
-            content: "";
-        }
+        color: var(--content-footer-text-color);
+        font-size: var(--content-footer-text-size);
+        line-height: var(--content-footer-text-height);
         & .content-page-author { text-align: left; }
         & .content-page-number { text-align: right; }
     }

@@ -1,12 +1,13 @@
-/* 1. 内容区域：统一宽度，默认按内容高度在正文区域居中。 */
+/* 1. 内容区域：统一宽度，默认顶对齐，按内容高度向下排列。 */
 .content-layout {
     width: var(--content-width);
     min-width: 0;
     min-height: 0;
     justify-self: center;
-    align-self: center;
+    align-self: start;
 
-    &.layout-top { align-self: start; }
+    /* 单图等特殊页面可显式选择垂直居中。 */
+    &.layout-center { align-self: center; }
 }
 
 /* 2. 行列排列：可以嵌套，间距统一由 root 控制。 */
@@ -37,11 +38,9 @@
 .layout-columns {
     grid-auto-flow: column;
     grid-auto-columns: minmax(0, 1fr);
-    align-items: stretch;
+    align-items: start;
     column-gap: var(--layout-column-gap);
 
-    &.layout-top { align-items: start; }
-    &.layout-equal { grid-auto-columns: minmax(0, 1fr); }
     &.layout-4-6 { grid-template-columns: minmax(0, 4fr) minmax(0, 6fr); }
     &.layout-3-7 { grid-template-columns: minmax(0, 3fr) minmax(0, 7fr); }
 }
@@ -52,4 +51,26 @@
     grid-template-rows: var(--block-title-height) auto;
     min-width: 0;
     min-height: 0;
+}
+
+/* 图片留白版式：缩小图片块并居中，标题保留整栏宽度，图注随图片块对齐。 */
+.layout-figure-inset .content-block-figure {
+    width: calc(100% * var(--layout-figure-scale));
+    justify-self: center;
+}
+
+/* 填满正文可用高度，按剩余空间分配图片区域。 */
+.content-layout.layout-fill {
+    align-self: stretch;
+    padding-block: var(--block-inner-padding);
+
+    /* 填满模式中的分栏仍拉伸各列，保留图片区域的高度分配。 */
+    &.layout-columns,
+    & .layout-columns {
+        align-items: stretch;
+    }
+
+    & .content-block-group {
+        grid-template-rows: var(--block-title-height) minmax(0, 1fr);
+    }
 }

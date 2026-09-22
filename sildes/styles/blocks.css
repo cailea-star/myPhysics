@@ -1,5 +1,33 @@
-/* `.content-block-title`：块标题在统一高度内垂直居中。 */
+/* 块级配色：在当前块重新绑定颜色，子组件继承该块选择的色系。 */
+.content-block-group,
+.block-color-1,
+.block-color-2 {
+    --block-title-color: var(--block-color);
+    --body-text-color: var(--block-color);
+    --smaller-body-text-color: var(--block-color);
+    --formula-color: var(--block-color);
+    --smaller-formula-color: var(--block-color);
+    --block-border-color: var(--block-color);
+    --block-accent-color: var(--block-color);
+    --workflow-connector-color: var(--block-color);
+    --block-soft-background: var(--block-light-color);
+    --block-emphasis-background: var(--block-light-color);
+}
+
+/* 显式选色：加在组合块或单个组件上，其内部文字、边界与填充同步切换。 */
+.block-color-1 {
+    --block-color: var(--block-color-1);
+    --block-light-color: var(--block-light-color-1);
+}
+
+.block-color-2 {
+    --block-color: var(--block-color-2);
+    --block-light-color: var(--block-light-color-2);
+}
+
+/* 1. 标题：顶部横线分块，两位编号与标题左对齐，颜色跟随所属块。 */
 .content-block-title {
+    counter-increment: content-block;
     display: flex;
     align-items: center;
     gap: calc(var(--block-title-size) * 0.5);
@@ -10,161 +38,289 @@
     font-size: var(--block-title-size);
     line-height: var(--block-title-height);
 
-    /* 短竖线与标题字号同步缩放。 */
+    font-weight: bold;
+    border-top: var(--line-width) solid var(--block-border-color);
+
+    /* 编号：复用标题字号与小正文的浅色，不加粗，避免抢占标题重心。 */
     &::before {
-        width: calc(var(--block-title-size) / 8);
-        height: var(--block-title-size);
-        flex: 0 0 auto;
-        background: var(--block-title-color);
-        content: "";
+        content: counter(content-block, decimal-leading-zero);
+        flex-shrink: 0;
+        color: var(--smaller-body-text-color);
+        font-family: var(--font-english);
+        font-weight: normal;
+        font-variant-numeric: tabular-nums;
     }
 }
 
-/* 有序、无序文字块共用正文参数；字号与行高可分别选择。 */
-.content-block-ordered,
-.content-block-unordered {
+/* 文字块共用基础：统一尺寸约束、背景、字体及列表行高。 */
+.content-block-list-ordered,
+.content-block-list-unordered,
+.content-block-list-guided {
     min-width: 0;
     min-height: 0;
+    background: var(--block-background-color);
     color: var(--body-text-color);
     font-size: var(--body-text-size);
     line-height: var(--body-text-height);
-    background: var(--block-background-color);
-
-    &.text-small,
-    & .text-small {
-        --body-text-size: var(--smaller-body-text-size);
-        color: var(--smaller-body-text-color);
-        font-size: var(--body-text-size);
-    }
-
-    &.text-compact,
-    & .text-compact {
-        --body-text-height: var(--smaller-body-text-height);
-        line-height: var(--body-text-height);
-    }
-}
-
-/* 1. 有序文字块；2. 无序文字块：使用原生列表编号或项目符号。 */
-.content-block-ordered,
-.content-block-unordered {
     text-align: left;
 
+    /* 列表容器：纵向排列，清除浏览器默认外边距。 */
     & > ol,
     & > ul {
         display: grid;
         width: 100%;
         margin: 0;
-        padding-left: var(--body-text-height);
+        padding-left: 0;
+        list-style: none;
+
+        /* 条目以正文行高作为最小高度，多行内容自然撑开。 */
+        & > li { min-height: var(--body-text-height); }
     }
 
-    & li {
-        min-height: var(--body-text-height);
+    /* 小号模式：仅在块上启用，统一按无标记、无缩进的普通文字排列。 */
+    &.text-small {
+        --body-text-size: var(--smaller-body-text-size);
+        --body-text-height: var(--smaller-body-text-height);
+        color: var(--smaller-body-text-color);
+
+        /* 小号列表取消圆点与缩进，使用完整块宽度。 */
+        & > ol,
+        & > ul {
+            padding-left: 0;
+            list-style: none;
+
+            /* 小号条目不保留编号留位。 */
+            & > li {
+                display: block;
+                padding-left: 0;
+
+                /* 关闭有序列表生成的编号。 */
+                &::before { content: none; }
+            }
+        }
     }
 }
 
-/* 3. 公式块：独立使用公式参数，默认带边框。 */
+/* 2. 有序列表：独立编号使换行与正文起点对齐。 */
+.content-block-list-ordered {
+    /* 条目为左侧编号预留空间。 */
+    & > ol > li {
+        position: relative;
+        padding-left: calc(var(--body-text-size) * 1.5);
+
+        /* 编号对齐首行文字的垂直中心。 */
+        &::before {
+            content: counter(list-item, decimal-leading-zero);
+            position: absolute;
+            left: 0;
+            top: calc((var(--body-text-height) - var(--body-text-size)) / 2);
+            display: grid;
+            place-items: center;
+            width: var(--body-text-size);
+            height: var(--body-text-size);
+            color: var(--block-accent-color);
+            font-family: var(--font-english);
+            font-size: var(--smaller-body-text-size);
+            line-height: 1;
+        }
+    }
+}
+
+/* 3. 无序列表：圆点标记搭配统一缩进。 */
+.content-block-list-unordered {
+    /* 为原生圆点保留左侧空间。 */
+    & > ul {
+        padding-left: var(--body-text-size);
+        list-style: disc;
+
+        /* 圆点沿用块的引导色。 */
+        & > li::marker { color: var(--block-accent-color); }
+    }
+}
+
+/* 4. 引导词列表：仅使用正常字号，引导词与正文分列对齐。 */
+.content-block-list-guided {
+    /* 每项分为引导词与正文两列，长句在正文列换行。 */
+    & > ul > li {
+        display: grid;
+        grid-template-columns: calc(var(--body-text-size) * 3.5) minmax(0, 1fr);
+
+        /* 引导词使用强调色，不额外加粗。 */
+        & > strong {
+            color: var(--block-accent-color);
+            font-weight: normal;
+        }
+    }
+}
+
+/* 5. 公式块：白底推导，淡底突出结论。 */
 .content-block-formula {
     min-width: 0;
     min-height: 0;
+    background: var(--block-background-color);
+    border-radius: var(--block-border-radius);
     color: var(--formula-color);
     font-size: var(--formula-size);
     line-height: var(--formula-height);
-    background: var(--block-background-color);
     display: grid;
     grid-auto-rows: max-content;
     align-content: start;
     padding: var(--block-inner-padding);
     text-align: center;
-    box-shadow: inset 0 0 0 var(--block-border-width) var(--block-border-color);
-    border-radius: var(--block-border-radius);
 
-    /* 沿用字号、行高独立选择的修饰类。 */
-    &.text-small,
-    & .text-small {
+    /* 小号公式：在整块上统一切换颜色、字号与行高。 */
+    &.text-small {
         --formula-color: var(--smaller-formula-color);
         --formula-size: var(--smaller-formula-size);
-        color: var(--formula-color);
-        font-size: var(--formula-size);
-    }
-
-    &.text-compact,
-    & .text-compact {
         --formula-height: var(--smaller-formula-height);
-        line-height: var(--formula-height);
     }
 
+    /* 公式行：说明位于左上角，公式另起一行居中，底部细线分隔。 */
     & > .formula-line {
-        display: flex;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto minmax(0, 1fr);
         align-items: center;
-        justify-content: center;
         min-width: 0;
         min-height: var(--formula-height);
         margin: 0;
-        font-size: var(--formula-size);
-    }
+        padding-bottom: var(--block-inner-padding);
+        border-bottom: var(--line-muted-width) solid var(--block-light-color);
 
-    & .formula-arrow {
-        display: block;
-        flex-shrink: 0;
-        width: var(--formula-arrow-width);
-        height: var(--formula-arrow-height);
-        object-fit: contain;
-    }
+        /* 左上角说明：复用小正文，使用整行宽度，长说明自然换行。 */
+        & > .formula-label {
+            grid-column: 1;
+            grid-row: 1;
+            align-self: start;
+            min-width: 0;
+            color: var(--smaller-body-text-color);
+            font-size: var(--smaller-body-text-size);
+            line-height: var(--smaller-body-text-height);
+            text-align: left;
+            overflow-wrap: anywhere;
 
-    /* 多行数学环境按内部行高自然撑开。 */
-    & > .formula-aligned {
-        min-height: 0;
+            /* 空说明不占高度，公式直接使用首行。 */
+            &:empty { display: none; }
 
-        & mjx-mtr {
-            height: var(--formula-height);
+            &:empty + .formula-content {
+                grid-row: 1 / -1;
+            }
         }
-    }
 
-    & mjx-container[jax="CHTML"][display="true"] {
-        margin: 0;
+        /* 公式使用整行宽度居中，说明长度不会推动公式位置。 */
+        & > .formula-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            grid-column: 1;
+            grid-row: 2;
+            min-width: 0;
+
+            /* 推导箭头：按 root 尺寸显示 SVG，避免被相邻公式挤缩。 */
+            & .formula-arrow {
+                display: block;
+                flex-shrink: 0;
+                width: var(--formula-arrow-width);
+                height: var(--formula-arrow-height);
+                object-fit: contain;
+            }
+
+            /* 独立显示公式：清除 MathJax 默认外边距。 */
+            & mjx-container[jax="CHTML"][display="true"] {
+                margin: 0;
+            }
+        }
+
+        /* 结论行：沿用配色，以加粗上沿强调，不增加占用高度。 */
+        &.formula-result {
+            border-radius: var(--block-border-radius);
+            background: var(--block-emphasis-background);
+            box-shadow: inset 0 var(--line-emphasis-width) 0 var(--block-border-color);
+        }
+
+        /* 多行推导：按内部各行的公式高度自然撑开。 */
+        &.formula-aligned {
+            min-height: 0;
+
+            /* 数学环境内部逐行保留推导间隔。 */
+            & mjx-mtr {
+                height: var(--formula-height);
+            }
+        }
     }
 }
 
-/* 图片 block：跟随所在布局伸缩，图注占独立行。 */
+/* 6. 图片块：细框与白色留白界定图片区，保留原始比例，图注放在框外。 */
 .content-block-figure {
-    height: 100%;
+    min-width: 0;
     min-height: 0;
-    & figure {
+    height: 100%;
+
+    /* 内部尺寸约束：容器与图片均允许收缩，避免撑开网格。 */
+    & figure,
+    & .figure-media,
+    & img {
+        min-width: 0;
+        min-height: 0;
+    }
+
+    /* 图片容器：共用网格居中与填满高度，分别承担图注布局和边界留白。 */
+    & figure,
+    & .figure-media {
         display: grid;
         place-items: center;
-        align-content: start;
-        min-width: 0;
-        min-height: 0;
         height: 100%;
+    }
+
+    /* 图注布局：无图注时单行，带图注时为图片保留剩余高度。 */
+    & figure {
+        grid-template-rows: minmax(0, 1fr);
         margin: 0;
     }
-    & .figure-with-caption { grid-template-rows: auto auto; }
-    & img {
-        display: block;
-        width: auto;
-        height: auto;
-        max-width: 100%;
-        max-height: 100%;
-        min-width: 0;
-        min-height: 0;
-        object-fit: var(--figure-fit);
+    & .figure-with-caption { grid-template-rows: minmax(0, 1fr) auto; }
+
+    /* 图片区域：只负责宽度、内留白、边框与背景。 */
+    & .figure-media {
+        width: 100%;
+        padding: var(--block-inner-padding);
         border: var(--block-border-width) solid var(--block-border-color);
         border-radius: var(--block-border-radius);
+        background: var(--block-background-color);
     }
+
+    /* 图片本体：使用固有宽高，最大尺寸不超过图片区域。 */
+    & img {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: var(--figure-fit);
+    }
+
+    /* 来源图注：使用独立字号与行高，沿用小正文颜色并左对齐。 */
     & figcaption {
         color: var(--smaller-body-text-color);
         font-size: var(--figure-caption-size);
         line-height: var(--figure-caption-height);
-        text-align: center;
+        justify-self: start;
+        text-align: left;
+    }
+
+    /* 填满模式：图片通过 contain 保持比例；自然高度模式由内容撑开。 */
+    .layout-fill & img {
+        width: 100%;
+        height: 100%;
     }
     &.content-block-figure-auto figure { height: auto; }
 }
 
-/* 流程图：沿用模板的浅蓝节点、圆形编号和实心箭头。 */
+/* 7. 流程图：浅色步骤、深色重点节点与简洁编号。 */
 .content-block-workflow {
+    min-width: 0;
+    min-height: 0;
     align-self: start;
     height: auto;
 
+    /* 流程容器：从上到下排列节点与箭头，整体水平居中。 */
     & .workflow {
         display: flex;
         flex-direction: column;
@@ -174,52 +330,54 @@
         min-height: 0;
     }
 
+    /* 普通节点：淡底圆角，编号与说明分列，长说明自然换行。 */
     & .workflow-node {
+        border-radius: var(--block-border-radius);
+        background: var(--block-soft-background);
         display: grid;
         grid-template-columns: var(--body-text-height) minmax(0, 1fr);
-        column-gap: calc(var(--layout-column-gap) * 2);
+        column-gap: var(--block-inner-padding);
         align-items: center;
         width: 90%;
         min-height: var(--block-title-height);
         padding: var(--block-inner-padding);
-        border-radius: var(--block-border-radius);
-        box-shadow: inset 0 0 0 var(--block-border-width) var(--block-border-color);
-        color: var(--accent-color);
-        background: var(--workflow-node-background);
+        color: var(--body-text-color);
         font-size: var(--smaller-body-text-size);
         line-height: var(--smaller-body-text-height);
         text-align: left;
     }
 
+    /* 重点节点：沿用普通节点配色，加粗内侧边界，不改变节点尺寸。 */
     & .workflow-node-emphasis {
-        background: var(--workflow-node-emphasis-background);
+        box-shadow: inset 0 0 0 var(--line-emphasis-width) var(--block-border-color);
     }
 
-    /* 白色编号置于蓝色圆标中央，文字与圆标保持独立留白。 */
+    /* 编号不加圆底，与标签共用节点留白。 */
     & .workflow-step {
         display: flex;
         align-items: center;
         justify-content: center;
         width: var(--body-text-height);
         height: var(--body-text-height);
-        border-radius: 50%;
-        color: var(--page-background-color);
-        background: var(--accent-color);
+        color: var(--block-accent-color);
         font-family: var(--font-english);
         font-size: var(--smaller-body-text-size);
         line-height: var(--smaller-body-text-size);
     }
 
+    /* 节点说明：允许文字列收缩，避免长内容撑宽节点。 */
     & .workflow-label {
         min-width: 0;
     }
 
+    /* 连接箭头：在相邻节点之间绘制竖直箭杆。 */
     & .workflow-arrow {
         position: relative;
         width: var(--block-border-width);
         height: calc(var(--height-1pct) * 2.5);
-        background: var(--accent-color);
+        background: var(--workflow-connector-color);
 
+        /* 箭头尖端：在箭杆底部绘制向下的三角形。 */
         &::after {
             position: absolute;
             left: calc(var(--block-border-width) / 2 - var(--height-1pct) / 2);
@@ -227,7 +385,7 @@
             width: 0;
             height: 0;
             border-inline: calc(var(--height-1pct) / 2) solid transparent;
-            border-top: var(--height-1pct) solid var(--accent-color);
+            border-top: var(--height-1pct) solid var(--workflow-connector-color);
             content: "";
         }
     }
