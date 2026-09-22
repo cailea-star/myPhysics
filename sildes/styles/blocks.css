@@ -231,11 +231,13 @@
             }
         }
 
-        /* 结论行：沿用配色，以加粗上沿强调，不增加占用高度。 */
+        /* 结论行：浅底与左侧强调线标识结果，四周统一留白。 */
         &.formula-result {
+            padding: calc(var(--block-inner-padding) * 2);
+            border-bottom: 0;
             border-radius: var(--block-border-radius);
             background: var(--block-emphasis-background);
-            box-shadow: inset 0 var(--line-emphasis-width) 0 var(--block-border-color);
+            box-shadow: inset var(--line-emphasis-width) 0 0 var(--block-border-color);
         }
 
         /* 多行推导：按内部各行的公式高度自然撑开。 */
