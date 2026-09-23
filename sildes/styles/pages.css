@@ -289,7 +289,7 @@
             }
             & .content-header-subtitle {
                 margin: 0;
-                font-weight: bold;
+                font-weight: normal;
                 color: var(--content-header-subtitle-color);
                 font-size: var(--content-header-subtitle-size);
                 line-height: var(--content-header-subtitle-height);

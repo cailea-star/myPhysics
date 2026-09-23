@@ -15,20 +15,12 @@
     --font-english: "Times New Roman";
     --font-stack: var(--font-english), var(--font-chinese);
 
-    /* 基础颜色：背景、文字、边框与填充统一在此定义。 */
+    /* 基础颜色：页面背景与通用文字。 */
     --background-color: #ffffff;
 
-    /* 主色：深靛蓝，用于页面主题，正常色与浅色成组管理。 */
-    --main-color: #243f64;
-    --main-light-color: #eff3f8;
-
-    /* block 色 1：柔和蓝，用于常用内容块。 */
-    --block-color-1: #385f8a;
-    --block-light-color-1: #edf2f8;
-
-    /* block 色 2：沉稳赭棕，用于并列对照内容块。 */
-    --block-color-2: #8a5d3b;
-    --block-light-color-2: #f7f0e9;
+    /* 主色：深靛蓝用于页面主题，浅色用于小号文字。 */
+    --main-color: #202b5b;
+    --main-light-color: #64718a;
 
     /* 基础线宽：普通、强调与淡化，分别用于常规分隔、重点标记与轻边界。 */
     --line-width: calc(var(--height-1pct) * 0.2);
@@ -50,7 +42,7 @@
     --cover-subtitle-height: calc(var(--height-1pct) * 8);
 
     /* 标题页：说明文字 */
-    --cover-note-color: var(--body-text-color);
+    --cover-note-color: var(--main-color);
     --cover-note-size: calc(var(--height-1pct) * 3);
     --cover-note-height: calc(var(--height-1pct) * 5);
 
@@ -60,7 +52,7 @@
     --toc-art-height: calc(var(--height-1pct) * 16);
 
     /* 目录页：右侧目录文字 */
-    --toc-item-color: var(--body-text-color);
+    --toc-item-color: var(--main-color);
     --toc-item-size: calc(var(--height-1pct) * 4);
     --toc-item-height: calc(var(--height-1pct) * 12);
 
@@ -70,12 +62,12 @@
     --acknowledgement-title-height: calc(var(--height-1pct) * 14);
 
     /* 致谢页：小致谢文字 */
-    --acknowledgement-subtitle-color: var(--body-text-color);
+    --acknowledgement-subtitle-color: var(--main-color);
     --acknowledgement-subtitle-size: calc(var(--height-1pct) * 5);
     --acknowledgement-subtitle-height: calc(var(--height-1pct) * 8);
 
     /* 致谢页：说明文字 */
-    --acknowledgement-note-color: var(--content-footer-text-color);
+    --acknowledgement-note-color: var(--main-color);
     --acknowledgement-note-size: calc(var(--height-1pct) * 3);
     --acknowledgement-note-height: calc(var(--height-1pct) * 5);
 
@@ -99,27 +91,27 @@
     --block-title-size: calc(var(--height-1pct) * 4);
     --block-title-height: calc(var(--height-1pct) * 8);
 
-    /* 普通正文 */
+    /* 内容页：普通正文 */
     --body-text-color: var(--main-color);
     --body-text-size: calc(var(--height-1pct) * 3.5);
     --body-text-height: calc(var(--height-1pct) * 5);
 
-    /* 小号正文 */
-    --smaller-body-text-color: var(--block-color-1);
+    /* 内容页：小号正文 */
+    --smaller-body-text-color: var(--main-light-color);
     --smaller-body-text-size: calc(var(--height-1pct) * 2.5);
     --smaller-body-text-height: calc(var(--height-1pct) * 4);
 
-    /* 公式：普通 */
+    /* 内容页：公式：普通 */
     --formula-color: var(--main-color);
     --formula-size: var(--body-text-size);
     --formula-height: calc(var(--height-1pct) * 12);
 
-    /* 公式：小号 */
-    --smaller-formula-color: var(--formula-color);
+    /* 内容页：公式：小号 */
+    --smaller-formula-color: var(--main-color);
     --smaller-formula-size: var(--smaller-body-text-size);
     --smaller-formula-height: calc(var(--height-1pct) * 10);
 
-    /* 公式推导箭头 */
+    /* 内容页：公式推导箭头 */
     --formula-arrow-width: calc(var(--width-1pct) * 4);
     --formula-arrow-height: var(--formula-height);
 
@@ -148,47 +140,45 @@
     --acknowledgement-line-length: calc(var(--width-1pct) * 28);
     --acknowledgement-line-width: var(--line-width);
 
+    /* 内容页：页眉，标题复用 content-header-title-*，标志宽度按原始比例自动计算 */
+    --content-header-height: calc(var(--height-1pct) * 15);
+    --content-header-logo-height: calc(var(--height-1pct) * 7);
+
     /* 内容页：正文区域宽度 */
     --content-width: calc(var(--width-1pct) * 90);
 
-    /* 内容页：页眉，标题复用 content-header-title-*，标志宽度按原始比例自动计算 */
-    --content-header-height: calc(var(--height-1pct) * 16);
-    --content-header-logo-height: calc(var(--height-1pct) * 7);
-
     /* 内容页：页脚区域 */
-    --content-footer-height: calc(var(--height-1pct) * 4);
-
-    /* 内容页：layout 之相邻 block 之间的间距 */
-    --layout-row-gap: calc(var(--height-1pct) * 1);
-    --layout-column-gap: calc(var(--width-1pct) * 1);
-    --layout-figure-scale: 0.85;
-
+    --content-footer-height: calc(var(--height-1pct) * 5);
 }
 
 /* 内容块设置 */
 :root {
-    /* block：共用外观 */
+    /* block 颜色设置 */
+    --block-color-1: #385f8a;
+    --block-light-color-1: #edf2f8;
+    --block-color-2: #8a5d3b;
+    --block-light-color-2: #f7f0e9;
+
+    /* block 基础设置 */
     --block-color: var(--block-color-1);
     --block-light-color: var(--block-light-color-1);
-    --block-background-color: var(--background-color);
-    --block-border-color: var(--block-color-1);
-    --block-border-width: var(--line-muted-width);
     --block-border-radius: calc(var(--height-1pct) * 0.6);
     --block-inner-padding: calc(var(--height-1pct) * 1);
 
-    /* 文字 block：字号与文字行高继承正文或小正文 */
-
-    /* block：淡底、结论底色与引导色 */
-    --block-soft-background: var(--block-light-color-1);
-    --block-emphasis-background: var(--block-soft-background);
-    --block-accent-color: var(--main-color);
-    --workflow-connector-color: var(--block-color-1);
-
-    /* 图片 block：随容器等比例缩放，图注复用小正文 */
-    --figure-fit: contain;
+    /* 图片 block：图片区尺寸、留白及图注文字。 */
+    --figure-image-height: 90%;
+    --figure-smaller-image-height: 72%;
+    --figure-image-padding: calc(var(--height-1pct) * 3);
     --figure-caption-size: var(--smaller-body-text-size);
     --figure-caption-height: var(--smaller-body-text-height);
 
+    /* 流程图 block：连接线宽独立调节，颜色由 blocks.css 管理。 */
+    --block-workflow-line-width: var(--line-muted-width);
+
+    /* 内容页：layout 之相邻 block 之间的间距 */
+    --layout-row-gap: calc(var(--height-1pct) * 1);
+    --layout-column-gap: calc(var(--width-1pct) * 1);
+    --layout-column-gap-large: calc(var(--width-1pct) * 4);
 }
 
 /* `*`：通配选择器，对页面中的所有 HTML 元素应用统一的基础规则 */

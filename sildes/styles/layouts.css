@@ -1,76 +1,52 @@
-/* 1. 内容区域：统一宽度，默认顶对齐，按内容高度向下排列。 */
+/* 1. 正文布局：统一内容宽度，占满页眉与页脚之间的区域。 */
 .content-layout {
     width: var(--content-width);
     min-width: 0;
     min-height: 0;
     justify-self: center;
-    align-self: start;
-
-    /* 单图等特殊页面可显式选择垂直居中。 */
-    &.layout-center { align-self: center; }
+    align-self: stretch;
 }
 
-/* 2. 行列排列：可以嵌套，间距统一由 root 控制。 */
-.layout-rows,
-.layout-columns {
+/* 2. 多行顺排：每行由内容决定高度。 */
+.layout-rows {
     display: grid;
     min-width: 0;
     min-height: 0;
+    grid-auto-rows: max-content;
+    align-content: start;
+    row-gap: var(--layout-row-gap);
 
     & > * {
         min-width: 0;
         min-height: 0;
     }
-}
 
-.layout-rows {
-    grid-auto-rows: max-content;
-    align-content: start;
-    row-gap: var(--layout-row-gap);
-
-    /* 均分模式填满父布局提供的高度。 */
-    &.layout-equal {
+    /* 多行等高：父容器提供确定高度后，均分可用空间。 */
+    &.layout-rows-equal {
+        height: 100%;
         grid-auto-rows: minmax(0, 1fr);
-        align-self: stretch;
+        align-content: stretch;
     }
 }
 
+/* 3. 多列：默认等宽；需要时指定两列的宽度比例。 */
 .layout-columns {
+    display: grid;
+    min-width: 0;
+    min-height: 0;
     grid-auto-flow: column;
     grid-auto-columns: minmax(0, 1fr);
-    align-items: start;
+    align-items: stretch;
     column-gap: var(--layout-column-gap);
+
+    & > * {
+        min-width: 0;
+        min-height: 0;
+    }
 
     &.layout-4-6 { grid-template-columns: minmax(0, 4fr) minmax(0, 6fr); }
     &.layout-3-7 { grid-template-columns: minmax(0, 3fr) minmax(0, 7fr); }
-}
 
-/* 3. 组合：块标题与所属内容保持为一个整体。 */
-.content-block-group {
-    display: grid;
-    grid-template-rows: var(--block-title-height) auto;
-    min-width: 0;
-    min-height: 0;
-}
-
-/* 图片留白版式：缩小图片块并居中，标题保留整栏宽度，图注随图片块对齐。 */
-.layout-figure-inset .content-block-figure {
-    width: calc(100% * var(--layout-figure-scale));
-    justify-self: center;
-}
-
-/* 填满正文可用高度，按剩余空间分配图片区域。 */
-.content-layout.layout-fill {
-    align-self: stretch;
-    padding-block: var(--block-inner-padding);
-
-    /* 填满模式中的分栏仍拉伸各列，保留图片区域的高度分配。 */
-    &.layout-columns,
-    & .layout-columns {
-        align-items: stretch;
-    }
-
-    & .content-block-group {
-        grid-template-rows: var(--block-title-height) minmax(0, 1fr);
-    }
+    /* 宽栏间距：需要更多呼吸空间时启用。 */
+    &.layout-gap-large { column-gap: var(--layout-column-gap-large); }
 }
