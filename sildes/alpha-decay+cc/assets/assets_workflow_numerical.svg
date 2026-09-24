@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="640" viewBox="0 0 640 640" role="img" aria-labelledby="title desc">
+    <title id="title">数值计算流程</title>
+    <desc id="desc">构造库仑与核势耦合矩阵、求解多通道径向薛定谔方程、匹配内外区波函数对数导数、SVD 搜索最小奇异值确定势深与匹配波函数、归一化并计算通道宽度与分支比。</desc>
+    <!-- 沿用 assets_workflow_vertical.svg；细线串联，文字区轻边框；第四步浅底与深边框强调。 -->
+    <rect width="640" height="640" fill="#ffffff"/>
+    <g fill="none" stroke="#a6b6c8" stroke-width="1.5">
+        <path d="M 48 72 V 170 M 44 154 L 48 160 L 52 154"/>
+        <path d="M 48 194 V 292 M 44 276 L 48 282 L 52 276"/>
+        <path d="M 48 316 V 414 M 44 398 L 48 404 L 52 398"/>
+        <path d="M 48 438 V 536 M 44 520 L 48 526 L 52 520"/>
+    </g>
+    <g id="step-1" transform="translate(48 60)" font-family="'Times New Roman', KaiTi, STKaiti, 'Kaiti SC', serif">
+        <rect x="28" y="-44" width="516" height="96" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+        <circle r="12" fill="#ffffff" stroke="#64718a" stroke-width="1.5"/>
+        <text x="0" y="5" text-anchor="middle" fill="#64718a" font-size="15">1</text>
+        <text x="46" y="-6" fill="#202b5b" font-size="32">构造耦合矩阵</text>
+        <text x="46" y="30" fill="#64718a" font-size="26">库仑耦合与核势耦合</text>
+    </g>
+    <g id="step-2" transform="translate(48 182)" font-family="'Times New Roman', KaiTi, STKaiti, 'Kaiti SC', serif">
+        <rect x="28" y="-44" width="516" height="96" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+        <circle r="12" fill="#ffffff" stroke="#64718a" stroke-width="1.5"/>
+        <text x="0" y="5" text-anchor="middle" fill="#64718a" font-size="15">2</text>
+        <text x="46" y="-6" fill="#202b5b" font-size="32">求解径向方程</text>
+        <text x="46" y="30" fill="#64718a" font-size="26">多通道径向薛定谔方程</text>
+    </g>
+    <g id="step-3" transform="translate(48 304)" font-family="'Times New Roman', KaiTi, STKaiti, 'Kaiti SC', serif">
+        <rect x="28" y="-44" width="516" height="96" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+        <circle r="12" fill="#ffffff" stroke="#64718a" stroke-width="1.5"/>
+        <text x="0" y="5" text-anchor="middle" fill="#64718a" font-size="15">3</text>
+        <text x="46" y="-6" fill="#202b5b" font-size="32">匹配对数导数</text>
+        <text x="46" y="30" fill="#64718a" font-size="26">内、外区波函数的匹配</text>
+    </g>
+    <g id="step-4" transform="translate(48 426)" font-family="'Times New Roman', KaiTi, STKaiti, 'Kaiti SC', serif">
+        <rect x="28" y="-44" width="516" height="96" rx="6" fill="#f3f6fa" stroke="#64718a" stroke-width="1.5"/>
+        <circle r="12" fill="#202b5b" stroke="#202b5b" stroke-width="1.5"/>
+        <text x="0" y="5" text-anchor="middle" fill="#ffffff" font-size="15">4</text>
+        <text x="46" y="-6" fill="#202b5b" font-size="32">SVD 搜索最小奇异值</text>
+        <text x="46" y="30" fill="#64718a" font-size="26">确定势深 <tspan font-style="italic">V</tspan><tspan baseline-shift="sub" font-size="18">0</tspan> 与匹配波函数</text>
+    </g>
+    <g id="step-5" transform="translate(48 548)" font-family="'Times New Roman', KaiTi, STKaiti, 'Kaiti SC', serif">
+        <rect x="28" y="-44" width="516" height="96" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+        <circle r="12" fill="#ffffff" stroke="#64718a" stroke-width="1.5"/>
+        <text x="0" y="5" text-anchor="middle" fill="#64718a" font-size="15">5</text>
+        <text x="46" y="-6" fill="#202b5b" font-size="32">归一化与衰变量</text>
+        <text x="46" y="30" fill="#64718a" font-size="26">归一化并计算 <tspan font-style="italic">Γ</tspan><tspan baseline-shift="sub" font-size="18">ch</tspan> 与 BR</text>
+    </g>
+</svg>

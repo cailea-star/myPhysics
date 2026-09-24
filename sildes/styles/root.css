@@ -103,12 +103,12 @@
 
     /* 内容页：公式：普通 */
     --formula-color: var(--main-color);
-    --formula-size: var(--body-text-size);
+    --formula-size: calc(var(--height-1pct) * 3.0);
     --formula-height: calc(var(--height-1pct) * 12);
 
     /* 内容页：公式：小号 */
     --smaller-formula-color: var(--main-color);
-    --smaller-formula-size: var(--smaller-body-text-size);
+    --smaller-formula-size: calc(var(--height-1pct) * 2.5);
     --smaller-formula-height: calc(var(--height-1pct) * 10);
 
     /* 内容页：公式推导箭头 */
@@ -167,13 +167,11 @@
 
     /* 图片 block：图片区尺寸、留白及图注文字。 */
     --figure-image-height: 90%;
-    --figure-smaller-image-height: 72%;
+    --figure-smaller-image-height: 75%;
     --figure-image-padding: calc(var(--height-1pct) * 3);
     --figure-caption-size: var(--smaller-body-text-size);
     --figure-caption-height: var(--smaller-body-text-height);
 
-    /* 流程图 block：连接线宽独立调节，颜色由 blocks.css 管理。 */
-    --block-workflow-line-width: var(--line-muted-width);
 
     /* 内容页：layout 之相邻 block 之间的间距 */
     --layout-row-gap: calc(var(--height-1pct) * 1);
