@@ -167,3 +167,103 @@ The interior field is uniform:
 $$
 \mathbf E_{\mathrm{in}}=\frac{3\epsilon_{\mathrm{out}}}{\epsilon_{\mathrm{in}}+2\epsilon_{\mathrm{out}}}\mathbf E_0.
 $$
+
+### Multipole Expansion
+
+##### Far-Field Potential
+
+Let $\rho(\mathbf r')$ be a localized charge density in vacuum, with $r=|\mathbf r|$, $r'=|\mathbf r'|$, and vacuum permittivity $\epsilon_0$. Its potential is
+
+$$
+\Phi(\mathbf r)=\frac{1}{4\pi\epsilon_0}\int\frac{\rho(\mathbf r')}{|\mathbf r-\mathbf r'|}\,\mathrm d^3r'.
+$$
+
+For $r\gg r'$, Taylor expansion in $\mathbf r'$ gives
+
+$$
+\frac{1}{|\mathbf r-\mathbf r'|}=\frac1r-\mathbf r'\cdot\nabla\left(\frac1r\right)+\frac12(\mathbf r'\otimes\mathbf r'):(\nabla\otimes\nabla)\left(\frac1r\right)+\cdots.
+$$
+
+Here $\nabla$ acts on $\mathbf r$; $\otimes$ and $:$ denote outer product and double contraction. With $\hat{\mathbf r}=\mathbf r/r$ and identity tensor $\hat{\mathbf I}$,
+
+$$
+\nabla\left(\frac1r\right)=-\frac{\mathbf r}{r^3}=-\frac{\hat{\mathbf r}}{r^2}.
+$$
+
+Differentiating this result once more and using $\nabla\otimes\mathbf r=\hat{\mathbf I}$ gives
+
+$$
+(\nabla\otimes\nabla)\left(\frac1r\right)=-\nabla\otimes\left(\frac{\mathbf r}{r^3}\right)=\frac{3\hat{\mathbf r}\otimes\hat{\mathbf r}-\hat{\mathbf I}}{r^3}.
+$$
+
+The angular tensor is traceless:
+
+$$
+\hat{\mathbf I}:(3\hat{\mathbf r}\otimes\hat{\mathbf r}-\hat{\mathbf I})=3(\hat{\mathbf r}\cdot\hat{\mathbf r})-\operatorname{tr}\hat{\mathbf I}=3-3=0.
+$$
+
+Let $\hat{\mathbf r}'=\mathbf r'/r'$ for $r'>0$. The quadratic term can therefore be written using a symmetric traceless source tensor:
+
+$$
+(\mathbf r'\otimes\mathbf r'):(3\hat{\mathbf r}\otimes\hat{\mathbf r}-\hat{\mathbf I})=\frac{r'^2}{3}(3\hat{\mathbf r}'\otimes\hat{\mathbf r}'-\hat{\mathbf I}):(3\hat{\mathbf r}\otimes\hat{\mathbf r}-\hat{\mathbf I}).
+$$
+
+Define the monopole charge, dipole moment, and quadrupole tensor by
+
+$$
+q=\int\rho(\mathbf r')\,\mathrm d^3r',\qquad \mathbf p=\int\rho(\mathbf r')\mathbf r'\,\mathrm d^3r',
+$$
+
+$$
+\hat{\mathbf Q}^{(2)}=\int\rho(\mathbf r')r'^2(3\hat{\mathbf r}'\otimes\hat{\mathbf r}'-\hat{\mathbf I})\,\mathrm d^3r'.
+$$
+
+Substitution gives
+
+$$
+\Phi(\mathbf r)=\frac{1}{4\pi\epsilon_0}\left[\frac q r+\frac{\mathbf p\cdot\hat{\mathbf r}}{r^2}+\frac{\hat{\mathbf Q}^{(2)}:(3\hat{\mathbf r}\otimes\hat{\mathbf r}-\hat{\mathbf I})}{6r^3}+\cdots\right].
+$$
+
+Since $\hat{\mathbf Q}^{(2)}:\hat{\mathbf I}=0$,
+
+$$
+\boxed{\Phi(\mathbf r)=\frac{1}{4\pi\epsilon_0}\left[\frac q r+\frac{\mathbf p\cdot\hat{\mathbf r}}{r^2}+\frac{\hat{\mathbf r}\cdot\hat{\mathbf Q}^{(2)}\cdot\hat{\mathbf r}}{2r^3}+\cdots\right]}.
+$$
+
+##### Interaction with an External Field
+
+Let $\Phi_{\mathrm{ext}}$ be a prescribed external potential that varies slowly across the localized charge distribution, with $\mathbf E_{\mathrm{ext}}=-\nabla\Phi_{\mathrm{ext}}$. The interaction energy is
+
+$$
+U_{\mathrm{int}}=\int\rho(\mathbf r')\Phi_{\mathrm{ext}}(\mathbf r')\,\mathrm d^3r'.
+$$
+
+Expanding the external potential about the origin gives
+
+$$
+\Phi_{\mathrm{ext}}(\mathbf r')=\Phi_{\mathrm{ext}}(0)+\mathbf r'\cdot\nabla\Phi_{\mathrm{ext}}(0)+\frac12(\mathbf r'\otimes\mathbf r'):(\nabla\otimes\nabla)\Phi_{\mathrm{ext}}(0)+\cdots.
+$$
+
+If the external sources lie outside the charge distribution, $\nabla^2\Phi_{\mathrm{ext}}=0$ there. Using the moments defined above,
+
+$$
+\boxed{U_{\mathrm{int}}=q\Phi_{\mathrm{ext}}(0)-\mathbf p\cdot\mathbf E_{\mathrm{ext}}(0)+\frac16\hat{\mathbf Q}^{(2)}:(\nabla\otimes\nabla)\Phi_{\mathrm{ext}}(0)+\cdots}.
+$$
+
+This is interaction energy with a prescribed external field, so it has no factor of $1/2$.
+
+##### Dipole Force and Torque
+
+Let a neutral, rigid dipole with moment $\mathbf p$ be centered at $\mathbf R$. Neglecting higher multipoles, its interaction energy is
+
+$$
+U_{\mathrm d}(\mathbf R)=-\mathbf p\cdot\mathbf E_{\mathrm{ext}}(\mathbf R).
+$$
+
+Hold $\mathbf p$ fixed when translating the dipole. Since the external field is electrostatic, $\nabla_{\mathbf R}\times\mathbf E_{\mathrm{ext}}=0$. With $\mathbf M$ denoting torque,
+
+$$
+\boxed{\mathbf F=-\nabla_{\mathbf R}U_{\mathrm d}=(\mathbf p\cdot\nabla_{\mathbf R})\mathbf E_{\mathrm{ext}}(\mathbf R),\qquad \mathbf M=\mathbf p\times\mathbf E_{\mathrm{ext}}(\mathbf R)}.
+$$
+
+A uniform field can exert a torque, but no net force.
