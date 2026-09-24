@@ -2,23 +2,111 @@
 
 ### Electrostatic Conditions for Conductors
 
-Let $S_i$ be the surface of conductor $i$, $\Phi$ the electrostatic potential, and $\rho_{\mathrm{in}}$ the bulk charge density. In electrostatic equilibrium, mobile charges redistribute until the field inside each conductor vanishes. Consequently,
+Consider a conductor in vacuum at electrostatic equilibrium. Let $S$ be its surface, $\hat{\mathbf n}$ point from the conductor into vacuum, $\sigma$ and $\rho$ denote the surface and volume charge densities, and $\Phi_c$ be the conductor potential.
 
 $$
-\boxed{\mathbf E_{\mathrm{in}}=0,\qquad \rho_{\mathrm{in}}=0,\qquad \Phi|_{S_i}=\Phi_i}.
+\mathbf E=-\nabla\Phi,\qquad \mathbf D_{\mathrm{out}}=\epsilon_0\mathbf E_{\mathrm{out}}.
 $$
 
-Let $\hat{\mathbf n}$ point from the conductor into a homogeneous surrounding dielectric of permittivity $\epsilon$, and let $\sigma_i$ be the surface charge density. The exterior field is normal to the surface:
+The static Maxwell equations and surface boundary conditions are
 
 $$
-\boxed{\mathbf E_{\mathrm{out}}=\frac{\sigma_i}{\epsilon}\hat{\mathbf n},\qquad Q_i=\oint_{S_i}\sigma_i\,\mathrm{d}A}.
+\nabla\times\mathbf E=-\frac{\partial\mathbf B}{\partial t}=0,\qquad \nabla\cdot\mathbf E=\frac{\rho}{\epsilon_0}.
 $$
 
-For each conductor, one may prescribe its potential $\Phi_i$ or, if it is isolated, its total charge $Q_i$; the other quantity is then determined by the electrostatic solution.
+$$
+\hat{\mathbf n}\times(\mathbf E_{\mathrm{out}}-\mathbf E_{\mathrm{in}})=0,\qquad \hat{\mathbf n}\cdot(\mathbf E_{\mathrm{out}}-\mathbf E_{\mathrm{in}})=\frac{\sigma}{\epsilon_0}.
+$$
+
+The field vanishes inside the conductor, so
+
+$$
+\mathbf E_{\mathrm{in}}=0\quad\Longrightarrow\quad \Phi_{\mathrm{in}}=\Phi_c,\qquad \rho_{\mathrm{in}}=0,\qquad \mathbf E_{\mathrm{out}}=\frac{\sigma}{\epsilon_0}\hat{\mathbf n}.
+$$
+
+Here $\rho_{\mathrm{in}}=0$ is the net bulk charge density, not the density of mobile carriers. At a smooth surface, the potential is continuous:
+
+$$
+\Phi_{\mathrm{out}}-\Phi_{\mathrm{in}}=-\lim_{h\to0}\int_{-h/2}^{h/2}\mathbf E\cdot\hat{\mathbf n}\,\mathrm{d}s=0.
+$$
+
+With $\partial_{\hat{\mathbf n}}\Phi=\hat{\mathbf n}\cdot\nabla\Phi$,
+
+$$
+\boxed{\Phi_{\mathrm{out}}|_S=\Phi_c,\qquad \partial_{\hat{\mathbf n}}\Phi_{\mathrm{out}}|_S=-\frac{\sigma}{\epsilon_0}}.
+$$
+
+When the conductor potential is prescribed, the solution determines the surface charge density.
+
+### Method of Images
+
+An image charge lies outside the solution region. If a trial potential satisfies the boundary conditions, the [Uniqueness Theorem](electrostatics_in_matter.md#uniqueness-theorem) identifies it as the solution.
+
+Consider a spherical conducting boundary of radius $R$ in vacuum, with permittivity $\epsilon_0$. A real point charge $q$ lies at $a\hat{\mathbf z}$, and an image charge $q_{\mathrm{im}}$ lies at $a_{\mathrm{im}}\hat{\mathbf z}$. With $r=|\mathbf r|$, the trial potential is
+
+$$
+\Phi(\mathbf r)=\frac{1}{4\pi\epsilon_0}\left(\frac{q}{|\mathbf r-a\hat{\mathbf z}|}+\frac{q_{\mathrm{im}}}{|\mathbf r-a_{\mathrm{im}}\hat{\mathbf z}|}\right).
+$$
+
+Grounding the sphere requires the potential to vanish at every point on its surface:
+
+$$
+|\mathbf r-a\hat{\mathbf z}|+\frac{q}{q_{\mathrm{im}}}|\mathbf r-a_{\mathrm{im}}\hat{\mathbf z}|=0\qquad(r=R).
+$$
+
+Let $\theta$ be the angle between $\mathbf r$ and the $z$ axis. Squaring this relation and matching the constant and $\cos\theta$ terms gives
+
+$$
+a_{\mathrm{im}}=\left(\frac{q_{\mathrm{im}}}{q}\right)^2a,\qquad R^2+a_{\mathrm{im}}^2=\left(\frac{q_{\mathrm{im}}}{q}\right)^2(R^2+a^2),
+$$
+
+$$
+(a-a_{\mathrm{im}})(R^2-aa_{\mathrm{im}})=0.
+$$
+
+The root $a_{\mathrm{im}}=a$ cancels the real charge and is discarded. Hence
+
+$$
+\boxed{a_{\mathrm{im}}=\frac{R^2}{a},\qquad q_{\mathrm{im}}=-\frac{R}{a}q}.
+$$
+
+Substituting these parameters into the trial potential defines the grounded solution $\Phi_g$. Below, $Q$ denotes the conductor's net charge.
+
+##### Charge Outside a Conducting Sphere
+
+For $a>R$, the image lies inside the sphere, and $\Phi_g$ applies outside. For a conductor held at potential $V_0$, or an isolated conductor with net charge $Q$, add a central image charge:
+
+$$
+\Phi_{V_0}=\Phi_g+\frac{V_0R}{r},\qquad \Phi_Q=\Phi_g+\frac{Q-q_{\mathrm{im}}}{4\pi\epsilon_0r}\quad(r>R).
+$$
+
+The center lies outside the solution region, so this term introduces no new source there.
+
+##### Charge Inside a Conducting Shell
+
+For $0<a<R$, the image lies outside the cavity. For a thin conducting spherical shell of radius $R$, $\Phi_g$ applies inside the cavity, while the exterior potential is zero when the shell is grounded. If the shell is held at $V_0$, add a constant inside:
+
+$$
+\Phi_{\mathrm{in}}=\Phi_g+V_0,\qquad \Phi_{\mathrm{out}}=\frac{V_0R}{r}.
+$$
+
+For an isolated shell with net charge $Q$, the inner and outer surfaces carry total charges $-q$ and $Q+q$, respectively:
+
+$$
+\Phi_{\mathrm{in}}=\Phi_g+\frac{Q+q}{4\pi\epsilon_0R},\qquad \Phi_{\mathrm{out}}=\frac{Q+q}{4\pi\epsilon_0r}.
+$$
+
+A central $1/r$ term would introduce an extra singularity inside the cavity.
 
 ### Green Reciprocity
 
-Consider $N$ conductors of fixed geometry in a homogeneous medium of permittivity $\epsilon$. In two electrostatic configurations, let $\Phi_i,\Phi_i'$ be the potentials and $Q_i,Q_i'$ the charges of conductor $i$. Assume that the exterior region $V$ contains no volume charge and both potentials vanish at infinity. Thus $\nabla^2\Phi=\nabla^2\Phi'=0$ in $V$, and Green's second identity gives
+Let $\Phi$ and $\Phi'$ describe two electrostatic configurations of the same $N$ conductors, with surfaces $S_i$, in a homogeneous medium of permittivity $\epsilon$. In the charge-free exterior $V$,
+
+$$
+\nabla^2\Phi=\nabla^2\Phi'=0,\qquad \Phi|_{S_i}=\Phi_i,\qquad \Phi'|_{S_i}=\Phi_i'.
+$$
+
+Both potentials vanish at infinity. Green's second identity gives
 
 $$
 0=\int_V(\Phi\nabla^2\Phi'-\Phi'\nabla^2\Phi)\,\mathrm{d}V=\oint_{\partial V}(\Phi\nabla\Phi'-\Phi'\nabla\Phi)\cdot\mathrm{d}\mathbf a.
@@ -131,7 +219,7 @@ $$
 \delta^2W_{\mathrm{int}}=\frac{1}{2}\sum_{i,j}\mathcal H_{ij}^{(\alpha)}\delta r_{\alpha i}\delta r_{\alpha j},\qquad \operatorname{tr}\mathcal H^{(\alpha)}=q_\alpha\nabla_\alpha^2\varphi_\alpha=0.
 $$
 
-A positive-definite Hessian would have positive trace, so this configuration cannot be a stable quadratic minimum.
+Because the symmetric Hessian has zero trace, it is either zero or has both positive and negative eigenvalues. The former gives no quadratic restoring force; the latter makes the equilibrium a saddle point. Neither permits a strict quadratic minimum.
 
 ### Force on a Conductor Surface
 

@@ -2,27 +2,37 @@
 
 ### Electrostatic Potential and Interface Conditions
 
-Let $\Phi$ be the electrostatic potential, $\rho_f$ the free volume charge density, and $\epsilon(\mathbf r)$ the permittivity of a linear, isotropic dielectric. Using $\mathbf E=-\nabla\Phi$, $\mathbf D=\epsilon\mathbf E$, and $\nabla\cdot\mathbf D=\rho_f$ gives
+Let $\Phi$ be the electrostatic potential and $\epsilon(\mathbf r)$ the permittivity of a linear, isotropic dielectric. The fields are
 
 $$
-\boxed{\nabla\cdot[\epsilon(\mathbf r)\nabla\Phi]=-\rho_f(\mathbf r)}.
+\mathbf E=-\nabla\Phi,\qquad \mathbf D=\epsilon(\mathbf r)\mathbf E=-\epsilon(\mathbf r)\nabla\Phi.
 $$
 
-Within a homogeneous region, this becomes Poisson’s equation, or Laplace’s equation where $\rho_f=0$:
+In electrostatics, the relevant Maxwell equations reduce to
 
 $$
-\nabla^2\Phi=-\frac{\rho_f}{\epsilon},\qquad \rho_f=0\Longrightarrow\nabla^2\Phi=0.
+\nabla\times\mathbf E=-\frac{\partial\mathbf B}{\partial t}=0,\qquad \nabla\cdot\mathbf D=\rho_f.
 $$
 
-At an interface, let $\hat{\mathbf n}$ point from medium 1 to medium 2; $\epsilon_i$ and $\Phi_i$ denote the limiting permittivity and potential on side $i$, and $\sigma_f$ is the free surface charge density. As established in [Boundary Conditions](maxwell_equations.md#boundary-conditions), $\hat{\mathbf n}\cdot(\mathbf D_2-\mathbf D_1)=\sigma_f$.
-
-Let $s$ measure distance along $\hat{\mathbf n}$ across a short segment of length $h$, and set $E_\perp=\mathbf E\cdot\hat{\mathbf n}$. If the one-sided electric fields remain finite, then
+Substituting the field–potential relations gives
 
 $$
-\Phi_2-\Phi_1=-\lim_{h\to0}\int_{-h/2}^{h/2}E_\perp(s)\,\mathrm{d}s=0.
+\nabla\cdot\!\left[\epsilon(\mathbf r)\nabla\Phi\right]=-\rho_f.
 $$
 
-Thus, defining $\partial_{\hat{\mathbf n}}\Phi=\hat{\mathbf n}\cdot\nabla\Phi$, the potential conditions are
+Here $\rho_f$ is the free volume charge density. At an interface, let $\hat{\mathbf n}$ point from medium 1 to medium 2, and let $\sigma_f$ be the free surface charge density. The field boundary conditions are
+
+$$
+\hat{\mathbf n}\times(\mathbf E_2-\mathbf E_1)=0,\qquad \hat{\mathbf n}\cdot(\mathbf D_2-\mathbf D_1)=\sigma_f.
+$$
+
+If $\mathbf E$ remains finite, its integral across the interface vanishes as the thickness $h\to0$:
+
+$$
+\Phi_2-\Phi_1=-\lim_{h\to0}\int_{-h/2}^{h/2}\mathbf E\cdot\hat{\mathbf n}\,\mathrm ds=0.
+$$
+
+Here $s$ is the normal coordinate. The normal-field condition then gives, with $\partial_{\hat{\mathbf n}}\Phi=\hat{\mathbf n}\cdot\nabla\Phi$ and $\epsilon_i$ the permittivity on side $i$,
 
 $$
 \boxed{\Phi_1=\Phi_2,\qquad \epsilon_2\partial_{\hat{\mathbf n}}\Phi_2-\epsilon_1\partial_{\hat{\mathbf n}}\Phi_1=-\sigma_f}.
@@ -30,57 +40,37 @@ $$
 
 ### Uniqueness Theorem
 
-Let $V$ be a connected dielectric region with fixed free-charge distribution and permittivity $\epsilon(\mathbf r)>0$. For two electrostatic solutions, define
+Let $V$ be a connected dielectric region with permittivity $\epsilon(\mathbf r)>0$. Two solutions with the same free-charge distribution and outer-boundary potential satisfy
 
 $$
-\delta\Phi=\Phi'-\Phi'',\qquad \delta\mathbf E=\mathbf E'-\mathbf E''=-\nabla\delta\Phi,\qquad \delta\mathbf D=\mathbf D'-\mathbf D''=\epsilon(\mathbf r)\delta\mathbf E.
+\nabla\cdot\mathbf D=\nabla\cdot\mathbf D'=\rho_f,\qquad \Phi|_{\partial V}=\Phi'|_{\partial V}=\Phi_{\mathrm{bound}}.
 $$
 
-Both solutions have the same $\rho_f$, so $\nabla\cdot\delta\mathbf D=0$. If they satisfy the same prescribed potential or normal displacement on each part of the boundary $\partial V$, the boundary integral below vanishes. Contributions from internal dielectric interfaces cancel because $\delta\Phi$ and the normal component of $\delta\mathbf D$ are continuous:
+Using the same constitutive and field–potential relations, define
 
 $$
-0=\oint_{\partial V}\delta\Phi\,\delta\mathbf D\cdot\mathrm{d}\mathbf a=\int_V\nabla\cdot(\delta\Phi\,\delta\mathbf D)\,\mathrm{d}V=-\int_V\epsilon(\mathbf r)\,\delta\mathbf E\cdot\delta\mathbf E\,\mathrm{d}V.
+\delta\Phi=\Phi-\Phi',\qquad \delta\mathbf E=\mathbf E-\mathbf E'=-\nabla\delta\Phi,\qquad \delta\mathbf D=\mathbf D-\mathbf D'=\epsilon(\mathbf r)\delta\mathbf E.
 $$
 
-Since $\epsilon(\mathbf r)>0$,
+Subtracting the field equations and outer-boundary data gives
 
 $$
-\boxed{\mathbf E'=\mathbf E'',\qquad \Phi'-\Phi''=\mathrm{constant}}.
+\nabla\cdot\delta\mathbf D=0,\qquad \delta\Phi|_{\partial V}=0.
 $$
 
-A prescribed boundary potential also fixes that constant.
-
-### Method of Images
-
-An image charge is placed outside the region where the potential is sought. Its potential has no source in that region; if the total potential satisfies the boundary conditions, the [Uniqueness Theorem](#uniqueness-theorem) identifies it as the solution.
-
-##### Charge Outside a Conducting Sphere
-
-Consider a conducting sphere of radius $R$ in vacuum. A point charge $q$ lies at $d\hat{\mathbf z}$, where $d>R$; a trial image charge $q_{\mathrm{im}}$ lies at $b\hat{\mathbf z}$ inside the sphere. For $\mathbf r$ outside the sphere, define $r=|\mathbf r|$, $r_q=|\mathbf r-d\hat{\mathbf z}|$, and $r_{\mathrm{im}}=|\mathbf r-b\hat{\mathbf z}|$. Requiring zero potential on $r=R$ for every angle gives
+If $V$ contains internal dielectric interfaces, the two solutions satisfy the same interface conditions, so the internal surface terms cancel. Applying the divergence theorem in each region gives
 
 $$
-\boxed{b=\frac{R^2}{d},\qquad q_{\mathrm{im}}=-\frac{R}{d}q,\qquad \Phi_g(\mathbf r)=\frac{1}{4\pi\epsilon_0}\left(\frac{q}{r_q}+\frac{q_{\mathrm{im}}}{r_{\mathrm{im}}}\right)\quad(r>R)}.
+0=\oint_{\partial V}\delta\Phi\,\delta\mathbf D\cdot\mathrm d\mathbf a=\int_V\nabla\cdot(\delta\Phi\,\delta\mathbf D)\,\mathrm dV=-\int_V\epsilon(\mathbf r)|\delta\mathbf E|^2\,\mathrm dV.
 $$
 
-Here $\epsilon_0$ is the vacuum permittivity and $\Phi_g$ is the grounded-sphere potential. For a sphere held at potential $V_0$, or an isolated sphere with total charge $Q$, add a charge at its center:
+Since $\epsilon(\mathbf r)>0$, the electric-field difference vanishes. The potential difference is constant in connected $V$ and is zero on $\partial V$:
 
 $$
-\Phi_{V_0}=\Phi_g+\frac{V_0R}{r},\qquad \Phi_Q=\Phi_g+\frac{Q-q_{\mathrm{im}}}{4\pi\epsilon_0r}\quad(r>R).
+\boxed{\mathbf E=\mathbf E',\qquad \Phi=\Phi'}.
 $$
 
-##### Charge Inside a Conducting Shell
-
-For $0<d<R$, the same $b=R^2/d$ and $q_{\mathrm{im}}=-qR/d$ put the image *outside* the cavity. Let $\Phi_g$ denote the same charge-plus-image expression, now evaluated inside the cavity ($r<R$). For a grounded shell, the potential outside is zero. If the shell is held at $V_0$, add a **constant** inside—not a central image charge, which would lie in the region being solved:
-
-$$
-\Phi_{\mathrm{in}}=\Phi_g+V_0,\qquad \Phi_{\mathrm{out}}=\frac{V_0R}{r}.
-$$
-
-For an isolated shell with net charge $Q$, the inner and outer surfaces carry total charges $-q$ and $Q+q$, respectively. Therefore,
-
-$$
-\Phi_{\mathrm{in}}=\Phi_g+\frac{Q+q}{4\pi\epsilon_0R},\qquad \Phi_{\mathrm{out}}=\frac{Q+q}{4\pi\epsilon_0r}.
-$$
+For an application to a conducting sphere, see [Method of Images](electrostatics_of_conductors.md#method-of-images).
 
 ### Separation of Variables
 
