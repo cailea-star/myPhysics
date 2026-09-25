@@ -37,7 +37,7 @@ PRINT_STYLE = r"""
         gap: 0 !important;
       }
 
-      .slide {
+      .page {
         width: 1600px !important;
         height: 900px !important;
         margin: 0 !important;
@@ -46,7 +46,7 @@ PRINT_STYLE = r"""
         box-shadow: none !important;
       }
 
-      .slide:last-child {
+      .page:last-child {
         break-after: auto;
         page-break-after: auto;
       }
@@ -85,7 +85,7 @@ def default_poppler_binary(name: str) -> Path:
 
 def count_slides(source: str) -> int:
     pattern = re.compile(
-        r"<section\b[^>]*\bclass\s*=\s*(['\"])[^'\"]*\bslide\b[^'\"]*\1",
+        r"<section\b[^>]*\bclass\s*=\s*(['\"])[^'\"]*\bpage\b[^'\"]*\1",
         re.IGNORECASE,
     )
     return len(pattern.findall(source))
@@ -203,7 +203,7 @@ def main() -> int:
     source = html_path.read_text(encoding="utf-8")
     slide_count = count_slides(source)
     if slide_count == 0:
-        raise ValueError('No <section class="slide ..."> elements were found.')
+        raise ValueError('No <section class="page ..."> elements were found.')
 
     temporary_html = html_path.with_name(f"_pdf-export-{uuid.uuid4().hex}.html")
     export_html = make_export_html(source)
