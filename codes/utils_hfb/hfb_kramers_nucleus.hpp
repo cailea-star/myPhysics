@@ -26,6 +26,9 @@ public:
 
     using GammaElementFunc = std::function<Element(int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
     using DeltaElementFunc = std::function<Element(int block12_I, int block34_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
+    int TargetN_I = 0; // Target neutron number.
+    int TargetZ_I = 0; // Target proton number.
+
     HFBKramers hfb_neutron;
     HFBKramers hfb_proton;
     HFBSetting hfbsetting;
@@ -81,7 +84,7 @@ public:
      * @math   (N,Z) → (h₀,n,h₀,p).
      * @output Initialized neutron and proton one-body fields.
      */
-    virtual void initialize_h0() = 0;
+    virtual void initialize_h0(int TargetN_I_, int TargetZ_I_) = 0;
 
     /**
      * @brief  Initialize HFB fields in the derived model.
@@ -89,7 +92,7 @@ public:
      * @output Initialized Gamma and Delta for both species.
      * @note   Include model-specific LN corrections when enabled.
      */
-    virtual void initialize_GammaDelta() = 0;
+    virtual void initialize_GammaDelta(int TargetN_I_, int TargetZ_I_) = 0;
 
     /**
      * @brief  Update both species using all representative densities.
@@ -112,7 +115,7 @@ public:
      * @math   (N,Z) → HFB_converged.
      * @output Updated neutron and proton fields and solutions.
      */
-    void iterate(bool useCurrentFields_B = false);
+    void iterate(int TargetN_I_, int TargetZ_I_, bool useCurrentFields_B = false);
 };
 
 inline void HFBKramersNucleus::set_blocking(const HFBKramers::BlockingFunc& neutronBlocking_Func, const HFBKramers::BlockingFunc& protonBlocking_Func) {
@@ -217,7 +220,10 @@ inline void HFBKramersNucleus::add_Delta_from_Element(const DeltaElementFunc& re
     }
 }
 
-inline void HFBKramersNucleus::iterate(bool useCurrentFields_B) {
+inline void HFBKramersNucleus::iterate(int TargetN_I_, int TargetZ_I_, bool useCurrentFields_B) {
+    assert(TargetN_I_ >= 0 && TargetZ_I_ >= 0);
+    TargetN_I = TargetN_I_;
+    TargetZ_I = TargetZ_I_;
     const double EspCut_F = hfbsetting.useEspCut_B ? hfbsetting.EspCut_F : std::numeric_limits<double>::infinity();
     assert(std::isfinite(hfbsetting.accuracy_F) && hfbsetting.accuracy_F > 0.0);
     assert(hfbsetting.NiterationsMax_I > 0);
@@ -284,8 +290,8 @@ inline void HFBKramersNucleus::iterate(bool useCurrentFields_B) {
     double lambdaAccuracy_F = hfbsetting.accuracy_F;
     const auto calc_Gx_Func = [&](const Eigen::VectorXd& x_F1D_packed_, Eigen::VectorXd& Gx_F1D_packed_) {
         unpack_h_Delta_Func(x_F1D_packed_);
-        hfb_neutron.search_lambda(hfbsetting.temperature_F, EspCut_F, lambdaAccuracy_F);
-        hfb_proton.search_lambda(hfbsetting.temperature_F, EspCut_F, lambdaAccuracy_F);
+        hfb_neutron.search_lambda(TargetN_I, hfbsetting.temperature_F, EspCut_F, lambdaAccuracy_F);
+        hfb_proton.search_lambda(TargetZ_I, hfbsetting.temperature_F, EspCut_F, lambdaAccuracy_F);
         update_Gamma_Delta();
         pack_h_Delta_Func(Gx_F1D_packed_);
     };

@@ -40,7 +40,6 @@ public:
     using GammaElementFunc = std::function<double(int sp1_I, int sp2_I, int sp3_I, int sp4_I)>;
     using DeltaElementFunc = std::function<double(int sp1_I, int sp2_I, int sp3_I, int sp4_I)>;
 
-    int TargetN_I = 0; // Target particle number.
     double lambda_F = -7.0; // Fermi energy [MeV].
 
     int Nsp_I = 0;
@@ -101,7 +100,7 @@ public:
      * @math   Tr(ρ_blocked(λ)) = TargetN.
      * @output Updated chemical potential, solution, and densities.
      */
-    void search_lambda(double temperature_F, double EspCut_F, double accuracy_F);
+    void search_lambda(int TargetN_I, double temperature_F, double EspCut_F, double accuracy_F);
 
     /**
      * @brief Accumulate particle-hole fields by direct matrix-element contraction.
@@ -230,7 +229,7 @@ inline double HFB::update_UV_E_rho_kappa(double lambda_F_, double temperature_F,
     return hfb_solution.rho_F2D_sp_sp.trace();
 }
 
-inline void HFB::search_lambda(double temperature_F, double EspCut_F, double accuracy_F) {
+inline void HFB::search_lambda(int TargetN_I, double temperature_F, double EspCut_F, double accuracy_F) {
     assert(TargetN_I >= 0 && TargetN_I <= Nsp_I);
     assert(std::isfinite(lambda_F));
     assert(std::isfinite(accuracy_F) && accuracy_F > 0.0);

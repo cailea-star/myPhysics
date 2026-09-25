@@ -25,6 +25,9 @@ public:
 
     using GammaElementFunc = std::function<Element(int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
 
+    int TargetN_I = 0; // Target neutron number.
+    int TargetZ_I = 0; // Target proton number.
+
     HFBCS hfb_neutron;
     HFBCS hfb_proton;
     HFBSetting hfbsetting;
@@ -51,14 +54,14 @@ public:
      * @math (N,Z) → (h₀,n,h₀,p).
      * @output Initialized neutron and proton one-body fields.
      */
-    virtual void initialize_h0() = 0;
+    virtual void initialize_h0(int TargetN_I_, int TargetZ_I_) = 0;
 
     /**
      * @brief Initialize particle-hole fields in the derived model.
      * @math (N,Z) → (Γ_n,Γ_p)_initial.
      * @output Initialized neutron and proton Gamma matrices.
      */
-    virtual void initialize_Gamma() = 0;
+    virtual void initialize_Gamma(int TargetN_I_, int TargetZ_I_) = 0;
 
     /**
      * @brief Update both species using representative densities.
@@ -81,7 +84,7 @@ public:
      * @note Requires initialized h₀,Γ and species pairing strengths G.
      * @note Continuation starts fresh Broyden history; temperature is zero.
      */
-    void iterate(bool useCurrentFields_B = false);
+    void iterate(int TargetN_I_, int TargetZ_I_, bool useCurrentFields_B = false);
 };
 
 /**
@@ -146,7 +149,10 @@ inline void HFBCSNucleus::add_Gamma_from_Element(const GammaElementFunc& read_el
  * @output Updated fields and solutions at the final iterate.
  * @note Requires initialized fields; each call resets mixing history.
  */
-inline void HFBCSNucleus::iterate(bool useCurrentFields_B) {
+inline void HFBCSNucleus::iterate(int TargetN_I_, int TargetZ_I_, bool useCurrentFields_B) {
+    assert(TargetN_I_ >= 0 && TargetZ_I_ >= 0);
+    TargetN_I = TargetN_I_;
+    TargetZ_I = TargetZ_I_;
     assert(hfbsetting.temperature_F == 0.0);
     assert(!hfbsetting.useLipkinNogami_B);
     const double EspCut_F = hfbsetting.useEspCut_B ? hfbsetting.EspCut_F : std::numeric_limits<double>::infinity();
@@ -205,8 +211,8 @@ inline void HFBCSNucleus::iterate(bool useCurrentFields_B) {
     double lambdaAccuracy_F = hfbsetting.accuracy_F;
     const auto calc_Gx_Func = [&](const Eigen::VectorXd& x_F1D_packed_, Eigen::VectorXd& Gx_F1D_packed_) {
         unpack_h_Func(x_F1D_packed_);
-        hfb_neutron.search_lambda(EspCut_F, lambdaAccuracy_F);
-        hfb_proton.search_lambda(EspCut_F, lambdaAccuracy_F);
+        hfb_neutron.search_lambda(TargetN_I, EspCut_F, lambdaAccuracy_F);
+        hfb_proton.search_lambda(TargetZ_I, EspCut_F, lambdaAccuracy_F);
         update_Gamma();
         pack_h_Func(Gx_F1D_packed_);
     };
