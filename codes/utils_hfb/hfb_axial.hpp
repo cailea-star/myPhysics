@@ -63,7 +63,6 @@ public:
     using GammaElementFunc = std::function<Element(int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
     using DeltaElementFunc = std::function<Element(int block12_I, int block34_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
 
-    int TargetN_I = 0; // Target particle number.
     double lambda_F = -7.0; // Fermi energy [MeV].
 
     int Nblock_I = 0;
@@ -143,7 +142,7 @@ public:
      * @math   N_blocked(λ) = TargetN.
      * @output Updated chemical potential, blocked solutions, and densities.
      */
-    void search_lambda(double temperature_F, double EspCut_F, double accuracy_F);
+    void search_lambda(int TargetN_I, double temperature_F, double EspCut_F, double accuracy_F);
 
     /**
      * @brief Accumulate particle-hole fields by direct matrix-element contraction.
@@ -357,7 +356,7 @@ inline double HFBAxial::update_UV_E_rho_kappa(double lambda_F_, double temperatu
     return N_F;
 }
 
-inline void HFBAxial::search_lambda(double temperature_F, double EspCut_F, double accuracy_F) {
+inline void HFBAxial::search_lambda(int TargetN_I, double temperature_F, double EspCut_F, double accuracy_F) {
     assert(TargetN_I >= 0 && TargetN_I <= 2 * std::accumulate(Nbsp_I1D_block.begin(), Nbsp_I1D_block.end(), 0));
     assert(std::isfinite(lambda_F));
     assert(std::isfinite(accuracy_F) && accuracy_F > 0.0);
@@ -366,7 +365,6 @@ inline void HFBAxial::search_lambda(double temperature_F, double EspCut_F, doubl
 
     // Fixed fields; trial blocking preserves external trackers.
     const auto calc_N_Func = [&](double lambdaTrial_F, bool updateTracking_B) {
-        lambda_F = lambdaTrial_F;
         const double Ncalc_F = update_UV_E_rho_kappa(lambdaTrial_F, temperature_F, EspCut_F);
         if (blocking_Func) {return blocking_Func(hfb_axial_solutions, updateTracking_B);}
         return Ncalc_F;
