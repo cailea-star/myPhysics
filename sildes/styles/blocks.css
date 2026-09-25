@@ -1,0 +1,347 @@
+/* 块级配色：在当前块重新绑定颜色，子组件继承该块选择的色系。 */
+.content-block,
+.block-color-1,
+.block-color-2 {
+    --block-title-color: var(--block-color);
+    --body-text-color: var(--block-color);
+    --formula-color: var(--block-color);
+    --smaller-formula-color: var(--block-color);
+}
+
+/* 显式选色：加在组合块或单个组件上，其内部文字、边界与填充同步切换。 */
+.block-color-1 {
+    --block-color: var(--block-color-1);
+    --block-light-color: var(--block-light-color-1);
+}
+
+.block-color-2 {
+    --block-color: var(--block-color-2);
+    --block-light-color: var(--block-light-color-2);
+}
+
+/* 1. 标题：顶部横线分块，两位编号与标题左对齐，颜色跟随所属块。 */
+.content-block-title {
+    counter-increment: content-block;
+    display: flex;
+    align-items: center;
+    gap: calc(var(--block-title-size) * 0.5);
+    height: var(--block-title-height);
+    margin: 0;
+    padding: 0;
+    color: var(--block-title-color);
+    font-size: var(--block-title-size);
+    line-height: var(--block-title-height);
+
+    font-weight: normal;
+    border-top: var(--line-width) solid var(--block-color);
+
+    /* 编号：复用标题字号与小正文的浅色，不加粗，避免抢占标题重心。 */
+    &::before {
+        content: counter(content-block, decimal-leading-zero);
+        flex-shrink: 0;
+        color: var(--smaller-body-text-color);
+        font-family: var(--font-english);
+        font-weight: normal;
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+/* 文字块共用基础：统一尺寸约束、背景、字体及列表行高。 */
+.content-block-list-ordered,
+.content-block-list-unordered,
+.content-block-list-guided {
+    min-width: 0;
+    min-height: 0;
+    background: var(--background-color);
+    color: var(--body-text-color);
+    font-size: var(--body-text-size);
+    line-height: var(--body-text-height);
+    text-align: left;
+
+    /* 列表容器：纵向排列，清除浏览器默认外边距。 */
+    & > ol,
+    & > ul {
+        display: grid;
+        width: 100%;
+        margin: 0;
+        padding-left: 0;
+        list-style: none;
+
+        /* 条目以正文行高作为最小高度，多行内容自然撑开。 */
+        & > li { min-height: var(--body-text-height); }
+    }
+
+    /* 小号模式：仅在块上启用，统一按无标记、无缩进的普通文字排列。 */
+    &.text-small {
+        --body-text-size: var(--smaller-body-text-size);
+        --body-text-height: var(--smaller-body-text-height);
+        color: var(--smaller-body-text-color);
+
+        /* 小号列表取消圆点与缩进，使用完整块宽度。 */
+        & > ol,
+        & > ul {
+            padding-left: 0;
+            list-style: none;
+
+            /* 小号条目不保留编号留位。 */
+            & > li {
+                display: block;
+                padding-left: 0;
+
+                /* 关闭有序列表生成的编号。 */
+                &::before { content: none; }
+            }
+        }
+    }
+}
+
+/* 2. 有序列表：独立编号使换行与正文起点对齐。 */
+.content-block-list-ordered {
+    /* 条目为左侧编号预留空间。 */
+    & > ol > li {
+        position: relative;
+        padding-left: calc(var(--body-text-size) * 1.5);
+
+        /* 编号对齐首行文字的垂直中心。 */
+        &::before {
+            content: counter(list-item, decimal-leading-zero);
+            position: absolute;
+            left: 0;
+            top: calc((var(--body-text-height) - var(--body-text-size)) / 2);
+            display: grid;
+            place-items: center;
+            width: var(--body-text-size);
+            height: var(--body-text-size);
+            color: var(--block-color);
+            font-family: var(--font-english);
+            font-size: var(--smaller-body-text-size);
+            line-height: 1;
+        }
+    }
+}
+
+/* 3. 无序列表：圆点标记搭配统一缩进。 */
+.content-block-list-unordered {
+    /* 为原生圆点保留左侧空间。 */
+    & > ul {
+        padding-left: var(--body-text-size);
+        list-style: disc;
+
+        /* 圆点沿用块的引导色。 */
+        & > li::marker { color: var(--block-color); }
+    }
+}
+
+/* 4. 引导词列表：仅使用正常字号，引导词与正文分列对齐。 */
+.content-block-list-guided {
+    /* 每项分为引导词与正文两列，长句在正文列换行。 */
+    & > ul > li {
+        display: grid;
+        grid-template-columns: calc(var(--body-text-size) * 3.5) minmax(0, 1fr);
+
+        /* 引导词使用强调色，不额外加粗。 */
+        & > strong {
+            color: var(--block-color);
+            font-weight: normal;
+        }
+    }
+}
+
+/* 5. 公式块：白底承载逐行推导。 */
+.content-block-formula {
+    min-width: 0;
+    min-height: 0;
+    background: var(--background-color);
+    border-radius: var(--block-border-radius);
+    color: var(--formula-color);
+    font-size: var(--formula-size);
+    line-height: var(--formula-height);
+    display: grid;
+    grid-auto-rows: max-content;
+    align-content: start;
+    padding: 0 var(--block-inner-padding) var(--block-inner-padding);
+    text-align: center;
+
+    /* 小号公式：在整块上统一切换颜色、字号与行高。 */
+    &.text-small {
+        --formula-color: var(--smaller-formula-color);
+        --formula-size: var(--smaller-formula-size);
+        --formula-height: var(--smaller-formula-height);
+    }
+
+    /* 公式行：说明叠放于左上角，不占行高；公式保持居中。 */
+    & > .formula-line {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: minmax(0, 1fr);
+        align-items: center;
+        min-width: 0;
+        min-height: var(--formula-height);
+        margin: 0;
+        padding-bottom: var(--block-inner-padding);
+        border-bottom: var(--line-muted-width) solid var(--block-light-color);
+
+        /* 左上角说明：脱离网格排布，不增加公式行高度。 */
+        & > .formula-label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            min-width: 0;
+            color: var(--smaller-body-text-color);
+            font-size: var(--smaller-body-text-size);
+            line-height: var(--smaller-body-text-height);
+            text-align: left;
+            overflow-wrap: anywhere;
+
+            /* 空说明不显示。 */
+            &:empty { display: none; }
+        }
+
+        /* 公式使用整行宽度居中，说明长度不会推动公式位置。 */
+        & > .formula-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            grid-column: 1;
+            grid-row: 1;
+            min-width: 0;
+
+            /* 推导箭头：按 root 尺寸显示 SVG，避免被相邻公式挤缩。 */
+            & .formula-arrow {
+                display: block;
+                flex-shrink: 0;
+                width: var(--formula-arrow-width);
+                height: var(--formula-arrow-height);
+                object-fit: contain;
+            }
+
+            /* 独立显示公式：清除 MathJax 默认外边距。 */
+            & mjx-container[jax="CHTML"][display="true"] {
+                margin: 0;
+            }
+        }
+
+    }
+}
+
+/* 6. 图片块：无外框图片区与图注分层排列，图片保持原始比例。 */
+.content-block-figure {
+    min-width: 0;
+    min-height: 0;
+    height: auto;
+    display: grid;
+    grid-template-rows: var(--block-title-height) minmax(0, 1fr);
+
+    /* 内部排布：图片在完整区域居中，图注贴于底部且不占网格行。 */
+    & .figure-layout {
+        min-width: 0;
+        min-height: 0;
+        position: relative;
+        display: grid;
+        place-items: center;
+        height: 100%;
+        margin: 0;
+    }
+
+    /* 图片区域：占满标题下方的空间，在其中居中显示图片。 */
+    & .figure-image {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        width: 100%;
+        height: 100%;
+        padding: var(--figure-image-padding);
+    }
+
+    /* 图片本体：使用固有宽高，最大尺寸不超过图片区域。 */
+    & .figure-image img {
+        min-width: 0;
+        min-height: 0;
+        display: block;
+        max-width: 100%;
+        max-height: var(--figure-image-height);
+        object-fit: contain;
+    }
+
+    /* 图片默认居中；添加 figure-top 时允许顶对齐。 */
+    &.figure-top .figure-image { align-items: start; }
+
+    /* 小号图片：只缩小图片本体，不改变图片区和图注的位置。 */
+    &.figure-small {
+        --figure-image-height: var(--figure-smaller-image-height);
+    }
+
+    /* 来源图注：贴于底部，不参与图片区的高度分配。 */
+    & .figure-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding-top: var(--block-inner-padding);
+        border-top: var(--line-muted-width) solid var(--block-light-color);
+        color: var(--smaller-body-text-color);
+        font-size: var(--figure-caption-size);
+        line-height: var(--figure-caption-height);
+        text-align: left;
+    }
+
+    &.content-block-figure-auto .figure-layout { height: auto; }
+}
+
+/* 7. 结论块：居中承载文字或公式，浅底与左侧强调线突出结果。 */
+.content-block-conclusion {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    padding: calc(var(--block-inner-padding) * 2) var(--block-inner-padding);
+    border-radius: var(--block-border-radius);
+    background: var(--block-light-color);
+    box-shadow: inset var(--line-emphasis-width) 0 0 var(--block-color);
+    color: var(--body-text-color);
+    font-size: var(--body-text-size);
+    line-height: var(--body-text-height);
+    text-align: center;
+
+    /* 小号文字使用小正文，内部公式仍复用小号公式参数。 */
+    &.text-small {
+        --formula-color: var(--smaller-formula-color);
+        --formula-size: var(--smaller-formula-size);
+        --formula-height: var(--smaller-formula-height);
+        color: var(--smaller-body-text-color);
+        font-size: var(--smaller-body-text-size);
+        line-height: var(--smaller-body-text-height);
+    }
+
+    & > p,
+    & > mjx-container[jax="CHTML"][display="true"] {
+        margin: 0;
+    }
+
+    /* 结论说明：左上角定位，不占强调块高度。 */
+    & > .formula-label {
+        position: absolute;
+        top: var(--block-inner-padding);
+        left: var(--block-inner-padding);
+        color: var(--smaller-body-text-color);
+        font-size: var(--smaller-body-text-size);
+        line-height: var(--smaller-body-text-height);
+        text-align: left;
+    }
+
+    /* 公式内容独立居中；普通文字直接使用结论块的正文样式。 */
+    & > .formula-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        color: var(--formula-color);
+        font-size: var(--formula-size);
+        line-height: var(--formula-height);
+
+        & mjx-container[jax="CHTML"][display="true"] {
+            margin: 0;
+        }
+    }
+}
