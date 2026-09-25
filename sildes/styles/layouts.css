@@ -1,0 +1,52 @@
+/* 1. 正文布局：统一内容宽度，占满页眉与页脚之间的区域。 */
+.content-layout {
+    width: var(--content-width);
+    min-width: 0;
+    min-height: 0;
+    justify-self: center;
+    align-self: stretch;
+}
+
+/* 2. 多行顺排：每行由内容决定高度。 */
+.layout-rows {
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+    grid-auto-rows: max-content;
+    align-content: start;
+    row-gap: var(--layout-row-gap);
+
+    & > * {
+        min-width: 0;
+        min-height: 0;
+    }
+
+    /* 多行等高：父容器提供确定高度后，均分可用空间。 */
+    &.layout-rows-equal {
+        height: 100%;
+        grid-auto-rows: minmax(0, 1fr);
+        align-content: stretch;
+    }
+}
+
+/* 3. 多列：默认等宽；需要时指定两列的宽度比例。 */
+.layout-columns {
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    align-items: stretch;
+    column-gap: var(--layout-column-gap);
+
+    & > * {
+        min-width: 0;
+        min-height: 0;
+    }
+
+    &.layout-4-6 { grid-template-columns: minmax(0, 4fr) minmax(0, 6fr); }
+    &.layout-3-7 { grid-template-columns: minmax(0, 3fr) minmax(0, 7fr); }
+
+    /* 宽栏间距：需要更多呼吸空间时启用。 */
+    &.layout-gap-large { column-gap: var(--layout-column-gap-large); }
+}

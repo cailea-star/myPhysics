@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="400" viewBox="0 0 480 400" role="img" aria-labelledby="title desc">
+    <title id="title">纵向工作流程模板</title>
+    <desc id="desc">输入准备、计算处理、结果输出。细线串联框外编号，文字区轻边框，结果节点浅底强调。</desc>
+    <!-- 复制到页面 assets 后修改节点文字；节点独立分组，文字保持可编辑；普通节点白底浅边框，重点节点浅底深边框。 -->
+    <rect width="480" height="400" fill="#ffffff"/>
+    <!-- 纵向主线保持连续，文字位于主线右侧。 -->
+    <g fill="none" stroke="#a6b6c8" stroke-width="1.5">
+        <path d="M 48 72 V 170 M 44 154 L 48 160 L 52 154 M 48 194 V 292 M 44 276 L 48 282 L 52 276"/>
+    </g>
+    <g id="step-1" transform="translate(48 60)" font-family="'Times New Roman', KaiTi, STKaiti, 'Kaiti SC', serif">
+        <rect x="28" y="-44" width="360" height="96" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+        <circle r="12" fill="#ffffff" stroke="#64718a" stroke-width="1.5"/>
+        <text x="0" y="5" text-anchor="middle" fill="#64718a" font-size="15">1</text>
+        <text x="46" y="-6" fill="#202b5b" font-size="34">输入准备</text>
+        <text x="46" y="30" fill="#64718a" font-size="24">模型与初始条件</text>
+    </g>
+    <g id="step-2" transform="translate(48 182)" font-family="'Times New Roman', KaiTi, STKaiti, 'Kaiti SC', serif">
+        <rect x="28" y="-44" width="360" height="96" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+        <circle r="12" fill="#ffffff" stroke="#64718a" stroke-width="1.5"/>
+        <text x="0" y="5" text-anchor="middle" fill="#64718a" font-size="15">2</text>
+        <text x="46" y="-6" fill="#202b5b" font-size="34">计算处理</text>
+        <text x="46" y="30" fill="#64718a" font-size="24">方法与求解步骤</text>
+    </g>
+    <g id="step-3" transform="translate(48 304)" font-family="'Times New Roman', KaiTi, STKaiti, 'Kaiti SC', serif">
+        <rect x="28" y="-44" width="360" height="96" rx="6" fill="#f3f6fa" stroke="#64718a" stroke-width="1.5"/>
+        <circle r="12" fill="#202b5b" stroke="#202b5b" stroke-width="1.5"/>
+        <text x="0" y="5" text-anchor="middle" fill="#ffffff" font-size="15">3</text>
+        <text x="46" y="-6" fill="#202b5b" font-size="34">结果输出</text>
+        <text x="46" y="30" fill="#64718a" font-size="24">观测量与比较</text>
+    </g>
+</svg>
