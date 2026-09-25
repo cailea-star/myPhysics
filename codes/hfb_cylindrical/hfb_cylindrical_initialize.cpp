@@ -77,13 +77,17 @@ struct WSShapeGeometry {
 
 } // namespace
 
-void HFBKramersNucleusCylindrical::initialize_h0() {
+void HFBKramersNucleusCylindrical::initialize_h0(int TargetN_I_, int TargetZ_I_) {
     for (auto& field_ : hfb_neutron.fields) {field_.h0PosPos_F2D_bsp_bsp.setZero();}
     for (auto& field_ : hfb_proton.fields) {field_.h0PosPos_F2D_bsp_bsp.setZero();}
 }
 
-void HFBKramersNucleusCylindrical::initialize_GammaDelta() {
-    initialize_WS_field();
+void HFBKramersNucleusCylindrical::initialize_GammaDelta(int TargetN_I_, int TargetZ_I_) {
+    initialize_GammaDelta(TargetN_I_, TargetZ_I_, 0.0, 0.0, 0.0);
+}
+
+void HFBKramersNucleusCylindrical::initialize_GammaDelta(int TargetN_I_, int TargetZ_I_, double beta2Initial_F_, double beta3Initial_F_, double beta4Initial_F_) {
+    initialize_WS_field(TargetN_I_, TargetZ_I_, beta2Initial_F_, beta3Initial_F_, beta4Initial_F_);
 
     // (Γ,Δ,λ₂,E_LN) → 0 before constructing the initial fields.
     lambda2_n_F = 0.0;
@@ -99,17 +103,23 @@ void HFBKramersNucleusCylindrical::initialize_GammaDelta() {
     add_Gamma_Delta_from_field();
 }
 
-void HFBKramersNucleusCylindrical::initialize_WS_field() {
-    // (N,Z,β₂,β₃,β₄) ← nucleus state.
-    const int TargetN_I = hfb_neutron.TargetN_I;
-    const int TargetZ_I = hfb_proton.TargetN_I;
+void HFBKramersNucleusCylindrical::initialize_WS_field(int TargetN_I_, int TargetZ_I_, double beta2Initial_F_, double beta3Initial_F_, double beta4Initial_F_) {
+    assert(TargetN_I_ >= 0);
+    assert(TargetZ_I_ >= 0);
+    assert(TargetN_I_ + TargetZ_I_ > 0);
+    assert(!cylindricalsetting.useParity_B || beta3Initial_F_ == 0.0);
+
+    // (N,Z,β₂,β₃,β₄) → stored initialization parameters.
+    TargetN_I = TargetN_I_;
+    TargetZ_I = TargetZ_I_;
+    beta2Initial_F = beta2Initial_F_;
+    beta3Initial_F = beta3Initial_F_;
+    beta4Initial_F = beta4Initial_F_;
+
+    // (β₂,β₃,β₄) → Woods-Saxon geometry.
     const double beta2_F = beta2Initial_F;
     const double beta3_F = beta3Initial_F;
     const double beta4_F = beta4Initial_F;
-    assert(TargetN_I >= 0);
-    assert(TargetZ_I >= 0);
-    assert(TargetN_I + TargetZ_I > 0);
-    assert(!cylindricalsetting.useParity_B || beta3_F == 0.0);
 
     // P_{WS} = (V_0,r_0,a_0,V_{LS},r_{LS},a_{LS},κ_V).
     const double V0WS_F = -71.28;
@@ -127,7 +137,7 @@ void HFBKramersNucleusCylindrical::initialize_WS_field() {
     // (N,Z) → (A,R_{WS},R_{LS}).
     const int Nz_I = cylindricalsetting.Nz_I;
     const int Nr_I = cylindricalsetting.Nr_I;
-    const int Atarget_I = TargetN_I + TargetZ_I;
+    const int Atarget_I = TargetN_I_ + TargetZ_I_;
     const double Atarget_F = static_cast<double>(Atarget_I);
     const EDFParamsSkyrme active_edf_ = termSwitches.make_active_edf(edf_skyrme, Atarget_I);
     const double R0WS_F = r0WS_F * std::cbrt(Atarget_F);
@@ -138,8 +148,8 @@ void HFBKramersNucleusCylindrical::initialize_WS_field() {
     const WSShapeGeometry ws_shape_ = WSShapeGeometry::from_beta(beta2_F, beta3_F, beta4_F, b0_basis_F, edf_skyrme.hbzero_F, Atarget_F);
 
     // I_n=(N-Z)/A; I_p=(Z-N)/A.
-    const double asymmetry_n_F = static_cast<double>(TargetN_I - TargetZ_I) / Atarget_F;
-    const double asymmetry_p_F = static_cast<double>(TargetZ_I - TargetN_I) / Atarget_F;
+    const double asymmetry_n_F = static_cast<double>(TargetN_I_ - TargetZ_I_) / Atarget_F;
+    const double asymmetry_p_F = static_cast<double>(TargetZ_I_ - TargetN_I_) / Atarget_F;
     const double V0WS_n_F = V0WS_F * (1.0 - akv_F * asymmetry_n_F);
     const double V0WS_p_F = V0WS_F * (1.0 - akv_F * asymmetry_p_F);
     const double VLS_prefactor_F = 0.5 * std::pow(hbarc_F / amu_F, 2.0);
@@ -178,7 +188,7 @@ void HFBKramersNucleusCylindrical::initialize_WS_field() {
     std::cout << std::scientific << std::setprecision(3) << std::right;
     std::cout << std::setw(20) << "[WS] params:" << std::setw(10) << " V0ws =" << std::setw(10) << V0WS_F << std::setw(10) << " r0ws =" << std::setw(10) << r0WS_F << std::setw(10) << " a0ws =" << std::setw(10) << a0WS_F << "\n";
     std::cout << std::setw(20) << "[LS] params:" << std::setw(10) << " V0ls =" << std::setw(10) << V0LS_F << std::setw(10) << " r0ls =" << std::setw(10) << r0LS_F << std::setw(10) << " a0ls =" << std::setw(10) << a0LS_F << "\n";
-    std::cout << std::setw(20) << "[Nucleus] params:" << std::setw(10) << " A =" << std::setw(10) << Atarget_I << std::setw(10) << " Z =" << std::setw(10) << TargetZ_I << std::setw(10) << " N =" << std::setw(10) << TargetN_I << std::setw(10) << " asym_n =" << std::setw(10) << asymmetry_n_F << "\n";
+    std::cout << std::setw(20) << "[Nucleus] params:" << std::setw(10) << " A =" << std::setw(10) << Atarget_I << std::setw(10) << " Z =" << std::setw(10) << TargetZ_I_ << std::setw(10) << " N =" << std::setw(10) << TargetN_I_ << std::setw(10) << " asym_n =" << std::setw(10) << asymmetry_n_F << "\n";
     std::cout << std::setw(20) << "[Derived] params:" << std::setw(10) << " V0ws_n =" << std::setw(10) << V0WS_n_F << std::setw(10) << " V0ws_p =" << std::setw(10) << V0WS_p_F << std::setw(10) << " V0ls_n =" << std::setw(10) << V0LS_n_F << std::setw(10) << " V0ls_p =" << std::setw(10) << V0LS_p_F << "\n";
     std::cout << std::setw(20) << "[Shape] params:" << std::setw(10) << " beta2 =" << std::setw(10) << beta2_F << std::setw(10) << " beta3 =" << std::setw(10) << beta3_F << std::setw(10) << " beta4 =" << std::setw(10) << beta4_F << "\n";
     std::cout << std::setw(20) << "[Shape] derived:" << std::setw(10) << " zcm =" << std::setw(10) << ws_shape_.zcm_F << std::setw(10) << " fac =" << std::setw(10) << ws_shape_.surface_scale0_F << "\n";

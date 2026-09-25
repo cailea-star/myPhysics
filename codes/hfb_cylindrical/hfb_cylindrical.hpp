@@ -19,8 +19,6 @@
 #include "cylindrical_gaussian_gogny.hpp"
 #include "cylindrical_gaussian_coulomb.hpp"
 
-class HFBKramersBlocking;
-
 /**
  * @brief Store coordinate-space fields for one species.
  */
@@ -132,35 +130,32 @@ public:
     }
 
     /**
-     * @brief Initialize neutron and proton Woods-Saxon fields.
-     * @math (N,Z,β₂,β₃,β₄) → (v_cent,v_mass,v_dJ,v_pair)_{n,p}.
-     * @output Initialized neutron and proton coordinate-space fields.
-     */
-    void initialize_WS_field();
-
-    /**
      * @brief Accumulate coordinate-space fields into HFB block matrices.
      * @math (Γ,Δ) → (Γ,Δ)+(Γ[field],Δ[field]).
      * @output Accumulated neutron and proton Gamma and Delta.
      */
     void add_Gamma_Delta_from_field();
 
-
-
-
     /**
      * @brief Initialize neutron and proton one-body fields.
      * @math (N,Z) → (h₀,n,h₀,p).
      * @output Initialized neutron and proton one-body fields.
      */
-    void initialize_h0() override;
+    void initialize_h0(int TargetN_I_, int TargetZ_I_) override;
 
     /**
      * @brief Initialize neutron and proton HFB fields.
      * @math (N,Z) → (Γ_n,Δ_n,Γ_p,Δ_p)_initial.
      * @output Initialized neutron and proton block fields.
      */
-    void initialize_GammaDelta() override;
+    void initialize_GammaDelta(int TargetN_I_, int TargetZ_I_) override;
+
+    /**
+     * @brief Initialize HFB fields with specified Woods-Saxon deformations.
+     * @math (N,Z,β₂,β₃,β₄) → (Γ_n,Δ_n,Γ_p,Δ_p)_initial.
+     * @output Stored deformations and initialized neutron/proton block fields.
+     */
+    void initialize_GammaDelta(int TargetN_I_, int TargetZ_I_, double beta2Initial_F_, double beta3Initial_F_ = 0.0, double beta4Initial_F_ = 0.0);
 
     /**
      * @brief Update neutron and proton HFB fields.
@@ -176,10 +171,19 @@ public:
      */
     void print_abstract(int iteration_I, double error_F, double mixing_F) const override;
 
+private:
     /**
-     * @brief Print iteration observables and supplied blocking trackers.
-     * @math (i,ε,α,O,B_n,B_p) → stdout.
-     * @output Formatted iteration and blocking rows.
+     * @brief Initialize neutron and proton Woods-Saxon fields.
+     * @math (N,Z,β₂,β₃,β₄) → (v_cent,v_mass,v_dJ,v_pair)_{n,p}.
+     * @output Initialized neutron and proton coordinate-space fields.
      */
-    void print_abstract(int iteration_I, double error_F, double mixing_F, const std::vector<HFBKramersBlocking>& neutronBlockings_, const std::vector<HFBKramersBlocking>& protonBlockings_) const;
+    void initialize_WS_field(int TargetN_I_, int TargetZ_I_, double beta2Initial_F_ = 0.0, double beta3Initial_F_ = 0.0, double beta4Initial_F_ = 0.0);
 };
+
+class HFBKramersBlocking;
+/**
+ * @brief Print one active quasiparticle blocking state.
+ * @math B_μ → (block,qp,overlap,label).
+ * @output Formatted blocking row; inactive trackers produce none.
+ */
+void print_blocking(const CylindricalSetting& cylindricalsetting_, const HFBKramersBlocking& blocking_, bool isNeutron_B);

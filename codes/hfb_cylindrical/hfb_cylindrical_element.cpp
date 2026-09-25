@@ -167,8 +167,8 @@ void HFBKramersNucleusCylindrical::add_Gamma_Delta_from_field() {
 }
 
 void HFBKramersNucleusCylindrical::update_Gamma_Delta() {
-    const int TargetA_I = hfb_neutron.TargetN_I + hfb_proton.TargetN_I;
-    assert(hfb_neutron.TargetN_I >= 0 && hfb_proton.TargetN_I >= 0 && TargetA_I > 0);
+    const int TargetA_I = TargetN_I + TargetZ_I;
+    assert(TargetN_I >= 0 && TargetZ_I >= 0 && TargetA_I > 0);
     const EDFParamsSkyrme active_edf_ = termSwitches.make_active_edf(edf_skyrme, TargetA_I);
 
     // Enabled interactions → reusable kernels.

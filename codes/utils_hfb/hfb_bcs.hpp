@@ -54,7 +54,6 @@ public:
     // v̄_{12;34}: Γ uses block13, block24.
     using GammaElementFunc = std::function<Element(int block13_I, int block24_I, int bsp1_I, int bsp2_I, int bsp3_I, int bsp4_I)>;
 
-    int TargetN_I = 0;
     double lambda_F = -7.0; // Chemical potential [MeV].
     double G_F = 0.0; // Attractive pairing strength [MeV].
     double Delta_F = 1.0; // Pairing gap [MeV].
@@ -140,7 +139,7 @@ public:
      * @note Diagonalizes supplied h once before searching λ.
      * @note Each trial λ solves Δ before updating densities.
      */
-    void search_lambda(double EspCut_F, double accuracy_F);
+    void search_lambda(int TargetN_I, double EspCut_F, double accuracy_F);
 
     /**
      * @brief Accumulate particle-hole fields by direct matrix-element contraction.
@@ -250,7 +249,7 @@ inline void HFBCS::search_Delta(double lambda_F_, double EspCut_F, double accura
  * @output Updated λ,Δ and all block solutions.
  * @note Requires supplied real symmetric single-particle fields.
  */
-inline void HFBCS::search_lambda(double EspCut_F, double accuracy_F) {
+inline void HFBCS::search_lambda(int TargetN_I, double EspCut_F, double accuracy_F) {
     assert(Nblock_I > 0);
     assert(std::isfinite(G_F) && G_F >= 0.0);
     assert(!std::isnan(EspCut_F));

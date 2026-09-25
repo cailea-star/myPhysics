@@ -48,11 +48,9 @@ int main() {
     // ^{48}Ca → HFB_{core}.
     const EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::SKMstar();
     HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, termSwitches_, edf_skyrme_);
-    hfb_.hfb_neutron.TargetN_I = Ncore_I;
-    hfb_.hfb_proton.TargetN_I = Zcore_I;
-    hfb_.initialize_h0();
-    hfb_.initialize_GammaDelta();
-    hfb_.iterate(true);
+    hfb_.initialize_h0(Ncore_I, Zcore_I);
+    hfb_.initialize_GammaDelta(Ncore_I, Zcore_I);
+    hfb_.iterate(Ncore_I, Zcore_I, true);
 
     // HFB_{core} → B_n ⊕ B_p.
     const std::vector<HFBKramersBlocking> blockingCandidates_S1D_n = HFBKramersBlocking::list_candidates(hfb_.hfb_neutron.solutions, hfbsettings_.NblockingCandidates_I, hfbsettings_.EblockingCut_F);
@@ -65,12 +63,18 @@ int main() {
     activeBlockings_S1D_q.push_back(blockingCandidates_S1D_p[3]);
 
     // (HFB_{core},B_n,B_p) → O_{C++}^{48K}.
-    hfb_.hfb_neutron.TargetN_I = Nfinal_I;
-    hfb_.hfb_proton.TargetN_I = Zfinal_I;
     hfb_.set_blocking(
-        [&](std::vector<HFBKramersBlockSolution>& solutions, bool updateTracking_B) {return activeBlockings_S1D_q[0].apply_blocking(solutions, updateTracking_B);},
-        [&](std::vector<HFBKramersBlockSolution>& solutions, bool updateTracking_B) {return activeBlockings_S1D_q[1].apply_blocking(solutions, updateTracking_B);});
-    hfb_.iterate(true);
+        [&](std::vector<HFBKramersBlockSolution>& solutions, bool updateTracking_B) {
+            const double N_F = activeBlockings_S1D_q[0].apply_blocking(solutions, updateTracking_B);
+            if (updateTracking_B) {print_blocking(cylindricalsetting_, activeBlockings_S1D_q[0], true);}
+            return N_F;
+        },
+        [&](std::vector<HFBKramersBlockSolution>& solutions, bool updateTracking_B) {
+            const double N_F = activeBlockings_S1D_q[1].apply_blocking(solutions, updateTracking_B);
+            if (updateTracking_B) {print_blocking(cylindricalsetting_, activeBlockings_S1D_q[1], false);}
+            return N_F;
+        });
+    hfb_.iterate(Nfinal_I, Zfinal_I, true);
     HFBCylindricalObservable observable_;
     observable_.update_observable(hfb_, {activeBlockings_S1D_q[0]}, {activeBlockings_S1D_q[1]});
 

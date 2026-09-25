@@ -49,12 +49,9 @@ int main() {
 
     // (C_axial,S_HFB,D1S) → HFB → O.
     HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, termSwitches_, edf_gogny_.make_local_edf(), edf_gogny_);
-    hfb_.hfb_neutron.TargetN_I = Ntarget_I;
-    hfb_.hfb_proton.TargetN_I = Ztarget_I;
-    hfb_.beta2Initial_F = beta20_F;
-    hfb_.initialize_h0();
-    hfb_.initialize_GammaDelta();
-    hfb_.iterate(true);
+    hfb_.initialize_h0(Ntarget_I, Ztarget_I);
+    hfb_.initialize_GammaDelta(Ntarget_I, Ztarget_I, beta20_F);
+    hfb_.iterate(Ntarget_I, Ztarget_I, true);
     HFBCylindricalObservable observable_;
     observable_.update_observable(hfb_);
 

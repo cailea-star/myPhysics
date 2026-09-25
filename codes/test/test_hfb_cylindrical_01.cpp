@@ -53,11 +53,9 @@ int main() {
     // ⁴⁸Ca → {B_μ | μ=1,…,6}.
     EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::SKMstar();
     HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, termSwitches_, edf_skyrme_);
-    hfb_.hfb_neutron.TargetN_I = Ncore_I;
-    hfb_.hfb_proton.TargetN_I = Zcore_I;
-    hfb_.initialize_h0();
-    hfb_.initialize_GammaDelta();
-    hfb_.iterate(true);
+    hfb_.initialize_h0(Ncore_I, Zcore_I);
+    hfb_.initialize_GammaDelta(Ncore_I, Zcore_I);
+    hfb_.iterate(Ncore_I, Zcore_I, true);
     const HFBKramersNucleusCylindrical& hfbCore_ = hfb_;
     std::vector<HFBKramersBlocking> blockings_S1D_candidate = HFBKramersBlocking::list_candidates(hfb_.hfb_neutron.solutions, hfbsettings_.NblockingCandidates_I, hfbsettings_.EblockingCut_F);
 
@@ -71,10 +69,12 @@ int main() {
         hfbBlocked_.hfb_neutron = hfbCore_.hfb_neutron;
         hfbBlocked_.hfb_proton = hfbCore_.hfb_proton;
         HFBKramersBlocking& activeBlocking_ = blockings_S1D_candidate[candidate_I];
-        hfbBlocked_.hfb_neutron.TargetN_I = Nfinal_I;
-        hfbBlocked_.hfb_proton.TargetN_I = Zfinal_I;
-        hfbBlocked_.set_blocking([&](std::vector<HFBKramersBlockSolution>& solutions, bool updateTracking_B) {return activeBlocking_.apply_blocking(solutions, updateTracking_B);}, {});
-        hfbBlocked_.iterate(true);
+        hfbBlocked_.set_blocking([&](std::vector<HFBKramersBlockSolution>& solutions, bool updateTracking_B) {
+            const double N_F = activeBlocking_.apply_blocking(solutions, updateTracking_B);
+            if (updateTracking_B) {print_blocking(cylindricalsetting_, activeBlocking_, true);}
+            return N_F;
+        }, {});
+        hfbBlocked_.iterate(Nfinal_I, Zfinal_I, true);
         HFBCylindricalObservable observable_;
         observable_.update_observable(hfbBlocked_, {activeBlocking_}, {});
         const HFBCylindricalObservableReference& reference_ = references_S1D_candidate[candidate_I];
