@@ -8,7 +8,7 @@ $$
 
 For $\alpha\in\mathbb N_0$, this family includes the associated Laguerre polynomials used in radial problems.
 
-### Generating Function
+## Generating Function
 
 With $L_0^{(\alpha)}(x)=1$, the Laguerre equation gives the raising relation
 
@@ -46,7 +46,7 @@ $$
 \boxed{G_\alpha(x,t)=\frac{1}{(1-t)^{\alpha+1}}\exp\left(-\frac{xt}{1-t}\right)}.
 $$
 
-### Rodrigues Formula
+## Rodrigues Formula
 
 Expanding the generating function in powers of $t$ gives
 
@@ -60,7 +60,7 @@ $$
 \boxed{L_n^{(\alpha)}(x)=\frac{x^{-\alpha}e^x}{n!}\frac{\mathrm d^n}{\mathrm dx^n}\left(e^{-x}x^{n+\alpha}\right)}.
 $$
 
-### Recurrence and Derivatives
+## Recurrence and Derivatives
 
 The generating function gives
 
@@ -74,7 +74,7 @@ $$
 x\frac{\mathrm d}{\mathrm dx}L_n^{(\alpha)}(x)=nL_n^{(\alpha)}(x)-(n+\alpha)L_{n-1}^{(\alpha)}(x),\qquad x\frac{\mathrm d^2}{\mathrm dx^2}L_n^{(\alpha)}(x)=(x-\alpha-1)\frac{\mathrm d}{\mathrm dx}L_n^{(\alpha)}(x)-nL_n^{(\alpha)}(x).
 $$
 
-### Orthogonality and Normalization
+## Orthogonality and Normalization
 
 For $m<n$, the Rodrigues formula and integration by parts give
 
@@ -100,7 +100,7 @@ $$
 f(x)=\sum_{n=0}^{\infty}c_nL_n^{(\alpha)}(x),\qquad c_n=\left[N_n^{(\alpha)}\right]^2\int_0^\infty x^\alpha e^{-x}L_n^{(\alpha)}(x)f(x)\,\mathrm dx.
 $$
 
-### Value at the Origin
+## Value at the Origin
 
 At $x=0$, the generating function becomes
 

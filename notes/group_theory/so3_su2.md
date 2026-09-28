@@ -1,6 +1,6 @@
-### SO(3)
+## SO(3)
 
-##### Definition and Group Space of SO(3)
+### Definition and Group Space of SO(3)
 
 Let $\underline x\in\mathbb R^N$.
 
@@ -42,7 +42,7 @@ $$
 R(\widehat{\boldsymbol n},\pi)=R(-\widehat{\boldsymbol n},\pi).
 $$
 
-##### Coordinate-Space Representation
+### Coordinate-Space Representation
 
 The natural coordinate-space representation of $SO(3)$ is
 
@@ -94,7 +94,7 @@ $$
 \boxed{T_x^{(X)}=\begin{pmatrix}0&0&0\\0&0&-i\\0&i&0\end{pmatrix},\qquad T_y^{(X)}=\begin{pmatrix}0&0&i\\0&0&0\\-i&0&0\end{pmatrix},\qquad T_z^{(X)}=\begin{pmatrix}0&-i&0\\i&0&0\\0&0&0\end{pmatrix}}.
 $$
 
-##### Infinitesimal Differential Operators
+### Infinitesimal Differential Operators
 
 The general construction is given in [Lie Groups](lie_groups.md#infinitesimal-operators-on-functions). For a scalar function $\psi(\underline x)$,
 
@@ -126,9 +126,9 @@ $$
 \widehat L_x=-i\left(y\frac{\partial}{\partial z}-z\frac{\partial}{\partial y}\right),\qquad \widehat L_y=-i\left(z\frac{\partial}{\partial x}-x\frac{\partial}{\partial z}\right),\qquad \widehat L_z=-i\left(x\frac{\partial}{\partial y}-y\frac{\partial}{\partial x}\right).
 $$
 
-### SU(2)
+## SU(2)
 
-##### Definition and Group Space of SU(2)
+### Definition and Group Space of SU(2)
 
 Let $\underline z\in\mathbb C^N$.
 
@@ -178,7 +178,7 @@ $$
 
 Hence, the group space of $SU(2)$ is topologically $S^3$.
 
-##### Fundamental Representation
+### Fundamental Representation
 
 The fundamental representation acts on $\underline z\in\mathbb C^2$:
 
@@ -210,7 +210,7 @@ $$
 \boxed{U(\widehat{\boldsymbol n},\omega)=I_2-i\omega\frac{\widehat{\boldsymbol n}\cdot\boldsymbol\sigma}{2}+O(\omega^2),\qquad \boldsymbol T^{(1/2)}=\frac{\boldsymbol\sigma}{2}}.
 $$
 
-##### Homomorphism from SU(2) to SO(3)
+### Homomorphism from SU(2) to SO(3)
 
 For $\underline x=(x_1,x_2,x_3)\in\mathbb R^3$, define the traceless Hermitian matrix
 
@@ -268,9 +268,9 @@ $$
 
 Thus, $SU(2)$ is the double cover of $SO(3)$.
 
-### Inequivalent Irreducible Representations
+## Inequivalent Irreducible Representations
 
-##### Axis-Angle and Euler-Angle Parameterizations
+### Axis-Angle and Euler-Angle Parameterizations
 
 - Axis-angle parameters
 
@@ -334,7 +334,7 @@ $$
 
 At $\beta=0$ or $\beta=\pi$, the Euler angles are not unique.
 
-##### Irreducible Representations of SU(2)
+### Irreducible Representations of SU(2)
 
 Let $\underline z=(z_1,z_2)^{\mathsf T}\in\mathbb C^2$. The homogeneous polynomials of total degree $2j$ form the space
 
@@ -396,7 +396,7 @@ $$
 D^{(0)}(U)=1,\qquad D^{(1/2)}(U)=U,\qquad D^{(1)}(U)\simeq R(U).
 $$
 
-##### Irreducible Representations of SO(3)
+### Irreducible Representations of SO(3)
 
 Since $R(U)=R(-U)$,
 
@@ -413,7 +413,7 @@ $$
 \boxed{D^{(j)},\qquad j=0,1,2,\ldots,\qquad d_j=2j+1}.
 $$
 
-##### Wigner D Functions
+### Wigner D Functions
 
 Using the basis order $|j,j\rangle,\ldots,|j,-j\rangle$, define
 
@@ -514,7 +514,7 @@ $$
 T_y^{(1)}=\frac{1}{\sqrt2}\begin{pmatrix}0&-i&0\\i&0&-i\\0&i&0\end{pmatrix},\qquad d^{(1)}(\beta)=\begin{pmatrix}\cos^2\frac{\beta}{2}&-\frac{\sin\beta}{\sqrt2}&\sin^2\frac{\beta}{2}\\\frac{\sin\beta}{\sqrt2}&\cos\beta&-\frac{\sin\beta}{\sqrt2}\\\sin^2\frac{\beta}{2}&\frac{\sin\beta}{\sqrt2}&\cos^2\frac{\beta}{2}\end{pmatrix}.
 $$
 
-### Scalars, Vectors, Tensors, and Spinors
+## Scalars, Vectors, Tensors, and Spinors
 
 For a field defined on $\mathbb R^3$:
 
@@ -525,7 +525,7 @@ For a field defined on $\mathbb R^3$:
 
 For spinor fields, use $U\in SU(2)$ with $R=R(U)$, and replace $Q_R,O_R$ by $Q_U,O_U$.
 
-##### Scalar Fields
+### Scalar Fields
 
 A scalar has one component and is unchanged by $Q_R$:
 
@@ -545,7 +545,7 @@ $$
 \boxed{\psi'(\underline x)=(P_R\psi)(\underline x)=\psi(R^{-1}\underline x)}.
 $$
 
-##### Vector and Tensor Fields
+### Vector and Tensor Fields
 
 - Vector fields
 
@@ -595,7 +595,7 @@ $$
 
 Scalars and vectors are rank-$0$ and rank-$1$ tensors, respectively.
 
-##### Spinor Fields
+### Spinor Fields
 
 A spin-$s$ field has $2s+1$ components:
 
@@ -647,9 +647,9 @@ $$
 \boxed{O_U=I-i\delta\boldsymbol\omega\cdot\boldsymbol J,\qquad \boldsymbol J=\boldsymbol L+\boldsymbol S^{(s)}}.
 $$
 
-### Irreducible Tensor Operators and the Wigner–Eckart Theorem
+## Irreducible Tensor Operators and the Wigner–Eckart Theorem
 
-##### Irreducible Tensor Operators
+### Irreducible Tensor Operators
 
 Here hats distinguish quantum operators, and $\hbar$ is restored explicitly.
 
@@ -703,7 +703,7 @@ $$
 |k_1-k_2|\leq k\leq k_1+k_2,\qquad q=q_1+q_2.
 $$
 
-##### Wigner–Eckart Theorem
+### Wigner–Eckart Theorem
 
 Define
 

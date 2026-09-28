@@ -1,6 +1,6 @@
 # Maxwell Equations
 
-### Maxwell Equations in Vacuum
+## Maxwell Equations in Vacuum
 
 Let $\mathbf E(\mathbf r,t)$ and $\mathbf B(\mathbf r,t)$ be the electric and magnetic fields. Let $\rho(\mathbf r,t)$ and $\mathbf j(\mathbf r,t)$ be the charge and current densities. The constants $\epsilon_0$ and $\mu_0$ are the vacuum permittivity and permeability.
 
@@ -84,7 +84,7 @@ $$
 
 Thus, the electromagnetic potentials are not unique, while the physical fields are gauge invariant.
 
-### Maxwell Equations in Matter
+## Maxwell Equations in Matter
 
 **Polarization and Magnetization**
 
@@ -156,7 +156,7 @@ $$
 
 Anisotropic, nonlinear, and dispersive media require more general constitutive relations.
 
-### Boundary Conditions
+## Boundary Conditions
 
 Consider a stationary interface between media $1$ and $2$. Let $\hat{\mathbf n}$ be the unit normal directed from medium $1$ to medium $2$. Let $\sigma_{\mathrm f}$ be the free surface charge density and $\mathbf K_{\mathrm f}$ the free surface current density tangent to the interface. Subscripts $1$ and $2$ denote the limiting field values on the two sides. Let $\mathrm d\mathbf a$, $\mathrm d\mathbf l$, and $\mathrm dV$ denote oriented area, oriented line, and volume elements.
 

@@ -1,6 +1,6 @@
 # Electromagnetic Wave Propagation
 
-### Wave Equations from Maxwell's Equations
+## Wave Equations from Maxwell's Equations
 
 Start from the [Maxwell equations in matter](electromagnetic_maxwell_equations.md#maxwell-equations-in-matter), where $\rho_{\mathrm f}$ and $\mathbf j_{\mathrm f}$ are the free charge and current densities:
 
@@ -48,7 +48,7 @@ $$
 \nabla\times(\nabla\times\mathbf E(\omega))-\mu\epsilon\omega^2\mathbf E(\omega)=i\omega\mu\mathbf j_{\mathrm f}(\omega).
 $$
 
-### Plane Waves in Source-Free Media
+## Plane Waves in Source-Free Media
 
 Consider a homogeneous, isotropic, linear medium with real constant $\epsilon,\mu>0$ and no free charge or current:
 
@@ -88,7 +88,7 @@ $$
 \langle u\rangle=\frac{\epsilon|\mathbf E_0|^2}{2},\qquad \boxed{\langle\mathbf S_P\rangle=\frac{|\mathbf E_0|^2}{2Z}\hat{\mathbf k}=v_{\mathrm p}\langle u\rangle\hat{\mathbf k}}.
 $$
 
-### Polarization
+## Polarization
 
 Take the propagation direction along $+z$. Let $E_{x0},E_{y0}\geq0$ be the amplitudes of the two transverse components and $\phi_x,\phi_y$ their constant phases. The complex electric-field amplitude is
 
@@ -122,7 +122,7 @@ $$
 
 Here $\Delta\phi=-\pi/2$ gives right-handed polarization $\mathbf e_{\mathrm R}$, while $\Delta\phi=+\pi/2$ gives left-handed polarization $\mathbf e_{\mathrm L}$. Viewed from the $+z$ side toward the origin, the physical electric field rotates clockwise and counterclockwise, respectively.
 
-### Plane Waves in a Free-Electron Medium
+## Plane Waves in a Free-Electron Medium
 
 Consider a homogeneous, nonmagnetic free-electron medium with vacuum background. For a transverse wave in its bulk,
 
@@ -192,7 +192,7 @@ $$
 
   For $\omega<\omega_p$, the wave is evanescent, with $k=i/\delta$ and $\delta=c/\sqrt{\omega_p^2-\omega^2}$; for $\omega>\omega_p$, it can propagate.
 
-### Plane Waves in a Magnetized Free-Electron Medium
+## Plane Waves in a Magnetized Free-Electron Medium
 
 Consider a homogeneous free-electron medium with vacuum background. For a transverse wave in its bulk,
 
@@ -282,9 +282,9 @@ $$
 \boxed{\theta_{\mathrm F}=\frac{\Delta k\,d}{2}\simeq\frac{\omega d\,\epsilon_2}{2c\sqrt{\epsilon_1}}\propto B_{\mathrm{ext}}d.}
 $$
 
-### Plane Waves at a Material Interface
+## Plane Waves at a Material Interface
 
-##### Snell's Law
+### Snell's Law
 
 Let the interface be $z=0$, with $+\hat{\mathbf z}$ pointing upward. Lossless, isotropic, nondispersive media 1 and 2 occupy $z>0$ (above) and $z<0$ (below), respectively.
 
@@ -318,7 +318,7 @@ $$
 
 The following assumes a propagating transmitted wave, so $\theta_{\mathrm t}$ is real.
 
-##### Fresnel Equations
+### Fresnel Equations
 
 With no free surface current, the [tangential boundary conditions](electromagnetic_maxwell_equations.md#boundary-conditions) are
 

@@ -1,6 +1,6 @@
 # Spherical Harmonic-Oscillator Basis
 
-### Spherical Harmonic-Oscillator Hamiltonian
+## Spherical Harmonic-Oscillator Hamiltonian
 
 Let $M$ be the particle mass and $\omega>0$ the oscillator frequency. In Cartesian coordinates,
 
@@ -50,7 +50,7 @@ $$
 \boxed{E_\alpha=\hbar\omega\left(2n+l+\frac32\right).}
 $$
 
-### Radial Basis Functions
+## Radial Basis Functions
 
 Following the [three-dimensional harmonic-oscillator solution](../../notes/quantum_mechanics/harmonic_oscillator_coordinate_space.md#three-dimensional-isotropic-harmonic-oscillator), define
 
@@ -112,7 +112,7 @@ $$
 
 The expressions containing $1/\eta$ apply for $r>0$; values at the origin follow from the $r\to0$ limits of $\phi_{nl}(r)$.
 
-### Spinor Spherical Harmonics
+## Spinor Spherical Harmonics
 
 Following the [spinor spherical-harmonic convention](../../notes/mathematical_physics/specialfunction_spherical_harmonics.md#spinor-spherical-harmonics), let $Y_{lm_l}$ be the normalized scalar spherical harmonic and $\chi_\mu$ the normalized spin state with projection $\mu=\pm\frac12$. Coupling orbital angular momentum $l$ to spin $\frac12$ gives
 
@@ -142,7 +142,7 @@ $$
 \boxed{\int_0^\infty r^2\,dr\int d\Omega\,\phi_\alpha^\dagger(r,\theta,\varphi)\phi_{\alpha'}(r,\theta,\varphi)=\delta_{nn'}\delta_{ll'}\delta_{jj'}\delta_{mm'}.}
 $$
 
-### Quadrature Weights
+## Quadrature Weights
 
 Using $\eta=(r/b)^2$, generalized Gauss–Laguerre quadrature with parameter $\frac12$ gives
 

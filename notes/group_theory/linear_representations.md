@@ -1,6 +1,6 @@
-### Linear Spaces and Linear Operators
+## Linear Spaces and Linear Operators
 
-##### Vector Spaces
+### Vector Spaces
 
 Let $V$ be an $m$-dimensional complex vector space. For $\boldsymbol u,\boldsymbol v,\boldsymbol w\in V$ and $a,b\in\mathbb C$,
 
@@ -36,7 +36,7 @@ $$
 \boldsymbol v=\sum_{\mu=1}^{m}\boldsymbol e_\mu v_\mu,\qquad \underline v=(v_1,\ldots,v_m)^{\mathsf T}.
 $$
 
-##### Linear Operators
+### Linear Operators
 
 A map $A:V\to V$ is linear if
 
@@ -64,7 +64,7 @@ $$
 [AB]=[A][B].
 $$
 
-##### Similarity Transformations
+### Similarity Transformations
 
 Let $\mathcal E'=(\boldsymbol e'_1,\ldots,\boldsymbol e'_m)$ be another basis, related to $\mathcal E$ by an invertible matrix $S$.
 
@@ -86,9 +86,9 @@ $$
 \boxed{[A]'=S^{-1}[A]S}.
 $$
 
-### Linear Representations of Groups
+## Linear Representations of Groups
 
-##### General Linear Representations
+### General Linear Representations
 
 Let $G$ be a group with identity $e$. A linear representation of $G$ on $V$ is a homomorphism
 
@@ -178,7 +178,7 @@ $$
 D_{\mathrm{triv}}(g)=1,\qquad \forall g\in G.
 $$
 
-##### Characters
+### Characters
 
 - Character
 
@@ -200,7 +200,7 @@ $$
 \boxed{\chi_D(g')=\chi_D(g)}.
 $$
 
-##### Function-Space Realizations
+### Function-Space Realizations
 
 Let $X=\mathbb C^n$ carry an $n$-dimensional matrix representation $D^{(X)}$ of $G$.
 
@@ -246,9 +246,9 @@ $$
 
 The matrices $D^{(F)}(g)$ form the matrix representation of $P_g$ on $F$.
 
-### Equivalent and Reducible Representations
+## Equivalent and Reducible Representations
 
-##### Equivalent Representations
+### Equivalent Representations
 
 - Equivalence
 
@@ -264,7 +264,7 @@ $$
 \chi_{D'}(g)=\operatorname{tr}\!\left(S^{-1}D(g)S\right)=\chi_D(g).
 $$
 
-##### Unitary Representations
+### Unitary Representations
 
 - Unitary representation
 
@@ -308,7 +308,7 @@ $$
 \boxed{\text{Every finite-dimensional complex representation of a finite group is equivalent to a unitary representation.}}
 $$
 
-##### Reducible Representations and Invariant Subspaces
+### Reducible Representations and Invariant Subspaces
 
 Let $P$ act on $V$.
 
@@ -356,11 +356,11 @@ $$
 
 Repeating this decomposition yields the direct-sum form above.
 
-### Regular Representations
+## Regular Representations
 
 Let $G$ be a finite group of order $n_G=|G|$.
 
-##### Group Algebra
+### Group Algebra
 
 - Natural basis
 
@@ -376,7 +376,7 @@ $$
 
 extended linearly to $\mathbb C[G]$.
 
-##### Left and Right Regular Representations
+### Left and Right Regular Representations
 
 For $g,h\in G$, define
 
@@ -440,7 +440,7 @@ $$
 \boxed{\chi_{\mathrm{reg}}(e)=n_G,\qquad \chi_{\mathrm{reg}}(g)=0\quad(g\ne e)}.
 $$
 
-##### Construction from the Cayley Table
+### Construction from the Cayley Table
 
 Use the same ordering of $G$ for the Cayley table and the natural basis.
 
@@ -450,7 +450,7 @@ Use the same ordering of $G$ for the Cayley table and the natural basis.
 
 All remaining entries are zero.
 
-### Orthogonality and Completeness Relations
+## Orthogonality and Completeness Relations
 
 Let $G$ be a finite group of order $n_G=|G|$. Define the group-function space
 
@@ -458,7 +458,7 @@ $$
 \mathcal H_G=\{f:G\to\mathbb C\},\qquad \dim\mathcal H_G=n_G,\qquad \langle f_1,f_2\rangle_G=\sum_{g\in G}f_1(g)^*f_2(g).
 $$
 
-##### Schur's Lemma
+### Schur's Lemma
 
 Let $P^{(1)}$ and $P^{(2)}$ be irreducible complex representations on $V_1$ and $V_2$. A linear map $A:V_2\to V_1$ is an intertwining operator if
 
@@ -526,7 +526,7 @@ $$
 \boxed{A=\lambda I}.
 $$
 
-##### Matrix-Element Orthogonality
+### Matrix-Element Orthogonality
 
 Let $D^{(1)},\ldots,D^{(\ell)}$ be all pairwise inequivalent irreducible unitary matrix representations of $G$, with $D^{(i)}$ of dimension $d_i$. Use Greek indices for $D^{(i)}$ and Latin indices for $D^{(j)}$:
 
@@ -582,7 +582,7 @@ $$
 \boxed{\sum_{g\in G}\chi_i(g)^*\chi_j(g)=n_G\delta_{ij}}.
 $$
 
-##### Character Decomposition
+### Character Decomposition
 
 Let $D$ be a finite-dimensional complex representation, and let $\eta_i\in\mathbb N_0$ denote the multiplicity of $D^{(i)}$ in $D$. Complete reducibility gives
 
@@ -596,7 +596,7 @@ $$
 \eta_i=\frac{1}{n_G}\sum_{g\in G}\chi_i(g)^*\chi_D(g).
 $$
 
-##### Completeness from the Regular Representation
+### Completeness from the Regular Representation
 
 For the regular representation,
 
@@ -616,7 +616,7 @@ $$
 \boxed{n_G=\sum_{i=1}^{\ell}d_i^2}.
 $$
 
-##### Orthogonality and Completeness of Matrix Elements
+### Orthogonality and Completeness of Matrix Elements
 
 - Orthogonality over group elements
 
@@ -638,7 +638,7 @@ $$
 \sum_{i=1}^{\ell}d_i^2=n_G=\dim\mathcal H_G.
 $$
 
-##### Orthogonality and Completeness of Characters
+### Orthogonality and Completeness of Characters
 
 Let $D^{(i)}$ be an irreducible representation of $G$. Its character is
 
@@ -670,9 +670,9 @@ $$
 \ell=k.
 $$
 
-### Direct-Sum Decomposition and Tensor-Product Representations
+## Direct-Sum Decomposition and Tensor-Product Representations
 
-##### Direct-Sum Decomposition of Representations
+### Direct-Sum Decomposition of Representations
 
 Let $D$ be an $N$-dimensional complex representation of the finite group $G$, and let $D^{(1)},\ldots,D^{(k)}$ be all pairwise inequivalent irreducible representations, with
 
@@ -726,7 +726,7 @@ $$
 D\text{ is irreducible}\Longleftrightarrow\frac{1}{n_G}\sum_{g\in G}|\chi_D(g)|^2=1.
 $$
 
-##### Clebsch-Gordan Decomposition
+### Clebsch-Gordan Decomposition
 
 Let $D^{(i)}$ and $D^{(j)}$ be irreducible representations of $G$. Their tensor-product representation satisfies
 
@@ -780,7 +780,7 @@ $$
 \boxed{\sum_{\mu'=1}^{d_i}\sum_{\nu'=1}^{d_j}\Big\langle r(\tau),\rho\Big|i,\mu';\,j,\nu'\Big\rangle\,D^{(i)}_{\mu'\mu}(g)D^{(j)}_{\nu'\nu}(g)=\sum_{\rho'=1}^{d_r}D^{(r)}_{\rho\rho'}(g)\Big\langle r(\tau),\rho'\Big|i,\mu;\,j,\nu\Big\rangle}.
 $$
 
-##### Reduction by the Commutant
+### Reduction by the Commutant
 
 Let
 
@@ -916,7 +916,7 @@ $$
 
 If $D$ is the regular representation, this procedure yields all inequivalent irreducible representations of $G$.
 
-### Projection Operators
+## Projection Operators
 
 Let $P$ be an $N$-dimensional unitary representation of $G$ on $F$, and choose an orthonormal basis $\mathcal E=(\boldsymbol e_1,\ldots,\boldsymbol e_N)$. The operator $P_g:F\to F$ and its matrix $D(g)$ are related by
 
@@ -940,7 +940,7 @@ $$
 
 where $i$ labels the irreducible representation, $\tau$ labels equivalent copies, and $\mu$ is the basis index within each copy.
 
-##### Matrix-Element Projection Operators
+### Matrix-Element Projection Operators
 
 - Definition
 
@@ -1008,7 +1008,7 @@ $$
 
 For fixed $\nu$, the vectors $\mathcal P_{\mu\nu}^{(i)}\boldsymbol\psi$ transform under $D^{(i)}$.
 
-##### Character Projection Operators
+### Character Projection Operators
 
 - Definition
 
@@ -1050,7 +1050,7 @@ The coordinate vectors of $W_i$ form $\operatorname{col}\Pi^{(i)}\subseteq\mathb
 
 Thus, $\mathcal P^{(i)}$ selects the complete $D^{(i)}$-isotypic subspace. If $\eta_i>1$, it selects all equivalent copies together and does not separate them.
 
-##### Reduction by Projection Operators
+### Reduction by Projection Operators
 
 Assume that the reducible unitary matrix representation
 
@@ -1160,9 +1160,9 @@ $$
 \max_{g\in G}\left\|D(g)S-S\left[\bigoplus_{i=1}^{k}\left(I_{\eta_i}\otimes D^{(i)}(g)\right)\right]\right\|\approx0.
 $$
 
-### Character Theory
+## Character Theory
 
-##### Character Tables
+### Character Tables
 
 Let $G$ be a finite group of order $n_G=|G|$. Let $C_1,\ldots,C_k$ be its conjugacy classes, with $n_\alpha=|C_\alpha|$ and $C_1=\{e\}$. Let $D^{(1)},\ldots,D^{(\ell)}$ be all inequivalent irreducible representations, with $D^{(1)}$ the trivial representation. Define
 

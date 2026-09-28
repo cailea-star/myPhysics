@@ -4,7 +4,7 @@ Theory: [SO(3) and SU(2)](../../notes/group_theory/so3_su2.md).
 
 For fixed angular momentum $J=0,\tfrac12,1,\ldots$, use the ordered basis $|J,-J\rangle,\ldots,|J,J\rangle$. Angles are in radians.
 
-### Angular-Momentum Generators
+## Angular-Momentum Generators
 
 The $z$ component is diagonal in this basis:
 
@@ -34,7 +34,7 @@ $$
 \hat J_x=\frac{\hat J_++\hat J_-}{2},\qquad \hat J_y=\frac{\hat J_+-\hat J_-}{2i}.
 $$
 
-### Rotations
+## Rotations
 
 The $z$-$y$-$z$ Euler-angle convention defines the rotation operator:
 

@@ -1,6 +1,6 @@
-### Green Functions
+## Green Functions
 
-##### Definition
+### Definition
 
 Let $\mathcal L$ be a linear operator and consider the inhomogeneous equation
 
@@ -22,9 +22,9 @@ $$
 
 Thus, $G(x,x')$ is the response at $x$ to a unit source at $x'$. It is determined jointly by $\mathcal L$ and the boundary conditions; if $\mathcal L$ has zero modes, its inverse must be restricted to the compatible subspace.
 
-### Examples
+## Examples
 
-##### Poisson Equation
+### Poisson Equation
 
 In free space, the electrostatic potential satisfies
 
@@ -62,7 +62,7 @@ $$
 \boxed{\Phi(\mathbf r)=\frac{1}{4\pi\epsilon_0}\int \mathrm d^3\mathbf r'\,\frac{\rho(\mathbf r')}{|\mathbf r-\mathbf r'|}}.
 $$
 
-##### Quantum Green Function
+### Quantum Green Function
 
 Let the Hamiltonian be decomposed into a solvable part and an interaction:
 
@@ -96,7 +96,7 @@ $$
 
 In scattering theory, $\hat G_0^+(E)$ selects the outgoing-wave solution, while $\hat G_0^-(E)$ selects the incoming-wave solution.
 
-##### Full Green Function
+### Full Green Function
 
 For $\hat H=\hat H_0+\hat V$, define the full and free Green functions by
 

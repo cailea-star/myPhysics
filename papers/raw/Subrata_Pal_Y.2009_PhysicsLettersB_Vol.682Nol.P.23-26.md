@@ -7,13 +7,13 @@
 
 # Nuclear symmetry energy effects in finite nuclei and neutron star
 
-### Abstract
+## Abstract
 
 Within a relativistic mean-field model with nonlinear isoscalar-isovector coupling, we explore the possibility of constraining the density dependence of nuclear symmetry energy from a systematic study of the neutron skin thickness of finite nuclei and neutron star properties. We find the present skin data supports a rather stiff symmetry energy at subsaturation densities that corresponds to a soft symmetry energy at supranormal densities. Correlation between the skin of ^2^0^8Pb and the neutron st ar masses and radii with kaon condensation has been studied. We find that ^2^0^8Pb skin estimate suggest star radii that reveals considerable model dependence. Thus precise measurements of neutron star radii in conjunction with skin thickness of heavy nuc lei could provide significant constraint on the density dependence of symmetry energy.
 
-### Motivation
+## Motivation
 
-##### quotation-01
+### quotation-01
 
 ```tags
 [claim-type]: motivation
@@ -24,7 +24,7 @@ Within a relativistic mean-field model with nonlinear isoscalar-isovector coupli
 > In contrast, the density dependence of symmetry energy is poorly known.
 
 
-##### quotation-02
+### quotation-02
 
 ```tags
 [claim-type]: motivation
@@ -35,7 +35,7 @@ Within a relativistic mean-field model with nonlinear isoscalar-isovector coupli
 > Neutron stars provide an unique opportunity to constrain the high density behavior of the symmetry energy.
 
 
-##### quotation-03
+### quotation-03
 
 ```tags
 [claim-type]: definition
@@ -57,7 +57,7 @@ m_\rho^{*2} &= m_\rho^2+2g_\rho^2(\Lambda_vg_v^2V_0^2).
 ```
 
 
-##### quotation-04
+### quotation-04
 
 ```tags
 [claim-type]: motivation
@@ -68,7 +68,7 @@ m_\rho^{*2} &= m_\rho^2+2g_\rho^2(\Lambda_vg_v^2V_0^2).
 > Thus precise measurements of neutron skin thickness that is sensitive to symmetry energy at subsaturation densities and neutron star mass-radius that depends on high density behavior E sym (ρ ) could constrain the density dependence of symmetry energy.
 
 
-##### quotation-05
+### quotation-05
 
 ```tags
 [claim-type]: definition
@@ -83,9 +83,9 @@ S=R_n-R_p.
 ```
 
 
-### Methods
+## Methods
 
-##### quotation-06
+### quotation-06
 
 ```tags
 [claim-type]: method
@@ -96,7 +96,7 @@ S=R_n-R_p.
 > In this Letter, within a relativistic mean field model (RMF) we investigate the behavior of the density dependence of nuclear symmetry energy.
 
 
-##### quotation-07
+### quotation-07
 
 ```tags
 [claim-type]: method
@@ -107,7 +107,7 @@ S=R_n-R_p.
 > To demonstrate the effect of symmetric nuclear EOS, such as incompressibility K0, on the symmetry energy, we have extended the original NL3 Lagrangian to include the isovector coupling Λv which is then varied in both NL3 and FSUGold to generate various Esym(ρ).
 
 
-##### quotation-08
+### quotation-08
 
 ```tags
 [claim-type]: assumption
@@ -118,7 +118,7 @@ S=R_n-R_p.
 > The nonlinear sigma meson couplings (κ, λ) soften the symmetric nuclear matter EOS at around ρ0, while its high density part is softened by the omega meson self-interactions (ζ). It may be noted that the nonlinear rho meson couplings has a small effect [22] and omitted for simplicity.
 
 
-##### quotation-09
+### quotation-09
 
 ```tags
 [claim-type]: comparison
@@ -129,7 +129,7 @@ S=R_n-R_p.
 > As discussed above, these two RMF models however favor a more stiff symmetry energy to be consistent with the L = 88 ± 25 MeV value extracted from isospin diffusion and GMR data in heavy ion collisions.
 
 
-##### quotation-10
+### quotation-10
 
 ```tags
 [claim-type]: background
@@ -140,9 +140,9 @@ S=R_n-R_p.
 > The nonlinear isoscalar–isovector coupling (Λv) modifies the density dependent symmetry energy via m∗ρ without affecting the saturation properties.
 
 
-### Results
+## Results
 
-##### quotation-11
+### quotation-11
 
 ```tags
 [claim-type]: result
@@ -153,7 +153,7 @@ S=R_n-R_p.
 > The couplings Λv and gρ so generated are listed in Table 1. [...] The slope parameter L and Kasy ≈ Ksym − 6L are given.
 
 
-##### quotation-12
+### quotation-12
 
 ```tags
 [claim-type]: definition
@@ -170,7 +170,7 @@ K_{\rm sym}=9\rho_0^2\left.\frac{\partial^2E_{\rm sym}(\rho)}{\partial\rho^2}\ri
 ```
 
 
-##### quotation-13
+### quotation-13
 
 ```tags
 [claim-type]: definition
@@ -181,7 +181,7 @@ K_{\rm sym}=9\rho_0^2\left.\frac{\partial^2E_{\rm sym}(\rho)}{\partial\rho^2}\ri
 > The results are for the maximum masses Mmax, threshold mass MUrca and radius RUrca for the direct Urca process, mass MρK and radius RρK at the onset of kaon condensation, and the radius R1.4M⊙ of 1.4M⊙ neutron star.
 
 
-##### quotation-14
+### quotation-14
 
 ```tags
 [claim-type]: result
@@ -192,7 +192,7 @@ K_{\rm sym}=9\rho_0^2\left.\frac{\partial^2E_{\rm sym}(\rho)}{\partial\rho^2}\ri
 > Fig. 1 shows the density dependence of the nuclear symmetry energy Esym(ρ) at various isoscalar–isovector coupling Λv [...]. The sets show the systematic trend that a stiffer symmetry energy at supranormal densities ρ ≥ ρ0 leads to a softer energy dependence at subsaturation densities.
 
 
-##### quotation-15
+### quotation-15
 
 ```tags
 [claim-type]: result
@@ -203,7 +203,7 @@ K_{\rm sym}=9\rho_0^2\left.\frac{\partial^2E_{\rm sym}(\rho)}{\partial\rho^2}\ri
 > The skin data can be reproduced in the NL3 and FSUGold models with a soft symmetry energy corresponding to the parameter sets Λv ≥ 0.02, which sets a conservative upper bound of L ∼ 60 MeV (see Table 1). This constitutes a major result of the present study.
 
 
-##### quotation-16
+### quotation-16
 
 ```tags
 [claim-type]: result
@@ -214,9 +214,9 @@ K_{\rm sym}=9\rho_0^2\left.\frac{\partial^2E_{\rm sym}(\rho)}{\partial\rho^2}\ri
 > In summary, within two accurately calibrated relativistic mean field models, [...] we explore constraints [...]. The correlation between the skin thickness of 208Pb and the neutron star mass-radius have been explored. We find diverse model predictions in the correlation between 208Pb skin and the onset for kaon condensation.
 
 
-### Meanings
+## Meanings
 
-##### quotation-17
+### quotation-17
 
 ```tags
 [claim-type]: result
@@ -227,7 +227,7 @@ K_{\rm sym}=9\rho_0^2\left.\frac{\partial^2E_{\rm sym}(\rho)}{\partial\rho^2}\ri
 > Within a relativistic mean-field model with nonlinear isoscalar–isovector coupling, we explore [...] the density dependence of nuclear symmetry energy [...]. We find the present skin data supports a rather stiff symmetry energy at subsaturation densities that corresponds to a soft symmetry energy at supranormal densities.
 
 
-##### quotation-18
+### quotation-18
 
 ```tags
 [claim-type]: comparison
@@ -238,7 +238,7 @@ K_{\rm sym}=9\rho_0^2\left.\frac{\partial^2E_{\rm sym}(\rho)}{\partial\rho^2}\ri
 > In summary, within two accurately calibrated relativistic mean field models, [...] we explore constraints [...]. From model comparison with the measured neutron skin thickness of several stable nuclei we find an overall rather soft symmetry energy with a slope parameter L ∼ 60 MeV.
 
 
-##### quotation-19
+### quotation-19
 
 ```tags
 [claim-type]: result
@@ -249,7 +249,7 @@ K_{\rm sym}=9\rho_0^2\left.\frac{\partial^2E_{\rm sym}(\rho)}{\partial\rho^2}\ri
 > Within a relativistic mean-field model with nonlinear isoscalar–isovector coupling, we explore [...] neutron star properties. [...] We find that 208Pb skin estimate suggest star radii that reveals considerable model dependence.
 
 
-##### quotation-20
+### quotation-20
 
 ```tags
 [claim-type]: result
@@ -261,9 +261,9 @@ K_{\rm sym}=9\rho_0^2\left.\frac{\partial^2E_{\rm sym}(\rho)}{\partial\rho^2}\ri
 
 
 
-### Secondary Citations
+## Secondary Citations
 
-##### quotation-21
+### quotation-21
 ```tags
 [claim-type]: definition
 [tags]: RMF, nonlinear_meson_coupling
@@ -296,7 +296,7 @@ g_vV_\mu
 ```
 
 
-##### quotation-22
+### quotation-22
 ```tags
 [claim-type]: method
 [tags]: NL3, FSUGold, finite_nuclei
@@ -308,7 +308,7 @@ g_vV_\mu
 > In the present study, we use two accurately calibrated models: NL3 [23] and FSUGold [24], obtained by fitting the model parameters to certain ground state properties of finite nuclei.
 
 
-##### quotation-23
+### quotation-23
 ```tags
 [claim-type]: definition
 [tags]: direct_Urca_process, neutron_star
@@ -320,7 +320,7 @@ g_vV_\mu
 > Neutron stars may cool rapidly by neutrino emission in the direct Urca process [4,6,22] when the Fermi momenta satisfy kFp + kFe ≥ kFn.
 
 
-##### quotation-24
+### quotation-24
 ```tags
 [claim-type]: method
 [tags]: kaon_condensation, neutron_star, RMF
@@ -336,7 +336,7 @@ g_vV_\mu
 ```
 
 
-### Gaps
+## Gaps
 
 - `[section]: Methods | [item]: coverage | [target]: definition or background quotation for RMF | [reason]: only eligible RMF explanation is externally sourced`
 - `[section]: Meanings | [item]: claim-type | [target]: valid innovation quotation | [reason]: paper states major results but no novelty claim`

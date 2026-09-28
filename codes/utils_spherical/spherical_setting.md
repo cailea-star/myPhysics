@@ -1,6 +1,6 @@
 # Spherical Harmonic-Oscillator Setting
 
-### Coordinate Scale
+## Coordinate Scale
 
 Let $r\geq0$ be the radial coordinate, $M$ the particle mass, and $\omega$ the oscillator angular frequency. The oscillator length $b$ defines the dimensionless radial variable $\eta$:
 
@@ -14,7 +14,7 @@ $$
 r=b\sqrt{\eta},\qquad r^2\,dr=\frac{b^3}{2}\eta^{1/2}\,d\eta.
 $$
 
-### Single-Particle Labels
+## Single-Particle Labels
 
 Let $n=0,1,\ldots$ be the radial quantum number and $l=0,1,\ldots$ the orbital angular momentum. For spin $s=\frac12$, the total angular momentum $j$ and its projection $m$ satisfy
 
@@ -36,7 +36,7 @@ $$
 
 An orbit $(n,l,j)$ contains $2j+1$ magnetic substates. Labels refer to one nucleon species; neutron and proton spaces are treated separately.
 
-### Single-Particle Energies
+## Single-Particle Energies
 
 The spherical harmonic-oscillator energy of a state $\alpha$ is
 
@@ -52,7 +52,7 @@ $$
 E_{\mathrm{cut}}=\hbar\omega\left(N_{\mathrm{shell}}+\frac32\right),\qquad \mathcal B=\{\alpha:E_\alpha\leq E_{\mathrm{cut}}\}=\{\alpha:N_\alpha\leq N_{\mathrm{shell}}\}.
 $$
 
-### Shell Enumeration
+## Shell Enumeration
 
 Let $N\in\{N_1,N_2,\ldots\}$ denote the selected oscillator shells. The states within each shell form
 
@@ -84,7 +84,7 @@ $$
 \pi_N=(-1)^N,\qquad d_N=\sum_{j=1/2}^{N+1/2}(2j+1)=(N+1)(N+2).
 $$
 
-### Time-Reversal Phases
+## Time-Reversal Phases
 
 With $\hat T=-i\sigma_yK$ and real Condon–Shortley Clebsch–Gordan coefficients, the spinor spherical harmonics are
 
@@ -124,7 +124,7 @@ $$
 
 The phases $\eta_\alpha$ follow the single-particle ordering within each block. Under time-reversal reduction, only the $m>0$ representatives are retained.
 
-### Quadrature Orders
+## Quadrature Orders
 
 Let $n^{\max}$ and $l^{\max}$ be the largest quantum numbers among the retained labels. Let $\deg_v$ denote the polynomial degree of the radial potential in $\eta=(r/b)^2$.
 

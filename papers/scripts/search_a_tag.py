@@ -36,8 +36,8 @@ def find_section(raw_md_str: str, sectionname: str) -> str:
 def split_section_quotations(raw_md_section_str: str) -> list[dict]:
     quotations = []
 
-    # split the section into blocks by "##### " header, don't include the first block which is the section header
-    blocks = re.split(r"(?m)^#####\s+", raw_md_section_str)
+    # split the section into blocks by "### " header, don't include the first block which is the section header
+    blocks = re.split(r"(?m)^###\s+", raw_md_section_str)
     for block in blocks[1:]:
         _, _, body = block.partition("\n")
         # search for the tags block

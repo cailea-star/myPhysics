@@ -7,13 +7,13 @@
 
 # Effect of symmetry energy on the structure and α-decay of deformed superheavy nuclei
 
-### Abstract
+## Abstract
 
 We explore the impact of the density-dependent nuclear symmetry energy on the properties and stability of superheavy nuclei (SHN) based on a deformed relativistic mean-field theory in combination with the BCS method. The interaction ‘family’ based on the well-established FSUGarnet parameter set is introduced by adjusting the nonlinear ω − ρ coupling parameter Λ V and ρ-nucleon coupling parameter g ρ . This adjustment allows us to explore various density-dependent behaviors of the symmetry energy while maintaining its value at saturation density. A larger Λ V gives larger symmetry energy (but softer due to its small slope) below the saturation density. Under different density-dependent behavior of symmetry energy, the nuclear deformation remains largely unchanged, and the nuclear magicity is also almost not altered distinctly although the single-particle energy levels shift evidently. Intriguingly, although the shell gaps are not altered obviously, the stability of SHN against α-decay is enhanced substantially as the symmetry energy softens because a softer symmetry energy gives a smaller α-decay energy and a much longer lifetime.
 
-### Motivation
+## Motivation
 
-##### quotation-01
+### quotation-01
 
 ```tags
 [claim-type]: motivation
@@ -24,7 +24,7 @@ We explore the impact of the density-dependent nuclear symmetry energy on the pr
 > The 𝛼-decay is one of the dominant decay mode for SHN, and it is crucial for identifying new elements by observing the decay chain from an unknown parent nucleus to a known one.
 
 
-##### quotation-02
+### quotation-02
 
 ```tags
 [claim-type]: motivation
@@ -35,7 +35,7 @@ We explore the impact of the density-dependent nuclear symmetry energy on the pr
 > The different behavior of density-dependent symmetry energy is expected to influence the single-particle levels around the Fermi surface, and hence the stability of SHN.
 
 
-##### quotation-03
+### quotation-03
 
 ```tags
 [claim-type]: definition
@@ -49,7 +49,7 @@ We explore the impact of the density-dependent nuclear symmetry energy on the pr
 E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 ```
 
-##### quotation-04
+### quotation-04
 
 ```tags
 [claim-type]: background
@@ -59,7 +59,7 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 
 > The shell structure is the most essential feature for SHN at present, which draws significant interest theoretically. [...] The diversity of these predictions is associated with different single-particle properties near the Fermi surface which is strongly model-dependent.
 
-##### quotation-05
+### quotation-05
 
 ```tags
 [claim-type]: background
@@ -69,9 +69,9 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 
 > α-decay is regarded as one of the predominant decay mode in superheavy mass region, with the α-decay energy and its half-life serving as two crucial physical quantities that can be measured in experiments.
 
-### Methods
+## Methods
 
-##### quotation-06
+### quotation-06
 
 ```tags
 [claim-type]: method
@@ -82,7 +82,7 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 > The calculations are performed by using the deformed RMF theory in combination with BCS approach.
 
 
-##### quotation-07
+### quotation-07
 
 ```tags
 [claim-type]: assumption
@@ -93,7 +93,7 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 > The interaction ‘family’ based on the well-established FSUGarnet parameter set is introduced by adjusting the nonlinear ω − ρ coupling parameter Λ V and ρ-nucleon coupling parameter g ρ . This adjustment allows us to explore various density-dependent behaviors of the symmetry energy while maintaining its value at saturation density.
 
 
-##### quotation-08
+### quotation-08
 
 ```tags
 [claim-type]: method
@@ -103,7 +103,7 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 
 > To study the effects of different density-dependent behavior of symmetry energy on the properties of SHN, based on the original FSUGarnet interaction listed in Table 1, we introduce a ‘family’ of FSUGarnet by adjusting ΛV and gρ with the same procedure as in Ref. [19,56].
 
-##### quotation-09
+### quotation-09
 
 ```tags
 [claim-type]: background
@@ -113,9 +113,9 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 
 > The last line in the above equation denotes the meson self-interacting terms. The nonlinear mixed isoscalar-isovector coupling described by ΛV modifies the density-dependence of the symmetry energy.
 
-### Results
+## Results
 
-##### quotation-10
+### quotation-10
 
 ```tags
 [claim-type]: comparison
@@ -126,7 +126,7 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 > With the FSUGarnet0.153 parameter set, the density-dependent symmetry energy is depicted in Fig. 1. We would like to stress that below the saturation density ρ = 0.153 fm−3, the larger ΛV gives a larger symmetry energy (but a softer symmetry energy since its slope L at saturation density is small).
 
 
-##### quotation-11
+### quotation-11
 
 ```tags
 [claim-type]: result
@@ -137,7 +137,7 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 > [...] we introduce [...] by adjusting ΛV and gρ [...]. The [...] symmetry energy remains fixed at saturation density ρ=0.153 fm−3 [...]. The equation of state for symmetric matter remains unchanged, as other parameters remain constant. The obtained [...] ‘family’, together the slope parameter L at saturation density, is listed in Table 2 [...].
 
 
-##### quotation-12
+### quotation-12
 
 ```tags
 [claim-type]: result
@@ -148,7 +148,7 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 > As illustrated in Fig. 2, the ground state energy Eg.s. exhibits an increase as the coupling coefficient ΛV increases (the symmetry energy becomes softer), illustrating that a softer symmetry energy (larger symmetry energy in value below the saturation density) leads to a larger ground-state energy.
 
 
-##### quotation-13
+### quotation-13
 
 ```tags
 [claim-type]: result
@@ -159,7 +159,7 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 > For nuclei with non-zero isospin asymmetry, the ground-state energy increases visibly as the ΛV increases from 0.00 to 0.04337, such as 6.1 MeV for 48Ca, 29.8 MeV for 132Sn, and 32.1 MeV for 208Pb, resembling the behavior shown in SHN.
 
 
-##### quotation-14
+### quotation-14
 
 ```tags
 [claim-type]: result
@@ -170,7 +170,7 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 > In addition, it is found that the proton single particle levels along with its Fermi level substantially shift downwards, whereas the neutron single particle levels shift upwards integrally, as the symmetry energy becomes softer (ΛV becomes larger in value).
 
 
-##### quotation-15
+### quotation-15
 
 ```tags
 [claim-type]: result
@@ -181,7 +181,7 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 > In the framework of RMF theory, the spherical neutron magic number beyond N = 126 is predicted to be N = 172 instead of N = 184. Therefore, there is no shell gap of N = 184 presented in neutron single-particle levels in Fig. 5.
 
 
-##### quotation-16
+### quotation-16
 
 ```tags
 [claim-type]: comparison
@@ -191,7 +191,7 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 
 > Fig. 6(b) shows substantial increases of the half-lives of 270Hs and 304120 as the ΛV increases. The half-lives are increased by more than two orders of magnitude when comparing the ΛV = 0 case (stiff symmetry energy) to the ΛV = 0.04 case (soft symmetry energy).
 
-##### quotation-17
+### quotation-17
 
 ```tags
 [claim-type]: background
@@ -202,9 +202,9 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 > The ground state energy serves as a pivotal quantity in the characterization of nuclear ground states. These results can be used to determine other important quantities such as the α-decay energy Qα, two-neutron shell gap δ2n, and two-proton shell gap δ2p.
 
 
-### Meanings
+## Meanings
 
-##### quotation-18
+### quotation-18
 
 ```tags
 [claim-type]: innovation
@@ -215,7 +215,7 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 > We introduce the FSUGarnet0.153 interaction ‘family’ based on the well-established FSUGarnet parameter set by adjusting nonlinear ω − ρ coupling parameter ΛV and ρ-nucleon coupling parameter gρ to simulate various density-dependence of the symmetry energy, keeping the symmetry energy fixed at the saturation density ρ = 0.153 fm−3.
 
 
-##### quotation-19
+### quotation-19
 
 ```tags
 [claim-type]: comparison
@@ -226,7 +226,7 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 > The ground-state energy increases as the softening of the symmetry energy (the increasing of ΛV value), because the symmetry energy contributes positively to the ground state energy of the nuclei. The deformation is almost unchanged by the variation of the symmetry energy.
 
 
-##### quotation-20
+### quotation-20
 
 ```tags
 [claim-type]: comparison
@@ -237,7 +237,7 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 > However, the proton shell gap at Z = 108 and neutron shell gap at N = 162 for 270Hs remains almost unchanged with the softening of the symmetry energy because the relative energies between two levels are almost independent of the ΛV.
 
 
-##### quotation-21
+### quotation-21
 
 ```tags
 [claim-type]: comparison
@@ -249,7 +249,7 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 
 
 
-##### quotation-22
+### quotation-22
 
 ```tags
 [claim-type]: result
@@ -260,9 +260,9 @@ E(\rho,\delta)=E(\rho,0)+E_{\mathrm{sym}}(\rho)\delta^2
 > By employing the deformed RMF approach combined with BCS method, we investigate the effects of different density-dependent behavior of the symmetry energy on the ground-state properties and α-decay properties of some typical nuclei. [...] A softer symmetry energy gives smaller α-decay energy Qα and longer half-life.
 
 
-### Secondary Citations
+## Secondary Citations
 
-##### quotation-23
+### quotation-23
 ```tags
 [claim-type]: method
 [tags]: pairing_correlation, BCS
@@ -278,7 +278,7 @@ V = -V_0 \left[1 - \left(\frac{\rho(r)}{\rho_0}\right)^\gamma\right]\delta(r_1 -
 ```
 
 
-##### quotation-24
+### quotation-24
 ```tags
 [claim-type]: definition
 [tags]: symmetry_energy, density_dependent
@@ -296,7 +296,7 @@ E_{\rm sym}
 ```
 
 
-##### quotation-25
+### quotation-25
 ```tags
 [claim-type]: method
 [tags]: FSUGarnet, symmetry_energy, density_dependent
@@ -308,7 +308,7 @@ E_{\rm sym}
 > To study the effects of different density-dependent behavior of symmetry energy on the properties of SHN, based on the original FSUGarnet interaction listed in Table 1, we introduce a ‘family’ of FSUGarnet by adjusting ΛV and gρ with the same procedure as in Ref. [19,56].
 
 
-##### quotation-26
+### quotation-26
 ```tags
 [claim-type]: definition
 [tags]: two_nucleon_shell_gap, shell_closure
@@ -325,7 +325,7 @@ E_{\rm sym}
 ```
 
 
-##### quotation-27
+### quotation-27
 ```tags
 [claim-type]: result
 [tags]: alpha_decay_energy, alpha_decay_half_life
@@ -337,7 +337,7 @@ E_{\rm sym}
 > The α-decay half-life is extremely sensitive to the decay energy Qα, and an uncertainty of 1 MeV in Qα value results in an uncertainty of half-life by about 10^3 to 10^5 times in the heavy element region [66].
 
 
-##### quotation-28
+### quotation-28
 ```tags
 [claim-type]: method
 [tags]: alpha_decay_half_life, alpha_decay_energy
@@ -356,7 +356,7 @@ E_{\rm sym}
 ```
 
 
-##### quotation-29
+### quotation-29
 ```tags
 [claim-type]: result
 [tags]: RMF, symmetry_energy, superheavy_nuclei, single_particle_energy_level
@@ -368,7 +368,7 @@ E_{\rm sym}
 > The impact of the symmetry energy on the properties of spherical SHN has been investigated in Ref. [45] by using the RMF approach [...]. This study shows that the softening of the symmetry energy plays an important role in the spherical orbit shift in SHN [...].
 
 
-### Gaps
+## Gaps
 
 - `[section]: Methods | [item]: coverage | [target]: RMF >=1 valid definition or background quotation | [reason]: definition and background depend on cited sources`
 - `[section]: Methods | [item]: coverage | [target]: BCS >=1 valid definition or background quotation | [reason]: no eligible definition or background evidence`
