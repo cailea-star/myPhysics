@@ -8,22 +8,22 @@ $$
 \mathbf B=\nabla\times\mathbf A,\qquad \mathbf H=\frac{\mathbf B}{\mu(\mathbf r)}=\frac{1}{\mu(\mathbf r)}\nabla\times\mathbf A.
 $$
 
-For free current density $\mathbf j_f$, the magnetostatic equations are
+For free current density $\mathbf j_{\mathrm f}$, the magnetostatic equations are
 
 $$
-\nabla\cdot\mathbf B=0,\qquad \nabla\times\mathbf H=\mathbf j_f+\frac{\partial\mathbf D}{\partial t}=\mathbf j_f.
+\nabla\cdot\mathbf B=0,\qquad \nabla\times\mathbf H=\mathbf j_{\mathrm f}+\frac{\partial\mathbf D}{\partial t}=\mathbf j_{\mathrm f}.
 $$
 
 Substituting the field–potential relations gives
 
 $$
-\nabla\times\left[\frac{1}{\mu(\mathbf r)}\nabla\times\mathbf A\right]=\mathbf j_f.
+\nabla\times\left[\frac{1}{\mu(\mathbf r)}\nabla\times\mathbf A\right]=\mathbf j_{\mathrm f}.
 $$
 
-At an interface, $\hat{\mathbf n}$ points from medium 1 to medium 2, $\mathbf K_f$ is the free surface current density, and $\mu_i$ is the permeability on side $i$:
+At an interface, $\hat{\mathbf n}$ points from medium 1 to medium 2, $\mathbf K_{\mathrm f}$ is the free surface current density, and $\mu_i$ is the permeability on side $i$:
 
 $$
-\hat{\mathbf n}\cdot(\mathbf B_2-\mathbf B_1)=0,\qquad \hat{\mathbf n}\times(\mathbf H_2-\mathbf H_1)=\mathbf K_f.
+\hat{\mathbf n}\cdot(\mathbf B_2-\mathbf B_1)=0,\qquad \hat{\mathbf n}\times(\mathbf H_2-\mathbf H_1)=\mathbf K_{\mathrm f}.
 $$
 
 The first condition reads $\hat{\mathbf n}\cdot(\nabla\times\mathbf A_2-\nabla\times\mathbf A_1)=0$. For finite $\mathbf B$ and a nonsingular $\mathbf A$, a narrow surface $S_h$ of width $h$ across the interface gives
@@ -35,15 +35,15 @@ $$
 Hence $\hat{\mathbf n}\times(\mathbf A_2-\mathbf A_1)=0$. Substituting $\mathbf H_i=\mu_i^{-1}\nabla\times\mathbf A_i$ into the other condition yields
 
 $$
-\boxed{\hat{\mathbf n}\times(\mathbf A_2-\mathbf A_1)=0,\qquad \hat{\mathbf n}\times\left(\frac{\nabla\times\mathbf A_2}{\mu_2}-\frac{\nabla\times\mathbf A_1}{\mu_1}\right)=\mathbf K_f}.
+\boxed{\hat{\mathbf n}\times(\mathbf A_2-\mathbf A_1)=0,\qquad \hat{\mathbf n}\times\left(\frac{\nabla\times\mathbf A_2}{\mu_2}-\frac{\nabla\times\mathbf A_1}{\mu_1}\right)=\mathbf K_{\mathrm f}}.
 $$
 
 ### Uniqueness Theorem
 
-Let $V$ be a connected magnetic region with fixed free-current density $\mathbf j_f$ and permeability $\mu(\mathbf r)>0$, and let $\hat{\mathbf n}$ be the outward normal on $\partial V$. Consider two solutions with the same interface conditions and prescribed tangential vector potential on the outer boundary:
+Let $V$ be a connected magnetic region with fixed free-current density $\mathbf j_{\mathrm f}$ and permeability $\mu(\mathbf r)>0$, and let $\hat{\mathbf n}$ be the outward normal on $\partial V$. Consider two solutions with the same interface conditions and prescribed tangential vector potential on the outer boundary:
 
 $$
-\nabla\times\mathbf H=\nabla\times\mathbf H'=\mathbf j_f,\qquad \hat{\mathbf n}\times\mathbf A|_{\partial V}=\hat{\mathbf n}\times\mathbf A'|_{\partial V}.
+\nabla\times\mathbf H=\nabla\times\mathbf H'=\mathbf j_{\mathrm f},\qquad \hat{\mathbf n}\times\mathbf A|_{\partial V}=\hat{\mathbf n}\times\mathbf A'|_{\partial V}.
 $$
 
 Define
@@ -83,7 +83,7 @@ The vector potential remains gauge-dependent.
 Assume translation symmetry along $z$. Let the free current and vector potential have only $z$ components:
 
 $$
-\mathbf j_f=j_z(x,y)\hat{\mathbf z},\qquad \mathbf A=A_z(x,y)\hat{\mathbf z}.
+\mathbf j_{\mathrm f}=j_z(x,y)\hat{\mathbf z},\qquad \mathbf A=A_z(x,y)\hat{\mathbf z}.
 $$
 
 In a homogeneous region,

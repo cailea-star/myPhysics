@@ -11,19 +11,19 @@ $$
 In electrostatics, the relevant Maxwell equations reduce to
 
 $$
-\nabla\times\mathbf E=-\frac{\partial\mathbf B}{\partial t}=0,\qquad \nabla\cdot\mathbf D=\rho_f.
+\nabla\times\mathbf E=-\frac{\partial\mathbf B}{\partial t}=0,\qquad \nabla\cdot\mathbf D=\rho_{\mathrm f}.
 $$
 
 Substituting the field–potential relations gives
 
 $$
-\nabla\cdot\!\left[\epsilon(\mathbf r)\nabla\Phi\right]=-\rho_f.
+\nabla\cdot\!\left[\epsilon(\mathbf r)\nabla\Phi\right]=-\rho_{\mathrm f}.
 $$
 
-Here $\rho_f$ is the free volume charge density. At an interface, let $\hat{\mathbf n}$ point from medium 1 to medium 2, and let $\sigma_f$ be the free surface charge density. The field boundary conditions are
+Here $\rho_{\mathrm f}$ is the free volume charge density. At an interface, let $\hat{\mathbf n}$ point from medium 1 to medium 2, and let $\sigma_{\mathrm f}$ be the free surface charge density. The field boundary conditions are
 
 $$
-\hat{\mathbf n}\times(\mathbf E_2-\mathbf E_1)=0,\qquad \hat{\mathbf n}\cdot(\mathbf D_2-\mathbf D_1)=\sigma_f.
+\hat{\mathbf n}\times(\mathbf E_2-\mathbf E_1)=0,\qquad \hat{\mathbf n}\cdot(\mathbf D_2-\mathbf D_1)=\sigma_{\mathrm f}.
 $$
 
 If $\mathbf E$ remains finite, its integral across the interface vanishes as the thickness $h\to0$:
@@ -35,7 +35,7 @@ $$
 Here $s$ is the normal coordinate. The normal-field condition then gives, with $\partial_{\hat{\mathbf n}}\Phi=\hat{\mathbf n}\cdot\nabla\Phi$ and $\epsilon_i$ the permittivity on side $i$,
 
 $$
-\boxed{\Phi_1=\Phi_2,\qquad \epsilon_2\partial_{\hat{\mathbf n}}\Phi_2-\epsilon_1\partial_{\hat{\mathbf n}}\Phi_1=-\sigma_f}.
+\boxed{\Phi_1=\Phi_2,\qquad \epsilon_2\partial_{\hat{\mathbf n}}\Phi_2-\epsilon_1\partial_{\hat{\mathbf n}}\Phi_1=-\sigma_{\mathrm f}}.
 $$
 
 ### Uniqueness Theorem
@@ -43,7 +43,7 @@ $$
 Let $V$ be a connected dielectric region with permittivity $\epsilon(\mathbf r)>0$. Two solutions with the same free-charge distribution and outer-boundary potential satisfy
 
 $$
-\nabla\cdot\mathbf D=\nabla\cdot\mathbf D'=\rho_f,\qquad \Phi|_{\partial V}=\Phi'|_{\partial V}=\Phi_{\mathrm{bound}}.
+\nabla\cdot\mathbf D=\nabla\cdot\mathbf D'=\rho_{\mathrm f},\qquad \Phi|_{\partial V}=\Phi'|_{\partial V}=\Phi_{\mathrm{bound}}.
 $$
 
 Using the same constitutive and field–potential relations, define
