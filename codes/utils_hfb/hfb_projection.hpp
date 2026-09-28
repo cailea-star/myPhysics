@@ -9,6 +9,7 @@
 
 #include <cassert>
 #include <cmath>
+#include <utility>
 #include <vector>
 
 #include <Eigen/Core>
@@ -52,6 +53,14 @@ private:
 
 public:
     /**
+     * @brief  Construct empty angular-momentum projection workspaces.
+     * @math   Nsp = Nα = Nβ = Nγ = 0.
+     * @output Empty workspaces.
+     * @note   Assign a configured object before calculations.
+     */
+    HFBProjection() = default;
+
+    /**
      * @brief  Allocate projection and Pfaffian workspaces.
      * @math   φ_k = 2πk/Nphi; Δφ/(2π) = 1/Nphi.
      * @output Stored dimensions, target quantum numbers, and allocated workspaces.
@@ -92,21 +101,21 @@ public:
      * @math   Rz ∈ ℂ^{Nsp×Nsp×Nalpha}; weights represent dα.
      * @output Updated Rz(α), alpha nodes, and weights.
      */
-    void update_alpha(const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Rz_C3D_sp_sp_alpha_, const Eigen::VectorXd& alpha_F1D_alpha_, const Eigen::VectorXd& weight_F1D_alpha_);
+    void update_alpha(Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Rz_C3D_sp_sp_alpha_, Eigen::VectorXd alpha_F1D_alpha_, Eigen::VectorXd weight_F1D_alpha_);
 
     /**
      * @brief  Store beta rotations, nodes, and quadrature weights.
      * @math   Ry ∈ ℂ^{Nsp×Nsp×Nbeta}; weights represent sinβ dβ.
      * @output Updated Ry(β), beta nodes, and weights.
      */
-    void update_beta(const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Ry_C3D_sp_sp_beta_, const Eigen::VectorXd& beta_F1D_beta_, const Eigen::VectorXd& weight_F1D_beta_);
+    void update_beta(Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Ry_C3D_sp_sp_beta_, Eigen::VectorXd beta_F1D_beta_, Eigen::VectorXd weight_F1D_beta_);
 
     /**
      * @brief  Store gamma rotations, nodes, and quadrature weights.
      * @math   Rz ∈ ℂ^{Nsp×Nsp×Ngamma}; weights represent dγ.
      * @output Updated Rz(γ), gamma nodes, and weights.
      */
-    void update_gamma(const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Rz_C3D_sp_sp_gamma_, const Eigen::VectorXd& gamma_F1D_gamma_, const Eigen::VectorXd& weight_F1D_gamma_);
+    void update_gamma(Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Rz_C3D_sp_sp_gamma_, Eigen::VectorXd gamma_F1D_gamma_, Eigen::VectorXd weight_F1D_gamma_);
 
     /**
      * @brief  Integrate overlaps using Euler-angle and uniform gauge quadrature.
@@ -166,34 +175,34 @@ private:
     const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& integrate_amp(const KernelFunc& kernel_Func);
 };
 
-inline void HFBProjection::update_alpha(const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Rz_C3D_sp_sp_alpha_, const Eigen::VectorXd& alpha_F1D_alpha_, const Eigen::VectorXd& weight_F1D_alpha_) {
+inline void HFBProjection::update_alpha(Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Rz_C3D_sp_sp_alpha_, Eigen::VectorXd alpha_F1D_alpha_, Eigen::VectorXd weight_F1D_alpha_) {
     assert(Rz_C3D_sp_sp_alpha_.dimension(0) == Nsp_I && Rz_C3D_sp_sp_alpha_.dimension(1) == Nsp_I && Rz_C3D_sp_sp_alpha_.dimension(2) == Nalpha_I);
     assert(alpha_F1D_alpha_.size() == Nalpha_I && weight_F1D_alpha_.size() == Nalpha_I);
 
     // {Rz(α),α,wα} → stored quadrature data.
-    Rz_C3D_sp_sp_alpha = Rz_C3D_sp_sp_alpha_;
-    alpha_F1D_alpha = alpha_F1D_alpha_;
-    weight_F1D_alpha = weight_F1D_alpha_;
+    Rz_C3D_sp_sp_alpha = std::move(Rz_C3D_sp_sp_alpha_);
+    alpha_F1D_alpha = std::move(alpha_F1D_alpha_);
+    weight_F1D_alpha = std::move(weight_F1D_alpha_);
 }
 
-inline void HFBProjection::update_beta(const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Ry_C3D_sp_sp_beta_, const Eigen::VectorXd& beta_F1D_beta_, const Eigen::VectorXd& weight_F1D_beta_) {
+inline void HFBProjection::update_beta(Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Ry_C3D_sp_sp_beta_, Eigen::VectorXd beta_F1D_beta_, Eigen::VectorXd weight_F1D_beta_) {
     assert(Ry_C3D_sp_sp_beta_.dimension(0) == Nsp_I && Ry_C3D_sp_sp_beta_.dimension(1) == Nsp_I && Ry_C3D_sp_sp_beta_.dimension(2) == Nbeta_I);
     assert(beta_F1D_beta_.size() == Nbeta_I && weight_F1D_beta_.size() == Nbeta_I);
 
     // {Ry(β),β,wβ} → stored quadrature data.
-    Ry_C3D_sp_sp_beta = Ry_C3D_sp_sp_beta_;
-    beta_F1D_beta = beta_F1D_beta_;
-    weight_F1D_beta = weight_F1D_beta_;
+    Ry_C3D_sp_sp_beta = std::move(Ry_C3D_sp_sp_beta_);
+    beta_F1D_beta = std::move(beta_F1D_beta_);
+    weight_F1D_beta = std::move(weight_F1D_beta_);
 }
 
-inline void HFBProjection::update_gamma(const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Rz_C3D_sp_sp_gamma_, const Eigen::VectorXd& gamma_F1D_gamma_, const Eigen::VectorXd& weight_F1D_gamma_) {
+inline void HFBProjection::update_gamma(Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Rz_C3D_sp_sp_gamma_, Eigen::VectorXd gamma_F1D_gamma_, Eigen::VectorXd weight_F1D_gamma_) {
     assert(Rz_C3D_sp_sp_gamma_.dimension(0) == Nsp_I && Rz_C3D_sp_sp_gamma_.dimension(1) == Nsp_I && Rz_C3D_sp_sp_gamma_.dimension(2) == Ngamma_I);
     assert(gamma_F1D_gamma_.size() == Ngamma_I && weight_F1D_gamma_.size() == Ngamma_I);
 
     // {Rz(γ),γ,wγ} → stored quadrature data.
-    Rz_C3D_sp_sp_gamma = Rz_C3D_sp_sp_gamma_;
-    gamma_F1D_gamma = gamma_F1D_gamma_;
-    weight_F1D_gamma = weight_F1D_gamma_;
+    Rz_C3D_sp_sp_gamma = std::move(Rz_C3D_sp_sp_gamma_);
+    gamma_F1D_gamma = std::move(gamma_F1D_gamma_);
+    weight_F1D_gamma = std::move(weight_F1D_gamma_);
 }
 
 template <typename KernelFunc>

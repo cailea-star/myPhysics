@@ -41,6 +41,14 @@ private:
 
     public:
     /**
+     * @brief  Construct empty neutron-proton projection workspaces.
+     * @math   Cₙ = Cₚ = ∅.
+     * @output Empty workspaces.
+     * @note   Assign a configured object before calculations.
+     */
+    HFBProjectionNucleus() = default;
+
+    /**
      * @brief  Move species projections into owned workspaces.
      * @math   |Φκ⟩ = |Φν,κν⟩ ⊗ |Φπ,κπ⟩.
      * @output Object owning neutron and proton projections.

@@ -30,15 +30,17 @@ find_package(OpenMP REQUIRED)
 
 
 # ================ 源代码编译 + PUBLIC 传递依赖 ====================
-# 收集 cc 库的源文件, 配置库目标
-add_library(mylib INTERFACE)                                        # 添加库目标, INTERFACE or SHARED 模式
-target_include_directories(mylib INTERFACE utils)                   # Propagate general utility headers
-target_include_directories(mylib INTERFACE utils_spherical)         # Propagate spherical utility headers
-target_include_directories(mylib INTERFACE utils_cylindrical)       # Propagate cylindrical utility headers
-target_include_directories(mylib INTERFACE utils_hfb)               # Propagate HFB utility headers
-target_link_libraries(mylib INTERFACE Eigen3::Eigen)                # 传递依赖库, INTERFACE or PUBLIC 模式
-target_link_libraries(mylib INTERFACE GSL::gsl GSL::gslcblas)       # 传递依赖库, INTERFACE or PUBLIC 模式
-target_link_libraries(mylib INTERFACE OpenMP::OpenMP_CXX)           # 传递依赖库, INTERFACE or PUBLIC 模式
+# 收集 PSM 源文件, 配置静态库
+file(GLOB PSM_CPPS CONFIGURE_DEPENDS "psm/*.cpp")
+add_library(mylib STATIC ${PSM_CPPS})                              # 添加库目标, STATIC 模式
+target_include_directories(mylib PUBLIC utils)                    # Propagate general utility headers
+target_include_directories(mylib PUBLIC utils_spherical)          # Propagate spherical utility headers
+target_include_directories(mylib PUBLIC utils_cylindrical)        # Propagate cylindrical utility headers
+target_include_directories(mylib PUBLIC utils_hfb)                # Propagate HFB utility headers
+target_include_directories(mylib PUBLIC psm)
+target_link_libraries(mylib PUBLIC Eigen3::Eigen)                 # 传递依赖库, INTERFACE or PUBLIC 模式
+target_link_libraries(mylib PUBLIC GSL::gsl GSL::gslcblas)        # 传递依赖库, INTERFACE or PUBLIC 模式
+target_link_libraries(mylib PUBLIC OpenMP::OpenMP_CXX)            # 传递依赖库, INTERFACE or PUBLIC 模式
 
 
 # ==================== 复制 json ====================

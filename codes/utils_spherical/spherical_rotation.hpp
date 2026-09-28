@@ -44,6 +44,14 @@ public:
     Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Rz_C3D_2sp_2sp_gamma{};
 
     /**
+     * @brief Initialize an empty rotation workspace.
+     * @math {labels,α,β,γ} = ∅.
+     * @output Empty grids and rotation tensors.
+     * @note Assign a configured object before build().
+     */
+    SphericalRotation() = default;
+
+    /**
      * @brief  Initialize uniform azimuthal and Gauss-Legendre polar quadrature.
      * @math   x_i = cosβ_i; dΩ = dα sinβ dβ dγ.
      * @output Labels and angle grids; rotation tensors remain empty.

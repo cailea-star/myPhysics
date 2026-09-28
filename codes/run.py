@@ -3,7 +3,7 @@ import re
 import subprocess
 from pathlib import Path
 
-TEST_FILES = ["test_integration.cpp", "test_derivative.cpp"]
+TEST_FILES = ["test_psm_ee.cpp", "test_psm_eo.cpp"]
 test_names = [Path(filename).stem for filename in TEST_FILES]
 os.chdir(Path(__file__).resolve().parent)
 compiler = Path(os.environ["LOCALAPPDATA"]) / "LLVM/bin/clang++.exe"
