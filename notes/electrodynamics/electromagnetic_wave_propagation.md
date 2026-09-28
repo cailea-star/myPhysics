@@ -50,6 +50,8 @@ $$
 
 ## Plane Waves in Source-Free Media
 
+### Plane-Wave Solution and Energy Flux
+
 Consider a homogeneous, isotropic, linear medium with real constant $\epsilon,\mu>0$ and no free charge or current:
 
 $$
@@ -88,39 +90,39 @@ $$
 \langle u\rangle=\frac{\epsilon|\mathbf E_0|^2}{2},\qquad \boxed{\langle\mathbf S_P\rangle=\frac{|\mathbf E_0|^2}{2Z}\hat{\mathbf k}=v_{\mathrm p}\langle u\rangle\hat{\mathbf k}}.
 $$
 
-## Polarization
+### Polarization
 
-Take the propagation direction along $+z$. Let $E_{x0},E_{y0}\geq0$ be the amplitudes of the two transverse components and $\phi_x,\phi_y$ their constant phases. The complex electric-field amplitude is
+For a transverse wave, let $E_{x0},E_{y0}\geq0$ and $\phi_x,\phi_y$ be the amplitudes and phases of its two electric-field components:
 
 $$
 \mathbf k=k\hat{\mathbf z},\qquad \mathbf E_0=E_{x0}e^{i\phi_x}\hat{\mathbf x}+E_{y0}e^{i\phi_y}\hat{\mathbf y}.
 $$
 
-Define the phase of the $y$ component relative to the $x$ component and factor out the common phase:
+The relative phase is
 
 $$
 \Delta\phi=\phi_y-\phi_x,\qquad \mathbf E_0=e^{i\phi_x}\left(E_{x0}\hat{\mathbf x}+E_{y0}e^{i\Delta\phi}\hat{\mathbf y}\right).
 $$
 
-The physical electric field is
+The real field is
 
 $$
 \mathbf E(x,y,z,t)=\Re\!\left[\mathbf E_0e^{i(kz-\omega t)}\right].
 $$
 
-Only the two amplitudes and their phase difference determine the polarization:
+The polarization is:
 
-- **Linear polarization:** One amplitude vanishes, or $\Delta\phi=0\pmod\pi$.
-- **Elliptical polarization:** Both amplitudes are nonzero and $\Delta\phi\ne0\pmod\pi$.
-- **Circular polarization:** The special elliptical case $E_{x0}=E_{y0}$ and $\Delta\phi=\pm\pi/2$.
+- **Linear:** One amplitude vanishes, or $\Delta\phi=0\pmod\pi$.
+- **Elliptical:** Both amplitudes are nonzero and $\Delta\phi\ne0\pmod\pi$.
+- **Circular:** $E_{x0}=E_{y0}$ and $\Delta\phi=\pm\pi/2$.
 
-With the $e^{i(kz-\omega t)}$ convention from the preceding section, define the circular polarization basis vectors
+For this phase convention,
 
 $$
 \boxed{\mathbf e_{\mathrm R}=\frac{\hat{\mathbf x}-i\hat{\mathbf y}}{\sqrt2},\qquad \mathbf e_{\mathrm L}=\frac{\hat{\mathbf x}+i\hat{\mathbf y}}{\sqrt2}}.
 $$
 
-Here $\Delta\phi=-\pi/2$ gives right-handed polarization $\mathbf e_{\mathrm R}$, while $\Delta\phi=+\pi/2$ gives left-handed polarization $\mathbf e_{\mathrm L}$. Viewed from the $+z$ side toward the origin, the physical electric field rotates clockwise and counterclockwise, respectively.
+Viewed from $+z$ toward the origin, $\mathbf e_{\mathrm R}$ ($\Delta\phi=-\pi/2$) rotates clockwise; $\mathbf e_{\mathrm L}$ ($\Delta\phi=+\pi/2$) rotates counterclockwise.
 
 ## Plane Waves in a Free-Electron Medium
 
@@ -284,6 +286,14 @@ $$
 
 ## Plane Waves at a Material Interface
 
+Let $\sigma_{\mathrm f}$ and $\mathbf K_{\mathrm f}$ be the free surface charge and current densities. Both media are source-free in the bulk, and the interface carries no free surface sources:
+
+$$
+\rho_{\mathrm f,1}=\rho_{\mathrm f,2}=0,\qquad \mathbf j_{\mathrm f,1}=\mathbf j_{\mathrm f,2}=0,\qquad \sigma_{\mathrm f}=0,\qquad \mathbf K_{\mathrm f}=0.
+$$
+
+Bound surface charge is not excluded.
+
 ### Snell's Law
 
 Let the interface be $z=0$, with $+\hat{\mathbf z}$ pointing upward. Lossless, isotropic, nondispersive media 1 and 2 occupy $z>0$ (above) and $z<0$ (below), respectively.
@@ -320,86 +330,112 @@ The following assumes a propagating transmitted wave, so $\theta_{\mathrm t}$ is
 
 ### Fresnel Equations
 
-With no free surface current, the [tangential boundary conditions](electromagnetic_maxwell_equations.md#boundary-conditions) are
+The [tangential boundary conditions](electromagnetic_maxwell_equations.md#boundary-conditions) are
 
 $$
 \hat{\mathbf z}\times(\mathbf E_{\mathrm i}+\mathbf E_{\mathrm r}-\mathbf E_{\mathrm t})=0,\qquad \hat{\mathbf z}\times(\mathbf H_{\mathrm i}+\mathbf H_{\mathrm r}-\mathbf H_{\mathrm t})=0.
 $$
 
-- **TE polarization:** At the interface, let the electric-field amplitudes be
-
-  $$
-  \mathbf E_{\mathrm i}=E_{\mathrm i}\hat{\mathbf y},\qquad \mathbf E_{\mathrm r}=E_{\mathrm r}\hat{\mathbf y},\qquad \mathbf E_{\mathrm t}=E_{\mathrm t}\hat{\mathbf y}.
-  $$
-
-  The magnetic-field amplitude of each wave follows from
-
-  $$
-  \mathbf H=\frac{1}{Z}\hat{\mathbf k}\times\mathbf E.
-  $$
-
-  Thus, for the wave-vector directions defined above,
-
-  $$
-  \mathbf H_{\mathrm i}=\frac{E_{\mathrm i}}{Z_1}(\cos\theta_{\mathrm i}\hat{\mathbf x}+\sin\theta_{\mathrm i}\hat{\mathbf z}),\qquad \mathbf H_{\mathrm r}=\frac{E_{\mathrm r}}{Z_1}(-\cos\theta_{\mathrm r}\hat{\mathbf x}+\sin\theta_{\mathrm r}\hat{\mathbf z}),\qquad \mathbf H_{\mathrm t}=\frac{E_{\mathrm t}}{Z_2}(\cos\theta_{\mathrm t}\hat{\mathbf x}+\sin\theta_{\mathrm t}\hat{\mathbf z}).
-  $$
-
-  Using $\theta_{\mathrm r}=\theta_{\mathrm i}$, the tangential boundary conditions give
-
-  $$
-  \boxed{E_{\mathrm i}+E_{\mathrm r}=E_{\mathrm t},\qquad \frac{\cos\theta_{\mathrm i}}{Z_1}(E_{\mathrm i}-E_{\mathrm r})=\frac{\cos\theta_{\mathrm t}}{Z_2}E_{\mathrm t}}.
-  $$
-
-  Hence
-
-  $$
-  \boxed{r_{\mathrm{TE}}=\frac{E_{\mathrm r}}{E_{\mathrm i}}=\frac{Z_2\cos\theta_{\mathrm i}-Z_1\cos\theta_{\mathrm t}}{Z_2\cos\theta_{\mathrm i}+Z_1\cos\theta_{\mathrm t}},\qquad t_{\mathrm{TE}}=\frac{E_{\mathrm t}}{E_{\mathrm i}}=\frac{2Z_2\cos\theta_{\mathrm i}}{Z_2\cos\theta_{\mathrm i}+Z_1\cos\theta_{\mathrm t}}}.
-  $$
-
-- **TM polarization:** At the interface, let
-
-  $$
-  \mathbf H_{\mathrm i}=H_{\mathrm i}\hat{\mathbf y},\qquad \mathbf H_{\mathrm r}=H_{\mathrm r}\hat{\mathbf y},\qquad \mathbf H_{\mathrm t}=H_{\mathrm t}\hat{\mathbf y}.
-  $$
-
-  The electric-field amplitudes follow from
-
-  $$
-  \mathbf E=-Z\hat{\mathbf k}\times\mathbf H.
-  $$
-
-  Thus
-
-  $$
-  \mathbf E_{\mathrm i}=-Z_1H_{\mathrm i}(\cos\theta_{\mathrm i}\hat{\mathbf x}+\sin\theta_{\mathrm i}\hat{\mathbf z}),\qquad \mathbf E_{\mathrm r}=Z_1H_{\mathrm r}(\cos\theta_{\mathrm r}\hat{\mathbf x}-\sin\theta_{\mathrm r}\hat{\mathbf z}),\qquad \mathbf E_{\mathrm t}=-Z_2H_{\mathrm t}(\cos\theta_{\mathrm t}\hat{\mathbf x}+\sin\theta_{\mathrm t}\hat{\mathbf z}).
-  $$
-
-  Using $\theta_{\mathrm r}=\theta_{\mathrm i}$, the tangential boundary conditions give
-
-  $$
-  \boxed{H_{\mathrm i}+H_{\mathrm r}=H_{\mathrm t},\qquad Z_1\cos\theta_{\mathrm i}(H_{\mathrm i}-H_{\mathrm r})=Z_2\cos\theta_{\mathrm t}H_{\mathrm t}}.
-  $$
-
-  Defining the coefficients using magnetic-field amplitudes,
-
-  $$
-  \boxed{r_{\mathrm{TM}}=\frac{H_{\mathrm r}}{H_{\mathrm i}}=\frac{Z_1\cos\theta_{\mathrm i}-Z_2\cos\theta_{\mathrm t}}{Z_1\cos\theta_{\mathrm i}+Z_2\cos\theta_{\mathrm t}},\qquad t_{\mathrm{TM}}=\frac{H_{\mathrm t}}{H_{\mathrm i}}=\frac{2Z_1\cos\theta_{\mathrm i}}{Z_1\cos\theta_{\mathrm i}+Z_2\cos\theta_{\mathrm t}}}.
-  $$
-
-Reflectance and transmittance are ratios of cycle-averaged energy flux *normal* to the interface:
+Using the [Poynting vector in matter](electromagnetic_conservation_laws.md#energy-and-momentum-conservation-in-matter), the instantaneous and cycle-averaged energy fluxes are
 
 $$
-R_{\mathrm{TE}}=|r_{\mathrm{TE}}|^2,\qquad T_{\mathrm{TE}}=\frac{Z_1\cos\theta_{\mathrm t}}{Z_2\cos\theta_{\mathrm i}}|t_{\mathrm{TE}}|^2.
+\mathbf S_P=\mathbf E\times\mathbf H,\qquad \langle\mathbf S_P\rangle=\frac12\Re\!\left(\mathbf E_0\times\mathbf H_0^*\right).
 $$
 
+For each wave $a\in\{\mathrm i,\mathrm r,\mathrm t\}$, write $\mathbf S_a\equiv\langle\mathbf S_P\rangle_a$, with $\mathbf E_a,\mathbf H_a$ its complex field amplitudes.
+
+#### TE Polarization
+
+At the interface, let the electric-field amplitudes be
+
 $$
-R_{\mathrm{TM}}=|r_{\mathrm{TM}}|^2,\qquad T_{\mathrm{TM}}=\frac{Z_2\cos\theta_{\mathrm t}}{Z_1\cos\theta_{\mathrm i}}|t_{\mathrm{TM}}|^2.
+\mathbf E_{\mathrm i}=E_{\mathrm i}\hat{\mathbf y},\qquad \mathbf E_{\mathrm r}=E_{\mathrm r}\hat{\mathbf y},\qquad \mathbf E_{\mathrm t}=E_{\mathrm t}\hat{\mathbf y}.
+$$
+
+The magnetic-field amplitude of each wave follows from
+
+$$
+\mathbf H=\frac{1}{Z}\hat{\mathbf k}\times\mathbf E.
+$$
+
+Thus, for the wave-vector directions defined above,
+
+$$
+\mathbf H_{\mathrm i}=\frac{E_{\mathrm i}}{Z_1}(\cos\theta_{\mathrm i}\hat{\mathbf x}+\sin\theta_{\mathrm i}\hat{\mathbf z}),\qquad \mathbf H_{\mathrm r}=\frac{E_{\mathrm r}}{Z_1}(-\cos\theta_{\mathrm r}\hat{\mathbf x}+\sin\theta_{\mathrm r}\hat{\mathbf z}),\qquad \mathbf H_{\mathrm t}=\frac{E_{\mathrm t}}{Z_2}(\cos\theta_{\mathrm t}\hat{\mathbf x}+\sin\theta_{\mathrm t}\hat{\mathbf z}).
+$$
+
+Using $\theta_{\mathrm r}=\theta_{\mathrm i}$, the tangential boundary conditions give
+
+$$
+\boxed{E_{\mathrm i}+E_{\mathrm r}=E_{\mathrm t},\qquad \frac{\cos\theta_{\mathrm i}}{Z_1}(E_{\mathrm i}-E_{\mathrm r})=\frac{\cos\theta_{\mathrm t}}{Z_2}E_{\mathrm t}}.
+$$
+
+Hence
+
+$$
+\boxed{r_{\mathrm{TE}}=\frac{E_{\mathrm r}}{E_{\mathrm i}}=\frac{Z_2\cos\theta_{\mathrm i}-Z_1\cos\theta_{\mathrm t}}{Z_2\cos\theta_{\mathrm i}+Z_1\cos\theta_{\mathrm t}},\qquad t_{\mathrm{TE}}=\frac{E_{\mathrm t}}{E_{\mathrm i}}=\frac{2Z_2\cos\theta_{\mathrm i}}{Z_2\cos\theta_{\mathrm i}+Z_1\cos\theta_{\mathrm t}}}.
+$$
+
+The cycle-averaged energy fluxes are
+
+$$
+\mathbf S_{\mathrm i}=\frac{|E_{\mathrm i}|^2}{2Z_1}\hat{\mathbf k}_{\mathrm i},\qquad \mathbf S_{\mathrm r}=\frac{|E_{\mathrm r}|^2}{2Z_1}\hat{\mathbf k}_{\mathrm r},\qquad \mathbf S_{\mathrm t}=\frac{|E_{\mathrm t}|^2}{2Z_2}\hat{\mathbf k}_{\mathrm t}.
+$$
+
+Their normal components give the reflectance and transmittance:
+
+$$
+R_{\mathrm{TE}}=\frac{|\mathbf S_{\mathrm r}\cdot\hat{\mathbf z}|}{|\mathbf S_{\mathrm i}\cdot\hat{\mathbf z}|}=|r_{\mathrm{TE}}|^2,\qquad T_{\mathrm{TE}}=\frac{|\mathbf S_{\mathrm t}\cdot\hat{\mathbf z}|}{|\mathbf S_{\mathrm i}\cdot\hat{\mathbf z}|}=\frac{Z_1\cos\theta_{\mathrm t}}{Z_2\cos\theta_{\mathrm i}}|t_{\mathrm{TE}}|^2.
+$$
+
+#### TM Polarization
+
+At the interface, let
+
+$$
+\mathbf H_{\mathrm i}=H_{\mathrm i}\hat{\mathbf y},\qquad \mathbf H_{\mathrm r}=H_{\mathrm r}\hat{\mathbf y},\qquad \mathbf H_{\mathrm t}=H_{\mathrm t}\hat{\mathbf y}.
+$$
+
+The electric-field amplitudes follow from
+
+$$
+\mathbf E=-Z\hat{\mathbf k}\times\mathbf H.
+$$
+
+Thus
+
+$$
+\mathbf E_{\mathrm i}=-Z_1H_{\mathrm i}(\cos\theta_{\mathrm i}\hat{\mathbf x}+\sin\theta_{\mathrm i}\hat{\mathbf z}),\qquad \mathbf E_{\mathrm r}=Z_1H_{\mathrm r}(\cos\theta_{\mathrm r}\hat{\mathbf x}-\sin\theta_{\mathrm r}\hat{\mathbf z}),\qquad \mathbf E_{\mathrm t}=-Z_2H_{\mathrm t}(\cos\theta_{\mathrm t}\hat{\mathbf x}+\sin\theta_{\mathrm t}\hat{\mathbf z}).
+$$
+
+Using $\theta_{\mathrm r}=\theta_{\mathrm i}$, the tangential boundary conditions give
+
+$$
+\boxed{H_{\mathrm i}+H_{\mathrm r}=H_{\mathrm t},\qquad Z_1\cos\theta_{\mathrm i}(H_{\mathrm i}-H_{\mathrm r})=Z_2\cos\theta_{\mathrm t}H_{\mathrm t}}.
+$$
+
+Defining the coefficients using magnetic-field amplitudes,
+
+$$
+\boxed{r_{\mathrm{TM}}=\frac{H_{\mathrm r}}{H_{\mathrm i}}=\frac{Z_1\cos\theta_{\mathrm i}-Z_2\cos\theta_{\mathrm t}}{Z_1\cos\theta_{\mathrm i}+Z_2\cos\theta_{\mathrm t}},\qquad t_{\mathrm{TM}}=\frac{H_{\mathrm t}}{H_{\mathrm i}}=\frac{2Z_1\cos\theta_{\mathrm i}}{Z_1\cos\theta_{\mathrm i}+Z_2\cos\theta_{\mathrm t}}}.
+$$
+
+The cycle-averaged energy fluxes are
+
+$$
+\mathbf S_{\mathrm i}=\frac{Z_1|H_{\mathrm i}|^2}{2}\hat{\mathbf k}_{\mathrm i},\qquad \mathbf S_{\mathrm r}=\frac{Z_1|H_{\mathrm r}|^2}{2}\hat{\mathbf k}_{\mathrm r},\qquad \mathbf S_{\mathrm t}=\frac{Z_2|H_{\mathrm t}|^2}{2}\hat{\mathbf k}_{\mathrm t}.
+$$
+
+Their normal components give
+
+$$
+R_{\mathrm{TM}}=\frac{|\mathbf S_{\mathrm r}\cdot\hat{\mathbf z}|}{|\mathbf S_{\mathrm i}\cdot\hat{\mathbf z}|}=|r_{\mathrm{TM}}|^2,\qquad T_{\mathrm{TM}}=\frac{|\mathbf S_{\mathrm t}\cdot\hat{\mathbf z}|}{|\mathbf S_{\mathrm i}\cdot\hat{\mathbf z}|}=\frac{Z_2\cos\theta_{\mathrm t}}{Z_1\cos\theta_{\mathrm i}}|t_{\mathrm{TM}}|^2.
 $$
 
 For lossless media, $R_{\mathrm{TE}}+T_{\mathrm{TE}}=R_{\mathrm{TM}}+T_{\mathrm{TM}}=1$. At normal incidence,
 
 $$
-\boxed{R=\left|\frac{Z_2-Z_1}{Z_2+Z_1}\right|^2}.
+\boxed{R=R_{\mathrm{TM}}=R_{\mathrm{TE}}=\left|\frac{Z_2-Z_1}{Z_2+Z_1}\right|^2}.
 $$
 
 If $\mu_1=\mu_2$, TM reflection vanishes at the Brewster angle:
