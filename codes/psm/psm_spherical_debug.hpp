@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <cassert>
 #include <iomanip>
 #include <iostream>
 #include "psm_spherical.hpp"
@@ -69,8 +70,43 @@ inline void print_hfbcs(const PSMSpherical& psm) {
         std::cout << "\nDelta [MeV] = " << hfb.Delta_F << '\n';
     };
 
-    print_species("Neutron", psm.sphericalsetting_neutron, psm.hfb_neutron);
-    print_species("Proton", psm.sphericalsetting_proton, psm.hfb_proton);
+    print_species("Neutron", psm.psm_setting.sphericalsetting_neutron, psm.hfb_neutron);
+    print_species("Proton", psm.psm_setting.sphericalsetting_proton, psm.hfb_proton);
+}
+
+/**
+ * @brief Print CI energies and collective amplitudes.
+ * @math g(a,ν); a = cfgp + Ncfgp(cfgn + Ncfgn K).
+ * @output E: first/last five; g: four corner blocks.
+ */
+inline void print_ci(const PSMSpherical& psm) {
+    const Eigen::Index Nstate_I = psm.EPSM_F1D_state.size();
+    assert(Nstate_I > 0);
+    const Eigen::Index Nbasis_I = psm.gPSM_C4D_cfgp_cfgn_K_state.size() / Nstate_I;
+    const Eigen::Map<const Eigen::MatrixXcd> g_C2D_basis_state(psm.gPSM_C4D_cfgp_cfgn_K_state.data(), Nbasis_I, Nstate_I);
+
+    std::cout << std::fixed << std::setprecision(8);
+    std::cout << "\nEPSM [MeV] = ";
+    if (Nstate_I <= 10) {
+        std::cout << psm.EPSM_F1D_state.transpose();
+    } else {
+        std::cout << psm.EPSM_F1D_state.head(5).transpose() << " ... " << psm.EPSM_F1D_state.tail(5).transpose();
+    }
+    std::cout << "\ngPSM [basis, state] =\n";
+    for (Eigen::Index row_I = 0; row_I < Nbasis_I; ++row_I) {
+        if (Nbasis_I > 10 && row_I == 5) {
+            std::cout << "...\n";
+            row_I = Nbasis_I - 5;
+        }
+        for (Eigen::Index column_I = 0; column_I < Nstate_I; ++column_I) {
+            if (Nstate_I > 10 && column_I == 5) {
+                std::cout << " ... ";
+                column_I = Nstate_I - 5;
+            }
+            std::cout << std::setw(28) << g_C2D_basis_state(row_I, column_I);
+        }
+        std::cout << '\n';
+    }
 }
 
 } // namespace psm_debug

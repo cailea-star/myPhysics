@@ -7,44 +7,34 @@
 
 #pragma once
 
-#include <array>
-#include <vector>
+#include <utility>
+#include <unsupported/Eigen/CXX11/Tensor>
 
 #include "hfb_bcs.hpp"
-#include "hfb_configuration.hpp"
+#include "psm_spherical_setting.hpp"
 #include "hfb_projection_nucleus.hpp"
-#include "spherical_setting.hpp"
-
-// κ_q(N,A) = (Aκ_q − A Bκ_q) Fκ_q(N).
-// μ_q(N,A) = (Aμ_q − A Bμ_q) Fμ_q(N).
-// q ∈ {n,p}; A: mass number; N: oscillator shell.
-struct HFBCSData {
-    // κ_q(A) = Aκ_q − A Bκ_q; μ_q(A) = Aμ_q − A Bμ_q.
-    inline static constexpr double Akappa_n_F = 0.06433;
-    inline static constexpr double Bkappa_n_F = 0.004e-3;
-    inline static constexpr double Akappa_p_F = 0.07441;
-    inline static constexpr double Bkappa_p_F = 0.068e-3;
-    inline static constexpr double Amu_n_F = 0.59010;
-    inline static constexpr double Bmu_n_F = 1.080e-3;
-    inline static constexpr double Amu_p_F = 0.51180;
-    inline static constexpr double Bmu_p_F = -0.560e-3;
-
-    inline static constexpr std::array<int, 9> Nshell_I1D_Nshell{0, 1, 2, 3, 4, 5, 6, 7, 8};
-
-    // Fκ(N) = Fμ(N) = 1.
-    inline static constexpr std::array<double, 9> Fkappa_n_F1D_Nshell{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
-    inline static constexpr std::array<double, 9> Fkappa_p_F1D_Nshell{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
-    inline static constexpr std::array<double, 9> Fmu_n_F1D_Nshell{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
-    inline static constexpr std::array<double, 9> Fmu_p_F1D_Nshell{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
-};
 
 class PSMSpherical {
 public:
-    int Ncore_I = 0;
-    int Zcore_I = 0;
+    PSMSphericalSetting psm_setting;
 
-    SphericalSetting sphericalsetting_neutron;
-    SphericalSetting sphericalsetting_proton;
+    // h₀ in complete (+m,−m) space.
+    Eigen::MatrixXd h0n_F2D_2spn_2spn{};
+    Eigen::MatrixXd h0p_F2D_2spp_2spp{};
+
+    // h_deform = ℏω₀(r/b)²[−(2ε₂/3)P₂+ε₄P₄].
+    Eigen::MatrixXd h0Deform_n_F2D_2spn_2spn{};
+    Eigen::MatrixXd h0Deform_p_F2D_2spp_2spp{};
+
+    // Q₂μ = δ_NN′(r/b)²√(4π/5)Y₂μ; μ = −2,…,2; (+m,−m).
+    Eigen::Tensor<double, 3, Eigen::ColMajor> Qn_F3D_2spn_2spn_mu{};
+    Eigen::Tensor<double, 3, Eigen::ColMajor> Qp_F3D_2spp_2spp_mu{};
+
+    // P₀: μ = 0; P₂μ: μ = −2,…,2.
+    Eigen::Tensor<double, 3, Eigen::ColMajor> P0n_F3D_2spn_2spn_mu{};
+    Eigen::Tensor<double, 3, Eigen::ColMajor> P0p_F3D_2spp_2spp_mu{};
+    Eigen::Tensor<double, 3, Eigen::ColMajor> P2n_F3D_2spn_2spn_mu{};
+    Eigen::Tensor<double, 3, Eigen::ColMajor> P2p_F3D_2spp_2spp_mu{};
 
     HFBCS hfb_neutron;
     HFBCS hfb_proton;
@@ -55,82 +45,75 @@ public:
     Eigen::MatrixXd Up_F2D_2spp_2qpp{};
     Eigen::MatrixXd Vp_F2D_2spp_2qpp{};
 
+    // ρ = VVᵀ; complete (+K,−K) space.
+    Eigen::MatrixXd rhon_F2D_2spn_2spn{};
+    Eigen::MatrixXd rhop_F2D_2spp_2spp{};
+
     Eigen::VectorXd Eqpn_F1D_2qpn{};
     Eigen::VectorXd Eqpp_F1D_2qpp{};
     Eigen::VectorXi TwoKn_I1D_2qpn{};
     Eigen::VectorXi TwoKp_I1D_2qpp{};
 
-    HFBConfiguration configuration_neutron;
-    HFBConfiguration configuration_proton;
-
     HFBProjectionNucleus projection_nucleus;
 
     // (cfgp,cfgn,K,cfgp,cfgn,K).
-    Eigen::Tensor<doubleC, 6, Eigen::ColMajor> Honebody_C6D_cfgp_cfgn_K_cfgp_cfgn_K{};
-    Eigen::Tensor<doubleC, 6, Eigen::ColMajor> Htwobody_C6D_cfgp_cfgn_K_cfgp_cfgn_K{};
+    Eigen::Tensor<doubleC, 6, Eigen::ColMajor> H_C6D_cfgp_cfgn_K_cfgp_cfgn_K{};
     Eigen::Tensor<doubleC, 6, Eigen::ColMajor> N_C6D_cfgp_cfgn_K_cfgp_cfgn_K{};
+
+    // gν = N^(1/2)fν; gν†gν′ = δνν′.
+    Eigen::VectorXd EPSM_F1D_state{};
+    Eigen::Tensor<doubleC, 4, Eigen::ColMajor> gPSM_C4D_cfgp_cfgn_K_state{};
 
 public:
     /**
-     * @brief Initialize species bases and BCS workspaces.
-     * @math (bₙ,{Nₙ}; bₚ,{Nₚ}) → blocks (m,N), η → HFBCS.
-     * @math Ncore = Nmin(Nmin+1)(Nmin+2)/3; similarly Zcore.
-     * @output Species settings, core counts, and allocated BCS workspaces.
-     * @note Shells below each active space are filled.
+     * @brief Store settings, construct operators, and initialize BCS workspaces.
+     * @math psm_setting → h₀,h_deform,Q₂μ,P₀,P₂μ,ηₙ,ηₚ → HFBCS.
+     * @output Owned settings, ten operators, and neutron/proton BCS workspaces.
+     * @note Requires configured single-particle spaces and HFBCS parameters.
+     * @note Settings are passed by value, then moved.
      */
-    PSMSpherical(double bn_F_, double bp_F_, const std::vector<int>& Nshelln_I1D_Nshell_, const std::vector<int>& Nshellp_I1D_Nshell_) : 
-    sphericalsetting_neutron(bn_F_, Nshelln_I1D_Nshell_, true, true, true), 
-    sphericalsetting_proton(bp_F_, Nshellp_I1D_Nshell_, true, true, true), 
-    hfb_neutron(sphericalsetting_neutron.eta_F2D_block_bsp), 
-    hfb_proton(sphericalsetting_proton.eta_F2D_block_bsp) {
-        const int Nminn_I = sphericalsetting_neutron.Nshell_I1D_Nshell.front();
-        const int Nminp_I = sphericalsetting_proton.Nshell_I1D_Nshell.front();
-
-        // Ncore = Σ_{N=0}^{Nmin−1}(N+1)(N+2).
-        Ncore_I = Nminn_I * (Nminn_I + 1) * (Nminn_I + 2) / 3;
-        Zcore_I = Nminp_I * (Nminp_I + 1) * (Nminp_I + 2) / 3;
+    PSMSpherical(PSMSphericalSetting psm_setting_) : psm_setting(std::move(psm_setting_)),
+    hfb_neutron(psm_setting.sphericalsetting_neutron.eta_F2D_block_bsp),
+    hfb_proton(psm_setting.sphericalsetting_proton.eta_F2D_block_bsp) {
+        // psm_setting → h₀,h_deform,Q₂μ,P₀,P₂μ in complete (+m,−m) spaces.
+        build_h0(psm_setting.sphericalsetting_neutron, psm_setting.hbarOmega0_n_F, psm_setting.hbarOmega00_n_F, psm_setting.kappa_n_F, psm_setting.mu_n_F, h0n_F2D_2spn_2spn);
+        build_h0(psm_setting.sphericalsetting_proton, psm_setting.hbarOmega0_p_F, psm_setting.hbarOmega00_p_F, psm_setting.kappa_p_F, psm_setting.mu_p_F, h0p_F2D_2spp_2spp);
+        build_h0_deformation(psm_setting.sphericalsetting_neutron, psm_setting.hbarOmega0_n_F, psm_setting.epsilon2_F, psm_setting.epsilon4_F, h0Deform_n_F2D_2spn_2spn);
+        build_h0_deformation(psm_setting.sphericalsetting_proton, psm_setting.hbarOmega0_p_F, psm_setting.epsilon2_F, psm_setting.epsilon4_F, h0Deform_p_F2D_2spp_2spp);
+        build_Q(psm_setting.sphericalsetting_neutron, Qn_F3D_2spn_2spn_mu);
+        build_Q(psm_setting.sphericalsetting_proton, Qp_F3D_2spp_2spp_mu);
+        build_P(psm_setting.sphericalsetting_neutron, Qn_F3D_2spn_2spn_mu, P0n_F3D_2spn_2spn_mu, P2n_F3D_2spn_2spn_mu);
+        build_P(psm_setting.sphericalsetting_proton, Qp_F3D_2spp_2spp_mu, P0p_F3D_2spp_2spp_mu, P2p_F3D_2spp_2spp_mu);
     }
 
     /**
      * @brief Build Nilsson states and solve BCS pairing.
      * @math h_Nilsson(ε₂,ε₄), Gₙ,Gₚ → λ,Δ,E,u,v.
-     * @output Updated neutron and proton HFBCS solutions.
-     * @note TargetN,TargetZ include cores; G is in MeV.
-     */
-    void build_hfbcs(int TargetN_I, int TargetZ_I, double Gn_F, double Gp_F, double epsilon2_F, double epsilon4_F);
-
-    /**
-     * @brief Expand BCS blocks into complete quasiparticle spaces.
      * @math (f,u,v,η) → U,V; E = (E₊,E₊); K = (K₊,−K₊).
-     * @output Full neutron and proton U,V,Eqp,TwoK arrays.
-     * @note Requires solved BCS states; ordering is (+K,−K).
+     * @output HFBCS solutions and full U,V,Eqp,TwoK,ρ arrays.
+     * @note Reads psm_setting; BCS uses G0_nn,G0_pp in MeV.
+     * @note Full-space ordering is (+K,−K).
      */
-    void build_UVEK();
+    void solve_hfbcs();
 
     /**
-     * @brief Set neutron cutoffs and enumerate configurations.
-     * @math Nqp = 2Σ_b Nbsp_b; E = (E₊,E₊); K = (K₊,−K₊).
-     * @output Updated neutron cutoffs and configuration list.
-     * @note Requires build_UVEK(); QP order is (+K,−K).
+     * @brief Solve configuration mixing using canonical norm orthogonalization.
+     * @math Hf = ENf; G₂,nn/pp = γG₀,nn/pp.
+     * @output EPSM_F1D_state and gPSM_C4D_cfgp_cfgn_K_state.
+     * @note Requires HFBCS densities, configurations, and initialized projection.
+     * @note Retains norm eigenvalues nᵢ > 1e-10 nmax.
      */
-    void build_config_neutron(const Eigen::VectorXi& Ncqp_I1D_Ncqp, const Eigen::VectorXd& ECut_F1D_Ncqp, const Eigen::VectorXi& NCut_I1D_Ncqp, const Eigen::VectorXi& TwoKCut_I1D_Ncqp);
-
-    /**
-     * @brief Set proton cutoffs and enumerate configurations.
-     * @math Nqp = 2Σ_b Nbsp_b; E = (E₊,E₊); K = (K₊,−K₊).
-     * @output Updated proton cutoffs and configuration list.
-     * @note Requires build_UVEK(); QP order is (+K,−K).
-     */
-    void build_config_proton(const Eigen::VectorXi& Ncqp_I1D_Ncqp, const Eigen::VectorXd& ECut_F1D_Ncqp, const Eigen::VectorXi& NCut_I1D_Ncqp, const Eigen::VectorXi& TwoKCut_I1D_Ncqp);
+    void solve_ci(double gamma_F);
 
     /**
      * @brief Assemble neutron-proton projection workspaces.
-     * @math Nactive = TargetN − Ncore; Zactive = TargetZ − Zcore.
-     * @output Initialized projection_nucleus with shared left/right configurations.
-     * @note Requires U,V and neutron/proton configurations.
+     * @math Nactive = N − Ncore; Zactive = Z − Zcore.
+     * @output Generated configurations and initialized projection_nucleus.
+     * @note Requires solved U,V,Eqp,TwoK and configured cutoffs.
      */
-    void build_projection(int TargetN_I, int TargetZ_I, int TargetTwoI_I, int Nalpha_I, int Nbeta_I, int Ngamma_I, int Nphin_I, int Nphip_I);
+    void build_projection(int TargetTwoI_I, int Nalpha_I, int Nbeta_I, int Ngamma_I, int Nphin_I, int Nphip_I);
 
+private:
     /**
      * @brief Build the projected configuration overlap tensor.
      * @math N_ab = ⟨Φ_a|Pₙ Pₚ Pᴵ|Φ_b⟩.
@@ -140,18 +123,40 @@ public:
     void build_norm();
 
     /**
-     * @brief Construct spherical single-particle fields and project them.
-     * @math H¹ = ⟨Φ₁|(h₀ₙ+h₀ₚ)PₙPₚPᴵ|Φ₂⟩.
-     * @output Honebody_C6D_cfgp_cfgn_K_cfgp_cfgn_K.
-     * @note TargetN,TargetZ include cores; requires build_projection().
+     * @brief Construct and project one-body and two-body Hamiltonians.
+     * @math H = H¹ + H²; H¹ = ⟨Φ₁|(h₀ₙ+h₀ₚ)PₙPₚPᴵ|Φ₂⟩.
+     * @math (χ₂,nn,χ₂,np,χ₂,pp,G₀,nn,G₀,pp,G₂,nn,G₂,pp) → H².
+     * @output H_C6D_cfgp_cfgn_K_cfgp_cfgn_K.
+     * @note Requires solve_hfbcs(), configured strengths, and build_projection().
      */
-    void build_onebody(int TargetN_I, int TargetZ_I);
+    void build_hamiltonian();
 
     /**
-     * @brief Construct quadrupole and pairing operators and project them.
-     * @math (χ₂,nn,χ₂,np,χ₂,pp,G₀,nn,G₀,pp,G₂,nn,G₂,pp) → H².
-     * @output Htwobody_C6D_cfgp_cfgn_K_cfgp_cfgn_K.
-     * @note Independent input strengths; requires build_projection().
+     * @brief Build spherical single-particle fields.
+     * @math h₀ = ℏω₀(N+3/2) − κℏω₀₀[2l·s+μ(l²−N(N+3)/2)].
+     * @output Diagonal h₀ in complete (+m,−m) space.
      */
-    void build_twobody(double chi2_nn_F, double chi2_np_F, double chi2_pp_F, double G0_nn_F, double G0_pp_F, double G2_nn_F, double G2_pp_F);
+    static void build_h0(const SphericalSetting& setting, double hbarOmega0_F, double hbarOmega00_F, double kappa_F, double mu_F, Eigen::MatrixXd& h0_F2D_2sp_2sp);
+
+    /**
+     * @brief Build deformation fields using radial quadrature.
+     * @math h_deform = ℏω₀(r/b)²[−(2ε₂/3)P₂+ε₄P₄].
+     * @output Deformation contribution in complete (+m,−m) space.
+     * @note Retains existing shell and axial blocks.
+     */
+    static void build_h0_deformation(const SphericalSetting& setting, double hbarOmega0_F, double epsilon2_F, double epsilon4_F, Eigen::MatrixXd& hDeform_F2D_2sp_2sp);
+
+    /**
+     * @brief Build quadrupole matrix using radial quadrature.
+     * @math Q₂μ = δ_NN′(r/b)²√(4π/5)Y₂μ; μ = −2,…,2.
+     * @output Five Q₂μ matrices in complete (+m,−m) space.
+     */
+    static void build_Q(const SphericalSetting& sphericalsetting, Eigen::Tensor<double, 3, Eigen::ColMajor>& Q_F3D_2sp_2sp_mu);
+
+    /**
+     * @brief Build pairing matrices from quadrupole matrices.
+     * @math P₀ = [[0,η],[−η,0]]; P₂μ = Q₂μ P₀.
+     * @output P₀ and five P₂μ matrices.
+     */
+    static void build_P(const SphericalSetting& setting, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Q2_F3D_2sp_2sp_mu, Eigen::Tensor<double, 3, Eigen::ColMajor>& P0_F3D_2sp_2sp_mu, Eigen::Tensor<double, 3, Eigen::ColMajor>& P2_F3D_2sp_2sp_mu);
 };
