@@ -34,17 +34,17 @@ int main() {
 
     PSMSpherical psm(std::move(psm_setting));
     psm.solve_hfbcs();
-    psm_debug::print_hfbcs(psm);
+    print_hfbcs(psm);
 
     // Full signed-K configurations; Nphi = 1 disables PNP.
     // Nalpha = Ngamma = 65 resolves |Kcfg - K| through Imax.
-    for (int TargetTwoI_I = 0; TargetTwoI_I <= 60; TargetTwoI_I += 4) {
+    for (int TargetTwoI_I = 0; TargetTwoI_I <= 20; TargetTwoI_I += 4) {
         std::cout << "\nI = " << 0.5 * TargetTwoI_I << std::endl;
         psm.build_projection(TargetTwoI_I, 65, 40, 65, 1, 1);
         psm.solve_ci(0.18);
-        assert(psm.EPSM_F1D_state.size() > 0 && psm.EPSM_F1D_state.allFinite());
-        psm_debug::print_ci(psm);
-        std::cout << "[Yrast] I = " << 0.5 * TargetTwoI_I << ", E [MeV] = " << psm.EPSM_F1D_state(0) << std::endl;
+        assert(psm.Eci_F1D_eigenH.size() > 0 && psm.Eci_F1D_eigenH.allFinite());
+        print_ci(psm);
+        std::cout << "[Yrast] I = " << 0.5 * TargetTwoI_I << ", E [MeV] = " << psm.Eci_F1D_eigenH(0) << std::endl;
     }
     return 0;
 }

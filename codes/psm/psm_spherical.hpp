@@ -60,9 +60,9 @@ public:
     Eigen::Tensor<doubleC, 6, Eigen::ColMajor> H_C6D_cfgp_cfgn_K_cfgp_cfgn_K{};
     Eigen::Tensor<doubleC, 6, Eigen::ColMajor> N_C6D_cfgp_cfgn_K_cfgp_cfgn_K{};
 
-    // gν = N^(1/2)fν; gν†gν′ = δνν′.
-    Eigen::VectorXd EPSM_F1D_state{};
-    Eigen::Tensor<doubleC, 4, Eigen::ColMajor> gPSM_C4D_cfgp_cfgn_K_state{};
+    // Xci(r,ν): natural orthonormal basis; Xci†Xci = 1.
+    Eigen::VectorXd Eci_F1D_eigenH{};
+    Eigen::MatrixXcd Xci_C2D_eigenN_eigenH{};
 
 public:
     /**
@@ -99,7 +99,7 @@ public:
     /**
      * @brief Solve configuration mixing using canonical norm orthogonalization.
      * @math Hf = ENf; G₂,nn/pp = γG₀,nn/pp.
-     * @output EPSM_F1D_state and gPSM_C4D_cfgp_cfgn_K_state.
+     * @output Eci_F1D_eigenH and Xci_C2D_eigenN_eigenH.
      * @note Requires HFBCS densities, configurations, and initialized projection.
      * @note Retains norm eigenvalues nᵢ > 1e-10 nmax.
      */

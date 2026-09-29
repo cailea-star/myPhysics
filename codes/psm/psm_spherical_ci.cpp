@@ -104,9 +104,9 @@ void PSMSpherical::build_hamiltonian() {
 
 /**
  * @brief Solve configuration mixing using canonical norm orthogonalization.
- * @math N = U n U†; X = Uᵣ nᵣ^(-1/2); (X†HX)c = Ec.
- * @math f = Xc; g = Uᵣc = N^(1/2)f; g†g = 1.
- * @output EPSM_F1D_state and gPSM_C4D_cfgp_cfgn_K_state.
+ * @math N = U n U†; X = Uᵣ nᵣ^(-1/2); (X†HX)Xci = Xci E.
+ * @math f = X Xci; Xci†Xci = 1; r = eigenN, ν = eigenH.
+ * @output Eci_F1D_eigenH and Xci_C2D_eigenN_eigenH.
  * @note Retains nᵢ > 1e-10 nmax; energies ascend.
  */
 void PSMSpherical::solve_ci(double gamma_F) {
@@ -115,44 +115,31 @@ void PSMSpherical::solve_ci(double gamma_F) {
     build_norm();
     build_hamiltonian();
 
-    // a = cfgp + Ncfgp(cfgn + Ncfgn K); ColMajor.
-    const Eigen::Index Ncfgp_I = N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimension(0);
-    const Eigen::Index Ncfgn_I = N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimension(1);
-    const Eigen::Index NK_I = N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimension(2);
-    const Eigen::Index Nbasis_I = Ncfgp_I * Ncfgn_I * NK_I;
-    assert(Nbasis_I > 0);
-    assert(N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimension(3) == Ncfgp_I && N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimension(4) == Ncfgn_I && N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimension(5) == NK_I);
-    assert(H_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimensions() == N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimensions());
-    const Eigen::Map<const Eigen::MatrixXcd> N_C2D_basis_basis(N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.data(), Nbasis_I, Nbasis_I);
-    const Eigen::Map<const Eigen::MatrixXcd> H_C2D_basis_basis(H_C6D_cfgp_cfgn_K_cfgp_cfgn_K.data(), Nbasis_I, Nbasis_I);
-    assert(N_C2D_basis_basis.allFinite() && H_C2D_basis_basis.allFinite());
+    // (cfgp,cfgn,K,cfgp′,cfgn′,K′) → (cfgpCfgnK,cfgpCfgnK′); zero-copy.
+    const Eigen::Index NcfgpCfgnK_I = N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimension(0) * N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimension(1) * N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimension(2);
+    const Eigen::Map<const Eigen::MatrixXcd> N_C2D_cfgpCfgnK_cfgpCfgnK(N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.data(), NcfgpCfgnK_I, NcfgpCfgnK_I);
+    const Eigen::Map<const Eigen::MatrixXcd> H_C2D_cfgpCfgnK_cfgpCfgnK(H_C6D_cfgp_cfgn_K_cfgp_cfgn_K.data(), NcfgpCfgnK_I, NcfgpCfgnK_I);
 
     // N → (N+N†)/2; H → (H+H†)/2.
-    const Eigen::MatrixXcd Nhermitian_C2D_basis_basis = 0.5 * (N_C2D_basis_basis + N_C2D_basis_basis.adjoint());
-    const Eigen::MatrixXcd Hhermitian_C2D_basis_basis = 0.5 * (H_C2D_basis_basis + H_C2D_basis_basis.adjoint());
-    const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXcd> norm_solver(Nhermitian_C2D_basis_basis);
-    assert(norm_solver.info() == Eigen::Success);
-    const double normCut_F = 1.0e-10 * norm_solver.eigenvalues().maxCoeff();
-    assert(normCut_F > 0.0 && norm_solver.eigenvalues().minCoeff() >= -normCut_F);
-    const Eigen::Index Nstate_I = (norm_solver.eigenvalues().array() > normCut_F).count();
+    const Eigen::MatrixXcd Nhermitian_C2D_cfgpcfgnK_cfgpcfgnK = 0.5 * (N_C2D_cfgpCfgnK_cfgpCfgnK + N_C2D_cfgpCfgnK_cfgpCfgnK.adjoint());
+    const Eigen::MatrixXcd Hhermitian_C2D_cfgpcfgnK_cfgpcfgnK = 0.5 * (H_C2D_cfgpCfgnK_cfgpCfgnK + H_C2D_cfgpCfgnK_cfgpCfgnK.adjoint());
+    const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXcd> N_solver(Nhermitian_C2D_cfgpcfgnK_cfgpcfgnK);
+    assert(N_solver.info() == Eigen::Success);
+    const double normCut_F = 1.0e-10 * N_solver.eigenvalues().maxCoeff();
+    assert(normCut_F > 0.0 && N_solver.eigenvalues().minCoeff() >= -normCut_F);
+    const Eigen::Index Nstate_I = (N_solver.eigenvalues().array() > normCut_F).count();
     assert(Nstate_I > 0);
 
     // X = Uᵣ nᵣ^(-1/2); ascending norm eigenvalues.
-    const Eigen::MatrixXcd U_C2D_basis_norm = norm_solver.eigenvectors().rightCols(Nstate_I);
-    const Eigen::VectorXd inverseSqrtN_F1D_norm = norm_solver.eigenvalues().tail(Nstate_I).array().sqrt().inverse();
-    Eigen::MatrixXcd X_C2D_basis_norm{};
-    X_C2D_basis_norm.noalias() = U_C2D_basis_norm * inverseSqrtN_F1D_norm.asDiagonal();
-    Eigen::MatrixXcd HX_C2D_basis_norm{};
-    HX_C2D_basis_norm.noalias() = Hhermitian_C2D_basis_basis * X_C2D_basis_norm;
-    Eigen::MatrixXcd H_C2D_norm_norm{};
-    H_C2D_norm_norm.noalias() = X_C2D_basis_norm.adjoint() * HX_C2D_basis_norm;
-    H_C2D_norm_norm = (0.5 * (H_C2D_norm_norm + H_C2D_norm_norm.adjoint())).eval();
-    const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXcd> energy_solver(H_C2D_norm_norm);
-    assert(energy_solver.info() == Eigen::Success);
+    const Eigen::MatrixXcd U_C2D_cfgpcfgnK_eigenN = N_solver.eigenvectors().rightCols(Nstate_I);
+    const Eigen::VectorXd n_F1D_eigenN = N_solver.eigenvalues().tail(Nstate_I);
+    Eigen::MatrixXcd X_C2D_cfgpcfgnK_eigenN = U_C2D_cfgpcfgnK_eigenN * n_F1D_eigenN.array().sqrt().inverse().matrix().asDiagonal();
+    Eigen::MatrixXcd H_C2D_eigenN_eigenN = X_C2D_cfgpcfgnK_eigenN.adjoint() * Hhermitian_C2D_cfgpcfgnK_cfgpcfgnK * X_C2D_cfgpcfgnK_eigenN;
+    H_C2D_eigenN_eigenN = (0.5 * (H_C2D_eigenN_eigenN + H_C2D_eigenN_eigenN.adjoint())).eval();
+    const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXcd> H_solver(H_C2D_eigenN_eigenN);
+    assert(H_solver.info() == Eigen::Success);
 
-    // g = Uᵣc; gν†gν′ = δνν′ in the original basis labels.
-    EPSM_F1D_state = energy_solver.eigenvalues();
-    gPSM_C4D_cfgp_cfgn_K_state.resize(Ncfgp_I, Ncfgn_I, NK_I, Nstate_I);
-    Eigen::Map<Eigen::MatrixXcd> gPSM_C2D_basis_state(gPSM_C4D_cfgp_cfgn_K_state.data(), Nbasis_I, Nstate_I);
-    gPSM_C2D_basis_state.noalias() = U_C2D_basis_norm * energy_solver.eigenvectors();
+    // (X†HX)Xci = Xci E; Xci†Xci = 1.
+    Eci_F1D_eigenH = H_solver.eigenvalues();
+    Xci_C2D_eigenN_eigenH = H_solver.eigenvectors();
 }
