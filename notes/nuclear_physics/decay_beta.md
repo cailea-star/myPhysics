@@ -1,6 +1,6 @@
 # Beta Decay
 
-### Relativistic Kinematics
+## Relativistic Kinematics
 
 Let $P$, $D$, $e^-$, and $\bar\nu_e$ denote the parent nucleus, daughter nucleus, electron, and electron antineutrino, with masses $M_P$, $M_D$, $m_e$, and $m_\nu$.
 
@@ -64,7 +64,7 @@ $$
 0\leq T_e\leq T_e^{\max}.
 $$
 
-### Beta-Decay Modes
+## Beta-Decay Modes
 
 Let $A=Z+N$ be the mass number. Denote nuclear and neutral-atomic masses by $M_{\mathrm{nuc}}$ and $M_{\mathrm{atom}}$. Electronic binding-energy differences are neglected unless stated otherwise.
 
@@ -118,7 +118,7 @@ $$
 \boxed{E_\nu\simeq Q_{\mathrm{EC}}-B_x-E_{\mathrm{exc}}}.
 $$
 
-### Beta-Decay Phase Space
+## Beta-Decay Phase Space
 
 Fermi’s golden rule gives
 
@@ -218,7 +218,7 @@ $$
 \lambda_\beta=\int_{m_ec^2}^{E_0-m_\nu c^2}\frac{\mathrm d\lambda_\beta}{\mathrm dE_e}\,\mathrm dE_e,\qquad T_{1/2}=\frac{\ln2}{\lambda_\beta}.
 $$
 
-### Transition Matrix Elements
+## Transition Matrix Elements
 
 Let $\Psi_P$ and $\Psi_D$ be the parent and daughter many-body nuclear wave functions. The transition matrix element is
 
@@ -296,7 +296,7 @@ $$
 
 Higher $L_\beta$ contributions are therefore rapidly suppressed.
 
-### Fermi and Gamow–Teller Transitions
+## Fermi and Gamow–Teller Transitions
 
 Let $J_P$ and $J_D$ be the parent and daughter nuclear spins. The electron and antineutrino are spin-$1/2$ particles. Let $\mathbf L_\beta$, $\mathbf S_\beta$, and $\mathbf J_\beta$ denote the orbital, intrinsic-spin, and total angular momenta carried by the lepton pair, with $S_\beta=0,1$.
 
@@ -352,7 +352,7 @@ $$
 \boxed{\overline{|M_{fi}'|^2}=\frac{g_{\mathrm F}^2|M_{\mathrm F}|^2+g_{\mathrm{GT}}^2|M_{\mathrm{GT}}|^2}{2J_P+1}}.
 $$
 
-### Allowed and Forbidden Transitions
+## Allowed and Forbidden Transitions
 
 Define the nuclear spin change by
 
@@ -446,7 +446,7 @@ $$
 
 Otherwise, several leading-order nuclear operators may contribute, and the transition is non-unique. Here, “unique” refers to the leading operator, not to the number of final states.
 
-### Dirac Vertex Structures
+## Dirac Vertex Structures
 
 Let $d$, $u$, $n$, $p$, $e^-$, and $\bar\nu_e$ denote the down quark, up quark, neutron, proton, electron, and electron antineutrino. Let $W^{-*}$ denote an off-shell charged weak boson. Beta decay proceeds through
 
@@ -488,7 +488,7 @@ $$
 
 Thus, the Standard Model retains only the left-chiral vector and axial-vector interactions.
 
-### Standard-Model Beta-Decay Matrix Element
+## Standard-Model Beta-Decay Matrix Element
 
 Let $\psi_u$ and $\psi_d$ denote the up- and down-quark fields. The Standard Model quark and lepton charged-current operators are
 

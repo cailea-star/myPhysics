@@ -2,7 +2,7 @@
 
 The oscillator lengths $b_{r_\perp},b_z>0$ follow [Axial Harmonic-Oscillator Basis](cylindrical_basis.md).
 
-### Cartesian Harmonic-Oscillator Rotations
+## Cartesian Harmonic-Oscillator Rotations
 
 For $n\in\mathbb N_0$ and oscillator length $b>0$, the normalized one-dimensional basis function is
 
@@ -94,7 +94,7 @@ $$
 \mathcal K(\boldsymbol t_1,\boldsymbol t_2;0)=e^{\boldsymbol t_1^T\boldsymbol t_2},\qquad R^{\mathrm{Cartesian}}_{(n_x,n_y,n_z),(n_x',n_y',n_z')}(0)=\delta_{n_xn_x'}\delta_{n_yn_y'}\delta_{n_zn_z'}.
 $$
 
-### Cartesian Harmonic-Oscillator Rotation Kernel
+## Cartesian Harmonic-Oscillator Rotation Kernel
 
 The generating overlap follows from the product
 $$
@@ -164,7 +164,7 @@ $$
 K_0=1,\qquad H_{11}=H_{22}=0,\qquad H_{12}=H_{21}=I_2,\qquad d_{n_{x1},n_{z1},n_{x2},n_{z2}}(0)=\delta_{n_{x1}n_{x2}}\delta_{n_{z1}n_{z2}}.
 $$
 
-### Cartesian-to-Cylindrical Transformation
+## Cartesian-to-Cylindrical Transformation
 
 Using the radial functions in [Axial Harmonic-Oscillator Basis](cylindrical_basis.md), define
 
@@ -206,7 +206,7 @@ $$
 |n_z,n_r,\Lambda\rangle=\sum_{\substack{n_x,n_y\ge0\\n_x+n_y=2n_r+|\Lambda|}}(-i)^{n_y}C_{n_xn_y;n_r\Lambda}|n_x,n_y,n_z\rangle.
 $$
 
-### Axial-Basis Rotation Matrix
+## Axial-Basis Rotation Matrix
 
 For $a=(n_{za},n_{ra},\Lambda_a,\Sigma_a)$, define
 
@@ -242,7 +242,7 @@ $$
 
 Include both signs of $\Omega_a$. A truncated deformed basis generally gives a nonunitary restricted rotation matrix.
 
-### Rotation in the Simplex Basis
+## Rotation in the Simplex Basis
 
 Define the simplex operator using parity $\hat\Pi$:
 $$

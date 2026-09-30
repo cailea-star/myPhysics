@@ -1,6 +1,6 @@
 # Nuclear Particle-Number and Angular-Momentum Projection
 
-### Neutron–Proton Product States
+## Neutron–Proton Product States
 
 Assume no neutron–proton mixing in the Bogoliubov transformations. The left and right reference vacua are
 
@@ -50,7 +50,7 @@ $$
 
 The left and right configurations are denoted by $|\Phi_{1;\kappa_1}\rangle$ and $|\Phi_{2;\kappa_2}\rangle$, constructed from their respective vacua using $\beta_{1,\tau}$ and $\beta_{2,\tau}$. Their quasiparticle counts may differ.
 
-### Particle-Number and Angular-Momentum Projectors
+## Particle-Number and Angular-Momentum Projectors
 
 For $\tau\in\{\nu,\pi\}$, define the species particle-number operator by
 
@@ -112,7 +112,7 @@ $$
 
 For allowed transitions, only the two right-state gauge integrations are required. A species-conserving Hamiltonian has $\Delta N=\Delta Z=0$; the charge-exchange operator $c_{\pi,\alpha}^\dagger c_{\nu,\beta}$ has $\Delta N=-1,\Delta Z=+1$.
 
-### Overlap Kernels
+## Overlap Kernels
 
 Let $g=(\varphi_\nu,\varphi_\pi,\Omega)$ collect the two gauge angles and the shared Euler angles. Define the species transformations and their nuclear product by
 
@@ -166,7 +166,7 @@ The quasiparticle counts need not be equal: configurations containing zero and t
 
 Factorization holds for any selected neutron–proton configurations. Evaluate both species kernels at the same Euler angles and multiply before angular-momentum integration.
 
-### Contractions
+## Contractions
 
 Apply [Transition Densities](hfb_pfaffian.md#transition-densities) separately to $\tau=\nu,\pi$, using the transformed right vacua:
 
@@ -194,7 +194,7 @@ $$
 
 Each species block uses the eleven referenced contractions. Cross-species contractions vanish; charge-exchange kernels between excited configurations can remain nonzero through same-species contractions.
 
-### One-Body Operator Kernels
+## One-Body Operator Kernels
 
 Following [One-Body Matrix Elements between Multiquasiparticle States](hfb_pfaffian.md#one-body-matrix-elements-between-multiquasiparticle-states), use hats for operators and $*$ for scalar creation operators. For single-particle matrix elements $\langle\tau_1,\alpha_1|\hat O|\tau_2,\alpha_2\rangle$, define
 
@@ -222,7 +222,7 @@ $$
 
 For odd $L$, the matrix element vanishes. Cross-species entries of $S$ vanish; the operator ordering fixes all fermionic signs. Species-conserving channels require $r_1+r_2$ and $s_1+s_2$ both even; charge-exchange channels require both odd.
 
-### Two-Body Operator Kernels
+## Two-Body Operator Kernels
 
 Use the configurations and operator conventions of [One-Body Operator Kernels](#one-body-operator-kernels). For unsymmetrized two-body matrix elements, define
 
@@ -260,7 +260,7 @@ $$
 
 A species-conserving interaction retains only terms with $\Delta N=\Delta Z=0$. The factor $1/2$ assumes the full ordered species and orbital sums with unsymmetrized matrix elements; antisymmetrized matrix elements instead require $1/4$.
 
-### Projected Matrix Elements
+## Projected Matrix Elements
 
 For fixed configurations $\kappa_1,\kappa_2$, define the kernel integral
 

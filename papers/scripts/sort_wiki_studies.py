@@ -3,9 +3,9 @@ import re
 import sys
 
 
-SECTION_HEADER = re.compile(r"(?m)^### Previous Studies\s*$")
-NEXT_SECTION = re.compile(r"(?m)^###\s+")
-STUDY_HEADER = re.compile(r"(?m)^#####\s+.*$")
+SECTION_HEADER = re.compile(r"(?m)^## Previous Studies\s*$")
+NEXT_SECTION = re.compile(r"(?m)^##\s+")
+STUDY_HEADER = re.compile(r"(?m)^###\s+.*$")
 
 def match_previous_studies(wiki_md_str: str) -> str:
     section = SECTION_HEADER.search(wiki_md_str)
@@ -47,7 +47,7 @@ def resolve_study(study_str: str) -> dict[str, str]:
 def replace_study_title(study_str: str) -> str:
     study_data = resolve_study(study_str)
     author = study_data["author"].replace("_", " ")
-    title = f"##### {author} ({study_data['year']})"
+    title = f"### {author} ({study_data['year']})"
     return STUDY_HEADER.sub(title, study_str, count=1)
 
 

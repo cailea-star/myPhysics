@@ -1,6 +1,6 @@
 # Spherical Densities
 
-### Basis and Block Matrices
+## Basis and Block Matrices
 
 Following the [spherical basis](spherical_basis.md), label each positive-branch representative by
 
@@ -68,7 +68,7 @@ $$
 
 No spherical, axial, or time-reversal symmetry is assumed; all four branch blocks of each tensor are retained.
 
-### Axial Symmetry
+## Axial Symmetry
 
 Under a rotation about the $z$ axis,
 
@@ -108,7 +108,7 @@ $$
 
 The superscripts on $\rho$ denote the $+m$ and $-m$ branches; the parenthesized superscripts on $R$ denote their sum and difference. Axial symmetry alone imposes neither parity conservation nor time-reversal invariance.
 
-### Particle Density
+## Particle Density
 
 The particle density is
 
@@ -160,7 +160,7 @@ $$
 \boxed{\rho_{LM}(r)=\sum_{\text{blocks}}\sum_{\alpha,\beta}\phi_\beta(r)\phi_\alpha(r)\left[\rho_{\alpha\beta}^{++}A_{\rho,\alpha\beta}^{++,LM}+\rho_{\alpha\beta}^{--}A_{\rho,\alpha\beta}^{--,LM}\right].}
 $$
 
-### Kinetic Density
+## Kinetic Density
 
 The kinetic density is
 
@@ -228,7 +228,7 @@ $$
 \boxed{\tau_{LM}(r)=\sum_{\text{blocks}}\sum_{\alpha,\beta}\left\{\partial_r\phi_\beta(r)\,\partial_r\phi_\alpha(r)\left[\rho_{\alpha\beta}^{++}A_{\rho,\alpha\beta}^{++,LM}+\rho_{\alpha\beta}^{--}A_{\rho,\alpha\beta}^{--,LM}\right]+\frac{\phi_\beta(r)\phi_\alpha(r)}{r^2}\left[\rho_{\alpha\beta}^{++}A_{\tau,\alpha\beta}^{++,LM}+\rho_{\alpha\beta}^{--}A_{\tau,\alpha\beta}^{--,LM}\right]\right\}.}
 $$
 
-### Laplacian of Particle Density
+## Laplacian of Particle Density
 
 Following the [spherical-coordinate differential operators](../../notes/mathematical_physics/coordinate_spherical.md#differential-operators), use
 
@@ -256,7 +256,7 @@ $$
 
 All radial functions and their derivatives are evaluated at $r$.
 
-### Current Density
+## Current Density
 
 The current density is defined without the factor $\hbar/M$ as
 
@@ -350,7 +350,7 @@ $$
 
 All radial functions and their derivatives are evaluated at $r$.
 
-### Spin Density
+## Spin Density
 
 The spin density is defined without the factor $\hbar/2$ as
 

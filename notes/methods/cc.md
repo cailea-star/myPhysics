@@ -1,6 +1,6 @@
 # $\alpha$ 衰变的耦合道描述
 
-### 物理体系与通道基
+## 物理体系与通道基
 
 考虑母核 $P$ 衰变为子核 $D$ 与 $\alpha$ 粒子的过程。$P$ 的总角动量、投影和宇称为 $J$、$M$ 和 $\pi_P$，$D$ 的相应量为 $I$、$M_I$ 和 $\pi_D$。$\alpha$ 粒子视为无内部自由度的 $0^+$ 粒子：
 
@@ -38,7 +38,7 @@ $$
 \boxed{\Psi_{JM}(\mathbf r_\alpha)=\sum_{c}a_c\Psi_{JM}^{(c)}(\mathbf r_\alpha)=\sum_{c}a_c\frac{u_c(r_\alpha)}{r_\alpha}\big[Y_l(\hat{\mathbf r}_\alpha)\otimes\Phi_{IK}(D)\big]_{JM}}.
 $$
 
-### 耦合道薛定谔方程
+## 耦合道薛定谔方程
 
 以 $\hat H_D$、$\hat T_\alpha$ 和 $\hat V(\mathbf r_\alpha)$ 分别表示子核内部哈密顿量、$\alpha$ 粒子动能和相对运动势场。系统哈密顿量为
 
@@ -76,7 +76,7 @@ $$
 \boxed{\sum_{c'}\left[-\frac{\hbar^2}{2\mu}\left(\frac{\mathrm d^2}{\mathrm dr_\alpha^2}-\frac{l(l+1)}{r_\alpha^2}\right)\delta_{cc'}+V_{cc'}^{JM}(r_\alpha)\right]u_{c'}(r_\alpha)=E_cu_c(r_\alpha)}.
 $$
 
-### 多极势场与耦合矩阵元
+## 多极势场与耦合矩阵元
 
 以 $\lambda$ 和 $\mu$ 表示多极阶数及其分量，$\hat V_{\lambda\mu}(r_\alpha)$ 为作用于子核态空间的球张量分量。势场展开为
 
@@ -128,7 +128,7 @@ $$
 
 相关约定见 [Wigner Symbols](../mathematical_physics/wigner_symbols.md)。
 
-### 子核的轴对称转动态
+## 子核的轴对称转动态
 
 子核采用轴对称强耦合转子模型：
 
@@ -166,7 +166,7 @@ $$
 
 Wigner-$D$ 函数的定义与约定见 [SO(3) and SU(2)](../group_theory/so3_su2.md#wigner-d-functions)。
 
-### 内禀系到实验室系的几何变换
+## 内禀系到实验室系的几何变换
 
 $\mathbf r_\alpha$ 与 $\mathbf r_\alpha'$ 表示同一 $\alpha$ 粒子坐标在实验室系与子核内禀系中的分量，两套坐标系均以子核质心为原点。坐标变换保持径向长度不变：
 
@@ -222,7 +222,7 @@ $$
 \boxed{\hat V_{\lambda\mu}(r_\alpha)=\hat V'_{\lambda0}(r_\alpha)D_{\mu0}^{\lambda *}(\Omega_D)}.
 $$
 
-### 转动态的势场矩阵元
+## 转动态的势场矩阵元
 
 记
 
@@ -354,7 +354,7 @@ $$
 \left\langle\Phi_{I0}(D)\left\|\hat V_\lambda(r_\alpha)\right\|\Phi_{I'0}(D)\right\rangle=\hat I\hat I'(-1)^I\begin{pmatrix}I&\lambda&I'\\0&0&0\end{pmatrix}V'_{\lambda0;0,0}(r_\alpha).
 $$
 
-### 库伦耦合势
+## 库伦耦合势
 
 以 $\mathbf r_D'=r_D\hat{\mathbf r}_D'$ 表示子核内相对于其质心的内禀坐标。子核电荷密度 $\rho_D$ 归一化为
 
@@ -416,7 +416,7 @@ $$
 
 将 $V_{\lambda0;K,K'}^{\prime C}(r_\alpha)$ 代入前述 $\left\langle\Phi_{IK}(D)\left\|\hat V_\lambda^C(r_\alpha)\right\|\Phi_{I'K'}(D)\right\rangle$，即可得到库伦耦合矩阵元。
 
-### 核势耦合
+## 核势耦合
 
 采用 Woods–Saxon 形式描述 $\alpha$ 粒子与子核之间的核势：
 
@@ -456,7 +456,7 @@ $$
 
 # 第一次 PSM 讨论
 
-### 不可约张量算符的矩阵元
+## 不可约张量算符的矩阵元
 
 本节将投影态记为
 
@@ -496,7 +496,7 @@ $$
 \langle\Phi_{\kappa_1}|\hat T_{\lambda\nu}\hat P^{I_2}_{K_1-\nu,K_2}\hat P^{N_2}|\Phi_{\kappa_2}\rangle=\frac{2I_2+1}{2\pi\mathcal V_\Omega}\int\mathrm d\Omega\int_0^{2\pi}\mathrm d\varphi\,D^{I_2*}_{K_1-\nu,K_2}(\Omega)e^{-iN_2\varphi}\langle\Phi_{\kappa_1}|\hat T_{\lambda\nu}\hat R(\Omega)e^{i\varphi\hat N}|\Phi_{\kappa_2}\rangle.
 $$
 
-### 电多极算符与库伦势
+## 电多极算符与库伦势
 
 对于分别属于体系 $1,2$ 的两个粒子，其位置为 $\mathbf r_1,\mathbf r_2$，电荷为 $q_1,q_2$，库伦相互作用为
 
@@ -568,7 +568,7 @@ $$
 
 # 第二次 PSM 讨论
 
-### 只从 PSM 中获取波函数
+## 只从 PSM 中获取波函数
 
 省略固定的粒子数标签，PSM 波函数写为
 
@@ -588,7 +588,7 @@ $$
 \langle\Psi^{I_1}\Vert\hat T_\lambda\Vert\Psi^{I_2}\rangle=\sum_{\kappa_1,K_1,\kappa_2,K_2}f_{\kappa_1,K_1}^{I_1*}f_{\kappa_2,K_2}^{I_2}\langle\Phi_{K_1;\kappa_1}^{I_1}\Vert\hat T_\lambda\Vert\Phi_{K_2;\kappa_2}^{I_2}\rangle.
 $$
 
-### 指定 $K$ 的约化矩阵元使用已有解析表达式
+## 指定 $K$ 的约化矩阵元使用已有解析表达式
 
 指定 $K$ 的势场约化矩阵元拟采用现有形变 WS 势的解析表达式，再利用 PSM 提供的混合系数构造
 

@@ -7,7 +7,7 @@
 
 <!-- claim-type: ([claim-type]: definition or [claim-type]: background) -->
 <!-- coverage: (from Motivation and Results, select the smallest sufficient root-topic quotation set with [claim-type]: definition or [claim-type]: background; prefer [claim-type]: definition) and (origin with [claim-type]: background is optional) -->
-### Definition & Origin
+## Definition & Origin
 
 ```references
   - source1: Abstract.
@@ -18,9 +18,9 @@
 
 <!-- claim-type: ([claim-type]: definition or [claim-type]: background or [claim-type]: comparison) -->
 <!-- coverage: (from Motivation and Results, select the smallest sufficient root-topic quotation set with [claim-type]: definition or [claim-type]: background or [claim-type]: comparison that describes composition or mechanism details) and (exclude quotations used in Definition & Origin) -->
-### Composition & Mechanism
+## Composition & Mechanism
 
-##### Composition & Mechanism 1
+### Composition & Mechanism 1
 
 ```references
   - source_xx: ...
@@ -31,19 +31,19 @@
 
 <!-- Optional: add a directly supported math block for this item. -->
 
-##### Composition & Mechanism 2
+### Composition & Mechanism 2
 
 ...
 
 <!-- claim-type: ([claim-type]: definition or [claim-type]: background or [claim-type]: result) -->
 <!-- coverage: (from Motivation and Results, select the smallest sufficient quotation set for root-topic-related derived [tag-type]: quantity or [tag-type]: property tags with [claim-type]: definition or [claim-type]: background or [claim-type]: result) and (exclude quotations used in Definition & Origin or Composition & Mechanism) -->
-### Quantities & Properties
+## Quantities & Properties
 
 ```tags
 [tags]: ...
 ```
 
-##### Quantity or Property 1
+### Quantity or Property 1
 
 ```references
   - source_xx: ...
@@ -57,15 +57,15 @@
 - **description**: This is a physical picture of quantity-expression-1.
 
 
-##### Quantity or Property 2
+### Quantity or Property 2
 
 ...
 
 <!-- claim-type: ([claim-type]: method) and ([claim-type]: result) -->
 <!-- coverage: (from Methods, select root-topic-related core [tag-type]: method quotations with [claim-type]: method) and (from Results, select their output quotations with [claim-type]: result) -->
-### Related Methods
+## Related Methods
 
-##### Method 1
+### Method 1
 
 ```tags
 [tags]: ...
@@ -82,15 +82,15 @@
 
 <!-- Optional: remove the link when no method Wiki exists; add a directly supported math block when available. -->
 
-##### Method 2
+### Method 2
 
 ...
 
 <!-- claim-type: ([claim-type]: motivation is required for each Study) and ([claim-type]: comparison is required for each Study) and ([claim-type]: innovation or [claim-type]: result is required for each Study) and ([claim-type]: result is required for each Study) -->
 <!-- coverage: (each Study describes exactly one raw paper) and (for each Study, its Motivation provides [claim-type]: motivation) and (for each Study, its Meanings provides [claim-type]: comparison) and (for each Study, its Meanings provides [claim-type]: innovation or [claim-type]: result) and (for each Study, its Meanings provides [claim-type]: result) -->
-### Previous Studies
+## Previous Studies
 
-##### Study 1
+### Study 1
 
 ```tags
 [tags]: ...
@@ -106,15 +106,15 @@
 - **Precision**: exact precision or none.
 - **Meaning**: This is the meaning of the study 1.
 
-##### Study 2
+### Study 2
 
 ...
 
 <!-- claim-type: (none: Candidate Papers do not support Wiki claims) -->
 <!-- coverage: (from Secondary, identify every unique Candidate Paper) and (for each Candidate Paper, include tags, title, DOI, journal, year, reason) and (if no Candidate Paper qualifies, report not-applicable) -->
-### Next Papers
+## Next Papers
 
-##### Candidate Paper 1
+### Candidate Paper 1
 
 ```tags
 [tags]: ...
@@ -125,6 +125,6 @@
 - **Citation**: journal, year.
 - **Reason**: why this paper should be ingested next.
 
-##### Candidate Paper 2
+### Candidate Paper 2
 
 ...

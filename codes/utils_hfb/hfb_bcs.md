@@ -2,7 +2,7 @@
 
 This note specializes the [Axial HFB Equation](hfb_axial.md#axial-hfb-equation) through simultaneous diagonalization and subsequent time-reversal reduction. All matrices are real.
 
-### HFB Equation
+## HFB Equation
 
 For each $(\Omega,\pi)$ block, let $\alpha,\beta$ label positive-$\Omega$ states and $\bar\alpha,\bar\beta$ their opposite-$\Omega$ partners. This labeling does not assume time-reversal symmetry. The supplied single-particle field is $h=h_0+\Gamma$, and $\lambda$ is the chemical potential.
 
@@ -12,7 +12,7 @@ $$
 
 The $(U^+,V^-)$ and $(U^-,V^+)$ sectors decouple.
 
-### Simultaneous Diagonalization
+## Simultaneous Diagonalization
 
 Assume that real orthonormal transformations $f_{\alpha i}^+$ and $f_{\alpha i}^-$ simultaneously diagonalize the normal fields and the pairing field. Define the single-particle energies $\epsilon_i^+,\epsilon_i^-$ and pairing matrix elements $\Delta_{i\bar i}$ by
 
@@ -50,7 +50,7 @@ $$
 \boxed{\begin{pmatrix}\epsilon_i^+-\lambda&0&0&\Delta_{i\bar i}\\0&\epsilon_i^--\lambda&\Delta_{\bar i i}&0\\0&-\Delta_{i\bar i}&-(\epsilon_i^+-\lambda)&0\\-\Delta_{\bar i i}&0&0&-(\epsilon_i^--\lambda)\end{pmatrix}\begin{pmatrix}u_i^+\\u_i^-\\v_i^+\\v_i^-\end{pmatrix}=E_i\begin{pmatrix}u_i^+\\u_i^-\\v_i^+\\v_i^-\end{pmatrix}.}
 $$
 
-### Time-Reversal Reduction
+## Time-Reversal Reduction
 
 Choose the single-particle eigenstates as time-reversal partners with real phases $\eta_i=\pm1$:
 
@@ -110,7 +110,7 @@ $$
 \rho_i^++\rho_i^-=2(v_i^-)^2.
 $$
 
-### Constant Pairing Strength
+## Constant Pairing Strength
 
 Let $v$ denote antisymmetrized two-body matrix elements. Pairing antisymmetry gives
 

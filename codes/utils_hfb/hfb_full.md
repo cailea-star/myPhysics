@@ -1,6 +1,6 @@
 # Hartree–Fock–Bogoliubov Method
 
-### Many-Body Hamiltonian
+## Many-Body Hamiltonian
 
 Use the fermionic conventions defined in [Second Quantization](../../notes/quantum_mechanics/second_quantization.md#fermionic-second-quantization). In this HFB series, $*$ denotes complex conjugation of coefficients and the corresponding entrywise operation on vectors and matrices. For particle and quasiparticle operators, $\hat c_\alpha^*\equiv(\hat c_\alpha)^\dagger$ and $\hat\beta_\mu^*\equiv(\hat\beta_\mu)^\dagger$ denote creation operators. Other operator adjoints are denoted by $\dagger$, including rotation operators, projectors, and composite operators. Transpose is denoted by $T$; for vectors and matrices, $A^\dagger=(A^*)^T$.
 
@@ -48,7 +48,7 @@ $$
 \hat N=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\hat c_\alpha^*\hat c_\alpha.
 $$
 
-### Bogoliubov Transformation
+## Bogoliubov Transformation
 
 Let $\mu,\nu=1,\ldots,N_{\mathrm{sp}}$ label quasiparticle modes. Define the particle and quasiparticle Nambu columns by
 
@@ -135,7 +135,7 @@ $$
 
 Because each $\hat\beta_\mu$ mixes particle creation and annihilation operators, $|\Phi\rangle$ is generally a superposition of different particle-number sectors and is not an eigenstate of $\hat N$.
 
-### Generalized Density Matrix
+## Generalized Density Matrix
 
 For the normalized quasiparticle vacuum $|\Phi\rangle$, define the normal density matrix $\rho$ and pairing tensor $\kappa$ by
 
@@ -191,7 +191,7 @@ $$
 \langle\Phi|\hat N|\Phi\rangle=\operatorname{Tr}\rho=\operatorname{Tr}(V^\dagger V).
 $$
 
-### $\Gamma$ and $\Delta$ Fields
+## $\Gamma$ and $\Delta$ Fields
 
 The generalized Wick theorem gives
 
@@ -233,7 +233,7 @@ $$
 
 For a general energy density functional, $h$ and $\Delta$ are defined by the same first-variation relation.
 
-### Generalized Single-Particle Hamiltonian
+## Generalized Single-Particle Hamiltonian
 
 Let $N_0$ be the target particle number and $\lambda\in\mathbb R$ its Lagrange multiplier. Define
 
@@ -303,7 +303,7 @@ $$
 
 The factor $1/2$ removes the Nambu-space double counting.
 
-### Solution of the Generalized Single-Particle Eigenproblem
+## Solution of the Generalized Single-Particle Eigenproblem
 
 Since $\mathcal R$ is a Hermitian projector, its variation is restricted to a unitary rotation that preserves the Nambu structure. Let $\mathcal G$ be an admissible Hermitian generator:
 
@@ -365,7 +365,7 @@ $$
 \mathcal H\Psi_\mu(-E_\mu)=-E_\mu\Psi_\mu(-E_\mu),\qquad \mathcal R\Psi_\mu(-E_\mu)=\Psi_\mu(-E_\mu).
 $$
 
-### Quasiparticle Diagonalization
+## Quasiparticle Diagonalization
 
 At the stationary fields, define the quadratic HFB operator by
 
@@ -433,7 +433,7 @@ $$
 
 and is not generally equal to $E_{\mathrm{vac}}$ or $\sum_\mu E_\mu$.
 
-### Quasiparticle Vacuum
+## Quasiparticle Vacuum
 
 The positive-energy Nambu covector $\Psi_\mu^\dagger(E_\mu)$ defines the quasiparticle annihilation operator
 
@@ -549,7 +549,7 @@ $$
 
 The Thouless matrix relative to $|0\rangle$ is then undefined, although the quasiparticle-vacuum condition remains valid. One must choose another reference vacuum or use a Pfaffian expression constructed directly from $U$ and $V$.
 
-### Finite Temperature
+## Finite Temperature
 
 At finite temperature, replace vacuum expectation values by thermal averages. Let $T$ denote temperature in energy units, with $k_{\mathrm B}=1$. For positive quasiparticle energies $E_\mu$, define
 
@@ -591,7 +591,7 @@ $$
 
 The fields retain their definitions in terms of $\rho$ and $\kappa$. At each self-consistent iteration, update the thermal occupations and densities together, and enforce $\operatorname{Tr}\rho=N_0$.
 
-### Self-Consistent Iteration
+## Self-Consistent Iteration
 
 The HFB equation is solved through nested outer and inner iterations:
 

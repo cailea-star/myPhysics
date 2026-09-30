@@ -38,8 +38,8 @@ description: Apply canonical wiki synthesis rules when creating, drafting, revie
 
 ### Section-Rules
 
-- Each template `###` section MUST contain exactly one `claim-type`/`coverage` pair; NEVER copy declarations.
-- MUST preserve template section order, heading levels, required blocks, and evidence-driven repeated `#####` instances.
+- Each template `##` section MUST contain exactly one `claim-type`/`coverage` pair; NEVER copy declarations.
+- MUST preserve template section order, heading levels, required blocks, and evidence-driven repeated `###` instances.
 - Claims and formulas MUST have direct verified Quotation-Inputs evidence, complete scope, and explained formula meaning.
 - References MUST use adjacent existing Raw stems; prose MUST synthesize, preserve uncertainty, and separate conflicts.
 - A section completes ONLY when items are `supported` or valid `not-applicable`; others MUST block completion.

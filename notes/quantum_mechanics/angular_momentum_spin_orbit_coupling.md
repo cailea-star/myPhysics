@@ -1,8 +1,8 @@
 # Spin–Orbit Coupling
 
-### Spherical Preliminaries
+## Spherical Preliminaries
 
-##### Spinor Spherical Harmonics
+### Spinor Spherical Harmonics
 
 Let $\hat{\mathbf r}=\mathbf r/r$ and let $Y_{l m_l}(\hat{\mathbf r})$ be a scalar spherical harmonic. The spin-$\frac12$ basis is
 
@@ -34,7 +34,7 @@ $$
 
 Definitions and further properties are collected in [Spherical Harmonics](../mathematical_physics/specialfunction_spherical_harmonics.md#spinor-spherical-harmonics).
 
-##### Spherical Gradient
+### Spherical Gradient
 
 Let $\hat{\mathbf r}$ be the radial unit vector and let $\nabla_{\hat{\mathbf r}}$ act only on the angular coordinates. The gradient separates as
 
@@ -62,9 +62,9 @@ $$
 
 The spherical-coordinate conventions and differential operators are collected in [Spherical Coordinates](../mathematical_physics/coordinate_spherical.md#differential-operators).
 
-### Spherical Spin–Momentum Operator
+## Spherical Spin–Momentum Operator
 
-##### Factorization of $\boldsymbol\sigma\cdot\nabla$
+### Factorization of $\boldsymbol\sigma\cdot\nabla$
 
 The Pauli vector and its product identity are defined in [Spin-$1/2$ in Matrix Form](angular_momentum.md#spin-12-in-matrix-form). Since $\hat{\mathbf r}\cdot\hat{\mathbf L}=0$,
 
@@ -84,7 +84,7 @@ $$
 \boxed{\boldsymbol\sigma\cdot\hat{\mathbf p}=-i\hbar(\boldsymbol\sigma\cdot\hat{\mathbf r})\left[\frac{\partial}{\partial r}-\frac{1}{\hbar r}\boldsymbol\sigma\cdot\hat{\mathbf L}\right]}.
 $$
 
-##### Operator $\boldsymbol\sigma\cdot\hat{\mathbf L}$
+### Operator $\boldsymbol\sigma\cdot\hat{\mathbf L}$
 
 For spin $\frac12$,
 
@@ -124,7 +124,7 @@ $$
 
 The general scalar-coupling identity is derived in [Angular Momentum](angular_momentum.md#angular-momentum-coupling).
 
-##### Operator $\boldsymbol\sigma\cdot\hat{\mathbf r}$
+### Operator $\boldsymbol\sigma\cdot\hat{\mathbf r}$
 
 The operator $\boldsymbol\sigma\cdot\hat{\mathbf r}$ preserves $j$ and $m$ while exchanging the two orbital branches:
 
@@ -138,7 +138,7 @@ $$
 \boxed{(\boldsymbol\sigma\cdot\hat{\mathbf r})\mathcal Y_{jm}^{l}=-\mathcal Y_{jm}^{l'},\qquad (\boldsymbol\sigma\cdot\hat{\mathbf r})\mathcal Y_{\kappa m}=-\mathcal Y_{-\kappa,m}}.
 $$
 
-##### Radial Action
+### Radial Action
 
 Let $G(r)$ be a radial function. Since
 
@@ -158,9 +158,9 @@ $$
 \boxed{\boldsymbol\sigma\cdot\hat{\mathbf p}\left[\frac{G(r)}{r}\mathcal Y_{\kappa m}\right]=\frac{i\hbar}{r}\left[\frac{\mathrm dG}{\mathrm dr}+\frac{\kappa}{r}G(r)\right]\mathcal Y_{-\kappa,m}}.
 $$
 
-### Cylindrical Preliminaries
+## Cylindrical Preliminaries
 
-##### Spinor Azimuthal Harmonics
+### Spinor Azimuthal Harmonics
 
 Using the [azimuthal harmonics](../mathematical_physics/coordinate_cylindrical.md#azimuthal-harmonics),
 
@@ -192,7 +192,7 @@ $$
 \Psi_\Omega(r_\perp,\phi,z)=f_+(r_\perp,z)\Xi_{\Omega,+}(\phi)+f_-(r_\perp,z)\Xi_{\Omega,-}(\phi)=\frac{1}{\sqrt{2\pi}}\begin{pmatrix}f_+(r_\perp,z)e^{i(\Omega-\frac12)\phi}\\f_-(r_\perp,z)e^{i(\Omega+\frac12)\phi}\end{pmatrix}.
 $$
 
-##### Cylindrical Gradient
+### Cylindrical Gradient
 
 The [cylindrical gradient](../mathematical_physics/coordinate_cylindrical.md#differential-operators) can be written as
 
@@ -206,7 +206,7 @@ $$
 \boxed{\boldsymbol{\sigma}\cdot\nabla=\sigma_{r_\perp}\frac{\partial}{\partial r_\perp}+\sigma_z\frac{\partial}{\partial z}+\frac{i}{\hbar r_\perp}\sigma_\phi\hat L_z}.
 $$
 
-### Cylindrical Spin–Momentum Operator
+## Cylindrical Spin–Momentum Operator
 
 With $\hat{\mathbf p}=-i\hbar\nabla$,
 
@@ -214,7 +214,7 @@ $$
 \boxed{\boldsymbol\sigma\cdot\hat{\mathbf p}=-i\hbar\left(\sigma_{r_\perp}\frac{\partial}{\partial r_\perp}+\sigma_z\frac{\partial}{\partial z}+\frac{i}{\hbar r_\perp}\sigma_\phi\hat L_z\right)}.
 $$
 
-##### Radial Operator $\sigma_{r_\perp}$
+### Radial Operator $\sigma_{r_\perp}$
 
 The radial Pauli operator exchanges the two angular spinors:
 
@@ -232,7 +232,7 @@ $$
 \sigma_{r_\perp}\frac{\partial\Psi_\Omega}{\partial r_\perp}=\sigma_{r_\perp}\frac{\partial}{\partial r_\perp}\left(f_+\Xi_{\Omega,+}+f_-\Xi_{\Omega,-}\right)=\frac{\partial f_-}{\partial r_\perp}\Xi_{\Omega,+}+\frac{\partial f_+}{\partial r_\perp}\Xi_{\Omega,-}.
 $$
 
-##### Axial Operator $\sigma_z$
+### Axial Operator $\sigma_z$
 
 The axial Pauli operator acts diagonally on the two angular spinors:
 
@@ -250,7 +250,7 @@ $$
 \sigma_z\frac{\partial\Psi_\Omega}{\partial z}=\sigma_z\frac{\partial}{\partial z}\left(f_+\Xi_{\Omega,+}+f_-\Xi_{\Omega,-}\right)=\frac{\partial f_+}{\partial z}\Xi_{\Omega,+}-\frac{\partial f_-}{\partial z}\Xi_{\Omega,-}.
 $$
 
-##### Azimuthal Operator $\sigma_\phi\hat L_z$
+### Azimuthal Operator $\sigma_\phi\hat L_z$
 
 The orbital angular momentum acts diagonally on the angular spinors:
 
@@ -276,7 +276,7 @@ $$
 \frac{i}{\hbar r_\perp}\sigma_\phi\hat L_z\Psi_\Omega=\frac{i}{\hbar r_\perp}\sigma_\phi\hat L_z\left(f_+\Xi_{\Omega,+}+f_-\Xi_{\Omega,-}\right)=\frac{\Omega+\frac12}{r_\perp}f_-\Xi_{\Omega,+}-\frac{\Omega-\frac12}{r_\perp}f_+\Xi_{\Omega,-}.
 $$
 
-##### Combined Action
+### Combined Action
 
 Combining the radial, axial, and azimuthal contributions,
 

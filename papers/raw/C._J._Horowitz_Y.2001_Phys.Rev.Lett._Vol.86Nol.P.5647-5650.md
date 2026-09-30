@@ -7,13 +7,13 @@
 
 # Neutron Star Structure and the Neutron Radius of 208Pb
 
-### Abstract
+## Abstract
 
 We study relationships between the neutron-rich skin of a heavy nucleus and the properties of neutron-star crusts. Relativistic effective field theories with a thicker neutron skin in $^{208}$Pb have a larger electron fraction and a lower liquid-to-solid transition density for neutron-rich matter. These properties are determined by the density dependence of the symmetry energy which we vary by adding nonlinear couplings between isoscalar and isovector mesons. An accurate measurement of the neutron radius in $^{208}$Pb---via parity violating electron scattering---may have important implications for the structure of neutron stars.
 
-### Motivation
+## Motivation
 
-##### quotation-01
+### quotation-01
 
 ```tags
 [claim-type]: motivation
@@ -24,7 +24,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > In this letter we study possible “data-to-data” relations between the neutron-rich skin of a heavy nucleus and the crust of a neutron star. These relations may impact neutron star observables.
 
 
-##### quotation-02
+### quotation-02
 
 ```tags
 [claim-type]: definition
@@ -35,7 +35,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > $R_p$ is the proton and $R_n-R_p$ is the difference between neutron and proton radii in Pb. Finally, $\rho_c$ is our estimate for the transition density of neutron-rich matter from a nonuniform to uniform phase.
 
 
-##### quotation-03
+### quotation-03
 
 ```tags
 [claim-type]: motivation
@@ -46,7 +46,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > An accurate measurement of the neutron radius in $^{208}$Pb---via parity violating electron scattering---may have important implications for the structure of the crust of neutron stars.
 
 
-##### quotation-04
+### quotation-04
 
 ```tags
 [claim-type]: motivation
@@ -57,7 +57,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > Thus we feel that it is important to distinguish direct finite-nucleus measurements---such as PREX---from theoretical neutron-matter “observables” based solely on calculations. Indeed, PREX may provide an important test of these calculations~\cite{brown}.
 
 
-##### quotation-05
+### quotation-05
 
 ```tags
 [claim-type]: definition
@@ -68,7 +68,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > Neutron stars are expected to have a solid crust of nonuniform neutron-rich matter above a liquid mantle. The phase transition from solid to liquid depends on the properties of neutron-rich matter.
 
 
-##### quotation-06
+### quotation-06
 
 ```tags
 [claim-type]: background
@@ -79,7 +79,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > The symmetry energy at saturation density is not well constrained by the binding energy of nuclei. However, some average of the symmetry energy at full density and the surface energy is constrained by binding energies.
 
 
-##### quotation-07
+### quotation-07
 
 ```tags
 [claim-type]: motivation
@@ -90,9 +90,9 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > We conclude that the neutron-skin thickness is not tightly constrained by these observables. Yet a measurement of the skin thickness will constrain the density dependence of the symmetry energy.
 
 
-### Methods
+## Methods
 
-##### quotation-08
+### quotation-08
 
 ```tags
 [claim-type]: definition
@@ -120,7 +120,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 ```
 
 
-##### quotation-09
+### quotation-09
 
 ```tags
 [claim-type]: method
@@ -131,7 +131,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > We now supplement the Lagrangian with new nonlinear sigma-rho and omega-rho couplings. These couplings allow us to change the density dependence of the symmetry energy which changes both the thickness of the neutron skin in $^{208}$Pb and the neutron-star crust.
 
 
-##### quotation-10
+### quotation-10
 
 ```tags
 [claim-type]: assumption
@@ -142,7 +142,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > A nonzero $\Lambda_3$ does change the thickness of the neutron skin in $^{208}$Pb---but at the expense of a change in the proton density. Therefore, we set $\Lambda_3\!\equiv\!0$ and focus exclusively on $\Lambda_4$ and $\Lambda_{\rm v}$.
 
 
-##### quotation-11
+### quotation-11
 
 ```tags
 [claim-type]: comparison
@@ -153,7 +153,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > The two new couplings ($\Lambda_4$ and $\Lambda_{\rm v}$) change the skin thickness in $^{208}$Pb by similar amounts.
 
 
-##### quotation-12
+### quotation-12
 
 ```tags
 [claim-type]: method
@@ -164,7 +164,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > To study the solid crust of a neutron star we make a simple random-phase-approximation (RPA) calculation of the transition density below which uniform neutron-rich matter becomes unstable against small amplitude density fluctuations.
 
 
-##### quotation-13
+### quotation-13
 
 ```tags
 [claim-type]: comparison
@@ -175,9 +175,9 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > Indeed, our models can provide a Lorentz-covariant extrapolation for the high density equation of state with a symmetry energy that rises slower with density relative to earlier relativistic mean-field models.
 
 
-### Results
+## Results
 
-##### quotation-14
+### quotation-14
 
 ```tags
 [claim-type]: result
@@ -188,7 +188,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > This simple procedure produces a nearly constant binding energy per nucleon for $^{208}$Pb as $\Lambda_{\rm v}$ is changed, as can be seen in Table I. Moreover, Table I shows that increasing $\Lambda_{\rm v}$ reduces the neutron-skin thickness significantly---while maintaining the proton radius nearly constant.
 
 
-##### quotation-15
+### quotation-15
 
 ```tags
 [claim-type]: result
@@ -199,7 +199,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > Moreover, this correlation seems to be insensitive to $M^*$ or to using $\Lambda_4$ or $\Lambda_{\rm v}$ to change $R_n\!-\!R_p$. These results suggest that a measurement of the neutron radius in $^{208}$Pb will provide considerable information on the transition density.
 
 
-##### quotation-16
+### quotation-16
 
 ```tags
 [claim-type]: result
@@ -210,7 +210,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > The different curves are for different values of $\Lambda_{\rm v}$ which predict the indicated $R_n\!-\!R_p$ values. The curves start near the transition densities displayed in Fig. 1. The electron fraction $Y_e$ is determined by the symmetry energy while $R_n\!-\!R_p$ is sensitive to the density dependence of the symmetry energy.
 
 
-##### quotation-17
+### quotation-17
 
 ```tags
 [claim-type]: definition
@@ -221,7 +221,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > In Fig.~2 we show the electron fraction per baryon $Y_e$ versus density for uniform neutron-rich matter in beta equilibrium. [...] The different curves are for different values of $\Lambda_{\rm v}$ which predict the indicated $R_n\!-\!R_p$ values.
 
 
-##### quotation-18
+### quotation-18
 
 ```tags
 [claim-type]: definition
@@ -232,7 +232,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > We now consider the radius $R$ of a 1.4 solar mass neutron star. [...] Also, the high density equation of state is softer with $\Lambda_{\rm v}$ than with $\Lambda_4$ so Z271v gives slightly smaller stars than parameter set Z2714.
 
 
-##### quotation-19
+### quotation-19
 
 ```tags
 [claim-type]: comparison
@@ -243,9 +243,9 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > Also, the high density equation of state is softer with $\Lambda_{\rm v}$ than with $\Lambda_4$ so Z271v gives slightly smaller stars than parameter set Z2714.
 
 
-### Meanings
+## Meanings
 
-##### quotation-20
+### quotation-20
 
 ```tags
 [claim-type]: innovation
@@ -256,7 +256,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > We now supplement the Lagrangian with new nonlinear sigma-rho and omega-rho couplings. These couplings allow us to change the density dependence of the symmetry energy which changes both the thickness of the neutron skin in $^{208}$Pb and the neutron-star crust.
 
 
-##### quotation-21
+### quotation-21
 
 ```tags
 [claim-type]: comparison
@@ -267,7 +267,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > Indeed, our models can provide a Lorentz-covariant extrapolation for the high density equation of state with a symmetry energy that rises slower with density relative to earlier relativistic mean-field models.
 
 
-##### quotation-22
+### quotation-22
 
 ```tags
 [claim-type]: result
@@ -278,7 +278,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > Relativistic effective field theories with a thicker neutron skin in $^{208}$Pb have a larger electron fraction and a lower liquid-to-solid transition density for neutron-rich matter. These properties are determined by the density dependence of the symmetry energy which we vary by adding nonlinear couplings between isoscalar and isovector mesons.
 
 
-##### quotation-23
+### quotation-23
 
 ```tags
 [claim-type]: motivation
@@ -290,9 +290,9 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 
 
 
-### Secondary Citations
+## Secondary Citations
 
-##### quotation-24
+### quotation-24
 ```tags
 [claim-type]: definition
 [tags]: parity_violating_electron_scattering, Pb-208
@@ -304,7 +304,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > The Parity Radius Experiment (PREX) at the Jefferson Laboratory aims to measure the neutron radius in $^{208}$Pb via parity violating electron scattering~\cite{prex,bigpaper}. Parity violation is sensitive to the neutron density because the $Z^0$ boson couples primarily to neutrons.
 
 
-##### quotation-25
+### quotation-25
 ```tags
 [claim-type]: method
 [tags]: RMF, nonlinear_meson_coupling, finite_nuclei, nuclear_matter, neutron_rich
@@ -316,7 +316,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > We start with a relativistic effective field theory~\cite{horst} that provides a simple description of finite nuclei and a Lorentz covariant extrapolation for the equation of state of dense neutron-rich matter. We now supplement the Lagrangian with new nonlinear sigma-rho and omega-rho couplings.
 
 
-##### quotation-26
+### quotation-26
 ```tags
 [claim-type]: method
 [tags]: random_phase_approximation, transition_density, neutron_star_crust, nuclear_matter, neutron_rich
@@ -328,7 +328,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > To study the solid crust of a neutron star we make a simple random-phase-approximation (RPA) calculation of the transition density below which uniform neutron-rich matter becomes unstable against small amplitude density fluctuations. This provides a lower bound to the true transition density~\cite{bound}.
 
 
-##### quotation-27
+### quotation-27
 ```tags
 [claim-type]: comparison
 [tags]: transition_density, neutron_skin_thickness
@@ -340,7 +340,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > For example, the nonrelativistic microscopic equation of state of Friedman and Pandharipande has a transition density of $\rho_c=0.096$\ fm$^{-3}$\ according to Lorenz et al.~\cite{vj}. For this equation of state Brown finds $R_n-R_p=0.16\pm 0.02$\ fm~\cite{brown}. These numbers are in excellent agreement with Eq. (3).
 
 
-##### quotation-28
+### quotation-28
 ```tags
 [claim-type]: result
 [tags]: electron_fraction, direct_Urca_process, neutron_star, neutron_skin_thickness
@@ -352,7 +352,7 @@ We study relationships between the neutron-rich skin of a heavy nucleus and the 
 > If $R_n\!-\!R_p$ is greater than about 0.24 fm, $Y_e$ becomes large enough to allow the direct URCA process~\cite{urca} to cool down a 1.4 solar mass neutron star.
 
 
-### Gaps
+## Gaps
 
 - `[section]: Methods | [item]: coverage | [target]: random_phase_approximation >=1 valid definition or background quotation | [reason]: no intrinsic definition or background`
 - `[section]: Results | [item]: coverage | [target]: Table II >=1 valid complete-sentence quotation using its current-work output quantity tags | [reason]: table contains input parameters only`

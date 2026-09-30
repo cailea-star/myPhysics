@@ -2,7 +2,7 @@
 
 An axial harmonic-oscillator configuration specifies the coordinate scales, finite single-particle space, symmetry blocks, and quadrature orders. Only states with positive $\Omega$ are stored explicitly; their negative-$\Omega$ partners follow from time reversal.
 
-### Coordinate Scales
+## Coordinate Scales
 
 The coordinate conventions follow [Axial Harmonic-Oscillator Basis](cylindrical_basis.md). Let $z$ and $r_\perp$ denote the axial and radial coordinates. The oscillator lengths $b_z$ and $b_{r_\perp}$ define
 
@@ -28,7 +28,7 @@ $$
 b_0=(b_{r_\perp}^2b_z)^{1/3},\qquad \beta_{20}=\frac{8}{3}\sqrt{\frac{\pi}{5}}\log\frac{b_z}{b_{r_\perp}}.
 $$
 
-### Single-Particle Labels
+## Single-Particle Labels
 
 The harmonic-oscillator single-particle states follow [Axial Harmonic-Oscillator Hamiltonian](cylindrical_basis.md#axial-harmonic-oscillator-hamiltonian). Let $n_z$ and $n_r$ be nonnegative axial and radial quantum numbers. Let $\Lambda$ denote the $z$ projection of orbital angular momentum and $\Sigma=\pm\frac12$ the $z$ projection of spin. A state is labeled by
 
@@ -60,7 +60,7 @@ $$
 \bar\alpha=(n_{z,\alpha},n_{r,\alpha},-\Lambda_\alpha,-\Sigma_\alpha),\qquad \Omega_{\bar\alpha}=-\Omega_\alpha,\qquad \pi_{\bar\alpha}=\pi_\alpha.
 $$
 
-### Symmetry Blocks
+## Symmetry Blocks
 
 Axial symmetry conserves $\Omega$. Without reflection symmetry, the single-particle space decomposes as
 
@@ -76,7 +76,7 @@ $$
 
 The positive-$\Omega$ blocks contain one representative of each time-reversal pair. Reflection symmetry also permits subsequent coordinate-space quadrature on the half-space $z\geq0$.
 
-### Energy Cutoff
+## Energy Cutoff
 
 The single-particle spectrum follows [Axial Harmonic-Oscillator Hamiltonian](cylindrical_basis.md#axial-harmonic-oscillator-hamiltonian). Let $M$ be the particle mass. The axial and transverse oscillator energies are
 
@@ -104,7 +104,7 @@ $$
 
 Candidate pairs $(n_z,\nu)$ are sorted by energy. Their multiplicities $d_\nu$ are accumulated until the count exceeds $N_{\rm HO}/2$; the current energy defines $E_{\rm cut}$. Every valid positive-$\Omega$ state with $E\leq E_{\rm cut}$ is retained. In the spherical limit, this reproduces the ordering by $N=n_z+\nu$.
 
-### Quadrature Orders
+## Quadrature Orders
 
 Let $n_z^{\max}$, $n_r^{\max}$, and $\Lambda^{\max}$ be the largest quantum numbers among the retained labels. An $N$-point Gauss-Hermite or Gauss-Laguerre rule integrates weighted polynomials through degree $2N-1$.
 

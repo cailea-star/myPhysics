@@ -7,7 +7,7 @@ import sys
 def find_quotation_lines(raw_md_lines: list[str]) -> list[int]:
     linenumberlist = []
     for linenumber, line in enumerate(raw_md_lines):
-        if re.match(r"^##### quotation-\d+\s*$", line):
+        if re.match(r"^### quotation-\d+\s*$", line):
             linenumberlist.append(linenumber)
     return linenumberlist
 
@@ -15,7 +15,7 @@ def find_quotation_lines(raw_md_lines: list[str]) -> list[int]:
 
 def rewrite_quotation_number(raw_md_lines: list[str], linenumber_list: list[int]) -> str:
     for i, linenumber in enumerate(linenumber_list):
-        raw_md_lines[linenumber] = f"##### quotation-{i+1:02d}\n"
+        raw_md_lines[linenumber] = f"### quotation-{i+1:02d}\n"
     raw_md_str_new = "".join(raw_md_lines)
     return raw_md_str_new
 

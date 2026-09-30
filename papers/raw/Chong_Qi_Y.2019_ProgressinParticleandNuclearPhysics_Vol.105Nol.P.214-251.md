@@ -7,16 +7,16 @@
 
 # Recent developments in radioactive charged-particle emissions and related phenomena
 
-### Abstract
+## Abstract
 
 The advent and intensive use of new detector technologies as well as radioactive ion beam facilities have opened up possibilities to investigate alpha, proton and cluster decays of highly unstable nuclei. This article provides a review of the current status of our understanding of clustering and the corresponding radioactive particle decay process in atomic nuclei. We put alpha decay in the context of charged-particle emissions which also include one- and two-proton emissions as well as heavy cluster decay. The experimental as well as the theoretical advances achieved recently in these fields are presented. Emphasis is given to the recent discoveries of charged-particle decays from proton-rich nuclei around the proton drip line. Those decay measurements have shown to provide an important probe for studying the structure of the nuclei involved. Developments on the theoretical side in nuclear many-body theories and supercomputing facilities have also made substantial progress, enabling one to study the nuclear clusterization and decays within a microscopic and consistent framework. We report on properties induced by the nuclear interaction acting in the nuclear medium, like the pairing interaction, which have been uncovered by studying the microscopic structure of clusters. The competition between cluster formations as compared to the corresponding alpha-particle formation are included. In the review we also describe the search for super-heavy nuclei connected by chains of alpha and other radioactive particle decays.
 
 
 
 
-### Motivation
+## Motivation
 
-##### quotation-01
+### quotation-01
 
 ```tags
 [claim-type]: definition
@@ -26,7 +26,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > We put alpha decay in the context of charged-particle emissions which also include one- and two-proton emissions as well as heavy cluster decay.
 
-##### quotation-02
+### quotation-02
 
 ```tags
 [claim-type]: definition
@@ -36,7 +36,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > In the firt case one has to consider the formation of the clusters, including alpha and heavier clusters like 14 C, starting from the nucleons that constitute the decaying mother nucleus.
 
-##### quotation-03
+### quotation-03
 
 ```tags
 [claim-type]: definition
@@ -46,7 +46,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > We use the term “proton radioactivity” to describe the process leading to the decay of a nucleus by emitting a proton.
 
-##### quotation-04
+### quotation-04
 
 ```tags
 [claim-type]: motivation
@@ -59,9 +59,9 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 
 
-### Methods
+## Methods
 
-##### quotation-05
+### quotation-05
 
 ```tags
 [claim-type]: definition
@@ -71,7 +71,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > In this formalism the collision between two nuclei leading to a compound system and its subsequent decay is described by dividing the configuration space of the composite system into an internal region, to which the compound state is restricted, and the complementary external region.
 
-##### quotation-06
+### quotation-06
 
 ```tags
 [claim-type]: assumption
@@ -81,7 +81,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > This division is made such that in the external region only the Coulomb interaction is important and the system in the outgoing channel behaves like a two-particle system.
 
-##### quotation-07
+### quotation-07
 
 ```tags
 [claim-type]: method
@@ -91,7 +91,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > This formalism was applied by Thomas to evaluate the α-decay width in a profound but difficult paper [10].
 
-##### quotation-08
+### quotation-08
 
 ```tags
 [claim-type]: background
@@ -101,7 +101,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > The shell model provides an excellent representation to describe nuclear properties. In the case of the α-formation amplitude the main region that such representation should describe is at the matching point R, as discussed above.
 
-##### quotation-09
+### quotation-09
 
 ```tags
 [claim-type]: method
@@ -111,7 +111,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > A successful solution of this problem was presented in Ref. [138], where the decaying state was described as a combination of a shell-model wave function plus a cluster component.
 
-##### quotation-10
+### quotation-10
 
 ```tags
 [claim-type]: definition
@@ -121,7 +121,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > The first case where this was realized is the Geiger-Nuttall law in α radioactivity which shows striking linear correlations between the logarithm of the decay half-life and the kinetic energy of the outgoing particle.
 
-##### quotation-11
+### quotation-11
 
 ```tags
 [claim-type]: method
@@ -134,9 +134,9 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 
 
-### Results
+## Results
 
-##### quotation-12
+### quotation-12
 
 ```tags
 [claim-type]: background
@@ -146,7 +146,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > The more rare cases of proton decays and cluster decays are marked with dark blue and purple colors, respectively.
 
-##### quotation-13
+### quotation-13
 
 ```tags
 [claim-type]: definition
@@ -156,7 +156,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > The evaluation of α formation amplitude involves the evaluation of the overlap between the corresponding proton and neutron radial functions in the laboratory framework with the α-particle intrinsic wave function as defined in the centre of mass framework (see, e.g., Ref. [129]).
 
-##### quotation-14
+### quotation-14
 
 ```tags
 [claim-type]: background
@@ -166,7 +166,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > The huge range of α decay half-lives can be modelled through the Geiger-Nuttall law [158, 159], which shows a striking correlation between the half-lives of radioactive decay processes and the decay Qα values.
 
-##### quotation-15
+### quotation-15
 
 ```tags
 [claim-type]: definition
@@ -176,7 +176,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > In the lower part of that Figure, the discrepancy between experimental and calculated half lives, i.e., the ratio \(R=T_{1/2}^{\mathrm{Expt.}}/T_{1/2}^{\mathrm{Cal.}}\), is plotted as a function of the emitter charge numbers Z.
 
-##### quotation-16
+### quotation-16
 
 ```tags
 [claim-type]: result
@@ -186,7 +186,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > In Fig. 13 we plotted the formation probability for known alpha decays. They follow roughly a linear behaviour as a function of ρ′ which is the key for the success of UDL.
 
-##### quotation-17
+### quotation-17
 
 ```tags
 [claim-type]: result
@@ -196,7 +196,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > It was found that although the UDL reproduces nicely most available experimental α decay data, [...] there is a case where it fails by a large factor. This corresponds to the α decays of nuclei with neutron numbers equal to or just below N = 126 [133, 167].
 
-##### quotation-18
+### quotation-18
 
 ```tags
 [claim-type]: comparison
@@ -206,7 +206,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > We notice that, for the α decays of nuclei with neutron numbers equal to or just below N = 126, the UDL fails by a large factor but,on the other hand, the normal GN law seems to work, as illustrated in Fig. 16.
 
-##### quotation-19
+### quotation-19
 
 ```tags
 [claim-type]: result
@@ -219,9 +219,9 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 
 
-### Meanings
+## Meanings
 
-##### quotation-20
+### quotation-20
 
 ```tags
 [claim-type]: comparison
@@ -231,7 +231,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > But in this case the formation of the decaying cluster within the mother nucleus has been exhaustively studied within the framework of macroscopic formalisms. However, only for the case of alpha-decay these microscopic studies has provided fruitful results. The shell model has been very successful in this endeavour.
 
-##### quotation-21
+### quotation-21
 
 ```tags
 [claim-type]: innovation
@@ -245,9 +245,9 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 
 
-### Secondary Citations
+## Secondary Citations
 
-##### quotation-22
+### quotation-22
 
 ```tags
 [claim-type]: background
@@ -259,7 +259,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > The microscopic treatment of alpha decay required a general framework which was provided by the introduction of the R-matrix theory as formulated by Teichman and Wigner [9].
 
-##### quotation-23
+### quotation-23
 
 ```tags
 [claim-type]: method
@@ -275,7 +275,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 \log T_{1/2}=a\chi'+b\rho'+d\,l(l+1)/\rho'+c,
 ```
 
-##### quotation-24
+### quotation-24
 
 ```tags
 [claim-type]: background
@@ -287,7 +287,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 
 > As we have seen, in heavy nuclei the neutron-neutron and proton-proton interaction, when treated properly, induce the nn and pp clustering [133].
 
-##### quotation-25
+### quotation-25
 
 ```tags
 [claim-type]: background
@@ -300,7 +300,7 @@ The advent and intensive use of new detector technologies as well as radioactive
 > The need for a different linear Z dependence of the coefficients A and B in different regions of the nuclear chart was discussed in Ref. [166], which is related to the generic form of the α formation probability as will be discussed just below.
 
 
-### Gaps
+## Gaps
 
 - `[section]: Results | [item]: coverage | [target]: spherical_basis_weight | [reason]: no complete-sentence definition or background evidence`
 - `[section]: Results | [item]: coverage | [target]: figure 2 | [reason]: explicitly adapted from external reference [21]`

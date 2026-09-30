@@ -1,6 +1,6 @@
 # Alpha Decay
 
-### Main Theoretical Approaches
+## Main Theoretical Approaches
 
 Theoretical descriptions of $\alpha$ decay include:
 
@@ -19,7 +19,7 @@ Theoretical descriptions of $\alpha$ decay include:
   - Casal time-evolution method
   - ...
 
-### Relativistic Kinematics
+## Relativistic Kinematics
 
 Let $P$, $D$, and $\alpha$ denote the parent nucleus, daughter nucleus, and $\alpha$ particle, with masses $M_P$, $M_D$, and $M_\alpha$. Let $E_D$ and $E_\alpha$ denote the final-state energies, and define the kinetic energies by $T_D=E_D-M_Dc^2$ and $T_\alpha=E_\alpha-M_\alpha c^2$.
 
@@ -65,7 +65,7 @@ $$
 \boxed{T_\alpha=\frac{Q_\alpha(Q_\alpha+2M_Dc^2)}{2\left[Q_\alpha+(M_D+M_\alpha)c^2\right]}\simeq\frac{M_D}{M_D+M_\alpha}Q_\alpha}.
 $$
 
-### Nonrelativistic Kinematics
+## Nonrelativistic Kinematics
 
 In the parent-nucleus rest frame, momentum conservation gives
 
@@ -91,7 +91,7 @@ $$
 \boxed{T_\alpha=\frac{M_D}{M_D+M_\alpha}Q_\alpha,\qquad T_D=\frac{M_\alpha}{M_D+M_\alpha}Q_\alpha}.
 $$
 
-### WKB Approximation
+## WKB Approximation
 
 Only the application of the WKB approximation to $\alpha$ decay is given here. Its general derivation is deferred to quantum mechanics.
 
@@ -169,7 +169,7 @@ $$
 
 The centrifugal barrier becomes non-negligible for $l\geq2$.
 
-### Preformation and Pairing Correlations
+## Preformation and Pairing Correlations
 
 **Preformation.** For parent mass number $A$, let $\psi_i(A)$, $\psi_f(A-4)$, and $\psi_\alpha(4)$ denote the parent, daughter, and $\alpha$-particle wave functions. In the resonating-group method (RGM),
 

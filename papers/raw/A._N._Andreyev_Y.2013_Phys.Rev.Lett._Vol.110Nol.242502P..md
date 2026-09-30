@@ -7,16 +7,16 @@
 
 # Signatures of the Z = 82 Shell Closure in α -Decay Process
 
-### Abstract
+## Abstract
 
 In recent experiments at the velocity filter Separator for Heavy Ion reaction Products (SHIP) (GSI, Darmstadt), an extended and improved set of α-decay data for more than 20 of the most neutron-deficient isotopes in the region from lead to thorium was obtained. The combined analysis of this newly available α-decay data, of which the Po186 decay is reported here, allowed us for the first time to clearly show that crossing the Z=82 shell to higher proton numbers strongly accelerates the α decay. From the experimental data, the α-particle formation probabilities are deduced following the Universal Decay Law approach. The formation probabilities are discussed in the framework of the pairing force acting among the protons and the neutrons forming the α particle. A striking resemblance between the phenomenological pairing gap deduced from experimental binding energies and the formation probabilities is noted. These findings support the conjecture that both the N=126 and Z=82 shell closures strongly influence the α-formation probability.
 
 
 
 
-### Motivation
+## Motivation
 
-##### quotation-01
+### quotation-01
 
 ```tags
 [claim-type]: motivation
@@ -26,7 +26,7 @@ In recent experiments at the velocity filter Separator for Heavy Ion reaction Pr
 
 > In nuclear science, the constant attention to α decay (and its time-reversal process of fusion reactions with α particles) is due to the relative simplicity of its experimental investigation and the wealth of spectroscopic information it provides [1].
 
-##### quotation-02
+### quotation-02
 
 ```tags
 [claim-type]: background
@@ -36,7 +36,7 @@ In recent experiments at the velocity filter Separator for Heavy Ion reaction Pr
 
 > Since then, practically all theoretical and semiempirical methods treat α decay as a two-step process, which involves the preformation of an α particle, followed by its penetration through the barrier.
 
-##### quotation-03
+### quotation-03
 
 ```tags
 [claim-type]: background
@@ -49,9 +49,9 @@ In recent experiments at the velocity filter Separator for Heavy Ion reaction Pr
 
 
 
-### Methods
+## Methods
 
-##### quotation-04
+### quotation-04
 
 ```tags
 [claim-type]: background
@@ -61,7 +61,7 @@ In recent experiments at the velocity filter Separator for Heavy Ion reaction Pr
 
 > Recently, we performed a series of experiments at the Separator for Heavy Ion reaction Products (SHIP) in GSI (Darmstadt, Germany) aimed at detailed α-decay studies of the most neutron-deficient isotopes in the lead to thorium region.
 
-##### quotation-05
+### quotation-05
 
 ```tags
 [claim-type]: method
@@ -71,7 +71,7 @@ In recent experiments at the velocity filter Separator for Heavy Ion reaction Pr
 
 > After separation by SHIP, the nuclei were implanted into a \(300\,\mu\mathrm{m}\) thick, \(35 \times 80\,\mathrm{mm}^2\) 16-strip position-sensitive silicon detector, where their subsequent particle decays were measured.
 
-##### quotation-06
+### quotation-06
 
 ```tags
 [claim-type]: background
@@ -81,7 +81,7 @@ In recent experiments at the velocity filter Separator for Heavy Ion reaction Pr
 
 > The new results in the lead to thorium region can now be analyzed with the recently developed Universal Decay Law, which describes in a consistent way the half-lives of all forms of cluster radioactivity [25].
 
-##### quotation-07
+### quotation-07
 
 ```tags
 [claim-type]: method
@@ -91,7 +91,7 @@ In recent experiments at the velocity filter Separator for Heavy Ion reaction Pr
 
 > From the experimental data, the α-particle formation probabilities are deduced following the Universal Decay Law approach.
 
-##### quotation-08
+### quotation-08
 
 ```tags
 [claim-type]: definition
@@ -101,7 +101,7 @@ In recent experiments at the velocity filter Separator for Heavy Ion reaction Pr
 
 > Within the BCS approach, the two-particle formation amplitude is proportional to \(\sum_k u_kv_k\), where \(u_k\) and \(v_k\) are the standard occupation numbers.
 
-##### quotation-09
+### quotation-09
 
 ```tags
 [claim-type]: assumption
@@ -114,9 +114,9 @@ In recent experiments at the velocity filter Separator for Heavy Ion reaction Pr
 
 
 
-### Results
+## Results
 
-##### quotation-10
+### quotation-10
 
 ```tags
 [claim-type]: background
@@ -126,7 +126,7 @@ In recent experiments at the velocity filter Separator for Heavy Ion reaction Pr
 
 > The gross features of $\Delta L=0$ (no angular momentum change) α transitions (e.g., between the $I^\pi=0^+$ ground states of even-even nuclei) are expressed by the Geiger-Nuttall rule [6], postulated in 1911, which linearly relates the logarithm of the partial half-life $T_{1/2}$ with the inverse square root of the α-decay $Q$ value.
 
-##### quotation-11
+### quotation-11
 
 ```tags
 [claim-type]: definition
@@ -136,7 +136,7 @@ In recent experiments at the velocity filter Separator for Heavy Ion reaction Pr
 
 > Compared to the reduced width of Ref. [9], the formation probability $|RF_c(R)|^2$ gives a more precise and unambiguous assessment of the clustering process. From Eq. (1), one can extract the experimental formation probability if the corresponding half-life has been determined.
 
-##### quotation-12
+### quotation-12
 
 ```tags
 [claim-type]: definition
@@ -155,7 +155,7 @@ B(Z,N)+B(Z,N-2)-2B(Z,N-1)
 \right].
 ```
 
-##### quotation-13
+### quotation-13
 
 ```tags
 [claim-type]: result
@@ -165,7 +165,7 @@ B(Z,N)+B(Z,N-2)-2B(Z,N-1)
 
 > After separation by SHIP, the nuclei were implanted into a $300\,\mu\mathrm{m}$ thick, $35 \times 80\,\mathrm{mm}^2$ 16-strip position-sensitive silicon detector, where their subsequent particle decays were measured. [...] The $^{186}\mathrm{Po}$ production cross section is only $\sim200(70)$ pb, which corresponds to the production of a few atoms of $^{186}\mathrm{Po}$ per day.
 
-##### quotation-14
+### quotation-14
 
 ```tags
 [claim-type]: result
@@ -175,7 +175,7 @@ B(Z,N)+B(Z,N-2)-2B(Z,N-1)
 
 > On the basis of all eight correlation chains, an α-decay energy of $8320(15)$ keV and a half-life of $28^{+16}_{-6}\,\mu\mathrm{s}$ were deduced for $^{186}\mathrm{Po}$.
 
-##### quotation-15
+### quotation-15
 
 ```tags
 [claim-type]: result
@@ -185,7 +185,7 @@ B(Z,N)+B(Z,N-2)-2B(Z,N-1)
 
 > Below the shell closure, $|RF_c(R)|^2$ decreases as a function of rising neutron number, reaching its lowest values at the shell closure.
 
-##### quotation-16
+### quotation-16
 
 ```tags
 [claim-type]: comparison
@@ -195,7 +195,7 @@ B(Z,N)+B(Z,N-2)-2B(Z,N-1)
 
 > One indeed sees a striking similarity between the tendency of the pairing gaps in this figure with the α-particle formation probabilities.
 
-##### quotation-17
+### quotation-17
 
 ```tags
 [claim-type]: result
@@ -208,9 +208,9 @@ B(Z,N)+B(Z,N-2)-2B(Z,N-1)
 
 
 
-### Meanings
+## Meanings
 
-##### quotation-18
+### quotation-18
 
 ```tags
 [claim-type]: innovation
@@ -220,7 +220,7 @@ B(Z,N)+B(Z,N-2)-2B(Z,N-1)
 
 > The new α-decay data, of which the $^{186}\mathrm{Po}$ decay is reported here, allowed us for the first time to clearly show that crossing the $Z=82$ shell to higher proton numbers strongly accelerates the α decay.
 
-##### quotation-19
+### quotation-19
 
 ```tags
 [claim-type]: comparison
@@ -230,7 +230,7 @@ B(Z,N)+B(Z,N-2)-2B(Z,N-1)
 
 > A striking resemblance between the phenomenological pairing gap deduced from experimental binding energies and the formation probabilities is noted.
 
-##### quotation-20
+### quotation-20
 
 ```tags
 [claim-type]: result
@@ -244,9 +244,9 @@ B(Z,N)+B(Z,N-2)-2B(Z,N-1)
 
 
 
-### Secondary Citations
+## Secondary Citations
 
-##### quotation-21
+### quotation-21
 
 ```tags
 [claim-type]: background
@@ -258,7 +258,7 @@ B(Z,N)+B(Z,N-2)-2B(Z,N-1)
 
 > The new results in the lead to thorium region can now be analyzed with the recently developed Universal Decay Law, which describes in a consistent way the half-lives of all forms of cluster radioactivity [25].
 
-##### quotation-22
+### quotation-22
 
 ```tags
 [claim-type]: method
@@ -279,7 +279,7 @@ T_{1/2}
 \right|^2.
 ```
 
-##### quotation-23
+### quotation-23
 
 ```tags
 [claim-type]: method
@@ -291,7 +291,7 @@ T_{1/2}
 
 > Combining these data with our recently obtained results for the neutron-deficient isotopes with $Z>82$, we extracted the α-particle formation probabilities following Ref. [27].
 
-##### quotation-24
+### quotation-24
 
 ```tags
 [claim-type]: method
@@ -313,7 +313,7 @@ B(Z,N)+B(Z,N-2)-2B(Z,N-1)
 ```
 
 
-##### quotation-25
+### quotation-25
 
 ```tags
 [claim-type]: background
@@ -326,6 +326,6 @@ B(Z,N)+B(Z,N-2)-2B(Z,N-1)
 > This clustering is induced by the pairing force acting among the neutrons and the protons that constitute the α particle [2].
 
 
-### Gaps
+## Gaps
 
 - `[section]: Results | [item]: coverage | [target]: production_cross_section | [reason]: no definition or established background statement in full text`

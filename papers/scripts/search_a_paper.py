@@ -66,7 +66,7 @@ def split_doi_line(line: str) -> list[str]:
 
 def find_md_secondary(doi: str, raw_md_path: Path) -> None:
     lines = raw_md_path.read_text(encoding="utf-8").splitlines()
-    start, end = lines.index("### Secondary Citations") + 1, lines.index("### Gaps")
+    start, end = lines.index("## Secondary Citations") + 1, lines.index("## Gaps")
     for line_number, line in enumerate(lines[start:end], start + 1):
         if doi in split_doi_line(line):
             print(f"md secondary: {raw_md_path.name}: {line_number}: {line.strip()}")

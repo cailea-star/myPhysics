@@ -6,7 +6,7 @@
 
 # BiFold
 
-### Recursive Reduction of an Arbitrary-Order Folding Potential
+## Recursive Reduction of an Arbitrary-Order Folding Potential
 
 Given $n$ density distributions $\rho_i(\mathbf r_i)$, define the $n$-th-order folding potential as
 
@@ -64,11 +64,11 @@ $$
 
 Thus, a higher-order folding integral can be constructed recursively, reducing one high-dimensional integral to a sequence of lower-order convolutions.
 
-### Fourier Transform
+## Fourier Transform
 
 See [Fourier Transform](../mathematical_physics/transform_fourier.md).
 
-##### Fourier Decomposition of a Density
+### Fourier Decomposition of a Density
 
 Applying the preceding decomposition to a density $\rho(\mathbf r)$ gives
 
@@ -117,7 +117,7 @@ $$
 
 If the density is also reflection symmetric, only even values of $l$ contribute.
 
-##### Fourier Decomposition of a Central Interaction
+### Fourier Decomposition of a Central Interaction
 
 For a central interaction $v(\mathbf r)=v(r)$, only the $l=0$ partial wave contributes. Its Fourier transform therefore reduces to
 
@@ -185,7 +185,7 @@ Therefore, the momentum-space forms of the M3Y-Reid and M3Y-Paris interactions c
 
 Thus, a central interaction remains spherically symmetric in momentum space and depends only on the magnitude $q=|\mathbf q|$.
 
-### Local Density Approximation
+## Local Density Approximation
 
 The exchange potential depends on the off-diagonal one-body density matrix $\rho(\mathbf r,\mathbf r+\mathbf s)$ rather than only on the local density $\rho(\mathbf r)$. In the local-density approximation, the neighborhood around the midpoint $\mathbf r+\mathbf s/2$ is treated as locally uniform nuclear matter.
 
@@ -226,7 +226,7 @@ The factor $\hat j_1(k_Fs)$ describes the loss of coherence between two spatial 
 
 This approximation is most reliable when the density varies slowly over the separation $s$. It may become less accurate in regions with large density gradients, particularly near the nuclear surface. The exchange term is not converted into a direct local interaction; its approximate nonlocal dependence is retained through $s$ and $k_F$.
 
-### Direct Potential
+## Direct Potential
 
 The direct part of the double-folding potential is
 
@@ -251,7 +251,7 @@ Here,
 - $\mathbf r_{\mathrm p}$ is the position of a nucleon relative to the center of the projectile;
 - $\mathbf s$ is the relative displacement between the two interacting nucleons, with $s=|\mathbf s|$.
 
-##### Momentum-Space Representation
+### Momentum-Space Representation
 
 Using the Fourier-transform convention defined above,
 
@@ -334,7 +334,7 @@ $$
 
 Thus, the coordinate-space double-folding integral becomes a product of the two density form factors and the interaction in momentum space.
 
-### Exchange Potential
+## Exchange Potential
 
 The finite-range knock-on exchange term is localized with a local plane-wave approximation:
 
@@ -388,7 +388,7 @@ i\frac{\mathbf K(\mathbf R)\cdot\mathbf s}{M}
 (\mathbf R+\mathbf r_{\mathrm p}-\mathbf r_{\mathrm t}-\mathbf s).
 $$
 
-##### Applying the Local-Density Approximation
+### Applying the Local-Density Approximation
 
 For the target and projectile density matrices, introduce the midpoint coordinates
 
@@ -438,7 +438,7 @@ k_{F,\mathrm p}(\mathbf u_{\mathrm p})s
 (\mathbf R+\mathbf u_{\mathrm p}-\mathbf u_{\mathrm t}).
 $$
 
-##### Momentum-Space Representation
+### Momentum-Space Representation
 
 Using
 
@@ -532,7 +532,7 @@ v^{\mathrm E}(s)
 G(\mathbf R,s).
 $$
 
-##### Self-Consistency
+### Self-Consistency
 
 The local relative wave number satisfies
 
@@ -557,11 +557,11 @@ $$
 
 Because $V^{\mathrm E}$ depends on $K$ and $K$ depends on $V^{\mathrm E}$, the two quantities must be determined self-consistently at every value of $\mathbf R$.
 
-### Partial-Wave Decomposition
+## Partial-Wave Decomposition
 
 Assume a spherical projectile and a deformed target. The projectile density and form factors contain only the monopole component, whereas the target quantities are expanded in spherical harmonics.
 
-##### Direct Potential
+### Direct Potential
 
 For a spherical projectile,
 
@@ -645,7 +645,7 @@ j_l(qR)
 \tilde v^{\mathrm D}(q).
 $$
 
-##### Exchange Potential
+### Exchange Potential
 
 For the spherical projectile, define
 
@@ -783,13 +783,13 @@ For an axially symmetric target, only $m=0$ contributes. If the target is also r
 When the full angle-dependent $K(\mathbf R)$ is retained, the factor $j_0[K(\mathbf R)s/M]$ couples different multipoles. In that case, the $(l,m)$ components cannot be solved independently without an additional approximation or an explicit angular recoupling.
 
 
-### M3Y Interactions
+## M3Y Interactions
 
 The M3Y effective nucleon–nucleon interaction contains separate direct and exchange components. Two commonly used parametrizations are M3Y-Reid and M3Y-Paris. The expressions below give the density-independent components $v_0^{\mathrm D}(s)$ and $v_0^{\mathrm E}(s)$ used in the density-dependent interaction.
 
 Here, $s$ is measured in $\mathrm{fm}$, the inverse ranges are measured in $\mathrm{fm}^{-1}$, and the resulting interactions are given in $\mathrm{MeV}$.
 
-##### M3Y-Reid
+### M3Y-Reid
 
 The direct component is
 
@@ -818,7 +818,7 @@ v_{0,\mathrm{Reid}}^{\mathrm E}(s)
 \frac{e^{-0.7072s}}{0.7072s}.
 $$
 
-##### M3Y-Paris
+### M3Y-Paris
 
 The direct component is
 
@@ -859,7 +859,7 @@ g(E)F(\rho)v_0^{X}(s),
 X\in\{\mathrm D,\mathrm E\}.
 $$
 
-### Density-Dependent Interaction
+## Density-Dependent Interaction
 
 The density-dependent effective interaction is written as
 
@@ -909,7 +909,7 @@ $$
 
 For parametrizations without an explicit energy dependence, $g(E)=1$.
 
-##### Frozen-Density Approximation
+### Frozen-Density Approximation
 
 The density entering $F(\rho)$ is evaluated using the frozen-density approximation. The intrinsic densities of the projectile and target are assumed to remain unchanged during the collision, and the local overlap density is taken as their sum.
 
@@ -1019,7 +1019,7 @@ Thus, the density-dependent contribution is reduced to a finite sum of separable
 
 For a deformed target, each nonlinear target function, such as $\rho_{\mathrm t}^{k+1}$ or $\rho_{\mathrm t}e^{-\beta\rho_{\mathrm t}}$, must be constructed in coordinate space before its spherical-harmonic decomposition. Nonlinear operations on the density generally mix different multipoles.
 
-### Computational Workflow
+## Computational Workflow
 
 The following workflow assumes a density-independent effective interaction.
 
@@ -1027,7 +1027,7 @@ In a density-dependent calculation, each separable term in $\rho_{\mathrm t}\rho
 
 The calculation consists of two stages. The first stage prepares the momentum-space kernels. The second stage evaluates the direct and exchange potentials at a given $\mathbf R$.
 
-##### Momentum-Space Kernels
+### Momentum-Space Kernels
 
 Transform the direct interaction to momentum space:
 
@@ -1120,7 +1120,7 @@ $$
 
 At this point, both $\tilde V^{\mathrm D}_{lm}(q)$ and $\tilde G_{lm}(q,s)$ are ready for calculations at any $\mathbf R$.
 
-##### Calculation at a Given Coordinate
+### Calculation at a Given Coordinate
 
 For a selected $\mathbf R$, transform the direct kernels to the radial coordinate:
 

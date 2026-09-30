@@ -7,16 +7,16 @@
 
 # Coupled reaction channels calculations in nuclear physics
 
-### Abstract
+## Abstract
 
 This paper describes the components and methods of a comprehensive code for coupled reaction channels calculations in nuclear physics. Procedures are described which are common to the modelling of reactions induced by light and medium-mass ions, and which are sufficient to calculate the effects of successive processes to any order.
 
 
 
 
-### Motivation
+## Motivation
 
-##### quotation-01
+### quotation-01
 
 ```tags
 [claim-type]: background
@@ -26,7 +26,7 @@ This paper describes the components and methods of a comprehensive code for coup
 
 > Inelastic excitations may occur, for example when one or both of the nuclei are deformed or deformable, with the result that higher-energy states of the nuclei may become populated.
 
-##### quotation-02
+### quotation-02
 
 ```tags
 [claim-type]: motivation
@@ -39,9 +39,9 @@ This paper describes the components and methods of a comprehensive code for coup
 
 
 
-### Methods
+## Methods
 
-##### quotation-03
+### quotation-03
 
 ```tags
 [claim-type]: definition
@@ -59,7 +59,7 @@ P\overline{\Psi}\equiv\Psi
 \tag{2.1}
 ```
 
-##### quotation-04
+### quotation-04
 
 ```tags
 [claim-type]: method
@@ -82,7 +82,7 @@ Q\equiv1-P.
 \tag{2.2}
 ```
 
-##### quotation-05
+### quotation-05
 
 ```tags
 [claim-type]: definition
@@ -99,7 +99,7 @@ H_i-E_i
 \tag{2.3}
 ```
 
-##### quotation-06
+### quotation-06
 
 ```tags
 [claim-type]: definition
@@ -114,7 +114,7 @@ H_i-E_i+V_i=\mathcal H-E.
 \tag{2.4}
 ```
 
-##### quotation-07
+### quotation-07
 
 ```tags
 [claim-type]: method
@@ -133,7 +133,7 @@ H_i-E_i+V_i=\mathcal H-E.
 \tag{2.5}
 ```
 
-##### quotation-08
+### quotation-08
 
 ```tags
 [claim-type]: definition
@@ -154,7 +154,7 @@ H_i-E_i+V_i=\mathcal H-E.
 \tag{2.7}
 ```
 
-##### quotation-09
+### quotation-09
 
 ```tags
 [claim-type]: method
@@ -225,7 +225,7 @@ Editorial note: In equation (2.8), the printed \(H_j\) on the left-hand side is 
 \langle\phi_N|\Psi\rangle.
 ```
 
-##### quotation-10
+### quotation-10
 
 ```tags
 [claim-type]: method
@@ -298,14 +298,14 @@ S_j^{(n-1)}
 
 
 
-### Results
+## Results
 
 ...
 
 
 
 
-### Meanings
+## Meanings
 
 ...
 
@@ -313,9 +313,9 @@ S_j^{(n-1)}
 
 
 
-### Secondary Citations
+## Secondary Citations
 
-##### quotation-xx
+### quotation-xx
 
 ```tags
 [claim-type]: ...
@@ -328,6 +328,6 @@ S_j^{(n-1)}
 > This is a quotation with secondary citations from the original paper[ab], which is tagged with the above tags.
 
 
-### Gaps
+## Gaps
 
 - `[section]: [section name] | [item]: [claim-type|coverage|quotation] | [target]: [exact requirement or expanded target] | [reason]: [why no valid evidence exists, up to 10 words]`
