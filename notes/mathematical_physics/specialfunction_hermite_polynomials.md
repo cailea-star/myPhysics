@@ -8,7 +8,7 @@ $$
 
 Its normalization is fixed by the generating function below.
 
-### Generating Function
+## Generating Function
 
 With $H_0(x)=1$, the Hermite equation gives the raising relation
 
@@ -40,7 +40,7 @@ $$
 \boxed{G(x,t)=e^{2xt-t^2}}.
 $$
 
-### Rodrigues Formula
+## Rodrigues Formula
 
 Rewrite the generating function as
 
@@ -60,7 +60,7 @@ $$
 \boxed{H_n(x)=(-1)^ne^{x^2}\frac{\mathrm d^n}{\mathrm dx^n}e^{-x^2}}.
 $$
 
-### Recurrence and Derivatives
+## Recurrence and Derivatives
 
 The generating function satisfies
 
@@ -80,7 +80,7 @@ $$
 xH_n(x)=\frac12H_{n+1}(x)+nH_{n-1}(x),\qquad \frac{\mathrm d^2}{\mathrm dx^2}H_n(x)=2x\frac{\mathrm d}{\mathrm dx}H_n(x)-2nH_n(x).
 $$
 
-### Orthogonality and Normalization
+## Orthogonality and Normalization
 
 For $m<n$, the Rodrigues formula and integration by parts give
 
@@ -106,7 +106,7 @@ $$
 f(x)=\sum_{n=0}^{\infty}c_nH_n(x),\qquad c_n=N_n^2\int_{-\infty}^{\infty}e^{-x^2}H_n(x)f(x)\,\mathrm dx.
 $$
 
-### Parity
+## Parity
 
 Since $G(-x,t)=G(x,-t)$,
 

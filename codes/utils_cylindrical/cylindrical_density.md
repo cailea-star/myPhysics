@@ -1,6 +1,6 @@
 # Cylindrical Densities
 
-### Basis and Block Matrices
+## Basis and Block Matrices
 
 Following the [cylindrical basis](cylindrical_basis.md), label each positive-branch representative by
 
@@ -52,7 +52,7 @@ $$
 \rho^\dagger=\rho,\qquad \kappa^T=-\kappa,\qquad \kappa^{-+}=-(\kappa^{+-})^T.
 $$
 
-### Spin Groups
+## Spin Groups
 
 Within each positive-branch block with angular-momentum projection $\Omega>0$, separate the representative labels by spin:
 
@@ -82,7 +82,7 @@ $$
 R_{\alpha^\uparrow,\beta^\downarrow}^{(\pm)}=\rho_{\alpha^\uparrow\beta^\downarrow}^{++}\pm\rho_{\alpha^\uparrow\beta^\downarrow}^{--},\qquad R_{\alpha^\downarrow,\beta^\uparrow}^{(\pm)}=\rho_{\alpha^\downarrow\beta^\uparrow}^{++}\pm\rho_{\alpha^\downarrow\beta^\uparrow}^{--}.
 $$
 
-### Particle Density
+## Particle Density
 
 The particle density is
 
@@ -108,7 +108,7 @@ $$
 
 All spatial amplitudes are evaluated at $(z,r_\perp)$, and arrows denote representative spins. The result is the three-dimensional local density, with the factor $1/(2\pi)$ supplied by the angular normalization of the basis.
 
-### Kinetic Density
+## Kinetic Density
 
 The kinetic density is
 
@@ -140,7 +140,7 @@ $$
 
 All spatial amplitudes are evaluated at $(z,r_\perp)$, and arrows denote representative spins. The kinetic density $\tau$ excludes the kinetic-energy coefficient $\hbar^2/(2m)$.
 
-### Density Laplacian
+## Density Laplacian
 
 The density Laplacian follows from the product rule:
 
@@ -182,7 +182,7 @@ $$
 \nabla^2\rho(z,r_\perp)=\left(\partial_z^2+\partial_{r_\perp}^2+\frac{1}{r_\perp}\partial_{r_\perp}\right)\rho(z,r_\perp).
 $$
 
-### Current Density
+## Current Density
 
 The current density is
 
@@ -192,7 +192,7 @@ $$
 
 All basis spinors in this expression are evaluated at $\mathbf r$. The cylindrical derivatives are $\nabla_r=\partial_{r_\perp}$, $\nabla_\varphi=r_\perp^{-1}\partial_\varphi$, and $\nabla_z=\partial_z$. Only contractions within the same representative spin group survive. Within each spin group of a block, $\Lambda_\alpha=\Lambda_\beta$, so the azimuthal phases cancel.
 
-##### $j_r$
+### $j_r$
 
 The radial contractions in the two branches are
 
@@ -206,7 +206,7 @@ $$
 \boxed{j_r(z,r_\perp)=\frac{1}{4\pi i}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\uparrow}R_{\alpha^\uparrow,\beta^\uparrow}^{(+)}\left(\phi_{\beta^\uparrow}\partial_{r_\perp}\phi_{\alpha^\uparrow}-\phi_{\alpha^\uparrow}\partial_{r_\perp}\phi_{\beta^\uparrow}\right)+\sum_{\alpha^\downarrow,\beta^\downarrow}R_{\alpha^\downarrow,\beta^\downarrow}^{(+)}\left(\phi_{\beta^\downarrow}\partial_{r_\perp}\phi_{\alpha^\downarrow}-\phi_{\alpha^\downarrow}\partial_{r_\perp}\phi_{\beta^\downarrow}\right)\right].}
 $$
 
-##### $j_\varphi$
+### $j_\varphi$
 
 The angular derivatives give opposite signs in the two branches:
 
@@ -220,7 +220,7 @@ $$
 \boxed{j_\varphi(z,r_\perp)=\frac{1}{2\pi r_\perp}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\uparrow}R_{\alpha^\uparrow,\beta^\uparrow}^{(-)}\Lambda_{\alpha^\uparrow}\phi_{\alpha^\uparrow}\phi_{\beta^\uparrow}+\sum_{\alpha^\downarrow,\beta^\downarrow}R_{\alpha^\downarrow,\beta^\downarrow}^{(-)}\Lambda_{\alpha^\downarrow}\phi_{\alpha^\downarrow}\phi_{\beta^\downarrow}\right].}
 $$
 
-##### $j_z$
+### $j_z$
 
 The longitudinal contractions in the two branches are
 
@@ -236,7 +236,7 @@ $$
 
 All spatial amplitudes are real, evaluated at $(z,r_\perp)$, and carry positive-branch labels. Hermiticity makes all three components real. For real density matrices, $j_r=j_z=0$, while $j_\varphi$ may remain nonzero. The definition of $\mathbf j$ does not include a factor of $\hbar/M$.
 
-### Spin Density
+## Spin Density
 
 The spin density is
 
@@ -252,7 +252,7 @@ $$
 
 All spatial amplitudes below are real and evaluated at $(z,r_\perp)$. Arrows denote representative spins in both branches, as defined in [Spin Groups](#spin-groups).
 
-##### $s_z$
+### $s_z$
 
 The contractions within each representative spin group are
 
@@ -270,7 +270,7 @@ $$
 \boxed{s_z(z,r_\perp)=\frac{1}{2\pi}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\uparrow}R_{\alpha^\uparrow,\beta^\uparrow}^{(-)}\phi_{\alpha^\uparrow}\phi_{\beta^\uparrow}-\sum_{\alpha^\downarrow,\beta^\downarrow}R_{\alpha^\downarrow,\beta^\downarrow}^{(-)}\phi_{\alpha^\downarrow}\phi_{\beta^\downarrow}\right].}
 $$
 
-##### $s_r$
+### $s_r$
 
 The cross-group contractions in the two branches are
 
@@ -294,7 +294,7 @@ $$
 \boxed{s_r(z,r_\perp)=\frac{1}{2\pi}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\downarrow}R_{\alpha^\uparrow,\beta^\downarrow}^{(+)}\phi_{\alpha^\uparrow}\phi_{\beta^\downarrow}+\sum_{\alpha^\downarrow,\beta^\uparrow}R_{\alpha^\downarrow,\beta^\uparrow}^{(+)}\phi_{\alpha^\downarrow}\phi_{\beta^\uparrow}\right].}
 $$
 
-##### $s_\varphi$
+### $s_\varphi$
 
 The cross-group contractions are
 
@@ -314,7 +314,7 @@ $$
 
 Hermiticity makes all three components real; for real density matrices, $s_\varphi=0$. The physical spin-angular-momentum density is $\hbar\mathbf s/2$.
 
-### Spin-Current Tensor
+## Spin-Current Tensor
 
 The first index denotes the flow direction; the second denotes the spin direction. Define
 
@@ -330,7 +330,7 @@ $$
 
 All basis spinors are evaluated at $\mathbf r$. Derivatives act on the basis spinors, not on the Pauli matrices. Below, the upper and lower signs refer to $\phi^+$ and $\phi^-$ with the same representative indices; arrows always denote representative spins.
 
-##### $J_{\varphi z}$
+### $J_{\varphi z}$
 
 The equal-spin contractions are
 
@@ -350,7 +350,7 @@ $$
 
 On the right-hand sides, all spatial amplitudes are evaluated at $(z,r_\perp)$ and carry positive-branch labels.
 
-##### $J_{z\varphi}$
+### $J_{z\varphi}$
 
 The opposite-spin contractions are
 
@@ -376,7 +376,7 @@ $$
 
 On the right-hand sides, all spatial amplitudes are evaluated at $(z,r_\perp)$ and carry positive-branch labels.
 
-##### $J_{r\varphi}$
+### $J_{r\varphi}$
 
 The opposite-spin contractions are
 
@@ -402,7 +402,7 @@ $$
 
 On the right-hand sides, all spatial amplitudes are evaluated at $(z,r_\perp)$ and carry positive-branch labels.
 
-##### $J_{\varphi r}$
+### $J_{\varphi r}$
 
 The opposite-spin contractions are
 
@@ -428,7 +428,7 @@ $$
 
 Here $\Omega>0$ is the projection of the current positive-branch block. All spatial amplitudes are evaluated at $(z,r_\perp)$ and carry positive-branch labels.
 
-##### $J_{rz}$
+### $J_{rz}$
 
 The equal-spin contractions are
 
@@ -448,7 +448,7 @@ $$
 
 All spatial amplitudes are evaluated at $(z,r_\perp)$ and carry positive-branch labels. For real density matrices, the symmetric $R^{(-)}$ contracts with an antisymmetric derivative kernel, giving $J_{rz}=0$.
 
-##### $J_{zr}$
+### $J_{zr}$
 
 The opposite-spin contractions are
 
@@ -474,7 +474,7 @@ $$
 
 All spatial amplitudes are evaluated at $(z,r_\perp)$ and carry positive-branch labels. For real density matrices, exchanging $\alpha$ and $\beta$ makes the two sums cancel, giving $J_{zr}=0$.
 
-##### $J_{zz}$
+### $J_{zz}$
 
 The equal-spin contractions are
 
@@ -494,7 +494,7 @@ $$
 
 All spatial amplitudes are evaluated at $(z,r_\perp)$ and carry positive-branch labels. For real density matrices, the symmetric $R^{(-)}$ contracts with an antisymmetric derivative kernel, giving $J_{zz}=0$.
 
-##### $J_{rr}$
+### $J_{rr}$
 
 The opposite-spin contractions are
 
@@ -520,7 +520,7 @@ $$
 
 All spatial amplitudes are evaluated at $(z,r_\perp)$ and carry positive-branch labels. For real density matrices, exchanging $\alpha$ and $\beta$ makes the two sums cancel, giving $J_{rr}=0$.
 
-##### $J_{\varphi\varphi}$
+### $J_{\varphi\varphi}$
 
 The opposite-spin contractions are
 
@@ -546,7 +546,7 @@ $$
 
 Here $\Omega>0$ is the projection of the current positive-branch block. All spatial amplitudes are evaluated at $(z,r_\perp)$ and carry positive-branch labels. For real density matrices, exchanging $\alpha$ and $\beta$ makes the two sums cancel, giving $J_{\varphi\varphi}=0$.
 
-### Spin-Current Vector
+## Spin-Current Vector
 
 Define the spin-current vector by
 
@@ -570,7 +570,7 @@ $$
 
 For real density matrices, $J_{zr}=J_{rz}=0$, hence $J_\varphi=0$.
 
-### Divergence of the Spin-Current Vector
+## Divergence of the Spin-Current Vector
 
 For Cartesian directions $k,\mu,\nu$,
 
@@ -604,7 +604,7 @@ $$
 
 Here $\nabla_r=\partial_{r_\perp}$, $\nabla_\varphi=r_\perp^{-1}\partial_\varphi$, and $\nabla_z=\partial_z$. All derivatives act on the basis spinors. The two branches are independent; no assumption of real density matrices or time-reversal symmetry is required.
 
-##### $(\nabla_\varphi\phi_\beta^\dagger)\sigma_r(\nabla_z\phi_\alpha)$
+### $(\nabla_\varphi\phi_\beta^\dagger)\sigma_r(\nabla_z\phi_\alpha)$
 
 For positive-branch representatives of opposite spin, the contractions in the two branches are
 
@@ -630,7 +630,7 @@ $$
 
 All spatial amplitudes are real, evaluated at $(z,r_\perp)$, and carry positive-branch labels. The total divergence takes twice the real part of this contribution.
 
-##### $(\nabla_z\phi_\beta^\dagger)\sigma_\varphi(\nabla_r\phi_\alpha)$
+### $(\nabla_z\phi_\beta^\dagger)\sigma_\varphi(\nabla_r\phi_\alpha)$
 
 For positive-branch representatives of opposite spin, the contractions in the two branches are
 
@@ -656,7 +656,7 @@ $$
 
 All spatial amplitudes are real, evaluated at $(z,r_\perp)$, and carry positive-branch labels. The total divergence takes twice the real part of this contribution.
 
-##### $(\nabla_r\phi_\beta^\dagger)\sigma_z(\nabla_\varphi\phi_\alpha)$
+### $(\nabla_r\phi_\beta^\dagger)\sigma_z(\nabla_\varphi\phi_\alpha)$
 
 For positive-branch representatives of equal spin, the contractions in the two branches are
 
@@ -676,7 +676,7 @@ $$
 
 All spatial amplitudes are real, evaluated at $(z,r_\perp)$, and carry positive-branch labels. The total divergence takes twice the real part of this contribution.
 
-### Pairing Density
+## Pairing Density
 
 Define the local pairing tensor by
 

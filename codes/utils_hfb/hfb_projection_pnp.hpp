@@ -87,6 +87,14 @@ private:
 
 public:
     /**
+     * @brief  Construct empty particle-number projection workspaces.
+     * @math   Nsp = Ncfg1 = Ncfg2 = Nφ = 0.
+     * @output Empty workspaces.
+     * @note   Assign a configured object before calculations.
+     */
+    HFBProjectionPNP() = default;
+
+    /**
      * @brief  Allocate projection and Pfaffian workspaces.
      * @math   φ_k = 2πk/Nφ; k = 0,…,Nφ-1.
      * @output Stored dimensions, target number, and allocated workspaces.

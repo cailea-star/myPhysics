@@ -1,6 +1,6 @@
 # Magnetostatics
 
-### Magnetostatic Vector Potential and Interface Conditions
+## Magnetostatic Vector Potential and Interface Conditions
 
 Let $\mathbf A$ be the vector potential and $\mu(\mathbf r)$ the permeability. Then
 
@@ -8,22 +8,22 @@ $$
 \mathbf B=\nabla\times\mathbf A,\qquad \mathbf H=\frac{\mathbf B}{\mu(\mathbf r)}=\frac{1}{\mu(\mathbf r)}\nabla\times\mathbf A.
 $$
 
-For free current density $\mathbf j_f$, the magnetostatic equations are
+For free current density $\mathbf j_{\mathrm f}$, the magnetostatic equations are
 
 $$
-\nabla\cdot\mathbf B=0,\qquad \nabla\times\mathbf H=\mathbf j_f+\frac{\partial\mathbf D}{\partial t}=\mathbf j_f.
+\nabla\cdot\mathbf B=0,\qquad \nabla\times\mathbf H=\mathbf j_{\mathrm f}+\frac{\partial\mathbf D}{\partial t}=\mathbf j_{\mathrm f}.
 $$
 
 Substituting the field–potential relations gives
 
 $$
-\nabla\times\left[\frac{1}{\mu(\mathbf r)}\nabla\times\mathbf A\right]=\mathbf j_f.
+\nabla\times\left[\frac{1}{\mu(\mathbf r)}\nabla\times\mathbf A\right]=\mathbf j_{\mathrm f}.
 $$
 
-At an interface, $\hat{\mathbf n}$ points from medium 1 to medium 2, $\mathbf K_f$ is the free surface current density, and $\mu_i$ is the permeability on side $i$:
+At an interface, $\hat{\mathbf n}$ points from medium 1 to medium 2, $\mathbf K_{\mathrm f}$ is the free surface current density, and $\mu_i$ is the permeability on side $i$:
 
 $$
-\hat{\mathbf n}\cdot(\mathbf B_2-\mathbf B_1)=0,\qquad \hat{\mathbf n}\times(\mathbf H_2-\mathbf H_1)=\mathbf K_f.
+\hat{\mathbf n}\cdot(\mathbf B_2-\mathbf B_1)=0,\qquad \hat{\mathbf n}\times(\mathbf H_2-\mathbf H_1)=\mathbf K_{\mathrm f}.
 $$
 
 The first condition reads $\hat{\mathbf n}\cdot(\nabla\times\mathbf A_2-\nabla\times\mathbf A_1)=0$. For finite $\mathbf B$ and a nonsingular $\mathbf A$, a narrow surface $S_h$ of width $h$ across the interface gives
@@ -35,15 +35,15 @@ $$
 Hence $\hat{\mathbf n}\times(\mathbf A_2-\mathbf A_1)=0$. Substituting $\mathbf H_i=\mu_i^{-1}\nabla\times\mathbf A_i$ into the other condition yields
 
 $$
-\boxed{\hat{\mathbf n}\times(\mathbf A_2-\mathbf A_1)=0,\qquad \hat{\mathbf n}\times\left(\frac{\nabla\times\mathbf A_2}{\mu_2}-\frac{\nabla\times\mathbf A_1}{\mu_1}\right)=\mathbf K_f}.
+\boxed{\hat{\mathbf n}\times(\mathbf A_2-\mathbf A_1)=0,\qquad \hat{\mathbf n}\times\left(\frac{\nabla\times\mathbf A_2}{\mu_2}-\frac{\nabla\times\mathbf A_1}{\mu_1}\right)=\mathbf K_{\mathrm f}}.
 $$
 
-### Uniqueness Theorem
+## Uniqueness Theorem
 
-Let $V$ be a connected magnetic region with fixed free-current density $\mathbf j_f$ and permeability $\mu(\mathbf r)>0$, and let $\hat{\mathbf n}$ be the outward normal on $\partial V$. Consider two solutions with the same interface conditions and prescribed tangential vector potential on the outer boundary:
+Let $V$ be a connected magnetic region with fixed free-current density $\mathbf j_{\mathrm f}$ and permeability $\mu(\mathbf r)>0$, and let $\hat{\mathbf n}$ be the outward normal on $\partial V$. Consider two solutions with the same interface conditions and prescribed tangential vector potential on the outer boundary:
 
 $$
-\nabla\times\mathbf H=\nabla\times\mathbf H'=\mathbf j_f,\qquad \hat{\mathbf n}\times\mathbf A|_{\partial V}=\hat{\mathbf n}\times\mathbf A'|_{\partial V}.
+\nabla\times\mathbf H=\nabla\times\mathbf H'=\mathbf j_{\mathrm f},\qquad \hat{\mathbf n}\times\mathbf A|_{\partial V}=\hat{\mathbf n}\times\mathbf A'|_{\partial V}.
 $$
 
 Define
@@ -78,12 +78,12 @@ $$
 
 The vector potential remains gauge-dependent.
 
-### Two-Dimensional Vector-Potential Method
+## Two-Dimensional Vector-Potential Method
 
 Assume translation symmetry along $z$. Let the free current and vector potential have only $z$ components:
 
 $$
-\mathbf j_f=j_z(x,y)\hat{\mathbf z},\qquad \mathbf A=A_z(x,y)\hat{\mathbf z}.
+\mathbf j_{\mathrm f}=j_z(x,y)\hat{\mathbf z},\qquad \mathbf A=A_z(x,y)\hat{\mathbf z}.
 $$
 
 In a homogeneous region,
@@ -92,7 +92,7 @@ $$
 \mathbf B=(\partial_y A_z)\hat{\mathbf x}-(\partial_x A_z)\hat{\mathbf y},\qquad \boxed{\nabla_\perp^2 A_z=(\partial_x^2+\partial_y^2)A_z=-\mu j_z}.
 $$
 
-##### Magnetic Cylinder in a Uniform Transverse Field
+### Magnetic Cylinder in a Uniform Transverse Field
 
 Let a cylinder of radius $R$ and permeability $\mu_{\mathrm{in}}$ lie in a medium of permeability $\mu_{\mathrm{out}}$. There are no free currents at or near the cylinder. For an applied field $\mathbf B_0=B_0\hat{\mathbf x}$, cylindrical coordinates $(\varrho,\phi)$ give
 
@@ -130,7 +130,7 @@ $$
 \mathbf B_{\mathrm{in}}=\frac{2\mu_{\mathrm{in}}}{\mu_{\mathrm{in}}+\mu_{\mathrm{out}}}\mathbf B_0.
 $$
 
-### Magnetic Scalar Potential
+## Magnetic Scalar Potential
 
 In a simply connected region without free current, Ampère's law gives
 
@@ -150,7 +150,7 @@ $$
 \boxed{\Phi_{\mathrm{mag},1}=\Phi_{\mathrm{mag},2},\qquad \mu_1\partial_{\hat{\mathbf n}}\Phi_{\mathrm{mag},1}=\mu_2\partial_{\hat{\mathbf n}}\Phi_{\mathrm{mag},2}}.
 $$
 
-##### Magnetic Sphere in a Uniform Field
+### Magnetic Sphere in a Uniform Field
 
 Let a sphere of radius $R$ and permeability $\mu_{\mathrm{in}}$ lie in a medium of permeability $\mu_{\mathrm{out}}$, under $\mathbf H_0=H_0\hat{\mathbf z}$. As in the [dielectric sphere in a uniform field](electrostatics_in_matter.md#dielectric-sphere-in-a-uniform-field), spherical coordinates $(r,\theta)$ give the applied-field potential
 
@@ -182,9 +182,9 @@ $$
 \mathbf B_{\mathrm{in}}=\frac{3\mu_{\mathrm{in}}}{\mu_{\mathrm{in}}+2\mu_{\mathrm{out}}}\mathbf B_0.
 $$
 
-### Magnetic Multipoles and Dipoles
+## Magnetic Multipoles and Dipoles
 
-##### Far-Field Vector Potential
+### Far-Field Vector Potential
 
 Let $\mathbf j(\mathbf r')$ be a localized steady current density in vacuum, with $r=|\mathbf r|$, $r'=|\mathbf r'|$, and vacuum permeability $\mu_0$. Its vector potential is
 
@@ -252,7 +252,7 @@ $$
 \Phi_{\mathrm{mag,dip}}=\frac{\mathbf m\cdot\mathbf r}{4\pi r^3},\qquad \mathbf H_{\mathrm{dip}}=-\nabla\Phi_{\mathrm{mag,dip}}.
 $$
 
-##### Interaction with an External Field
+### Interaction with an External Field
 
 Let a distant steady current $\mathbf j_{\mathrm{ext}}$ produce $\mathbf A_{\mathrm{ext}}$ and $\mathbf B_{\mathrm{ext}}=\nabla\times\mathbf A_{\mathrm{ext}}$. The magnetic-field cross-energy is
 
@@ -284,7 +284,7 @@ $$
 \boxed{U_{\mathrm{eff}}=-\mathbf m\cdot\mathbf B_{\mathrm{ext}}}.
 $$
 
-##### Dipole Force and Torque
+### Dipole Force and Torque
 
 Let a rigid dipole with moment $\mathbf m$ be centered at $\mathbf R$. Neglecting higher multipoles, its interaction energy is
 

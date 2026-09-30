@@ -1,6 +1,6 @@
 # Lipkin–Nogami Method
 
-### Formulation
+## Formulation
 
 Use the conventions of the [Hartree–Fock–Bogoliubov Method](hfb_full.md). Consider one particle species and a normalized zero-temperature HFB vacuum $|\Phi\rangle$, with $\langle\hat O\rangle\equiv\langle\Phi|\hat O|\Phi\rangle$.
 
@@ -58,7 +58,7 @@ $$
 
 The HFB equation uses $h_{\mathrm{LN}}-\lambda I$, with the constant shift $-2\lambda_2 I$ retained in the field. [HFBTHO LN prescription](https://www.fuw.edu.pl/~dobaczew/hfbtho16w/node12.html)
 
-### Effective Pairing Strength
+## Effective Pairing Strength
 
 For one particle species, define the pairing energy and an occupation-weighted average pairing gap by
 
@@ -74,7 +74,7 @@ $$
 
 This auxiliary strength estimates $\lambda_2$; it does not replace the interaction generating $\Delta$.
 
-##### Excluding a Blocked Pair
+### Excluding a Blocked Pair
 
 Within the canonical blocking approximation, let $k$ denote the singly occupied pair. The remaining pairs have amplitudes $u_i,v_i$, with $u_i^2+v_i^2=1$. Count each unblocked pair once:
 
@@ -90,7 +90,7 @@ $$
 
 The pairing energy and average gap defining $G_{\mathrm{eff}}^{(k)}$ must follow the same blocked-state prescription. General quasiparticle blocking does not necessarily identify a single canonical pair $k$.
 
-##### EFA Occupation-Based Estimate
+### EFA Occupation-Based Estimate
 
 For the EFA density, diagonalize the normal density matrix:
 

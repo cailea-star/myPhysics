@@ -12,7 +12,7 @@ $$
 f'(x^*)=0,\qquad f''(x^*)>0.
 $$
 
-### Golden-Section Search
+## Golden-Section Search
 
 Assume that $f(x)$ is unimodal on $[a_0,b_0]$. Define
 
@@ -30,7 +30,7 @@ $$
 
 Thus, the golden-section search converges linearly with convergence factor $\tau$.
 
-### Brent's Method
+## Brent's Method
 
 Let three points satisfy
 

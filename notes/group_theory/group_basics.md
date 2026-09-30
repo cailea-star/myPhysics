@@ -1,8 +1,8 @@
 # Group Basics
 
-### Groups and Cayley Tables
+## Groups and Cayley Tables
 
-##### Definition of a Group
+### Definition of a Group
 
 A group satisfies four axioms:
 
@@ -31,7 +31,7 @@ $$
 
 Thus the identity and the inverse of each element are unique.
 
-##### Basic Terminology
+### Basic Terminology
 
 Let $G$ be a group with identity $e$. Let $\mathbb Z_{>0}$ denote the set of positive integers.
 
@@ -71,7 +71,7 @@ $$
 \operatorname{rank}(G)=\min\{|S|:G=\langle S\rangle\}.
 $$
 
-##### Rearrangement Theorem
+### Rearrangement Theorem
 
 For $s\in G$, define
 
@@ -93,7 +93,7 @@ $$
 
 Left and right multiplication by $s$ permute the elements of $G$.
 
-##### Cayley Tables
+### Cayley Tables
 
 Let $G=\{g_1,\ldots,g_n\}$ be a finite group. Define the Cayley table by
 
@@ -115,9 +115,9 @@ $$
 T_{ij}=T_{ji}\quad\Longleftrightarrow\quad g_ig_j=g_jg_i.
 $$
 
-### Subgroups and Cosets
+## Subgroups and Cosets
 
-##### Subgroups
+### Subgroups
 
 Let $G$ be a group with identity $e$. A subset $H\subseteq G$ is a subgroup, denoted by $H\leq G$, if
 
@@ -131,7 +131,7 @@ $$
 \{e\}\leq G,\qquad G\leq G.
 $$
 
-##### Left and Right Cosets
+### Left and Right Cosets
 
 Let $H\leq G$ and $g\in G$. The left and right cosets represented by $g$ are
 
@@ -151,7 +151,7 @@ $$
 g\in H\quad\Longleftrightarrow\quad gH=H\quad\Longleftrightarrow\quad Hg=H.
 $$
 
-##### Coset Partitions
+### Coset Partitions
 
 For $g_1,g_2\in G$,
 
@@ -195,7 +195,7 @@ $$
 G=\bigcup_{i=1}^{d}r_iH,\qquad r_iH\cap r_jH=\varnothing\quad(i\neq j).
 $$
 
-##### Lagrange's Theorem
+### Lagrange's Theorem
 
 Let $G$ be finite and $H\leq G$. The index $[G:H]$ is the number of left cosets of $H$. Since every coset contains $|H|$ elements,
 
@@ -225,9 +225,9 @@ $$
 
 Thus $G$ has no nontrivial proper subgroup, and every nonidentity element generates $G$.
 
-### Conjugacy and Normal Subgroups
+## Conjugacy and Normal Subgroups
 
-##### Conjugacy Classes
+### Conjugacy Classes
 
 Let $G$ be a group. Elements $g,g'\in G$ are conjugate, written $g\sim g'$, if
 
@@ -263,7 +263,7 @@ $$
 g'\in\mathcal C(g)\quad\Longrightarrow\quad\operatorname{ord}(g')=\operatorname{ord}(g).
 $$
 
-##### Centralizers and Class Sizes
+### Centralizers and Class Sizes
 
 For $g\in G$, define its centralizer by
 
@@ -291,7 +291,7 @@ $$
 \boxed{|\mathcal C(g)|=[G:C_G(g)]=\frac{|G|}{|C_G(g)|}}.
 $$
 
-##### Normal Subgroups
+### Normal Subgroups
 
 Let $H\leq G$. The subgroup $H$ is normal in $G$, denoted by $H\trianglelefteq G$, if
 
@@ -327,7 +327,7 @@ $$
 [G:H]=2\quad\Longrightarrow\quad H\trianglelefteq G.
 $$
 
-##### Quotient Groups
+### Quotient Groups
 
 Let $H\trianglelefteq G$. Define
 
@@ -359,9 +359,9 @@ $$
 |G/H|=[G:H]=\frac{|G|}{|H|}.
 $$
 
-### Homomorphisms and Isomorphisms
+## Homomorphisms and Isomorphisms
 
-##### Homomorphisms
+### Homomorphisms
 
 Let $G$ and $G'$ be groups with identities $e$ and $e'$. A map $\varphi:G\to G'$ is a homomorphism if
 
@@ -425,7 +425,7 @@ $$
 \varphi\text{ is surjective}\quad\Longleftrightarrow\quad\operatorname{Im}\varphi=G'.
 $$
 
-##### Isomorphisms
+### Isomorphisms
 
 A bijective homomorphism is an isomorphism. If such a map exists, then
 
@@ -441,7 +441,7 @@ $$
 
 Isomorphic groups have the same multiplication structure up to relabeling.
 
-##### First Isomorphism Theorem
+### First Isomorphism Theorem
 
 Let $\varphi:G\to G'$ be a homomorphism and $K=\ker\varphi$. Define
 
@@ -481,11 +481,11 @@ $$
 
 Thus every normal subgroup is the kernel of a surjective homomorphism.
 
-### Direct Products
+## Direct Products
 
 An external direct product constructs a new group, while an internal direct product decomposes an existing group into subgroups.
 
-##### External Direct Products
+### External Direct Products
 
 Let $G_1$ and $G_2$ be groups with identities $e_1$ and $e_2$. Their direct product is
 
@@ -511,7 +511,7 @@ $$
 |G_1\times G_2|=|G_1||G_2|.
 $$
 
-##### Internal Direct Products
+### Internal Direct Products
 
 Let $G$ be a group with identity $e$, and let $H_1,H_2\leq G$. Define
 

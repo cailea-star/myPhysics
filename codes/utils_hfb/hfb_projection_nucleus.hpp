@@ -41,6 +41,14 @@ private:
 
     public:
     /**
+     * @brief  Construct empty neutron-proton projection workspaces.
+     * @math   Cₙ = Cₚ = ∅.
+     * @output Empty workspaces.
+     * @note   Assign a configured object before calculations.
+     */
+    HFBProjectionNucleus() = default;
+
+    /**
      * @brief  Move species projections into owned workspaces.
      * @math   |Φκ⟩ = |Φν,κν⟩ ⊗ |Φπ,κπ⟩.
      * @output Object owning neutron and proton projections.
@@ -143,7 +151,7 @@ private:
      * @brief  Integrate nuclear kernels using Euler quadrature.
      * @math   result = (2I+1)/VΩ ΣΩ wΩ Dᴵ*(Ω) K(Ω).
      * @output Updated result_C6D_cfg1p_cfg2p_cfg1n_cfg2n_K1_K2.
-     * @note   Callback fills tmp_C4D at current neutron/proton rotations.
+     * @note   Callback receives thread-local species and kernel workspaces.
      * @note   Callback includes both species' gauge normalizations and overlaps.
      * @note   Callback preserves angular data and result storage.
      */
@@ -164,6 +172,11 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::i
     assert(neutron.weight_F1D_beta.isApprox(proton.weight_F1D_beta));
     assert(neutron.weight_F1D_gamma.isApprox(proton.weight_F1D_gamma));
 
+    assert(neutron.TwoK1_I1D_cfg1.size() == 0 || neutron.TwoK1_I1D_cfg1.size() == neutron.Ncfg1_I);
+    assert(neutron.TwoK2_I1D_cfg2.size() == 0 || neutron.TwoK2_I1D_cfg2.size() == neutron.Ncfg2_I);
+    assert(proton.TwoK1_I1D_cfg1.size() == 0 || proton.TwoK1_I1D_cfg1.size() == proton.Ncfg1_I);
+    assert(proton.TwoK2_I1D_cfg2.size() == 0 || proton.TwoK2_I1D_cfg2.size() == proton.Ncfg2_I);
+
     // VΩ = Σwα Σwβ Σwγ; wβ includes sinβ.
     const double volume_F = neutron.weight_F1D_alpha.sum() * neutron.weight_F1D_beta.sum() * neutron.weight_F1D_gamma.sum();
     assert(std::isfinite(volume_F) && volume_F > 0.0);
@@ -171,46 +184,80 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::i
 
     result_C6D_cfg1p_cfg2p_cfg1n_cfg2n_K1_K2.setZero();
 
-    Eigen::Map<const Eigen::MatrixXcd> tmp_C2D_cfg1pcfg2p_cfg1ncfg2n(tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n.data(), Ncfg1pcfg2p_I, Ncfg1ncfg2n_I);
+    // Ω → Dν,Dπ → K(Ω) → weighted projection contribution.
+    const auto calc_at_angle = [&](int alpha_I, int beta_I, int gamma_I, HFBProjectionPNP& neutron_pnp, HFBProjectionPNP& proton_pnp, Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& tmp_thread_C4D_cfg1p_cfg2p_cfg1n_cfg2n, const Eigen::MatrixXcd& RyI_C2D_K_K, auto& kernel_thread_Func) {
+        {
+            // D = Rz(α) Ry(β) Rz(γ).
+            const Eigen::Map<const Eigen::MatrixXcd> RzAlpha_C2D_sp_sp(neutron.Rz_C3D_sp_sp_alpha.data() + static_cast<Eigen::Index>(alpha_I) * neutron.Nsp_I * neutron.Nsp_I, neutron.Nsp_I, neutron.Nsp_I);
+            const Eigen::Map<const Eigen::MatrixXcd> RyBeta_C2D_sp_sp(neutron.Ry_C3D_sp_sp_beta.data() + static_cast<Eigen::Index>(beta_I) * neutron.Nsp_I * neutron.Nsp_I, neutron.Nsp_I, neutron.Nsp_I);
+            const Eigen::Map<const Eigen::MatrixXcd> RzGamma_C2D_sp_sp(neutron.Rz_C3D_sp_sp_gamma.data() + static_cast<Eigen::Index>(gamma_I) * neutron.Nsp_I * neutron.Nsp_I, neutron.Nsp_I, neutron.Nsp_I);
+            neutron_pnp.D_C2D_sp_sp.noalias() = RzAlpha_C2D_sp_sp * RyBeta_C2D_sp_sp * RzGamma_C2D_sp_sp;
+        }
+        {
+            // D = Rz(α) Ry(β) Rz(γ).
+            const Eigen::Map<const Eigen::MatrixXcd> RzAlpha_C2D_sp_sp(proton.Rz_C3D_sp_sp_alpha.data() + static_cast<Eigen::Index>(alpha_I) * proton.Nsp_I * proton.Nsp_I, proton.Nsp_I, proton.Nsp_I);
+            const Eigen::Map<const Eigen::MatrixXcd> RyBeta_C2D_sp_sp(proton.Ry_C3D_sp_sp_beta.data() + static_cast<Eigen::Index>(beta_I) * proton.Nsp_I * proton.Nsp_I, proton.Nsp_I, proton.Nsp_I);
+            const Eigen::Map<const Eigen::MatrixXcd> RzGamma_C2D_sp_sp(proton.Rz_C3D_sp_sp_gamma.data() + static_cast<Eigen::Index>(gamma_I) * proton.Nsp_I * proton.Nsp_I, proton.Nsp_I, proton.Nsp_I);
+            proton_pnp.D_C2D_sp_sp.noalias() = RzAlpha_C2D_sp_sp * RyBeta_C2D_sp_sp * RzGamma_C2D_sp_sp;
+        }
 
-    // dᴵ(β) is shared by both species.
-    for (int beta_I = 0; beta_I < neutron.Nbeta_I; ++beta_I) {
-        const auto& RyI_C2D_K_K = representation_spin.calc_Ry(neutron.beta_F1D_beta(beta_I));
-        for (int alpha_I = 0; alpha_I < neutron.Nalpha_I; ++alpha_I) {
-            for (int gamma_I = 0; gamma_I < neutron.Ngamma_I; ++gamma_I) {
-                {
-                    // D = Rz(α) Ry(β) Rz(γ).
-                    const Eigen::Map<const Eigen::MatrixXcd> RzAlpha_C2D_sp_sp(neutron.Rz_C3D_sp_sp_alpha.data() + static_cast<Eigen::Index>(alpha_I) * neutron.Nsp_I * neutron.Nsp_I, neutron.Nsp_I, neutron.Nsp_I);
-                    const Eigen::Map<const Eigen::MatrixXcd> Ry_C2D_sp_sp(neutron.Ry_C3D_sp_sp_beta.data() + static_cast<Eigen::Index>(beta_I) * neutron.Nsp_I * neutron.Nsp_I, neutron.Nsp_I, neutron.Nsp_I);
-                    const Eigen::Map<const Eigen::MatrixXcd> RzGamma_C2D_sp_sp(neutron.Rz_C3D_sp_sp_gamma.data() + static_cast<Eigen::Index>(gamma_I) * neutron.Nsp_I * neutron.Nsp_I, neutron.Nsp_I, neutron.Nsp_I);
-                    neutron.D_C2D_sp_sp.noalias() = RzAlpha_C2D_sp_sp * Ry_C2D_sp_sp * RzGamma_C2D_sp_sp;
-                }
-                {
-                    // D = Rz(α) Ry(β) Rz(γ).
-                    const Eigen::Map<const Eigen::MatrixXcd> RzAlpha_C2D_sp_sp(proton.Rz_C3D_sp_sp_alpha.data() + static_cast<Eigen::Index>(alpha_I) * proton.Nsp_I * proton.Nsp_I, proton.Nsp_I, proton.Nsp_I);
-                    const Eigen::Map<const Eigen::MatrixXcd> Ry_C2D_sp_sp(proton.Ry_C3D_sp_sp_beta.data() + static_cast<Eigen::Index>(beta_I) * proton.Nsp_I * proton.Nsp_I, proton.Nsp_I, proton.Nsp_I);
-                    const Eigen::Map<const Eigen::MatrixXcd> RzGamma_C2D_sp_sp(proton.Rz_C3D_sp_sp_gamma.data() + static_cast<Eigen::Index>(gamma_I) * proton.Nsp_I * proton.Nsp_I, proton.Nsp_I, proton.Nsp_I);
-                    proton.D_C2D_sp_sp.noalias() = RzAlpha_C2D_sp_sp * Ry_C2D_sp_sp * RzGamma_C2D_sp_sp;
-                }
+        kernel_thread_Func(neutron_pnp, proton_pnp, tmp_thread_C4D_cfg1p_cfg2p_cfg1n_cfg2n);
 
-                kernel_Func();
+        // result += wΩ Dᴵ*(Ω) K(Ω); only accumulation is serialized.
+        const double weight_F = normalization_F * neutron.weight_F1D_alpha(alpha_I) * neutron.weight_F1D_beta(beta_I) * neutron.weight_F1D_gamma(gamma_I);
+        #pragma omp critical(psm_amp_accumulate)
+        {
+            for (int K2_I = 0; K2_I < TargetTwoI_I + 1; ++K2_I) {
+                const double K2_F = K2_I - 0.5 * TargetTwoI_I;
+                for (int K1_I = 0; K1_I < TargetTwoI_I + 1; ++K1_I) {
+                    const double K1_F = K1_I - 0.5 * TargetTwoI_I;
 
-                // w = (2I+1) wα wβ wγ / VΩ.
-                const double weight_F = normalization_F * neutron.weight_F1D_alpha(alpha_I) * neutron.weight_F1D_beta(beta_I) * neutron.weight_F1D_gamma(gamma_I);
-                for (int K2_I = 0; K2_I < TargetTwoI_I + 1; ++K2_I) {
-                    const double K2_F = K2_I - 0.5 * TargetTwoI_I;
-                    for (int K1_I = 0; K1_I < TargetTwoI_I + 1; ++K1_I) {
-                        const double K1_F = K1_I - 0.5 * TargetTwoI_I;
+                    // Dᴵ* = exp(iK₁α) dᴵ* exp(iK₂γ).
+                    const doubleC factorOmega_C = std::conj(RyI_C2D_K_K(K1_I, K2_I)) * std::exp(doubleC(0.0, K1_F * neutron.alpha_F1D_alpha(alpha_I) + K2_F * neutron.gamma_F1D_gamma(gamma_I)));
+                    const doubleC weight_factor_C = weight_F * factorOmega_C;
 
-                        // Dᴵ* = exp(iK₁α) dᴵ* exp(iK₂γ).
-                        const doubleC factorOmega_C = std::conj(RyI_C2D_K_K(K1_I, K2_I)) * std::exp(doubleC(0.0, K1_F * neutron.alpha_F1D_alpha(alpha_I) + K2_F * neutron.gamma_F1D_gamma(gamma_I)));
-                        const doubleC weight_factor_C = weight_F * factorOmega_C;
-
-                        // Each K₁,K₂ block contains all four configuration dimensions.
-                        const Eigen::Index offset_I = (static_cast<Eigen::Index>(K2_I) * (TargetTwoI_I + 1) + K1_I) * Ncfg1pcfg2pcfg1ncfg2n_I;
-                        Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg1pcfg2p_cfg1ncfg2n(result_C6D_cfg1p_cfg2p_cfg1n_cfg2n_K1_K2.data() + offset_I, Ncfg1pcfg2p_I, Ncfg1ncfg2n_I);
-                        result_C2D_cfg1pcfg2p_cfg1ncfg2n += weight_factor_C * tmp_C2D_cfg1pcfg2p_cfg1ncfg2n;
+                    // 2K = 2Kn + 2Kp; select each side independently.
+                    for (int cfg2n_I = 0; cfg2n_I < neutron.Ncfg2_I; ++cfg2n_I) {
+                        for (int cfg2p_I = 0; cfg2p_I < proton.Ncfg2_I; ++cfg2p_I) {
+                            if (neutron.TwoK2_I1D_cfg2.size() != 0 && proton.TwoK2_I1D_cfg2.size() != 0 && neutron.TwoK2_I1D_cfg2(cfg2n_I) + proton.TwoK2_I1D_cfg2(cfg2p_I) != 2 * K2_I - TargetTwoI_I) { continue; }
+                            for (int cfg1n_I = 0; cfg1n_I < neutron.Ncfg1_I; ++cfg1n_I) {
+                                for (int cfg1p_I = 0; cfg1p_I < proton.Ncfg1_I; ++cfg1p_I) {
+                                    if (neutron.TwoK1_I1D_cfg1.size() != 0 && proton.TwoK1_I1D_cfg1.size() != 0 && neutron.TwoK1_I1D_cfg1(cfg1n_I) + proton.TwoK1_I1D_cfg1(cfg1p_I) != 2 * K1_I - TargetTwoI_I) { continue; }
+                                    result_C6D_cfg1p_cfg2p_cfg1n_cfg2n_K1_K2(cfg1p_I, cfg2p_I, cfg1n_I, cfg2n_I, K1_I, K2_I) += weight_factor_C * tmp_thread_C4D_cfg1p_cfg2p_cfg1n_cfg2n(cfg1p_I, cfg2p_I, cfg1n_I, cfg2n_I);
+                                }
+                            }
+                        }
                     }
+                }
+            }
+        }
+    };
+
+
+    // Thread-local contractions and kernels; rotation grids are read-only.
+    #pragma omp parallel
+    {
+        HFBProjectionPNP neutron_thread(neutron.TargetN_I, neutron.Nsp_I, neutron.hfb_pfaffian.config1_I2D_cfg1_cqp1, neutron.hfb_pfaffian.config2_I2D_cfg2_cqp2, neutron.Nphi_I);
+        HFBProjectionPNP proton_thread(proton.TargetN_I, proton.Nsp_I, proton.hfb_pfaffian.config1_I2D_cfg1_cqp1, proton.hfb_pfaffian.config2_I2D_cfg2_cqp2, proton.Nphi_I);
+        neutron_thread.U1_C2D_sp_qp1 = neutron.U1_C2D_sp_qp1;
+        neutron_thread.V1_C2D_sp_qp1 = neutron.V1_C2D_sp_qp1;
+        neutron_thread.U2_C2D_sp_qp2 = neutron.U2_C2D_sp_qp2;
+        neutron_thread.V2_C2D_sp_qp2 = neutron.V2_C2D_sp_qp2;
+        proton_thread.U1_C2D_sp_qp1 = proton.U1_C2D_sp_qp1;
+        proton_thread.V1_C2D_sp_qp1 = proton.V1_C2D_sp_qp1;
+        proton_thread.U2_C2D_sp_qp2 = proton.U2_C2D_sp_qp2;
+        proton_thread.V2_C2D_sp_qp2 = proton.V2_C2D_sp_qp2;
+        RepresentationSpin representation_thread(TargetTwoI_I);
+        Eigen::Tensor<doubleC, 4, Eigen::ColMajor> tmp_thread_C4D_cfg1p_cfg2p_cfg1n_cfg2n(proton.Ncfg1_I, proton.Ncfg2_I, neutron.Ncfg1_I, neutron.Ncfg2_I);
+        auto kernel_thread_Func = kernel_Func;
+
+        // dᴵ(β) is shared by both species.
+        #pragma omp for schedule(static)
+        for (int beta_I = 0; beta_I < neutron.Nbeta_I; ++beta_I) {
+            const auto& RyI_C2D_K_K = representation_thread.calc_Ry(neutron.beta_F1D_beta(beta_I));
+            for (int alpha_I = 0; alpha_I < neutron.Nalpha_I; ++alpha_I) {
+                for (int gamma_I = 0; gamma_I < neutron.Ngamma_I; ++gamma_I) {
+                    calc_at_angle(alpha_I, beta_I, gamma_I, neutron_thread, proton_thread, tmp_thread_C4D_cfg1p_cfg2p_cfg1n_cfg2n, RyI_C2D_K_K, kernel_thread_Func);
                 }
             }
         }
@@ -222,7 +269,7 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::c
     auto& neutron = projection_neutron;
     auto& proton = projection_proton;
 
-    return integrate_amp([&]() {
+    return integrate_amp([&](HFBProjectionPNP& neutron, HFBProjectionPNP& proton, Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n) {
         const auto& overlap_C2D_cfg1n_cfg2n = neutron.calc_overlap_pnp();
         const auto& overlap_C2D_cfg1p_cfg2p = proton.calc_overlap_pnp();
 
@@ -239,7 +286,7 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::c
     auto& proton = projection_proton;
     assert(OneBody_C2D_spn_spn.rows() == neutron.Nsp_I && OneBody_C2D_spn_spn.cols() == neutron.Nsp_I && OneBody_C2D_spn_spn.allFinite());
 
-    return integrate_amp([&]() {
+    return integrate_amp([&](HFBProjectionPNP& neutron, HFBProjectionPNP& proton, Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n) {
         const auto& overlap_C2D_cfg1p_cfg2p = proton.calc_overlap_pnp();
         const auto& onebody_C2D_cfg1n_cfg2n = neutron.calc_one_body_pnp(OneBody_C2D_spn_spn);
 
@@ -256,7 +303,7 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::c
     auto& proton = projection_proton;
     assert(OneBody_C2D_spp_spp.rows() == proton.Nsp_I && OneBody_C2D_spp_spp.cols() == proton.Nsp_I && OneBody_C2D_spp_spp.allFinite());
 
-    return integrate_amp([&]() {
+    return integrate_amp([&](HFBProjectionPNP& neutron, HFBProjectionPNP& proton, Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n) {
         const auto& overlap_C2D_cfg1n_cfg2n = neutron.calc_overlap_pnp();
         const auto& onebody_C2D_cfg1p_cfg2p = proton.calc_one_body_pnp(OneBody_C2D_spp_spp);
 
@@ -274,13 +321,14 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::c
     assert(OneBody_C2D_spp_spn.rows() == proton.Nsp_I && OneBody_C2D_spp_spn.cols() == neutron.Nsp_I && OneBody_C2D_spp_spn.allFinite());
 
     // ColMajor: (p₁,p₂) → rows; (n₁,n₂) → columns.
-    Eigen::Map<Eigen::MatrixXcd> tmp_C2D_cfg1pcfg2p_cfg1ncfg2n(tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n.data(), Ncfg1pcfg2p_I, Ncfg1ncfg2n_I);
 
     // Aν Oᵀ ∈ ℂ^{Ncfg1ncfg2n×Nspp}.
     Eigen::MatrixXcd tmp_C2D_cfg1ncfg2n_spp{};
     tmp_C2D_cfg1ncfg2n_spp.resize(Ncfg1ncfg2n_I, proton.Nsp_I);
 
-    return integrate_amp([&]() {
+    return integrate_amp([&, tmp_C2D_cfg1ncfg2n_spp = std::move(tmp_C2D_cfg1ncfg2n_spp)](HFBProjectionPNP& neutron, HFBProjectionPNP& proton, Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n) mutable {
+        Eigen::Map<Eigen::MatrixXcd> tmp_C2D_cfg1pcfg2p_cfg1ncfg2n(tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n.data(), Ncfg1pcfg2p_I, Ncfg1ncfg2n_I);
+
         // Aν and Cπ include their gauge normalizations.
         const auto& annihilator_C3D_cfg1n_cfg2n_spn = neutron.calc_annihilator_pnp();
         const auto& creator_C3D_cfg1p_cfg2p_spp = proton.calc_creator_pnp();
@@ -313,7 +361,7 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::c
     assert(Q_F3D_spn_spn_mu.dimension(0) == neutron.Nsp_I && Q_F3D_spn_spn_mu.dimension(1) == neutron.Nsp_I && Q_F3D_spn_spn_mu.dimension(2) == twoLambda_I + 1);
     assert(Eigen::Map<const Eigen::VectorXd>(Q_F3D_spn_spn_mu.data(), Q_F3D_spn_spn_mu.size()).allFinite());
 
-    return integrate_amp([&]() {
+    return integrate_amp([&](HFBProjectionPNP& neutron, HFBProjectionPNP& proton, Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n) {
         // Hν²(Ω) Nπ(Ω); gauge normalization included; no additional ½.
         const auto& overlap_C2D_cfg1p_cfg2p = proton.calc_overlap_pnp();
         const auto& twobody_C2D_cfg1n_cfg2n = neutron.calc_two_body_Q_pnp(twoLambda_I, Q_F3D_spn_spn_mu);
@@ -335,7 +383,7 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::c
     assert(Q_F3D_spp_spp_mu.dimension(0) == proton.Nsp_I && Q_F3D_spp_spp_mu.dimension(1) == proton.Nsp_I && Q_F3D_spp_spp_mu.dimension(2) == twoLambda_I + 1);
     assert(Eigen::Map<const Eigen::VectorXd>(Q_F3D_spp_spp_mu.data(), Q_F3D_spp_spp_mu.size()).allFinite());
 
-    return integrate_amp([&]() {
+    return integrate_amp([&](HFBProjectionPNP& neutron, HFBProjectionPNP& proton, Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n) {
         // Nν(Ω) Hπ²(Ω); gauge normalization included; no additional ½.
         const auto& overlap_C2D_cfg1n_cfg2n = neutron.calc_overlap_pnp();
         const auto& twobody_C2D_cfg1p_cfg2p = proton.calc_two_body_Q_pnp(twoLambda_I, Q_F3D_spp_spp_mu);
@@ -364,9 +412,10 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::c
     Eigen::MatrixXcd Q_C2D_spp_spp{};
     Qdag_C2D_spn_spn.resize(neutron.Nsp_I, neutron.Nsp_I);
     Q_C2D_spp_spp.resize(proton.Nsp_I, proton.Nsp_I);
-    Eigen::Map<Eigen::MatrixXcd> tmp_C2D_cfg1pcfg2p_cfg1ncfg2n(tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n.data(), Ncfg1pcfg2p_I, Ncfg1ncfg2n_I);
 
-    return integrate_amp([&]() {
+    return integrate_amp([&, Qdag_C2D_spn_spn = std::move(Qdag_C2D_spn_spn), Q_C2D_spp_spp = std::move(Q_C2D_spp_spp)](HFBProjectionPNP& neutron, HFBProjectionPNP& proton, Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n) mutable {
+        Eigen::Map<Eigen::MatrixXcd> tmp_C2D_cfg1pcfg2p_cfg1ncfg2n(tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n.data(), Ncfg1pcfg2p_I, Ncfg1ncfg2n_I);
+
         tmp_C2D_cfg1pcfg2p_cfg1ncfg2n.setZero();
         for (int mu_I = 0; mu_I <= twoLambda_I; ++mu_I) {
             // Oμ = Qνμ† Qπμ at the same Euler node.
@@ -394,7 +443,7 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::c
     assert(P_F3D_spn_spn_mu.dimension(0) == neutron.Nsp_I && P_F3D_spn_spn_mu.dimension(1) == neutron.Nsp_I && P_F3D_spn_spn_mu.dimension(2) == twoLambda_I + 1);
     assert(Eigen::Map<const Eigen::VectorXd>(P_F3D_spn_spn_mu.data(), P_F3D_spn_spn_mu.size()).allFinite());
 
-    return integrate_amp([&]() {
+    return integrate_amp([&](HFBProjectionPNP& neutron, HFBProjectionPNP& proton, Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n) {
         // Hν²(Ω) Nπ(Ω); gauge normalization and pairing ¼ included.
         const auto& overlap_C2D_cfg1p_cfg2p = proton.calc_overlap_pnp();
         const auto& twobody_C2D_cfg1n_cfg2n = neutron.calc_two_body_P_pnp(twoLambda_I, P_F3D_spn_spn_mu);
@@ -416,7 +465,7 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::c
     assert(P_F3D_spp_spp_mu.dimension(0) == proton.Nsp_I && P_F3D_spp_spp_mu.dimension(1) == proton.Nsp_I && P_F3D_spp_spp_mu.dimension(2) == twoLambda_I + 1);
     assert(Eigen::Map<const Eigen::VectorXd>(P_F3D_spp_spp_mu.data(), P_F3D_spp_spp_mu.size()).allFinite());
 
-    return integrate_amp([&]() {
+    return integrate_amp([&](HFBProjectionPNP& neutron, HFBProjectionPNP& proton, Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n) {
         // Nν(Ω) Hπ²(Ω); gauge normalization and pairing ¼ included.
         const auto& overlap_C2D_cfg1n_cfg2n = neutron.calc_overlap_pnp();
         const auto& twobody_C2D_cfg1p_cfg2p = proton.calc_two_body_P_pnp(twoLambda_I, P_F3D_spp_spp_mu);

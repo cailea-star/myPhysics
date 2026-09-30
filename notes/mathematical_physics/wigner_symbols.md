@@ -2,9 +2,9 @@
 
 > Main reference: D. A. Varshalovich, A. N. Moskalev, and V. K. Khersonskii, *Quantum Theory of Angular Momentum: Irreducible Tensors, Spherical Harmonics, Vector Coupling Coefficients, 3nj Symbols*, World Scientific, 1988.
 
-### Wigner Symbols
+## Wigner Symbols
 
-##### Conventions
+### Conventions
 
 - Angular-momentum quantum numbers and dimension factor
 
@@ -40,7 +40,7 @@
 
   See [Linear Representations](../group_theory/linear_representations.md#clebsch-gordan-coefficients).
 
-##### Wigner 3j Symbols
+### Wigner 3j Symbols
 
 - Definition
 
@@ -72,7 +72,7 @@
   \begin{pmatrix}j_1&j_2&j_3\\0&0&0\end{pmatrix}=0\qquad\text{if }j_1+j_2+j_3\text{ is odd}.
   $$
 
-##### Wigner 6j Symbols
+### Wigner 6j Symbols
 
 - Definition by recoupling three angular momenta
 
@@ -110,7 +110,7 @@
   \begin{Bmatrix}a&b&0\\d&e&f\end{Bmatrix}=(-1)^{a+e+f}\frac{\delta_{ab}\delta_{de}}{\sqrt{(2a+1)(2d+1)}}.
   $$
 
-##### Wigner 9j Symbols
+### Wigner 9j Symbols
 
 - Definition by recoupling four angular momenta
 
@@ -150,7 +150,7 @@
 
   Row permutations, column permutations, and transposition generate $3!\times3!\times2=72$ equivalent forms.
 
-### Reduced Matrix Elements
+## Reduced Matrix Elements
 
 The definitions of [irreducible tensor operators](../group_theory/so3_su2.md#irreducible-tensor-operators) and the [Wigner–Eckart theorem](../group_theory/so3_su2.md#wignereckart-theorem) are given in [SO(3) and SU(2)](../group_theory/so3_su2.md).
 
@@ -192,11 +192,11 @@ $$
 
 The reduced matrix element is independent of $m_1,m_2$, and $q$.
 
-### Common Coupling Formulas
+## Common Coupling Formulas
 
 The final and initial coupled states are denoted by $|(j_1j_2)JM\rangle$ and $|(j_1'j_2')J'M'\rangle$.
 
-##### Tensor Acting on One Subsystem
+### Tensor Acting on One Subsystem
 
 Let $\hat T^{(k)}(1)$ act only on the first subsystem. Expanding the coupled states gives
 
@@ -216,7 +216,7 @@ $$
 \boxed{\langle(j_1j_2)J\|\hat T^{(k)}(1)\|(j_1'j_2')J'\rangle=\delta_{j_2j_2'}(-1)^{j_1+j_2+J'+k}\hat J\hat J'\begin{Bmatrix}j_1&J&j_2\\J'&j_1'&k\end{Bmatrix}\langle j_1\|\hat T^{(k)}\|j_1'\rangle}.
 $$
 
-##### Coupled Product of Two Tensor Operators
+### Coupled Product of Two Tensor Operators
 
 For tensors acting on different subsystems,
 
@@ -236,7 +236,7 @@ $$
 \boxed{\langle(j_1j_2)J\|\left[\hat A^{(k_1)}(1)\otimes\hat B^{(k_2)}(2)\right]^{(k)}\|(j_1'j_2')J'\rangle=\hat J\hat J'\hat k\begin{Bmatrix}j_1&j_2&J\\j_1'&j_2'&J'\\k_1&k_2&k\end{Bmatrix}\langle j_1\|\hat A^{(k_1)}\|j_1'\rangle\langle j_2\|\hat B^{(k_2)}\|j_2'\rangle}.
 $$
 
-##### Scalar Product of Tensor Operators
+### Scalar Product of Tensor Operators
 
 For equal integer ranks $k$, the rank-$0$ coupling has the explicit structure
 

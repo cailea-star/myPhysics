@@ -1,6 +1,6 @@
 # Cubic Clamped B-Spline Basis
 
-### Clamped Knot Vector
+## Clamped Knot Vector
 
 Let $[x_{\min},x_{\max}]$ be a finite interval and $\{x_i\}_{i=1}^{N_x}$ its $N_x$ distinct partition points:
 
@@ -26,7 +26,7 @@ $$
 p=3,\qquad \mathrm{order}=p+1=4,\qquad N_B=N_x+2.
 $$
 
-### B-Spline Basis
+## B-Spline Basis
 
 Let $\mathbf{1}_A(x)$ denote the indicator function of a set $A$. The degree-zero B-splines and their support intervals are
 
@@ -60,7 +60,7 @@ $$
 
 Hence, at most $p+1$ basis functions are nonzero at any position $x$; for cubic B-splines, at most four are nonzero.
 
-### Basis Expansion
+## Basis Expansion
 
 Let $\{c_i\}_{i=1}^{N_B}$ be the expansion coefficients. A one-dimensional function is represented as
 
@@ -86,7 +86,7 @@ $$
 c_1=c_{N_B}=0,\qquad u(x)=\sum_{i=2}^{N_B-1}c_iB_i(x).
 $$
 
-### Matrix Elements in a Non-Orthogonal Basis
+## Matrix Elements in a Non-Orthogonal Basis
 
 Let $O(x)$ represent a local multiplication operator and let $B_i'(x)=dB_i(x)/dx$. Define
 

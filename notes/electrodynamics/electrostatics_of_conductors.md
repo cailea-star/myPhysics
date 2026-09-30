@@ -1,6 +1,6 @@
 # Electrostatics of Conductors
 
-### Electrostatic Conditions for Conductors
+## Electrostatic Conditions for Conductors
 
 Consider a conductor in vacuum at electrostatic equilibrium. Let $S$ be its surface, $\hat{\mathbf n}$ point from the conductor into vacuum, $\sigma$ and $\rho$ denote the surface and volume charge densities, and $\Phi_c$ be the conductor potential.
 
@@ -38,7 +38,7 @@ $$
 
 When the conductor potential is prescribed, the solution determines the surface charge density.
 
-### Method of Images
+## Method of Images
 
 An image charge lies outside the solution region. If a trial potential satisfies the boundary conditions, the [Uniqueness Theorem](electrostatics_in_matter.md#uniqueness-theorem) identifies it as the solution.
 
@@ -72,7 +72,7 @@ $$
 
 Substituting these parameters into the trial potential defines the grounded solution $\Phi_g$. Below, $Q$ denotes the conductor's net charge.
 
-##### Charge Outside a Conducting Sphere
+### Charge Outside a Conducting Sphere
 
 For $a>R$, the image lies inside the sphere, and $\Phi_g$ applies outside. For a conductor held at potential $V_0$, or an isolated conductor with net charge $Q$, add a central image charge:
 
@@ -82,7 +82,7 @@ $$
 
 The center lies outside the solution region, so this term introduces no new source there.
 
-##### Charge Inside a Conducting Shell
+### Charge Inside a Conducting Shell
 
 For $0<a<R$, the image lies outside the cavity. For a thin conducting spherical shell of radius $R$, $\Phi_g$ applies inside the cavity, while the exterior potential is zero when the shell is grounded. If the shell is held at $V_0$, add a constant inside:
 
@@ -98,7 +98,7 @@ $$
 
 A central $1/r$ term would introduce an extra singularity inside the cavity.
 
-### Green Reciprocity
+## Green Reciprocity
 
 Let $\Phi$ and $\Phi'$ describe two electrostatic configurations of the same $N$ conductors, with surfaces $S_i$, in a homogeneous medium of permittivity $\epsilon$. In the charge-free exterior $V$,
 
@@ -130,7 +130,7 @@ $$
 \boxed{\sum_{i=1}^{N}Q_i\Phi_i'=\sum_{i=1}^{N}Q_i'\Phi_i}.
 $$
 
-### Electrostatic Energy
+## Electrostatic Energy
 
 Let $V$ be the charge-free exterior of $N$ conductors in a homogeneous linear dielectric of permittivity $\epsilon$.
 
@@ -168,9 +168,9 @@ $$
 \boxed{W=W_1+W_2+W_{\mathrm{int}},\qquad W_{\mathrm{int}}=\epsilon\int_{\mathbb R^3}\mathbf E_1\cdot\mathbf E_2\,\mathrm{d}V=\int_{\mathbb R^3}\rho_1\varphi_2\,\mathrm{d}V=\int_{\mathbb R^3}\rho_2\varphi_1\,\mathrm{d}V}.
 $$
 
-### Electrostatic Stability
+## Electrostatic Stability
 
-##### Thomson's Theorem
+### Thomson's Theorem
 
 Keep conductor positions and total charges $Q_i$ fixed. Let $\delta\rho_i$ be a charge redistribution on conductor $i$, and let $V_i$ contain that conductor:
 
@@ -198,7 +198,7 @@ $$
 
 The positive quadratic field-energy term makes this stationary state an energy minimum.
 
-##### Earnshaw's Theorem
+### Earnshaw's Theorem
 
 Assume:
 
@@ -221,7 +221,7 @@ $$
 
 Because the symmetric Hessian has zero trace, it is either zero or has both positive and negative eigenvalues. The former gives no quadratic restoring force; the latter makes the equilibrium a saddle point. Neither permits a strict quadratic minimum.
 
-### Force on a Conductor Surface
+## Force on a Conductor Surface
 
 Let $\hat{\mathbf n}$ point outward from a conductor in vacuum, and let $\mathbf f_S$ be the force per unit area on its surface. With charge density $\rho$ and current density $\mathbf j$, [momentum conservation](electromagnetic_conservation_laws.md#momentum-conservation) gives
 
@@ -231,7 +231,7 @@ $$
 
 Here $\mathbf g$ is the field momentum density and $\hat{\mathbf T}$ is the outward momentum-flux tensor. For a stationary conductor in pure electrostatics, $\mathbf j=0$ and $\mathbf B=0$; hence $\mathbf g=0$ and $\nabla\cdot\hat{\mathbf T}=-\rho\mathbf E$.
 
-##### Maxwell Stress Tensor
+### Maxwell Stress Tensor
 
 Let $\hat{\mathbf I}$ be the identity operator and $\otimes$ denote the outer product. The electrostatic tensor is
 
@@ -245,7 +245,7 @@ $$
 \boxed{\mathbf f_S=-\hat{\mathbf T}\cdot\hat{\mathbf n}=\frac{\epsilon_0E_\perp^2}{2}\hat{\mathbf n}=\frac{\sigma^2}{2\epsilon_0}\hat{\mathbf n}}.
 $$
 
-##### Direct Force on the Surface Charge
+### Direct Force on the Surface Charge
 
 Model the surface charge as a layer of thickness $l$ occupying $-l<z<0$, with uniform volume charge density $\rho_0$ and $z$ increasing along $\hat{\mathbf n}$. Within the layer,
 

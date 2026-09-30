@@ -1,6 +1,6 @@
 # Multipole Interactions in Second Quantization
 
-### Separable Decomposition of Two-Body Interactions
+## Separable Decomposition of Two-Body Interactions
 
 Consider a central two-body interaction depending only on the interparticle distance:
 
@@ -64,7 +64,7 @@ $$
 
 The one-body correction removes the $i=j$ contribution contained in $\hat Q^\dagger\hat Q$. A general radial kernel requires a sum over separable modes; the approximation above retains one mode per multipole channel.
 
-### Multipole Interactions and Matrix Elements
+## Multipole Interactions and Matrix Elements
 
 For the separable approximation and its one-body correction, see [Separable Decomposition of Two-Body Interactions](#separable-decomposition-of-two-body-interactions).
 
@@ -140,7 +140,7 @@ $$
 \boxed{\langle\Phi^{I_1}_{\kappa_1}\Vert\hat H_\lambda\Vert\Phi^{I_2}_{\kappa_2}\rangle=\frac{\chi_\lambda}{2(2\lambda+1)}\sum_{a,b,c,d}\langle a\Vert\hat q_\lambda\Vert b\rangle^*\langle c\Vert\hat q_\lambda\Vert d\rangle\langle\Phi^{I_1}_{\kappa_1}\Vert\hat X^{(0)}_{\lambda;ab,cd}\Vert\Phi^{I_2}_{\kappa_2}\rangle}.
 $$
 
-### Multipole Pairing Interactions and Matrix Elements
+## Multipole Pairing Interactions and Matrix Elements
 
 Let $\hat q_{\lambda\mu}$ be the single-particle spherical tensor defined in [Multipole Interactions and Matrix Elements](#multipole-interactions-and-matrix-elements). For real coupling strength $G_\lambda$, define
 

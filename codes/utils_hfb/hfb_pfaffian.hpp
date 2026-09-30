@@ -73,6 +73,14 @@ private:
 
 public:
     /**
+     * @brief  Construct empty Pfaffian workspaces.
+     * @math   Nsp = 0; C₁ = C₂ = ∅.
+     * @output Empty workspaces.
+     * @note   Assign a configured object before calculations.
+     */
+    HFBPfaffian() = default;
+
+    /**
      * @brief  Store explicit configurations and allocate HFB workspaces.
      * @math   U₁,V₁,U₂,V₂ ∈ ℂ^{Nsp×Nsp}.
      * @output Stored both configuration tables; allocated matrices and workspaces.

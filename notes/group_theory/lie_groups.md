@@ -1,4 +1,4 @@
-### Lie Groups
+## Lie Groups
 
 Let the elements of $G$ be locally parametrized by
 
@@ -12,7 +12,7 @@ $$
 n=\dim G.
 $$
 
-##### Group Parameters and Composition Functions
+### Group Parameters and Composition Functions
 
 Define the composition function $\boldsymbol f$ by
 
@@ -52,7 +52,7 @@ $$
 m(g,h)=gh,\qquad \iota(g)=g^{-1}.
 $$
 
-##### Local Structure and Infinitesimal Elements
+### Local Structure and Infinitesimal Elements
 
 An element $g(\boldsymbol\alpha)$ is infinitesimal when
 
@@ -86,9 +86,9 @@ $$
 
 The tangent space $T_eG$ contains all infinitesimal directions of $G$.
 
-### Infinitesimal Operators and Generators
+## Infinitesimal Operators and Generators
 
-##### Infinitesimal Operators on Functions
+### Infinitesimal Operators on Functions
 
 Let
 
@@ -124,7 +124,7 @@ $$
 \boxed{\widehat T_a=-i\sum_{i,j=1}^{d}\left.\frac{\partial D_{ji}^{(X)}(g(\boldsymbol\alpha))}{\partial\alpha_a}\right|_{\boldsymbol\alpha=\boldsymbol 0}x_i\frac{\partial}{\partial x_j},\qquad P_{g(\boldsymbol\alpha)}=I-i\sum_{a=1}^{n}\alpha_a\widehat T_a+O\!\left(\|\boldsymbol\alpha\|^2\right)}.
 $$
 
-##### Generators on Invariant Function Spaces
+### Generators on Invariant Function Spaces
 
 Let
 
@@ -164,7 +164,7 @@ $$
 P_{g(\boldsymbol\alpha(t))}=e^{-it\widehat T},\qquad D^{(F)}(g(\boldsymbol\alpha(t)))=e^{-itT^{(F)}}.
 $$
 
-### Lie Algebras
+## Lie Algebras
 
 Let $G\subseteq GL(V)$ be a matrix Lie group, with elements denoted by $R,S$. Near the identity,
 
@@ -178,7 +178,7 @@ $$
 \mathfrak g=T_eG=\operatorname{span}_{\mathbb R}\{-iT_1,\ldots,-iT_n\},\qquad n=\dim G.
 $$
 
-##### Commutation Relations and Structure Constants
+### Commutation Relations and Structure Constants
 
 - Closure
 
@@ -208,7 +208,7 @@ $$
 [\widehat T_a,\widehat T_b]=i\sum_{c=1}^{n}f_{ab}^{\phantom{ab}c}\widehat T_c,\qquad [T_a^{(F)},T_b^{(F)}]=i\sum_{c=1}^{n}f_{ab}^{\phantom{ab}c}T_c^{(F)}.
 $$
 
-##### Adjoint Representation
+### Adjoint Representation
 
 For $R\in G$, define the conjugation map
 
@@ -262,7 +262,7 @@ $$
 \boxed{[T_a^{(\mathrm{Ad})}]_{cb}=if_{ab}^{\phantom{ab}c},\qquad -iT_a^{(\mathrm{Ad})}\in\mathbb R^{n\times n}}.
 $$
 
-### Integration on Compact Lie Groups
+## Integration on Compact Lie Groups
 
 For a compact Lie group $G$, the finite-group average generalizes to a normalized group integral:
 
@@ -296,7 +296,7 @@ The measure $\mathrm dR$ satisfying these properties is the normalized Haar meas
 
 Thus, the rearrangement of a finite-group sum extends directly to compact-group integration.
 
-### Linear Representations of Compact Lie Groups
+## Linear Representations of Compact Lie Groups
 
 Let
 
@@ -358,9 +358,9 @@ $$
 
 Thus, the main results for finite-group representations extend to compact Lie groups by replacing normalized sums with Haar integrals.
 
-### Global Properties of Lie Groups
+## Global Properties of Lie Groups
 
-##### Connected Components
+### Connected Components
 
 A Lie group $G$ is connected if any two points in its group space can be joined by a continuous path lying entirely in $G$.
 
@@ -400,7 +400,7 @@ $$
 SO(3),SU(2)\text{ are connected},\qquad O(3)\text{ is disconnected}.
 $$
 
-##### Path Classes and Covering Groups
+### Path Classes and Covering Groups
 
 Consider continuous paths from the identity $e$ to the same element $R$.
 
@@ -460,7 +460,7 @@ $$
 
 Thus, $SU(2)$ is the double covering group of $SO(3)$.
 
-##### Compactness of Group Spaces
+### Compactness of Group Spaces
 
 A Lie group $G$ is compact if its underlying manifold is compact.
 

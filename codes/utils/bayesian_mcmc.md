@@ -20,7 +20,7 @@ $$
 
 The parameter domain is $\mathbf x\in[\mathbf a,\mathbf b]$.
 
-### Random-Walk Metropolis Method
+## Random-Walk Metropolis Method
 
 Let $h=0,1,\ldots$ denote the Markov-chain step, $i=1,\ldots,d$ the parameter coordinate, and $x_{h,i}$ the $i$-th component of the state $\mathbf x_h$.
 
@@ -48,7 +48,7 @@ $$
 \log u_h<\ell(\mathbf x_h')-\ell(\mathbf x_h).
 $$
 
-### Reflecting Boundary
+## Reflecting Boundary
 
 For coordinate $i$, define the interval width $L_i=b_i-a_i$. When $L_i>0$,
 
@@ -64,7 +64,7 @@ $$
 
 When $L_i\leq0$, the coordinate is fixed at $R_i(x_i)=a_i$.
 
-### Sample Statistics
+## Sample Statistics
 
 Rejected candidates retain the current state, so repeated states remain part of the Markov chain. Let the recorded samples be $\{\mathbf x^{(k)}\}_{k=1}^{N}$.
 

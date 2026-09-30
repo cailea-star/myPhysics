@@ -1,6 +1,6 @@
 # Electromagnetic Conservation Laws
 
-### Energy Conservation
+## Energy Conservation
 
 Let $\mathbf j$ be the current density. The power density transferred from the field to charges is
 
@@ -38,7 +38,7 @@ $$
 \frac{\mathrm{d}}{\mathrm{d}t}\int_V u\,\mathrm{d}V+\oint_{\partial V}\mathbf S_P\cdot\mathrm{d}\mathbf a=-\int_V\mathcal P\,\mathrm{d}V.
 $$
 
-### Momentum Conservation
+## Momentum Conservation
 
 Let $\rho$ and $\mathbf j$ be the charge and current densities. The Lorentz force density $\mathbf f$ exerted on charges is
 
@@ -78,12 +78,12 @@ $$
 
 Here $u$ and $\mathbf S_P$ are defined in [Energy Conservation](#energy-conservation). The sign of the tensor called "Maxwell stress" varies by convention; here $\hat{\mathbf T}$ is the outward momentum flux.
 
-### Energy and Momentum Conservation in Matter
+## Energy and Momentum Conservation in Matter
 
-Consider a stationary, homogeneous, isotropic, linear, nondispersive medium with constant $\epsilon$ and $\mu$, so that $\mathbf D=\epsilon\mathbf E$ and $\mathbf B=\mu\mathbf H$. Let $\rho_f$ and $\mathbf j_f$ be the free charge and current densities. The power density delivered to free charges is
+Consider a stationary, homogeneous, isotropic, linear, nondispersive medium with constant $\epsilon$ and $\mu$, so that $\mathbf D=\epsilon\mathbf E$ and $\mathbf B=\mu\mathbf H$. Let $\rho_{\mathrm f}$ and $\mathbf j_{\mathrm f}$ be the free charge and current densities. The power density delivered to free charges is
 
 $$
-\mathcal P=\mathbf j_f\cdot\mathbf E=-\nabla\cdot(\mathbf E\times\mathbf H)-\mathbf E\cdot\frac{\partial\mathbf D}{\partial t}-\mathbf H\cdot\frac{\partial\mathbf B}{\partial t}.
+\mathcal P=\mathbf j_{\mathrm f}\cdot\mathbf E=-\nabla\cdot(\mathbf E\times\mathbf H)-\mathbf E\cdot\frac{\partial\mathbf D}{\partial t}-\mathbf H\cdot\frac{\partial\mathbf B}{\partial t}.
 $$
 
 The energy density and flux for the combined field–medium system are
@@ -101,7 +101,7 @@ $$
 The force density on free charges is
 
 $$
-\mathbf f=\rho_f\mathbf E+\mathbf j_f\times\mathbf B.
+\mathbf f=\rho_{\mathrm f}\mathbf E+\mathbf j_{\mathrm f}\times\mathbf B.
 $$
 
 The corresponding momentum density and flux tensor are
