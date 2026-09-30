@@ -17,23 +17,37 @@
  * @math P = Pₙ^(N−Ncore) Pₚ^(Z−Zcore) Pᴵ.
  * @output Generated configurations and initialized projection_nucleus.
  */
-void PSMSpherical::build_projection(int TargetTwoI_I, int Nalpha_I, int Nbeta_I, int Ngamma_I, int Nphin_I, int Nphip_I) {
+void PSMSpherical::build_projection(int TargetTwoI_I, int Nbeta_I, int Nphin_I, int Nphip_I) {
     assert(Un_F2D_2spn_2qpn.rows() > 0 && Up_F2D_2spp_2qpp.rows() > 0);
     // (Eqp,2K,cutoffs) → neutron/proton configurations.
     psm_setting.configuration_neutron.build_config(Eqpn_F1D_2qpn, TwoKn_I1D_2qpn);
     psm_setting.configuration_proton.build_config(Eqpp_F1D_2qpp, TwoKp_I1D_2qpp);
     assert(!psm_setting.configuration_neutron.config_I2D_cfg_cqp.empty() && !psm_setting.configuration_proton.config_I2D_cfg_cqp.empty());
 
-    // {labels,Nα,Nβ,Nγ} → rotation caches.
-    SphericalRotation rotation_neutron(psm_setting.sphericalsetting_neutron.labels_S1D_sp, Nalpha_I, Nbeta_I, Ngamma_I);
-    SphericalRotation rotation_proton(psm_setting.sphericalsetting_proton.labels_S1D_sp, Nalpha_I, Nbeta_I, Ngamma_I);
+    // Axial projection: Nα = Nγ = 1.
+    SphericalRotation rotation_neutron(psm_setting.sphericalsetting_neutron.labels_S1D_sp, 1, Nbeta_I, 1);
+    SphericalRotation rotation_proton(psm_setting.sphericalsetting_proton.labels_S1D_sp, 1, Nbeta_I, 1);
     rotation_neutron.build();
     rotation_proton.build();
 
     // (N−Ncore,Z−Zcore,2I,Cₙ,Cₚ) → nuclear projection.
     projection_nucleus = HFBProjectionNucleus(
-        HFBProjection(psm_setting.N_I - psm_setting.Ncore_I, TargetTwoI_I, static_cast<int>(Un_F2D_2spn_2qpn.rows()), psm_setting.configuration_neutron.config_I2D_cfg_cqp, psm_setting.configuration_neutron.config_I2D_cfg_cqp, Nphin_I, Nalpha_I, Nbeta_I, Ngamma_I),
-        HFBProjection(psm_setting.Z_I - psm_setting.Zcore_I, TargetTwoI_I, static_cast<int>(Up_F2D_2spp_2qpp.rows()), psm_setting.configuration_proton.config_I2D_cfg_cqp, psm_setting.configuration_proton.config_I2D_cfg_cqp, Nphip_I, Nalpha_I, Nbeta_I, Ngamma_I));
+        HFBProjection(psm_setting.N_I - psm_setting.Ncore_I, TargetTwoI_I, static_cast<int>(Un_F2D_2spn_2qpn.rows()), psm_setting.configuration_neutron.config_I2D_cfg_cqp, psm_setting.configuration_neutron.config_I2D_cfg_cqp, Nphin_I, 1, Nbeta_I, 1),
+        HFBProjection(psm_setting.Z_I - psm_setting.Zcore_I, TargetTwoI_I, static_cast<int>(Up_F2D_2spp_2qpp.rows()), psm_setting.configuration_proton.config_I2D_cfg_cqp, psm_setting.configuration_proton.config_I2D_cfg_cqp, Nphip_I, 1, Nbeta_I, 1));
+
+    // 2K_cfg = Σqp 2K_qp; Φ₁ = Φ₂.
+    const auto set_config_K = [](HFBProjection& projection, const auto& config_I2D_cfg_cqp, const Eigen::VectorXi& TwoK_I1D_qp) {
+        projection.TwoK1_I1D_cfg1.resize(config_I2D_cfg_cqp.size());
+        projection.TwoK1_I1D_cfg1.setZero();
+        for (int cfg_I = 0; cfg_I < static_cast<int>(config_I2D_cfg_cqp.size()); ++cfg_I) {
+            for (const int qp_I : config_I2D_cfg_cqp[cfg_I]) {
+                projection.TwoK1_I1D_cfg1(cfg_I) += TwoK_I1D_qp(qp_I);
+            }
+        }
+        projection.TwoK2_I1D_cfg2 = projection.TwoK1_I1D_cfg1;
+    };
+    set_config_K(projection_nucleus.projection_neutron, psm_setting.configuration_neutron.config_I2D_cfg_cqp, TwoKn_I1D_2qpn);
+    set_config_K(projection_nucleus.projection_proton, psm_setting.configuration_proton.config_I2D_cfg_cqp, TwoKp_I1D_2qpp);
 
     // Φ₁ = Φ₂: U₁ = U₂, V₁ = V₂.
     projection_nucleus.projection_neutron.update_UV(Un_F2D_2spn_2qpn, Vn_F2D_2spn_2qpn, Un_F2D_2spn_2qpn, Vn_F2D_2spn_2qpn);

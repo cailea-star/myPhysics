@@ -30,6 +30,9 @@ class HFBProjection : public HFBProjectionPNP {
 public:
     int TargetTwoI_I = 0;
 
+    Eigen::VectorXi TwoK1_I1D_cfg1{};
+    Eigen::VectorXi TwoK2_I1D_cfg2{};
+
     int Nalpha_I = 0;
     int Nbeta_I = 0;
     int Ngamma_I = 0;
@@ -207,6 +210,9 @@ inline void HFBProjection::update_gamma(Eigen::Tensor<doubleC, 3, Eigen::ColMajo
 
 template <typename KernelFunc>
 inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::integrate_amp(const KernelFunc& kernel_Func) {
+    assert(TwoK1_I1D_cfg1.size() == 0 || TwoK1_I1D_cfg1.size() == Ncfg1_I);
+    assert(TwoK2_I1D_cfg2.size() == 0 || TwoK2_I1D_cfg2.size() == Ncfg2_I);
+
     // (2I+1)/VΩ; weights contain sinβ dβ.
     const double volume_F = weight_F1D_alpha.sum() * weight_F1D_beta.sum() * weight_F1D_gamma.sum();
     assert(std::isfinite(volume_F) && volume_F > 0.0);
@@ -235,7 +241,14 @@ inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::integrat
                         const doubleC factorOmega_C = std::conj(RyI_C2D_K_K(K1_I, K2_I)) * std::exp(doubleC(0.0, K1_F * alpha_F1D_alpha(alpha_I) + K2_F * gamma_F1D_gamma(gamma_I)));
                         const doubleC weight_factor_C = weight_F * factorOmega_C;
                         Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg_cfg(result_C4D_cfg1_cfg2_K_K.data() + (static_cast<Eigen::Index>(K2_I) * (TargetTwoI_I + 1) + K1_I) * Ncfg1_I * Ncfg2_I, Ncfg1_I, Ncfg2_I);
-                        result_C2D_cfg_cfg += weight_factor_C * tmp_C2D_cfg1_cfg2;
+                        // Empty labels leave the corresponding side unrestricted.
+                        for (int cfg2_I = 0; cfg2_I < Ncfg2_I; ++cfg2_I) {
+                            if (TwoK2_I1D_cfg2.size() != 0 && TwoK2_I1D_cfg2(cfg2_I) != 2 * K2_I - TargetTwoI_I) { continue; }
+                            for (int cfg1_I = 0; cfg1_I < Ncfg1_I; ++cfg1_I) {
+                                if (TwoK1_I1D_cfg1.size() != 0 && TwoK1_I1D_cfg1(cfg1_I) != 2 * K1_I - TargetTwoI_I) { continue; }
+                                result_C2D_cfg_cfg(cfg1_I, cfg2_I) += weight_factor_C * tmp_C2D_cfg1_cfg2(cfg1_I, cfg2_I);
+                            }
+                        }
                     }
                 }
             }

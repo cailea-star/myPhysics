@@ -172,6 +172,11 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::i
     assert(neutron.weight_F1D_beta.isApprox(proton.weight_F1D_beta));
     assert(neutron.weight_F1D_gamma.isApprox(proton.weight_F1D_gamma));
 
+    assert(neutron.TwoK1_I1D_cfg1.size() == 0 || neutron.TwoK1_I1D_cfg1.size() == neutron.Ncfg1_I);
+    assert(neutron.TwoK2_I1D_cfg2.size() == 0 || neutron.TwoK2_I1D_cfg2.size() == neutron.Ncfg2_I);
+    assert(proton.TwoK1_I1D_cfg1.size() == 0 || proton.TwoK1_I1D_cfg1.size() == proton.Ncfg1_I);
+    assert(proton.TwoK2_I1D_cfg2.size() == 0 || proton.TwoK2_I1D_cfg2.size() == proton.Ncfg2_I);
+
     // VΩ = Σwα Σwβ Σwγ; wβ includes sinβ.
     const double volume_F = neutron.weight_F1D_alpha.sum() * neutron.weight_F1D_beta.sum() * neutron.weight_F1D_gamma.sum();
     assert(std::isfinite(volume_F) && volume_F > 0.0);
@@ -200,7 +205,6 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::i
 
         // result += wΩ Dᴵ*(Ω) K(Ω); only accumulation is serialized.
         const double weight_F = normalization_F * neutron.weight_F1D_alpha(alpha_I) * neutron.weight_F1D_beta(beta_I) * neutron.weight_F1D_gamma(gamma_I);
-        Eigen::Map<const Eigen::MatrixXcd> tmp_C2D_cfg1pcfg2p_cfg1ncfg2n(tmp_thread_C4D_cfg1p_cfg2p_cfg1n_cfg2n.data(), Ncfg1pcfg2p_I, Ncfg1ncfg2n_I);
         #pragma omp critical(psm_amp_accumulate)
         {
             for (int K2_I = 0; K2_I < TargetTwoI_I + 1; ++K2_I) {
@@ -212,10 +216,18 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::i
                     const doubleC factorOmega_C = std::conj(RyI_C2D_K_K(K1_I, K2_I)) * std::exp(doubleC(0.0, K1_F * neutron.alpha_F1D_alpha(alpha_I) + K2_F * neutron.gamma_F1D_gamma(gamma_I)));
                     const doubleC weight_factor_C = weight_F * factorOmega_C;
 
-                    // Each K₁,K₂ block contains all four configuration dimensions.
-                    const Eigen::Index offset_I = (static_cast<Eigen::Index>(K2_I) * (TargetTwoI_I + 1) + K1_I) * Ncfg1pcfg2pcfg1ncfg2n_I;
-                    Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg1pcfg2p_cfg1ncfg2n(result_C6D_cfg1p_cfg2p_cfg1n_cfg2n_K1_K2.data() + offset_I, Ncfg1pcfg2p_I, Ncfg1ncfg2n_I);
-                    result_C2D_cfg1pcfg2p_cfg1ncfg2n += weight_factor_C * tmp_C2D_cfg1pcfg2p_cfg1ncfg2n;
+                    // 2K = 2Kn + 2Kp; select each side independently.
+                    for (int cfg2n_I = 0; cfg2n_I < neutron.Ncfg2_I; ++cfg2n_I) {
+                        for (int cfg2p_I = 0; cfg2p_I < proton.Ncfg2_I; ++cfg2p_I) {
+                            if (neutron.TwoK2_I1D_cfg2.size() != 0 && proton.TwoK2_I1D_cfg2.size() != 0 && neutron.TwoK2_I1D_cfg2(cfg2n_I) + proton.TwoK2_I1D_cfg2(cfg2p_I) != 2 * K2_I - TargetTwoI_I) { continue; }
+                            for (int cfg1n_I = 0; cfg1n_I < neutron.Ncfg1_I; ++cfg1n_I) {
+                                for (int cfg1p_I = 0; cfg1p_I < proton.Ncfg1_I; ++cfg1p_I) {
+                                    if (neutron.TwoK1_I1D_cfg1.size() != 0 && proton.TwoK1_I1D_cfg1.size() != 0 && neutron.TwoK1_I1D_cfg1(cfg1n_I) + proton.TwoK1_I1D_cfg1(cfg1p_I) != 2 * K1_I - TargetTwoI_I) { continue; }
+                                    result_C6D_cfg1p_cfg2p_cfg1n_cfg2n_K1_K2(cfg1p_I, cfg2p_I, cfg1n_I, cfg2n_I, K1_I, K2_I) += weight_factor_C * tmp_thread_C4D_cfg1p_cfg2p_cfg1n_cfg2n(cfg1p_I, cfg2p_I, cfg1n_I, cfg2n_I);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

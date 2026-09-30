@@ -110,8 +110,9 @@ public:
      * @math Nactive = N − Ncore; Zactive = Z − Zcore.
      * @output Generated configurations and initialized projection_nucleus.
      * @note Requires solved U,V,Eqp,TwoK and configured cutoffs.
+     * @note Axial projection: Nalpha = Ngamma = 1.
      */
-    void build_projection(int TargetTwoI_I, int Nalpha_I, int Nbeta_I, int Ngamma_I, int Nphin_I, int Nphip_I);
+    void build_projection(int TargetTwoI_I, int Nbeta_I, int Nphin_I, int Nphip_I);
 
 private:
     /**

@@ -37,10 +37,10 @@ int main() {
     print_hfbcs(psm);
 
     // Full signed-K configurations; Nphi = 1 disables PNP.
-    // Nalpha = Ngamma = 65 resolves |Kcfg - K| through Imax.
+    // Axial K selection: Nalpha = Ngamma = 1.
     for (int TargetTwoI_I = 1; TargetTwoI_I <= 59; TargetTwoI_I += 2) {
         std::cout << "\nI = " << 0.5 * TargetTwoI_I << std::endl;
-        psm.build_projection(TargetTwoI_I, 65, 40, 65, 1, 1);
+        psm.build_projection(TargetTwoI_I, 40, 1, 1);
         psm.solve_ci(0.16);
         assert(psm.Eci_F1D_eigenH.size() > 0 && psm.Eci_F1D_eigenH.allFinite());
         print_ci(psm);
