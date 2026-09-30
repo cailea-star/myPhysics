@@ -72,6 +72,14 @@ public:
     std::vector<Eigen::VectorXd> eta_F2D_block_bsp{}; // η_(block,bsp) = (-1)^(l+j-m).
 
     /**
+     * @brief Construct an empty spherical model space.
+     * @math b = 0; {N} = ∅.
+     * @output Empty labels, blocks, and quadrature settings.
+     * @note Assign a configured object before calculations.
+     */
+    SphericalSetting() = default;
+
+    /**
      * @brief  Construct a spherical harmonic-oscillator setting.
      * @math   N ∈ {N₁,N₂,...}, N_r = 2n_max + l_max + 8
      * @output Labels, blocks, indices, time-reversal phases, and quadrature order.

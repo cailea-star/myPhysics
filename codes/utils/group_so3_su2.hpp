@@ -38,6 +38,14 @@ public:
 
 public:
     /**
+     * @brief  Construct empty angular-momentum workspaces.
+     * @math   dim(Jx) = dim(Jy) = dim(Jz) = 0.
+     * @output Empty workspaces.
+     * @note   Assign a configured object before calculations.
+     */
+    RepresentationSpin() = default;
+
+    /**
      * @brief  Initialize angular momentum using Hermitian eigendecomposition.
      * @math   J = twoJ_I_/2 ≥ 0; Jy = Q diag(λ) Q†.
      * @output Jp, Jm, Jz, Jx, Jy and Jy eigensystem.
