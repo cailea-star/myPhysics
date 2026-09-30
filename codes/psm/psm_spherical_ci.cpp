@@ -104,16 +104,26 @@ void PSMSpherical::build_hamiltonian() {
     assert(std::isfinite(psm_setting.chi2_nn_F) && std::isfinite(psm_setting.chi2_np_F) && std::isfinite(psm_setting.chi2_pp_F));
     assert(std::isfinite(psm_setting.G0_nn_F) && std::isfinite(psm_setting.G0_pp_F) && std::isfinite(psm_setting.G2_nn_F) && std::isfinite(psm_setting.G2_pp_F));
 
-    // QQ: same-species contraction removed; mixed species counted once.
-    H_C6D_cfgp_cfgn_K_cfgp_cfgn_K += projection_nucleus.calc_two_body_Q_nnnn(4, Qn_F3D_2spn_2spn_mu).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5}) * doubleC(-0.5 * psm_setting.chi2_nn_F, 0.0);
-    H_C6D_cfgp_cfgn_K_cfgp_cfgn_K += projection_nucleus.calc_two_body_Q_nppn(4, Qn_F3D_2spn_2spn_mu, Qp_F3D_2spp_2spp_mu).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5}) * doubleC(-psm_setting.chi2_np_F, 0.0);
-    H_C6D_cfgp_cfgn_K_cfgp_cfgn_K += projection_nucleus.calc_two_body_Q_pppp(4, Qp_F3D_2spp_2spp_mu).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5}) * doubleC(-0.5 * psm_setting.chi2_pp_F, 0.0);
+    // Real spherical operators → complex projection inputs.
+    const Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Qn_C3D_2spn_2spn_i = Qn_F3D_2spn_2spn_mu.cast<doubleC>();
+    const Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Qp_C3D_2spp_2spp_i = Qp_F3D_2spp_2spp_mu.cast<doubleC>();
 
-    // Pairing kernels include ¼; apply −G₀ and −G₂.
-    H_C6D_cfgp_cfgn_K_cfgp_cfgn_K += projection_nucleus.calc_two_body_P_nnnn(0, P0n_F3D_2spn_2spn_mu).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5}) * doubleC(-psm_setting.G0_nn_F, 0.0);
-    H_C6D_cfgp_cfgn_K_cfgp_cfgn_K += projection_nucleus.calc_two_body_P_pppp(0, P0p_F3D_2spp_2spp_mu).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5}) * doubleC(-psm_setting.G0_pp_F, 0.0);
-    H_C6D_cfgp_cfgn_K_cfgp_cfgn_K += projection_nucleus.calc_two_body_P_nnnn(4, P2n_F3D_2spn_2spn_mu).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5}) * doubleC(-psm_setting.G2_nn_F, 0.0);
-    H_C6D_cfgp_cfgn_K_cfgp_cfgn_K += projection_nucleus.calc_two_body_P_pppp(4, P2p_F3D_2spp_2spp_mu).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5}) * doubleC(-psm_setting.G2_pp_F, 0.0);
+    // Q = (Q₂₋₂,…,Q₂₂); P = (P₀₀,P₂₋₂,…,P₂₂).
+    const Eigen::VectorXd gQn_F1D_i = Eigen::VectorXd::Constant(5, -0.5 * psm_setting.chi2_nn_F);
+    const Eigen::VectorXd gQp_F1D_i = Eigen::VectorXd::Constant(5, -0.5 * psm_setting.chi2_pp_F);
+    Eigen::VectorXd gPn_F1D_i = Eigen::VectorXd::Constant(6, -psm_setting.G2_nn_F);
+    Eigen::VectorXd gPp_F1D_i = Eigen::VectorXd::Constant(6, -psm_setting.G2_pp_F);
+    gPn_F1D_i(0) = -psm_setting.G0_nn_F;
+    gPp_F1D_i(0) = -psm_setting.G0_pp_F;
+    const Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Pn_C3D_2spn_2spn_i = P0n_F3D_2spn_2spn_mu.concatenate(P2n_F3D_2spn_2spn_mu, 2).cast<doubleC>();
+    const Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Pp_C3D_2spp_2spp_i = P0p_F3D_2spp_2spp_mu.concatenate(P2p_F3D_2spp_2spp_mu, 2).cast<doubleC>();
+
+    // Same species: −χ₂ QQ/2 − G₀ P₀†P₀ − G₂ P₂†P₂.
+    H_C6D_cfgp_cfgn_K_cfgp_cfgn_K += projection_nucleus.calc_two_body_nnnn(gQn_F1D_i, Qn_C3D_2spn_2spn_i, gPn_F1D_i, Pn_C3D_2spn_2spn_i).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5});
+    H_C6D_cfgp_cfgn_K_cfgp_cfgn_K += projection_nucleus.calc_two_body_pppp(gQp_F1D_i, Qp_C3D_2spp_2spp_i, gPp_F1D_i, Pp_C3D_2spp_2spp_i).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5});
+
+    // Mixed-species QQ counted once: −χ₂,np Qn†Qp.
+    H_C6D_cfgp_cfgn_K_cfgp_cfgn_K += projection_nucleus.calc_two_body_Q_nppn(4, Qn_C3D_2spn_2spn_i, Qp_C3D_2spp_2spp_i).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5}) * doubleC(-psm_setting.chi2_np_F, 0.0);
 }
 
 /**

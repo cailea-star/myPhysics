@@ -139,32 +139,14 @@ public:
     const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& calc_one_body(const Eigen::MatrixXd& OneBody_F2D_sp_sp);
 
     /**
-     * @brief  Integrate two-body kernels using Euler-angle and uniform gauge quadrature.
-     * @math   H²_ab(g) = ½Σ_ijkl TwoBody_ijkl TBTD_ab(i,j,k,l;g).
-     * @math   result_abk₁k₂ = ⟨Φ₁;a|H² Pᴺ Pᴵ_{K₁K₂}|Φ₂;b⟩.
+     * @brief  Integrate Q/P kernels using Pfaffians and quadrature.
+     * @math   K = Σi gQi KQi + Σi gPi KPi; P† = ½Σab Pab c†a c†b.
+     * @math   Q ∈ ℂ^{Nsp×Nsp×NQ}; P ∈ ℂ^{Nsp×Nsp×NP}; Piᵀ = −Pi.
      * @output Updated result_C4D_cfg1_cfg2_K_K and its const reference.
-     * @note   TwoBody contains unsymmetrized matrix elements ⟨ij|v|kl⟩.
-     * @note   Requires rotational invariance and particle-number conservation.
+     * @note   gQ,gP include signs; pairing ¼ is internal.
+     * @note   Q/P lists may differ in length; zero coefficients skip terms.
      */
-    const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& calc_two_body(const Eigen::Tensor<double, 4, Eigen::ColMajor>& TwoBody_F4D_sp_sp_sp_sp);
-
-    /**
-     * @brief  Integrate separable kernels using Pfaffians and quadrature.
-     * @math   O = Σμ[Q̂λμ†Q̂λμ − Σαδ(Qλμ†Qλμ)αδ cα†cδ].
-     * @math   Q ∈ ℝ^{Nsp × Nsp × (2λ+1)}; twoLambda_I = 2λ ≥ 0, λ ∈ ℤ; μ = −λ,…,λ.
-     * @output Updated result_C4D_cfg1_cfg2_K_K and its const reference.
-     * @note   Complete spherical tensor; excludes coupling strength and extra ½.
-     */
-    const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& calc_two_body_Q(int twoLambda_I, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Q_F3D_sp_sp_mu);
-
-    /**
-     * @brief  Integrate pairing kernels using Pfaffians and quadrature.
-     * @math   P̂λμ† = ½Σab Pab c_a†c_b†; O = Σμ P̂λμ†P̂λμ.
-     * @math   P ∈ ℝ^{Nsp × Nsp × (2λ+1)}; Pμᵀ = −Pμ; twoLambda_I = 2λ ≥ 0, λ ∈ ℤ; μ = −λ,…,λ.
-     * @output Updated result_C4D_cfg1_cfg2_K_K and its const reference.
-     * @note   Complete spherical tensor; excludes coupling strength and attraction sign.
-     */
-    const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& calc_two_body_P(int twoLambda_I, const Eigen::Tensor<double, 3, Eigen::ColMajor>& P_F3D_sp_sp_mu);
+    const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& calc_two_body(const Eigen::VectorXd& gQ_F1D_i, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Q_C3D_sp_sp_i, const Eigen::VectorXd& gP_F1D_i, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& P_C3D_sp_sp_i);
 
 private:
     /**
@@ -272,23 +254,8 @@ inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_one
     });
 }
 
-inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_two_body(const Eigen::Tensor<double, 4, Eigen::ColMajor>& TwoBody_F4D_sp_sp_sp_sp) {
-    assert(TwoBody_F4D_sp_sp_sp_sp.dimension(0) == Nsp_I && TwoBody_F4D_sp_sp_sp_sp.dimension(1) == Nsp_I && TwoBody_F4D_sp_sp_sp_sp.dimension(2) == Nsp_I && TwoBody_F4D_sp_sp_sp_sp.dimension(3) == Nsp_I);
-    assert(Eigen::Map<const Eigen::VectorXd>(TwoBody_F4D_sp_sp_sp_sp.data(), TwoBody_F4D_sp_sp_sp_sp.size()).allFinite());
-
+inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_two_body(const Eigen::VectorXd& gQ_F1D_i, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Q_C3D_sp_sp_i, const Eigen::VectorXd& gP_F1D_i, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& P_C3D_sp_sp_i) {
     return integrate_amp([&]() -> const Eigen::MatrixXcd& {
-        return calc_two_body_pnp(TwoBody_F4D_sp_sp_sp_sp);
-    });
-}
-
-inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_two_body_Q(int twoLambda_I, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Q_F3D_sp_sp_mu) {
-    return integrate_amp([&]() -> const Eigen::MatrixXcd& {
-        return calc_two_body_Q_pnp(twoLambda_I, Q_F3D_sp_sp_mu);
-    });
-}
-
-inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::calc_two_body_P(int twoLambda_I, const Eigen::Tensor<double, 3, Eigen::ColMajor>& P_F3D_sp_sp_mu) {
-    return integrate_amp([&]() -> const Eigen::MatrixXcd& {
-        return calc_two_body_P_pnp(twoLambda_I, P_F3D_sp_sp_mu);
+        return calc_two_body_pnp(gQ_F1D_i, Q_C3D_sp_sp_i, gP_F1D_i, P_C3D_sp_sp_i);
     });
 }

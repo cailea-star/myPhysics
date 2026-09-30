@@ -19,9 +19,7 @@ using doubleC = std::complex<double>;
 
 /**
  * @brief  Evaluate HFB configuration kernels using Pfaffians.
- * @note   Configuration kernels require current contractions and nonzero vacuum overlap.
- * @note   Kernels include x coefficients and vacuum overlap; exclude prefactors.
- * @note   Returned references alias reusable outputs; indices are zero-based.
+ * @note   Updated contractions; overlap ≠ 0; unconjugated x; references alias outputs.
  */
 class HFBPfaffian {
 public:
@@ -76,7 +74,6 @@ public:
      * @brief  Construct empty Pfaffian workspaces.
      * @math   Nsp = 0; C₁ = C₂ = ∅.
      * @output Empty workspaces.
-     * @note   Assign a configured object before calculations.
      */
     HFBPfaffian() = default;
 
@@ -84,8 +81,7 @@ public:
      * @brief  Store explicit configurations and allocate HFB workspaces.
      * @math   U₁,V₁,U₂,V₂ ∈ ℂ^{Nsp×Nsp}.
      * @output Stored both configuration tables; allocated matrices and workspaces.
-     * @note   Indices increase strictly; each lies in [0,Nsp).
-     * @note   An empty inner list denotes the vacuum.
+     * @note   0 ≤ q₁ < ⋯ < qᵣ < Nsp; ∅ = vacuum.
      */
     HFBPfaffian(int Nsp_I_, const std::vector<std::vector<int>>& config1_I2D_cfg1_cqp1_, const std::vector<std::vector<int>>& config2_I2D_cfg2_cqp2_) {
         assert(Nsp_I_ > 0);
@@ -163,20 +159,17 @@ public:
     /**
      * @brief  Update overlap and contractions using Pfaffians and full-pivot LU.
      * @math   A = U₁ᵀU₂* + V₁ᵀV₂*; Qp1Qp2Dag = A⁻ᵀ.
+     * @math   νₐ = √|det Uₐ|; overlap ← exp[i(θ₂−θ₁)] overlap.
      * @output Updated U,V,Z, overlap, A, AInv, and eleven contractions.
-     * @note   Requires canonical U,V and numerically invertible U₁,U₂,A.
-     * @note   Positive reference phases: ν_a = √|det U_a|.
-     * @note   phase_C = exp[i(θ₂-θ₁)] multiplies the vacuum overlap.
+     * @note   Canonical U,V; numerically invertible U₁,U₂,A.
      */
     void update_contractions(const Eigen::MatrixXcd& U1_C2D_sp_qp1_, const Eigen::MatrixXcd& V1_C2D_sp_qp1_, const Eigen::MatrixXcd& U2_C2D_sp_qp2_, const Eigen::MatrixXcd& V2_C2D_sp_qp2_, doubleC phase_C);
 
     /**
      * @brief  Assemble configuration kernels using Wick Pfaffians.
-     * @math   Kκ₁κ₂ = overlap × pf(S[β₁, X, β₂†]).
+     * @math   Kκ₁κ₂ = overlap × pf(S[β₁, X, β₂†]); NX ∈ {0,1,2,4}.
      * @output Filled preallocated result_C2D_cfg1_cfg2.
-     * @note   X follows the physical operator order; NX = 0,1,2,4.
-     * @note   XX is fully initialized, with XXᵀ = −XX.
-     * @note   Inputs must not alias output or Sworkspace.
+     * @note   Physical X order; inputs must not alias output/Sworkspace.
      */
     void calc_kernel(Eigen::Ref<const Eigen::MatrixXcd> Qp1X_C2D_qp1_X, Eigen::Ref<const Eigen::MatrixXcd> XQp2Dag_C2D_X_qp2, Eigen::Ref<const Eigen::MatrixXcd> XX_C2D_X_X, Eigen::MatrixXcd& result_C2D_cfg1_cfg2);
 
@@ -190,25 +183,20 @@ public:
     /**
      * @brief  Calculate creation kernels using Wick Pfaffians.
      * @math   C_{κ₁κ₂}[x] = ⟨Φ₁;κ₁|Σα xα c†α|Φ₂;κ₂⟩.
-     * @note   Coefficients enter linearly, without conjugation.
      * @output Updated creator_C2D_cfg1_cfg2 and its const reference.
-     * @note   Nonzero only for odd combined quasiparticle counts.
      */
     const Eigen::MatrixXcd& calc_creator(const Eigen::VectorXcd& x_C1D_sp);
 
     /**
      * @brief  Calculate annihilation kernels using Wick Pfaffians.
      * @math   A_{κ₁κ₂}[x] = ⟨Φ₁;κ₁|Σα xα cα|Φ₂;κ₂⟩.
-     * @note   Coefficients enter linearly, without conjugation.
      * @output Updated annihilator_C2D_cfg1_cfg2 and its const reference.
-     * @note   Nonzero only for odd combined quasiparticle counts.
      */
     const Eigen::MatrixXcd& calc_annihilator(const Eigen::VectorXcd& x_C1D_sp);
 
     /**
      * @brief  Calculate one-body kernels using Wick Pfaffians.
      * @math   OBTD_{κ₁κ₂}[x₁,x₂] = ⟨Φ₁;κ₁|(Σα x₁α c†α)(Σβ x₂β cβ)|Φ₂;κ₂⟩.
-     * @note   Both coefficient vectors enter without conjugation.
      * @output Updated OBTD_C2D_cfg1_cfg2 and its const reference.
      */
     const Eigen::MatrixXcd& calc_obtd(const Eigen::VectorXcd& x1_C1D_sp, const Eigen::VectorXcd& x2_C1D_sp);
@@ -216,9 +204,7 @@ public:
     /**
      * @brief  Calculate two-body kernels using Wick Pfaffians.
      * @math   TBTD_{κ₁κ₂}[x₁,x₂,x₃,x₄] = ⟨Φ₁;κ₁|x₁†x₂†x₄x₃|Φ₂;κ₂⟩.
-     * @note   x₁†,x₂† = Σα x₁α c†α,Σα x₂α c†α.
-     * @note   x₃,x₄ = Σα x₃α cα,Σα x₄α cα.
-     * @note   All coefficient vectors enter without conjugation.
+     * @note   xᵢ† ≡ Σα xᵢα c†α; xᵢ ≡ Σα xᵢα cα.
      * @output Updated TBTD_C2D_cfg1_cfg2 and its const reference.
      */
     const Eigen::MatrixXcd& calc_tbtd(const Eigen::VectorXcd& x1_C1D_sp, const Eigen::VectorXcd& x2_C1D_sp, const Eigen::VectorXcd& x3_C1D_sp, const Eigen::VectorXcd& x4_C1D_sp);
@@ -227,8 +213,7 @@ public:
      * @brief  Calculate Pfaffians using pivoted skew-symmetric elimination.
      * @math   pf(S)² = det(S); pf(∅) = 1.
      * @output Pfaffian value; input matrix overwritten.
-     * @note   Requires finite, even-order square S with Sᵀ = -S.
-     * @note   Exact-zero pivots return zero; no magnitude cutoff.
+     * @note   Finite S = −Sᵀ ∈ ℂ²ⁿˣ²ⁿ; zero pivot → 0; no cutoff.
      */
     static doubleC calc_pfaffian(Eigen::Ref<Eigen::MatrixXcd> S_C2D_chain_chain);
 
@@ -304,8 +289,8 @@ inline void HFBPfaffian::update_contractions(const Eigen::MatrixXcd& U1_C2D_sp_q
 }
 
 inline void HFBPfaffian::calc_kernel(Eigen::Ref<const Eigen::MatrixXcd> Qp1X_C2D_qp1_X, Eigen::Ref<const Eigen::MatrixXcd> XQp2Dag_C2D_X_qp2, Eigen::Ref<const Eigen::MatrixXcd> XX_C2D_X_X, Eigen::MatrixXcd& result_C2D_cfg1_cfg2) {
-    assert(XX_C2D_X_X.rows() == 0 || XX_C2D_X_X.rows() == 1 || XX_C2D_X_X.rows() == 2 || XX_C2D_X_X.rows() == 4);
     const int NX_I = static_cast<int>(XX_C2D_X_X.rows());
+    assert(NX_I == 0 || NX_I == 1 || NX_I == 2 || NX_I == 4);
     assert(XX_C2D_X_X.cols() == NX_I);
     assert(Qp1X_C2D_qp1_X.rows() == Nsp_I && Qp1X_C2D_qp1_X.cols() == NX_I && Qp1X_C2D_qp1_X.allFinite());
     assert(XQp2Dag_C2D_X_qp2.rows() == NX_I && XQp2Dag_C2D_X_qp2.cols() == Nsp_I && XQp2Dag_C2D_X_qp2.allFinite());
@@ -313,6 +298,7 @@ inline void HFBPfaffian::calc_kernel(Eigen::Ref<const Eigen::MatrixXcd> Qp1X_C2D
     assert(overlap_C != doubleC(0.0, 0.0));
 
     // (β₁,μr₁,…,β₁,μ₁, X₁,…,X_NX, β₂,ν₁†,…,β₂,νr₂†).
+    result_C2D_cfg1_cfg2.setZero();
     for (int cfg2_I = 0; cfg2_I < static_cast<int>(config2_I2D_cfg2_cqp2.size()); ++cfg2_I) {
         const int Ncqp2_I = static_cast<int>(config2_I2D_cfg2_cqp2[cfg2_I].size());
         for (int cfg1_I = 0; cfg1_I < static_cast<int>(config1_I2D_cfg1_cqp1.size()); ++cfg1_I) {
@@ -320,52 +306,37 @@ inline void HFBPfaffian::calc_kernel(Eigen::Ref<const Eigen::MatrixXcd> Qp1X_C2D
             const int Nchain_I = Ncqp1_I + NX_I + Ncqp2_I;
 
             // Odd chains vanish; pf(∅) = 1.
-            if (Nchain_I % 2 != 0) {
-                result_C2D_cfg1_cfg2(cfg1_I, cfg2_I) = 0.0;
-                continue;
-            }
+            if (Nchain_I % 2 != 0) {continue;}
 
             // S ∈ ℂ^{(r₁+NX+r₂)×(r₁+NX+r₂)}; S_ii = 0.
             assert(static_cast<Eigen::Index>(Nchain_I) * Nchain_I <= Sworkspace_C1D_element.size());
             Eigen::Map<Eigen::MatrixXcd> S_C2D_chain_chain(Sworkspace_C1D_element.data(), Nchain_I, Nchain_I);
-            for (int chain1_I = 0; chain1_I < Nchain_I; ++chain1_I) {S_C2D_chain_chain(chain1_I, chain1_I) = 0.0;}
+            S_C2D_chain_chain.diagonal().setZero();
 
             // ⟨β₁β₁⟩: reversed left configuration.
             for (int chain2_I = 1; chain2_I < Ncqp1_I; ++chain2_I) {
-                for (int chain1_I = 0; chain1_I < chain2_I; ++chain1_I) {
-                    S_C2D_chain_chain(chain1_I, chain2_I) = Qp1Qp1_C2D_qp1_qp1(config1_I2D_cfg1_cqp1[cfg1_I][Ncqp1_I - 1 - chain1_I], config1_I2D_cfg1_cqp1[cfg1_I][Ncqp1_I - 1 - chain2_I]);
-                }
+                for (int chain1_I = 0; chain1_I < chain2_I; ++chain1_I) {S_C2D_chain_chain(chain1_I, chain2_I) = Qp1Qp1_C2D_qp1_qp1(config1_I2D_cfg1_cqp1[cfg1_I][Ncqp1_I - 1 - chain1_I], config1_I2D_cfg1_cqp1[cfg1_I][Ncqp1_I - 1 - chain2_I]);}
             }
 
             // ⟨β₁X⟩ and ⟨Xβ₂†⟩ preserve insertion order.
             for (int X_I = 0; X_I < NX_I; ++X_I) {
-                for (int chain1_I = 0; chain1_I < Ncqp1_I; ++chain1_I) {
-                    S_C2D_chain_chain(chain1_I, Ncqp1_I + X_I) = Qp1X_C2D_qp1_X(config1_I2D_cfg1_cqp1[cfg1_I][Ncqp1_I - 1 - chain1_I], X_I);
-                }
-                for (int chain2_I = 0; chain2_I < Ncqp2_I; ++chain2_I) {
-                    S_C2D_chain_chain(Ncqp1_I + X_I, Ncqp1_I + NX_I + chain2_I) = XQp2Dag_C2D_X_qp2(X_I, config2_I2D_cfg2_cqp2[cfg2_I][chain2_I]);
-                }
+                for (int chain1_I = 0; chain1_I < Ncqp1_I; ++chain1_I) {S_C2D_chain_chain(chain1_I, Ncqp1_I + X_I) = Qp1X_C2D_qp1_X(config1_I2D_cfg1_cqp1[cfg1_I][Ncqp1_I - 1 - chain1_I], X_I);}
+                for (int chain2_I = 0; chain2_I < Ncqp2_I; ++chain2_I) {S_C2D_chain_chain(Ncqp1_I + X_I, Ncqp1_I + NX_I + chain2_I) = XQp2Dag_C2D_X_qp2(X_I, config2_I2D_cfg2_cqp2[cfg2_I][chain2_I]);}
             }
 
             // ⟨X_i X_j⟩, i<j; lower triangle is unused.
             for (int chain2_I = 1; chain2_I < NX_I; ++chain2_I) {
-                for (int chain1_I = 0; chain1_I < chain2_I; ++chain1_I) {
-                    S_C2D_chain_chain(Ncqp1_I + chain1_I, Ncqp1_I + chain2_I) = XX_C2D_X_X(chain1_I, chain2_I);
-                }
+                for (int chain1_I = 0; chain1_I < chain2_I; ++chain1_I) {S_C2D_chain_chain(Ncqp1_I + chain1_I, Ncqp1_I + chain2_I) = XX_C2D_X_X(chain1_I, chain2_I);}
             }
 
             // ⟨β₁β₂†⟩: upper-right block.
             for (int chain2_I = 0; chain2_I < Ncqp2_I; ++chain2_I) {
-                for (int chain1_I = 0; chain1_I < Ncqp1_I; ++chain1_I) {
-                    S_C2D_chain_chain(chain1_I, Ncqp1_I + NX_I + chain2_I) = Qp1Qp2Dag_C2D_qp1_qp2(config1_I2D_cfg1_cqp1[cfg1_I][Ncqp1_I - 1 - chain1_I], config2_I2D_cfg2_cqp2[cfg2_I][chain2_I]);
-                }
+                for (int chain1_I = 0; chain1_I < Ncqp1_I; ++chain1_I) {S_C2D_chain_chain(chain1_I, Ncqp1_I + NX_I + chain2_I) = Qp1Qp2Dag_C2D_qp1_qp2(config1_I2D_cfg1_cqp1[cfg1_I][Ncqp1_I - 1 - chain1_I], config2_I2D_cfg2_cqp2[cfg2_I][chain2_I]);}
             }
 
             // ⟨β₂†β₂†⟩: forward right configuration.
             for (int chain2_I = 1; chain2_I < Ncqp2_I; ++chain2_I) {
-                for (int chain1_I = 0; chain1_I < chain2_I; ++chain1_I) {
-                    S_C2D_chain_chain(Ncqp1_I + NX_I + chain1_I, Ncqp1_I + NX_I + chain2_I) = Qp2DagQp2Dag_C2D_qp2_qp2(config2_I2D_cfg2_cqp2[cfg2_I][chain1_I], config2_I2D_cfg2_cqp2[cfg2_I][chain2_I]);
-                }
+                for (int chain1_I = 0; chain1_I < chain2_I; ++chain1_I) {S_C2D_chain_chain(Ncqp1_I + NX_I + chain1_I, Ncqp1_I + NX_I + chain2_I) = Qp2DagQp2Dag_C2D_qp2_qp2(config2_I2D_cfg2_cqp2[cfg2_I][chain1_I], config2_I2D_cfg2_cqp2[cfg2_I][chain2_I]);}
             }
 
             // S_ji = −S_ij; vacuum overlap enters exactly once.
@@ -388,49 +359,39 @@ inline const Eigen::MatrixXcd& HFBPfaffian::calc_overlap() {
 
 inline const Eigen::MatrixXcd& HFBPfaffian::calc_creator(const Eigen::VectorXcd& x_C1D_sp) {
     assert(x_C1D_sp.size() == Nsp_I && x_C1D_sp.allFinite());
-    assert(overlap_C != doubleC(0.0, 0.0));
 
-    // NX = 1; workspace views require no copies.
+    // NX = 1.
     Eigen::Map<Eigen::MatrixXcd> Qp1X_C2D_qp1_X(Qp1Xworkspace_C1D_element.data(), Nsp_I, 1);
     Eigen::Map<Eigen::MatrixXcd> XQp2Dag_C2D_X_qp2(XQp2Dagworkspace_C1D_element.data(), 1, Nsp_I);
-    Eigen::Map<Eigen::MatrixXcd> XX_C2D_X_X(XXworkspace_C1D_element.data(), 1, 1);
-    XX_C2D_X_X.setZero();
 
-    // Coefficients enter linearly, without conjugation.
     Qp1X_C2D_qp1_X.col(0).noalias() = Qp1SpDag_C2D_qp1_sp * x_C1D_sp;
     XQp2Dag_C2D_X_qp2.row(0).noalias() = x_C1D_sp.transpose() * SpDagQp2Dag_C2D_sp_qp2;
-    calc_kernel(Qp1X_C2D_qp1_X, XQp2Dag_C2D_X_qp2, XX_C2D_X_X, creator_C2D_cfg1_cfg2);
+    calc_kernel(Qp1X_C2D_qp1_X, XQp2Dag_C2D_X_qp2, Eigen::Matrix<doubleC, 1, 1>::Zero(), creator_C2D_cfg1_cfg2);
     return creator_C2D_cfg1_cfg2;
 }
 
 inline const Eigen::MatrixXcd& HFBPfaffian::calc_annihilator(const Eigen::VectorXcd& x_C1D_sp) {
     assert(x_C1D_sp.size() == Nsp_I && x_C1D_sp.allFinite());
-    assert(overlap_C != doubleC(0.0, 0.0));
 
-    // NX = 1; workspace views require no copies.
+    // NX = 1.
     Eigen::Map<Eigen::MatrixXcd> Qp1X_C2D_qp1_X(Qp1Xworkspace_C1D_element.data(), Nsp_I, 1);
     Eigen::Map<Eigen::MatrixXcd> XQp2Dag_C2D_X_qp2(XQp2Dagworkspace_C1D_element.data(), 1, Nsp_I);
-    Eigen::Map<Eigen::MatrixXcd> XX_C2D_X_X(XXworkspace_C1D_element.data(), 1, 1);
-    XX_C2D_X_X.setZero();
 
-    // Coefficients enter linearly, without conjugation.
     Qp1X_C2D_qp1_X.col(0).noalias() = Qp1Sp_C2D_qp1_sp * x_C1D_sp;
     XQp2Dag_C2D_X_qp2.row(0).noalias() = x_C1D_sp.transpose() * SpQp2Dag_C2D_sp_qp2;
-    calc_kernel(Qp1X_C2D_qp1_X, XQp2Dag_C2D_X_qp2, XX_C2D_X_X, annihilator_C2D_cfg1_cfg2);
+    calc_kernel(Qp1X_C2D_qp1_X, XQp2Dag_C2D_X_qp2, Eigen::Matrix<doubleC, 1, 1>::Zero(), annihilator_C2D_cfg1_cfg2);
     return annihilator_C2D_cfg1_cfg2;
 }
 
 inline const Eigen::MatrixXcd& HFBPfaffian::calc_obtd(const Eigen::VectorXcd& x1_C1D_sp, const Eigen::VectorXcd& x2_C1D_sp) {
     assert(x1_C1D_sp.size() == Nsp_I && x1_C1D_sp.allFinite());
     assert(x2_C1D_sp.size() == Nsp_I && x2_C1D_sp.allFinite());
-    assert(overlap_C != doubleC(0.0, 0.0));
 
-    // X = (x₁†,x₂); workspace views require no copies.
+    // X = (x₁†,x₂).
     Eigen::Map<Eigen::MatrixXcd> Qp1X_C2D_qp1_X(Qp1Xworkspace_C1D_element.data(), Nsp_I, 2);
     Eigen::Map<Eigen::MatrixXcd> XQp2Dag_C2D_X_qp2(XQp2Dagworkspace_C1D_element.data(), 2, Nsp_I);
     Eigen::Map<Eigen::MatrixXcd> XX_C2D_X_X(XXworkspace_C1D_element.data(), 2, 2);
 
-    // Creation/annihilation coefficients enter without conjugation.
     Qp1X_C2D_qp1_X.col(0).noalias() = Qp1SpDag_C2D_qp1_sp * x1_C1D_sp;
     Qp1X_C2D_qp1_X.col(1).noalias() = Qp1Sp_C2D_qp1_sp * x2_C1D_sp;
     XQp2Dag_C2D_X_qp2.row(0).noalias() = x1_C1D_sp.transpose() * SpDagQp2Dag_C2D_sp_qp2;
@@ -449,14 +410,12 @@ inline const Eigen::MatrixXcd& HFBPfaffian::calc_tbtd(const Eigen::VectorXcd& x1
     assert(x2_C1D_sp.size() == Nsp_I && x2_C1D_sp.allFinite());
     assert(x3_C1D_sp.size() == Nsp_I && x3_C1D_sp.allFinite());
     assert(x4_C1D_sp.size() == Nsp_I && x4_C1D_sp.allFinite());
-    assert(overlap_C != doubleC(0.0, 0.0));
 
     // X = (x₁†,x₂†,x₄,x₃); NX = 4.
     Eigen::Map<Eigen::MatrixXcd> Qp1X_C2D_qp1_X(Qp1Xworkspace_C1D_element.data(), Nsp_I, 4);
     Eigen::Map<Eigen::MatrixXcd> XQp2Dag_C2D_X_qp2(XQp2Dagworkspace_C1D_element.data(), 4, Nsp_I);
     Eigen::Map<Eigen::MatrixXcd> XX_C2D_X_X(XXworkspace_C1D_element.data(), 4, 4);
 
-    // Creation/annihilation coefficients enter without conjugation.
     Qp1X_C2D_qp1_X.col(0).noalias() = Qp1SpDag_C2D_qp1_sp * x1_C1D_sp;
     Qp1X_C2D_qp1_X.col(1).noalias() = Qp1SpDag_C2D_qp1_sp * x2_C1D_sp;
     Qp1X_C2D_qp1_X.col(2).noalias() = Qp1Sp_C2D_qp1_sp * x4_C1D_sp;

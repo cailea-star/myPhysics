@@ -38,7 +38,7 @@ int main() {
 
     // Full signed-K configurations; Nphi = 1 disables PNP.
     // Axial K selection: Nalpha = Ngamma = 1.
-    for (int TargetTwoI_I = 0; TargetTwoI_I <= 20; TargetTwoI_I += 4) {
+    for (int TargetTwoI_I = 0; TargetTwoI_I <= 60; TargetTwoI_I += 4) {
         std::cout << "\nI = " << 0.5 * TargetTwoI_I << std::endl;
         psm.build_projection(TargetTwoI_I, 40, 1, 1);
         psm.solve_ci(0.18);

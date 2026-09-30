@@ -102,49 +102,31 @@ private:
     const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& calc_one_body_pn(const Eigen::MatrixXcd& OneBody_C2D_spp_spn);
 
     /**
-     * @brief  Integrate separable nnnn kernels using Pfaffians and quadrature.
-     * @math   O = Σμ[Q̂λμ†Q̂λμ − Σαδ(Qλμ†Qλμ)αδ cνα†cνδ].
-     * @math   Q ∈ ℝ^{Nspν × Nspν × (2λ+1)}; twoLambda_I = 2λ ≥ 0, λ ∈ ℤ; μ = −λ,…,λ.
+     * @brief  Integrate neutron Q/P kernels using Pfaffians and quadrature.
+     * @math   K = Σi gQi KQi + Σi gPi KPi; P† = ½Σab Pab c†a c†b.
      * @output Tensor indexed by cfg1p, cfg2p, cfg1n, cfg2n, K1, K2.
-     * @note   Complete spherical tensor; excludes coupling strength and extra ½.
+     * @note   gQ,gP include signs; pairing ¼ is internal.
+     * @note   Q/P lists may differ in length; zero coefficients skip terms.
      */
-    const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& calc_two_body_Q_nnnn(int twoLambda_I, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Q_F3D_spn_spn_mu);
+    const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& calc_two_body_nnnn(const Eigen::VectorXd& gQ_F1D_i, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Q_C3D_spn_spn_i, const Eigen::VectorXd& gP_F1D_i, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& P_C3D_spn_spn_i);
 
     /**
-     * @brief  Integrate separable pppp kernels using Pfaffians and quadrature.
-     * @math   O = Σμ[Q̂λμ†Q̂λμ − Σαδ(Qλμ†Qλμ)αδ cπα†cπδ].
-     * @math   Q ∈ ℝ^{Nspπ × Nspπ × (2λ+1)}; twoLambda_I = 2λ ≥ 0, λ ∈ ℤ; μ = −λ,…,λ.
+     * @brief  Integrate proton Q/P kernels using Pfaffians and quadrature.
+     * @math   K = Σi gQi KQi + Σi gPi KPi; P† = ½Σab Pab c†a c†b.
      * @output Tensor indexed by cfg1p, cfg2p, cfg1n, cfg2n, K1, K2.
-     * @note   Complete spherical tensor; excludes coupling strength and extra ½.
+     * @note   gQ,gP include signs; pairing ¼ is internal.
+     * @note   Q/P lists may differ in length; zero coefficients skip terms.
      */
-    const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& calc_two_body_Q_pppp(int twoLambda_I, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Q_F3D_spp_spp_mu);
+    const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& calc_two_body_pppp(const Eigen::VectorXd& gQ_F1D_i, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Q_C3D_spp_spp_i, const Eigen::VectorXd& gP_F1D_i, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& P_C3D_spp_spp_i);
 
     /**
      * @brief  Integrate mixed QQ kernels using Pfaffians and quadrature.
      * @math   O = Σμ Q̂ν,λμ† Q̂π,λμ; cν†cν cπ†cπ = cν†cπ†cπcν.
-     * @math   Qτ ∈ ℝ^{Nspτ × Nspτ × (2λ+1)}; twoLambda_I = 2λ ≥ 0, λ ∈ ℤ; μ = −λ,…,λ.
+     * @math   Qτ ∈ ℂ^{Nspτ × Nspτ × (2λ+1)}; twoLambda_I = 2λ ≥ 0, λ ∈ ℤ; μ = −λ,…,λ.
      * @output Tensor indexed by cfg1p, cfg2p, cfg1n, cfg2n, K1, K2.
      * @note   Consistent complete spherical tensors; coupling strength is external.
      */
-    const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& calc_two_body_Q_nppn(int twoLambda_I, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Q_F3D_spn_spn_mu, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Q_F3D_spp_spp_mu);
-
-    /**
-     * @brief  Integrate neutron pairing kernels using Pfaffians and quadrature.
-     * @math   P̂ν,λμ† = ½Σab Pab cνa†cνb†; O = Σμ P̂ν,λμ†P̂ν,λμ.
-     * @math   P ∈ ℝ^{Nspν × Nspν × (2λ+1)}; Pμᵀ = −Pμ; twoLambda_I = 2λ ≥ 0, λ ∈ ℤ; μ = −λ,…,λ.
-     * @output Tensor indexed by cfg1p, cfg2p, cfg1n, cfg2n, K1, K2.
-     * @note   Complete spherical tensor; excludes coupling strength and attraction sign.
-     */
-    const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& calc_two_body_P_nnnn(int twoLambda_I, const Eigen::Tensor<double, 3, Eigen::ColMajor>& P_F3D_spn_spn_mu);
-
-    /**
-     * @brief  Integrate proton pairing kernels using Pfaffians and quadrature.
-     * @math   P̂π,λμ† = ½Σab Pab cπa†cπb†; O = Σμ P̂π,λμ†P̂π,λμ.
-     * @math   P ∈ ℝ^{Nspπ × Nspπ × (2λ+1)}; Pμᵀ = −Pμ; twoLambda_I = 2λ ≥ 0, λ ∈ ℤ; μ = −λ,…,λ.
-     * @output Tensor indexed by cfg1p, cfg2p, cfg1n, cfg2n, K1, K2.
-     * @note   Complete spherical tensor; excludes coupling strength and attraction sign.
-     */
-    const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& calc_two_body_P_pppp(int twoLambda_I, const Eigen::Tensor<double, 3, Eigen::ColMajor>& P_F3D_spp_spp_mu);
+    const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& calc_two_body_Q_nppn(int twoLambda_I, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Q_C3D_spn_spn_mu, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Q_C3D_spp_spp_mu);
 
 private:
     /**
@@ -352,19 +334,11 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::c
     });
 }
 
-inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::calc_two_body_Q_nnnn(int twoLambda_I, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Q_F3D_spn_spn_mu) {
-    auto& neutron = projection_neutron;
-    auto& proton = projection_proton;
-
-    // Qλμ ∈ ℝ^{Nsp×Nsp}; μ = −λ,…,λ.
-    assert(twoLambda_I >= 0 && twoLambda_I % 2 == 0);
-    assert(Q_F3D_spn_spn_mu.dimension(0) == neutron.Nsp_I && Q_F3D_spn_spn_mu.dimension(1) == neutron.Nsp_I && Q_F3D_spn_spn_mu.dimension(2) == twoLambda_I + 1);
-    assert(Eigen::Map<const Eigen::VectorXd>(Q_F3D_spn_spn_mu.data(), Q_F3D_spn_spn_mu.size()).allFinite());
-
+inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::calc_two_body_nnnn(const Eigen::VectorXd& gQ_F1D_i, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Q_C3D_spn_spn_i, const Eigen::VectorXd& gP_F1D_i, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& P_C3D_spn_spn_i) {
     return integrate_amp([&](HFBProjectionPNP& neutron, HFBProjectionPNP& proton, Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n) {
-        // Hν²(Ω) Nπ(Ω); gauge normalization included; no additional ½.
+        // Hν²(Ω) Nπ(Ω); weighted Q/P kernel; pairing ¼ included.
         const auto& overlap_C2D_cfg1p_cfg2p = proton.calc_overlap_pnp();
-        const auto& twobody_C2D_cfg1n_cfg2n = neutron.calc_two_body_Q_pnp(twoLambda_I, Q_F3D_spn_spn_mu);
+        const auto& twobody_C2D_cfg1n_cfg2n = neutron.calc_two_body_pnp(gQ_F1D_i, Q_C3D_spn_spn_i, gP_F1D_i, P_C3D_spn_spn_i);
 
         // ColMajor: (p₁,p₂) → rows; (n₁,n₂) → columns.
         const Eigen::Map<const Eigen::VectorXcd> twobody_C1D_cfg1ncfg2n(twobody_C2D_cfg1n_cfg2n.data(), Ncfg1ncfg2n_I);
@@ -374,19 +348,11 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::c
     });
 }
 
-inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::calc_two_body_Q_pppp(int twoLambda_I, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Q_F3D_spp_spp_mu) {
-    auto& neutron = projection_neutron;
-    auto& proton = projection_proton;
-
-    // Qλμ ∈ ℝ^{Nsp×Nsp}; μ = −λ,…,λ.
-    assert(twoLambda_I >= 0 && twoLambda_I % 2 == 0);
-    assert(Q_F3D_spp_spp_mu.dimension(0) == proton.Nsp_I && Q_F3D_spp_spp_mu.dimension(1) == proton.Nsp_I && Q_F3D_spp_spp_mu.dimension(2) == twoLambda_I + 1);
-    assert(Eigen::Map<const Eigen::VectorXd>(Q_F3D_spp_spp_mu.data(), Q_F3D_spp_spp_mu.size()).allFinite());
-
+inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::calc_two_body_pppp(const Eigen::VectorXd& gQ_F1D_i, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Q_C3D_spp_spp_i, const Eigen::VectorXd& gP_F1D_i, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& P_C3D_spp_spp_i) {
     return integrate_amp([&](HFBProjectionPNP& neutron, HFBProjectionPNP& proton, Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n) {
-        // Nν(Ω) Hπ²(Ω); gauge normalization included; no additional ½.
+        // Nν(Ω) Hπ²(Ω); weighted Q/P kernel; pairing ¼ included.
         const auto& overlap_C2D_cfg1n_cfg2n = neutron.calc_overlap_pnp();
-        const auto& twobody_C2D_cfg1p_cfg2p = proton.calc_two_body_Q_pnp(twoLambda_I, Q_F3D_spp_spp_mu);
+        const auto& twobody_C2D_cfg1p_cfg2p = proton.calc_two_body_pnp(gQ_F1D_i, Q_C3D_spp_spp_i, gP_F1D_i, P_C3D_spp_spp_i);
 
         // ColMajor: (p₁,p₂) → rows; (n₁,n₂) → columns.
         const Eigen::Map<const Eigen::VectorXcd> overlap_C1D_cfg1ncfg2n(overlap_C2D_cfg1n_cfg2n.data(), Ncfg1ncfg2n_I);
@@ -396,18 +362,18 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::c
     });
 }
 
-inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::calc_two_body_Q_nppn(int twoLambda_I, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Q_F3D_spn_spn_mu, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Q_F3D_spp_spp_mu) {
+inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::calc_two_body_Q_nppn(int twoLambda_I, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Q_C3D_spn_spn_mu, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Q_C3D_spp_spp_mu) {
     auto& neutron = projection_neutron;
     auto& proton = projection_proton;
 
     // Qν,Qπ share λ and μ; single-particle dimensions may differ.
     assert(twoLambda_I >= 0 && twoLambda_I % 2 == 0);
-    assert(Q_F3D_spn_spn_mu.dimension(0) == neutron.Nsp_I && Q_F3D_spn_spn_mu.dimension(1) == neutron.Nsp_I && Q_F3D_spn_spn_mu.dimension(2) == twoLambda_I + 1);
-    assert(Q_F3D_spp_spp_mu.dimension(0) == proton.Nsp_I && Q_F3D_spp_spp_mu.dimension(1) == proton.Nsp_I && Q_F3D_spp_spp_mu.dimension(2) == twoLambda_I + 1);
-    assert(Eigen::Map<const Eigen::VectorXd>(Q_F3D_spn_spn_mu.data(), Q_F3D_spn_spn_mu.size()).allFinite());
-    assert(Eigen::Map<const Eigen::VectorXd>(Q_F3D_spp_spp_mu.data(), Q_F3D_spp_spp_mu.size()).allFinite());
+    assert(Q_C3D_spn_spn_mu.dimension(0) == neutron.Nsp_I && Q_C3D_spn_spn_mu.dimension(1) == neutron.Nsp_I && Q_C3D_spn_spn_mu.dimension(2) == twoLambda_I + 1);
+    assert(Q_C3D_spp_spp_mu.dimension(0) == proton.Nsp_I && Q_C3D_spp_spp_mu.dimension(1) == proton.Nsp_I && Q_C3D_spp_spp_mu.dimension(2) == twoLambda_I + 1);
+    assert(Eigen::Map<const Eigen::VectorXcd>(Q_C3D_spn_spn_mu.data(), Q_C3D_spn_spn_mu.size()).allFinite());
+    assert(Eigen::Map<const Eigen::VectorXcd>(Q_C3D_spp_spp_mu.data(), Q_C3D_spp_spp_mu.size()).allFinite());
 
-    // Qν† = Qνᵀ for real input; workspaces reused over Ω,μ.
+    // Qν† = (Qν*)ᵀ; workspaces reused over Ω,μ.
     Eigen::MatrixXcd Qdag_C2D_spn_spn{};
     Eigen::MatrixXcd Q_C2D_spp_spp{};
     Qdag_C2D_spn_spn.resize(neutron.Nsp_I, neutron.Nsp_I);
@@ -419,10 +385,10 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::c
         tmp_C2D_cfg1pcfg2p_cfg1ncfg2n.setZero();
         for (int mu_I = 0; mu_I <= twoLambda_I; ++mu_I) {
             // Oμ = Qνμ† Qπμ at the same Euler node.
-            const Eigen::Map<const Eigen::MatrixXd> Q_F2D_spn_spn(Q_F3D_spn_spn_mu.data() + static_cast<Eigen::Index>(mu_I) * neutron.Nsp_I * neutron.Nsp_I, neutron.Nsp_I, neutron.Nsp_I);
-            const Eigen::Map<const Eigen::MatrixXd> Q_F2D_spp_spp(Q_F3D_spp_spp_mu.data() + static_cast<Eigen::Index>(mu_I) * proton.Nsp_I * proton.Nsp_I, proton.Nsp_I, proton.Nsp_I);
-            Qdag_C2D_spn_spn = Q_F2D_spn_spn.transpose().cast<doubleC>();
-            Q_C2D_spp_spp = Q_F2D_spp_spp.cast<doubleC>();
+            const Eigen::Map<const Eigen::MatrixXcd> Q_C2D_spn_spn(Q_C3D_spn_spn_mu.data() + static_cast<Eigen::Index>(mu_I) * neutron.Nsp_I * neutron.Nsp_I, neutron.Nsp_I, neutron.Nsp_I);
+            const Eigen::Map<const Eigen::MatrixXcd> Qp_C2D_spp_spp(Q_C3D_spp_spp_mu.data() + static_cast<Eigen::Index>(mu_I) * proton.Nsp_I * proton.Nsp_I, proton.Nsp_I, proton.Nsp_I);
+            Qdag_C2D_spn_spn = Q_C2D_spn_spn.adjoint();
+            Q_C2D_spp_spp = Qp_C2D_spp_spp;
             const auto& onebody_C2D_cfg1n_cfg2n = neutron.calc_one_body_pnp(Qdag_C2D_spn_spn);
             const auto& onebody_C2D_cfg1p_cfg2p = proton.calc_one_body_pnp(Q_C2D_spp_spp);
 
@@ -431,49 +397,5 @@ inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::c
             const Eigen::Map<const Eigen::VectorXcd> onebody_C1D_cfg1pcfg2p(onebody_C2D_cfg1p_cfg2p.data(), Ncfg1pcfg2p_I);
             tmp_C2D_cfg1pcfg2p_cfg1ncfg2n.noalias() += onebody_C1D_cfg1pcfg2p * onebody_C1D_cfg1ncfg2n.transpose();
         }
-    });
-}
-
-inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::calc_two_body_P_nnnn(int twoLambda_I, const Eigen::Tensor<double, 3, Eigen::ColMajor>& P_F3D_spn_spn_mu) {
-    auto& neutron = projection_neutron;
-    auto& proton = projection_proton;
-
-    // Pλμ ∈ ℝ^{Nsp×Nsp}; μ = −λ,…,λ.
-    assert(twoLambda_I >= 0 && twoLambda_I % 2 == 0);
-    assert(P_F3D_spn_spn_mu.dimension(0) == neutron.Nsp_I && P_F3D_spn_spn_mu.dimension(1) == neutron.Nsp_I && P_F3D_spn_spn_mu.dimension(2) == twoLambda_I + 1);
-    assert(Eigen::Map<const Eigen::VectorXd>(P_F3D_spn_spn_mu.data(), P_F3D_spn_spn_mu.size()).allFinite());
-
-    return integrate_amp([&](HFBProjectionPNP& neutron, HFBProjectionPNP& proton, Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n) {
-        // Hν²(Ω) Nπ(Ω); gauge normalization and pairing ¼ included.
-        const auto& overlap_C2D_cfg1p_cfg2p = proton.calc_overlap_pnp();
-        const auto& twobody_C2D_cfg1n_cfg2n = neutron.calc_two_body_P_pnp(twoLambda_I, P_F3D_spn_spn_mu);
-
-        // ColMajor: (p₁,p₂) → rows; (n₁,n₂) → columns.
-        const Eigen::Map<const Eigen::VectorXcd> twobody_C1D_cfg1ncfg2n(twobody_C2D_cfg1n_cfg2n.data(), Ncfg1ncfg2n_I);
-        const Eigen::Map<const Eigen::VectorXcd> overlap_C1D_cfg1pcfg2p(overlap_C2D_cfg1p_cfg2p.data(), Ncfg1pcfg2p_I);
-        Eigen::Map<Eigen::MatrixXcd> twobody_C2D_cfg1pcfg2p_cfg1ncfg2n(tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n.data(), Ncfg1pcfg2p_I, Ncfg1ncfg2n_I);
-        twobody_C2D_cfg1pcfg2p_cfg1ncfg2n.noalias() = overlap_C1D_cfg1pcfg2p * twobody_C1D_cfg1ncfg2n.transpose();
-    });
-}
-
-inline const Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& HFBProjectionNucleus::calc_two_body_P_pppp(int twoLambda_I, const Eigen::Tensor<double, 3, Eigen::ColMajor>& P_F3D_spp_spp_mu) {
-    auto& neutron = projection_neutron;
-    auto& proton = projection_proton;
-
-    // Pλμ ∈ ℝ^{Nsp×Nsp}; μ = −λ,…,λ.
-    assert(twoLambda_I >= 0 && twoLambda_I % 2 == 0);
-    assert(P_F3D_spp_spp_mu.dimension(0) == proton.Nsp_I && P_F3D_spp_spp_mu.dimension(1) == proton.Nsp_I && P_F3D_spp_spp_mu.dimension(2) == twoLambda_I + 1);
-    assert(Eigen::Map<const Eigen::VectorXd>(P_F3D_spp_spp_mu.data(), P_F3D_spp_spp_mu.size()).allFinite());
-
-    return integrate_amp([&](HFBProjectionPNP& neutron, HFBProjectionPNP& proton, Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n) {
-        // Nν(Ω) Hπ²(Ω); gauge normalization and pairing ¼ included.
-        const auto& overlap_C2D_cfg1n_cfg2n = neutron.calc_overlap_pnp();
-        const auto& twobody_C2D_cfg1p_cfg2p = proton.calc_two_body_P_pnp(twoLambda_I, P_F3D_spp_spp_mu);
-
-        // ColMajor: (p₁,p₂) → rows; (n₁,n₂) → columns.
-        const Eigen::Map<const Eigen::VectorXcd> overlap_C1D_cfg1ncfg2n(overlap_C2D_cfg1n_cfg2n.data(), Ncfg1ncfg2n_I);
-        const Eigen::Map<const Eigen::VectorXcd> twobody_C1D_cfg1pcfg2p(twobody_C2D_cfg1p_cfg2p.data(), Ncfg1pcfg2p_I);
-        Eigen::Map<Eigen::MatrixXcd> twobody_C2D_cfg1pcfg2p_cfg1ncfg2n(tmp_C4D_cfg1p_cfg2p_cfg1n_cfg2n.data(), Ncfg1pcfg2p_I, Ncfg1ncfg2n_I);
-        twobody_C2D_cfg1pcfg2p_cfg1ncfg2n.noalias() = twobody_C1D_cfg1pcfg2p * overlap_C1D_cfg1ncfg2n.transpose();
     });
 }
