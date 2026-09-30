@@ -1,6 +1,6 @@
 # HFB Quantum-Number Projection
 
-### Configurations and Projected States
+## Configurations and Projected States
 
 Use the normalized vacuum and Bogoliubov convention in [HFB Pfaffian Algorithm](hfb_pfaffian.md). Let $\kappa=(\mu_1,\ldots,\mu_{n_\kappa})$ label an ordered list of distinct quasiparticle modes. Define
 
@@ -56,7 +56,7 @@ $$
 
 Here $I$ is total angular momentum, $M$ its laboratory-frame projection, and $K$ the projector’s second index. No axial symmetry is assumed.
 
-### Hamiltonian and Projected Matrix Elements
+## Hamiltonian and Projected Matrix Elements
 
 For unsymmetrized two-body matrix elements, write
 
@@ -100,7 +100,7 @@ $$
 \boxed{\sum_{K_2,\kappa_2}\left(\mathcal H^{I;N}_{K_1,\kappa_1;K_2,\kappa_2}-E\,\mathcal N^{I;N}_{K_1,\kappa_1;K_2,\kappa_2}\right)f_{K_2,\kappa_2}=0}.
 $$
 
-### Rotated Quasiparticle Operators and Vacua
+## Rotated Quasiparticle Operators and Vacua
 
 Define the single-particle rotation matrix by
 
@@ -146,7 +146,7 @@ $$
 
 Apply the [Generalized Wick Theorem](hfb_pfaffian.md#generalized-wick-theorem) with left matrices $(U,V)$ and right matrices $(U(\Omega),V(\Omega))$ to calculate one-body and two-body matrix elements, preserving the operator order. Normalized contractions require $\langle\Phi|\Phi(\Omega)\rangle\ne0$.
 
-### Irreducible Tensor Operators and Projected Matrix Elements
+## Irreducible Tensor Operators and Projected Matrix Elements
 
 Let $\hat T_{\lambda\mu}$ be an irreducible spherical tensor conserving particle number:
 
@@ -226,7 +226,7 @@ $$
 \langle\Phi_{\kappa_1}|\hat T_{\lambda\mu'}\hat P^{I_2}_{K_1-\mu',K_2}\hat P^{N_2}|\Phi_{\kappa_2}\rangle=\frac{2I_2+1}{2\pi\mathcal V_\Omega}\int\mathrm d\Omega\int_0^{2\pi}\mathrm d\varphi\,D^{I_2*}_{K_1-\mu',K_2}(\Omega)e^{iN_2\varphi}\langle\Phi_{\kappa_1}|\hat T_{\lambda\mu'}\hat R(\Omega)e^{-i\varphi\hat N}|\Phi_{\kappa_2}\rangle.
 $$
 
-### Projected Matrix Elements of Multipole Interactions
+## Projected Matrix Elements of Multipole Interactions
 
 Use the multipole interaction and angular-momentum conventions in [Multipole Interactions and Matrix Elements](../../notes/quantum_mechanics/second_quantization_multipole.md#multipole-interactions-and-matrix-elements). Define
 
@@ -270,7 +270,7 @@ $$
 \boxed{\langle\Phi^{I_1;N_1}_{K_1;\kappa_1}\Vert\hat H_\lambda\Vert\Phi^{I_2;N_2}_{K_2;\kappa_2}\rangle=\frac{\chi_\lambda}{2(2\lambda+1)}\sum_{a,b,c,d}\langle a\Vert\hat q_\lambda\Vert b\rangle^*\langle c\Vert\hat q_\lambda\Vert d\rangle\langle\Phi^{I_1;N_1}_{K_1;\kappa_1}\Vert\hat X^{(0)}_{\lambda;ab,cd}\Vert\Phi^{I_2;N_2}_{K_2;\kappa_2}\rangle}.
 $$
 
-### Projected Matrix Elements of Multipole Pairing Interactions
+## Projected Matrix Elements of Multipole Pairing Interactions
 
 Use the pairing interaction and angular-momentum conventions in [Multipole Pairing Interactions and Matrix Elements](../../notes/quantum_mechanics/second_quantization_multipole.md#multipole-pairing-interactions-and-matrix-elements). Define
 

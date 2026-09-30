@@ -61,12 +61,12 @@ Gate 5 MUST retrieve `Raw` for every relation via relevant Wikis; NEVER write be
 > topics: [keyword1], [keyword2], ...
 > goal: ...
 
-### [section1]
+## [section1]
 
 > keyword: [keyword1]
 > section-goal: ...
 
-##### [paragraph1-1]
+### [paragraph1-1]
 
 > keyword: [keyword1]
 > function: [claim-type] — ...
@@ -113,7 +113,7 @@ chain:
 
 ...
 
-##### [paragraph1-2]
+### [paragraph1-2]
 
 ...
 ````

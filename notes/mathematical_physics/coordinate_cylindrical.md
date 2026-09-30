@@ -2,7 +2,7 @@
 
 Cylindrical coordinates specialize the general framework of [Orthogonal Curvilinear Coordinates](coordinate_orthogonal.md).
 
-### Coordinate Differentials
+## Coordinate Differentials
 
 Let $(r_\perp,\phi,z)$ be cylindrical coordinates defined by
 
@@ -58,7 +58,7 @@ $$
 \mathrm ds^2=\mathrm dr_\perp^2+r_\perp^2\mathrm d\phi^2+\mathrm dz^2,\qquad \mathrm d^3\mathbf r=r_\perp\,\mathrm dr_\perp\,\mathrm d\phi\,\mathrm dz.
 $$
 
-### Differential Operators
+## Differential Operators
 
 In cylindrical coordinates,
 
@@ -100,7 +100,7 @@ $$
 \boxed{\nabla^2=\frac{1}{r_\perp}\frac{\partial}{\partial r_\perp}\left(r_\perp\frac{\partial}{\partial r_\perp}\right)+\frac{1}{r_\perp^2}\nabla_\phi^2+\frac{\partial^2}{\partial z^2}=\frac{1}{r_\perp}\frac{\partial}{\partial r_\perp}\left(r_\perp\frac{\partial}{\partial r_\perp}\right)+\frac{\partial^2}{\partial z^2}-\frac{\hat L_z^2}{\hbar^2r_\perp^2}}.
 $$
 
-### Azimuthal Harmonics
+## Azimuthal Harmonics
 
 Let $m\in\mathbb Z$ and define the normalized azimuthal harmonic
 

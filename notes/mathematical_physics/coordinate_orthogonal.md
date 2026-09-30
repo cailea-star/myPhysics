@@ -1,6 +1,6 @@
 # Orthogonal Curvilinear Coordinates
 
-### Coordinate Geometry
+## Coordinate Geometry
 
 Let $(q_1,q_2,q_3)$ be a right-handed orthogonal coordinate system defined by
 
@@ -36,7 +36,7 @@ $$
 \mathrm d\mathbf S_i=\hat{\mathbf e}_i\,h_jh_k\,\mathrm dq_j\mathrm dq_k,\qquad \mathrm dV=h_1h_2h_3\,\mathrm dq_1\mathrm dq_2\mathrm dq_3.
 $$
 
-### Differential Operators
+## Differential Operators
 
 The gradient operator is
 

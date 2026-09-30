@@ -2,7 +2,7 @@
 
 The Gaussian matrix elements are evaluated in the [axial harmonic-oscillator basis](cylindrical_basis.md), whose factors follow the canonical [coordinate-space harmonic-oscillator solutions](../../notes/quantum_mechanics/harmonic_oscillator_coordinate_space.md).
 
-### Gaussian Kernel Separation
+## Gaussian Kernel Separation
 
 For $\mathbf r_a=(\boldsymbol\rho_a,z_a)$ with $\boldsymbol\rho_a=(r_{\perp,a}\cos\varphi_a,r_{\perp,a}\sin\varphi_a)$, define
 
@@ -64,7 +64,7 @@ $$
 \boxed{G_{12,34}^{(\mu)}=G_{n_{z1}n_{z2}n_{z3}n_{z4}}^z(\mu,b_z)\,G_{n_{r1}\Lambda_1,n_{r2}\Lambda_2,n_{r3}\Lambda_3,n_{r4}\Lambda_4}^r(\mu,b_{r_\perp}).}
 $$
 
-### One-Dimensional Gaussian Matrix Elements
+## One-Dimensional Gaussian Matrix Elements
 
 For an oscillator length $b>0$ and $n\in\mathbb N_0$, define
 
@@ -114,7 +114,7 @@ $$
 \boxed{G_{n_{z1}n_{z2}n_{z3}n_{z4}}^z(\mu,b_z)=G_{n_{z1}n_{z2}n_{z3}n_{z4}}^{1D}(\mu,b_z).}
 $$
 
-### Polar-to-Cartesian Transformation
+## Polar-to-Cartesian Transformation
 
 For $n_r\in\mathbb N_0$ and $\Lambda\in\mathbb Z$, define the two-dimensional polar oscillator state
 
@@ -142,7 +142,7 @@ $$
 
 The admissible values of $q$ are specified with the remaining selection rules.
 
-### Radial Gaussian Matrix Elements
+## Radial Gaussian Matrix Elements
 
 Let $\boldsymbol\rho_a=(x_a,y_a)$. The radial Gaussian matrix element is
 
@@ -168,7 +168,7 @@ $$
 \boxed{G_{12,34}^r(\mu,b_{r_\perp})=\sum_{n_{y,1}=0}^{\nu_1}\cdots\sum_{n_{y,4}=0}^{\nu_4}P_y\prod_{a=1}^{4}C_{n_{y,a}}^{n_{r,a}\Lambda_a}G_{n_{x,1}n_{x,2}n_{x,3}n_{x,4}}^{1D}(\mu,b_{r_\perp})G_{n_{y,1}n_{y,2}n_{y,3}n_{y,4}}^{1D}(\mu,b_{r_\perp}).}
 $$
 
-### Symmetries and Selection Rules
+## Symmetries and Selection Rules
 
 - General one-dimensional parity:
 

@@ -24,7 +24,7 @@ $$
 
 The same-isospin configuration satisfies $q_1=q_2=q_3=q_4$. The direct cross-isospin configuration satisfies $q_1=q_3\ne q_2=q_4$. The exchanged cross-isospin configuration follows from $3\leftrightarrow4$.
 
-### $W$ Channel
+## $W$ Channel
 
 The $W$ channel contains no exchange operator:
 
@@ -56,7 +56,7 @@ $$
 \boxed{\bar v^W_{\mathrm{cross}}=\delta_{\sigma_1\sigma_3}\delta_{\sigma_2\sigma_4}V^W_{12,34}}.
 $$
 
-### $B$ Channel
+## $B$ Channel
 
 The $B$ channel exchanges spin:
 
@@ -88,7 +88,7 @@ $$
 \boxed{\bar v^B_{\mathrm{cross}}=\delta_{\sigma_1\sigma_4}\delta_{\sigma_2\sigma_3}V^B_{12,34}}.
 $$
 
-### $H$ Channel
+## $H$ Channel
 
 The $H$ channel exchanges isospin and carries a negative coefficient:
 
@@ -120,7 +120,7 @@ $$
 \boxed{\bar v^H_{\mathrm{cross}}=\delta_{\sigma_1\sigma_4}\delta_{\sigma_2\sigma_3}V^H_{12,43}}.
 $$
 
-### $M$ Channel
+## $M$ Channel
 
 The $M$ channel exchanges both spin and isospin:
 

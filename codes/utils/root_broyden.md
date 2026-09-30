@@ -20,7 +20,7 @@ $$
 \Delta\vec x_h=\vec x_{h+1}-\vec x_h,\qquad \Delta\vec f_h=\vec f(\vec x_{h+1})-\vec f(\vec x_h),\qquad \hat B_{h+1}\Delta\vec x_h=\Delta\vec f_h.
 $$
 
-### Derivation of the Broyden Formula
+## Derivation of the Broyden Formula
 
 The matrix $\hat B_{h+1}$ must satisfy the secant equation while remaining close to $\hat B_h$. Broyden's method requires $\hat B_{h+1}$ and $\hat B_h$ to act identically for every direction $\vec q\in\mathbb R^n$ orthogonal to $\Delta\vec x_h$:
 
@@ -46,7 +46,7 @@ $$
 \boxed{\hat H_{h+1}=\hat H_h+\frac{(\Delta\vec x_h-\hat H_h\Delta\vec f_h)\Delta\vec x_h^T\hat H_h}{\Delta\vec x_h^T\hat H_h\Delta\vec f_h}}.
 $$
 
-### Broyden Iteration Procedure
+## Broyden Iteration Procedure
 
 1. Initialize $\vec x_0$, $\vec f_0=\vec f(\vec x_0)$, and $\hat H_0=-\alpha\hat I$.
 2. Compute $\Delta\vec x_h=-\hat H_h\vec f_h$.
@@ -54,7 +54,7 @@ $$
 4. Compute $\Delta\vec f_h=\vec f_{h+1}-\vec f_h$ and update $\hat H_{h+1}$ using the inverse Broyden formula.
 5. Repeat Steps 2–4 until convergence.
 
-### Modified Broyden Method
+## Modified Broyden Method
 
 For large systems, storing the full inverse-Jacobian approximation is expensive. The modified Broyden method stores only a short history
 
@@ -64,7 +64,7 @@ $$
 
 where $N_h$ is the history length and $n$ is the vector dimension.
 
-### Derivation of the Modified Broyden Formula
+## Derivation of the Modified Broyden Formula
 
 Let $\hat H_0=-\alpha\hat I$, where $\alpha>0$. The matrix $\hat H_h$ must satisfy all stored secant equations while minimizing its correction from $\hat H_0$:
 
@@ -102,7 +102,7 @@ $$
 \boxed{\vec\gamma=(\Delta\hat F^T\Delta\hat F)^{-1}\Delta\hat F^T\vec f_h\qquad \vec x_{h+1}=\vec x_h+\alpha\vec f_h-(\Delta\hat X+\alpha\Delta\hat F)\vec\gamma}.
 $$
 
-### Modified Broyden Iteration Procedure
+## Modified Broyden Iteration Procedure
 
 1. Initialize $\vec x_0$, $\vec f_0=\vec f(\vec x_0)$, and $\mathrm{history}=\varnothing$.
 2. Compute the initial linear update $\vec x_1=\vec x_0+\alpha\vec f_0$ and $\vec f_1=\vec f(\vec x_1)$.
@@ -110,7 +110,7 @@ $$
 4. Construct $\Delta\hat X$ and $\Delta\hat F$ from the history, then compute $\vec\gamma$ and $\vec x_{h+1}$ using the modified Broyden formula.
 5. Compute $\vec f_{h+1}$, store $(\Delta\vec x_h,\Delta\vec f_h)$, discard the oldest pair when the history exceeds $N_h$, and repeat Steps 4–5 until convergence.
 
-### Fixed Points for Large-Scale Iterations
+## Fixed Points for Large-Scale Iterations
 
 A fixed point $\vec x^*$ of the map $G:\mathbb R^n\to\mathbb R^n$ satisfies
 
@@ -124,7 +124,7 @@ $$
 G(\vec x)\approx\vec x^*+\mathbf J_G\vec e,\qquad \mathbf J_G\equiv\left.\frac{\partial G}{\partial\vec x}\right|_{\vec x^*},\qquad \vec r(\vec x)\approx(\mathbf J_G-\mathbf I)\vec e=-\mathbf A\vec e,\qquad \mathbf A\equiv\mathbf I-\mathbf J_G.
 $$
 
-### Fixed-Point Convergence Criterion
+## Fixed-Point Convergence Criterion
 
 The fixed-point error satisfies
 

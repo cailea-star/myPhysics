@@ -2,7 +2,7 @@
 
 This note applies time-reversal symmetry to the [Axial HFB Equation](hfb_axial.md#axial-hfb-equation).
 
-### Time-Reversal Transformations
+## Time-Reversal Transformations
 
 Time reversal leaves position unchanged and reverses momentum and angular momentum:
 
@@ -54,7 +54,7 @@ $$
 \hat{\mathcal T}|\uparrow\rangle=|\downarrow\rangle,\qquad \hat{\mathcal T}|\downarrow\rangle=-|\uparrow\rangle.
 $$
 
-### Time-Reversal Reduction of the HFB Equation
+## Time-Reversal Reduction of the HFB Equation
 
 For an unblocked even-even HFB vacuum, impose
 
@@ -86,7 +86,7 @@ $$
 \boxed{\mathcal H^-=\mathcal S_\eta\mathcal H^{+*}\mathcal S_\eta}.
 $$
 
-### Solutions of the Time-Reversal-Reduced HFB Equation
+## Solutions of the Time-Reversal-Reduced HFB Equation
 
 Using the eigenvectors defined in [Solutions of the HFB Block Equations](hfb_axial.md#solutions-of-the-hfb-block-equations), complex conjugation gives
 
@@ -148,7 +148,7 @@ $$
 \kappa^{+-}_{\alpha\beta}=\eta_\alpha\eta_\beta\bigl[(\kappa^{+-})^\dagger\bigr]_{\alpha\beta}.
 $$
 
-### Representative $\Gamma$ and $\Delta$ Fields
+## Representative $\Gamma$ and $\Delta$ Fields
 
 Let $N_{\mathrm{sp}}$ denote the full single-particle dimension. Using the field definitions in [Hartree–Fock–Bogoliubov Method](hfb_full.md),
 

@@ -1,8 +1,8 @@
 # Second Quantization
 
-### Bosonic Second Quantization
+## Bosonic Second Quantization
 
-##### Single-Particle Modes and Field Operators
+### Single-Particle Modes and Field Operators
 
 Notation:
 
@@ -63,7 +63,7 @@ $$
 \hat H_0=\sum_{i=1}^{N}\hat h_0(i)=\int \mathrm dx\,\mathrm dx'\,\hat\psi^\dagger(x)h_0(x,x')\hat\psi(x')=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\varepsilon_\alpha\hat a_\alpha^\dagger\hat a_\alpha.
 $$
 
-##### Exchange Symmetry and Fock Space
+### Exchange Symmetry and Fock Space
 
 Let $\mathcal H_1$ denote the single-particle Hilbert space. The state space of $N$ labeled particles is $\mathcal H_1^{\otimes N}$. For mode labels $\alpha_i$ assigned to particles $i$, define the ordered product state
 
@@ -121,7 +121,7 @@ $$
 
 where $\mathcal H_B^{(0)}=\mathbb C|0\rangle$.
 
-##### Number Representation
+### Number Representation
 
 Define the mode-number operator. The bosonic commutation relations give
 
@@ -169,7 +169,7 @@ $$
 \hat a_\alpha|0\rangle=0,\qquad |\boldsymbol n\rangle_B=\prod_{\alpha=1}^{N_{\mathrm{sp}}}\frac{(\hat a_\alpha^\dagger)^{n_\alpha}}{\sqrt{n_\alpha!}}|0\rangle,\qquad |\Psi_B\rangle=\sum_{\boldsymbol n}C_{\boldsymbol n}|\boldsymbol n\rangle_B.
 $$
 
-##### One- and Two-Body Operators
+### One- and Two-Body Operators
 
 On the single-particle sector, $|\phi_\gamma\rangle=\hat a_\gamma^\dagger|0\rangle$, and
 
@@ -219,9 +219,9 @@ $$
 \boxed{\hat H=\sum_{\alpha,\beta=1}^{N_{\mathrm{sp}}}h_{\alpha\beta}\hat a_\alpha^\dagger\hat a_\beta+\frac12\sum_{\alpha,\beta,\gamma,\delta=1}^{N_{\mathrm{sp}}}v_{\alpha\beta;\gamma\delta}\hat a_\alpha^\dagger\hat a_\beta^\dagger\hat a_\delta\hat a_\gamma}.
 $$
 
-### Fermionic Second Quantization
+## Fermionic Second Quantization
 
-##### Single-Particle Modes and Field Operators
+### Single-Particle Modes and Field Operators
 
 Notation:
 
@@ -282,7 +282,7 @@ $$
 \hat H_0=\sum_{i=1}^{N}\hat h_0(i)=\int \mathrm dx\,\mathrm dx'\,\hat\psi_F^\dagger(x)h_0(x,x')\hat\psi_F(x')=\sum_{\alpha=1}^{N_{\mathrm{sp}}}\varepsilon_\alpha\hat c_\alpha^\dagger\hat c_\alpha.
 $$
 
-##### Exchange Symmetry and Fock Space
+### Exchange Symmetry and Fock Space
 
 Let $\mathcal H_1$ denote the single-particle Hilbert space. For mode labels $\alpha_i$ assigned to particles $i$, define
 
@@ -338,7 +338,7 @@ $$
 \boxed{\mathcal H_F^{(N)}=\hat{\mathcal A}_N\mathcal H_1^{\otimes N},\qquad \mathcal F_F(\mathcal H_1)=\bigoplus_{N=0}^{\infty}\mathcal H_F^{(N)}},\qquad \mathcal H_F^{(0)}=\mathbb C|0\rangle.
 $$
 
-##### Number Representation
+### Number Representation
 
 Define the mode-number operator. The fermionic anticommutation relations give
 
@@ -396,7 +396,7 @@ $$
 
 where the product is ordered by increasing $\alpha$.
 
-##### One- and Two-Body Operators
+### One- and Two-Body Operators
 
 On the single-particle sector, $|\phi_\gamma\rangle=\hat c_\gamma^\dagger|0\rangle$, and
 

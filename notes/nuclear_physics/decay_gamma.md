@@ -1,6 +1,6 @@
 # Gamma Decay
 
-### Relativistic Kinematics
+## Relativistic Kinematics
 
 Let $P$, $D$, and $\gamma$ denote the parent nucleus, daughter nucleus, and photon, with nuclear masses $M_P$ and $M_D$.
 
@@ -54,7 +54,7 @@ $$
 E_\gamma\simeq Q_\gamma,\qquad T_D\ll E_\gamma.
 $$
 
-### Electromagnetic Fields
+## Electromagnetic Fields
 
 Let $\rho$ and $\mathbf j$ be the charge and current densities. In SI units, Maxwell’s equations are
 
@@ -110,7 +110,7 @@ $$
 \mathbf k\cdot\mathbf A_0=0,\qquad \omega=ck,\qquad E_\gamma=\hbar\omega=\hbar ck.
 $$
 
-### Vector Spherical Harmonics
+## Vector Spherical Harmonics
 
 The definition, phase convention, and general properties are collected in [Vector Spherical Harmonics](../mathematical_physics/specialfunction_spherical_harmonics.md#vector-spherical-harmonics). The notation used here is $\mathbf Y_{JlM}\equiv\mathbf Y_{JM}^{l}$.
 

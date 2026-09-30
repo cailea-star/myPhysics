@@ -2,7 +2,7 @@
 
 Spherical coordinates specialize the general framework of [Orthogonal Curvilinear Coordinates](coordinate_orthogonal.md).
 
-### Coordinate Differentials
+## Coordinate Differentials
 
 Let $(r,\theta,\phi)$ be spherical coordinates defined by
 
@@ -48,7 +48,7 @@ $$
 \mathrm ds^2=\mathrm dr^2+r^2\mathrm d\theta^2+r^2\sin^2\theta\,\mathrm d\phi^2,\qquad \mathrm d\hat{\mathbf r}=\sin\theta\,\mathrm d\theta\,\mathrm d\phi,\qquad \mathrm d^3\mathbf r=r^2\,\mathrm dr\,\mathrm d\hat{\mathbf r}.
 $$
 
-### Differential Operators
+## Differential Operators
 
 In spherical coordinates,
 
@@ -90,7 +90,7 @@ $$
 \boxed{\nabla^2=\frac{1}{r^2}\frac{\partial}{\partial r}\left(r^2\frac{\partial}{\partial r}\right)+\frac{1}{r^2}\nabla_{\hat{\mathbf r}}^2=\frac{1}{r^2}\left[\frac{\partial}{\partial r}\left(r^2\frac{\partial}{\partial r}\right)-\frac{\hat{\mathbf L}^2}{\hbar^2}\right]}.
 $$
 
-### Spherical Harmonics
+## Spherical Harmonics
 
 Let $l=0,1,\ldots$, $m=-l,\ldots,l$, and let $Y_{lm}(\hat{\mathbf r})$ be simultaneous eigenfunctions of $\hat{\mathbf L}^2$ and $\hat L_z$:
 
@@ -106,9 +106,9 @@ $$
 
 Definitions and further properties are collected in [Spherical Harmonics](specialfunction_spherical_harmonics.md).
 
-### Partial-Wave and Multipole Expansions
+## Partial-Wave and Multipole Expansions
 
-##### Angular Expansions
+### Angular Expansions
 
 A general scalar function on the unit sphere admits the spherical-harmonic expansion
 
@@ -134,7 +134,7 @@ $$
 \boxed{K(\hat{\mathbf r}',\hat{\mathbf r})=\sum_{l=0}^{\infty}\frac{2l+1}{4\pi}K_lP_l(\cos\gamma),\qquad K_l=\int \mathrm d\hat{\mathbf r}'\,P_l(\cos\gamma)K(\cos\gamma)}.
 $$
 
-##### Plane-Wave Expansion
+### Plane-Wave Expansion
 
 Let $\mathbf k=k\hat{\mathbf k}$ and $\mathbf r=r\hat{\mathbf r}$. With $j_l(x)$ denoting the spherical Bessel function and $P_l(x)$ the [Legendre polynomial](specialfunction_associated_legendre_polynomials.md),
 
@@ -142,7 +142,7 @@ $$
 \boxed{e^{i\mathbf k\cdot\mathbf r}=\sum_{l=0}^{\infty}(2l+1)i^l j_l(kr)P_l(\hat{\mathbf k}\cdot\hat{\mathbf r})=4\pi\sum_{l=0}^{\infty}\sum_{m=-l}^{l}i^l j_l(kr)Y_{lm}(\hat{\mathbf r})Y_{lm}^*(\hat{\mathbf k})}.
 $$
 
-##### Coulomb-Kernel Expansion
+### Coulomb-Kernel Expansion
 
 Let $r_i=|\mathbf r_i|$ and define
 

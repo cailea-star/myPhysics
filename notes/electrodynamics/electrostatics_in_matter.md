@@ -1,6 +1,6 @@
 # Electrostatics in Matter
 
-### Electrostatic Potential and Interface Conditions
+## Electrostatic Potential and Interface Conditions
 
 Let $\Phi$ be the electrostatic potential and $\epsilon(\mathbf r)$ the permittivity of a linear, isotropic dielectric. The fields are
 
@@ -11,19 +11,19 @@ $$
 In electrostatics, the relevant Maxwell equations reduce to
 
 $$
-\nabla\times\mathbf E=-\frac{\partial\mathbf B}{\partial t}=0,\qquad \nabla\cdot\mathbf D=\rho_f.
+\nabla\times\mathbf E=-\frac{\partial\mathbf B}{\partial t}=0,\qquad \nabla\cdot\mathbf D=\rho_{\mathrm f}.
 $$
 
 Substituting the field–potential relations gives
 
 $$
-\nabla\cdot\!\left[\epsilon(\mathbf r)\nabla\Phi\right]=-\rho_f.
+\nabla\cdot\!\left[\epsilon(\mathbf r)\nabla\Phi\right]=-\rho_{\mathrm f}.
 $$
 
-Here $\rho_f$ is the free volume charge density. At an interface, let $\hat{\mathbf n}$ point from medium 1 to medium 2, and let $\sigma_f$ be the free surface charge density. The field boundary conditions are
+Here $\rho_{\mathrm f}$ is the free volume charge density. At an interface, let $\hat{\mathbf n}$ point from medium 1 to medium 2, and let $\sigma_{\mathrm f}$ be the free surface charge density. The field boundary conditions are
 
 $$
-\hat{\mathbf n}\times(\mathbf E_2-\mathbf E_1)=0,\qquad \hat{\mathbf n}\cdot(\mathbf D_2-\mathbf D_1)=\sigma_f.
+\hat{\mathbf n}\times(\mathbf E_2-\mathbf E_1)=0,\qquad \hat{\mathbf n}\cdot(\mathbf D_2-\mathbf D_1)=\sigma_{\mathrm f}.
 $$
 
 If $\mathbf E$ remains finite, its integral across the interface vanishes as the thickness $h\to0$:
@@ -35,15 +35,15 @@ $$
 Here $s$ is the normal coordinate. The normal-field condition then gives, with $\partial_{\hat{\mathbf n}}\Phi=\hat{\mathbf n}\cdot\nabla\Phi$ and $\epsilon_i$ the permittivity on side $i$,
 
 $$
-\boxed{\Phi_1=\Phi_2,\qquad \epsilon_2\partial_{\hat{\mathbf n}}\Phi_2-\epsilon_1\partial_{\hat{\mathbf n}}\Phi_1=-\sigma_f}.
+\boxed{\Phi_1=\Phi_2,\qquad \epsilon_2\partial_{\hat{\mathbf n}}\Phi_2-\epsilon_1\partial_{\hat{\mathbf n}}\Phi_1=-\sigma_{\mathrm f}}.
 $$
 
-### Uniqueness Theorem
+## Uniqueness Theorem
 
 Let $V$ be a connected dielectric region with permittivity $\epsilon(\mathbf r)>0$. Two solutions with the same free-charge distribution and outer-boundary potential satisfy
 
 $$
-\nabla\cdot\mathbf D=\nabla\cdot\mathbf D'=\rho_f,\qquad \Phi|_{\partial V}=\Phi'|_{\partial V}=\Phi_{\mathrm{bound}}.
+\nabla\cdot\mathbf D=\nabla\cdot\mathbf D'=\rho_{\mathrm f},\qquad \Phi|_{\partial V}=\Phi'|_{\partial V}=\Phi_{\mathrm{bound}}.
 $$
 
 Using the same constitutive and field–potential relations, define
@@ -72,11 +72,11 @@ $$
 
 For an application to a conducting sphere, see [Method of Images](electrostatics_of_conductors.md#method-of-images).
 
-### Separation of Variables
+## Separation of Variables
 
 In a homogeneous, charge-free region, $\nabla^2\Phi=0$. Choose separated solutions that match the geometry, then determine their coefficients from the boundary conditions.
 
-##### Spherical Coordinates
+### Spherical Coordinates
 
 For an axially symmetric spherical problem, let $r$ and $\theta$ be the radial and polar coordinates. With Legendre polynomials $P_\ell$ and coefficients $a_\ell,b_\ell$,
 
@@ -86,7 +86,7 @@ $$
 
 The $r^\ell$ terms are regular at the origin; the $r^{-(\ell+1)}$ terms decay at infinity.
 
-##### Cylindrical Coordinates
+### Cylindrical Coordinates
 
 For a problem independent of the cylindrical coordinate $z$, let $\varrho$ and $\phi$ be the radial and azimuthal coordinates. With coefficients $c_m,d_m,e_m,f_m$,
 
@@ -94,7 +94,7 @@ $$
 \Phi(\varrho,\phi)=c_0+d_0\ln\varrho+\sum_{m=1}^{\infty}\left[(c_m\varrho^m+d_m\varrho^{-m})\cos(m\phi)+(e_m\varrho^m+f_m\varrho^{-m})\sin(m\phi)\right].
 $$
 
-##### Conducting Sphere in a Uniform Field
+### Conducting Sphere in a Uniform Field
 
 Let a grounded conducting sphere of radius $R$ be placed in vacuum under a uniform field $\mathbf E_0=E_0\hat{\mathbf z}$. Since $z=r\cos\theta$, the applied-field potential is
 
@@ -120,7 +120,7 @@ $$
 \boxed{\Phi_{\mathrm{out}}=-E_0\left(r-\frac{R^3}{r^2}\right)\cos\theta,\qquad \mathbf p=4\pi\epsilon_0R^3\mathbf E_0}.
 $$
 
-##### Dielectric Sphere in a Uniform Field
+### Dielectric Sphere in a Uniform Field
 
 Let a dielectric sphere of radius $R$ and permittivity $\epsilon_{\mathrm{in}}$ lie in a medium of permittivity $\epsilon_{\mathrm{out}}$, under $\mathbf E_0=E_0\hat{\mathbf z}$. Since $z=r\cos\theta$, the applied-field potential is
 
@@ -158,9 +158,9 @@ $$
 \mathbf E_{\mathrm{in}}=\frac{3\epsilon_{\mathrm{out}}}{\epsilon_{\mathrm{in}}+2\epsilon_{\mathrm{out}}}\mathbf E_0.
 $$
 
-### Multipole Expansion
+## Multipole Expansion
 
-##### Far-Field Potential
+### Far-Field Potential
 
 Let $\rho(\mathbf r')$ be a localized charge density in vacuum, with $r=|\mathbf r|$, $r'=|\mathbf r'|$, and vacuum permittivity $\epsilon_0$. Its potential is
 
@@ -220,7 +220,7 @@ $$
 \boxed{\Phi(\mathbf r)=\frac{1}{4\pi\epsilon_0}\left[\frac q r+\frac{\mathbf p\cdot\hat{\mathbf r}}{r^2}+\frac{\hat{\mathbf r}\cdot\hat{\mathbf Q}^{(2)}\cdot\hat{\mathbf r}}{2r^3}+\cdots\right]}.
 $$
 
-##### Interaction with an External Field
+### Interaction with an External Field
 
 Let $\Phi_{\mathrm{ext}}$ be a prescribed external potential that varies slowly across the localized charge distribution, with $\mathbf E_{\mathrm{ext}}=-\nabla\Phi_{\mathrm{ext}}$. The interaction energy is
 
@@ -242,7 +242,7 @@ $$
 
 This is interaction energy with a prescribed external field, so it has no factor of $1/2$.
 
-##### Dipole Force and Torque
+### Dipole Force and Torque
 
 Let a neutral, rigid dipole with moment $\mathbf p$ be centered at $\mathbf R$. Neglecting higher multipoles, its interaction energy is
 

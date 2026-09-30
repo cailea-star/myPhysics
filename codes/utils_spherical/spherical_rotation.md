@@ -1,6 +1,6 @@
 # Spherical Harmonic-Oscillator Rotations
 
-### Rotation of Spherical Harmonic-Oscillator States
+## Rotation of Spherical Harmonic-Oscillator States
 
 The eigenstates of the spherical harmonic-oscillator Hamiltonian are
 
@@ -28,7 +28,7 @@ $$
 
 Thus, rotations preserve $n,l,j$ and mix only the magnetic substates within each multiplet.
 
-### Rotation Matrix Elements
+## Rotation Matrix Elements
 
 The rotation operators about the $z$ and $y$ axes are
 
