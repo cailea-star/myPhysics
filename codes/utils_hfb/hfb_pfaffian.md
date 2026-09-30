@@ -1,6 +1,6 @@
 # HFB Pfaffian Algorithm
 
-### Quasiparticle Vacuum Representation
+## Quasiparticle Vacuum Representation
 
 Let $N_{\mathrm{sp}}$ denote the number of single-particle states and $|0\rangle$ the particle vacuum. Use the Bogoliubov convention in [Quasiparticle Vacuum](hfb_full.md#quasiparticle-vacuum), with operator vectors arranged as columns:
 
@@ -104,7 +104,7 @@ $$
 \boxed{|\Phi\rangle=\nu\sum_{p=0}^{\lfloor N_{\mathrm{sp}}/2\rfloor}\sum_{1\leq\alpha_1<\cdots<\alpha_{2p}\leq N_{\mathrm{sp}}}\operatorname{pf}\left[\left(Z_{\alpha_r\alpha_s}\right)_{r,s=1}^{2p}\right]\hat c_{\alpha_1}^*\cdots\hat c_{\alpha_{2p}}^*|0\rangle}.
 $$
 
-### Quasiparticle Vacuum Overlap
+## Quasiparticle Vacuum Overlap
 
 Let $|\Phi_1\rangle$ and $|\Phi_2\rangle$ be normalized Thouless vacua in the same ordered single-particle basis, with parameters $(U_a,V_a,Z_a,\nu_a)$ for $a=1,2$ and invertible $U_1,U_2$.
 
@@ -160,9 +160,9 @@ Normalization fixes the magnitudes of $\nu_1,\nu_2$, but not the relative vacuum
 
 These overlap formulas remain valid when $\langle\Phi_1|\Phi_2\rangle=0$. Nonzero overlap is required only for normalized transition contractions and the inverse $\mathcal A^{-1}$.
 
-### Transition Densities
+## Transition Densities
 
-##### One-Body Transition Densities
+### One-Body Transition Densities
 
 Assume $\langle\Phi_1|\Phi_2\rangle\ne0$, with all operator vectors arranged as columns. Define the normal transition density by
 
@@ -212,7 +212,7 @@ $$
 \boxed{\rho=V_2^*\mathcal A^{-1}V_1^T}.
 $$
 
-##### Pairing Transition Densities
+### Pairing Transition Densities
 
 Assume $\langle\Phi_1|\Phi_2\rangle\ne0$. Define the pairing transition densities by
 
@@ -252,7 +252,7 @@ $$
 
 The relation $\bar\kappa=-\kappa^*$ does not generally hold for distinct vacua.
 
-##### Other Contractions
+### Other Contractions
 
 Assume $\langle\Phi_1|\Phi_2\rangle\ne0$ and define
 
@@ -338,7 +338,7 @@ $$
 \langle\hat{\boldsymbol c}\hat{\boldsymbol\beta}_2^T\rangle_{12}=0,\qquad \langle\hat{\boldsymbol c}^*\hat{\boldsymbol\beta}_2^T\rangle_{12}=0.
 $$
 
-### Generalized Wick Theorem
+## Generalized Wick Theorem
 
 Assume $\langle\Phi_1|\Phi_2\rangle\ne0$. Let $\hat s_1,\ldots,\hat s_{2p}$ be linear combinations of particle creation and annihilation operators. Define
 
@@ -396,7 +396,7 @@ $$
 
 Here $S_{ij}=\langle\hat s_i\hat s_j\rangle_{12}$ for $i<j$, with $S=-S^T$. For odd $L$, the matrix element vanishes.
 
-##### One-Body Matrix Elements between Multiquasiparticle States
+### One-Body Matrix Elements between Multiquasiparticle States
 
 For single-particle matrix elements $O_{\alpha\beta}=\langle\alpha|\hat O|\beta\rangle$,
 
@@ -422,7 +422,7 @@ $$
 \langle\Phi_1|\hat O^{(1)}|\Phi_2\rangle=\langle\Phi_1|\Phi_2\rangle\operatorname{Tr}(O\rho).
 $$
 
-##### Two-Body Matrix Elements between Multiquasiparticle States
+### Two-Body Matrix Elements between Multiquasiparticle States
 
 For unsymmetrized matrix elements $V_{\alpha\beta\gamma\delta}=\langle\alpha\otimes\beta|\hat O|\gamma\otimes\delta\rangle$,
 

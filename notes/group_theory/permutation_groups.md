@@ -1,6 +1,6 @@
-### Permutation Groups
+## Permutation Groups
 
-##### Permutations
+### Permutations
 
 A permutation of $\{1,\ldots,n\}$ is a bijection
 
@@ -34,7 +34,7 @@ $$
 \boxed{|S_n|=n!}.
 $$
 
-##### Cycles and Transpositions
+### Cycles and Transpositions
 
 A cycle of length $\ell$ is
 
@@ -90,7 +90,7 @@ $$
 
 A cycle of length $2$ is a transposition.
 
-##### Conjugacy Classes and Parity
+### Conjugacy Classes and Parity
 
 Conjugation relabels the objects in each cycle:
 
@@ -134,7 +134,7 @@ $$
 \boxed{A_n=\ker(\operatorname{sgn}),\qquad |A_n|=\frac{n!}{2}}.
 $$
 
-##### Generators of $S_n$
+### Generators of $S_n$
 
 - Every permutation is a product of transpositions.
 
@@ -156,7 +156,7 @@ $$
 \boxed{S_n=\langle(1\,2),(1\,2\,\cdots\,n)\rangle}.
 $$
 
-##### Cayley’s Theorem
+### Cayley’s Theorem
 
 Let $G=\{g_1,\ldots,g_n\}$ be a finite group. Left multiplication by $g\in G$ permutes its elements:
 

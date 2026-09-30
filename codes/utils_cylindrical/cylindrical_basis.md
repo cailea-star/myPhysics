@@ -2,7 +2,7 @@
 
 The state labels and oscillator lengths follow [Axial Harmonic-Oscillator Configuration](cylindrical_setting.md). The basis combines the one-dimensional and polar [harmonic-oscillator solutions](../../notes/quantum_mechanics/harmonic_oscillator_coordinate_space.md), with [Hermite](../../notes/mathematical_physics/specialfunction_hermite_polynomials.md) and [generalized Laguerre polynomials](../../notes/mathematical_physics/specialfunction_generalized_laguerre_polynomials.md).
 
-### Axial Harmonic-Oscillator Hamiltonian
+## Axial Harmonic-Oscillator Hamiltonian
 
 Let $M$ be the particle mass and $\omega_z,\omega_{r_\perp}>0$ the oscillator frequencies. In Cartesian coordinates,
 
@@ -60,7 +60,7 @@ $$
 \boxed{E_\alpha=\hbar\omega_z\left(n_z+\frac12\right)+\hbar\omega_{r_\perp}(2n_r+\Lambda+1).}
 $$
 
-### Axial Basis Functions along the $z$ Direction
+## Axial Basis Functions along the $z$ Direction
 
 Following the [one-dimensional harmonic-oscillator solution](../../notes/quantum_mechanics/harmonic_oscillator_coordinate_space.md#one-dimensional-harmonic-oscillator), define
 
@@ -102,7 +102,7 @@ $$
 \boxed{\partial_z^2\phi_{n_z}(z)=\frac{N_{n_z}}{b_z^{5/2}}\left[\partial_\zeta^2H_{n_z}(\zeta)-2\zeta\partial_\zeta H_{n_z}(\zeta)+(\zeta^2-1)H_{n_z}(\zeta)\right]e^{-\zeta^2/2}.}
 $$
 
-### Radial Basis Functions along the $r_\perp$ Direction
+## Radial Basis Functions along the $r_\perp$ Direction
 
 Following the [two-dimensional polar harmonic-oscillator solution](../../notes/quantum_mechanics/harmonic_oscillator_coordinate_space.md#two-dimensional-isotropic-harmonic-oscillator), define
 
@@ -160,7 +160,7 @@ $$
 \boxed{\partial_{r_\perp}^2\phi_{n_r}^{\Lambda}(r_\perp)=\frac{\sqrt2N_{n_r}^{\Lambda}}{b_{r_\perp}}\left[\frac{4r_\perp^2}{b_{r_\perp}^4}\partial_\eta^2u_{n_r}^{\Lambda}(\eta)+\frac{2}{b_{r_\perp}^2}\partial_\eta u_{n_r}^{\Lambda}(\eta)\right].}
 $$
 
-### Axial Basis Functions along the $\varphi$ Direction
+## Axial Basis Functions along the $\varphi$ Direction
 
 For orbital angular-momentum projection $\Lambda\in\mathbb Z$, the normalized azimuthal basis function is
 
@@ -190,7 +190,7 @@ $$
 \phi_{-\Lambda}(\varphi)=\phi_\Lambda^*(\varphi).
 $$
 
-### Quadrature Weights
+## Quadrature Weights
 
 The Gauss-Hermite and Gauss-Laguerre quadratures are
 
@@ -222,7 +222,7 @@ $$
 \boxed{w_{z,i}=b_zw_i^{\rm GH}e^{\zeta_i^2},\qquad w_{r,j}=\frac{b_{r_\perp}^2}{2}w_j^{\rm GL}e^{\eta_j}.}
 $$
 
-### Reflection Symmetry
+## Reflection Symmetry
 
 Since the Hermite polynomials satisfy
 

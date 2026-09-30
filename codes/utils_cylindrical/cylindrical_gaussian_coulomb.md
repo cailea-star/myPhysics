@@ -1,6 +1,6 @@
 # Axial Gaussian Coulomb Matrix Elements
 
-### Gaussian Coulomb Expansion
+## Gaussian Coulomb Expansion
 
 Let $\boldsymbol{r}_1$ and $\boldsymbol{r}_2$ denote the particle coordinates, and define $r_{12}=\lvert\boldsymbol{r}_1-\boldsymbol{r}_2\rvert>0$. The Coulomb interaction with coupling $e^2$ is
 
@@ -60,7 +60,7 @@ $$
 
 Parity and angular-projection selection rules follow from the canonical Gaussian matrix elements.
 
-### Kramers-Sector Coulomb Elements
+## Kramers-Sector Coulomb Elements
 
 Coulomb contributes only to the proton field $\Gamma$; Coulomb pairing is omitted.
 

@@ -1,8 +1,8 @@
 # Quantum Harmonic Oscillator
 
-### Fundamentals
+## Fundamentals
 
-##### Harmonic-Oscillator Hamiltonian
+### Harmonic-Oscillator Hamiltonian
 
 For a one-dimensional oscillator with mass $M>0$ and angular frequency $\omega>0$, let $\hat x$ and $\hat p$ be the position and momentum operators; see [Canonical Commutation Relations](quantum_formalism.md#canonical-commutation-relations).
 
@@ -22,7 +22,7 @@ $$
 \hat H=\frac{\hbar\omega}{2}\left(\frac{\hat p^2}{p_0^2}+\frac{\hat x^2}{x_0^2}\right).
 $$
 
-##### Creation and Annihilation Operators
+### Creation and Annihilation Operators
 
 Define the annihilation and creation operators by
 
@@ -46,9 +46,9 @@ $$
 \boxed{\hat H=\hbar\omega\left(\hat a^\dagger\hat a+\frac12\right)}.
 $$
 
-### Number Representation
+## Number Representation
 
-##### Number Operator
+### Number Operator
 
 Define the number operator
 
@@ -108,7 +108,7 @@ $$
 \hat n|n_0\rangle=\hat a^\dagger\hat a|n_0\rangle=0, \qquad n_0=0.
 $$
 
-##### Number States
+### Number States
 
 Let $|n\rangle$ be a normalized eigenstate of the number operator:
 
@@ -158,9 +158,9 @@ $$
 \boxed{\hat H|n\rangle=E_n|n\rangle, \qquad E_n=\hbar\omega\left(n+\frac12\right)}.
 $$
 
-### Coherent States
+## Coherent States
 
-##### Definition and Number-State Expansion
+### Definition and Number-State Expansion
 
 Let $\alpha\in\mathbb C$, with $\alpha^*$ denoting its complex conjugate. A coherent state $|\alpha\rangle$ is a normalized eigenstate of the annihilation operator:
 
@@ -234,7 +234,7 @@ $$
 |\alpha\rangle=\hat D(\alpha)|0\rangle.
 $$
 
-##### Properties of Coherent States
+### Properties of Coherent States
 
 For $\alpha,\beta\in\mathbb C$, the number-state expansion gives
 
@@ -282,7 +282,7 @@ $$
 
 The continuous family of coherent states is complete, nonorthogonal, and overcomplete.
 
-##### Coherent-State Representation
+### Coherent-State Representation
 
 Denote the unnormalized coherent state by $|\bar\alpha\rangle$:
 
@@ -328,7 +328,7 @@ $$
 
 For a normally ordered operator, these substitutions directly give its action on $\psi(\alpha^*)$.
 
-##### Uncertainty Relation
+### Uncertainty Relation
 
 The coherent-state eigenvalue equation gives
 
@@ -366,7 +366,7 @@ $$
 
 Every coherent state therefore saturates the position–momentum uncertainty relation.
 
-##### Squeezed Coherent States
+### Squeezed Coherent States
 
 Let $\mu,\nu\in\mathbb R$ and define the Bogoliubov transformation
 

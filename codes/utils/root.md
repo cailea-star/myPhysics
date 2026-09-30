@@ -12,7 +12,7 @@ $$
 |f(x_h)|\leq\epsilon_f,\qquad |x_{h+1}-x_h|\leq\epsilon_x.
 $$
 
-### Bisection Method
+## Bisection Method
 
 Let $f(x)$ be continuous on $[a_0,b_0]$ and satisfy
 
@@ -40,7 +40,7 @@ $$
 
 Thus, the bisection method converges linearly with convergence factor $1/2$.
 
-### Newton's Method
+## Newton's Method
 
 Let $x^*$ be a simple root with $f'(x^*)\neq0$. The first-order Taylor expansion about $x_h$ gives
 
@@ -82,7 +82,7 @@ $$
 
 Accept the Newton candidate only inside the updated interval; otherwise, use its midpoint.
 
-### Brent's Method
+## Brent's Method
 
 Let $f(x)$ be continuous on $[a_h,b_h]$ and satisfy
 

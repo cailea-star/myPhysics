@@ -7,16 +7,16 @@
 
 # BiFold: A Python code for the calculation of double-folded (bifold) potentials with density-in/dependent nucleon-nucleon interactions
 
-### Abstract
+## Abstract
 
 BiFold calculates the density-dependent (DDM3Yn, BDM3Yn, CDM3Yn) or independent double-folded potentials between two colliding spherical nuclei. It is written in a Python package form to give the ability to use the potentials directly in a nuclear reaction/structure code. In addition to using Woods-Saxon/Fermi or Gaussian functions, the code also allows the definition of nuclear matter densities using pre-calculated densities in a data file. The manuscript provides an overview of the double folding model and the use of the code. Program Title: BiFold CPC Library link to program files:https://doi.org/10.17632/rmdx86p9dg.1 Developer's repository link:https://github.com/mkarakoc/BiFold Code Ocean capsule:https://codeocean.com/capsule/5286231 Licensing provisions: GPLv3 Programming language: Python 3.x Nature of problem: BiFold calculates the real part of the nuclear potential between two colliding spherical nuclei by integrating a density-independent/dependent nucleon-nucleon (NN) interaction [1,2,3] over the nuclear matter densities of the two nuclei. The code is based on M3Y Reid/Paris NN interactions [1,2,3] by default, but it is possible to define custom NN interactions when necessary. Solution method: The code uses the Fourier transform method in spherical coordinates to calculate the potential. The method simplifies the sixfold integration [1] and makes the calculation significantly faster. The integration is done by default using Simpson's integration method, but Filon's integration method is also available. [1]G.R. Satchler, W.G. Love, Phys. Rep. 55 (1979) 183.[2]A. Kobos, B. Brown, P. Hodgson, G. Satchler, A. Budzanowski, Nucl. Phys. A 384 (1) (1982) 65–87.[3]D.T. Khoa, W. von Oertzen, H.G. Bohlen, S. Ohkubo, J. Phys. G, Nucl. Part. Phys. 34 (3) (2007) R111–R164.
 
 
 
 
-### Motivation
+## Motivation
 
-##### quotation-01
+### quotation-01
 
 ```tags
 [claim-type]: motivation
@@ -26,7 +26,7 @@ BiFold calculates the density-dependent (DDM3Yn, BDM3Yn, CDM3Yn) or independent 
 
 > Many studies (see the references in the present work) have used these DD treatments of NN interactions, but there are very few published codes [7, 8] to be able to reproduce the results of these works.
 
-##### quotation-02
+### quotation-02
 
 ```tags
 [claim-type]: background
@@ -36,7 +36,7 @@ BiFold calculates the density-dependent (DDM3Yn, BDM3Yn, CDM3Yn) or independent 
 
 > The usual DF potential between two spherical nuclei is constructed by integrating over an effective nucleon-nucleon (NN) interaction with nuclear matter densities representing nucleons of both nuclei.
 
-##### quotation-03
+### quotation-03
 
 ```tags
 [claim-type]: background
@@ -49,9 +49,9 @@ BiFold calculates the density-dependent (DDM3Yn, BDM3Yn, CDM3Yn) or independent 
 
 
 
-### Methods
+## Methods
 
-##### quotation-04
+### quotation-04
 
 ```tags
 [claim-type]: background
@@ -61,7 +61,7 @@ BiFold calculates the density-dependent (DDM3Yn, BDM3Yn, CDM3Yn) or independent 
 
 > Although BiFold can use a wide range of density-independent NN interactions in the DF potential calculations, M3Y type interactions [10, 9, 11] are defined by default in the code since they are perhaps the most widely used ones.
 
-##### quotation-05
+### quotation-05
 
 ```tags
 [claim-type]: definition
@@ -75,7 +75,7 @@ BiFold calculates the density-dependent (DDM3Yn, BDM3Yn, CDM3Yn) or independent 
 U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
 ```
 
-##### quotation-06
+### quotation-06
 
 ```tags
 [claim-type]: method
@@ -85,7 +85,7 @@ U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
 
 > The reason for choosing this distribution is to obtain an exact analytical double-folded potential since the density-independent NN effective interaction (M3Y-Reid [...] also has a similar mathematical form. Then this is easily achieved by using the Fourier transform techniques [...] for the double folding integral [...], but this time with an analytical integration.
 
-##### quotation-07
+### quotation-07
 
 ```tags
 [claim-type]: assumption
@@ -102,9 +102,9 @@ U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
 
 
 
-### Results
+## Results
 
-##### quotation-08
+### quotation-08
 
 ```tags
 [claim-type]: result
@@ -114,7 +114,7 @@ U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
 
 > The output of the BiFold calculation shown in Fig. 3 gives individual information about the potentials and the functions used in the calculations. [...] The output also contains printout of the calculated potential UR versus radial distance R between two nuclei.
 
-##### quotation-09
+### quotation-09
 
 ```tags
 [claim-type]: result
@@ -124,7 +124,7 @@ U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
 
 > It is the double folding potential [dash-dot] with direct [solid] and exchange [dash] parts for the α + 40Ca elastic scattering.
 
-##### quotation-10
+### quotation-10
 
 ```tags
 [claim-type]: definition
@@ -134,7 +134,7 @@ U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
 
 > This formula defines a mean relative error (mre) [8] for comparing BiFold calculations with reference calculations where U A and U B are the reference and the present double folding potentials [...], respectively. [...] The results of the mre calculations are in Table 4, and the details of the test cases are in the following sections.
 
-##### quotation-11
+### quotation-11
 
 ```tags
 [claim-type]: comparison
@@ -144,7 +144,7 @@ U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
 
 > Both computations agree very well, as supported by the ξ² values in Table 4 and shown in Fig. 5a. The ξ² values are almost the same for both integration methods.
 
-##### quotation-12
+### quotation-12
 
 ```tags
 [claim-type]: result
@@ -154,7 +154,7 @@ U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
 
 > The full circles, up triangles, and down triangles are the calculations of the total, direct and exchange parts of the double folding potentials using DFPOT [7], respectively. The solid lines are the computations using BiFold.
 
-##### quotation-13
+### quotation-13
 
 ```tags
 [claim-type]: result
@@ -167,9 +167,9 @@ U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
 
 
 
-### Meanings
+## Meanings
 
-##### quotation-14
+### quotation-14
 
 ```tags
 [claim-type]: innovation
@@ -179,7 +179,7 @@ U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
 
 > For example, DFPOT [7] cannot calculate the potentials with the DDM3Y, BDM3Yn [...] and CDM3Yn [...] type density-dependent interactions [3]. While DFMSPH [8] can calculate many of those, it does not support BDM3Y2, BDM3Y3 [9], and the first version of DDM3Y [2]. [...] Therefore, the code BiFold will help the community in these manners.
 
-##### quotation-15
+### quotation-15
 
 ```tags
 [claim-type]: comparison
@@ -193,9 +193,9 @@ U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
 
 
 
-### Secondary Citations
+## Secondary Citations
 
-##### quotation-16
+### quotation-16
 
 ```tags
 [claim-type]: background
@@ -207,7 +207,7 @@ U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
 
 > The folded potential model [1] is a well-known model for describing the mean-field nuclear interaction between two colliding nuclei.
 
-##### quotation-17
+### quotation-17
 
 ```tags
 [claim-type]: background
@@ -219,7 +219,7 @@ U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
 
 > The DD of NN interaction has several treatments in the literature, but the code BiFold is built on the treatments of Satchler and Love [1], Kobos et al. [2], and Khoa et al. [3]. All these three treatments have the frozen density approximation [...]
 
-##### quotation-18
+### quotation-18
 
 ```tags
 [claim-type]: background
@@ -231,7 +231,7 @@ U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
 
 > These interactions are called M3Y-Reid [12] and M3Y-Paris [13] effective interactions. The former is derived from the solution of the Bethe-Goldstone equation with Reid [12] soft-core interaction [...] to obtain G-matrix. The latter is derived from a more fundamental Paris NN potential [13] to generate all components of the effective interaction [14].
 
-##### quotation-19
+### quotation-19
 
 ```tags
 [claim-type]: definition
@@ -244,7 +244,7 @@ U^{EX}(R)=4\pi\int_0^\infty G(R,s)j_0(K(R)s/M)v^{EX}(s)s^2\,ds.
 > This formula defines a mean relative error (mre) [8] for comparing BiFold calculations with reference calculations where U A and U B are the reference and the present double folding potentials with the radial distance Ri, respectively.
 
 
-### Gaps
+## Gaps
 
 - `[section]: Results | [item]: coverage | [target]: Figure 1 | [reason]: method schematic; no current-work output quantity`
 - `[section]: Results | [item]: coverage | [target]: Table 1 | [reason]: interaction support table; no current-work output quantity`

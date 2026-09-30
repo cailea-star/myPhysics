@@ -1,6 +1,6 @@
 # Berry Phase
 
-### Adiabatic Evolution and Berry Phase
+## Adiabatic Evolution and Berry Phase
 
 Let $\mathbf R(t)$ be slowly varying external parameters and $\hat H(t)=\hat H(\mathbf R(t))$ a smooth Hamiltonian with discrete, nondegenerate instantaneous eigenstates:
 
@@ -94,7 +94,7 @@ $$
 
 Hence, $\langle n|\dot n\rangle$ is purely imaginary and $\gamma_n(t)$ is real.
 
-### Berry Connection, Curvature, and Gauge Structure
+## Berry Connection, Curvature, and Gauge Structure
 
 Let $C$ be the parameter-space path from $\mathbf R_i=\mathbf R(t_i)$ to $\mathbf R_f=\mathbf R(t_f)$. Define the Berry connection $\mathbf A_n(\mathbf R)$ by
 

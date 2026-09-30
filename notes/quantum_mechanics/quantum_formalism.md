@@ -1,6 +1,6 @@
 # Quantum Formalism
 
-### Axioms of Quantum Mechanics
+## Axioms of Quantum Mechanics
 
 - A pure state is a ray in a complex Hilbert space $\mathcal H$, represented by a normalized ket:
 
@@ -40,9 +40,9 @@ $$
 \hat\Pi_{ij}|\psi\rangle=|\psi\rangle\quad\text{(bosons)}, \qquad \hat\Pi_{ij}|\psi\rangle=-|\psi\rangle\quad\text{(fermions)}.
 $$
 
-### States
+## States
 
-##### Inner Product
+### Inner Product
 
 Let $\mathcal H$ be a complete complex inner-product space, with $|\phi\rangle,|\psi\rangle,|\chi\rangle\in\mathcal H$ and $a,b\in\mathbb C$.
 
@@ -78,7 +78,7 @@ $$
 |\langle\phi|\psi\rangle|^2 \leq \langle\phi|\phi\rangle \langle\psi|\psi\rangle.
 $$
 
-##### Orthonormality
+### Orthonormality
 
 Let $\{|\phi_i\rangle\}$ be an orthonormal and complete basis, $\delta_{ij}$ the Kronecker delta, and $\hat I$ the identity operator:
 
@@ -92,7 +92,7 @@ $$
 |\phi\rangle \longrightarrow \frac{|\phi\rangle}{\lVert\phi\rVert}.
 $$
 
-##### Dual Space
+### Dual Space
 
 The inner product associates each ket in $\mathcal H$ with a bra in the dual space $\mathcal H^*$:
 
@@ -106,9 +106,9 @@ $$
 \langle\phi|\hat A^\dagger|\psi\rangle = \langle\psi|\hat A|\phi\rangle^*.
 $$
 
-### Operators
+## Operators
 
-##### Self-Adjoint Operator
+### Self-Adjoint Operator
 
 A linear operator $\hat A$ on $\mathcal H$ is self-adjoint when
 
@@ -128,7 +128,7 @@ $$
 \hat A|a_i\rangle=a_i|a_i\rangle, \qquad a_i=a_i^*.
 $$
 
-##### Orthonormal Eigenbasis
+### Orthonormal Eigenbasis
 
 For a self-adjoint operator with a discrete spectrum, its eigenstates may be chosen orthonormally:
 
@@ -142,7 +142,7 @@ $$
 \boxed{\hat A=\sum_i a_i|a_i\rangle\langle a_i|}.
 $$
 
-##### Projection Operator
+### Projection Operator
 
 For the eigenstate $|a_i\rangle$, define
 
@@ -168,7 +168,7 @@ $$
 p_i=\langle\psi|\hat P_i|\psi\rangle, \qquad \langle\hat A\rangle=\sum_i p_i a_i.
 $$
 
-##### Operator Function
+### Operator Function
 
 For a power series
 
@@ -182,9 +182,9 @@ $$
 f(\hat A)=\sum_{n=0}^{\infty}c_n\hat A^n=\sum_i f(a_i)\hat P_i.
 $$
 
-### Canonical Quantization
+## Canonical Quantization
 
-##### Canonical Commutation Relations
+### Canonical Commutation Relations
 
 For operators $\hat A$, $\hat B$, and $\hat C$, define
 
@@ -230,7 +230,7 @@ $$
 \boxed{\langle\mathbf x|\mathbf p\rangle=\frac{1}{(2\pi\hbar)^{d/2}}\exp\left(\frac{i\mathbf p\cdot\mathbf x}{\hbar}\right)}.
 $$
 
-##### Translation Operator
+### Translation Operator
 
 The Hadamard lemma is
 
@@ -256,7 +256,7 @@ $$
 \hat T(x_0)|x\rangle=|x+x_0\rangle, \qquad \hat T(x_0)|p\rangle=e^{-ix_0p/\hbar}|p\rangle.
 $$
 
-##### Uncertainty Relation
+### Uncertainty Relation
 
 Let $\hat A$ and $\hat B$ be self-adjoint operators and $|\psi\rangle$ a normalized state. Define
 
@@ -288,9 +288,9 @@ $$
 \boxed{\Delta x\,\Delta p\geq\frac{\hbar}{2}}.
 $$
 
-### Representations and Unitary Transformations
+## Representations and Unitary Transformations
 
-##### Representation Transformation
+### Representation Transformation
 
 A state and an operator are independent of the chosen basis. Let $\{|a\rangle\}$ and $\{|b\rangle\}$ be orthonormal and complete bases.
 
@@ -316,7 +316,7 @@ $$
 
 For continuous bases, the sums are replaced by integrals.
 
-##### Unitary Transformation
+### Unitary Transformation
 
 An operator $\hat U$ is unitary if
 

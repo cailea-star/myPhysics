@@ -7,7 +7,7 @@
 
 
 
-### Definition & Origin
+## Definition & Origin
 
 ```references
   - D_S_Delion_Y.2018_J.Phys.G_Nucl.Part.Phys._Vol.45Nol.P.053001: abstract.
@@ -18,9 +18,9 @@
 
 
 
-### Composition & Mechanism
+## Composition & Mechanism
 
-##### 精细结构的通道组成
+### 精细结构的通道组成
 
 ```references
   - D_S_Delion_Y.2018_J.Phys.G_Nucl.Part.Phys._Vol.45Nol.P.053001: section 1. Introduction.
@@ -28,7 +28,7 @@
 
 - **description**: 对形变 α 发射体，不同能量的 α 谱线组对应到子核不同能级的跃迁；这些能差与 γ 射线能量相符，由此形成 α 衰变精细结构的线状谱。
 
-##### 势垒穿透与预形成
+### 势垒穿透与预形成
 
 ```references
   - D._S._Delion_Y.2006_Phys.Rev.C_Vol.73Nol.014315P.: section I. Introduction.
@@ -38,13 +38,13 @@
 
 
 
-### Quantities & Properties
+## Quantities & Properties
 
 ```tags
 [tags]: alpha_decay_energy, alpha_decay_width, alpha_decay_intensity, alpha_decay_half_life, alpha_decay_branching_ratio
 ```
 
-##### α 衰变能
+### α 衰变能
 
 ```references
   - D._S._Delion_Y.2006_Phys.Rev.C_Vol.73Nol.014315P.: abstract.
@@ -56,7 +56,7 @@ E_{\mathrm{res}}=Q_\alpha^{(\mathrm{exp})}
 - **Definition**: \(Q_\alpha\) 是实验 α 衰变能；模型通过调节排斥势深度，使共振态能量与其一致。
 - **description**: 它连接实验释放能与势阱内衰变态的共振能量。
 
-##### α 衰变宽度
+### α 衰变宽度
 
 ```references
   - D._S._Delion_Y.2006_Phys.Rev.C_Vol.73Nol.014315P.: section II.B. Resonant states.
@@ -71,7 +71,7 @@ E_{\mathrm{res}}=Q_\alpha^{(\mathrm{exp})}
 - **Definition**: 总衰变宽度 \(\Gamma\) 是各通道分宽度 \(\Gamma_J\) 之和。
 - **description**: 每个通道的贡献由通道速度与渐近振幅模平方决定。
 
-##### α 衰变精细结构强度
+### α 衰变精细结构强度
 
 ```references
   - D._S._Delion_Y.2006_Phys.Rev.C_Vol.73Nol.014315P.: section II.B. Resonant states.
@@ -84,7 +84,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Definition**: \(I_J\) 比较基态通道宽度 \(\Gamma_0\) 与第 \(J\) 个激发态通道宽度 \(\Gamma_J\)。
 - **description**: 该量用于描述精细结构，并避免使用具有模型依赖性的阻碍因子。
 
-##### α 衰变半衰期
+### α 衰变半衰期
 
 ```references
   - D._S._Delion_Y.2006_Phys.Rev.C_Vol.73Nol.014315P.: section III, Fig. 5.
@@ -97,7 +97,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Definition**: \(T\) 表示总 α 衰变半衰期，系统学比较采用其十进对数。
 - **description**: 在所考察的参数变化中，\(Q_\alpha\) 与 \(\log_{10}T\) 对淬火参数 \(v_a\) 表现出较强依赖。
 
-##### α 衰变分支比
+### α 衰变分支比
 
 ```references
   - D_S_Delion_Y.2018_J.Phys.G_Nucl.Part.Phys._Vol.45Nol.P.053001: section 1. Introduction.
@@ -112,9 +112,9 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 
 
 
-### Related Methods
+## Related Methods
 
-##### 耦合道方法
+### 耦合道方法
 
 ```tags
 [tags]: coupled_channels_method, rotational_model, double_folding_potential, m3y_interaction
@@ -131,9 +131,9 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 
 
 
-### Previous Studies
+## Previous Studies
 
-##### D. S. Delion (2006)
+### D. S. Delion (2006)
 
 ```tags
 [tags]: alpha_decay, alpha_decay_fine_structure, alpha_decay_width, alpha_decay_half_life, coupled_channels_method, m3y_interaction, alpha_clustering, rotational_nuclei
@@ -149,7 +149,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Precision**: 采用 \(v_a=0.668-0.004(A-208)\) 时，总半衰期及到 \(J=2^+\) 态的衰变宽度与实验符合良好；到 \(J=4^+\) 态的结果对 \(Z=90\) 中子链符合良好，对 \(Z=92,96,98\) 链给出令人满意的描述。
 - **Meaning**: 对多个同位素链的系统符合表明，到转动态的 α 衰变能够约束有效核子–核子相互作用随质量数及 α 团簇结构的变化。
 
-##### D S Delion (2018)
+### D S Delion (2018)
 
 ```tags
 [tags]: alpha_decay, alpha_decay_fine_structure, coupled_channels_method, semiclassical_method, alpha_decay_branching_ratio, alpha_decay_intensity, excitation_energy
@@ -165,7 +165,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Precision**: 对部分偶偶 Pu、Cm 和 Cf 发射体，半经典计算将到 \(4^+\) 激发态的分支比高估约一个数量级，而耦合道结果与实验符合良好。
 - **Meaning**: 激发态通道间的耦合不可忽略；耦合道方法比独立通道的半经典处理更可靠地描述 α 衰变精细结构。
 
-##### Jianmin Dong (2025)
+### Jianmin Dong (2025)
 
 ```tags
 [tags]: alpha_decay, superheavy_nuclei, RMF, symmetry_energy, alpha_decay_energy, alpha_decay_half_life
@@ -183,9 +183,9 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 
 
 
-### Next Papers
+## Next Papers
 
-##### Candidate Paper 1
+### Candidate Paper 1
 
 ```tags
 [tags]: coupled_channels_method
@@ -196,7 +196,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Citation**: Physical Review C 68, 041303(R), 2003.
 - **Reason**: Delion 2006 将其作为稳态耦合道形式主要理论构件的前置来源；适合补充耦合道方法从冷裂变双精细结构研究到 α 衰变计算的沿革。
 
-##### Candidate Paper 2
+### Candidate Paper 2
 
 ```tags
 [tags]: double_folding_potential, alpha_decay
@@ -207,7 +207,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Citation**: Nuclear Physics A 284, 399–419, 1977.
 - **Reason**: Delion 2018 将其列为构造 α–子核双折叠势所用有效相互作用的基础来源；适合补充折叠势的微观相互作用依据。
 
-##### Candidate Paper 3
+### Candidate Paper 3
 
 ```tags
 [tags]: double_folding_potential, alpha_decay
@@ -218,7 +218,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Citation**: Physics Reports 55, 183–254, 1979.
 - **Reason**: Delion 2018 将其列为 α–子核双折叠势积分的基础来源；适合补充由真实相互作用构造重离子折叠势的方法体系。
 
-##### Candidate Paper 4
+### Candidate Paper 4
 
 ```tags
 [tags]: double_folding_potential, alpha_decay
@@ -229,7 +229,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Citation**: Annals of Physics 217, 279–303, 1992.
 - **Reason**: Delion 2018 将其作为双折叠积分的计算方法来源；适合补充 α–子核势中折叠型积分的数值求值方法。
 
-##### Candidate Paper 5
+### Candidate Paper 5
 
 ```tags
 [tags]: excitation_energy, alpha_decay_half_life, alpha_decay_energy
@@ -240,7 +240,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Citation**: Nuclear Data Sheets 84, 1–114, 1998.
 - **Reason**: Delion 2006 使用该汇编提供实验激发能、总半衰期和 Q 值；适合补充 α 衰变系统学计算所依据的实验数据来源。
 
-##### Candidate Paper 6
+### Candidate Paper 6
 
 ```tags
 [tags]: quadrupole_deformation
@@ -251,7 +251,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Citation**: Atomic Data and Nuclear Data Tables 59, 185–381, 1995.
 - **Reason**: Delion 2006 使用该文的系统学结果提供形变参数；适合补充 α 衰变耦合道计算所需核形变输入的来源。
 
-##### Candidate Paper 7
+### Candidate Paper 7
 
 ```tags
 [tags]: coupled_channels_method, double_folding_potential
@@ -262,7 +262,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Citation**: Physical Review C 78, 034608, 2008.
 - **Reason**: Delion 2018 将其列为使用耦合道形式和双折叠势重新分析形变核 α 衰变数据的研究；适合补充该方法在转动核中的应用。
 
-##### Candidate Paper 8
+### Candidate Paper 8
 
 ```tags
 [tags]: coupled_channels_method, cluster_core_model, odd_mass_nuclei
@@ -273,7 +273,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Citation**: Physical Review C 86, 054608, 2012.
 - **Reason**: Delion 2018 指出该研究把耦合道框架中的多通道团簇模型由偶偶转动核扩展到重奇质量核；适合补充奇质量核 α 衰变精细结构的系统计算。
 
-##### Candidate Paper 9
+### Candidate Paper 9
 
 ```tags
 [tags]: alpha_decay_half_life, alpha_decay_energy
@@ -284,7 +284,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Citation**: Physical Review C 77, 037602, 2008.
 - **Reason**: Dong 2025 使用该文给出的 Royer 公式估算 α 衰变半衰期；适合补充包括超重核在内的半衰期解析表达式及其预测。
 
-##### Candidate Paper 10
+### Candidate Paper 10
 
 ```tags
 [tags]: alpha_decay_energy, alpha_decay_half_life
@@ -295,7 +295,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Citation**: Atomic Data and Nuclear Data Tables 66, 131–343, 1997.
 - **Reason**: Dong 2025 引用该文说明重元素区 Qα 误差对半衰期的显著放大效应；适合补充 α 衰变能与半衰期敏感性关系的数据依据。
 
-##### Candidate Paper 11
+### Candidate Paper 11
 
 ```tags
 [tags]: double_folding_potential
@@ -306,7 +306,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Citation**: Physical Review C 63, 034007, 2001.
 - **Reason**: Delion 2006 将其作为双折叠 α–子核势中标准 α 粒子高斯密度参数的来源；适合补充 α–核光学势的微观双折叠构造及密度输入。
 
-##### Candidate Paper 12
+### Candidate Paper 12
 
 ```tags
 [tags]: pairing_correlation, BCS
@@ -317,7 +317,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Citation**: European Physical Journal A 30, 519–529, 2006.
 - **Reason**: Dong 2025 采用该文的密度依赖 δ 相互作用处理同位旋矢量道的 BCS 型配对关联；适合补充形变 RMF–BCS 框架中的配对项。
 
-##### Candidate Paper 13
+### Candidate Paper 13
 
 ```tags
 [tags]: FSUGarnet, symmetry_energy, density_dependent
@@ -328,7 +328,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Citation**: Monthly Notices of the Royal Astronomical Society 534, 1763–1774, 2024.
 - **Reason**: Dong 2025 引用该文所用程序，通过调节 \(\Lambda_V\) 与 \(g_\rho\) 构造具有不同对称能密度依赖的 FSUGarnet 参数族；适合补充参数族的构造来源。
 
-##### Candidate Paper 14
+### Candidate Paper 14
 
 ```tags
 [tags]: two_nucleon_shell_gap, shell_closure
@@ -339,7 +339,7 @@ I_J=\log_{10}\!\left(\frac{\Gamma_0}{\Gamma_J}\right)
 - **Citation**: Physical Review C 56, 238–243, 1997.
 - **Reason**: Dong 2025 将其作为用双核子壳隙判断壳闭合与壳稳定性的来源；适合补充超重核双中子、双质子壳隙指标及其计算式。
 
-##### Candidate Paper 15
+### Candidate Paper 15
 
 ```tags
 [tags]: RMF, symmetry_energy, superheavy_nuclei, single_particle_energy_level

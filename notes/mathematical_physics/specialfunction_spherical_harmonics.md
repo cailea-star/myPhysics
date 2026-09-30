@@ -2,7 +2,7 @@
 
 The unit direction $\hat{\mathbf r}=\mathbf r/r$, solid-angle measure $\mathrm d\hat{\mathbf r}$, and orbital angular-momentum operators used below are defined in [Spherical Coordinates](coordinate_spherical.md).
 
-### Scalar Spherical Harmonics
+## Scalar Spherical Harmonics
 
 Let $l=0,1,\ldots$, $m=-l,\ldots,l$, and let $P_l(x)$ and $P_l^m(x)$ denote the [Legendre polynomial and associated Legendre function](specialfunction_associated_legendre_polynomials.md). In the Condon–Shortley convention, for $m\geq0$,
 
@@ -56,7 +56,7 @@ $$
 f(r,\hat{\mathbf r})=\sum_{l=0}^{\infty}\sum_{m=-l}^{l}\frac{u_{lm}(r)}{r}Y_{lm}(\hat{\mathbf r}),\qquad u_{lm}(r)=r\int \mathrm d\hat{\mathbf r}\,Y_{lm}^*(\hat{\mathbf r})f(r,\hat{\mathbf r}).
 $$
 
-### Vector Spherical Harmonics
+## Vector Spherical Harmonics
 
 Let $\mathbf e_0$ and $\mathbf e_\pm$ denote the spherical vector basis,
 
@@ -112,7 +112,7 @@ Let $\hat{\mathbf S}$ act on the vector index and define $\hat{\mathbf J}=\hat{\
   \hat J_\pm\mathbf Y_{jm}^{l}=\hbar\sqrt{j(j+1)-m(m\pm1)}\,\mathbf Y_{j,m\pm1}^{l}.
   $$
 
-### Tangential Vector Spherical Harmonics
+## Tangential Vector Spherical Harmonics
 
 For $j\geq1$, define the radial and tangential harmonics by
 
@@ -194,7 +194,7 @@ Here $\nabla_{\hat{\mathbf r}}$ is the surface gradient on the unit sphere, and 
 
   For $j\geq1$, the two bases span the same three-dimensional space and are related by a unitary change of basis. For $j=0$, only $\mathbf Y_{00}^{(r)}$ remains.
 
-### Spinor Spherical Harmonics
+## Spinor Spherical Harmonics
 
 Let $\hat I_2$ denote the two-dimensional identity operator. The Pauli matrices are
 

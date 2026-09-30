@@ -1,6 +1,6 @@
 # Angular Momentum
 
-### Angular Momentum Algebra
+## Angular Momentum Algebra
 
 Let $\hat{\mathbf J}=(\hat J_x,\hat J_y,\hat J_z)$ have Hermitian components. Angular momentum is characterized by
 
@@ -36,7 +36,7 @@ $$
 \hat J_+\hat J_-=\hat J^2-\hat J_z^2+\hbar\hat J_z,\qquad \hat J_-\hat J_+=\hat J^2-\hat J_z^2-\hbar\hat J_z.
 $$
 
-### Angular Momentum Eigenstates
+## Angular Momentum Eigenstates
 
 Since $[\hat J^2,\hat J_z]=0$, choose normalized common eigenstates $|\lambda,m\rangle$ with dimensionless eigenvalues $\lambda$ and $m$:
 
@@ -100,7 +100,7 @@ $$
 
 Each $j$ multiplet has dimension $2j+1$.
 
-### Orbital Angular Momentum in Coordinate Space
+## Orbital Angular Momentum in Coordinate Space
 
 For $\psi(\mathbf r)=\langle\mathbf r|\psi\rangle$,
 
@@ -146,7 +146,7 @@ $$
 
 The differential identities and properties of $Y_{lm}$ are collected in [Spherical Coordinates](../mathematical_physics/coordinate_spherical.md#differential-operators) and [Spherical Harmonics](../mathematical_physics/specialfunction_spherical_harmonics.md#scalar-spherical-harmonics).
 
-### Angular Momentum in Matrix Form
+## Angular Momentum in Matrix Form
 
 For fixed $j$, use the ordered basis
 
@@ -170,9 +170,9 @@ $$
 \hat J_x=\frac{\hat J_++\hat J_-}{2},\qquad \hat J_y=\frac{\hat J_+-\hat J_-}{2i}.
 $$
 
-### Spin-$1/2$ in Matrix Form
+## Spin-$1/2$ in Matrix Form
 
-##### Pauli Representation
+### Pauli Representation
 
 In the ordered basis $\mathcal B_{1/2}$, let $\hat I_2$ denote the two-dimensional identity operator. The Pauli matrices are
 
@@ -204,7 +204,7 @@ $$
 \boxed{(\mathbf a\cdot\boldsymbol{\sigma})(\mathbf b\cdot\boldsymbol{\sigma})=(\mathbf a\cdot\mathbf b)\hat I_2+i\boldsymbol{\sigma}\cdot(\mathbf a\times\mathbf b)}.
 $$
 
-##### Pauli Operators in Local Frames
+### Pauli Operators in Local Frames
 
 For a local orthonormal basis $\{\hat{\mathbf e}_a\}$, define
 
@@ -238,7 +238,7 @@ $$
 \sigma_{r_\perp}\sigma_\phi=i\sigma_z,\qquad \sigma_\phi\sigma_z=i\sigma_{r_\perp},\qquad \sigma_z\sigma_{r_\perp}=i\sigma_\phi.
 $$
 
-### Angular Momentum Coupling
+## Angular Momentum Coupling
 
 Let $\hat{\mathbf J}_1$ and $\hat{\mathbf J}_2$ be independent angular momenta. Define the total angular momentum on $\mathcal H=\mathcal H_{j_1}\otimes\mathcal H_{j_2}$ by
 

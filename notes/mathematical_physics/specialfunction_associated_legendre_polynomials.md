@@ -18,7 +18,7 @@ $$
 \boxed{(1-x^2)\frac{\mathrm d^2}{\mathrm dx^2}P_l^m(x)-2x\frac{\mathrm d}{\mathrm dx}P_l^m(x)+\left[l(l+1)-\frac{m^2}{1-x^2}\right]P_l^m(x)=0}.
 $$
 
-### Generating Function
+## Generating Function
 
 With $P_0(x)=1$ and $P_{-1}(x)=0$, the Legendre equation gives the raising relation
 
@@ -62,7 +62,7 @@ $$
 \boxed{G_m(x,t)=\sum_{l=m}^{\infty}P_l^m(x)t^l=(-1)^m(1-x^2)^{m/2}\frac{\partial^mG}{\partial x^m}}.
 $$
 
-### Rodrigues Formula
+## Rodrigues Formula
 
 The ordinary Legendre polynomial satisfies
 
@@ -76,7 +76,7 @@ $$
 \boxed{P_l^m(x)=\frac{(-1)^m}{2^ll!}(1-x^2)^{m/2}\frac{\mathrm d^{l+m}}{\mathrm dx^{l+m}}(x^2-1)^l}.
 $$
 
-### Recurrence and Derivatives
+## Recurrence and Derivatives
 
 For fixed $m$, the three-term recurrence and first derivative are
 
@@ -94,7 +94,7 @@ $$
 (1-x^2)\frac{\mathrm d^2}{\mathrm dx^2}P_l^m(x)=2x\frac{\mathrm d}{\mathrm dx}P_l^m(x)-\left[l(l+1)-\frac{m^2}{1-x^2}\right]P_l^m(x).
 $$
 
-### Orthogonality and Normalization
+## Orthogonality and Normalization
 
 For fixed $m$,
 
@@ -114,7 +114,7 @@ $$
 f(x)=\sum_{l=m}^{\infty}c_lP_l^m(x),\qquad c_l=(N_l^m)^2\int_{-1}^{1}P_l^m(x)f(x)\,\mathrm dx.
 $$
 
-### Parity
+## Parity
 
 The Rodrigues formula gives
 

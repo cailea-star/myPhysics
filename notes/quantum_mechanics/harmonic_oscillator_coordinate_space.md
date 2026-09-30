@@ -1,10 +1,10 @@
 # Harmonic-Oscillator Coordinate-Space Solutions
 
-### One-Dimensional Harmonic Oscillator
+## One-Dimensional Harmonic Oscillator
 
 The operator construction and number representation are given in [Quantum Harmonic Oscillator](harmonic_oscillator.md). Here the eigenvalue problem is solved directly in coordinate space.
 
-##### Dimensionless Schrödinger Equation
+### Dimensionless Schrödinger Equation
 
 For a one-dimensional oscillator with mass $M>0$ and angular frequency $\omega>0$, the coordinate-space Hamiltonian is
 
@@ -30,7 +30,7 @@ $$
 \left[-\frac12\frac{\mathrm d^2}{\mathrm d\zeta^2}+\frac12\zeta^2\right]\widetilde{\phi}(\zeta)=\epsilon\widetilde{\phi}(\zeta).
 $$
 
-##### Hermite Solution and Energy Spectrum
+### Hermite Solution and Energy Spectrum
 
 Normalizability requires Gaussian decay. Write
 
@@ -88,7 +88,7 @@ $$
 
 Each one-dimensional energy level is nondegenerate.
 
-### Two-Dimensional Isotropic Harmonic Oscillator
+## Two-Dimensional Isotropic Harmonic Oscillator
 
 For a two-dimensional oscillator with mass $M>0$ and angular frequency $\omega>0$, the Cartesian Hamiltonian is
 
@@ -102,7 +102,7 @@ $$
 \phi_{n_x,n_y}(x,y)=\phi_{n_x}(x)\phi_{n_y}(y),\qquad E(n_x,n_y)=\hbar\omega\left(n_x+n_y+1\right).
 $$
 
-##### Polar Dimensionless Schrödinger Equation
+### Polar Dimensionless Schrödinger Equation
 
 The same system can be expressed in polar coordinates, $x=r_\perp\cos\phi$ and $y=r_\perp\sin\phi$. The Hamiltonian then becomes
 
@@ -134,7 +134,7 @@ $$
 \left[-\frac12\left(\frac{\mathrm d^2}{\mathrm d\rho^2}+\frac1\rho\frac{\mathrm d}{\mathrm d\rho}-\frac{m^2}{\rho^2}\right)+\frac12\rho^2\right]\widetilde{\phi}^m(\rho)=\epsilon\widetilde{\phi}^m(\rho).
 $$
 
-##### Laguerre Solution and Energy Spectrum
+### Laguerre Solution and Energy Spectrum
 
 Since the radial equation depends only on $|m|$, regularity at $\rho=0$ and normalizability require
 
@@ -202,7 +202,7 @@ $$
 \boxed{\phi_{n_r}^{m}(r_\perp,\phi+\pi)=(-1)^m\phi_{n_r}^{m}(r_\perp,\phi)}.
 $$
 
-### Three-Dimensional Isotropic Harmonic Oscillator
+## Three-Dimensional Isotropic Harmonic Oscillator
 
 For a three-dimensional oscillator with mass $M>0$ and angular frequency $\omega>0$, the Cartesian Hamiltonian is
 
@@ -216,7 +216,7 @@ $$
 \phi_{n_x,n_y,n_z}(x,y,z)=\phi_{n_x}(x)\phi_{n_y}(y)\phi_{n_z}(z),\qquad E(n_x,n_y,n_z)=\hbar\omega\left(n_x+n_y+n_z+\frac32\right).
 $$
 
-##### Spherical Dimensionless Schrödinger Equation
+### Spherical Dimensionless Schrödinger Equation
 
 Using the conventions and differential operators defined in [Spherical Coordinates](../mathematical_physics/coordinate_spherical.md#differential-operators), the Hamiltonian becomes
 
@@ -248,7 +248,7 @@ $$
 \left[-\frac12\left(\frac{\mathrm d^2}{\mathrm d\rho^2}+\frac2\rho\frac{\mathrm d}{\mathrm d\rho}-\frac{l(l+1)}{\rho^2}\right)+\frac12\rho^2\right]\widetilde{\phi}_{lm}(\rho)=\epsilon\widetilde{\phi}_{lm}(\rho).
 $$
 
-##### Laguerre Solution and Energy Spectrum
+### Laguerre Solution and Energy Spectrum
 
 Since the radial equation depends only on $l$, regularity at $\rho=0$ and normalizability require
 

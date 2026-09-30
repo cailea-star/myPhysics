@@ -1,10 +1,10 @@
 # Quantum Dynamics
 
-### Time-Evolution Operator
+## Time-Evolution Operator
 
 The Hilbert-space and operator conventions used below are defined in [Quantum Formalism](quantum_formalism.md).
 
-##### Schrödinger Equation
+### Schrödinger Equation
 
 Let $\mathcal H$ be the Hilbert space of a closed quantum system, $\hbar$ the reduced Planck constant, and $\hat H(t)$ a self-adjoint Hamiltonian on $\mathcal H$:
 
@@ -20,7 +20,7 @@ $$
 
 Thus, inner products, norms, orthogonality, and transition probabilities are preserved.
 
-##### Definition and Composition
+### Definition and Composition
 
 Define the time-evolution operator $\hat U(t,t_0)$ and the identity operator $\hat I$ by
 
@@ -48,7 +48,7 @@ $$
 \boxed{i\hbar\frac{\partial}{\partial t}\hat U(t,t_0)=\hat H(t)\hat U(t,t_0)}.
 $$
 
-##### Dyson Series and Time Ordering
+### Dyson Series and Time Ordering
 
 For $t\geq t_0$, integration gives
 
@@ -76,7 +76,7 @@ $$
 
 For noncommuting Hamiltonians, this exponential is defined by the Dyson series and cannot be treated as an ordinary operator exponential.
 
-##### Commuting and Time-Independent Hamiltonians
+### Commuting and Time-Independent Hamiltonians
 
 If the Hamiltonians commute at all times, time ordering is unnecessary:
 
@@ -102,7 +102,7 @@ $$
 |\psi(t_0)\rangle=\sum_n c_n|E_n\rangle,\qquad|\psi(t)\rangle=\sum_n c_n\exp\left[-\frac{iE_n(t-t_0)}{\hbar}\right]|E_n\rangle,\qquad c_n=\langle E_n|\psi(t_0)\rangle.
 $$
 
-### Quantum Pictures
+## Quantum Pictures
 
 Let $t_0$ be the reference time, $\hat U(t,t_0)$ the [time-evolution operator](#time-evolution-operator), $|\psi_0\rangle$ the common initial state, and $\hat A_0$ the common reference observable:
 
@@ -112,7 +112,7 @@ $$
 
 Unless stated otherwise, Schrödinger-picture observables have no explicit time dependence, while $\hat H_S(t)$ may depend on time.
 
-##### Schrödinger Picture
+### Schrödinger Picture
 
 The state evolves while the observable remains fixed:
 
@@ -124,7 +124,7 @@ $$
 i\hbar\frac{\partial}{\partial t}|\psi_S(t)\rangle=\hat H_S(t)|\psi_S(t)\rangle.
 $$
 
-##### Heisenberg Picture
+### Heisenberg Picture
 
 The state remains fixed while the observable evolves:
 
@@ -140,7 +140,7 @@ $$
 
 Thus, $\hat A_H$ is conserved if it commutes with $\hat H_H$.
 
-##### Interaction Picture
+### Interaction Picture
 
 Decompose the Hamiltonian into a time-independent solvable part $\hat H_0$ and an interaction $\hat V_S(t)$:
 
@@ -174,7 +174,7 @@ $$
 \boxed{\langle\psi_S(t)|\hat A_0|\psi_S(t)\rangle=\langle\psi_I(t)|\hat A_I(t)|\psi_I(t)\rangle=\langle\psi_0|\hat A_H(t)|\psi_0\rangle}.
 $$
 
-##### Ehrenfest Theorem
+### Ehrenfest Theorem
 
 For a normalized Schrödinger-picture state, define
 
@@ -208,9 +208,9 @@ $$
 
 This becomes the classical Newton equation when $V(x,t)$ is at most quadratic in $x$.
 
-### Path Integral
+## Path Integral
 
-##### Propagator
+### Propagator
 
 Let $t_i<t_f$ be the initial and final times, with corresponding coordinates $x_i$ and $x_f$. The position-space propagator is
 
@@ -230,7 +230,7 @@ $$
 K(x_f,t_f;x_i,t_i)=\int \mathrm dx_m\,K(x_f,t_f;x_m,t_m)K(x_m,t_m;x_i,t_i),\qquad K(x_f,t_i;x_i,t_i)=\delta(x_f-x_i).
 $$
 
-##### Time Slicing
+### Time Slicing
 
 Divide $[t_i,t_f]$ into $N$ equal intervals:
 
@@ -250,7 +250,7 @@ $$
 N\to\infty,\qquad\Delta t\to0,\qquad N\Delta t=t_f-t_i.
 $$
 
-##### Path-Integral Representation
+### Path-Integral Representation
 
 Consider a one-dimensional particle of mass $m$:
 

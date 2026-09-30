@@ -2,7 +2,7 @@
 
 The direct Coulomb field is evaluated on the coordinate grid defined by the [Axial Harmonic-Oscillator Basis](cylindrical_basis.md).
 
-### Axial Coulomb Kernel
+## Axial Coulomb Kernel
 
 Let $\boldsymbol r_{\mathrm{s}}$ and $\boldsymbol r_{\mathrm{t}}$ denote the source and target positions. The direct Coulomb field is
 
@@ -40,7 +40,7 @@ $$
 \boxed{\mathcal K_{\mathrm C}(s,t)=\frac{2e^2}{\sqrt{\pi}}\int_0^\infty e^{-u^2[(z_{\mathrm{s}}-z_{\mathrm{t}})^2+(r_{\perp,\mathrm{s}}-r_{\perp,\mathrm{t}})^2]}I_0^{\mathrm e}(2u^2r_{\perp,\mathrm{s}}r_{\perp,\mathrm{t}})\,\mathrm du.}
 $$
 
-### Semi-Infinite Mapping
+## Semi-Infinite Mapping
 
 The semi-infinite interval is mapped to $x\in[0,1)$ by
 
@@ -56,7 +56,7 @@ $$
 
 The scale $b=50\,\mathrm{fm}$ controls the mapping without changing the integral. The finite integral is evaluated by Gauss–Legendre quadrature.
 
-### Reflection Symmetry
+## Reflection Symmetry
 
 For a reflection-reduced grid,
 

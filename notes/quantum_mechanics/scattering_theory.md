@@ -1,6 +1,6 @@
-### General Scattering Theory
+## General Scattering Theory
 
-##### Asymptotic States and Scattering Matrix
+### Asymptotic States and Scattering Matrix
 
 Take $t_0=0$ as the reference time, where all pictures coincide. Let $H=H_0+V$ be time independent. In the [interaction picture](quantum_dynamics.md#interaction-picture),
 
@@ -66,7 +66,7 @@ $$
 S=U_I(+\infty,-\infty)=I-\frac{i}{\hbar}\int_{-\infty}^{+\infty}\mathrm dt\,V_I(t)U_I(t,-\infty).
 $$
 
-##### Transition Operator and S-Matrix Elements
+### Transition Operator and S-Matrix Elements
 
 The Møller operator defines the transition operator on each energy shell by
 
@@ -110,7 +110,7 @@ $$
 \boxed{\langle k'|S|k\rangle=\langle k'|k\rangle-2\pi i\,\delta(E_{k'}-E_k)\langle k'|T(E_k)|k\rangle}.
 $$
 
-##### Lippmann–Schwinger Equation
+### Lippmann–Schwinger Equation
 
 Subtracting the free equation from the interacting equation gives
 
@@ -148,9 +148,9 @@ $$
 \boxed{T^\pm(E)=V+VG_0^\pm(E)T^\pm(E)}.
 $$
 
-### Potential Scattering
+## Potential Scattering
 
-##### Scattering Amplitude and Cross Section
+### Scattering Amplitude and Cross Section
 
 For elastic scattering by a localized potential,
 
@@ -242,7 +242,7 @@ $$
 \boxed{f(\mathbf k',\mathbf k)=-\frac{(2\pi)^2M}{\hbar^2}\langle\mathbf k'|T(E_k)|\mathbf k\rangle=-\frac{\sqrt{2\pi}M}{\hbar^2}\int \mathrm d^3\mathbf r\,e^{-i\mathbf k'\cdot\mathbf r}V(\mathbf r)\psi_{\mathbf k}^+(\mathbf r)}.
 $$
 
-##### Born Approximation
+### Born Approximation
 
 Iterating the Lippmann–Schwinger equation gives the Born series:
 
@@ -288,9 +288,9 @@ $$
 
 and is typically reliable for weak short-range potentials or high incident energies.
 
-### Partial-Wave Scattering
+## Partial-Wave Scattering
 
-##### Phase Shifts and Partial Cross Sections
+### Phase Shifts and Partial Cross Sections
 
 For elastic scattering by a real central potential, energy and angular momentum are conserved. Let
 
@@ -376,7 +376,7 @@ $$
 \boxed{\sigma_l=4\pi(2l+1)|f_l(k)|^2=\frac{4\pi}{k^2}(2l+1)\sin^2\delta_l(E)}.
 $$
 
-##### Phase-Shift Calculation
+### Phase-Shift Calculation
 
 For a short-range real central potential, let $u_l(r)$ be the reduced radial wavefunction. Each partial wave satisfies
 
@@ -472,7 +472,7 @@ $$
 V(r)\longrightarrow u_l(r_m),u_l'(r_m)\longrightarrow L_l(E)\longrightarrow\delta_l(E)\longrightarrow S_l(E)\longrightarrow f_l(k)\longrightarrow\sigma_l.
 $$
 
-##### Resonant Scattering
+### Resonant Scattering
 
 An isolated resonance appears when the phase shift changes rapidly through $\pi/2$:
 
