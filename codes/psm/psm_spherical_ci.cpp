@@ -80,7 +80,7 @@ void PSMSpherical::build_ci(double gamma_F) {
     assert(Ncfgn_I > 0 && Ncfgp_I > 0);
     assert(Ncfgn_I == projection_nucleus.projection_neutron.Ncfg2_I && Ncfgp_I == projection_nucleus.projection_proton.Ncfg2_I);
 
-    N_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma = projection_nucleus.build_overlap();
+    N_C7D_cfgn_cfgn_cfgp_cfgp_alpha_beta_gamma = projection_nucleus.build_overlap();
 
     // H_ab(Ω) = ⟨Φ_a|HPₙPₚR(Ω)|Φ_b⟩.
     assert(psm_setting.N_I >= psm_setting.Ncore_I && psm_setting.Z_I >= psm_setting.Zcore_I);
@@ -92,8 +92,8 @@ void PSMSpherical::build_ci(double gamma_F) {
     const Eigen::MatrixXcd h0p_C2D_2spp_2spp = h0p_F2D_2spp_2spp.cast<doubleC>();
 
     // H¹(Ω) = Hν¹(Ω) Nπ(Ω) + Nν(Ω) Hπ¹(Ω).
-    H_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma = projection_nucleus.build_one_body_nn(h0n_C2D_2spn_2spn);
-    H_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma += projection_nucleus.build_one_body_pp(h0p_C2D_2spp_2spp);
+    H_C7D_cfgn_cfgn_cfgp_cfgp_alpha_beta_gamma = projection_nucleus.build_one_body_nn(h0n_C2D_2spn_2spn);
+    H_C7D_cfgn_cfgn_cfgp_cfgp_alpha_beta_gamma += projection_nucleus.build_one_body_pp(h0p_C2D_2spp_2spp);
 
     // Q₂μ = δ_NN′(r/b)²√(4π/5)Y₂μ; P₂μ = Q₂μ P₀.
     assert(std::isfinite(psm_setting.chi2_nn_F) && std::isfinite(psm_setting.chi2_np_F) && std::isfinite(psm_setting.chi2_pp_F));
@@ -114,9 +114,9 @@ void PSMSpherical::build_ci(double gamma_F) {
     const Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Pp_C3D_2spp_2spp_i = P0p_F3D_2spp_2spp_mu.concatenate(P2p_F3D_2spp_2spp_mu, 2).cast<doubleC>();
 
     // H²(Ω) = Hν²(Ω) Nπ(Ω) + Nν(Ω) Hπ²(Ω) + Hνπ(Ω).
-    H_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma += projection_nucleus.build_two_body_nn(gQn_F1D_i, Qn_C3D_2spn_2spn_i, gPn_F1D_i, Pn_C3D_2spn_2spn_i);
-    H_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma += projection_nucleus.build_two_body_pp(gQp_F1D_i, Qp_C3D_2spp_2spp_i, gPp_F1D_i, Pp_C3D_2spp_2spp_i);
-    H_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma += projection_nucleus.build_two_body_pn(Eigen::VectorXd::Constant(5, -psm_setting.chi2_np_F), Qn_C3D_2spn_2spn_i, Qp_C3D_2spp_2spp_i);
+    H_C7D_cfgn_cfgn_cfgp_cfgp_alpha_beta_gamma += projection_nucleus.build_two_body_nn(gQn_F1D_i, Qn_C3D_2spn_2spn_i, gPn_F1D_i, Pn_C3D_2spn_2spn_i);
+    H_C7D_cfgn_cfgn_cfgp_cfgp_alpha_beta_gamma += projection_nucleus.build_two_body_pp(gQp_F1D_i, Qp_C3D_2spp_2spp_i, gPp_F1D_i, Pp_C3D_2spp_2spp_i);
+    H_C7D_cfgn_cfgn_cfgp_cfgp_alpha_beta_gamma += projection_nucleus.build_two_body_pn(Eigen::VectorXd::Constant(5, -psm_setting.chi2_np_F), Qn_C3D_2spn_2spn_i, Qp_C3D_2spp_2spp_i);
 }
 
 /**
@@ -128,19 +128,19 @@ void PSMSpherical::build_ci(double gamma_F) {
  */
 void PSMSpherical::solve_ci(int TargetTwoI_I) {
     assert(TargetTwoI_I >= 0);
-    assert(N_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma.size() > 0 && H_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma.size() > 0);
+    assert(N_C7D_cfgn_cfgn_cfgp_cfgp_alpha_beta_gamma.size() > 0 && H_C7D_cfgn_cfgn_cfgp_cfgp_alpha_beta_gamma.size() > 0);
 
-    const Eigen::Tensor<doubleC, 6, Eigen::ColMajor> N_C6D_cfgp_cfgn_K_cfgp_cfgn_K = projection_nucleus.integrate_amp(TargetTwoI_I, N_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5});
-    const Eigen::Tensor<doubleC, 6, Eigen::ColMajor> H_C6D_cfgp_cfgn_K_cfgp_cfgn_K = projection_nucleus.integrate_amp(TargetTwoI_I, H_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5});
-    // (cfgp,cfgn,K,cfgp′,cfgn′,K′) → (cfgpCfgnK,cfgpCfgnK′); zero-copy.
-    const Eigen::Index NcfgpCfgnK_I = N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimension(0) * N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimension(1) * N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimension(2);
-    const Eigen::Map<const Eigen::MatrixXcd> N_C2D_cfgpCfgnK_cfgpCfgnK(N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.data(), NcfgpCfgnK_I, NcfgpCfgnK_I);
-    const Eigen::Map<const Eigen::MatrixXcd> H_C2D_cfgpCfgnK_cfgpCfgnK(H_C6D_cfgp_cfgn_K_cfgp_cfgn_K.data(), NcfgpCfgnK_I, NcfgpCfgnK_I);
+    const Eigen::Tensor<doubleC, 6, Eigen::ColMajor> N_C6D_cfgn_cfgp_K_cfgn_cfgp_K = projection_nucleus.integrate_amp(TargetTwoI_I, N_C7D_cfgn_cfgn_cfgp_cfgp_alpha_beta_gamma).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5});
+    const Eigen::Tensor<doubleC, 6, Eigen::ColMajor> H_C6D_cfgn_cfgp_K_cfgn_cfgp_K = projection_nucleus.integrate_amp(TargetTwoI_I, H_C7D_cfgn_cfgn_cfgp_cfgp_alpha_beta_gamma).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5});
+    // (cfgn,cfgp,K,cfgn′,cfgp′,K′) → (cfgncfgpK,cfgncfgpK′); zero-copy.
+    const Eigen::Index NcfgncfgpK_I = N_C6D_cfgn_cfgp_K_cfgn_cfgp_K.dimension(0) * N_C6D_cfgn_cfgp_K_cfgn_cfgp_K.dimension(1) * N_C6D_cfgn_cfgp_K_cfgn_cfgp_K.dimension(2);
+    const Eigen::Map<const Eigen::MatrixXcd> N_C2D_cfgncfgpK_cfgncfgpK(N_C6D_cfgn_cfgp_K_cfgn_cfgp_K.data(), NcfgncfgpK_I, NcfgncfgpK_I);
+    const Eigen::Map<const Eigen::MatrixXcd> H_C2D_cfgncfgpK_cfgncfgpK(H_C6D_cfgn_cfgp_K_cfgn_cfgp_K.data(), NcfgncfgpK_I, NcfgncfgpK_I);
 
     // N → (N+N†)/2; H → (H+H†)/2.
-    const Eigen::MatrixXcd Nhermitian_C2D_cfgpcfgnK_cfgpcfgnK = 0.5 * (N_C2D_cfgpCfgnK_cfgpCfgnK + N_C2D_cfgpCfgnK_cfgpCfgnK.adjoint());
-    const Eigen::MatrixXcd Hhermitian_C2D_cfgpcfgnK_cfgpcfgnK = 0.5 * (H_C2D_cfgpCfgnK_cfgpCfgnK + H_C2D_cfgpCfgnK_cfgpCfgnK.adjoint());
-    const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXcd> N_solver(Nhermitian_C2D_cfgpcfgnK_cfgpcfgnK);
+    const Eigen::MatrixXcd Nhermitian_C2D_cfgncfgpK_cfgncfgpK = 0.5 * (N_C2D_cfgncfgpK_cfgncfgpK + N_C2D_cfgncfgpK_cfgncfgpK.adjoint());
+    const Eigen::MatrixXcd Hhermitian_C2D_cfgncfgpK_cfgncfgpK = 0.5 * (H_C2D_cfgncfgpK_cfgncfgpK + H_C2D_cfgncfgpK_cfgncfgpK.adjoint());
+    const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXcd> N_solver(Nhermitian_C2D_cfgncfgpK_cfgncfgpK);
     assert(N_solver.info() == Eigen::Success);
     const double normCut_F = 1.0e-10 * N_solver.eigenvalues().maxCoeff();
     assert(normCut_F > 0.0 && N_solver.eigenvalues().minCoeff() >= -normCut_F);
@@ -148,10 +148,10 @@ void PSMSpherical::solve_ci(int TargetTwoI_I) {
     assert(Nstate_I > 0);
 
     // X = Uᵣ nᵣ^(-1/2); ascending norm eigenvalues.
-    const Eigen::MatrixXcd U_C2D_cfgpcfgnK_eigenN = N_solver.eigenvectors().rightCols(Nstate_I);
+    const Eigen::MatrixXcd U_C2D_cfgncfgpK_eigenN = N_solver.eigenvectors().rightCols(Nstate_I);
     const Eigen::VectorXd n_F1D_eigenN = N_solver.eigenvalues().tail(Nstate_I);
-    Eigen::MatrixXcd X_C2D_cfgpcfgnK_eigenN = U_C2D_cfgpcfgnK_eigenN * n_F1D_eigenN.array().sqrt().inverse().matrix().asDiagonal();
-    Eigen::MatrixXcd H_C2D_eigenN_eigenN = X_C2D_cfgpcfgnK_eigenN.adjoint() * Hhermitian_C2D_cfgpcfgnK_cfgpcfgnK * X_C2D_cfgpcfgnK_eigenN;
+    Eigen::MatrixXcd X_C2D_cfgncfgpK_eigenN = U_C2D_cfgncfgpK_eigenN * n_F1D_eigenN.array().sqrt().inverse().matrix().asDiagonal();
+    Eigen::MatrixXcd H_C2D_eigenN_eigenN = X_C2D_cfgncfgpK_eigenN.adjoint() * Hhermitian_C2D_cfgncfgpK_cfgncfgpK * X_C2D_cfgncfgpK_eigenN;
     H_C2D_eigenN_eigenN = (0.5 * (H_C2D_eigenN_eigenN + H_C2D_eigenN_eigenN.adjoint())).eval();
     const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXcd> H_solver(H_C2D_eigenN_eigenN);
     assert(H_solver.info() == Eigen::Success);

@@ -56,9 +56,9 @@ public:
 
     HFBProjectionNucleus projection_nucleus;
 
-    // (cfg1p,cfg2p,cfg1n,cfg2n,α,β,γ).
-    Eigen::Tensor<doubleC, 7, Eigen::ColMajor> H_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma{};
-    Eigen::Tensor<doubleC, 7, Eigen::ColMajor> N_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma{};
+    // (cfgn,cfgn,cfgp,cfgp,α,β,γ).
+    Eigen::Tensor<doubleC, 7, Eigen::ColMajor> H_C7D_cfgn_cfgn_cfgp_cfgp_alpha_beta_gamma{};
+    Eigen::Tensor<doubleC, 7, Eigen::ColMajor> N_C7D_cfgn_cfgn_cfgp_cfgp_alpha_beta_gamma{};
 
     // Xci(r,ν): natural orthonormal basis; Xci†Xci = 1.
     Eigen::VectorXd Eci_F1D_eigenH{};
