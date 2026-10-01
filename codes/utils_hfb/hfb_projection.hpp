@@ -201,6 +201,20 @@ inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::integrat
     const double normalization_F = (TargetTwoI_I + 1.0) / volume_F;
     result_C4D_cfg1_cfg2_K_K.setZero();
 
+    /**
+     * @brief Select twice-K values from configuration labels.
+     * @math 2K = 2Kcfg; −2I ≤ 2K ≤ 2I.
+     * @output Inclusive TwoK range; invalid labels yield an empty range.
+     */
+    const auto select_K = [&](const Eigen::VectorXi& TwoK_I1D_cfg, int cfg_I) -> std::pair<int, int> {
+        if (TwoK_I1D_cfg.size() == 0) { return {-TargetTwoI_I, TargetTwoI_I}; }
+
+        const int TwoK_I = TwoK_I1D_cfg(cfg_I);
+        if (std::abs(TwoK_I) > TargetTwoI_I || (TwoK_I + TargetTwoI_I) % 2 != 0) { return {1, -1}; }
+
+        return {TwoK_I, TwoK_I};
+    };
+
     // dᴵ(β) is reused over α, γ, φ.
     for (int beta_I = 0; beta_I < Nbeta_I; ++beta_I) {
         const auto& RyI_C2D_K_K = representation_spin.calc_Ry(beta_F1D_beta(beta_I));
@@ -215,20 +229,20 @@ inline const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& HFBProjection::integrat
                 const double weight_F = normalization_F * weight_F1D_alpha(alpha_I) * weight_F1D_beta(beta_I) * weight_F1D_gamma(gamma_I);
                 const auto& tmp_C2D_cfg1_cfg2 = kernel_Func();
 
-                for (int K2_I = 0; K2_I <= TargetTwoI_I; ++K2_I) {
-                    const double K2_F = K2_I - 0.5 * TargetTwoI_I;
-                    for (int K1_I = 0; K1_I <= TargetTwoI_I; ++K1_I) {
-                        // Dᴵ* = exp(iK₁α) dᴵ* exp(iK₂γ).
-                        const double K1_F = K1_I - 0.5 * TargetTwoI_I;
-                        const doubleC factorOmega_C = std::conj(RyI_C2D_K_K(K1_I, K2_I)) * std::exp(doubleC(0.0, K1_F * alpha_F1D_alpha(alpha_I) + K2_F * gamma_F1D_gamma(gamma_I)));
-                        const doubleC weight_factor_C = weight_F * factorOmega_C;
-                        Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg_cfg(result_C4D_cfg1_cfg2_K_K.data() + (static_cast<Eigen::Index>(K2_I) * (TargetTwoI_I + 1) + K1_I) * Ncfg1_I * Ncfg2_I, Ncfg1_I, Ncfg2_I);
-                        // Empty labels leave the corresponding side unrestricted.
-                        for (int cfg2_I = 0; cfg2_I < Ncfg2_I; ++cfg2_I) {
-                            if (TwoK2_I1D_cfg2.size() != 0 && TwoK2_I1D_cfg2(cfg2_I) != 2 * K2_I - TargetTwoI_I) { continue; }
-                            for (int cfg1_I = 0; cfg1_I < Ncfg1_I; ++cfg1_I) {
-                                if (TwoK1_I1D_cfg1.size() != 0 && TwoK1_I1D_cfg1(cfg1_I) != 2 * K1_I - TargetTwoI_I) { continue; }
-                                result_C2D_cfg_cfg(cfg1_I, cfg2_I) += weight_factor_C * tmp_C2D_cfg1_cfg2(cfg1_I, cfg2_I);
+                for (int cfg2_I = 0; cfg2_I < Ncfg2_I; ++cfg2_I) {
+                    const auto [TwoK2min_I, TwoK2max_I] = select_K(TwoK2_I1D_cfg2, cfg2_I);
+                    for (int cfg1_I = 0; cfg1_I < Ncfg1_I; ++cfg1_I) {
+                        const auto [TwoK1min_I, TwoK1max_I] = select_K(TwoK1_I1D_cfg1, cfg1_I);
+                        for (int TwoK2_I = TwoK2min_I; TwoK2_I <= TwoK2max_I; TwoK2_I += 2) {
+                            const int K2_I = (TwoK2_I + TargetTwoI_I) / 2;
+                            const double K2_F = 0.5 * TwoK2_I;
+                            for (int TwoK1_I = TwoK1min_I; TwoK1_I <= TwoK1max_I; TwoK1_I += 2) {
+                                // Dᴵ* = exp(iK₁α) dᴵ* exp(iK₂γ).
+                                const int K1_I = (TwoK1_I + TargetTwoI_I) / 2;
+                                const double K1_F = 0.5 * TwoK1_I;
+                                const doubleC factorOmega_C = std::conj(RyI_C2D_K_K(K1_I, K2_I)) * std::exp(doubleC(0.0, K1_F * alpha_F1D_alpha(alpha_I) + K2_F * gamma_F1D_gamma(gamma_I)));
+                                const doubleC weight_factor_C = weight_F * factorOmega_C;
+                                result_C4D_cfg1_cfg2_K_K(cfg1_I, cfg2_I, K1_I, K2_I) += weight_factor_C * tmp_C2D_cfg1_cfg2(cfg1_I, cfg2_I);
                             }
                         }
                     }
