@@ -30,12 +30,11 @@
  */
 class HFBProjectionPNP {
 public:
-    int TargetN_I = 0;
-
     int Nsp_I = 0;
     int Ncfg1_I = 0;
     int Ncfg2_I = 0;
 
+    int TargetN_I = 0;
     int Nphi_I = 0;
 
     Eigen::MatrixXcd U1_C2D_sp_qp1{};
@@ -78,16 +77,16 @@ public:
      * @math   φ_k = 2πk/Nφ; k = 0,…,Nφ-1.
      * @output Stored dimensions, target number, and allocated workspaces.
      */
-    HFBProjectionPNP(int TargetN_I_, int Nsp_I_, const std::vector<std::vector<int>>& config1_I2D_cfg1_cqp1_, const std::vector<std::vector<int>>& config2_I2D_cfg2_cqp2_, int Nphi_I_)
+    HFBProjectionPNP(int Nsp_I_, const std::vector<std::vector<int>>& config1_I2D_cfg1_cqp1_, const std::vector<std::vector<int>>& config2_I2D_cfg2_cqp2_, int TargetN_I_, int Nphi_I_)
     : hfb_pfaffian(Nsp_I_, config1_I2D_cfg1_cqp1_, config2_I2D_cfg2_cqp2_) {
         assert(TargetN_I_ >= 0 && TargetN_I_ <= Nsp_I_);
         assert(Nphi_I_ > 0);
 
-        // (N,Nsp,config1,config2,Nφ) → fixed projection parameters.
-        TargetN_I = TargetN_I_;
+        // (Nsp,config1,config2,N,Nφ) → fixed projection parameters.
         Nsp_I = Nsp_I_;
         Ncfg1_I = static_cast<int>(hfb_pfaffian.config1_I2D_cfg1_cqp1.size());
         Ncfg2_I = static_cast<int>(hfb_pfaffian.config2_I2D_cfg2_cqp2.size());
+        TargetN_I = TargetN_I_;
         Nphi_I = Nphi_I_;
 
         // U₁,V₁,U₂,V₂ ∈ ℂ^{Nsp×Nsp}.

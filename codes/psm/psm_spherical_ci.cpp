@@ -17,7 +17,7 @@
  * @math P = Pₙ^(N−Ncore) Pₚ^(Z−Zcore) Pᴵ.
  * @output Generated configurations and initialized projection_nucleus.
  */
-void PSMSpherical::build_projection(int TargetTwoI_I, int Nbeta_I, int Nphin_I, int Nphip_I) {
+void PSMSpherical::build_projection(int Nbeta_I, int Nphin_I, int Nphip_I) {
     assert(Un_F2D_2spn_2qpn.rows() > 0 && Up_F2D_2spp_2qpp.rows() > 0);
     // (Eqp,2K,cutoffs) → neutron/proton configurations.
     psm_setting.configuration_neutron.build_config(Eqpn_F1D_2qpn, TwoKn_I1D_2qpn);
@@ -30,10 +30,10 @@ void PSMSpherical::build_projection(int TargetTwoI_I, int Nbeta_I, int Nphin_I, 
     rotation_neutron.build();
     rotation_proton.build();
 
-    // (N−Ncore,Z−Zcore,2I,Cₙ,Cₚ) → nuclear projection.
+    // (N−Ncore,Z−Zcore,Cₙ,Cₚ) → nuclear projection.
     projection_nucleus = HFBProjectionNucleus(
-        HFBProjection(psm_setting.N_I - psm_setting.Ncore_I, TargetTwoI_I, static_cast<int>(Un_F2D_2spn_2qpn.rows()), psm_setting.configuration_neutron.config_I2D_cfg_cqp, psm_setting.configuration_neutron.config_I2D_cfg_cqp, Nphin_I, 1, Nbeta_I, 1),
-        HFBProjection(psm_setting.Z_I - psm_setting.Zcore_I, TargetTwoI_I, static_cast<int>(Up_F2D_2spp_2qpp.rows()), psm_setting.configuration_proton.config_I2D_cfg_cqp, psm_setting.configuration_proton.config_I2D_cfg_cqp, Nphip_I, 1, Nbeta_I, 1));
+        HFBProjection(static_cast<int>(Un_F2D_2spn_2qpn.rows()), psm_setting.configuration_neutron.config_I2D_cfg_cqp, psm_setting.configuration_neutron.config_I2D_cfg_cqp, psm_setting.N_I - psm_setting.Ncore_I, Nphin_I, 1, Nbeta_I, 1),
+        HFBProjection(static_cast<int>(Up_F2D_2spp_2qpp.rows()), psm_setting.configuration_proton.config_I2D_cfg_cqp, psm_setting.configuration_proton.config_I2D_cfg_cqp, psm_setting.Z_I - psm_setting.Zcore_I, Nphip_I, 1, Nbeta_I, 1));
 
     // 2K_cfg = Σqp 2K_qp; Φ₁ = Φ₂.
     const auto set_config_K = [](HFBProjection& projection, const auto& config_I2D_cfg_cqp, const Eigen::VectorXi& TwoK_I1D_qp) {
@@ -65,29 +65,24 @@ void PSMSpherical::build_projection(int TargetTwoI_I, int Nbeta_I, int Nphin_I, 
 }
 
 /**
- * @brief Build the projected configuration overlap tensor.
- * @math (p₁,p₂,n₁,n₂,K₁,K₂) → (p₁,n₁,K₁,p₂,n₂,K₂).
- * @output N_C6D_cfgp_cfgn_K_cfgp_cfgn_K; K indexes −I,…,I.
+ * @brief Build CI angle kernels using gauge quadrature.
+ * @math G₂ = γG₀; (ρ,Q,G) → N(Ω),H(Ω).
+ * @output N_C7D and H_C7D angle caches.
+ * @note Requires solved HFBCS and initialized projection.
  */
-void PSMSpherical::build_norm() {
+void PSMSpherical::build_ci(double gamma_F) {
+    psm_setting.set_CI_QQ(rhon_F2D_2spn_2spn, rhop_F2D_2spp_2spp, Qn_F3D_2spn_2spn_mu, Qp_F3D_2spp_2spp_mu);
+    psm_setting.set_CI_PP(gamma_F);
+
+    // N_ab(Ω) = ⟨Φ_a|PₙPₚR(Ω)|Φ_b⟩.
     const Eigen::Index Ncfgn_I = projection_nucleus.projection_neutron.Ncfg1_I;
     const Eigen::Index Ncfgp_I = projection_nucleus.projection_proton.Ncfg1_I;
     assert(Ncfgn_I > 0 && Ncfgp_I > 0);
     assert(Ncfgn_I == projection_nucleus.projection_neutron.Ncfg2_I && Ncfgp_I == projection_nucleus.projection_proton.Ncfg2_I);
 
-    // (p₁,p₂,n₁,n₂,K₁,K₂) → (p₁,n₁,K₁,p₂,n₂,K₂).
-    const auto& N_C6D_cfg1p_cfg2p_cfg1n_cfg2n_K1_K2 = projection_nucleus.calc_overlap();
-    N_C6D_cfgp_cfgn_K_cfgp_cfgn_K = N_C6D_cfg1p_cfg2p_cfg1n_cfg2n_K1_K2.shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5});
-}
+    N_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma = projection_nucleus.build_overlap();
 
-/**
- * @brief Construct and project one-body and two-body Hamiltonians.
- * @math h₀ = ℏω₀(N+3/2) − κℏωc[2l·s+μ(l²−N(N+3)/2)].
- * @math H² = −χnn:Qn†Qn:/2 − χnp Qn†Qp − χpp:Qp†Qp:/2 − Στλ Gλ,τ Pλ,τ†Pλ,τ.
- * @output H_C6D_cfgp_cfgn_K_cfgp_cfgn_K.
- * @note Fields and strengths from psm_setting; λ = 0,2.
- */
-void PSMSpherical::build_hamiltonian() {
+    // H_ab(Ω) = ⟨Φ_a|HPₙPₚR(Ω)|Φ_b⟩.
     assert(psm_setting.N_I >= psm_setting.Ncore_I && psm_setting.Z_I >= psm_setting.Zcore_I);
     assert(projection_nucleus.projection_neutron.Nsp_I > 0 && projection_nucleus.projection_proton.Nsp_I > 0);
     assert(psm_setting.N_I - psm_setting.Ncore_I == projection_nucleus.projection_neutron.TargetN_I && psm_setting.Z_I - psm_setting.Zcore_I == projection_nucleus.projection_proton.TargetN_I);
@@ -96,9 +91,9 @@ void PSMSpherical::build_hamiltonian() {
     const Eigen::MatrixXcd h0n_C2D_2spn_2spn = h0n_F2D_2spn_2spn.cast<doubleC>();
     const Eigen::MatrixXcd h0p_C2D_2spp_2spp = h0p_F2D_2spp_2spp.cast<doubleC>();
 
-    // Store neutron output before the shared projection buffer changes.
-    H_C6D_cfgp_cfgn_K_cfgp_cfgn_K = projection_nucleus.calc_one_body_nn(h0n_C2D_2spn_2spn).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5});
-    H_C6D_cfgp_cfgn_K_cfgp_cfgn_K += projection_nucleus.calc_one_body_pp(h0p_C2D_2spp_2spp).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5});
+    // H¹(Ω) = Hν¹(Ω) Nπ(Ω) + Nν(Ω) Hπ¹(Ω).
+    H_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma = projection_nucleus.build_one_body_nn(h0n_C2D_2spn_2spn);
+    H_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma += projection_nucleus.build_one_body_pp(h0p_C2D_2spp_2spp);
 
     // Q₂μ = δ_NN′(r/b)²√(4π/5)Y₂μ; P₂μ = Q₂μ P₀.
     assert(std::isfinite(psm_setting.chi2_nn_F) && std::isfinite(psm_setting.chi2_np_F) && std::isfinite(psm_setting.chi2_pp_F));
@@ -118,12 +113,10 @@ void PSMSpherical::build_hamiltonian() {
     const Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Pn_C3D_2spn_2spn_i = P0n_F3D_2spn_2spn_mu.concatenate(P2n_F3D_2spn_2spn_mu, 2).cast<doubleC>();
     const Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Pp_C3D_2spp_2spp_i = P0p_F3D_2spp_2spp_mu.concatenate(P2p_F3D_2spp_2spp_mu, 2).cast<doubleC>();
 
-    // Same species: −χ₂ QQ/2 − G₀ P₀†P₀ − G₂ P₂†P₂.
-    H_C6D_cfgp_cfgn_K_cfgp_cfgn_K += projection_nucleus.calc_two_body_nnnn(gQn_F1D_i, Qn_C3D_2spn_2spn_i, gPn_F1D_i, Pn_C3D_2spn_2spn_i).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5});
-    H_C6D_cfgp_cfgn_K_cfgp_cfgn_K += projection_nucleus.calc_two_body_pppp(gQp_F1D_i, Qp_C3D_2spp_2spp_i, gPp_F1D_i, Pp_C3D_2spp_2spp_i).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5});
-
-    // Mixed-species QQ counted once: −χ₂,np Qn†Qp.
-    H_C6D_cfgp_cfgn_K_cfgp_cfgn_K += projection_nucleus.calc_two_body_Q_nppn(4, Qn_C3D_2spn_2spn_i, Qp_C3D_2spp_2spp_i).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5}) * doubleC(-psm_setting.chi2_np_F, 0.0);
+    // H²(Ω) = Hν²(Ω) Nπ(Ω) + Nν(Ω) Hπ²(Ω) + Hνπ(Ω).
+    H_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma += projection_nucleus.build_two_body_nn(gQn_F1D_i, Qn_C3D_2spn_2spn_i, gPn_F1D_i, Pn_C3D_2spn_2spn_i);
+    H_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma += projection_nucleus.build_two_body_pp(gQp_F1D_i, Qp_C3D_2spp_2spp_i, gPp_F1D_i, Pp_C3D_2spp_2spp_i);
+    H_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma += projection_nucleus.build_two_body_pn(Eigen::VectorXd::Constant(5, -psm_setting.chi2_np_F), Qn_C3D_2spn_2spn_i, Qp_C3D_2spp_2spp_i);
 }
 
 /**
@@ -133,12 +126,12 @@ void PSMSpherical::build_hamiltonian() {
  * @output Eci_F1D_eigenH and Xci_C2D_eigenN_eigenH.
  * @note Retains nᵢ > 1e-10 nmax; energies ascend.
  */
-void PSMSpherical::solve_ci(double gamma_F) {
-    psm_setting.set_CI_QQ(rhon_F2D_2spn_2spn, rhop_F2D_2spp_2spp, Qn_F3D_2spn_2spn_mu, Qp_F3D_2spp_2spp_mu);
-    psm_setting.set_CI_PP(gamma_F);
-    build_norm();
-    build_hamiltonian();
+void PSMSpherical::solve_ci(int TargetTwoI_I) {
+    assert(TargetTwoI_I >= 0);
+    assert(N_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma.size() > 0 && H_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma.size() > 0);
 
+    const Eigen::Tensor<doubleC, 6, Eigen::ColMajor> N_C6D_cfgp_cfgn_K_cfgp_cfgn_K = projection_nucleus.integrate_amp(TargetTwoI_I, N_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5});
+    const Eigen::Tensor<doubleC, 6, Eigen::ColMajor> H_C6D_cfgp_cfgn_K_cfgp_cfgn_K = projection_nucleus.integrate_amp(TargetTwoI_I, H_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma).shuffle(Eigen::array<int, 6>{0, 2, 4, 1, 3, 5});
     // (cfgp,cfgn,K,cfgp′,cfgn′,K′) → (cfgpCfgnK,cfgpCfgnK′); zero-copy.
     const Eigen::Index NcfgpCfgnK_I = N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimension(0) * N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimension(1) * N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.dimension(2);
     const Eigen::Map<const Eigen::MatrixXcd> N_C2D_cfgpCfgnK_cfgpCfgnK(N_C6D_cfgp_cfgn_K_cfgp_cfgn_K.data(), NcfgpCfgnK_I, NcfgpCfgnK_I);

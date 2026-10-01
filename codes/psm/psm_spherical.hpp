@@ -56,9 +56,9 @@ public:
 
     HFBProjectionNucleus projection_nucleus;
 
-    // (cfgp,cfgn,K,cfgp,cfgn,K).
-    Eigen::Tensor<doubleC, 6, Eigen::ColMajor> H_C6D_cfgp_cfgn_K_cfgp_cfgn_K{};
-    Eigen::Tensor<doubleC, 6, Eigen::ColMajor> N_C6D_cfgp_cfgn_K_cfgp_cfgn_K{};
+    // (cfg1p,cfg2p,cfg1n,cfg2n,α,β,γ).
+    Eigen::Tensor<doubleC, 7, Eigen::ColMajor> H_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma{};
+    Eigen::Tensor<doubleC, 7, Eigen::ColMajor> N_C7D_cfg1p_cfg2p_cfg1n_cfg2n_alpha_beta_gamma{};
 
     // Xci(r,ν): natural orthonormal basis; Xci†Xci = 1.
     Eigen::VectorXd Eci_F1D_eigenH{};
@@ -97,13 +97,20 @@ public:
     void solve_hfbcs();
 
     /**
-     * @brief Solve configuration mixing using canonical norm orthogonalization.
-     * @math Hf = ENf; G₂,nn/pp = γG₀,nn/pp.
-     * @output Eci_F1D_eigenH and Xci_C2D_eigenN_eigenH.
-     * @note Requires HFBCS densities, configurations, and initialized projection.
-     * @note Retains norm eigenvalues nᵢ > 1e-10 nmax.
+     * @brief Build CI angle kernels using gauge quadrature.
+     * @math G₂ = γG₀; (ρ,Q,G) → N(Ω),H(Ω).
+     * @output N_C7D and H_C7D angle caches.
+     * @note Requires solved HFBCS and initialized projection.
      */
-    void solve_ci(double gamma_F);
+    void build_ci(double gamma_F);
+
+    /**
+     * @brief Solve configuration mixing using canonical norm orthogonalization.
+     * @math Hᴵf = ENᴵf; Xci†Xci = 1.
+     * @output Eci_F1D_eigenH and Xci_C2D_eigenN_eigenH.
+     * @note Requires build_ci(); retains nᵢ > 1e-10 nmax.
+     */
+    void solve_ci(int TargetTwoI_I);
 
     /**
      * @brief Assemble neutron-proton projection workspaces.
@@ -112,26 +119,9 @@ public:
      * @note Requires solved U,V,Eqp,TwoK and configured cutoffs.
      * @note Axial projection: Nalpha = Ngamma = 1.
      */
-    void build_projection(int TargetTwoI_I, int Nbeta_I, int Nphin_I, int Nphip_I);
+    void build_projection(int Nbeta_I, int Nphin_I, int Nphip_I);
 
 private:
-    /**
-     * @brief Build the projected configuration overlap tensor.
-     * @math N_ab = ⟨Φ_a|Pₙ Pₚ Pᴵ|Φ_b⟩.
-     * @output N_C6D_cfgp_cfgn_K_cfgp_cfgn_K; cfgp varies fastest.
-     * @note Requires build_projection().
-     */
-    void build_norm();
-
-    /**
-     * @brief Construct and project one-body and two-body Hamiltonians.
-     * @math H = H¹ + H²; H¹ = ⟨Φ₁|(h₀ₙ+h₀ₚ)PₙPₚPᴵ|Φ₂⟩.
-     * @math (χ₂,nn,χ₂,np,χ₂,pp,G₀,nn,G₀,pp,G₂,nn,G₂,pp) → H².
-     * @output H_C6D_cfgp_cfgn_K_cfgp_cfgn_K.
-     * @note Requires solve_hfbcs(), configured strengths, and build_projection().
-     */
-    void build_hamiltonian();
-
     /**
      * @brief Build spherical single-particle fields.
      * @math h₀ = ℏω₀(N+3/2) − κℏω₀₀[2l·s+μ(l²−N(N+3)/2)].

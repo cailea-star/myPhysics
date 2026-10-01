@@ -132,11 +132,11 @@ inline void print_hfbcs(const PSMSpherical& psm) {
  * @math Xci(r,ν); r = eigenN, ν = eigenH; Xci†Xci = 1.
  * @output E: first/last five; Xci: four corner blocks.
  */
-inline void print_ci(const PSMSpherical& psm) {
+inline void print_ci(const PSMSpherical& psm, int TargetTwoI_I) {
     assert(psm.Eci_F1D_eigenH.size() > 0);
 
     std::cout << std::scientific << std::setprecision(8);
-    std::cout << "CI-(I=" << psm.projection_nucleus.TargetTwoI_I * 0.5 << ")\n";
+    std::cout << "CI-(I=" << TargetTwoI_I * 0.5 << ")\n";
     print_vector("Eci [MeV]", psm.Eci_F1D_eigenH);
     print_matrix("Xci [eigenN, eigenH]", psm.Xci_C2D_eigenN_eigenH);
 }

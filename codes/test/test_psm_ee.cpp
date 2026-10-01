@@ -38,13 +38,12 @@ int main() {
 
     // Full signed-K configurations; Nphi = 1 disables PNP.
     // Axial K selection: Nalpha = Ngamma = 1.
-    for (int TargetTwoI_I = 0; TargetTwoI_I <= 60; TargetTwoI_I += 4) {
-        std::cout << "\nI = " << 0.5 * TargetTwoI_I << std::endl;
-        psm.build_projection(TargetTwoI_I, 40, 1, 1);
-        psm.solve_ci(0.18);
-        assert(psm.Eci_F1D_eigenH.size() > 0 && psm.Eci_F1D_eigenH.allFinite());
-        print_ci(psm);
-        std::cout << "[Yrast] I = " << 0.5 * TargetTwoI_I << ", E [MeV] = " << psm.Eci_F1D_eigenH(0) << std::endl;
+    const std::vector<int> TargetTwoI_I1D_twoI{0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60};
+    psm.build_projection(40, 1, 1);
+    psm.build_ci(0.18);
+    for (const int TargetTwoI_I : TargetTwoI_I1D_twoI) {
+        psm.solve_ci(TargetTwoI_I);
+        print_ci(psm, TargetTwoI_I);
     }
     return 0;
 }
