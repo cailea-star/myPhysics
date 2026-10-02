@@ -54,11 +54,15 @@ public:
     Eigen::VectorXi TwoKn_I1D_2qpn{};
     Eigen::VectorXi TwoKp_I1D_2qpp{};
 
+    // 2K_cfg = Σqp 2K_qp.
+    Eigen::VectorXi TwoKn_I1D_cfgn{};
+    Eigen::VectorXi TwoKp_I1D_cfgp{};
+
     HFBProjectionNucleus projection_nucleus;
 
-    // (cfgn,cfgn,cfgp,cfgp,α,β,γ).
-    Eigen::Tensor<doubleC, 7, Eigen::ColMajor> H_C7D_cfgn_cfgn_cfgp_cfgp_alpha_beta_gamma{};
-    Eigen::Tensor<doubleC, 7, Eigen::ColMajor> N_C7D_cfgn_cfgn_cfgp_cfgp_alpha_beta_gamma{};
+    // (cfgn,cfgn,cfgp,cfgp,β).
+    Eigen::Tensor<doubleC, 5, Eigen::ColMajor> H_C5D_cfgn_cfgn_cfgp_cfgp_beta{};
+    Eigen::Tensor<doubleC, 5, Eigen::ColMajor> N_C5D_cfgn_cfgn_cfgp_cfgp_beta{};
 
     // Xci(r,ν): natural orthonormal basis; Xci†Xci = 1.
     Eigen::VectorXd Eci_F1D_eigenH{};
@@ -99,7 +103,7 @@ public:
     /**
      * @brief Build CI angle kernels using gauge quadrature.
      * @math G₂ = γG₀; (ρ,Q,G) → N(Ω),H(Ω).
-     * @output N_C7D and H_C7D angle caches.
+     * @output N_C5D and H_C5D beta caches.
      * @note Requires solved HFBCS and initialized projection.
      */
     void build_ci(double gamma_F);
