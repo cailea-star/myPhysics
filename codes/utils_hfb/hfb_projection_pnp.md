@@ -320,11 +320,11 @@ F^0(\phi,\Omega)=\operatorname{pf}S(\phi,\Omega).
 $$
 
 $$
-F^2_{ab}(\phi,\Omega)=(-1)^{a+b-3}\operatorname{pf}S_{\widehat{ab}}(\phi,\Omega),\qquad a<b.
+F^2_{ab}(\phi,\Omega)=(-1)^{a+b}\operatorname{pf}S_{\widehat{ab}}(\phi,\Omega),\qquad a<b.
 $$
 
 $$
-F^4_{abcd}(\phi,\Omega)=(-1)^{a+b+c+d-10}\operatorname{pf}S_{\widehat{abcd}}(\phi,\Omega),\qquad a<b<c<d.
+F^4_{abcd}(\phi,\Omega)=(-1)^{a+b+c+d}\operatorname{pf}S_{\widehat{abcd}}(\phi,\Omega),\qquad a<b<c<d.
 $$
 
 Chain positions start at $1$; $\operatorname{pf}(\varnothing)=1$. Extend $F^2,F^4$ antisymmetrically; repeated indices give zero.
@@ -356,7 +356,7 @@ All unrestricted indices run from $1$ to $r_1+r_2$. The labels $Q,P$ distinguish
 The four-operator contribution is
 
 $$
-\boxed{\mathcal K_Q^{(2)}(\phi,\Omega)=g_Q\langle\Phi_1|\Phi_2(\phi,\Omega)\rangle\left[F^0(\phi,\Omega)T_Q^0(\phi,\Omega)+\frac12\sum_{ab}F^2_{ab}(\phi,\Omega)T^2_{Q;ab}(\phi,\Omega)+\frac14\sum_{abcd}F^4_{abcd}(\phi,\Omega)\Pi^{14}_{ab}(\phi,\Omega)\Pi^{23}_{cd}(\phi,\Omega)\right].}
+\boxed{\mathcal K_Q^{(2)}(\phi,\Omega)=g_Q\langle\Phi_1|\Phi_2(\phi,\Omega)\rangle\left[F^0(\phi,\Omega)T_Q^0(\phi,\Omega)-\frac12\sum_{ab}F^2_{ab}(\phi,\Omega)T^2_{Q;ab}(\phi,\Omega)+\frac14\sum_{abcd}F^4_{abcd}(\phi,\Omega)\Pi^{14}_{ab}(\phi,\Omega)\Pi^{23}_{cd}(\phi,\Omega)\right].}
 $$
 
 Add the one-body kernel defined above:
@@ -368,7 +368,7 @@ $$
 ### P-Type Kernel
 
 $$
-\boxed{\mathcal K_P(\phi,\Omega)=\frac{g_P}{4}\langle\Phi_1|\Phi_2(\phi,\Omega)\rangle\left[F^0(\phi,\Omega)T_P^0(\phi,\Omega)+\frac12\sum_{ab}F^2_{ab}(\phi,\Omega)T^2_{P;ab}(\phi,\Omega)+\frac14\sum_{abcd}F^4_{abcd}(\phi,\Omega)\Pi^{12}_{ab}(\phi,\Omega)\Pi^{34}_{cd}(\phi,\Omega)\right].}
+\boxed{\mathcal K_P(\phi,\Omega)=\frac{g_P}{4}\langle\Phi_1|\Phi_2(\phi,\Omega)\rangle\left[F^0(\phi,\Omega)T_P^0(\phi,\Omega)-\frac12\sum_{ab}F^2_{ab}(\phi,\Omega)T^2_{P;ab}(\phi,\Omega)+\frac14\sum_{abcd}F^4_{abcd}(\phi,\Omega)\Pi^{12}_{ab}(\phi,\Omega)\Pi^{34}_{cd}(\phi,\Omega)\right].}
 $$
 
 The outer $1/4$ comes from the pair-operator definitions; the inner $1/4$ comes from antisymmetric contraction.

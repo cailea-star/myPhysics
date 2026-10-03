@@ -347,8 +347,8 @@ inline Eigen::Tensor<doubleC, 7, Eigen::ColMajor> HFBProjectionNucleus::build_on
         Eigen::Map<Eigen::MatrixXcd> onebody_C2D_cfgn1cfgn2_cfgp1cfgp2(cache_C4D_cfgn1_cfgn2_cfgp1_cfgp2.data(), Ncfgn1cfgn2_I, Ncfgp1cfgp2_I);
 
         // Aν and Cπ include their gauge normalizations.
-        const auto& annihilator_C3D_cfgn1_cfgn2_spn = neutron.calc_annihilator_pnp();
-        const auto& creator_C3D_cfgp1_cfgp2_spp = proton.calc_creator_pnp();
+        const auto& annihilator_C3D_cfgn1_cfgn2_spn = neutron.calc_one_fermion_pnp(false);
+        const auto& creator_C3D_cfgp1_cfgp2_spp = proton.calc_one_fermion_pnp(true);
         const Eigen::Map<const Eigen::MatrixXcd> annihilator_C2D_cfgn1cfgn2_spn(annihilator_C3D_cfgn1_cfgn2_spn.data(), Ncfgn1cfgn2_I, neutron.Nsp_I);
         const Eigen::Map<const Eigen::MatrixXcd> creator_C2D_cfgp1cfgp2_spp(creator_C3D_cfgp1_cfgp2_spp.data(), Ncfgp1cfgp2_I, proton.Nsp_I);
 

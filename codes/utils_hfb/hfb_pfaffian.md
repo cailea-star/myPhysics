@@ -349,13 +349,13 @@ $$
 For the specified operator ordering, define the contraction matrix $S\in\mathbb C^{2p\times2p}$ by
 
 $$
-S_{ij}\equiv\langle\hat s_i\hat s_j\rangle_{12}\quad(i<j),\qquad S=-S^T.
+S_{ij}=\langle\hat s_i\hat s_j\rangle_{12}\quad(i<j),\qquad S=\begin{pmatrix}0&S_{12}&\cdots&S_{1,2p}\\-S_{12}&0&\cdots&S_{2,2p}\\\vdots&\vdots&\ddots&\vdots\\-S_{1,2p}&-S_{2,2p}&\cdots&0\end{pmatrix}.
 $$
 
-The generalized Wick theorem gives
+With $\mathfrak S_{2p}$ the permutation group of $2p$ indices, the generalized Wick theorem gives
 
 $$
-\boxed{\langle\hat s_1\cdots\hat s_{2p}\rangle_{12}=\operatorname{pf}(S)=\operatorname{pf}\begin{pmatrix}0&S_{12}&\cdots&S_{1,2p}\\-S_{12}&0&\cdots&S_{2,2p}\\\vdots&\vdots&\ddots&\vdots\\-S_{1,2p}&-S_{2,2p}&\cdots&0\end{pmatrix}}.
+\boxed{\langle\hat s_1\cdots\hat s_{2p}\rangle_{12}=\operatorname{pf}(S)=\frac{1}{2^p p!}\sum_{\sigma\in\mathfrak S_{2p}}\operatorname{sgn}(\sigma)\prod_{k=1}^{p}S_{\sigma(2k-1),\,\sigma(2k)}}.
 $$
 
 Both Thouless vacua have even particle-number parity, so
@@ -395,6 +395,32 @@ $$
 $$
 
 Here $S_{ij}=\langle\hat s_i\hat s_j\rangle_{12}$ for $i<j$, with $S=-S^T$. For odd $L$, the matrix element vanishes.
+
+### Creation and Annihilation Matrix Elements between Multiquasiparticle States
+
+For single-particle coefficients $O_\alpha^{(+)}$ and $O_\alpha^{(-)}$,
+
+$$
+\hat O^{(+)}=\sum_{\alpha=1}^{N_{\mathrm{sp}}}O_\alpha^{(+)}\hat c_\alpha^*,\qquad \hat O^{(-)}=\sum_{\alpha=1}^{N_{\mathrm{sp}}}O_\alpha^{(-)}\hat c_\alpha.
+$$
+
+Choose the respective ordered insertion groups
+
+$$
+\hat X^{(+)}(\alpha)=(\hat c_\alpha^*),\qquad \hat X^{(-)}(\alpha)=(\hat c_\alpha).
+$$
+
+Let $S^{(\pm)}(\alpha)$ be the corresponding contraction matrices. For odd $r_1+r_2$,
+
+$$
+\boxed{\langle\Phi_{1;\kappa_1}|\hat O^{(\pm)}|\Phi_{2;\kappa_2}\rangle=\langle\Phi_1|\Phi_2\rangle\sum_{\alpha=1}^{N_{\mathrm{sp}}}O_\alpha^{(\pm)}\operatorname{pf}[S^{(\pm)}(\alpha)]}.
+$$
+
+For even $r_1+r_2$, the matrix element vanishes. For $r_1=r_2=0$,
+
+$$
+\langle\Phi_1|\hat O^{(\pm)}|\Phi_2\rangle=0.
+$$
 
 ### One-Body Matrix Elements between Multiquasiparticle States
 
@@ -448,4 +474,168 @@ $$
 \operatorname{pf}[S(\alpha,\beta,\gamma,\delta)]=\rho_{\gamma\alpha}\rho_{\delta\beta}-\rho_{\delta\alpha}\rho_{\gamma\beta}-\bar\kappa_{\alpha\beta}\kappa_{\gamma\delta}.
 $$
 
-See [HFB Quantum-Number Projection](hfb_projection.md) for quantum-number restoration.
+## Pfaffian Minors and Kernel Expansion
+
+### Pfaffian Minor Expansion
+
+For an even-order antisymmetric matrix $S$, expansion along index $p$ gives
+
+$$
+\boxed{\operatorname{pf}(S)=\sum_{i_1\ne p}(-1)^{i_1+p+1}\operatorname{sgn}(p-i_1)\,S_{i_1p}\operatorname{pf}(S_{\hat i_1\hat p})}.
+$$
+
+Hatted indices denote deleted rows and columns, with the remaining order preserved.
+
+The left and right configurations are specified by
+
+$$
+\kappa_1=(\mu_1,\ldots,\mu_{r_1}),\qquad \kappa_2=(\nu_1,\ldots,\nu_{r_2}).
+$$
+
+The pure quasiparticle column and its contraction matrix are
+
+$$
+\hat{\mathbf f}=(\hat\beta_{1;\mu_{r_1}},\ldots,\hat\beta_{1;\mu_1},\hat\beta_{2;\nu_1}^{*},\ldots,\hat\beta_{2;\nu_{r_2}}^{*})^T,
+$$
+
+$$
+F_{i_1i_2}=\langle\hat f_{i_1}\hat f_{i_2}\rangle_{12}\quad(i_1<i_2),\qquad F_{i_2i_1}=-F_{i_1i_2},\qquad F_{i_1i_1}=0.
+$$
+
+Define the signed Pfaffian minors
+
+$$
+F^0=\operatorname{pf}(F),
+$$
+
+$$
+F^1_{i_1}=(-1)^{i_1}\operatorname{pf}(F_{\hat i_1}),
+$$
+
+$$
+F^2_{i_1i_2}=(-1)^{i_1+i_2}\operatorname{pf}(F_{\hat i_1\hat i_2}),\qquad i_1<i_2,
+$$
+
+$$
+F^4_{i_1i_2i_3i_4}=(-1)^{i_1+i_2+i_3+i_4}\operatorname{pf}(F_{\hat i_1\hat i_2\hat i_3\hat i_4}),\qquad i_1<i_2<i_3<i_4.
+$$
+
+We use $\operatorname{pf}(\varnothing)=1$. Superscripts count removed quasiparticle positions, not matrix powers. Even $r_1+r_2$ uses $F^0,F^2,F^4$; odd $r_1+r_2$ uses $F^1$.
+
+### Overlap Matrix Elements
+
+With no particle-operator insertions,
+
+$$
+\hat{\boldsymbol s}=\hat{\mathbf f}=(\hat\beta_{1;\mu_{r_1}},\ldots,\hat\beta_{1;\mu_1},\hat\beta_{2;\nu_1}^{*},\ldots,\hat\beta_{2;\nu_{r_2}}^{*})^T,\qquad S=F.
+$$
+
+For even $r_1+r_2$,
+
+$$
+\boxed{\langle\Phi_{1;\kappa_1}|\Phi_{2;\kappa_2}\rangle=\langle\Phi_1|\Phi_2\rangle\,\operatorname{pf}(S)=\langle\Phi_1|\Phi_2\rangle F^0}.
+$$
+
+For odd $r_1+r_2$, the overlap vanishes. For the vacuum configurations $r_1=r_2=0$, $F^0=\operatorname{pf}(\varnothing)=1$.
+
+### Creation and Annihilation Matrix Elements
+
+For a single fermionic insertion,
+
+$$
+\hat{\boldsymbol s}=(\hat\beta_{1;\mu_{r_1}},\ldots,\hat\beta_{1;\mu_1},\hat x,\hat\beta_{2;\nu_1}^{*},\ldots,\hat\beta_{2;\nu_{r_2}}^{*})^T,\qquad p=r_1+1.
+$$
+
+This subsection uses positions in the complete operator column. Define
+
+$$
+F^1_{i_1}=(-1)^{i_1}\operatorname{pf}(S_{\hat i_1\hat p}),\qquad i_1\ne p.
+$$
+
+Expansion along the insertion position $p$ gives
+
+$$
+\operatorname{pf}(S)=(-1)^{p+1}\sum_{i_1\ne p}\operatorname{sgn}(p-i_1)\,F^1_{i_1}\operatorname{pf}\begin{pmatrix}0&S_{i_1p}\\-S_{i_1p}&0\end{pmatrix}.
+$$
+
+Therefore,
+
+$$
+\boxed{\langle\Phi_{1;\kappa_1}|\hat x|\Phi_{2;\kappa_2}\rangle=\langle\Phi_1|\Phi_2\rangle\,\operatorname{pf}(S)}.
+$$
+
+Creation uses $\hat x=\hat c_\alpha^*$; annihilation uses $\hat x=\hat c_\alpha$. Both share these minors. This expansion applies to odd $r_1+r_2$; for even $r_1+r_2$, the matrix element vanishes.
+
+### One-Body Matrix Elements
+
+For two fermionic insertions,
+
+$$
+\hat{\boldsymbol s}=(\hat\beta_{1;\mu_{r_1}},\ldots,\hat\beta_{1;\mu_1},\hat x_1,\hat x_2,\hat\beta_{2;\nu_1}^{*},\ldots,\hat\beta_{2;\nu_{r_2}}^{*})^T,\qquad p_1=r_1+1,\quad p_2=r_1+2.
+$$
+
+This subsection uses positions in the complete operator column, with $i_1,i_2\notin\{p_1,p_2\}$. The corresponding minors are
+
+$$
+F^0=\operatorname{pf}(S_{\hat p_1\hat p_2}),
+$$
+
+$$
+F^2_{i_1i_2}=(-1)^{i_1+i_2}\operatorname{pf}(S_{\hat i_1\hat i_2\hat p_1\hat p_2}),\qquad i_1<i_2.
+$$
+
+Right quasiparticle positions increase by $2$, leaving the sign unchanged. Expansion gives
+
+$$
+\operatorname{pf}(S)=F^0\operatorname{pf}\begin{pmatrix}0&S_{p_1p_2}\\-S_{p_1p_2}&0\end{pmatrix}-\sum_{\substack{i_1<i_2\\i_1,i_2\notin\{p_1,p_2\}}}F^2_{i_1i_2}\operatorname{pf}\begin{pmatrix}0&0&S_{i_1p_1}&S_{i_1p_2}\\0&0&S_{i_2p_1}&S_{i_2p_2}\\-S_{i_1p_1}&-S_{i_2p_1}&0&0\\-S_{i_1p_2}&-S_{i_2p_2}&0&0\end{pmatrix}.
+$$
+
+Therefore,
+
+$$
+\boxed{\langle\Phi_{1;\kappa_1}|\hat x_1\hat x_2|\Phi_{2;\kappa_2}\rangle=\langle\Phi_1|\Phi_2\rangle\,\operatorname{pf}(S)}.
+$$
+
+One-body matrix elements use $\hat x_1=\hat c_\alpha^*$ and $\hat x_2=\hat c_\beta$. Different $\alpha,\beta$ share these minors. This expansion applies to even $r_1+r_2$; for odd $r_1+r_2$, the matrix element vanishes.
+
+### Two-Body Matrix Elements
+
+For four fermionic insertions,
+
+$$
+\hat{\boldsymbol s}=(\hat\beta_{1;\mu_{r_1}},\ldots,\hat\beta_{1;\mu_1},\hat x_1,\hat x_2,\hat x_3,\hat x_4,\hat\beta_{2;\nu_1}^{*},\ldots,\hat\beta_{2;\nu_{r_2}}^{*})^T,\qquad p_j=r_1+j,\quad j=1,2,3,4.
+$$
+
+This subsection uses positions in the complete operator column. All quasiparticle indices exclude $p_1,p_2,p_3,p_4$. Define
+
+$$
+F^0=\operatorname{pf}(S_{\hat p_1\hat p_2\hat p_3\hat p_4}),
+$$
+
+$$
+F^2_{i_1i_2}=(-1)^{i_1+i_2}\operatorname{pf}(S_{\hat i_1\hat i_2\hat p_1\hat p_2\hat p_3\hat p_4}),\qquad i_1<i_2,
+$$
+
+$$
+F^4_{i_1i_2i_3i_4}=(-1)^{i_1+i_2+i_3+i_4}\operatorname{pf}(S_{\hat i_1\hat i_2\hat i_3\hat i_4\hat p_1\hat p_2\hat p_3\hat p_4}),\qquad i_1<i_2<i_3<i_4.
+$$
+
+Right quasiparticle positions increase by $4$, leaving the signs unchanged. Expansion gives
+
+$$
+\begin{aligned}\operatorname{pf}(S)={}&F^0\operatorname{pf}\begin{pmatrix}0&S_{p_1p_2}&S_{p_1p_3}&S_{p_1p_4}\\-S_{p_1p_2}&0&S_{p_2p_3}&S_{p_2p_4}\\-S_{p_1p_3}&-S_{p_2p_3}&0&S_{p_3p_4}\\-S_{p_1p_4}&-S_{p_2p_4}&-S_{p_3p_4}&0\end{pmatrix}\\[4pt]&+\sum_{i_1<i_2}F^2_{i_1i_2}\sum_{1\le j_1<j_2\le4}(-1)^{j_1+j_2}\operatorname{pf}\begin{pmatrix}0&S_{p_{j_3}p_{j_4}}\\-S_{p_{j_3}p_{j_4}}&0\end{pmatrix}\operatorname{pf}\begin{pmatrix}0&0&S_{i_1p_{j_1}}&S_{i_1p_{j_2}}\\0&0&S_{i_2p_{j_1}}&S_{i_2p_{j_2}}\\-S_{i_1p_{j_1}}&-S_{i_2p_{j_1}}&0&0\\-S_{i_1p_{j_2}}&-S_{i_2p_{j_2}}&0&0\end{pmatrix}\\[4pt]&+\sum_{i_1<i_2<i_3<i_4}F^4_{i_1i_2i_3i_4}\operatorname{pf}\begin{pmatrix}0&0&0&0&S_{i_1p_1}&S_{i_1p_2}&S_{i_1p_3}&S_{i_1p_4}\\0&0&0&0&S_{i_2p_1}&S_{i_2p_2}&S_{i_2p_3}&S_{i_2p_4}\\0&0&0&0&S_{i_3p_1}&S_{i_3p_2}&S_{i_3p_3}&S_{i_3p_4}\\0&0&0&0&S_{i_4p_1}&S_{i_4p_2}&S_{i_4p_3}&S_{i_4p_4}\\-S_{i_1p_1}&-S_{i_2p_1}&-S_{i_3p_1}&-S_{i_4p_1}&0&0&0&0\\-S_{i_1p_2}&-S_{i_2p_2}&-S_{i_3p_2}&-S_{i_4p_2}&0&0&0&0\\-S_{i_1p_3}&-S_{i_2p_3}&-S_{i_3p_3}&-S_{i_4p_3}&0&0&0&0\\-S_{i_1p_4}&-S_{i_2p_4}&-S_{i_3p_4}&-S_{i_4p_4}&0&0&0&0\end{pmatrix}.\end{aligned}
+$$
+
+Here $j_3<j_4$ label the two insertions complementary to $j_1,j_2$. Therefore,
+
+$$
+\boxed{\langle\Phi_{1;\kappa_1}|\hat x_1\hat x_2\hat x_3\hat x_4|\Phi_{2;\kappa_2}\rangle=\langle\Phi_1|\Phi_2\rangle\,\operatorname{pf}(S)}.
+$$
+
+Two-body matrix elements use
+
+$$
+(\hat x_1,\hat x_2,\hat x_3,\hat x_4)=(\hat c_\alpha^*,\hat c_\beta^*,\hat c_\delta,\hat c_\gamma).
+$$
+
+Different $\alpha,\beta,\gamma,\delta$ share these minors. This expansion applies to even $r_1+r_2$; for odd $r_1+r_2$, the matrix element vanishes.
