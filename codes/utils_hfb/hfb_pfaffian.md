@@ -639,3 +639,175 @@ $$
 $$
 
 Different $\alpha,\beta,\gamma,\delta$ share these minors. This expansion applies to even $r_1+r_2$; for odd $r_1+r_2$, the matrix element vanishes.
+
+## Separable Two-Body Interactions
+
+Contractions and signed minors follow the preceding sections. Indices $i_1,i_2,\ldots$ label positions in the pure quasiparticle column $\hat{\mathbf f}$.
+
+### Q-Type Interaction
+
+For complex $Q$ and real $g_Q$,
+
+$$
+\hat Q=\sum_{\alpha\beta}Q_{\alpha\beta}\hat c_\alpha^*\hat c_\beta,\qquad \hat Q^\dagger=\sum_{\alpha\beta}Q_{\beta\alpha}^*\hat c_\alpha^*\hat c_\beta.
+$$
+
+$$
+\boxed{\hat H_Q=g_Q\hat Q^\dagger\hat Q=\hat H_Q^{(1)}+\hat H_Q^{(2)}.}
+$$
+
+$$
+\hat H_Q^{(1)}=\sum_{\alpha\delta}h^Q_{\alpha\delta}\hat c_\alpha^*\hat c_\delta,\qquad h^Q=g_QQ^\dagger Q.
+$$
+
+$$
+\hat H_Q^{(2)}=g_Q\sum_{\alpha\beta\gamma\delta}Q_{\beta\alpha}^*Q_{\gamma\delta}\hat c_\alpha^*\hat c_\gamma^*\hat c_\delta\hat c_\beta.
+$$
+
+Define the insertions
+
+$$
+\hat x_1=\sum_\alpha Q_{\beta\alpha}^*\hat c_\alpha^*,\qquad \hat x_2=\sum_\gamma Q_{\gamma\delta}\hat c_\gamma^*,\qquad \hat x_3=\hat c_\delta,\qquad \hat x_4=\hat c_\beta.
+$$
+
+Here $\hat x_1,\hat x_4$ carry $\beta$; $\hat x_2,\hat x_3$ carry $\delta$. Orbital arguments are implicit below.
+
+$$
+\hat H_Q^{(2)}=g_Q\sum_{\beta\delta}\hat x_1\hat x_2\hat x_3\hat x_4.
+$$
+
+**$T^0$**
+
+$$
+\boxed{T_Q^0=\sum_{\beta\delta}\left[\langle\hat x_1\hat x_2\rangle_{12}\langle\hat x_3\hat x_4\rangle_{12}-\langle\hat x_1\hat x_3\rangle_{12}\langle\hat x_2\hat x_4\rangle_{12}+\langle\hat x_1\hat x_4\rangle_{12}\langle\hat x_2\hat x_3\rangle_{12}\right].}
+$$
+
+**$T^2$**
+
+Arrange the insertion contractions in configuration-chain order:
+
+$$
+\eta^j=\begin{pmatrix}\bigl(\langle\hat\beta_{1;\mu_{r_1+1-i}}\hat x_j\rangle_{12}\bigr)_{i=1}^{r_1}\\-\bigl(\langle\hat x_j\hat\beta_{2;\nu_i}^{*}\rangle_{12}\bigr)_{i=1}^{r_2}\end{pmatrix},\qquad j=1,2,3,4.
+$$
+
+$$
+W^{j_1j_2}_{i_1i_2}=\det\begin{pmatrix}\eta^{j_1}_{i_1}&\eta^{j_2}_{i_1}\\\eta^{j_1}_{i_2}&\eta^{j_2}_{i_2}\end{pmatrix},\qquad W^{j_1j_2}_{i_2i_1}=-W^{j_1j_2}_{i_1i_2}.
+$$
+
+$$
+\boxed{\begin{aligned}T^2_{Q;i_1i_2}=\sum_{\beta\delta}\Big[&-W^{12}_{i_1i_2}\langle\hat x_3\hat x_4\rangle_{12}+W^{13}_{i_1i_2}\langle\hat x_2\hat x_4\rangle_{12}-W^{14}_{i_1i_2}\langle\hat x_2\hat x_3\rangle_{12}\\&-W^{23}_{i_1i_2}\langle\hat x_1\hat x_4\rangle_{12}+W^{24}_{i_1i_2}\langle\hat x_1\hat x_3\rangle_{12}-W^{34}_{i_1i_2}\langle\hat x_1\hat x_2\rangle_{12}\Big].\end{aligned}}
+$$
+
+This convention enters the kernel as $-F^2T_Q^2$; the signed minors remain unchanged.
+
+**$T^4$**
+
+$$
+\Pi^{14}_{i_1i_2}=\sum_\beta W^{14}_{i_1i_2},\qquad \Pi^{23}_{i_1i_2}=\sum_\delta W^{23}_{i_1i_2}.
+$$
+
+$$
+(\Pi^{14})^T=-\Pi^{14},\qquad (\Pi^{23})^T=-\Pi^{23}.
+$$
+
+$$
+\boxed{\begin{aligned}T^4_{Q;i_1i_2i_3i_4}={}&\Pi^{14}_{i_1i_2}\Pi^{23}_{i_3i_4}-\Pi^{14}_{i_1i_3}\Pi^{23}_{i_2i_4}+\Pi^{14}_{i_1i_4}\Pi^{23}_{i_2i_3}\\&+\Pi^{14}_{i_2i_3}\Pi^{23}_{i_1i_4}-\Pi^{14}_{i_2i_4}\Pi^{23}_{i_1i_3}+\Pi^{14}_{i_3i_4}\Pi^{23}_{i_1i_2}.\end{aligned}}
+$$
+
+The coefficients $T_Q^0,T_Q^2,T_Q^4$ exclude $g_Q$, the signed minors, and the reference overlap.
+
+### P-Type Interaction
+
+For complex antisymmetric $P$ and real $g_P$,
+
+$$
+P^T=-P.
+$$
+
+$$
+\hat P^\dagger=\frac12\sum_{\alpha\beta}P_{\alpha\beta}\hat c_\alpha^*\hat c_\beta^*,\qquad \hat P=\frac12\sum_{\gamma\delta}P_{\gamma\delta}^*\hat c_\delta\hat c_\gamma.
+$$
+
+$$
+\boxed{\hat H_P=g_P\hat P^\dagger\hat P=\frac{g_P}{4}\sum_{\alpha\beta\gamma\delta}P_{\alpha\beta}P_{\gamma\delta}^*\hat c_\alpha^*\hat c_\beta^*\hat c_\delta\hat c_\gamma.}
+$$
+
+Define the insertions
+
+$$
+\hat x_1=\sum_\alpha P_{\alpha\beta}\hat c_\alpha^*,\qquad \hat x_2=\hat c_\beta^*,\qquad \hat x_3=\hat c_\delta,\qquad \hat x_4=\sum_\gamma P_{\gamma\delta}^*\hat c_\gamma.
+$$
+
+Here $\hat x_1,\hat x_2$ carry $\beta$; $\hat x_3,\hat x_4$ carry $\delta$.
+
+$$
+\hat H_P=\frac{g_P}{4}\sum_{\beta\delta}\hat x_1\hat x_2\hat x_3\hat x_4.
+$$
+
+**$T^0$**
+
+$$
+\boxed{T_P^0=\sum_{\beta\delta}\left[\langle\hat x_1\hat x_2\rangle_{12}\langle\hat x_3\hat x_4\rangle_{12}-\langle\hat x_1\hat x_3\rangle_{12}\langle\hat x_2\hat x_4\rangle_{12}+\langle\hat x_1\hat x_4\rangle_{12}\langle\hat x_2\hat x_3\rangle_{12}\right].}
+$$
+
+**$T^2$**
+
+Use the same definitions of $\eta^j$ and $W^{j_1j_2}$, with the P-type insertions.
+
+$$
+\boxed{\begin{aligned}T^2_{P;i_1i_2}=\sum_{\beta\delta}\Big[&-W^{12}_{i_1i_2}\langle\hat x_3\hat x_4\rangle_{12}+W^{13}_{i_1i_2}\langle\hat x_2\hat x_4\rangle_{12}-W^{14}_{i_1i_2}\langle\hat x_2\hat x_3\rangle_{12}\\&-W^{23}_{i_1i_2}\langle\hat x_1\hat x_4\rangle_{12}+W^{24}_{i_1i_2}\langle\hat x_1\hat x_3\rangle_{12}-W^{34}_{i_1i_2}\langle\hat x_1\hat x_2\rangle_{12}\Big].\end{aligned}}
+$$
+
+**$T^4$**
+
+$$
+\Pi^{12}_{i_1i_2}=\sum_\beta W^{12}_{i_1i_2},\qquad \Pi^{34}_{i_1i_2}=\sum_\delta W^{34}_{i_1i_2}.
+$$
+
+$$
+(\Pi^{12})^T=-\Pi^{12},\qquad (\Pi^{34})^T=-\Pi^{34}.
+$$
+
+$$
+\boxed{\begin{aligned}T^4_{P;i_1i_2i_3i_4}={}&\Pi^{12}_{i_1i_2}\Pi^{34}_{i_3i_4}-\Pi^{12}_{i_1i_3}\Pi^{34}_{i_2i_4}+\Pi^{12}_{i_1i_4}\Pi^{34}_{i_2i_3}\\&+\Pi^{12}_{i_2i_3}\Pi^{34}_{i_1i_4}-\Pi^{12}_{i_2i_4}\Pi^{34}_{i_1i_3}+\Pi^{12}_{i_3i_4}\Pi^{34}_{i_1i_2}.\end{aligned}}
+$$
+
+The coefficients $T_P^0,T_P^2,T_P^4$ exclude $g_P/4$, the signed minors, and the reference overlap.
+
+### Configuration Kernel Assembly
+
+Extend $F^2,F^4$ antisymmetrically; repeated indices vanish. All indices below run over the configuration chain.
+
+$$
+\sum_{i_1<i_2}F^2_{i_1i_2}T^2_{i_1i_2}=\frac12\sum_{i_1i_2}F^2_{i_1i_2}T^2_{i_1i_2}.
+$$
+
+$$
+\sum_{i_1<i_2<i_3<i_4}F^4_{i_1i_2i_3i_4}T^4_{Q;i_1i_2i_3i_4}=\frac14\sum_{i_1i_2i_3i_4}F^4_{i_1i_2i_3i_4}\Pi^{14}_{i_1i_2}\Pi^{23}_{i_3i_4}.
+$$
+
+$$
+\sum_{i_1<i_2<i_3<i_4}F^4_{i_1i_2i_3i_4}T^4_{P;i_1i_2i_3i_4}=\frac14\sum_{i_1i_2i_3i_4}F^4_{i_1i_2i_3i_4}\Pi^{12}_{i_1i_2}\Pi^{34}_{i_3i_4}.
+$$
+
+For the Q-type two-body contribution,
+
+$$
+\boxed{\langle\Phi_{1;\kappa_1}|\hat H_Q^{(2)}|\Phi_{2;\kappa_2}\rangle=g_Q\langle\Phi_1|\Phi_2\rangle\left[F^0T_Q^0-\frac12\sum_{i_1i_2}F^2_{i_1i_2}T^2_{Q;i_1i_2}+\frac14\sum_{i_1i_2i_3i_4}F^4_{i_1i_2i_3i_4}\Pi^{14}_{i_1i_2}\Pi^{23}_{i_3i_4}\right].}
+$$
+
+The full $g_Q\hat Q^\dagger\hat Q$ kernel additionally includes
+
+$$
+\langle\Phi_{1;\kappa_1}|\hat H_Q^{(1)}|\Phi_{2;\kappa_2}\rangle=\sum_{\alpha\delta}h^Q_{\alpha\delta}\langle\Phi_{1;\kappa_1}|\hat c_\alpha^*\hat c_\delta|\Phi_{2;\kappa_2}\rangle.
+$$
+
+For the P-type interaction,
+
+$$
+\boxed{\langle\Phi_{1;\kappa_1}|\hat H_P|\Phi_{2;\kappa_2}\rangle=\frac{g_P}{4}\langle\Phi_1|\Phi_2\rangle\left[F^0T_P^0-\frac12\sum_{i_1i_2}F^2_{i_1i_2}T^2_{P;i_1i_2}+\frac14\sum_{i_1i_2i_3i_4}F^4_{i_1i_2i_3i_4}\Pi^{12}_{i_1i_2}\Pi^{34}_{i_3i_4}\right].}
+$$
+
+The outer $1/4$ comes from the pair definitions; the inner $1/4$ comes from antisymmetric contraction.
+
+For fixed reference states and configurations, the same $F^0,F^2,F^4$ serve all Q-type and P-type terms. For odd $r_1+r_2$, these kernels vanish.
