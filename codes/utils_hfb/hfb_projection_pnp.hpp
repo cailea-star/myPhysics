@@ -40,13 +40,9 @@ public:
 
     HFBPfaffian hfb_pfaffian;
 
-protected:
-    Eigen::VectorXcd x1_C1D_sp{};
-    Eigen::VectorXcd x2_C1D_sp{};
-
 private:
     Eigen::MatrixXcd result_C2D_cfg1_cfg2{};
-    Eigen::Tensor<doubleC, 3, Eigen::ColMajor> result_C3D_cfg1_cfg2_sp{};
+    Eigen::Tensor<doubleC, 3, Eigen::ColMajor> result_C3D_sp_cfg1_cfg2{};
     Eigen::MatrixXcd DU2_C2D_sp_qp2{};
     Eigen::MatrixXcd DV2_C2D_sp_qp2{};
     Eigen::MatrixXcd gDU2_C2D_sp_qp2{};
@@ -88,14 +84,12 @@ public:
         D_C2D_sp_sp.setIdentity();
 
         result_C2D_cfg1_cfg2.resize(Ncfg1_I, Ncfg2_I);
-        result_C3D_cfg1_cfg2_sp.resize(Ncfg1_I, Ncfg2_I, Nsp_I);
+        result_C3D_sp_cfg1_cfg2.resize(Nsp_I, Ncfg1_I, Ncfg2_I);
         DU2_C2D_sp_qp2.resize(Nsp_I, Nsp_I);
         DV2_C2D_sp_qp2.resize(Nsp_I, Nsp_I);
         gDU2_C2D_sp_qp2.resize(Nsp_I, Nsp_I);
         gDV2_C2D_sp_qp2.resize(Nsp_I, Nsp_I);
 
-        x1_C1D_sp.resize(Nsp_I);
-        x2_C1D_sp.resize(Nsp_I);
     }
 
     /**
@@ -115,8 +109,8 @@ public:
 
     /**
      * @brief  Integrate fermion kernels using uniform gauge quadrature.
-     * @math   result_abα = (1/Nφ) Σφ eⁱᴺφ ⟨Φ₁;a|xα e⁻ⁱφᴺ̂ D̂|Φ₂;b⟩.
-     * @output Const reference to shared result_C3D_cfg1_cfg2_sp.
+     * @math   result_αab = (1/Nφ) Σφ eⁱᴺφ ⟨Φ₁;a|xα e⁻ⁱφᴺ̂ D̂|Φ₂;b⟩.
+     * @output Const reference to shared result_C3D_sp_cfg1_cfg2.
      * @note   creation_B: true → xα = cα†; false → xα = cα.
      */
     const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& calc_one_fermion_pnp(bool creation_B);
@@ -191,25 +185,16 @@ inline const Eigen::MatrixXcd& HFBProjectionPNP::calc_overlap_pnp() {
 }
 
 inline const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& HFBProjectionPNP::calc_one_fermion_pnp(bool creation_B) {
-    Eigen::Map<Eigen::VectorXcd> result_C1D_element(result_C3D_cfg1_cfg2_sp.data(), result_C3D_cfg1_cfg2_sp.size());
-    const Eigen::Index Nblock_I = static_cast<Eigen::Index>(Ncfg1_I) * Ncfg2_I;
-    // ColMajor: (cfg1,cfg2) → rows; sp → columns.
-    Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg1cfg2_sp(result_C3D_cfg1_cfg2_sp.data(), Nblock_I, Nsp_I);
-
-    // (1/Nφ) Σφ exp(iNφ) ⟨xα exp(-iφN̂) D̂⟩.
+    Eigen::Map<Eigen::VectorXcd> result_C1D_element(result_C3D_sp_cfg1_cfg2.data(), result_C3D_sp_cfg1_cfg2.size());
+    // (1/Nφ) Σφ exp(iNφ) ⟨xα exp(-iφN̂) D̂⟩; all α together.
     integrate_pnp(result_C1D_element, [&](int phi_I) {
         const double phi_F = 2.0 * std::numbers::pi * phi_I / Nphi_I;
         const doubleC factorPhi_C = std::exp(doubleC(0.0, TargetN_I * phi_F));
-        for (int sp_I = 0; sp_I < Nsp_I; ++sp_I) {
-            // x = eα selects the original orbital.
-            x1_C1D_sp.setZero();
-            x1_C1D_sp(sp_I) = 1.0;
-            const auto& kernel_C2D_cfg1_cfg2 = hfb_pfaffian.calc_one_fermion(x1_C1D_sp, creation_B);
-            const Eigen::Map<const Eigen::VectorXcd> kernel_C1D_cfg1cfg2(kernel_C2D_cfg1_cfg2.data(), Nblock_I);
-            result_C2D_cfg1cfg2_sp.col(sp_I) += factorPhi_C * kernel_C1D_cfg1cfg2;
-        }
+        const auto& kernel_C3D_sp_cfg1_cfg2 = hfb_pfaffian.calc_one_fermion(creation_B);
+        const Eigen::Map<const Eigen::VectorXcd> kernel_C1D_element(kernel_C3D_sp_cfg1_cfg2.data(), kernel_C3D_sp_cfg1_cfg2.size());
+        result_C1D_element += factorPhi_C * kernel_C1D_element;
     });
-    return result_C3D_cfg1_cfg2_sp;
+    return result_C3D_sp_cfg1_cfg2;
 }
 
 inline const Eigen::MatrixXcd& HFBProjectionPNP::calc_one_body_pnp(const Eigen::MatrixXcd& OneBody_C2D_sp_sp) {

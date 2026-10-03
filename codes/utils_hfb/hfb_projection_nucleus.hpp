@@ -109,7 +109,7 @@ public:
 
     /**
      * @brief Build pn kernels using Pfaffians and gauge quadrature.
-     * @math result(Ω) = [(-1)^r₁ Aν(Ω) Oᵀ] Cπ(Ω)ᵀ.
+     * @math result(Ω) = [(-1)^r₁ Aν(Ω)ᵀ Oᵀ] Cπ(Ω).
      * @output result_C7D_cfgn1_cfgn2_cfgp1_cfgp2_gamma_alpha_beta, returned by value.
      */
     Eigen::Tensor<doubleC, 7, Eigen::ColMajor> build_one_body_pn(const Eigen::MatrixXcd& OneBody_C2D_spp_spn);
@@ -347,13 +347,13 @@ inline Eigen::Tensor<doubleC, 7, Eigen::ColMajor> HFBProjectionNucleus::build_on
         Eigen::Map<Eigen::MatrixXcd> onebody_C2D_cfgn1cfgn2_cfgp1cfgp2(cache_C4D_cfgn1_cfgn2_cfgp1_cfgp2.data(), Ncfgn1cfgn2_I, Ncfgp1cfgp2_I);
 
         // Aν and Cπ include their gauge normalizations.
-        const auto& annihilator_C3D_cfgn1_cfgn2_spn = neutron.calc_one_fermion_pnp(false);
-        const auto& creator_C3D_cfgp1_cfgp2_spp = proton.calc_one_fermion_pnp(true);
-        const Eigen::Map<const Eigen::MatrixXcd> annihilator_C2D_cfgn1cfgn2_spn(annihilator_C3D_cfgn1_cfgn2_spn.data(), Ncfgn1cfgn2_I, neutron.Nsp_I);
-        const Eigen::Map<const Eigen::MatrixXcd> creator_C2D_cfgp1cfgp2_spp(creator_C3D_cfgp1_cfgp2_spp.data(), Ncfgp1cfgp2_I, proton.Nsp_I);
+        const auto& annihilator_C3D_spn_cfgn1_cfgn2 = neutron.calc_one_fermion_pnp(false);
+        const auto& creator_C3D_spp_cfgp1_cfgp2 = proton.calc_one_fermion_pnp(true);
+        const Eigen::Map<const Eigen::MatrixXcd> annihilator_C2D_spn_cfgn1cfgn2(annihilator_C3D_spn_cfgn1_cfgn2.data(), neutron.Nsp_I, Ncfgn1cfgn2_I);
+        const Eigen::Map<const Eigen::MatrixXcd> creator_C2D_spp_cfgp1cfgp2(creator_C3D_spp_cfgp1_cfgp2.data(), proton.Nsp_I, Ncfgp1cfgp2_I);
 
-        // H¹ = diag(sign) Aν Oᵀ Cπᵀ; no conjugation.
-        onebody_C2D_cfgn1cfgn2_cfgp1cfgp2.noalias() = sign_F1D_cfgn1cfgn2.asDiagonal() * annihilator_C2D_cfgn1cfgn2_spn * OneBody_C2D_spp_spn.transpose() * creator_C2D_cfgp1cfgp2_spp.transpose();
+        // H¹ = diag(sign) Aνᵀ Oᵀ Cπ; no conjugation.
+        onebody_C2D_cfgn1cfgn2_cfgp1cfgp2.noalias() = sign_F1D_cfgn1cfgn2.asDiagonal() * annihilator_C2D_spn_cfgn1cfgn2.transpose() * OneBody_C2D_spp_spn.transpose() * creator_C2D_spp_cfgp1cfgp2;
     });
 }
 

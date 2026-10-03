@@ -58,9 +58,9 @@ public:
     std::vector<std::vector<Eigen::Tensor<doubleC, 4, Eigen::ColMajor>>> F4_C6D_cfg1_cfg2_cqp12_cqp12_cqp12_cqp12{};
 
     Eigen::MatrixXcd Overlap_C2D_cfg1_cfg2{};
-    Eigen::MatrixXcd OneFermion_C2D_cfg1_cfg2{};
     Eigen::MatrixXcd OneBody_C2D_cfg1_cfg2{};
     Eigen::MatrixXcd TwoBody_C2D_cfg1_cfg2{};
+    Eigen::Tensor<doubleC, 3, Eigen::ColMajor> OneFermion_C3D_sp_cfg1_cfg2{};
 
 private:
     Eigen::FullPivLU<Eigen::MatrixXcd> U1_lu{};
@@ -132,9 +132,9 @@ public:
 
         // N, OBTD, TBTD ∈ ℂ^{Ncfg1×Ncfg2}.
         Overlap_C2D_cfg1_cfg2.resize(config1_I2D_cfg1_cqp1.size(), config2_I2D_cfg2_cqp2.size());
-        OneFermion_C2D_cfg1_cfg2.resize(config1_I2D_cfg1_cqp1.size(), config2_I2D_cfg2_cqp2.size());
         OneBody_C2D_cfg1_cfg2.resize(config1_I2D_cfg1_cqp1.size(), config2_I2D_cfg2_cqp2.size());
         TwoBody_C2D_cfg1_cfg2.resize(config1_I2D_cfg1_cqp1.size(), config2_I2D_cfg2_cqp2.size());
+        OneFermion_C3D_sp_cfg1_cfg2.resize(Nsp_I, config1_I2D_cfg1_cqp1.size(), config2_I2D_cfg2_cqp2.size());
 
         // Lmax = 2Nsp+4; size(Sworkspace) = Lmax².
         const int Lmax_I = 2 * Nsp_I + 4;
@@ -167,15 +167,15 @@ public:
 
     /**
      * @brief  Calculate single-fermion kernels using cached Pfaffian minors.
-     * @math   X = Σα xα c†α (true), Σα xα cα (false).
-     * @output Updated OneFermion_C2D_cfg1_cfg2 and its const reference.
-     * @note   Shared output overwritten per call; coefficients remain unconjugated.
+     * @math   K_abα = ⟨Φ₁;a|cα† (true), cα (false)|Φ₂;b⟩.
+     * @output Updated OneFermion_C3D_sp_cfg1_cfg2 and its const reference.
+     * @note   Shared output overwritten per call; all orbitals computed together.
      */
-    const Eigen::MatrixXcd& calc_one_fermion(const Eigen::VectorXcd& x_C1D_sp, bool creation_B);
+    const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& calc_one_fermion(bool creation_B);
 
     /**
      * @brief  Calculate one-body kernels using cached Pfaffian minors.
-     * @math   O = Σαβ O_αβ cα†cβ; K = F⁰T⁰ + Σi<j F²ij T²ij.
+     * @math   O = Σαβ O_αβ cα†cβ; K = F⁰T⁰ − Σi<j F²ij T²ij.
      * @output Updated OneBody_C2D_cfg1_cfg2 and its const reference.
      */
     const Eigen::MatrixXcd& calc_one_body(const Eigen::MatrixXcd& OneBody_C2D_sp_sp);
@@ -408,30 +408,32 @@ inline const Eigen::MatrixXcd& HFBPfaffian::calc_overlap() {
     return Overlap_C2D_cfg1_cfg2;
 }
 
-inline const Eigen::MatrixXcd& HFBPfaffian::calc_one_fermion(const Eigen::VectorXcd& x_C1D_sp, bool creation_B) {
-    assert(x_C1D_sp.size() == Nsp_I && x_C1D_sp.allFinite());
-
-    // ⟨β₁X⟩; ⟨Xβ₂†⟩.
-    const Eigen::VectorXcd Qp1X_C1D_qp1 = (creation_B ? Qp1SpDag_C2D_qp1_sp : Qp1Sp_C2D_qp1_sp) * x_C1D_sp;
-    const Eigen::RowVectorXcd XQp2Dag_C1D_qp2 = x_C1D_sp.transpose() * (creation_B ? SpDagQp2Dag_C2D_sp_qp2 : SpQp2Dag_C2D_sp_qp2);
-
-    OneFermion_C2D_cfg1_cfg2.setZero();
-    for (int cfg2_I = 0; cfg2_I < static_cast<int>(config2_I2D_cfg2_cqp2.size()); ++cfg2_I) {
+inline const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& HFBPfaffian::calc_one_fermion(bool creation_B) {
+    const Eigen::Index Ncfg1_I = config1_I2D_cfg1_cqp1.size();
+    const Eigen::Index Ncfg2_I = config2_I2D_cfg2_cqp2.size();
+    // ⟨β₁cα†⟩ or ⟨β₁cα⟩; ⟨cα†β₂†⟩ or ⟨cαβ₂†⟩.
+    const auto& Qp1X_C2D_qp1_sp = creation_B ? Qp1SpDag_C2D_qp1_sp : Qp1Sp_C2D_qp1_sp;
+    const auto& XQp2Dag_C2D_sp_qp2 = creation_B ? SpDagQp2Dag_C2D_sp_qp2 : SpQp2Dag_C2D_sp_qp2;
+    
+    OneFermion_C3D_sp_cfg1_cfg2.setZero();
+    for (Eigen::Index cfg2_I = 0; cfg2_I < Ncfg2_I; ++cfg2_I) {
         const auto& config2_I1D_cqp2 = config2_I2D_cfg2_cqp2[cfg2_I];
         const Eigen::Index Ncqp2_I = config2_I1D_cqp2.size();
-        for (int cfg1_I = 0; cfg1_I < static_cast<int>(config1_I2D_cfg1_cqp1.size()); ++cfg1_I) {
+        for (Eigen::Index cfg1_I = 0; cfg1_I < Ncfg1_I; ++cfg1_I) {
             const auto& config1_I1D_cqp1 = config1_I2D_cfg1_cqp1[cfg1_I];
             const Eigen::Index Ncqp1_I = config1_I1D_cqp1.size();
             if ((Ncqp1_I + Ncqp2_I) % 2 == 0) { continue; }
 
             const auto& F1_C1D_cqp12 = F1_C3D_cfg1_cfg2_cqp12[cfg1_I][cfg2_I];
             const double sign_F = 1.0 - 2.0 * (Ncqp1_I % 2);
-
-            // Left configuration reversed; transpose without conjugation.
-            OneFermion_C2D_cfg1_cfg2(cfg1_I, cfg2_I) = overlap_C * sign_F * (F1_C1D_cqp12.head(Ncqp1_I).reverse().transpose() * Qp1X_C1D_qp1(config1_I1D_cqp1) - XQp2Dag_C1D_qp2(config2_I1D_cqp2) * F1_C1D_cqp12.tail(Ncqp2_I)).value();
+            // K_: = overlap × (−1)^Ncqp1 [(F¹L)revᵀ C_L − (F¹R)ᵀ C_Rᵀ].
+            Eigen::Map<Eigen::RowVectorXcd> OneFermion_C1D_sp(OneFermion_C3D_sp_cfg1_cfg2.data() + Nsp_I * (cfg1_I + Ncfg1_I * cfg2_I), Nsp_I);
+            OneFermion_C1D_sp.noalias() = F1_C1D_cqp12.head(Ncqp1_I).reverse().transpose() * Qp1X_C2D_qp1_sp(config1_I1D_cqp1, Eigen::placeholders::all);
+            OneFermion_C1D_sp.noalias() -= F1_C1D_cqp12.tail(Ncqp2_I).transpose() * XQp2Dag_C2D_sp_qp2(Eigen::placeholders::all, config2_I1D_cqp2).transpose();
+            OneFermion_C1D_sp *= overlap_C * sign_F;
         }
     }
-    return OneFermion_C2D_cfg1_cfg2;
+    return OneFermion_C3D_sp_cfg1_cfg2;
 }
 
 inline const Eigen::MatrixXcd& HFBPfaffian::calc_one_body(const Eigen::MatrixXcd& OneBody_C2D_sp_sp) {
@@ -445,16 +447,19 @@ inline const Eigen::MatrixXcd& HFBPfaffian::calc_one_body(const Eigen::MatrixXcd
     qp_I1D_cqp12.reserve(2 * Nsp_I);
 
     OneBody_C2D_cfg1_cfg2.setZero();
-    // T⁰ = Σαβ hαβ ⟨cα†cβ⟩; T² = S₁hS₂ᵀ.
     S1_C2D_qp12_sp.topRows(Nsp_I) = Qp1SpDag_C2D_qp1_sp;
-    S1_C2D_qp12_sp.bottomRows(Nsp_I) = -SpDagQp2Dag_C2D_sp_qp2.transpose();
     S2_C2D_qp12_sp.topRows(Nsp_I) = Qp1Sp_C2D_qp1_sp;
+    S1_C2D_qp12_sp.bottomRows(Nsp_I) = -SpDagQp2Dag_C2D_sp_qp2.transpose();
     S2_C2D_qp12_sp.bottomRows(Nsp_I) = -SpQp2Dag_C2D_sp_qp2.transpose();
+    // T⁰ = Σαβ hαβ pf([0,t;−t,0]) = Σαβ hαβ t, t = ⟨cα†cβ⟩.
     const doubleC T0_C = OneBody_C2D_sp_sp.cwiseProduct(SpDagSp_C2D_sp_sp).sum();
+    // S_{ij;αβ} = [S₁iα,S₂iβ; S₁jα,S₂jβ].
+    // T²ij = Σαβ hαβ pf([0,S_{ij;αβ};−S_{ij;αβ}ᵀ,0]) = −Σαβ hαβ det(S_{ij;αβ}).
+    // T² = (S₁hS₂ᵀ)ᵀ − S₁hS₂ᵀ.
     T2_C2D_qp12_qp12.noalias() = S1_C2D_qp12_sp * OneBody_C2D_sp_sp * S2_C2D_qp12_sp.transpose();
-    T2_C2D_qp12_qp12 = (T2_C2D_qp12_qp12 - T2_C2D_qp12_qp12.transpose()).eval();
+    T2_C2D_qp12_qp12 = (T2_C2D_qp12_qp12.transpose() - T2_C2D_qp12_qp12).eval();
 
-    // T² ← T² − T²ᵀ; K = F⁰T⁰ + ½Σij F²ij T²ij.
+    // K = F⁰T⁰ − ½Σij F²ij T²ij.
     for (int cfg2_I = 0; cfg2_I < static_cast<int>(config2_I2D_cfg2_cqp2.size()); ++cfg2_I) {
         const auto& config2_I1D_cqp = config2_I2D_cfg2_cqp2[cfg2_I];
         for (int cfg1_I = 0; cfg1_I < static_cast<int>(config1_I2D_cfg1_cqp1.size()); ++cfg1_I) {
@@ -463,11 +468,13 @@ inline const Eigen::MatrixXcd& HFBPfaffian::calc_one_body(const Eigen::MatrixXcd
             const int Nchain_I = Ncqp1_I + static_cast<int>(config2_I1D_cqp.size());
             if (Nchain_I % 2 != 0) { continue; }
             // Left indices reversed; right indices shifted by Nsp.
+
             qp_I1D_cqp12.clear();
             for (int cqp1_I = Ncqp1_I - 1; cqp1_I >= 0; --cqp1_I) { qp_I1D_cqp12.push_back(config1_I1D_cqp[cqp1_I]); }
             for (const int qp_I : config2_I1D_cqp) { qp_I1D_cqp12.push_back(Nsp_I + qp_I); }
+            const auto T2_C2D_cqp12_cqp12 = T2_C2D_qp12_qp12(qp_I1D_cqp12, qp_I1D_cqp12);
             const auto& F2_C2D_cqp12_cqp12 = F2_C4D_cfg1_cfg2_cqp12_cqp12[cfg1_I][cfg2_I];
-            const doubleC kernel_C = F0_C2D_cfg1_cfg2[cfg1_I][cfg2_I] * T0_C + 0.5 * F2_C2D_cqp12_cqp12.cwiseProduct(T2_C2D_qp12_qp12(qp_I1D_cqp12, qp_I1D_cqp12)).sum();
+            const doubleC kernel_C = F0_C2D_cfg1_cfg2[cfg1_I][cfg2_I] * T0_C - 0.5 * F2_C2D_cqp12_cqp12.cwiseProduct(T2_C2D_cqp12_cqp12).sum();
             OneBody_C2D_cfg1_cfg2(cfg1_I, cfg2_I) = kernel_C;
         }
     }
@@ -485,7 +492,7 @@ inline const Eigen::MatrixXcd& HFBPfaffian::calc_two_body(const Eigen::Tensor<do
     auto S2_C1D_qp12 = S_C2D_qp12_X.col(1);
     auto S3_C1D_qp12 = S_C2D_qp12_X.col(2);
     auto S4_C1D_qp12 = S_C2D_qp12_X.col(3);
-    Eigen::Matrix4cd XX_C2D_X_X;
+    Eigen::Matrix4cd SF0_C2D_X_X;
     Eigen::Matrix4cd SF2S_C2D_X_X;
     // Ncqp12 ≤ 2Nsp; capacity = (2Nsp)².
     Eigen::VectorXcd S1S2workspace_C1D_element(4 * Nsp_I * Nsp_I);
@@ -501,23 +508,16 @@ inline const Eigen::MatrixXcd& HFBPfaffian::calc_two_body(const Eigen::Tensor<do
         S4_C1D_qp12.tail(Nsp_I) = -SpQp2Dag_C2D_sp_qp2.row(sp3_I).transpose();
 
         // Six upper-triangle contractions in the same insertion order.
-        XX_C2D_X_X.diagonal().setZero();
-        XX_C2D_X_X(0, 1) = (x1_C1D_sp.transpose() * SpDagSpDag_C2D_sp_sp.col(sp2_I)).value();
-        XX_C2D_X_X(0, 2) = (x1_C1D_sp.transpose() * SpDagSp_C2D_sp_sp.col(sp4_I)).value();
-        XX_C2D_X_X(0, 3) = (x1_C1D_sp.transpose() * SpDagSp_C2D_sp_sp.col(sp3_I)).value();
-        XX_C2D_X_X(1, 2) = SpDagSp_C2D_sp_sp(sp2_I, sp4_I);
-        XX_C2D_X_X(1, 3) = SpDagSp_C2D_sp_sp(sp2_I, sp3_I);
-        XX_C2D_X_X(2, 3) = SpSp_C2D_sp_sp(sp4_I, sp3_I);
-        // XX_ji = −XX_ij; no complex conjugation.
-        XX_C2D_X_X(1, 0) = -XX_C2D_X_X(0, 1);
-        XX_C2D_X_X(2, 0) = -XX_C2D_X_X(0, 2);
-        XX_C2D_X_X(3, 0) = -XX_C2D_X_X(0, 3);
-        XX_C2D_X_X(2, 1) = -XX_C2D_X_X(1, 2);
-        XX_C2D_X_X(3, 1) = -XX_C2D_X_X(1, 3);
-        XX_C2D_X_X(3, 2) = -XX_C2D_X_X(2, 3);
-        const doubleC T0_C = XX_C2D_X_X(0, 1) * XX_C2D_X_X(2, 3)
-                          - XX_C2D_X_X(0, 2) * XX_C2D_X_X(1, 3)
-                          + XX_C2D_X_X(0, 3) * XX_C2D_X_X(1, 2);
+        SF0_C2D_X_X.diagonal().setZero();
+        SF0_C2D_X_X(0, 1) = (x1_C1D_sp.transpose() * SpDagSpDag_C2D_sp_sp.col(sp2_I)).value();
+        SF0_C2D_X_X(0, 2) = (x1_C1D_sp.transpose() * SpDagSp_C2D_sp_sp.col(sp4_I)).value();
+        SF0_C2D_X_X(0, 3) = (x1_C1D_sp.transpose() * SpDagSp_C2D_sp_sp.col(sp3_I)).value();
+        SF0_C2D_X_X(1, 2) = SpDagSp_C2D_sp_sp(sp2_I, sp4_I);
+        SF0_C2D_X_X(1, 3) = SpDagSp_C2D_sp_sp(sp2_I, sp3_I);
+        SF0_C2D_X_X(2, 3) = SpSp_C2D_sp_sp(sp4_I, sp3_I);
+        SF0_C2D_X_X.triangularView<Eigen::StrictlyLower>() = -SF0_C2D_X_X.transpose();
+        // T⁰ = pf(S_F⁰) = Sₚ₁ₚ₂Sₚ₃ₚ₄ − Sₚ₁ₚ₃Sₚ₂ₚ₄ + Sₚ₁ₚ₄Sₚ₂ₚ₃.
+        const doubleC T0_C = calc_pfaffian(SF0_C2D_X_X);
 
         for (int cfg2_I = 0; cfg2_I < static_cast<int>(config2_I2D_cfg2_cqp2.size()); ++cfg2_I) {
             const auto& config2_I1D_cqp2 = config2_I2D_cfg2_cqp2[cfg2_I];
@@ -533,16 +533,17 @@ inline const Eigen::MatrixXcd& HFBPfaffian::calc_two_body(const Eigen::Tensor<do
                 S_C2D_cqp12_X.topRows(Ncqp1_I) = S_C2D_qp12_X.topRows(Nsp_I)(config1_I1D_cqp1, Eigen::placeholders::all).colwise().reverse();
                 S_C2D_cqp12_X.bottomRows(Ncqp2_I) = S_C2D_qp12_X.bottomRows(Nsp_I)(config2_I1D_cqp2, Eigen::placeholders::all);
 
-                // SF²S = SᵀF²S; six complementary contractions.
-                SF2S_C2D_X_X.noalias() = S_C2D_cqp12_X.transpose()
-                    * F2_C4D_cfg1_cfg2_cqp12_cqp12[cfg1_I][cfg2_I] * S_C2D_cqp12_X;
-                doubleC kernel_C = F0_C2D_cfg1_cfg2[cfg1_I][cfg2_I] * T0_C
-                    + SF2S_C2D_X_X(0, 1) * XX_C2D_X_X(2, 3)
-                    - SF2S_C2D_X_X(0, 2) * XX_C2D_X_X(1, 3)
-                    + SF2S_C2D_X_X(0, 3) * XX_C2D_X_X(1, 2)
-                    + SF2S_C2D_X_X(1, 2) * XX_C2D_X_X(0, 3)
-                    - SF2S_C2D_X_X(1, 3) * XX_C2D_X_X(0, 2)
-                    + SF2S_C2D_X_X(2, 3) * XX_C2D_X_X(0, 1);
+                // pf([0,S;−Sᵀ,0]) = −det(S) = S₁₂S₂₁ − S₁₁S₂₂, S ∈ ℂ²ˣ².
+                // −Σi<j F²ij pf([0,S;−Sᵀ,0]) = Σi<j F²ij det(S) = Σi<j F²ij(SᵢaSⱼb−SᵢbSⱼa) = (SᵀF²S)ab.
+                const auto& F2_C2D_cqp12_cqp12 = F2_C4D_cfg1_cfg2_cqp12_cqp12[cfg1_I][cfg2_I];
+                SF2S_C2D_X_X.noalias() = S_C2D_cqp12_X.transpose() * F2_C2D_cqp12_cqp12 * S_C2D_cqp12_X;
+                doubleC TwoBody_C = F0_C2D_cfg1_cfg2[cfg1_I][cfg2_I] * T0_C
+                    + SF2S_C2D_X_X(0, 1) * SF0_C2D_X_X(2, 3)
+                    - SF2S_C2D_X_X(0, 2) * SF0_C2D_X_X(1, 3)
+                    + SF2S_C2D_X_X(0, 3) * SF0_C2D_X_X(1, 2)
+                    + SF2S_C2D_X_X(1, 2) * SF0_C2D_X_X(0, 3)
+                    - SF2S_C2D_X_X(1, 3) * SF0_C2D_X_X(0, 2)
+                    + SF2S_C2D_X_X(2, 3) * SF0_C2D_X_X(0, 1);
 
                 // K⁴ = vec(S₁S₂ᵀ)ᵀ F⁴_(ij,kl) vec(S₃S₄ᵀ).
                 if (Ncqp12_I >= 4) {
@@ -554,9 +555,9 @@ inline const Eigen::MatrixXcd& HFBPfaffian::calc_two_body(const Eigen::Tensor<do
                     const Eigen::Map<const Eigen::MatrixXcd> F4_C2D_cqp12cqp12_cqp12cqp12(F4_C6D_cfg1_cfg2_cqp12_cqp12_cqp12_cqp12[cfg1_I][cfg2_I].data(), Ncqp12_I * Ncqp12_I, Ncqp12_I * Ncqp12_I);
                     const Eigen::Map<const Eigen::VectorXcd> S1S2_C1D_cqp12cqp12(S1S2_C2D_cqp12_cqp12.data(), S1S2_C2D_cqp12_cqp12.size());
                     const Eigen::Map<const Eigen::VectorXcd> S3S4_C1D_cqp12cqp12(S3S4_C2D_cqp12_cqp12.data(), S3S4_C2D_cqp12_cqp12.size());
-                    kernel_C += (S1S2_C1D_cqp12cqp12.transpose() * F4_C2D_cqp12cqp12_cqp12cqp12 * S3S4_C1D_cqp12cqp12).value();
+                    TwoBody_C += (S1S2_C1D_cqp12cqp12.transpose() * F4_C2D_cqp12cqp12_cqp12cqp12 * S3S4_C1D_cqp12cqp12).value();
                 }
-                TwoBody_C2D_cfg1_cfg2(cfg1_I, cfg2_I) += kernel_C;
+                TwoBody_C2D_cfg1_cfg2(cfg1_I, cfg2_I) += TwoBody_C;
             }
         }
     };
@@ -584,6 +585,14 @@ inline doubleC HFBPfaffian::calc_pfaffian(Eigen::Ref<Eigen::MatrixXcd> S_C2D_cha
     assert(S_C2D_chain_chain.cols() == Nchain_I && Nchain_I % 2 == 0);
     assert(S_C2D_chain_chain.allFinite());
     assert(S_C2D_chain_chain.isApprox(-S_C2D_chain_chain.transpose(), 1.0e-12));
+    // pf(∅) = 1; pf(S₂) = S₀₁; pf(S₄) = S₀₁S₂₃ − S₀₂S₁₃ + S₀₃S₁₂.
+    if (Nchain_I == 0) { return doubleC(1.0, 0.0); }
+    if (Nchain_I == 2) { return S_C2D_chain_chain(0, 1); }
+    if (Nchain_I == 4) {
+        return S_C2D_chain_chain(0, 1) * S_C2D_chain_chain(2, 3)
+             - S_C2D_chain_chain(0, 2) * S_C2D_chain_chain(1, 3)
+             + S_C2D_chain_chain(0, 3) * S_C2D_chain_chain(1, 2);
+    }
     doubleC pf_C(1.0, 0.0);
 
     // S → PSPᵀ → 2×2 pivot ⊕ Schur complement.
@@ -603,13 +612,13 @@ inline doubleC HFBPfaffian::calc_pfaffian(Eigen::Ref<Eigen::MatrixXcd> S_C2D_cha
         const doubleC pivot_C = S_C2D_chain_chain(k_I, k_I + 1);
         pf_C *= pivot_C;
 
-        // S_remain ← S_remain + (vᵀu − uᵀv)/pivot.
-        const Eigen::Index Nremain_I = Nchain_I - k_I - 2;
-        const auto u_C1D_remain = S_C2D_chain_chain.row(k_I).tail(Nremain_I);
-        const auto v_C1D_remain = S_C2D_chain_chain.row(k_I + 1).tail(Nremain_I);
-        auto S_C2D_remain_remain = S_C2D_chain_chain.bottomRightCorner(Nremain_I, Nremain_I);
-        S_C2D_remain_remain.triangularView<Eigen::StrictlyUpper>() += ((v_C1D_remain.transpose() * u_C1D_remain - u_C1D_remain.transpose() * v_C1D_remain) / pivot_C).eval();
-        S_C2D_remain_remain.triangularView<Eigen::StrictlyLower>() = (-S_C2D_remain_remain.transpose()).eval();
+        // Sᵢⱼ ← Sᵢⱼ + (Sₖ₊₁,ᵢSₖⱼ − SₖᵢSₖ₊₁,ⱼ)/pivot; Sⱼᵢ = −Sᵢⱼ.
+        for (Eigen::Index j_I = k_I + 3; j_I < Nchain_I; ++j_I) {
+            for (Eigen::Index i_I = k_I + 2; i_I < j_I; ++i_I) {
+                S_C2D_chain_chain(i_I, j_I) += (S_C2D_chain_chain(k_I + 1, i_I) * S_C2D_chain_chain(k_I, j_I) - S_C2D_chain_chain(k_I, i_I) * S_C2D_chain_chain(k_I + 1, j_I)) / pivot_C;
+                S_C2D_chain_chain(j_I, i_I) = -S_C2D_chain_chain(i_I, j_I);
+            }
+        }
     }
     return pf_C;
 }
