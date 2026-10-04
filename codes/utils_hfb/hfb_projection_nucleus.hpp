@@ -407,59 +407,60 @@ inline Eigen::Tensor<doubleC, 7, Eigen::ColMajor> HFBProjectionNucleus::build_tw
     assert(Eigen::Map<const Eigen::VectorXcd>(Q_C3D_spn_spn_i.data(), Q_C3D_spn_spn_i.size()).allFinite());
     assert(Eigen::Map<const Eigen::VectorXcd>(Q_C3D_spp_spp_i.data(), Q_C3D_spp_spp_i.size()).allFinite());
 
-    // Columns (2q,2q+1): neutron (Q†,Q), proton (Q,Q†).
-    Eigen::MatrixXcd onebody_C2D_cfgn1cfgn2_Q(Ncfgn1cfgn2_I, 2 * gQ_F1D_i.size());
-    Eigen::MatrixXcd onebody_C2D_cfgp1cfgp2_Q(Ncfgp1cfgp2_I, 2 * gQ_F1D_i.size());
+    const Eigen::Index Noperator_I = 2 * gQ_F1D_i.size();
+
+    // operator (2i,2i+1) = (Qᵢ,Qᵢ†).
+    Eigen::Tensor<doubleC, 3, Eigen::ColMajor> onebody_C3D_cfgn1_cfgn2_operator(projection_neutron.Ncfg1_I, projection_neutron.Ncfg2_I, Noperator_I);
+    Eigen::Tensor<doubleC, 3, Eigen::ColMajor> onebody_C3D_cfgp1_cfgp2_operator(projection_proton.Ncfg1_I, projection_proton.Ncfg2_I, Noperator_I);
     Eigen::MatrixXcd Qdag_C2D_spn_spn(projection_neutron.Nsp_I, projection_neutron.Nsp_I);
     Eigen::MatrixXcd Qdag_C2D_spp_spp(projection_proton.Nsp_I, projection_proton.Nsp_I);
 
-
     Eigen::Tensor<doubleC, 8, Eigen::ColMajor> result_C8D_cfgn1_cfgn2_cfgp1_cfgp2_operator_gamma_alpha_beta(projection_neutron.Ncfg1_I, projection_neutron.Ncfg2_I, projection_proton.Ncfg1_I, projection_proton.Ncfg2_I, 1, projection_neutron.Ngamma_I, projection_neutron.Nalpha_I, projection_neutron.Nbeta_I);
     build_amp(result_C8D_cfgn1_cfgn2_cfgp1_cfgp2_operator_gamma_alpha_beta, [&](int, int, int, auto& resultAtOmega_C5D_cfgn1_cfgn2_cfgp1_cfgp2_operator) {
+
+        // All neutron operators share contractions at (Ω,φ).
+        projection_neutron.integrate_pnp(Eigen::TensorMap<Eigen::Tensor<doubleC, 3, Eigen::ColMajor>>(onebody_C3D_cfgn1_cfgn2_operator.data(), onebody_C3D_cfgn1_cfgn2_operator.dimensions()), projection_neutron.TargetN_I, [&](int, auto& resultAtPhi_C3D_cfg1_cfg2_operator) {
+            resultAtPhi_C3D_cfg1_cfg2_operator.setZero();
+            for (Eigen::Index iQ_I = 0; iQ_I < gQ_F1D_i.size(); ++iQ_I) {
+                if (gQ_F1D_i(iQ_I) == 0.0) { continue; }
+
+                const Eigen::Index offset_I = iQ_I * projection_neutron.Nsp_I * projection_neutron.Nsp_I;
+                const Eigen::Map<const Eigen::MatrixXcd> Q_C2D_spn_spn(Q_C3D_spn_spn_i.data() + offset_I, projection_neutron.Nsp_I, projection_neutron.Nsp_I);
+                Qdag_C2D_spn_spn = Q_C2D_spn_spn.adjoint();
+
+                Eigen::Map<Eigen::MatrixXcd> Q_C2D_cfgn1_cfgn2(resultAtPhi_C3D_cfg1_cfg2_operator.data() + 2 * iQ_I * Ncfgn1cfgn2_I, projection_neutron.Ncfg1_I, projection_neutron.Ncfg2_I);
+                Eigen::Map<Eigen::MatrixXcd> Qdag_C2D_cfgn1_cfgn2(resultAtPhi_C3D_cfg1_cfg2_operator.data() + (2 * iQ_I + 1) * Ncfgn1cfgn2_I, projection_neutron.Ncfg1_I, projection_neutron.Ncfg2_I);
+                projection_neutron.hfb_pfaffian.calc_one_body(Q_C2D_cfgn1_cfgn2, Q_C2D_spn_spn);
+                projection_neutron.hfb_pfaffian.calc_one_body(Qdag_C2D_cfgn1_cfgn2, Qdag_C2D_spn_spn);
+            }
+        });
+
+        // All proton operators share contractions at (Ω,φ).
+        projection_proton.integrate_pnp(Eigen::TensorMap<Eigen::Tensor<doubleC, 3, Eigen::ColMajor>>(onebody_C3D_cfgp1_cfgp2_operator.data(), onebody_C3D_cfgp1_cfgp2_operator.dimensions()), projection_proton.TargetN_I, [&](int, auto& resultAtPhi_C3D_cfg1_cfg2_operator) {
+            resultAtPhi_C3D_cfg1_cfg2_operator.setZero();
+            for (Eigen::Index iQ_I = 0; iQ_I < gQ_F1D_i.size(); ++iQ_I) {
+                if (gQ_F1D_i(iQ_I) == 0.0) { continue; }
+
+                const Eigen::Index offset_I = iQ_I * projection_proton.Nsp_I * projection_proton.Nsp_I;
+                const Eigen::Map<const Eigen::MatrixXcd> Q_C2D_spp_spp(Q_C3D_spp_spp_i.data() + offset_I, projection_proton.Nsp_I, projection_proton.Nsp_I);
+                Qdag_C2D_spp_spp = Q_C2D_spp_spp.adjoint();
+
+                Eigen::Map<Eigen::MatrixXcd> Q_C2D_cfgp1_cfgp2(resultAtPhi_C3D_cfg1_cfg2_operator.data() + 2 * iQ_I * Ncfgp1cfgp2_I, projection_proton.Ncfg1_I, projection_proton.Ncfg2_I);
+                Eigen::Map<Eigen::MatrixXcd> Qdag_C2D_cfgp1_cfgp2(resultAtPhi_C3D_cfg1_cfg2_operator.data() + (2 * iQ_I + 1) * Ncfgp1cfgp2_I, projection_proton.Ncfg1_I, projection_proton.Ncfg2_I);
+                projection_proton.hfb_pfaffian.calc_one_body(Q_C2D_cfgp1_cfgp2, Q_C2D_spp_spp);
+                projection_proton.hfb_pfaffian.calc_one_body(Qdag_C2D_cfgp1_cfgp2, Qdag_C2D_spp_spp);
+            }
+        });
+
+        // Hnp(Ω) = ½Σᵢ gᵢ [N(Qᵢ†)P(Qᵢ)ᵀ + N(Qᵢ)P(Qᵢ†)ᵀ].
+        const Eigen::Map<const Eigen::MatrixXcd> onebody_C2D_cfgn1cfgn2_operator(onebody_C3D_cfgn1_cfgn2_operator.data(), Ncfgn1cfgn2_I, Noperator_I);
+        const Eigen::Map<const Eigen::MatrixXcd> onebody_C2D_cfgp1cfgp2_operator(onebody_C3D_cfgp1_cfgp2_operator.data(), Ncfgp1cfgp2_I, Noperator_I);
         Eigen::Map<Eigen::MatrixXcd> result_C2D_cfgn1cfgn2_cfgp1cfgp2(resultAtOmega_C5D_cfgn1_cfgn2_cfgp1_cfgp2_operator.data(), Ncfgn1cfgn2_I, Ncfgp1cfgp2_I);
-        onebody_C2D_cfgn1cfgn2_Q.setZero();
-        for (Eigen::Index iQ_I = 0; iQ_I < gQ_F1D_i.size(); ++iQ_I) {
-            if (gQ_F1D_i(iQ_I) == 0.0) { continue; }
-            const Eigen::Map<const Eigen::MatrixXcd> Q_C2D_spn_spn(Q_C3D_spn_spn_i.data() + iQ_I * projection_neutron.Nsp_I * projection_neutron.Nsp_I, projection_neutron.Nsp_I, projection_neutron.Nsp_I);
-            Qdag_C2D_spn_spn = Q_C2D_spn_spn.adjoint();
-            Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Qdag_C3D_cfgn1_cfgn2_operator(projection_neutron.Ncfg1_I, projection_neutron.Ncfg2_I, 1);
-            projection_neutron.integrate_pnp(Eigen::TensorMap<Eigen::Tensor<doubleC, 3, Eigen::ColMajor>>(Qdag_C3D_cfgn1_cfgn2_operator.data(), Qdag_C3D_cfgn1_cfgn2_operator.dimensions()), projection_neutron.TargetN_I, [&](int, auto& resultAtPhi_C3D_cfg1_cfg2_operator) {
-                Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg1_cfg2(resultAtPhi_C3D_cfg1_cfg2_operator.data(), projection_neutron.Ncfg1_I, projection_neutron.Ncfg2_I);
-                projection_neutron.hfb_pfaffian.calc_one_body(result_C2D_cfg1_cfg2, Qdag_C2D_spn_spn);
-            });
-            onebody_C2D_cfgn1cfgn2_Q.col(2 * iQ_I) = Eigen::Map<const Eigen::VectorXcd>(Qdag_C3D_cfgn1_cfgn2_operator.data(), Ncfgn1cfgn2_I);
-            Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Q_C3D_cfgn1_cfgn2_operator(projection_neutron.Ncfg1_I, projection_neutron.Ncfg2_I, 1);
-            projection_neutron.integrate_pnp(Eigen::TensorMap<Eigen::Tensor<doubleC, 3, Eigen::ColMajor>>(Q_C3D_cfgn1_cfgn2_operator.data(), Q_C3D_cfgn1_cfgn2_operator.dimensions()), projection_neutron.TargetN_I, [&](int, auto& resultAtPhi_C3D_cfg1_cfg2_operator) {
-                Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg1_cfg2(resultAtPhi_C3D_cfg1_cfg2_operator.data(), projection_neutron.Ncfg1_I, projection_neutron.Ncfg2_I);
-                projection_neutron.hfb_pfaffian.calc_one_body(result_C2D_cfg1_cfg2, Q_C2D_spn_spn);
-            });
-            onebody_C2D_cfgn1cfgn2_Q.col(2 * iQ_I + 1) = Eigen::Map<const Eigen::VectorXcd>(Q_C3D_cfgn1_cfgn2_operator.data(), Ncfgn1cfgn2_I);
-        }
-
-        onebody_C2D_cfgp1cfgp2_Q.setZero();
-        for (Eigen::Index iQ_I = 0; iQ_I < gQ_F1D_i.size(); ++iQ_I) {
-            if (gQ_F1D_i(iQ_I) == 0.0) { continue; }
-            const Eigen::Map<const Eigen::MatrixXcd> Q_C2D_spp_spp(Q_C3D_spp_spp_i.data() + iQ_I * projection_proton.Nsp_I * projection_proton.Nsp_I, projection_proton.Nsp_I, projection_proton.Nsp_I);
-            Qdag_C2D_spp_spp = Q_C2D_spp_spp.adjoint();
-            Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Q_C3D_cfgp1_cfgp2_operator(projection_proton.Ncfg1_I, projection_proton.Ncfg2_I, 1);
-            projection_proton.integrate_pnp(Eigen::TensorMap<Eigen::Tensor<doubleC, 3, Eigen::ColMajor>>(Q_C3D_cfgp1_cfgp2_operator.data(), Q_C3D_cfgp1_cfgp2_operator.dimensions()), projection_proton.TargetN_I, [&](int, auto& resultAtPhi_C3D_cfg1_cfg2_operator) {
-                Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg1_cfg2(resultAtPhi_C3D_cfg1_cfg2_operator.data(), projection_proton.Ncfg1_I, projection_proton.Ncfg2_I);
-                projection_proton.hfb_pfaffian.calc_one_body(result_C2D_cfg1_cfg2, Q_C2D_spp_spp);
-            });
-            onebody_C2D_cfgp1cfgp2_Q.col(2 * iQ_I) = Eigen::Map<const Eigen::VectorXcd>(Q_C3D_cfgp1_cfgp2_operator.data(), Ncfgp1cfgp2_I);
-            Eigen::Tensor<doubleC, 3, Eigen::ColMajor> Qdag_C3D_cfgp1_cfgp2_operator(projection_proton.Ncfg1_I, projection_proton.Ncfg2_I, 1);
-            projection_proton.integrate_pnp(Eigen::TensorMap<Eigen::Tensor<doubleC, 3, Eigen::ColMajor>>(Qdag_C3D_cfgp1_cfgp2_operator.data(), Qdag_C3D_cfgp1_cfgp2_operator.dimensions()), projection_proton.TargetN_I, [&](int, auto& resultAtPhi_C3D_cfg1_cfg2_operator) {
-                Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg1_cfg2(resultAtPhi_C3D_cfg1_cfg2_operator.data(), projection_proton.Ncfg1_I, projection_proton.Ncfg2_I);
-                projection_proton.hfb_pfaffian.calc_one_body(result_C2D_cfg1_cfg2, Qdag_C2D_spp_spp);
-            });
-            onebody_C2D_cfgp1cfgp2_Q.col(2 * iQ_I + 1) = Eigen::Map<const Eigen::VectorXcd>(Qdag_C3D_cfgp1_cfgp2_operator.data(), Ncfgp1cfgp2_I);
-        }
-
-        // Hnp = ½Σq gQq [N(Q†q) P(Qq) + N(Qq) P(Q†q)].
         result_C2D_cfgn1cfgn2_cfgp1cfgp2.setZero();
+
         for (Eigen::Index iQ_I = 0; iQ_I < gQ_F1D_i.size(); ++iQ_I) {
-            result_C2D_cfgn1cfgn2_cfgp1cfgp2.noalias() += 0.5 * gQ_F1D_i(iQ_I) * onebody_C2D_cfgn1cfgn2_Q.col(2 * iQ_I) * onebody_C2D_cfgp1cfgp2_Q.col(2 * iQ_I).transpose();
-            result_C2D_cfgn1cfgn2_cfgp1cfgp2.noalias() += 0.5 * gQ_F1D_i(iQ_I) * onebody_C2D_cfgn1cfgn2_Q.col(2 * iQ_I + 1) * onebody_C2D_cfgp1cfgp2_Q.col(2 * iQ_I + 1).transpose();
+            result_C2D_cfgn1cfgn2_cfgp1cfgp2.noalias() += 0.5 * gQ_F1D_i(iQ_I) * onebody_C2D_cfgn1cfgn2_operator.col(2 * iQ_I + 1) * onebody_C2D_cfgp1cfgp2_operator.col(2 * iQ_I).transpose();
+            result_C2D_cfgn1cfgn2_cfgp1cfgp2.noalias() += 0.5 * gQ_F1D_i(iQ_I) * onebody_C2D_cfgn1cfgn2_operator.col(2 * iQ_I) * onebody_C2D_cfgp1cfgp2_operator.col(2 * iQ_I + 1).transpose();
         }
     });
     return result_C8D_cfgn1_cfgn2_cfgp1_cfgp2_operator_gamma_alpha_beta.chip(0, 4);
