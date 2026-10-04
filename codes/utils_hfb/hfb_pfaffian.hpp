@@ -50,11 +50,16 @@ public:
     std::vector<std::vector<int>> config1_I2D_cfg1_cqp1{};
     std::vector<std::vector<int>> config2_I2D_cfg2_cqp2{};
 
+    // Sorted unique quasiparticles used by each configuration table.
+    std::vector<int> qp1_I1D_compactqp1{};
+    std::vector<int> qp2_I1D_compactqp2{};
+    std::vector<std::vector<int>> compactqp1_I2D_cfg1_cqp1{};
+    std::vector<std::vector<int>> compactqp2_I2D_cfg2_cqp2{};
+
     // Signed Pfaffian minors; excludes vacuum overlap.
     std::vector<std::vector<doubleC>> F0_C2D_cfg1_cfg2{};
     std::vector<std::vector<Eigen::VectorXcd>> F1_C3D_cfg1_cfg2_cqp12{};
     std::vector<std::vector<Eigen::MatrixXcd>> F2_C4D_cfg1_cfg2_cqp12_cqp12{};
-    // F⁴: fully antisymmetric; repeated indices vanish.
     std::vector<std::vector<Eigen::Tensor<doubleC, 4, Eigen::ColMajor>>> F4_C6D_cfg1_cfg2_cqp12_cqp12_cqp12_cqp12{};
 
 
@@ -126,6 +131,30 @@ public:
             }
         }
 
+
+        // compactqp₁ = ∪κ₁; compactqp₂ = ∪κ₂.
+        for (const auto& config_I1D_cqp : config1_I2D_cfg1_cqp1) { qp1_I1D_compactqp1.insert(qp1_I1D_compactqp1.end(), config_I1D_cqp.begin(), config_I1D_cqp.end()); }
+        for (const auto& config_I1D_cqp : config2_I2D_cfg2_cqp2) { qp2_I1D_compactqp2.insert(qp2_I1D_compactqp2.end(), config_I1D_cqp.begin(), config_I1D_cqp.end()); }
+        std::sort(qp1_I1D_compactqp1.begin(), qp1_I1D_compactqp1.end());
+        std::sort(qp2_I1D_compactqp2.begin(), qp2_I1D_compactqp2.end());
+        qp1_I1D_compactqp1.erase(std::unique(qp1_I1D_compactqp1.begin(), qp1_I1D_compactqp1.end()), qp1_I1D_compactqp1.end());
+        qp2_I1D_compactqp2.erase(std::unique(qp2_I1D_compactqp2.begin(), qp2_I1D_compactqp2.end()), qp2_I1D_compactqp2.end());
+
+        // Original qp → compactqp; unused entries = −1.
+        std::vector<int> compactqp1_I1D_qp1(Nsp_I, -1);
+        std::vector<int> compactqp2_I1D_qp2(Nsp_I, -1);
+        for (int compactqp1_I = 0; compactqp1_I < qp1_I1D_compactqp1.size(); ++compactqp1_I) { compactqp1_I1D_qp1[qp1_I1D_compactqp1[compactqp1_I]] = compactqp1_I; }
+        for (int compactqp2_I = 0; compactqp2_I < qp2_I1D_compactqp2.size(); ++compactqp2_I) { compactqp2_I1D_qp2[qp2_I1D_compactqp2[compactqp2_I]] = compactqp2_I; }
+
+        // Configurations: original qp → compactqp; order unchanged.
+        compactqp1_I2D_cfg1_cqp1 = config1_I2D_cfg1_cqp1;
+        compactqp2_I2D_cfg2_cqp2 = config2_I2D_cfg2_cqp2;
+        for (auto& compactqp1_I1D_cqp1 : compactqp1_I2D_cfg1_cqp1) {
+            for (int& qp1_I : compactqp1_I1D_cqp1) { qp1_I = compactqp1_I1D_qp1[qp1_I]; }
+        }
+        for (auto& compactqp2_I1D_cqp2 : compactqp2_I2D_cfg2_cqp2) {
+            for (int& qp2_I : compactqp2_I1D_cqp2) { qp2_I = compactqp2_I1D_qp2[qp2_I]; }
+        }
 
         // Lmax = 2Nsp+4; size(Sworkspace) = Lmax².
         const int Lmax_I = 2 * Nsp_I + 4;
@@ -409,20 +438,20 @@ inline void HFBPfaffian::calc_overlap(Eigen::Ref<Eigen::MatrixXcd> result_C2D_cf
 }
 
 inline void HFBPfaffian::calc_one_fermion(Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& result_C3D_cfg1_cfg2_sp, bool creation_B) {
-    assert(result_C3D_cfg1_cfg2_sp.dimension(0) == static_cast<Eigen::Index>(config1_I2D_cfg1_cqp1.size()) && result_C3D_cfg1_cfg2_sp.dimension(1) == static_cast<Eigen::Index>(config2_I2D_cfg2_cqp2.size()) && result_C3D_cfg1_cfg2_sp.dimension(2) == Nsp_I);
-    const Eigen::Index Ncfg1_I = config1_I2D_cfg1_cqp1.size();
-    const Eigen::Index Ncfg2_I = config2_I2D_cfg2_cqp2.size();
+    assert(result_C3D_cfg1_cfg2_sp.dimension(0) == static_cast<Eigen::Index>(compactqp1_I2D_cfg1_cqp1.size()) && result_C3D_cfg1_cfg2_sp.dimension(1) == static_cast<Eigen::Index>(compactqp2_I2D_cfg2_cqp2.size()) && result_C3D_cfg1_cfg2_sp.dimension(2) == Nsp_I);
+    const Eigen::Index Ncfg1_I = compactqp1_I2D_cfg1_cqp1.size();
+    const Eigen::Index Ncfg2_I = compactqp2_I2D_cfg2_cqp2.size();
     // ⟨β₁cα†⟩ or ⟨β₁cα⟩; ⟨cα†β₂†⟩ or ⟨cαβ₂†⟩.
-    const auto& Qp1X_C2D_qp1_sp = creation_B ? Qp1SpDag_C2D_qp1_sp : Qp1Sp_C2D_qp1_sp;
-    const auto& XQp2Dag_C2D_sp_qp2 = creation_B ? SpDagQp2Dag_C2D_sp_qp2 : SpQp2Dag_C2D_sp_qp2;
+    const auto Qp1X_C2D_compactqp1_sp = (creation_B ? Qp1SpDag_C2D_qp1_sp : Qp1Sp_C2D_qp1_sp)(qp1_I1D_compactqp1, Eigen::placeholders::all);
+    const auto XQp2Dag_C2D_sp_compactqp2 = (creation_B ? SpDagQp2Dag_C2D_sp_qp2 : SpQp2Dag_C2D_sp_qp2)(Eigen::placeholders::all, qp2_I1D_compactqp2);
     
     result_C3D_cfg1_cfg2_sp.setZero();
     for (Eigen::Index cfg2_I = 0; cfg2_I < Ncfg2_I; ++cfg2_I) {
-        const auto& config2_I1D_cqp2 = config2_I2D_cfg2_cqp2[cfg2_I];
-        const Eigen::Index Ncqp2_I = config2_I1D_cqp2.size();
+        const auto& compactqp2_I1D_cqp2 = compactqp2_I2D_cfg2_cqp2[cfg2_I];
+        const Eigen::Index Ncqp2_I = compactqp2_I1D_cqp2.size();
         for (Eigen::Index cfg1_I = 0; cfg1_I < Ncfg1_I; ++cfg1_I) {
-            const auto& config1_I1D_cqp1 = config1_I2D_cfg1_cqp1[cfg1_I];
-            const Eigen::Index Ncqp1_I = config1_I1D_cqp1.size();
+            const auto& compactqp1_I1D_cqp1 = compactqp1_I2D_cfg1_cqp1[cfg1_I];
+            const Eigen::Index Ncqp1_I = compactqp1_I1D_cqp1.size();
             if ((Ncqp1_I + Ncqp2_I) % 2 == 0) { continue; }
 
             const auto& F1_C1D_cqp12 = F1_C3D_cfg1_cfg2_cqp12[cfg1_I][cfg2_I];
@@ -430,51 +459,55 @@ inline void HFBPfaffian::calc_one_fermion(Eigen::Tensor<doubleC, 3, Eigen::ColMa
             // K_: = overlap × (−1)^Ncqp1 [(F¹L)revᵀ C_L − (F¹R)ᵀ C_Rᵀ].
             // offset = cfg1 + Ncfg1 cfg2 + Ncfg1 Ncfg2 sp.
             Eigen::Map<Eigen::RowVectorXcd, 0, Eigen::InnerStride<Eigen::Dynamic>> OneFermion_C1D_sp(result_C3D_cfg1_cfg2_sp.data() + cfg1_I + Ncfg1_I * cfg2_I, Nsp_I, Eigen::InnerStride<Eigen::Dynamic>(Ncfg1_I * Ncfg2_I));
-            OneFermion_C1D_sp.noalias() = F1_C1D_cqp12.head(Ncqp1_I).reverse().transpose() * Qp1X_C2D_qp1_sp(config1_I1D_cqp1, Eigen::placeholders::all);
-            OneFermion_C1D_sp.noalias() -= F1_C1D_cqp12.tail(Ncqp2_I).transpose() * XQp2Dag_C2D_sp_qp2(Eigen::placeholders::all, config2_I1D_cqp2).transpose();
+            OneFermion_C1D_sp.noalias() = F1_C1D_cqp12.head(Ncqp1_I).reverse().transpose() * Qp1X_C2D_compactqp1_sp(compactqp1_I1D_cqp1, Eigen::placeholders::all);
+            OneFermion_C1D_sp.noalias() -= F1_C1D_cqp12.tail(Ncqp2_I).transpose() * XQp2Dag_C2D_sp_compactqp2(Eigen::placeholders::all, compactqp2_I1D_cqp2).transpose();
             OneFermion_C1D_sp *= overlap_C * sign_F;
         }
     }
 }
 
 inline void HFBPfaffian::calc_one_body(Eigen::Ref<Eigen::MatrixXcd> result_C2D_cfg1_cfg2, const Eigen::MatrixXcd& OneBody_C2D_sp_sp) {
-    assert(result_C2D_cfg1_cfg2.rows() == static_cast<Eigen::Index>(config1_I2D_cfg1_cqp1.size()) && result_C2D_cfg1_cfg2.cols() == static_cast<Eigen::Index>(config2_I2D_cfg2_cqp2.size()));
+    assert(result_C2D_cfg1_cfg2.rows() == static_cast<Eigen::Index>(compactqp1_I2D_cfg1_cqp1.size()) && result_C2D_cfg1_cfg2.cols() == static_cast<Eigen::Index>(compactqp2_I2D_cfg2_cqp2.size()));
     assert(OneBody_C2D_sp_sp.rows() == Nsp_I && OneBody_C2D_sp_sp.cols() == Nsp_I && OneBody_C2D_sp_sp.allFinite());
 
+    const Eigen::Index Ncompactqp1_I = qp1_I1D_compactqp1.size();
+    const Eigen::Index Ncompactqp2_I = qp2_I1D_compactqp2.size();
+    const Eigen::Index Ncompactqp12_I = Ncompactqp1_I + Ncompactqp2_I;
+
     // S₁ = [⟨β₁x₁⟩; −⟨x₁β₂†⟩ᵀ], x₁ = c†,  S₂ = [⟨β₁x₂⟩; −⟨x₂β₂†⟩ᵀ], x₂ = c.
-    Eigen::MatrixXcd S1_C2D_qp12_sp(2 * Nsp_I, Nsp_I);
-    Eigen::MatrixXcd S2_C2D_qp12_sp(2 * Nsp_I, Nsp_I);
-    Eigen::MatrixXcd T2_C2D_qp12_qp12(2 * Nsp_I, 2 * Nsp_I);
-    std::vector<int> qp_I1D_cqp12{};
-    qp_I1D_cqp12.reserve(2 * Nsp_I);
+    Eigen::MatrixXcd S1_C2D_compactqp12_sp(Ncompactqp12_I, Nsp_I);
+    Eigen::MatrixXcd S2_C2D_compactqp12_sp(Ncompactqp12_I, Nsp_I);
+    Eigen::MatrixXcd T2_C2D_compactqp12_compactqp12(Ncompactqp12_I, Ncompactqp12_I);
+    std::vector<int> compactqp12_I1D_cqp12{};
+    compactqp12_I1D_cqp12.reserve(Ncompactqp12_I);
 
     result_C2D_cfg1_cfg2.setZero();
-    S1_C2D_qp12_sp.topRows(Nsp_I) = Qp1SpDag_C2D_qp1_sp;
-    S2_C2D_qp12_sp.topRows(Nsp_I) = Qp1Sp_C2D_qp1_sp;
-    S1_C2D_qp12_sp.bottomRows(Nsp_I) = -SpDagQp2Dag_C2D_sp_qp2.transpose();
-    S2_C2D_qp12_sp.bottomRows(Nsp_I) = -SpQp2Dag_C2D_sp_qp2.transpose();
+    S1_C2D_compactqp12_sp.topRows(Ncompactqp1_I) = Qp1SpDag_C2D_qp1_sp(qp1_I1D_compactqp1, Eigen::placeholders::all);
+    S2_C2D_compactqp12_sp.topRows(Ncompactqp1_I) = Qp1Sp_C2D_qp1_sp(qp1_I1D_compactqp1, Eigen::placeholders::all);
+    S1_C2D_compactqp12_sp.bottomRows(Ncompactqp2_I) = -SpDagQp2Dag_C2D_sp_qp2(Eigen::placeholders::all, qp2_I1D_compactqp2).transpose();
+    S2_C2D_compactqp12_sp.bottomRows(Ncompactqp2_I) = -SpQp2Dag_C2D_sp_qp2(Eigen::placeholders::all, qp2_I1D_compactqp2).transpose();
     // T⁰ = Σαβ hαβ pf([0,t;−t,0]) = Σαβ hαβ t, t = ⟨cα†cβ⟩.
     const doubleC T0_C = OneBody_C2D_sp_sp.cwiseProduct(SpDagSp_C2D_sp_sp).sum();
     // S_{ij;αβ} = [S₁iα,S₂iβ; S₁jα,S₂jβ].
     // T²ij = Σαβ hαβ pf([0,S_{ij;αβ};−S_{ij;αβ}ᵀ,0]) = −Σαβ hαβ det(S_{ij;αβ}).
     // T² = (S₁hS₂ᵀ)ᵀ − S₁hS₂ᵀ.
-    T2_C2D_qp12_qp12.noalias() = S1_C2D_qp12_sp * OneBody_C2D_sp_sp * S2_C2D_qp12_sp.transpose();
-    T2_C2D_qp12_qp12 = (T2_C2D_qp12_qp12.transpose() - T2_C2D_qp12_qp12).eval();
+    T2_C2D_compactqp12_compactqp12.noalias() = S1_C2D_compactqp12_sp * OneBody_C2D_sp_sp * S2_C2D_compactqp12_sp.transpose();
+    T2_C2D_compactqp12_compactqp12 = (T2_C2D_compactqp12_compactqp12.transpose() - T2_C2D_compactqp12_compactqp12).eval();
 
     // K = F⁰T⁰ − ½Σij F²ij T²ij.
-    for (int cfg2_I = 0; cfg2_I < static_cast<int>(config2_I2D_cfg2_cqp2.size()); ++cfg2_I) {
-        const auto& config2_I1D_cqp = config2_I2D_cfg2_cqp2[cfg2_I];
-        for (int cfg1_I = 0; cfg1_I < static_cast<int>(config1_I2D_cfg1_cqp1.size()); ++cfg1_I) {
-            const auto& config1_I1D_cqp = config1_I2D_cfg1_cqp1[cfg1_I];
-            const int Ncqp1_I = static_cast<int>(config1_I1D_cqp.size());
-            const int Nchain_I = Ncqp1_I + static_cast<int>(config2_I1D_cqp.size());
-            if (Nchain_I % 2 != 0) { continue; }
-            // Left indices reversed; right indices shifted by Nsp.
+    for (int cfg2_I = 0; cfg2_I < static_cast<int>(compactqp2_I2D_cfg2_cqp2.size()); ++cfg2_I) {
+        const auto& compactqp2_I1D_cqp2 = compactqp2_I2D_cfg2_cqp2[cfg2_I];
+        for (int cfg1_I = 0; cfg1_I < static_cast<int>(compactqp1_I2D_cfg1_cqp1.size()); ++cfg1_I) {
+            const auto& compactqp1_I1D_cqp1 = compactqp1_I2D_cfg1_cqp1[cfg1_I];
+            const int Ncqp1_I = static_cast<int>(compactqp1_I1D_cqp1.size());
+            const int Ncqp12_I = Ncqp1_I + static_cast<int>(compactqp2_I1D_cqp2.size());
+            if (Ncqp12_I % 2 != 0) { continue; }
+            // Left indices reversed; right indices shifted by Ncompactqp1.
 
-            qp_I1D_cqp12.clear();
-            for (int cqp1_I = Ncqp1_I - 1; cqp1_I >= 0; --cqp1_I) { qp_I1D_cqp12.push_back(config1_I1D_cqp[cqp1_I]); }
-            for (const int qp_I : config2_I1D_cqp) { qp_I1D_cqp12.push_back(Nsp_I + qp_I); }
-            const auto T2_C2D_cqp12_cqp12 = T2_C2D_qp12_qp12(qp_I1D_cqp12, qp_I1D_cqp12);
+            compactqp12_I1D_cqp12.clear();
+            for (int cqp1_I = Ncqp1_I - 1; cqp1_I >= 0; --cqp1_I) { compactqp12_I1D_cqp12.push_back(compactqp1_I1D_cqp1[cqp1_I]); }
+            for (const int compactqp2_I : compactqp2_I1D_cqp2) { compactqp12_I1D_cqp12.push_back(Ncompactqp1_I + compactqp2_I); }
+            const auto T2_C2D_cqp12_cqp12 = T2_C2D_compactqp12_compactqp12(compactqp12_I1D_cqp12, compactqp12_I1D_cqp12);
             const auto& F2_C2D_cqp12_cqp12 = F2_C4D_cfg1_cfg2_cqp12_cqp12[cfg1_I][cfg2_I];
             const doubleC kernel_C = F0_C2D_cfg1_cfg2[cfg1_I][cfg2_I] * T0_C - 0.5 * F2_C2D_cqp12_cqp12.cwiseProduct(T2_C2D_cqp12_cqp12).sum();
             result_C2D_cfg1_cfg2(cfg1_I, cfg2_I) = kernel_C;
@@ -487,27 +520,31 @@ inline void HFBPfaffian::calc_two_body(Eigen::Ref<Eigen::MatrixXcd> result_C2D_c
     assert(result_C2D_cfg1_cfg2.rows() == static_cast<Eigen::Index>(config1_I2D_cfg1_cqp1.size()) && result_C2D_cfg1_cfg2.cols() == static_cast<Eigen::Index>(config2_I2D_cfg2_cqp2.size()));
     assert(TwoBody_C4D_sp_sp_sp_sp.dimension(0) == Nsp_I && TwoBody_C4D_sp_sp_sp_sp.dimension(1) == Nsp_I && TwoBody_C4D_sp_sp_sp_sp.dimension(2) == Nsp_I && TwoBody_C4D_sp_sp_sp_sp.dimension(3) == Nsp_I);
 
+    const Eigen::Index Ncompactqp1_I = qp1_I1D_compactqp1.size();
+    const Eigen::Index Ncompactqp2_I = qp2_I1D_compactqp2.size();
+    const Eigen::Index Ncompactqp12_I = Ncompactqp1_I + Ncompactqp2_I;
+
     // X = (x₁†,x₂†,x₄,x₃); workspaces shared across β,γ,δ.
     // Sₐ = [⟨β₁Xₐ⟩; −⟨Xₐβ₂†⟩ᵀ], a = 1,2,3,4.
-    Eigen::MatrixXcd S_C2D_qp12_X(2 * Nsp_I, 4);
-    auto S1_C1D_qp12 = S_C2D_qp12_X.col(0);
-    auto S2_C1D_qp12 = S_C2D_qp12_X.col(1);
-    auto S3_C1D_qp12 = S_C2D_qp12_X.col(2);
-    auto S4_C1D_qp12 = S_C2D_qp12_X.col(3);
+    Eigen::MatrixXcd S_C2D_compactqp12_X(Ncompactqp12_I, 4);
+    auto S1_C1D_compactqp12 = S_C2D_compactqp12_X.col(0);
+    auto S2_C1D_compactqp12 = S_C2D_compactqp12_X.col(1);
+    auto S3_C1D_compactqp12 = S_C2D_compactqp12_X.col(2);
+    auto S4_C1D_compactqp12 = S_C2D_compactqp12_X.col(3);
     Eigen::Matrix4cd SF0_C2D_X_X;
     Eigen::Matrix4cd SF2S_C2D_X_X;
     // Ncqp12 ≤ 2Nsp; capacity = (2Nsp)².
     Eigen::VectorXcd S1S2workspace_C1D_element(4 * Nsp_I * Nsp_I);
     Eigen::VectorXcd S3S4workspace_C1D_element(4 * Nsp_I * Nsp_I);
     const auto accumulate_kernel = [&](Eigen::Ref<const Eigen::VectorXcd> x1_C1D_sp, int sp2_I, int sp3_I, int sp4_I) {
-        S1_C1D_qp12.head(Nsp_I).noalias() = Qp1SpDag_C2D_qp1_sp * x1_C1D_sp;
-        S1_C1D_qp12.tail(Nsp_I).noalias() = -SpDagQp2Dag_C2D_sp_qp2.transpose() * x1_C1D_sp;
-        S2_C1D_qp12.head(Nsp_I) = Qp1SpDag_C2D_qp1_sp.col(sp2_I);
-        S2_C1D_qp12.tail(Nsp_I) = -SpDagQp2Dag_C2D_sp_qp2.row(sp2_I).transpose();
-        S3_C1D_qp12.head(Nsp_I) = Qp1Sp_C2D_qp1_sp.col(sp4_I);
-        S3_C1D_qp12.tail(Nsp_I) = -SpQp2Dag_C2D_sp_qp2.row(sp4_I).transpose();
-        S4_C1D_qp12.head(Nsp_I) = Qp1Sp_C2D_qp1_sp.col(sp3_I);
-        S4_C1D_qp12.tail(Nsp_I) = -SpQp2Dag_C2D_sp_qp2.row(sp3_I).transpose();
+        S1_C1D_compactqp12.head(Ncompactqp1_I).noalias() = Qp1SpDag_C2D_qp1_sp(qp1_I1D_compactqp1, Eigen::placeholders::all) * x1_C1D_sp;
+        S1_C1D_compactqp12.tail(Ncompactqp2_I).noalias() = -SpDagQp2Dag_C2D_sp_qp2(Eigen::placeholders::all, qp2_I1D_compactqp2).transpose() * x1_C1D_sp;
+        S2_C1D_compactqp12.head(Ncompactqp1_I) = Qp1SpDag_C2D_qp1_sp(qp1_I1D_compactqp1, sp2_I);
+        S2_C1D_compactqp12.tail(Ncompactqp2_I) = -SpDagQp2Dag_C2D_sp_qp2(sp2_I, qp2_I1D_compactqp2).transpose();
+        S3_C1D_compactqp12.head(Ncompactqp1_I) = Qp1Sp_C2D_qp1_sp(qp1_I1D_compactqp1, sp4_I);
+        S3_C1D_compactqp12.tail(Ncompactqp2_I) = -SpQp2Dag_C2D_sp_qp2(sp4_I, qp2_I1D_compactqp2).transpose();
+        S4_C1D_compactqp12.head(Ncompactqp1_I) = Qp1Sp_C2D_qp1_sp(qp1_I1D_compactqp1, sp3_I);
+        S4_C1D_compactqp12.tail(Ncompactqp2_I) = -SpQp2Dag_C2D_sp_qp2(sp3_I, qp2_I1D_compactqp2).transpose();
 
         // Six upper-triangle contractions in the same insertion order.
         SF0_C2D_X_X.diagonal().setZero();
@@ -532,8 +569,8 @@ inline void HFBPfaffian::calc_two_body(Eigen::Ref<Eigen::MatrixXcd> result_C2D_c
 
                 // S: selected configurations; left order reversed.
                 Eigen::Map<Eigen::MatrixXcd> S_C2D_cqp12_X(Sworkspace_C1D_element.data(), Ncqp12_I, 4);
-                S_C2D_cqp12_X.topRows(Ncqp1_I) = S_C2D_qp12_X.topRows(Nsp_I)(config1_I1D_cqp1, Eigen::placeholders::all).colwise().reverse();
-                S_C2D_cqp12_X.bottomRows(Ncqp2_I) = S_C2D_qp12_X.bottomRows(Nsp_I)(config2_I1D_cqp2, Eigen::placeholders::all);
+                S_C2D_cqp12_X.topRows(Ncqp1_I) = S_C2D_compactqp12_X.topRows(Ncompactqp1_I)(compactqp1_I2D_cfg1_cqp1[cfg1_I], Eigen::placeholders::all).colwise().reverse();
+                S_C2D_cqp12_X.bottomRows(Ncqp2_I) = S_C2D_compactqp12_X.bottomRows(Ncompactqp2_I)(compactqp2_I2D_cfg2_cqp2[cfg2_I], Eigen::placeholders::all);
 
                 // pf([0,S;−Sᵀ,0]) = −det(S) = S₁₂S₂₁ − S₁₁S₂₂, S ∈ ℂ²ˣ².
                 // −Σi<j F²ij pf([0,S;−Sᵀ,0]) = Σi<j F²ij det(S) = Σi<j F²ij(SᵢaSⱼb−SᵢbSⱼa) = (SᵀF²S)ab.
@@ -588,6 +625,10 @@ inline void HFBPfaffian::calc_two_body(Eigen::Ref<Eigen::MatrixXcd> result_C2D_c
     assert(gQ_F1D_q.size() == 0 || (Q_C3D_sp_sp_q.dimension(0) == Nsp_I && Q_C3D_sp_sp_q.dimension(1) == Nsp_I));
     assert(gP_F1D_p.size() == 0 || (P_C3D_sp_sp_p.dimension(0) == Nsp_I && P_C3D_sp_sp_p.dimension(1) == Nsp_I));
 
+    const Eigen::Index Ncompactqp1_I = qp1_I1D_compactqp1.size();
+    const Eigen::Index Ncompactqp2_I = qp2_I1D_compactqp2.size();
+    const Eigen::Index Ncompactqp12_I = Ncompactqp1_I + Ncompactqp2_I;
+
     // Internal contractions and antisymmetric pair factors.
     Eigen::MatrixXcd x1x2_C2D_sp_sp(Nsp_I, Nsp_I);
     Eigen::MatrixXcd x1x3_C2D_sp_sp(Nsp_I, Nsp_I);
@@ -596,17 +637,17 @@ inline void HFBPfaffian::calc_two_body(Eigen::Ref<Eigen::MatrixXcd> result_C2D_c
     Eigen::MatrixXcd x2x4_C2D_sp_sp(Nsp_I, Nsp_I);
     Eigen::MatrixXcd x3x4_C2D_sp_sp(Nsp_I, Nsp_I);
 
-    Eigen::MatrixXcd eta1_C2D_qp_sp(2 * Nsp_I, Nsp_I);
-    Eigen::MatrixXcd eta2_C2D_qp_sp(2 * Nsp_I, Nsp_I);
-    Eigen::MatrixXcd eta3_C2D_qp_sp(2 * Nsp_I, Nsp_I);
-    Eigen::MatrixXcd eta4_C2D_qp_sp(2 * Nsp_I, Nsp_I);
+    Eigen::MatrixXcd eta1_C2D_compactqp12_sp(Ncompactqp12_I, Nsp_I);
+    Eigen::MatrixXcd eta2_C2D_compactqp12_sp(Ncompactqp12_I, Nsp_I);
+    Eigen::MatrixXcd eta3_C2D_compactqp12_sp(Ncompactqp12_I, Nsp_I);
+    Eigen::MatrixXcd eta4_C2D_compactqp12_sp(Ncompactqp12_I, Nsp_I);
 
     doubleC T0_C = 0.0;
-    Eigen::MatrixXcd T2_C2D_qp_qp(2 * Nsp_I, 2 * Nsp_I);
-    Eigen::MatrixXcd PI14_C2D_qp_qp(2 * Nsp_I, 2 * Nsp_I);
-    Eigen::MatrixXcd PI23_C2D_qp_qp(2 * Nsp_I, 2 * Nsp_I);
-    Eigen::MatrixXcd PI12_C2D_qp_qp(2 * Nsp_I, 2 * Nsp_I);
-    Eigen::MatrixXcd PI34_C2D_qp_qp(2 * Nsp_I, 2 * Nsp_I);
+    Eigen::MatrixXcd T2_C2D_compactqp12_compactqp12(Ncompactqp12_I, Ncompactqp12_I);
+    Eigen::MatrixXcd PI14_C2D_compactqp12_compactqp12(Ncompactqp12_I, Ncompactqp12_I);
+    Eigen::MatrixXcd PI23_C2D_compactqp12_compactqp12(Ncompactqp12_I, Ncompactqp12_I);
+    Eigen::MatrixXcd PI12_C2D_compactqp12_compactqp12(Ncompactqp12_I, Ncompactqp12_I);
+    Eigen::MatrixXcd PI34_C2D_compactqp12_compactqp12(Ncompactqp12_I, Ncompactqp12_I);
 
     const auto calc_constract_Q = [&](const Eigen::Ref<const Eigen::MatrixXcd>& Q_C2D_sp_sp) {
         // x₁x₂ = Q*κ̄Q; x₁x₃ = Q*ρ; x₂x₃ = Qᵀρ.
@@ -615,13 +656,13 @@ inline void HFBPfaffian::calc_two_body(Eigen::Ref<Eigen::MatrixXcd> result_C2D_c
         x2x3_C2D_sp_sp.noalias() = Q_C2D_sp_sp.transpose() * SpDagSp_C2D_sp_sp;
 
         // ηⁱ: left ⟨β₁xᵢ⟩; right −⟨xᵢβ₂†⟩ᵀ.
-        eta1_C2D_qp_sp.topRows(Nsp_I).noalias() = Qp1SpDag_C2D_qp1_sp * Q_C2D_sp_sp.adjoint();
-        eta1_C2D_qp_sp.bottomRows(Nsp_I).noalias() = -SpDagQp2Dag_C2D_sp_qp2.transpose() * Q_C2D_sp_sp.adjoint();
-        eta2_C2D_qp_sp.topRows(Nsp_I).noalias() = Qp1SpDag_C2D_qp1_sp * Q_C2D_sp_sp;
-        eta2_C2D_qp_sp.bottomRows(Nsp_I).noalias() = -SpDagQp2Dag_C2D_sp_qp2.transpose() * Q_C2D_sp_sp;
-        eta3_C2D_qp_sp.topRows(Nsp_I) = Qp1Sp_C2D_qp1_sp;
-        eta3_C2D_qp_sp.bottomRows(Nsp_I) = -SpQp2Dag_C2D_sp_qp2.transpose();
-        eta4_C2D_qp_sp = eta3_C2D_qp_sp;
+        eta1_C2D_compactqp12_sp.topRows(Ncompactqp1_I).noalias() = Qp1SpDag_C2D_qp1_sp(qp1_I1D_compactqp1, Eigen::placeholders::all) * Q_C2D_sp_sp.adjoint();
+        eta1_C2D_compactqp12_sp.bottomRows(Ncompactqp2_I).noalias() = -SpDagQp2Dag_C2D_sp_qp2(Eigen::placeholders::all, qp2_I1D_compactqp2).transpose() * Q_C2D_sp_sp.adjoint();
+        eta2_C2D_compactqp12_sp.topRows(Ncompactqp1_I).noalias() = Qp1SpDag_C2D_qp1_sp(qp1_I1D_compactqp1, Eigen::placeholders::all) * Q_C2D_sp_sp;
+        eta2_C2D_compactqp12_sp.bottomRows(Ncompactqp2_I).noalias() = -SpDagQp2Dag_C2D_sp_qp2(Eigen::placeholders::all, qp2_I1D_compactqp2).transpose() * Q_C2D_sp_sp;
+        eta3_C2D_compactqp12_sp.topRows(Ncompactqp1_I) = Qp1Sp_C2D_qp1_sp(qp1_I1D_compactqp1, Eigen::placeholders::all);
+        eta3_C2D_compactqp12_sp.bottomRows(Ncompactqp2_I) = -SpQp2Dag_C2D_sp_qp2(Eigen::placeholders::all, qp2_I1D_compactqp2).transpose();
+        eta4_C2D_compactqp12_sp = eta3_C2D_compactqp12_sp;
 
         // T⁰ = Σbd (C01 C23 − C02 C13 + C03 C12).
         T0_C = (x1x2_C2D_sp_sp.array() * SpSp_C2D_sp_sp.transpose().array()).sum()
@@ -629,19 +670,19 @@ inline void HFBPfaffian::calc_two_body(Eigen::Ref<Eigen::MatrixXcd> result_C2D_c
             + x1x3_C2D_sp_sp.trace() * x2x3_C2D_sp_sp.trace();
 
         // T² = antisym[−η¹ C34 (η²)ᵀ + η¹ C24 (η³)ᵀ − ⋯].
-        T2_C2D_qp_qp.noalias() = -eta1_C2D_qp_sp * SpSp_C2D_sp_sp.transpose() * eta2_C2D_qp_sp.transpose();
-        T2_C2D_qp_qp.noalias() += eta1_C2D_qp_sp * x2x3_C2D_sp_sp.transpose() * eta3_C2D_qp_sp.transpose();
-        T2_C2D_qp_qp.noalias() -= x2x3_C2D_sp_sp.trace() * eta1_C2D_qp_sp * eta4_C2D_qp_sp.transpose();
-        T2_C2D_qp_qp.noalias() -= x1x3_C2D_sp_sp.trace() * eta2_C2D_qp_sp * eta3_C2D_qp_sp.transpose();
-        T2_C2D_qp_qp.noalias() += eta2_C2D_qp_sp * x1x3_C2D_sp_sp.transpose() * eta4_C2D_qp_sp.transpose();
-        T2_C2D_qp_qp.noalias() -= eta3_C2D_qp_sp * x1x2_C2D_sp_sp.transpose() * eta4_C2D_qp_sp.transpose();
+        T2_C2D_compactqp12_compactqp12.noalias() = -eta1_C2D_compactqp12_sp * SpSp_C2D_sp_sp.transpose() * eta2_C2D_compactqp12_sp.transpose();
+        T2_C2D_compactqp12_compactqp12.noalias() += eta1_C2D_compactqp12_sp * x2x3_C2D_sp_sp.transpose() * eta3_C2D_compactqp12_sp.transpose();
+        T2_C2D_compactqp12_compactqp12.noalias() -= x2x3_C2D_sp_sp.trace() * eta1_C2D_compactqp12_sp * eta4_C2D_compactqp12_sp.transpose();
+        T2_C2D_compactqp12_compactqp12.noalias() -= x1x3_C2D_sp_sp.trace() * eta2_C2D_compactqp12_sp * eta3_C2D_compactqp12_sp.transpose();
+        T2_C2D_compactqp12_compactqp12.noalias() += eta2_C2D_compactqp12_sp * x1x3_C2D_sp_sp.transpose() * eta4_C2D_compactqp12_sp.transpose();
+        T2_C2D_compactqp12_compactqp12.noalias() -= eta3_C2D_compactqp12_sp * x1x2_C2D_sp_sp.transpose() * eta4_C2D_compactqp12_sp.transpose();
 
         // T⁴ = Π¹⁴ ∧ Π²³.
-        PI14_C2D_qp_qp.noalias() = eta1_C2D_qp_sp * eta4_C2D_qp_sp.transpose();
-        PI23_C2D_qp_qp.noalias() = eta2_C2D_qp_sp * eta3_C2D_qp_sp.transpose();
-        PI14_C2D_qp_qp = (PI14_C2D_qp_qp - PI14_C2D_qp_qp.transpose()).eval();
-        PI23_C2D_qp_qp = (PI23_C2D_qp_qp - PI23_C2D_qp_qp.transpose()).eval();
-        T2_C2D_qp_qp = (T2_C2D_qp_qp - T2_C2D_qp_qp.transpose()).eval();
+        PI14_C2D_compactqp12_compactqp12.noalias() = eta1_C2D_compactqp12_sp * eta4_C2D_compactqp12_sp.transpose();
+        PI23_C2D_compactqp12_compactqp12.noalias() = eta2_C2D_compactqp12_sp * eta3_C2D_compactqp12_sp.transpose();
+        PI14_C2D_compactqp12_compactqp12 = (PI14_C2D_compactqp12_compactqp12 - PI14_C2D_compactqp12_compactqp12.transpose()).eval();
+        PI23_C2D_compactqp12_compactqp12 = (PI23_C2D_compactqp12_compactqp12 - PI23_C2D_compactqp12_compactqp12.transpose()).eval();
+        T2_C2D_compactqp12_compactqp12 = (T2_C2D_compactqp12_compactqp12 - T2_C2D_compactqp12_compactqp12.transpose()).eval();
     };
 
     const auto calc_constract_P = [&](const Eigen::Ref<const Eigen::MatrixXcd>& P_C2D_sp_sp) {
@@ -654,14 +695,14 @@ inline void HFBPfaffian::calc_two_body(Eigen::Ref<Eigen::MatrixXcd> result_C2D_c
         x3x4_C2D_sp_sp.noalias() = SpSp_C2D_sp_sp * P_C2D_sp_sp.conjugate();
 
         // ηⁱ: left ⟨β₁xᵢ⟩; right −⟨xᵢβ₂†⟩ᵀ.
-        eta1_C2D_qp_sp.topRows(Nsp_I).noalias() = Qp1SpDag_C2D_qp1_sp * P_C2D_sp_sp;
-        eta1_C2D_qp_sp.bottomRows(Nsp_I).noalias() = -SpDagQp2Dag_C2D_sp_qp2.transpose() * P_C2D_sp_sp;
-        eta2_C2D_qp_sp.topRows(Nsp_I) = Qp1SpDag_C2D_qp1_sp;
-        eta2_C2D_qp_sp.bottomRows(Nsp_I) = -SpDagQp2Dag_C2D_sp_qp2.transpose();
-        eta3_C2D_qp_sp.topRows(Nsp_I) = Qp1Sp_C2D_qp1_sp;
-        eta3_C2D_qp_sp.bottomRows(Nsp_I) = -SpQp2Dag_C2D_sp_qp2.transpose();
-        eta4_C2D_qp_sp.topRows(Nsp_I).noalias() = Qp1Sp_C2D_qp1_sp * P_C2D_sp_sp.conjugate();
-        eta4_C2D_qp_sp.bottomRows(Nsp_I).noalias() = -SpQp2Dag_C2D_sp_qp2.transpose() * P_C2D_sp_sp.conjugate();
+        eta1_C2D_compactqp12_sp.topRows(Ncompactqp1_I).noalias() = Qp1SpDag_C2D_qp1_sp(qp1_I1D_compactqp1, Eigen::placeholders::all) * P_C2D_sp_sp;
+        eta1_C2D_compactqp12_sp.bottomRows(Ncompactqp2_I).noalias() = -SpDagQp2Dag_C2D_sp_qp2(Eigen::placeholders::all, qp2_I1D_compactqp2).transpose() * P_C2D_sp_sp;
+        eta2_C2D_compactqp12_sp.topRows(Ncompactqp1_I) = Qp1SpDag_C2D_qp1_sp(qp1_I1D_compactqp1, Eigen::placeholders::all);
+        eta2_C2D_compactqp12_sp.bottomRows(Ncompactqp2_I) = -SpDagQp2Dag_C2D_sp_qp2(Eigen::placeholders::all, qp2_I1D_compactqp2).transpose();
+        eta3_C2D_compactqp12_sp.topRows(Ncompactqp1_I) = Qp1Sp_C2D_qp1_sp(qp1_I1D_compactqp1, Eigen::placeholders::all);
+        eta3_C2D_compactqp12_sp.bottomRows(Ncompactqp2_I) = -SpQp2Dag_C2D_sp_qp2(Eigen::placeholders::all, qp2_I1D_compactqp2).transpose();
+        eta4_C2D_compactqp12_sp.topRows(Ncompactqp1_I).noalias() = Qp1Sp_C2D_qp1_sp(qp1_I1D_compactqp1, Eigen::placeholders::all) * P_C2D_sp_sp.conjugate();
+        eta4_C2D_compactqp12_sp.bottomRows(Ncompactqp2_I).noalias() = -SpQp2Dag_C2D_sp_qp2(Eigen::placeholders::all, qp2_I1D_compactqp2).transpose() * P_C2D_sp_sp.conjugate();
 
         // T⁰ = Σbd (C01 C23 − C02 C13 + C03 C12).
         T0_C = x1x2_C2D_sp_sp.trace() * x3x4_C2D_sp_sp.trace()
@@ -669,52 +710,52 @@ inline void HFBPfaffian::calc_two_body(Eigen::Ref<Eigen::MatrixXcd> result_C2D_c
             + (x1x4_C2D_sp_sp.array() * x2x3_C2D_sp_sp.array()).sum();
 
         // T²: pair two external z with two insertions.
-        T2_C2D_qp_qp.noalias() = -x3x4_C2D_sp_sp.trace() * eta1_C2D_qp_sp * eta2_C2D_qp_sp.transpose();
-        T2_C2D_qp_qp.noalias() += eta1_C2D_qp_sp * x2x4_C2D_sp_sp * eta3_C2D_qp_sp.transpose();
-        T2_C2D_qp_qp.noalias() -= eta1_C2D_qp_sp * x2x3_C2D_sp_sp * eta4_C2D_qp_sp.transpose();
-        T2_C2D_qp_qp.noalias() -= eta2_C2D_qp_sp * x1x4_C2D_sp_sp * eta3_C2D_qp_sp.transpose();
-        T2_C2D_qp_qp.noalias() += eta2_C2D_qp_sp * x1x3_C2D_sp_sp * eta4_C2D_qp_sp.transpose();
-        T2_C2D_qp_qp.noalias() -= x1x2_C2D_sp_sp.trace() * eta3_C2D_qp_sp * eta4_C2D_qp_sp.transpose();
+        T2_C2D_compactqp12_compactqp12.noalias() = -x3x4_C2D_sp_sp.trace() * eta1_C2D_compactqp12_sp * eta2_C2D_compactqp12_sp.transpose();
+        T2_C2D_compactqp12_compactqp12.noalias() += eta1_C2D_compactqp12_sp * x2x4_C2D_sp_sp * eta3_C2D_compactqp12_sp.transpose();
+        T2_C2D_compactqp12_compactqp12.noalias() -= eta1_C2D_compactqp12_sp * x2x3_C2D_sp_sp * eta4_C2D_compactqp12_sp.transpose();
+        T2_C2D_compactqp12_compactqp12.noalias() -= eta2_C2D_compactqp12_sp * x1x4_C2D_sp_sp * eta3_C2D_compactqp12_sp.transpose();
+        T2_C2D_compactqp12_compactqp12.noalias() += eta2_C2D_compactqp12_sp * x1x3_C2D_sp_sp * eta4_C2D_compactqp12_sp.transpose();
+        T2_C2D_compactqp12_compactqp12.noalias() -= x1x2_C2D_sp_sp.trace() * eta3_C2D_compactqp12_sp * eta4_C2D_compactqp12_sp.transpose();
 
-        T2_C2D_qp_qp = (T2_C2D_qp_qp - T2_C2D_qp_qp.transpose()).eval();
+        T2_C2D_compactqp12_compactqp12 = (T2_C2D_compactqp12_compactqp12 - T2_C2D_compactqp12_compactqp12.transpose()).eval();
 
         // T⁴ = Π¹² ∧ Π³⁴.
-        PI12_C2D_qp_qp.noalias() = eta1_C2D_qp_sp * eta2_C2D_qp_sp.transpose();
-        PI34_C2D_qp_qp.noalias() = eta3_C2D_qp_sp * eta4_C2D_qp_sp.transpose();
-        PI12_C2D_qp_qp = (PI12_C2D_qp_qp - PI12_C2D_qp_qp.transpose()).eval();
-        PI34_C2D_qp_qp = (PI34_C2D_qp_qp - PI34_C2D_qp_qp.transpose()).eval();
+        PI12_C2D_compactqp12_compactqp12.noalias() = eta1_C2D_compactqp12_sp * eta2_C2D_compactqp12_sp.transpose();
+        PI34_C2D_compactqp12_compactqp12.noalias() = eta3_C2D_compactqp12_sp * eta4_C2D_compactqp12_sp.transpose();
+        PI12_C2D_compactqp12_compactqp12 = (PI12_C2D_compactqp12_compactqp12 - PI12_C2D_compactqp12_compactqp12.transpose()).eval();
+        PI34_C2D_compactqp12_compactqp12 = (PI34_C2D_compactqp12_compactqp12 - PI34_C2D_compactqp12_compactqp12.transpose()).eval();
     };
 
-    // Ncqp12 ≤ 2Nsp; reuse selected pair matrices.
-    std::vector<int> qp_I1D_cqp12{};
-    qp_I1D_cqp12.reserve(2 * Nsp_I);
+    // Ncqp12 ≤ Ncompactqp12.
+    std::vector<int> compactqp12_I1D_cqp12{};
+    compactqp12_I1D_cqp12.reserve(Ncompactqp12_I);
     Eigen::VectorXcd PI1workspace_C1D_element(4 * Nsp_I * Nsp_I);
     Eigen::VectorXcd PI2workspace_C1D_element(4 * Nsp_I * Nsp_I);
 
-    const auto calc_kernel024 = [&](double g_F, const Eigen::MatrixXcd& PI1_C2D_qp_qp, const Eigen::MatrixXcd& PI2_C2D_qp_qp) {
+    const auto calc_kernel024 = [&](double g_F, const Eigen::MatrixXcd& PI1_C2D_compactqp12_compactqp12, const Eigen::MatrixXcd& PI2_C2D_compactqp12_compactqp12) {
         const doubleC factor_C = overlap_C * g_F;
-        for (int cfg2_I = 0; cfg2_I < static_cast<int>(config2_I2D_cfg2_cqp2.size()); ++cfg2_I) {
-            const auto& config2_I1D_cqp = config2_I2D_cfg2_cqp2[cfg2_I];
-            for (int cfg1_I = 0; cfg1_I < static_cast<int>(config1_I2D_cfg1_cqp1.size()); ++cfg1_I) {
-                const auto& config1_I1D_cqp = config1_I2D_cfg1_cqp1[cfg1_I];
-                const int Ncqp1_I = static_cast<int>(config1_I1D_cqp.size());
-                const Eigen::Index Ncqp12_I = Ncqp1_I + static_cast<Eigen::Index>(config2_I1D_cqp.size());
+        for (int cfg2_I = 0; cfg2_I < static_cast<int>(compactqp2_I2D_cfg2_cqp2.size()); ++cfg2_I) {
+            const auto& compactqp2_I1D_cqp2 = compactqp2_I2D_cfg2_cqp2[cfg2_I];
+            for (int cfg1_I = 0; cfg1_I < static_cast<int>(compactqp1_I2D_cfg1_cqp1.size()); ++cfg1_I) {
+                const auto& compactqp1_I1D_cqp1 = compactqp1_I2D_cfg1_cqp1[cfg1_I];
+                const int Ncqp1_I = static_cast<int>(compactqp1_I1D_cqp1.size());
+                const Eigen::Index Ncqp12_I = Ncqp1_I + static_cast<Eigen::Index>(compactqp2_I1D_cqp2.size());
                 if (Ncqp12_I % 2 != 0) { continue; }
-                // Left indices reversed; right indices shifted by Nsp.
-                qp_I1D_cqp12.clear();
-                for (int cqp1_I = Ncqp1_I - 1; cqp1_I >= 0; --cqp1_I) { qp_I1D_cqp12.push_back(config1_I1D_cqp[cqp1_I]); }
-                for (const int qp_I : config2_I1D_cqp) { qp_I1D_cqp12.push_back(Nsp_I + qp_I); }
+                // Left reversed; right shifted by Ncompactqp1.
+                compactqp12_I1D_cqp12.clear();
+                for (int cqp1_I = Ncqp1_I - 1; cqp1_I >= 0; --cqp1_I) { compactqp12_I1D_cqp12.push_back(compactqp1_I1D_cqp1[cqp1_I]); }
+                for (const int compactqp2_I : compactqp2_I1D_cqp2) { compactqp12_I1D_cqp12.push_back(Ncompactqp1_I + compactqp2_I); }
                 const auto& F2_C2D_cqp12_cqp12 = F2_C4D_cfg1_cfg2_cqp12_cqp12[cfg1_I][cfg2_I];
                 // K⁰ + K² = F⁰T⁰ − ½Σij F²ij T²ij.
                 doubleC kernel_C = F0_C2D_cfg1_cfg2[cfg1_I][cfg2_I] * T0_C
-                    - 0.5 * F2_C2D_cqp12_cqp12.cwiseProduct(T2_C2D_qp_qp(qp_I1D_cqp12, qp_I1D_cqp12)).sum();
+                    - 0.5 * F2_C2D_cqp12_cqp12.cwiseProduct(T2_C2D_compactqp12_compactqp12(compactqp12_I1D_cqp12, compactqp12_I1D_cqp12)).sum();
 
                 // K⁴ = ¼ vec(Π₁)ᵀ F⁴_(ij,kl) vec(Π₂).
                 if (Ncqp12_I >= 4) {
                     Eigen::Map<Eigen::MatrixXcd> PI1_C2D_cqp12_cqp12(PI1workspace_C1D_element.data(), Ncqp12_I, Ncqp12_I);
                     Eigen::Map<Eigen::MatrixXcd> PI2_C2D_cqp12_cqp12(PI2workspace_C1D_element.data(), Ncqp12_I, Ncqp12_I);
-                    PI1_C2D_cqp12_cqp12 = PI1_C2D_qp_qp(qp_I1D_cqp12, qp_I1D_cqp12);
-                    PI2_C2D_cqp12_cqp12 = PI2_C2D_qp_qp(qp_I1D_cqp12, qp_I1D_cqp12);
+                    PI1_C2D_cqp12_cqp12 = PI1_C2D_compactqp12_compactqp12(compactqp12_I1D_cqp12, compactqp12_I1D_cqp12);
+                    PI2_C2D_cqp12_cqp12 = PI2_C2D_compactqp12_compactqp12(compactqp12_I1D_cqp12, compactqp12_I1D_cqp12);
                     // ColMajor: (i,j) → i+nj; (k,l) → k+nl.
                     const Eigen::Map<const Eigen::MatrixXcd> F4_C2D_cqp12cqp12_cqp12cqp12(F4_C6D_cfg1_cfg2_cqp12_cqp12_cqp12_cqp12[cfg1_I][cfg2_I].data(), Ncqp12_I * Ncqp12_I, Ncqp12_I * Ncqp12_I);
                     const Eigen::Map<const Eigen::VectorXcd> PI1_C1D_cqp12cqp12(PI1_C2D_cqp12_cqp12.data(), PI1_C2D_cqp12_cqp12.size());
@@ -733,7 +774,7 @@ inline void HFBPfaffian::calc_two_body(Eigen::Ref<Eigen::MatrixXcd> result_C2D_c
         const Eigen::Index offset_I = iQ_I * Nsp_I * Nsp_I;
         const Eigen::Map<const Eigen::MatrixXcd> Q_C2D_sp_sp(Q_C3D_sp_sp_q.data() + offset_I, Nsp_I, Nsp_I);
         calc_constract_Q(Q_C2D_sp_sp);
-        calc_kernel024(gQ_F1D_q(iQ_I), PI14_C2D_qp_qp, PI23_C2D_qp_qp);
+        calc_kernel024(gQ_F1D_q(iQ_I), PI14_C2D_compactqp12_compactqp12, PI23_C2D_compactqp12_compactqp12);
     }
 
     // P: ¼gP (F⁰T⁰ − ½F²T² + ¼F⁴Π¹²Π³⁴).
@@ -742,7 +783,7 @@ inline void HFBPfaffian::calc_two_body(Eigen::Ref<Eigen::MatrixXcd> result_C2D_c
         const Eigen::Index offset_I = iP_I * Nsp_I * Nsp_I;
         const Eigen::Map<const Eigen::MatrixXcd> P_C2D_sp_sp(P_C3D_sp_sp_p.data() + offset_I, Nsp_I, Nsp_I);
         calc_constract_P(P_C2D_sp_sp);
-        calc_kernel024(0.25 * gP_F1D_p(iP_I), PI12_C2D_qp_qp, PI34_C2D_qp_qp);
+        calc_kernel024(0.25 * gP_F1D_p(iP_I), PI12_C2D_compactqp12_compactqp12, PI34_C2D_compactqp12_compactqp12);
     }
 }
 
