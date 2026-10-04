@@ -8,6 +8,7 @@
 #include "psm_spherical.hpp"
 #include "spherical_rotation.hpp"
 #include <Eigen/Eigenvalues>
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <utility>
@@ -19,9 +20,22 @@
  */
 void PSMSpherical::build_projection(int Nbeta_I, int Nphin_I, int Nphip_I) {
     assert(Un_F2D_2spn_2qpn.rows() > 0 && Up_F2D_2spp_2qpp.rows() > 0);
-    // (Eqp,2K,cutoffs) → neutron/proton configurations.
-    psm_setting.configuration_neutron.build_config(Eqpn_F1D_2qpn, TwoKn_I1D_2qpn);
-    psm_setting.configuration_proton.build_config(Eqpp_F1D_2qpp, TwoKp_I1D_2qpp);
+    // Active shells → masks; ±K partners share shell membership.
+    const Eigen::Index Nspn_I = psm_setting.sphericalsetting_neutron.labels_S1D_sp.size();
+    const Eigen::Index Nspp_I = psm_setting.sphericalsetting_proton.labels_S1D_sp.size();
+    Eigen::VectorXi maskn_I1D_2qpn = Eigen::VectorXi::Zero(2 * Nspn_I);
+    Eigen::VectorXi maskp_I1D_2qpp = Eigen::VectorXi::Zero(2 * Nspp_I);
+    for (Eigen::Index qpn_I = 0; qpn_I < Nspn_I; ++qpn_I) {
+        maskn_I1D_2qpn(qpn_I) = std::find(psm_setting.Nshelln_I1D_Nactive.begin(), psm_setting.Nshelln_I1D_Nactive.end(), psm_setting.sphericalsetting_neutron.labels_S1D_sp[qpn_I].N_I) != psm_setting.Nshelln_I1D_Nactive.end();
+        maskn_I1D_2qpn(qpn_I + Nspn_I) = maskn_I1D_2qpn(qpn_I);
+    }
+    for (Eigen::Index qpp_I = 0; qpp_I < Nspp_I; ++qpp_I) {
+        maskp_I1D_2qpp(qpp_I) = std::find(psm_setting.Nshellp_I1D_Nactive.begin(), psm_setting.Nshellp_I1D_Nactive.end(), psm_setting.sphericalsetting_proton.labels_S1D_sp[qpp_I].N_I) != psm_setting.Nshellp_I1D_Nactive.end();
+        maskp_I1D_2qpp(qpp_I + Nspp_I) = maskp_I1D_2qpp(qpp_I);
+    }
+    // (Eqp,2K,mask) → configurations in complete U,V columns.
+    psm_setting.configuration_neutron.build_config(Eqpn_F1D_2qpn, TwoKn_I1D_2qpn, maskn_I1D_2qpn);
+    psm_setting.configuration_proton.build_config(Eqpp_F1D_2qpp, TwoKp_I1D_2qpp, maskp_I1D_2qpp);
     assert(!psm_setting.configuration_neutron.config_I2D_cfg_cqp.empty() && !psm_setting.configuration_proton.config_I2D_cfg_cqp.empty());
 
     // 2K_cfg = Σqp 2K_qp; Φ₁ = Φ₂.
@@ -64,7 +78,7 @@ void PSMSpherical::build_projection(int Nbeta_I, int Nphin_I, int Nphip_I) {
 
 /**
  * @brief Build CI angle kernels using gauge quadrature.
- * @math G₂ = γG₀; (ρ,Q,G) → N(Ω),H(Ω).
+ * @math G₂ = γG₀; H = h₀ − λₙN̂ − λₚẐ + H_QQ + H_PP.
  * @output N_C5D and H_C5D beta caches.
  * @note Requires solved HFBCS and initialized projection.
  */
@@ -87,9 +101,9 @@ void PSMSpherical::build_ci(double gamma_F) {
     assert(projection_nucleus.projection_neutron.Nsp_I > 0 && projection_nucleus.projection_proton.Nsp_I > 0);
     assert(psm_setting.N_I - psm_setting.Ncore_I == projection_nucleus.projection_neutron.TargetN_I && psm_setting.Z_I - psm_setting.Zcore_I == projection_nucleus.projection_proton.TargetN_I);
 
-    // h₀ ∈ ℝ → complex projection inputs.
-    const Eigen::MatrixXcd h0n_C2D_2spn_2spn = h0n_F2D_2spn_2spn.cast<doubleC>();
-    const Eigen::MatrixXcd h0p_C2D_2spp_2spp = h0p_F2D_2spp_2spp.cast<doubleC>();
+    // h₀ → h₀ − λₙN̂ − λₚẐ.
+    Eigen::MatrixXcd h0n_C2D_2spn_2spn = (h0n_F2D_2spn_2spn - hfb_neutron.lambda_F * Eigen::MatrixXd::Identity(h0n_F2D_2spn_2spn.rows(), h0n_F2D_2spn_2spn.cols())).cast<doubleC>();
+    Eigen::MatrixXcd h0p_C2D_2spp_2spp = (h0p_F2D_2spp_2spp - hfb_proton.lambda_F * Eigen::MatrixXd::Identity(h0p_F2D_2spp_2spp.rows(), h0p_F2D_2spp_2spp.cols())).cast<doubleC>();
 
     // Q₂μ = δ_NN′(r/b)²√(4π/5)Y₂μ; P₂μ = Q₂μ P₀.
     assert(std::isfinite(psm_setting.chi2_nn_F) && std::isfinite(psm_setting.chi2_np_F) && std::isfinite(psm_setting.chi2_pp_F));

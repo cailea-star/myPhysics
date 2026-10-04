@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <vector>
@@ -78,6 +79,10 @@ public:
     SphericalSetting sphericalsetting_neutron;
     SphericalSetting sphericalsetting_proton;
 
+    // {N_shell}_active ⊆ {N_shell}_basis.
+    std::vector<int> Nshelln_I1D_Nactive{};
+    std::vector<int> Nshellp_I1D_Nactive{};
+
     HFBConfiguration configuration_neutron;
     HFBConfiguration configuration_proton;
 
@@ -92,16 +97,18 @@ public:
     /**
      * @brief Set neutron space and reset neutron configurations.
      * @math Ncore = Nmin(Nmin+1)(Nmin+2)/3; ℏω₀ = 41.4678/b².
-     * @output Neutron basis, core count, frequency; empty configurations.
+     * @output Neutron basis, active shells, core count, frequency; empty configurations.
+     * @note Empty active shells select all basis shells.
      */
-    void set_sp_neutron(double b_F_, const std::vector<int>& Nshell_I1D_Nshell_);
+    void set_sp_neutron(double b_F_, const std::vector<int>& Nshell_I1D_Nshell_, const std::vector<int>& Nshell_I1D_Nactive_ = {});
 
     /**
      * @brief Set proton space and reset proton configurations.
      * @math Zcore = Nmin(Nmin+1)(Nmin+2)/3; ℏω₀ = 41.4678/b².
-     * @output Proton basis, core count, frequency; empty configurations.
+     * @output Proton basis, active shells, core count, frequency; empty configurations.
+     * @note Empty active shells select all basis shells.
      */
-    void set_sp_proton(double b_F_, const std::vector<int>& Nshell_I1D_Nshell_);
+    void set_sp_proton(double b_F_, const std::vector<int>& Nshell_I1D_Nshell_, const std::vector<int>& Nshell_I1D_Nactive_ = {});
 
     /**
      * @brief Set nuclear composition, deformation, and single-particle parameters.
@@ -130,7 +137,7 @@ public:
 
     /**
      * @brief Store neutron configuration cutoffs.
-     * @math Nqp = 2 size(labels); (Ncqp,ECut,NCut,TwoKCut) → cutoffs.
+     * @math (Ncqp,ECut,NCut,TwoKCut) → cutoffs; Nqp unchanged.
      * @output Stored neutron Nqp and cutoffs; empty configurations.
      * @note Requires configured species space.
      * @note Configurations are built by PSMSpherical::build_projection().
@@ -139,7 +146,7 @@ public:
 
     /**
      * @brief Store proton configuration cutoffs.
-     * @math Nqp = 2 size(labels); (Ncqp,ECut,NCut,TwoKCut) → cutoffs.
+     * @math (Ncqp,ECut,NCut,TwoKCut) → cutoffs; Nqp unchanged.
      * @output Stored proton Nqp and cutoffs; empty configurations.
      * @note Requires configured species space.
      * @note Configurations are built by PSMSpherical::build_projection().
@@ -148,24 +155,32 @@ public:
 
 };
 
-inline void PSMSphericalSetting::set_sp_neutron(double b_F_, const std::vector<int>& Nshell_I1D_Nshell_) {
+inline void PSMSphericalSetting::set_sp_neutron(double b_F_, const std::vector<int>& Nshell_I1D_Nshell_, const std::vector<int>& Nshell_I1D_Nactive_) {
     sphericalsetting_neutron = SphericalSetting(b_F_, Nshell_I1D_Nshell_, true, true, true);
+    Nshelln_I1D_Nactive = Nshell_I1D_Nactive_;
+    if (Nshelln_I1D_Nactive.empty()) { Nshelln_I1D_Nactive = Nshell_I1D_Nshell_; }
+    assert(std::is_sorted(Nshelln_I1D_Nactive.begin(), Nshelln_I1D_Nactive.end()) && std::adjacent_find(Nshelln_I1D_Nactive.begin(), Nshelln_I1D_Nactive.end()) == Nshelln_I1D_Nactive.end() && std::includes(Nshell_I1D_Nshell_.begin(), Nshell_I1D_Nshell_.end(), Nshelln_I1D_Nactive.begin(), Nshelln_I1D_Nactive.end()));
     const int Nmin_I = sphericalsetting_neutron.Nshell_I1D_Nshell.front();
 
     // Ncore = Σ_{N=0}^{Nmin−1}(N+1)(N+2); ℏω₀ = ℏ²/(mb²).
     Ncore_I = Nmin_I * (Nmin_I + 1) * (Nmin_I + 2) / 3;
     hbarOmega0_n_F = hbar2_m_F / (b_F_ * b_F_);
     configuration_neutron = HFBConfiguration();
+    configuration_neutron.Nqp_I = 2 * static_cast<int>(sphericalsetting_neutron.labels_S1D_sp.size());
 }
 
-inline void PSMSphericalSetting::set_sp_proton(double b_F_, const std::vector<int>& Nshell_I1D_Nshell_) {
+inline void PSMSphericalSetting::set_sp_proton(double b_F_, const std::vector<int>& Nshell_I1D_Nshell_, const std::vector<int>& Nshell_I1D_Nactive_) {
     sphericalsetting_proton = SphericalSetting(b_F_, Nshell_I1D_Nshell_, true, true, true);
+    Nshellp_I1D_Nactive = Nshell_I1D_Nactive_;
+    if (Nshellp_I1D_Nactive.empty()) { Nshellp_I1D_Nactive = Nshell_I1D_Nshell_; }
+    assert(std::is_sorted(Nshellp_I1D_Nactive.begin(), Nshellp_I1D_Nactive.end()) && std::adjacent_find(Nshellp_I1D_Nactive.begin(), Nshellp_I1D_Nactive.end()) == Nshellp_I1D_Nactive.end() && std::includes(Nshell_I1D_Nshell_.begin(), Nshell_I1D_Nshell_.end(), Nshellp_I1D_Nactive.begin(), Nshellp_I1D_Nactive.end()));
     const int Nmin_I = sphericalsetting_proton.Nshell_I1D_Nshell.front();
 
     // Zcore = Σ_{N=0}^{Nmin−1}(N+1)(N+2); ℏω₀ = ℏ²/(mb²).
     Zcore_I = Nmin_I * (Nmin_I + 1) * (Nmin_I + 2) / 3;
     hbarOmega0_p_F = hbar2_m_F / (b_F_ * b_F_);
     configuration_proton = HFBConfiguration();
+    configuration_proton.Nqp_I = 2 * static_cast<int>(sphericalsetting_proton.labels_S1D_sp.size());
 }
 
 inline void PSMSphericalSetting::set_hfbcs(int N_I_, int Z_I_, double epsilon2_F_, double epsilon4_F_) {
@@ -237,13 +252,11 @@ inline void PSMSphericalSetting::set_CI_PP(double gamma_F) {
 }
 
 inline void PSMSphericalSetting::set_config_cut_neutron(const Eigen::VectorXi& Ncqp_I1D_Ncqp, const Eigen::VectorXd& ECut_F1D_Ncqp, const Eigen::VectorXi& NCut_I1D_Ncqp, const Eigen::VectorXi& TwoKCut_I1D_Ncqp) {
-    // (Nqp,Ncqp,ECut,NCut,TwoKCut) → configuration settings.
-    const int Nqp_I = 2 * static_cast<int>(sphericalsetting_neutron.labels_S1D_sp.size());
-    configuration_neutron = HFBConfiguration(Nqp_I, Ncqp_I1D_Ncqp, ECut_F1D_Ncqp, NCut_I1D_Ncqp, TwoKCut_I1D_Ncqp);
+    // (Ncqp,ECut,NCut,TwoKCut) → cutoffs; Nqp unchanged.
+    configuration_neutron = HFBConfiguration(configuration_neutron.Nqp_I, Ncqp_I1D_Ncqp, ECut_F1D_Ncqp, NCut_I1D_Ncqp, TwoKCut_I1D_Ncqp);
 }
 
 inline void PSMSphericalSetting::set_config_cut_proton(const Eigen::VectorXi& Ncqp_I1D_Ncqp, const Eigen::VectorXd& ECut_F1D_Ncqp, const Eigen::VectorXi& NCut_I1D_Ncqp, const Eigen::VectorXi& TwoKCut_I1D_Ncqp) {
-    // (Nqp,Ncqp,ECut,NCut,TwoKCut) → configuration settings.
-    const int Nqp_I = 2 * static_cast<int>(sphericalsetting_proton.labels_S1D_sp.size());
-    configuration_proton = HFBConfiguration(Nqp_I, Ncqp_I1D_Ncqp, ECut_F1D_Ncqp, NCut_I1D_Ncqp, TwoKCut_I1D_Ncqp);
+    // (Ncqp,ECut,NCut,TwoKCut) → cutoffs; Nqp unchanged.
+    configuration_proton = HFBConfiguration(configuration_proton.Nqp_I, Ncqp_I1D_Ncqp, ECut_F1D_Ncqp, NCut_I1D_Ncqp, TwoKCut_I1D_Ncqp);
 }

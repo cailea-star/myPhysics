@@ -32,10 +32,10 @@ void PSMSpherical::solve_hfbcs() {
     assert(psm_setting.hbarOmega0_n_F > 0.0 && psm_setting.hbarOmega0_p_F > 0.0);
 
     // (h₀,h_deform,G,Nactive) → h_Nilsson → BCS.
-    const auto build_species = [](const SphericalSetting& sphericalsetting, HFBCS& hfb, int Nactive_I, double G_F, const Eigen::MatrixXd& h0_F2D_2sp_2sp, const Eigen::MatrixXd& hDeform_F2D_2sp_2sp) {
+    const auto build_species = [](const SphericalSetting& sphericalsetting, HFBCS& hfb, int TargetN_I, double G_F, const Eigen::MatrixXd& h0_F2D_2sp_2sp, const Eigen::MatrixXd& hDeform_F2D_2sp_2sp) {
         assert(sphericalsetting.useAxialSym_B && sphericalsetting.useParity_B);
         assert(hfb.Nblock_I == static_cast<int>(sphericalsetting.labels_S2D_block_bsp.size()));
-        assert(Nactive_I >= 0 && Nactive_I <= 2 * static_cast<int>(sphericalsetting.labels_S1D_sp.size()));
+        assert(TargetN_I >= 0 && TargetN_I <= 2 * static_cast<int>(sphericalsetting.labels_S1D_sp.size()));
 
         // h_Nilsson = h₀ + h_deform; Γ = 0.
         for (int block_I = 0; block_I < hfb.Nblock_I; ++block_I) {
@@ -53,7 +53,7 @@ void PSMSpherical::solve_hfbcs() {
 
         // (h,G,Nactive) → λ,Δ,E,u,v,ρ,κ; no pairing-window cutoff.
         hfb.G_F = G_F;
-        hfb.search_lambda(Nactive_I, std::numeric_limits<double>::infinity(), 1.0e-10);
+        hfb.search_lambda(TargetN_I, std::numeric_limits<double>::infinity(), 1.0e-10);
     };
 
     // Nactive = N−Ncore; Zactive = Z−Zcore.

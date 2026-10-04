@@ -6,6 +6,7 @@
  */
 
 #include <utility>
+#include <vector>
 
 #include "psm_spherical.hpp"
 #include "psm_spherical_debug.hpp"
@@ -25,12 +26,23 @@ int main() {
     const double bn_F = 2.28000;
     const double bp_F = 2.40324;
 
+    const std::vector<int> Nshelln_I1D_Nshell{4, 5, 6};
+    const std::vector<int> Nshellp_I1D_Nshell{3, 4, 5};
+    const std::vector<int> Nshelln_I1D_Nactive{6};
+    const std::vector<int> Nshellp_I1D_Nactive{5};
+
+    const Eigen::Vector2i Ncqp_I1D_Ncqp{0, 2};
+    const Eigen::Vector2d ECut_F1D_Ncqp{0.0, 3.5};
+    const Eigen::Vector2i NCut_I1D_Ncqp{1, 16};
+    const Eigen::Vector2i TwoKCutn_I1D_Ncqp{0, 24};
+    const Eigen::Vector2i TwoKCutp_I1D_Ncqp{0, 20};
+
     PSMSphericalSetting psm_setting;
-    psm_setting.set_sp_neutron(bn_F, {4, 5, 6});
-    psm_setting.set_sp_proton(bp_F, {3, 4, 5});
+    psm_setting.set_sp_neutron(bn_F, Nshelln_I1D_Nshell, Nshelln_I1D_Nactive);
+    psm_setting.set_sp_proton(bp_F, Nshellp_I1D_Nshell, Nshellp_I1D_Nactive);
     psm_setting.set_hfbcs(TargetN_I, TargetZ_I, epsilon2_F, epsilon4_F);
-    psm_setting.set_config_cut_neutron((Eigen::Vector2i() << 0, 2).finished(), (Eigen::Vector2d() << 0.0, 3.5).finished(), (Eigen::Vector2i() << 1, 16).finished(), (Eigen::Vector2i() << 0, 24).finished());
-    psm_setting.set_config_cut_proton((Eigen::Vector2i() << 0, 2).finished(), (Eigen::Vector2d() << 0.0, 3.5).finished(), (Eigen::Vector2i() << 1, 16).finished(), (Eigen::Vector2i() << 0, 20).finished());
+    psm_setting.set_config_cut_neutron(Ncqp_I1D_Ncqp, ECut_F1D_Ncqp, NCut_I1D_Ncqp, TwoKCutn_I1D_Ncqp);
+    psm_setting.set_config_cut_proton(Ncqp_I1D_Ncqp, ECut_F1D_Ncqp, NCut_I1D_Ncqp, TwoKCutp_I1D_Ncqp);
 
     PSMSpherical psm(std::move(psm_setting));
     psm.solve_hfbcs();

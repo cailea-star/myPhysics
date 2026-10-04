@@ -102,7 +102,7 @@ public:
 
     /**
      * @brief Build CI angle kernels using gauge quadrature.
-     * @math G₂ = γG₀; (ρ,Q,G) → N(Ω),H(Ω).
+     * @math G₂ = γG₀; H = h₀ − λₙN̂ − λₚẐ + H_QQ + H_PP.
      * @output N_C5D and H_C5D beta caches.
      * @note Requires solved HFBCS and initialized projection.
      */

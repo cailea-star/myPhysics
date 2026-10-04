@@ -60,14 +60,15 @@ public:
      * @brief Enumerate zero-to-four quasiparticle configurations using nested loops.
      * @math |c| = q; E_c = ΣE_i; 2K_c = Σ2K_i.
      * @output Rebuilt configurations, ordered by count, energy, then indices.
-     * @note Inputs follow U,V columns; TwoK is signed.
+     * @note Inputs follow U,V columns; empty mask permits all orbitals.
      */
-    void build_config(const Eigen::VectorXd& Eqp_F1D_qp, const Eigen::VectorXi& TwoK_I1D_qp);
+    void build_config(const Eigen::VectorXd& Eqp_F1D_qp, const Eigen::VectorXi& TwoK_I1D_qp, const Eigen::VectorXi& mask_I1D_qp = {});
 };
 
-inline void HFBConfiguration::build_config(const Eigen::VectorXd& Eqp_F1D_qp, const Eigen::VectorXi& TwoK_I1D_qp) {
+inline void HFBConfiguration::build_config(const Eigen::VectorXd& Eqp_F1D_qp, const Eigen::VectorXi& TwoK_I1D_qp, const Eigen::VectorXi& mask_I1D_qp) {
     assert(Nqp_I >= 0);
     assert(Eqp_F1D_qp.size() == Nqp_I && TwoK_I1D_qp.size() == Nqp_I);
+    assert(mask_I1D_qp.size() == 0 || (mask_I1D_qp.size() == Nqp_I && ((mask_I1D_qp.array() == 0) || (mask_I1D_qp.array() == 1)).all()));
 
     assert(Ncqp_I1D_Ncqp.size() == ECut_F1D_Ncqp.size());
     assert(Ncqp_I1D_Ncqp.size() == NCut_I1D_Ncqp.size());
@@ -86,6 +87,7 @@ inline void HFBConfiguration::build_config(const Eigen::VectorXd& Eqp_F1D_qp, co
     // q = 1: increasing orbital indices.
     const auto build_1qp = [&](int NCut_I, double ECut_F, int twoKCut_I) {
         for (int qp1_I = 0; qp1_I < Nqp_I; ++qp1_I) {
+            if (mask_I1D_qp.size() != 0 && mask_I1D_qp(qp1_I) == 0) {continue;}
             // E_c = ΣE_i; 2K_c = Σ2K_i.
             const double Econfig_F = Eqp_F1D_qp(qp1_I);
             const long long TwoKconfig_I = static_cast<long long>(TwoK_I1D_qp(qp1_I));
@@ -100,7 +102,9 @@ inline void HFBConfiguration::build_config(const Eigen::VectorXd& Eqp_F1D_qp, co
     // q = 2: increasing orbital indices.
     const auto build_2qp = [&](int NCut_I, double ECut_F, int twoKCut_I) {
         for (int qp1_I = 0; qp1_I < Nqp_I - 1; ++qp1_I) {
+            if (mask_I1D_qp.size() != 0 && mask_I1D_qp(qp1_I) == 0) {continue;}
             for (int qp2_I = qp1_I + 1; qp2_I < Nqp_I; ++qp2_I) {
+                if (mask_I1D_qp.size() != 0 && mask_I1D_qp(qp2_I) == 0) {continue;}
                 // E_c = ΣE_i; 2K_c = Σ2K_i.
                 const double Econfig_F = Eqp_F1D_qp(qp1_I) + Eqp_F1D_qp(qp2_I);
                 const long long TwoKconfig_I = static_cast<long long>(TwoK_I1D_qp(qp1_I)) + TwoK_I1D_qp(qp2_I);
@@ -116,8 +120,11 @@ inline void HFBConfiguration::build_config(const Eigen::VectorXd& Eqp_F1D_qp, co
     // q = 3: increasing orbital indices.
     const auto build_3qp = [&](int NCut_I, double ECut_F, int twoKCut_I) {
         for (int qp1_I = 0; qp1_I < Nqp_I - 2; ++qp1_I) {
+            if (mask_I1D_qp.size() != 0 && mask_I1D_qp(qp1_I) == 0) {continue;}
             for (int qp2_I = qp1_I + 1; qp2_I < Nqp_I - 1; ++qp2_I) {
+                if (mask_I1D_qp.size() != 0 && mask_I1D_qp(qp2_I) == 0) {continue;}
                 for (int qp3_I = qp2_I + 1; qp3_I < Nqp_I; ++qp3_I) {
+                    if (mask_I1D_qp.size() != 0 && mask_I1D_qp(qp3_I) == 0) {continue;}
                     // E_c = ΣE_i; 2K_c = Σ2K_i.
                     const double Econfig_F = Eqp_F1D_qp(qp1_I) + Eqp_F1D_qp(qp2_I) + Eqp_F1D_qp(qp3_I);
                     const long long TwoKconfig_I = static_cast<long long>(TwoK_I1D_qp(qp1_I)) + TwoK_I1D_qp(qp2_I) + TwoK_I1D_qp(qp3_I);
@@ -134,9 +141,13 @@ inline void HFBConfiguration::build_config(const Eigen::VectorXd& Eqp_F1D_qp, co
     // q = 4: increasing orbital indices.
     const auto build_4qp = [&](int NCut_I, double ECut_F, int twoKCut_I) {
         for (int qp1_I = 0; qp1_I < Nqp_I - 3; ++qp1_I) {
+            if (mask_I1D_qp.size() != 0 && mask_I1D_qp(qp1_I) == 0) {continue;}
             for (int qp2_I = qp1_I + 1; qp2_I < Nqp_I - 2; ++qp2_I) {
+                if (mask_I1D_qp.size() != 0 && mask_I1D_qp(qp2_I) == 0) {continue;}
                 for (int qp3_I = qp2_I + 1; qp3_I < Nqp_I - 1; ++qp3_I) {
+                    if (mask_I1D_qp.size() != 0 && mask_I1D_qp(qp3_I) == 0) {continue;}
                     for (int qp4_I = qp3_I + 1; qp4_I < Nqp_I; ++qp4_I) {
+                        if (mask_I1D_qp.size() != 0 && mask_I1D_qp(qp4_I) == 0) {continue;}
                         // E_c = ΣE_i; 2K_c = Σ2K_i.
                         const double Econfig_F = Eqp_F1D_qp(qp1_I) + Eqp_F1D_qp(qp2_I) + Eqp_F1D_qp(qp3_I) + Eqp_F1D_qp(qp4_I);
                         const long long TwoKconfig_I = static_cast<long long>(TwoK_I1D_qp(qp1_I)) + TwoK_I1D_qp(qp2_I) + TwoK_I1D_qp(qp3_I) + TwoK_I1D_qp(qp4_I);
