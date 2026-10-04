@@ -346,6 +346,12 @@ For each wave $a\in\{\mathrm i,\mathrm r,\mathrm t\}$, write $\mathbf S_a\equiv\
 
 #### TE Polarization
 
+For the $xz$ plane of incidence, TE polarization means
+
+$$
+E_x=E_z=0.
+$$
+
 At the interface, let the electric-field amplitudes be
 
 $$
@@ -389,6 +395,12 @@ R_{\mathrm{TE}}=\frac{|\mathbf S_{\mathrm r}\cdot\hat{\mathbf z}|}{|\mathbf S_{\
 $$
 
 #### TM Polarization
+
+For the $xz$ plane of incidence, TM polarization means
+
+$$
+H_x=H_z=0.
+$$
 
 At the interface, let
 

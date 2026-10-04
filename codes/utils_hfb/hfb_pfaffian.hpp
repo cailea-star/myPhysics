@@ -463,7 +463,7 @@ inline void HFBPfaffian::calc_one_fermion(Eigen::Tensor<doubleC, 3, Eigen::ColMa
     // ⟨β₁cα†⟩ or ⟨β₁cα⟩; ⟨cα†β₂†⟩ or ⟨cαβ₂†⟩.
     const auto Qp1X_C2D_compactqp1_sp = (creation_B ? Qp1SpDag_C2D_qp1_sp : Qp1Sp_C2D_qp1_sp)(qp1_I1D_compactqp1, Eigen::placeholders::all);
     const auto XQp2Dag_C2D_sp_compactqp2 = (creation_B ? SpDagQp2Dag_C2D_sp_qp2 : SpQp2Dag_C2D_sp_qp2)(Eigen::placeholders::all, qp2_I1D_compactqp2);
-    
+
     result_C3D_cfg1_cfg2_sp.setZero();
     for (Eigen::Index cfg2_I = 0; cfg2_I < Ncfg2_I; ++cfg2_I) {
         const auto& compactqp2_I1D_cqp2 = compactqp2_I2D_cfg2_cqp2[cfg2_I];
