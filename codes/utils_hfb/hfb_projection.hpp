@@ -255,6 +255,7 @@ inline void HFBProjectionPNP::update_UV(const Eigen::MatrixXd& U1_F2D_sp_qp1_, c
     V1_C2D_sp_qp1 = V1_F2D_sp_qp1_.cast<doubleC>();
     U2_C2D_sp_qp2 = U2_F2D_sp_qp2_.cast<doubleC>();
     V2_C2D_sp_qp2 = V2_F2D_sp_qp2_.cast<doubleC>();
+    hfb_pfaffian.update_U1V1(U1_C2D_sp_qp1, V1_C2D_sp_qp1);
 }
 
 inline void HFBProjectionPNP::integrate_pnp(Eigen::TensorMap<Eigen::Tensor<doubleC, 3, Eigen::ColMajor>> result_C3D_cfg1_cfg2_operator, int TargetN_I, const std::function<void(Eigen::Tensor<doubleC, 3, Eigen::ColMajor>&)>& calc_at_phi_Func) {
@@ -274,7 +275,8 @@ inline void HFBProjectionPNP::integrate_pnp(Eigen::TensorMap<Eigen::Tensor<doubl
         const doubleC gauge_C = std::exp(doubleC(0.0, -phi_F));
         gagueDU2_C2D_sp_qp2 = gauge_C * DU2_C2D_sp_qp2;
         gagueDV2_C2D_sp_qp2 = std::conj(gauge_C) * DV2_C2D_sp_qp2;
-        hfb_pfaffian.update_contractions(U1_C2D_sp_qp1, V1_C2D_sp_qp1, gagueDU2_C2D_sp_qp2, gagueDV2_C2D_sp_qp2, doubleC(1.0, 0.0));
+        hfb_pfaffian.update_U2V2(gagueDU2_C2D_sp_qp2, gagueDV2_C2D_sp_qp2);
+        hfb_pfaffian.update_contractions(doubleC(1.0, 0.0));
         calc_at_phi_Func(resultAtPhi_C3D_cfg1_cfg2_operator);
         const doubleC factorPhi_C = std::exp(doubleC(0.0, TargetN_I * phi_F));
         result_C3D_cfg1_cfg2_operator += resultAtPhi_C3D_cfg1_cfg2_operator * factorPhi_C;
