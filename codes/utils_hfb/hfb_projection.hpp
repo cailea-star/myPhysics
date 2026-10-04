@@ -105,7 +105,7 @@ public:
      * @output Overwritten caller-provided result_C3D_cfg1_cfg2_operator.
      * @note   Callback overwrites K(:,:,operator;φ,D); preserves the allocated shape.
      */
-    void integrate_pnp(Eigen::TensorMap<Eigen::Tensor<doubleC, 3, Eigen::ColMajor>> result_C3D_cfg1_cfg2_operator, int TargetN_I, const std::function<void(int, Eigen::Tensor<doubleC, 3, Eigen::ColMajor>&)>& calc_at_phi_Func);
+    void integrate_pnp(Eigen::TensorMap<Eigen::Tensor<doubleC, 3, Eigen::ColMajor>> result_C3D_cfg1_cfg2_operator, int TargetN_I, const std::function<void(Eigen::Tensor<doubleC, 3, Eigen::ColMajor>&)>& calc_at_phi_Func);
 
 };
 
@@ -198,9 +198,9 @@ private:
      * @brief Build kernels using uniform gauge quadrature.
      * @math result_abi(Ω) = ⟨Φ₁;a|Oᵢ Pᴺ R(Ω)|Φ₂;b⟩.
      * @output Overwritten caller-provided result_C6D_cfg1_cfg2_operator_gamma_alpha_beta.
-     * @note No K selection, Euler weights, or Wigner factors.
+     * @note External captures are read-only; excludes K/weights/Wigner factors.
      */
-    void build_amp(Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& result_C6D_cfg1_cfg2_operator_gamma_alpha_beta, const std::function<void(int, int, int, Eigen::TensorMap<Eigen::Tensor<doubleC, 3, Eigen::ColMajor>>&)>& calc_at_Omega_Func);
+    void build_amp(Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& result_C6D_cfg1_cfg2_operator_gamma_alpha_beta, const std::function<void(HFBProjection&, Eigen::TensorMap<Eigen::Tensor<doubleC, 3, Eigen::ColMajor>>&)>& calc_at_Omega_Func);
 
 public:
     /**
@@ -257,7 +257,7 @@ inline void HFBProjectionPNP::update_UV(const Eigen::MatrixXd& U1_F2D_sp_qp1_, c
     V2_C2D_sp_qp2 = V2_F2D_sp_qp2_.cast<doubleC>();
 }
 
-inline void HFBProjectionPNP::integrate_pnp(Eigen::TensorMap<Eigen::Tensor<doubleC, 3, Eigen::ColMajor>> result_C3D_cfg1_cfg2_operator, int TargetN_I, const std::function<void(int, Eigen::Tensor<doubleC, 3, Eigen::ColMajor>&)>& calc_at_phi_Func) {
+inline void HFBProjectionPNP::integrate_pnp(Eigen::TensorMap<Eigen::Tensor<doubleC, 3, Eigen::ColMajor>> result_C3D_cfg1_cfg2_operator, int TargetN_I, const std::function<void(Eigen::Tensor<doubleC, 3, Eigen::ColMajor>&)>& calc_at_phi_Func) {
     const Eigen::Index Noperator_I = result_C3D_cfg1_cfg2_operator.dimension(2);
     assert(Nphi_I > 0);
     assert(TargetN_I >= 0 && TargetN_I <= Nsp_I);
@@ -275,7 +275,7 @@ inline void HFBProjectionPNP::integrate_pnp(Eigen::TensorMap<Eigen::Tensor<doubl
         gagueDU2_C2D_sp_qp2 = gauge_C * DU2_C2D_sp_qp2;
         gagueDV2_C2D_sp_qp2 = std::conj(gauge_C) * DV2_C2D_sp_qp2;
         hfb_pfaffian.update_contractions(U1_C2D_sp_qp1, V1_C2D_sp_qp1, gagueDU2_C2D_sp_qp2, gagueDV2_C2D_sp_qp2, doubleC(1.0, 0.0));
-        calc_at_phi_Func(phi_I, resultAtPhi_C3D_cfg1_cfg2_operator);
+        calc_at_phi_Func(resultAtPhi_C3D_cfg1_cfg2_operator);
         const doubleC factorPhi_C = std::exp(doubleC(0.0, TargetN_I * phi_F));
         result_C3D_cfg1_cfg2_operator += resultAtPhi_C3D_cfg1_cfg2_operator * factorPhi_C;
     }
@@ -312,7 +312,7 @@ inline void HFBProjection::update_gamma(Eigen::Tensor<doubleC, 3, Eigen::ColMajo
     weight_F1D_gamma = std::move(weight_F1D_gamma_);
 }
 
-inline void HFBProjection::build_amp(Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& result_C6D_cfg1_cfg2_operator_gamma_alpha_beta, const std::function<void(int, int, int, Eigen::TensorMap<Eigen::Tensor<doubleC, 3, Eigen::ColMajor>>&)>& calc_at_Omega_Func) {
+inline void HFBProjection::build_amp(Eigen::Tensor<doubleC, 6, Eigen::ColMajor>& result_C6D_cfg1_cfg2_operator_gamma_alpha_beta, const std::function<void(HFBProjection&, Eigen::TensorMap<Eigen::Tensor<doubleC, 3, Eigen::ColMajor>>&)>& calc_at_Omega_Func) {
     const Eigen::Index Noperator_I = result_C6D_cfg1_cfg2_operator_gamma_alpha_beta.dimension(2);
     assert(Nalpha_I > 0 && Nbeta_I > 0 && Ngamma_I > 0);
 
@@ -321,16 +321,26 @@ inline void HFBProjection::build_amp(Eigen::Tensor<doubleC, 6, Eigen::ColMajor>&
 
 
     // D = Rz(α) Ry(β) Rz(γ); result(:,:,:,γ,α,β) = PNP kernel.
-    for (int beta_I = 0; beta_I < Nbeta_I; ++beta_I) {
+    const auto calc_at_beta = [&](int beta_I, HFBProjection& projection_thread) {
         const Eigen::Map<const Eigen::MatrixXcd> RyBeta_C2D_sp_sp(Ry_C3D_sp_sp_beta.data() + static_cast<Eigen::Index>(beta_I) * Nsp_I * Nsp_I, Nsp_I, Nsp_I);
         for (int alpha_I = 0; alpha_I < Nalpha_I; ++alpha_I) {
             const Eigen::Map<const Eigen::MatrixXcd> RzAlpha_C2D_sp_sp(Rz_C3D_sp_sp_alpha.data() + static_cast<Eigen::Index>(alpha_I) * Nsp_I * Nsp_I, Nsp_I, Nsp_I);
             for (int gamma_I = 0; gamma_I < Ngamma_I; ++gamma_I) {
                 const Eigen::Map<const Eigen::MatrixXcd> RzGamma_C2D_sp_sp(Rz_C3D_sp_sp_gamma.data() + static_cast<Eigen::Index>(gamma_I) * Nsp_I * Nsp_I, Nsp_I, Nsp_I);
-                D_C2D_sp_sp.noalias() = RzAlpha_C2D_sp_sp * RyBeta_C2D_sp_sp * RzGamma_C2D_sp_sp;
+                projection_thread.D_C2D_sp_sp.noalias() = RzAlpha_C2D_sp_sp * RyBeta_C2D_sp_sp * RzGamma_C2D_sp_sp;
                 Eigen::TensorMap<Eigen::Tensor<doubleC, 3, Eigen::ColMajor>> resultAtOmega_C3D_cfg1_cfg2_operator(result_C6D_cfg1_cfg2_operator_gamma_alpha_beta.data() + (gamma_I + static_cast<Eigen::Index>(Ngamma_I) * (alpha_I + static_cast<Eigen::Index>(Nalpha_I) * beta_I)) * Ncfg1_I * Ncfg2_I * Noperator_I, Ncfg1_I, Ncfg2_I, Noperator_I);
-                calc_at_Omega_Func(alpha_I, beta_I, gamma_I, resultAtOmega_C3D_cfg1_cfg2_operator);
+                calc_at_Omega_Func(projection_thread, resultAtOmega_C3D_cfg1_cfg2_operator);
             }
+        }
+    };
+
+    #pragma omp parallel
+    {
+        HFBProjection projection_thread = *this;
+
+        #pragma omp for schedule(static)
+        for (int beta_I = 0; beta_I < Nbeta_I; ++beta_I) {
+            calc_at_beta(beta_I, projection_thread);
         }
     }
 }
@@ -350,24 +360,27 @@ inline void HFBProjection::integrate_amp(Eigen::Tensor<doubleC, 5, Eigen::ColMaj
     const double normalization_F = (TargetTwoI_I + 1.0) / volume_F;
 
     const Eigen::Index Ncfg1cfg2operator_I = static_cast<Eigen::Index>(Ncfg1_I) * Ncfg2_I * Noperator_I;
-    Eigen::MatrixXcd weightD_C2D_K_K(TargetTwoI_I + 1, TargetTwoI_I + 1);
-
-    // result = (2I+1)/VΩ ΣΩ wΩ cache(Ω) vec(Dᴵ*(Ω))ᵀ.
+    // W(K₁,K₂,Ω) = (2I+1)/VΩ wΩ Dᴵ*(Ω).
+    Eigen::Tensor<doubleC, 5, Eigen::ColMajor> weightD_C5D_K_K_gamma_alpha_beta(TargetTwoI_I + 1, TargetTwoI_I + 1, Ngamma_I, Nalpha_I, Nbeta_I);
     for (int beta_I = 0; beta_I < Nbeta_I; ++beta_I) {
         for (int alpha_I = 0; alpha_I < Nalpha_I; ++alpha_I) {
             for (int gamma_I = 0; gamma_I < Ngamma_I; ++gamma_I) {
                 const double weight_F = normalization_F * weight_F1D_alpha(alpha_I) * weight_F1D_beta(beta_I) * weight_F1D_gamma(gamma_I);
+                const Eigen::Index offset_I = (gamma_I + static_cast<Eigen::Index>(Ngamma_I) * (alpha_I + static_cast<Eigen::Index>(Nalpha_I) * beta_I)) * (TargetTwoI_I + 1) * (TargetTwoI_I + 1);
+                Eigen::Map<Eigen::MatrixXcd> weightD_C2D_K_K(weightD_C5D_K_K_gamma_alpha_beta.data() + offset_I, TargetTwoI_I + 1, TargetTwoI_I + 1);
                 weightD_C2D_K_K = weight_F * wignerD_X.calc_R(alpha_F1D_alpha(alpha_I), beta_F1D_beta(beta_I), gamma_F1D_gamma(gamma_I)).conjugate();
-
-                // ColMajor: cfg1 → cfg2 → operator → γ → α → β.
-                const Eigen::Index offset_I = Ncfg1cfg2operator_I * (gamma_I + static_cast<Eigen::Index>(Ngamma_I) * alpha_I + static_cast<Eigen::Index>(Ngamma_I) * Nalpha_I * beta_I);
-                Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg1cfg2operator_KK(result_C5D_cfg1_cfg2_operator_K_K.data(), Ncfg1cfg2operator_I, static_cast<Eigen::Index>(TargetTwoI_I + 1) * (TargetTwoI_I + 1));
-                const Eigen::Map<const Eigen::VectorXcd> weightD_C1D_KK(weightD_C2D_K_K.data(), weightD_C2D_K_K.size());
-                const Eigen::Map<const Eigen::VectorXcd> cache_C1D_cfg1cfg2operator(cache_C6D_cfg1_cfg2_operator_gamma_alpha_beta.data() + offset_I, Ncfg1cfg2operator_I);
-                result_C2D_cfg1cfg2operator_KK.noalias() += cache_C1D_cfg1cfg2operator * weightD_C1D_KK.transpose();
             }
         }
     }
+
+    // R = C Wᵀ; Ω = γ + Nγ(α + Nαβ).
+    const Eigen::Index NOmega_I = static_cast<Eigen::Index>(Ngamma_I) * Nalpha_I * Nbeta_I;
+    const Eigen::Index NKK_I = static_cast<Eigen::Index>(TargetTwoI_I + 1) * (TargetTwoI_I + 1);
+    const Eigen::Map<const Eigen::MatrixXcd> cache_C2D_cfg1cfg2operator_Omega(cache_C6D_cfg1_cfg2_operator_gamma_alpha_beta.data(), Ncfg1cfg2operator_I, NOmega_I);
+    const Eigen::Map<const Eigen::MatrixXcd> weightD_C2D_KK_Omega(weightD_C5D_K_K_gamma_alpha_beta.data(), NKK_I, NOmega_I);
+
+    Eigen::Map<Eigen::MatrixXcd> result_C2D_cfg1cfg2operator_KK(result_C5D_cfg1_cfg2_operator_K_K.data(), Ncfg1cfg2operator_I, NKK_I);
+    result_C2D_cfg1cfg2operator_KK.noalias() = cache_C2D_cfg1cfg2operator_Omega * weightD_C2D_KK_Omega.transpose();
 }
 
 inline void HFBProjection::integrate_amp_with_K(Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& result_C3D_cfg1_cfg2_operator, int TargetTwoI_I, const Eigen::VectorXi& TwoK1_I1D_cfg1, const Eigen::VectorXi& TwoK2_I1D_cfg2, const Eigen::Tensor<doubleC, 4, Eigen::ColMajor>& cache_C4D_cfg1_cfg2_operator_beta) {
@@ -381,19 +394,25 @@ inline void HFBProjection::integrate_amp_with_K(Eigen::Tensor<doubleC, 3, Eigen:
     result_C3D_cfg1_cfg2_operator.setZero();
 
     // result_abi = (2I+1)/2 Σβ wβ dᴵ*_{KaKb}(β) cache_abi(β).
+    Eigen::Tensor<double, 3, Eigen::ColMajor> weightD_F3D_K_K_beta(TargetTwoI_I + 1, TargetTwoI_I + 1, Nbeta_I);
     for (int beta_I = 0; beta_I < Nbeta_I; ++beta_I) {
         const auto& wignerDyBeta_C2D_K_K = wignerD_X.calc_Ry(beta_F1D_beta(beta_I));
-        const double weight_F = normalization_F * weight_F1D_beta(beta_I);
-        for (int cfg2_I = 0; cfg2_I < Ncfg2_I; ++cfg2_I) {
-            const int TwoK2_I = TwoK2_I1D_cfg2(cfg2_I);
-            if (std::abs(TwoK2_I) > TargetTwoI_I || (TwoK2_I + TargetTwoI_I) % 2 != 0) { continue; }
-            const int K2_I = (TwoK2_I + TargetTwoI_I) / 2;
+        Eigen::Map<Eigen::MatrixXd> weightD_F2D_K_K(weightD_F3D_K_K_beta.data() + static_cast<Eigen::Index>(beta_I) * (TargetTwoI_I + 1) * (TargetTwoI_I + 1), TargetTwoI_I + 1, TargetTwoI_I + 1);
+        weightD_F2D_K_K = normalization_F * weight_F1D_beta(beta_I) * wignerDyBeta_C2D_K_K.real();
+    }
+
+    // Each right configuration owns disjoint output elements.
+    #pragma omp parallel for schedule(static)
+    for (int cfg2_I = 0; cfg2_I < Ncfg2_I; ++cfg2_I) {
+        const int TwoK2_I = TwoK2_I1D_cfg2(cfg2_I);
+        if (std::abs(TwoK2_I) > TargetTwoI_I || (TwoK2_I + TargetTwoI_I) % 2 != 0) { continue; }
+        const int K2_I = (TwoK2_I + TargetTwoI_I) / 2;
+        for (int beta_I = 0; beta_I < Nbeta_I; ++beta_I) {
             for (int cfg1_I = 0; cfg1_I < Ncfg1_I; ++cfg1_I) {
                 const int TwoK1_I = TwoK1_I1D_cfg1(cfg1_I);
                 if (std::abs(TwoK1_I) > TargetTwoI_I || (TwoK1_I + TargetTwoI_I) % 2 != 0) { continue; }
                 const int K1_I = (TwoK1_I + TargetTwoI_I) / 2;
-                // dᴵ(β) is real in the Jz basis.
-                const double weightD_F = weight_F * wignerDyBeta_C2D_K_K(K1_I, K2_I).real();
+                const double weightD_F = weightD_F3D_K_K_beta(K1_I, K2_I, beta_I);
                 for (Eigen::Index operator_I = 0; operator_I < Noperator_I; ++operator_I) { result_C3D_cfg1_cfg2_operator(cfg1_I, cfg2_I, operator_I) += weightD_F * cache_C4D_cfg1_cfg2_operator_beta(cfg1_I, cfg2_I, operator_I, beta_I); }
             }
         }
@@ -402,10 +421,10 @@ inline void HFBProjection::integrate_amp_with_K(Eigen::Tensor<doubleC, 3, Eigen:
 
 inline Eigen::Tensor<doubleC, 5, Eigen::ColMajor> HFBProjection::build_overlap() {
     Eigen::Tensor<doubleC, 6, Eigen::ColMajor> result_C6D_cfg1_cfg2_operator_gamma_alpha_beta(Ncfg1_I, Ncfg2_I, 1, Ngamma_I, Nalpha_I, Nbeta_I);
-    build_amp(result_C6D_cfg1_cfg2_operator_gamma_alpha_beta, [&](int, int, int, auto& resultAtOmega_C3D_cfg1_cfg2_operator) {
-        integrate_pnp(resultAtOmega_C3D_cfg1_cfg2_operator, TargetN_I, [&](int, auto& resultAtPhi_C3D_cfg1_cfg2_operator) {
+    build_amp(result_C6D_cfg1_cfg2_operator_gamma_alpha_beta, [&](HFBProjection& projection_thread, auto& resultAtOmega_C3D_cfg1_cfg2_operator) {
+        projection_thread.integrate_pnp(resultAtOmega_C3D_cfg1_cfg2_operator, projection_thread.TargetN_I, [&](auto& resultAtPhi_C3D_cfg1_cfg2_operator) {
             Eigen::Map<Eigen::MatrixXcd> resultAtPhi_C2D_cfg1_cfg2(resultAtPhi_C3D_cfg1_cfg2_operator.data(), Ncfg1_I, Ncfg2_I);
-            hfb_pfaffian.calc_overlap(resultAtPhi_C2D_cfg1_cfg2);
+            projection_thread.hfb_pfaffian.calc_overlap(resultAtPhi_C2D_cfg1_cfg2);
         });
     });
     return result_C6D_cfg1_cfg2_operator_gamma_alpha_beta.chip(0, 2);
@@ -414,10 +433,10 @@ inline Eigen::Tensor<doubleC, 5, Eigen::ColMajor> HFBProjection::build_overlap()
 inline Eigen::Tensor<doubleC, 5, Eigen::ColMajor> HFBProjection::build_one_body(const Eigen::MatrixXcd& OneBody_C2D_sp_sp) {
     assert(OneBody_C2D_sp_sp.rows() == Nsp_I && OneBody_C2D_sp_sp.cols() == Nsp_I && OneBody_C2D_sp_sp.allFinite());
     Eigen::Tensor<doubleC, 6, Eigen::ColMajor> result_C6D_cfg1_cfg2_operator_gamma_alpha_beta(Ncfg1_I, Ncfg2_I, 1, Ngamma_I, Nalpha_I, Nbeta_I);
-    build_amp(result_C6D_cfg1_cfg2_operator_gamma_alpha_beta, [&](int, int, int, auto& resultAtOmega_C3D_cfg1_cfg2_operator) {
-        integrate_pnp(resultAtOmega_C3D_cfg1_cfg2_operator, TargetN_I, [&](int, auto& resultAtPhi_C3D_cfg1_cfg2_operator) {
+    build_amp(result_C6D_cfg1_cfg2_operator_gamma_alpha_beta, [&](HFBProjection& projection_thread, auto& resultAtOmega_C3D_cfg1_cfg2_operator) {
+        projection_thread.integrate_pnp(resultAtOmega_C3D_cfg1_cfg2_operator, projection_thread.TargetN_I, [&](auto& resultAtPhi_C3D_cfg1_cfg2_operator) {
             Eigen::Map<Eigen::MatrixXcd> resultAtPhi_C2D_cfg1_cfg2(resultAtPhi_C3D_cfg1_cfg2_operator.data(), Ncfg1_I, Ncfg2_I);
-            hfb_pfaffian.calc_one_body(resultAtPhi_C2D_cfg1_cfg2, OneBody_C2D_sp_sp);
+            projection_thread.hfb_pfaffian.calc_one_body(resultAtPhi_C2D_cfg1_cfg2, OneBody_C2D_sp_sp);
         });
     });
     return result_C6D_cfg1_cfg2_operator_gamma_alpha_beta.chip(0, 2);
@@ -425,10 +444,10 @@ inline Eigen::Tensor<doubleC, 5, Eigen::ColMajor> HFBProjection::build_one_body(
 
 inline Eigen::Tensor<doubleC, 5, Eigen::ColMajor> HFBProjection::build_two_body(const Eigen::VectorXd& gQ_F1D_i, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& Q_C3D_sp_sp_i, const Eigen::VectorXd& gP_F1D_i, const Eigen::Tensor<doubleC, 3, Eigen::ColMajor>& P_C3D_sp_sp_i) {
     Eigen::Tensor<doubleC, 6, Eigen::ColMajor> result_C6D_cfg1_cfg2_operator_gamma_alpha_beta(Ncfg1_I, Ncfg2_I, 1, Ngamma_I, Nalpha_I, Nbeta_I);
-    build_amp(result_C6D_cfg1_cfg2_operator_gamma_alpha_beta, [&](int, int, int, auto& resultAtOmega_C3D_cfg1_cfg2_operator) {
-        integrate_pnp(resultAtOmega_C3D_cfg1_cfg2_operator, TargetN_I, [&](int, auto& resultAtPhi_C3D_cfg1_cfg2_operator) {
+    build_amp(result_C6D_cfg1_cfg2_operator_gamma_alpha_beta, [&](HFBProjection& projection_thread, auto& resultAtOmega_C3D_cfg1_cfg2_operator) {
+        projection_thread.integrate_pnp(resultAtOmega_C3D_cfg1_cfg2_operator, projection_thread.TargetN_I, [&](auto& resultAtPhi_C3D_cfg1_cfg2_operator) {
             Eigen::Map<Eigen::MatrixXcd> resultAtPhi_C2D_cfg1_cfg2(resultAtPhi_C3D_cfg1_cfg2_operator.data(), Ncfg1_I, Ncfg2_I);
-            hfb_pfaffian.calc_two_body(resultAtPhi_C2D_cfg1_cfg2, gQ_F1D_i, gP_F1D_i, Q_C3D_sp_sp_i, P_C3D_sp_sp_i);
+            projection_thread.hfb_pfaffian.calc_two_body(resultAtPhi_C2D_cfg1_cfg2, gQ_F1D_i, gP_F1D_i, Q_C3D_sp_sp_i, P_C3D_sp_sp_i);
         });
     });
     return result_C6D_cfg1_cfg2_operator_gamma_alpha_beta.chip(0, 2);
