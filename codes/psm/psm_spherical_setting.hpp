@@ -13,7 +13,7 @@
 #include <vector>
 #include <unsupported/Eigen/CXX11/Tensor>
 
-#include "hfb_configuration.hpp"
+#include "hfb_configuration_nucleus.hpp"
 #include "spherical_setting.hpp"
 
 // 
@@ -83,8 +83,7 @@ public:
     std::vector<int> Nshelln_I1D_Nactive{};
     std::vector<int> Nshellp_I1D_Nactive{};
 
-    HFBConfiguration configuration_neutron;
-    HFBConfiguration configuration_proton;
+    HFBConfigurationNucleus configuration_nucleus;
 
 public:
     /**
@@ -95,7 +94,7 @@ public:
     PSMSphericalSetting() = default;
 
     /**
-     * @brief Set neutron space and reset neutron configurations.
+     * @brief Set neutron space and reset nuclear configurations.
      * @math Ncore = Nmin(Nmin+1)(Nmin+2)/3; ℏω₀ = 41.4678/b².
      * @output Neutron basis, active shells, core count, frequency; empty configurations.
      * @note Empty active shells select all basis shells.
@@ -103,7 +102,7 @@ public:
     void set_sp_neutron(double b_F_, const std::vector<int>& Nshell_I1D_Nshell_, const std::vector<int>& Nshell_I1D_Nactive_ = {});
 
     /**
-     * @brief Set proton space and reset proton configurations.
+     * @brief Set proton space and reset nuclear configurations.
      * @math Zcore = Nmin(Nmin+1)(Nmin+2)/3; ℏω₀ = 41.4678/b².
      * @output Proton basis, active shells, core count, frequency; empty configurations.
      * @note Empty active shells select all basis shells.
@@ -125,7 +124,7 @@ public:
      * @output Updated χ₂,nn,χ₂,np,χ₂,pp.
      * @note Requires set_hfbcs(), full (+m,−m) densities and Q; D ≠ 0.
      */
-    void set_CI_QQ(const Eigen::MatrixXd& rhon_F2D_2spn_2spn_, const Eigen::MatrixXd& rhop_F2D_2spp_2spp_, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Qn_F3D_2spn_2spn_mu_, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Qp_F3D_2spp_2spp_mu_);
+    void set_ci_QQ(const Eigen::MatrixXd& rhon_F2D_2spn_2spn_, const Eigen::MatrixXd& rhop_F2D_2spp_2spp_, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Qn_F3D_2spn_2spn_mu_, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Qp_F3D_2spp_2spp_mu_);
 
     /**
      * @brief Set quadrupole pairing strengths.
@@ -133,25 +132,23 @@ public:
      * @output Updated G₂,nn,G₂,pp.
      * @note Requires set_hfbcs().
      */
-    void set_CI_PP(double gamma_F);
+    void set_ci_PP(double gamma_F);
+
 
     /**
-     * @brief Store neutron configuration cutoffs.
-     * @math (Ncqp,ECut,NCut,TwoKCut) → cutoffs; Nqp unchanged.
-     * @output Stored neutron Nqp and cutoffs; empty configurations.
-     * @note Requires configured species space.
-     * @note Configurations are built by PSMSpherical::build_projection().
+     * @brief Store mixed nuclear configuration cutoffs.
+     * @math (Ncqp_n,Ncqp_p,ECut,NCut,TwoKCut) → configuration_nucleus.
+     * @output Stored cutoffs; empty mixed and tensor configurations.
      */
-    void set_config_cut_neutron(const Eigen::VectorXi& Ncqp_I1D_Ncqp, const Eigen::VectorXd& ECut_F1D_Ncqp, const Eigen::VectorXi& NCut_I1D_Ncqp, const Eigen::VectorXi& TwoKCut_I1D_Ncqp);
+    void set_ci_cut(const Eigen::MatrixXi& Ncqp_I2D_Ncqp_np, const Eigen::VectorXd& ECut_F1D_Ncqp, const Eigen::VectorXi& NCut_I1D_Ncqp, const Eigen::VectorXi& TwoKCut_I1D_Ncqp);
 
     /**
-     * @brief Store proton configuration cutoffs.
-     * @math (Ncqp,ECut,NCut,TwoKCut) → cutoffs; Nqp unchanged.
-     * @output Stored proton Nqp and cutoffs; empty configurations.
-     * @note Requires configured species space.
-     * @note Configurations are built by PSMSpherical::build_projection().
+     * @brief Select Kramers configurations using Nilsson-energy ordering.
+     * @math Ehf → representative order; Ecfg = ΣEqp.
+     * @output Mixed nuclear configurations and unique tensor factors.
+     * @note Energy and K arrays follow full U,V column order.
      */
-    void set_config_cut_proton(const Eigen::VectorXi& Ncqp_I1D_Ncqp, const Eigen::VectorXd& ECut_F1D_Ncqp, const Eigen::VectorXi& NCut_I1D_Ncqp, const Eigen::VectorXi& TwoKCut_I1D_Ncqp);
+    void build_ci_config(const Eigen::VectorXd& Ehfn_F1D_2qpn, const Eigen::VectorXd& Eqpn_F1D_2qpn, const Eigen::VectorXi& TwoKn_I1D_2qpn, const Eigen::VectorXd& Ehfp_F1D_2qpp, const Eigen::VectorXd& Eqpp_F1D_2qpp, const Eigen::VectorXi& TwoKp_I1D_2qpp);
 
 };
 
@@ -165,8 +162,10 @@ inline void PSMSphericalSetting::set_sp_neutron(double b_F_, const std::vector<i
     // Ncore = Σ_{N=0}^{Nmin−1}(N+1)(N+2); ℏω₀ = ℏ²/(mb²).
     Ncore_I = Nmin_I * (Nmin_I + 1) * (Nmin_I + 2) / 3;
     hbarOmega0_n_F = hbar2_m_F / (b_F_ * b_F_);
-    configuration_neutron = HFBConfiguration();
-    configuration_neutron.Nqp_I = 2 * static_cast<int>(sphericalsetting_neutron.labels_S1D_sp.size());
+    configuration_nucleus.confign_I2D_cfgnp_cqpn.clear();
+    configuration_nucleus.configp_I2D_cfgnp_cqpp.clear();
+    configuration_nucleus.confign_I2D_tensorcfgn_cqpn.clear();
+    configuration_nucleus.configp_I2D_tensorcfgp_cqpp.clear();
 }
 
 inline void PSMSphericalSetting::set_sp_proton(double b_F_, const std::vector<int>& Nshell_I1D_Nshell_, const std::vector<int>& Nshell_I1D_Nactive_) {
@@ -179,8 +178,10 @@ inline void PSMSphericalSetting::set_sp_proton(double b_F_, const std::vector<in
     // Zcore = Σ_{N=0}^{Nmin−1}(N+1)(N+2); ℏω₀ = ℏ²/(mb²).
     Zcore_I = Nmin_I * (Nmin_I + 1) * (Nmin_I + 2) / 3;
     hbarOmega0_p_F = hbar2_m_F / (b_F_ * b_F_);
-    configuration_proton = HFBConfiguration();
-    configuration_proton.Nqp_I = 2 * static_cast<int>(sphericalsetting_proton.labels_S1D_sp.size());
+    configuration_nucleus.confign_I2D_cfgnp_cqpn.clear();
+    configuration_nucleus.configp_I2D_cfgnp_cqpp.clear();
+    configuration_nucleus.confign_I2D_tensorcfgn_cqpn.clear();
+    configuration_nucleus.configp_I2D_tensorcfgp_cqpp.clear();
 }
 
 inline void PSMSphericalSetting::set_hfbcs(int N_I_, int Z_I_, double epsilon2_F_, double epsilon4_F_) {
@@ -217,7 +218,7 @@ inline void PSMSphericalSetting::set_hfbcs(int N_I_, int Z_I_, double epsilon2_F
     G0_pp_F = (PSMParametersPair::g1_F + PSMParametersPair::g2_F * delta_F) / A_F;
 }
 
-inline void PSMSphericalSetting::set_CI_QQ(const Eigen::MatrixXd& rhon_F2D_2spn_2spn_, const Eigen::MatrixXd& rhop_F2D_2spp_2spp_, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Qn_F3D_2spn_2spn_mu_, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Qp_F3D_2spp_2spp_mu_) {
+inline void PSMSphericalSetting::set_ci_QQ(const Eigen::MatrixXd& rhon_F2D_2spn_2spn_, const Eigen::MatrixXd& rhop_F2D_2spp_2spp_, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Qn_F3D_2spn_2spn_mu_, const Eigen::Tensor<double, 3, Eigen::ColMajor>& Qp_F3D_2spp_2spp_mu_) {
     assert(hbarOmega0_n_F > 0.0 && hbarOmega0_p_F > 0.0);
 
     assert(Qn_F3D_2spn_2spn_mu_.dimension(0) > 0 && Qn_F3D_2spn_2spn_mu_.dimension(2) == 5);
@@ -244,19 +245,41 @@ inline void PSMSphericalSetting::set_CI_QQ(const Eigen::MatrixXd& rhon_F2D_2spn_
     chi2_pp_F = factor_F * hbarOmega0_p_F * hbarOmega0_p_F;
 }
 
-inline void PSMSphericalSetting::set_CI_PP(double gamma_F) {
+inline void PSMSphericalSetting::set_ci_PP(double gamma_F) {
     assert(std::isfinite(gamma_F));
     // G₂,nn/pp = γG₀,nn/pp.
     G2_nn_F = gamma_F * G0_nn_F;
     G2_pp_F = gamma_F * G0_pp_F;
 }
 
-inline void PSMSphericalSetting::set_config_cut_neutron(const Eigen::VectorXi& Ncqp_I1D_Ncqp, const Eigen::VectorXd& ECut_F1D_Ncqp, const Eigen::VectorXi& NCut_I1D_Ncqp, const Eigen::VectorXi& TwoKCut_I1D_Ncqp) {
-    // (Ncqp,ECut,NCut,TwoKCut) → cutoffs; Nqp unchanged.
-    configuration_neutron = HFBConfiguration(configuration_neutron.Nqp_I, Ncqp_I1D_Ncqp, ECut_F1D_Ncqp, NCut_I1D_Ncqp, TwoKCut_I1D_Ncqp);
+inline void PSMSphericalSetting::set_ci_cut(const Eigen::MatrixXi& Ncqp_I2D_Ncqp_np, const Eigen::VectorXd& ECut_F1D_Ncqp, const Eigen::VectorXi& NCut_I1D_Ncqp, const Eigen::VectorXi& TwoKCut_I1D_Ncqp) {
+    configuration_nucleus = HFBConfigurationNucleus(Ncqp_I2D_Ncqp_np, ECut_F1D_Ncqp, NCut_I1D_Ncqp, TwoKCut_I1D_Ncqp);
 }
 
-inline void PSMSphericalSetting::set_config_cut_proton(const Eigen::VectorXi& Ncqp_I1D_Ncqp, const Eigen::VectorXd& ECut_F1D_Ncqp, const Eigen::VectorXi& NCut_I1D_Ncqp, const Eigen::VectorXi& TwoKCut_I1D_Ncqp) {
-    // (Ncqp,ECut,NCut,TwoKCut) → cutoffs; Nqp unchanged.
-    configuration_proton = HFBConfiguration(configuration_proton.Nqp_I, Ncqp_I1D_Ncqp, ECut_F1D_Ncqp, NCut_I1D_Ncqp, TwoKCut_I1D_Ncqp);
+inline void PSMSphericalSetting::build_ci_config(const Eigen::VectorXd& Ehfn_F1D_2qpn, const Eigen::VectorXd& Eqpn_F1D_2qpn, const Eigen::VectorXi& TwoKn_I1D_2qpn, const Eigen::VectorXd& Ehfp_F1D_2qpp, const Eigen::VectorXd& Eqpp_F1D_2qpp, const Eigen::VectorXi& TwoKp_I1D_2qpp) {
+    assert(configuration_nucleus.Ncqp_I2D_Ncqp_np.rows() > 0);
+    // Nilsson-ordered representatives: +1/2,−3/2,+5/2,… .
+    const auto calc_representative = [](const SphericalSetting& setting, const Eigen::VectorXd& Ehf_F1D_2qp, const Eigen::VectorXi& TwoK_I1D_2qp, const std::vector<int>& Nshell_I1D_Nactive) {
+        const int NqpHalf_I = static_cast<int>(setting.labels_S1D_sp.size());
+        assert(Ehf_F1D_2qp.size() == 2 * NqpHalf_I && TwoK_I1D_2qp.size() == Ehf_F1D_2qp.size());
+        // K = +1/2,−3/2,+5/2,…; qp̄ = qp + NqpHalf.
+        std::vector<int> qp_I1D_representative{};
+        for (int qp_I = 0; qp_I < NqpHalf_I; ++qp_I) {
+            const int N_I = setting.labels_S1D_sp[qp_I].N_I;
+            if (std::find(Nshell_I1D_Nactive.begin(), Nshell_I1D_Nactive.end(), N_I) == Nshell_I1D_Nactive.end()) {continue;}
+            const int partner_I = (TwoK_I1D_2qp(qp_I) % 4 == 3);
+            qp_I1D_representative.push_back(qp_I + partner_I * NqpHalf_I);
+        }
+        std::stable_sort(qp_I1D_representative.begin(), qp_I1D_representative.end(), [&](int qp1_I, int qp2_I) {return Ehf_F1D_2qp(qp1_I) < Ehf_F1D_2qp(qp2_I);});
+        return qp_I1D_representative;
+    };
+    const auto qpn_I1D_representative = calc_representative(sphericalsetting_neutron, Ehfn_F1D_2qpn, TwoKn_I1D_2qpn, Nshelln_I1D_Nactive);
+    const auto qpp_I1D_representative = calc_representative(sphericalsetting_proton, Ehfp_F1D_2qpp, TwoKp_I1D_2qpp, Nshellp_I1D_Nactive);
+    auto& configuration = configuration_nucleus;
+    // (N mod 2,Z mod 2) → EE,EO,OE,OO.
+    if (N_I % 2 == 0 && Z_I % 2 == 0) {configuration.build_config_kramers_ee(Eqpn_F1D_2qpn, TwoKn_I1D_2qpn, qpn_I1D_representative, Eqpp_F1D_2qpp, TwoKp_I1D_2qpp, qpp_I1D_representative);}
+    if (N_I % 2 == 0 && Z_I % 2 == 1) {configuration.build_config_kramers_eo(Eqpn_F1D_2qpn, TwoKn_I1D_2qpn, qpn_I1D_representative, Eqpp_F1D_2qpp, TwoKp_I1D_2qpp, qpp_I1D_representative);}
+    if (N_I % 2 == 1 && Z_I % 2 == 0) {configuration.build_config_kramers_oe(Eqpn_F1D_2qpn, TwoKn_I1D_2qpn, qpn_I1D_representative, Eqpp_F1D_2qpp, TwoKp_I1D_2qpp, qpp_I1D_representative);}
+    if (N_I % 2 == 1 && Z_I % 2 == 1) {configuration.build_config_kramers_oo(Eqpn_F1D_2qpn, TwoKn_I1D_2qpn, qpn_I1D_representative, Eqpp_F1D_2qpp, TwoKp_I1D_2qpp, qpp_I1D_representative);}
+    assert(!configuration.confign_I2D_cfgnp_cqpn.empty());
 }

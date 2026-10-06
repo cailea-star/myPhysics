@@ -18,7 +18,7 @@
  * @math     + ℏω₀(r/b)²[−(2ε₂/3)P₂+ε₄P₄]; Γ = 0.
  * @math U = diag(fu,ηfu); V = [[0,−fv],[ηfv,0]].
  * @math E = (E₊,E₊); 2K = (2K₊,−2K₊).
- * @output BCS solutions and full U,V,Eqp,TwoK,ρ arrays.
+ * @output BCS solutions and full U,V,Ehf,Eqp,TwoK,ρ arrays.
  * @note Uses stored spherical and deformation fields.
  * @note BCS uses all selected shells; accuracy is 1e-10.
  * @note Rows follow spherical labels; columns follow block → eigenstate.
@@ -61,7 +61,7 @@ void PSMSpherical::solve_hfbcs() {
     build_species(psm_setting.sphericalsetting_proton, hfb_proton, psm_setting.Z_I - psm_setting.Zcore_I, psm_setting.G0_pp_F, h0p_F2D_2spp_2spp, h0Deform_p_F2D_2spp_2spp);
 
     // Positive-K states first; negative-K partners second.
-    const auto expand_UVEK = [](const SphericalSetting& setting, const HFBCS& hfb, Eigen::MatrixXd& U_F2D_2sp_2qp, Eigen::MatrixXd& V_F2D_2sp_2qp, Eigen::VectorXd& Eqp_F1D_2qp, Eigen::VectorXi& TwoK_I1D_2qp) {
+    const auto expand_UVEK = [](const SphericalSetting& setting, const HFBCS& hfb, Eigen::MatrixXd& U_F2D_2sp_2qp, Eigen::MatrixXd& V_F2D_2sp_2qp, Eigen::VectorXd& Ehf_F1D_2qp, Eigen::VectorXd& Eqp_F1D_2qp, Eigen::VectorXi& TwoK_I1D_2qp) {
         const int Nsp_I = static_cast<int>(setting.labels_S1D_sp.size());
         const int Nqp_I = Nsp_I;
         assert(hfb.Nblock_I == static_cast<int>(setting.indices_I2D_block_bsp.size()));
@@ -71,6 +71,7 @@ void PSMSpherical::solve_hfbcs() {
         V_F2D_2sp_2qp.resize(2 * Nsp_I, 2 * Nqp_I);
         U_F2D_2sp_2qp.setZero();
         V_F2D_2sp_2qp.setZero();
+        Ehf_F1D_2qp.resize(2 * Nqp_I);
         Eqp_F1D_2qp.resize(2 * Nqp_I);
         TwoK_I1D_2qp.resize(2 * Nqp_I);
 
@@ -83,7 +84,9 @@ void PSMSpherical::solve_hfbcs() {
             assert(solution.fhf_F2D_sp_bhf.rows() == Nbqp_I && solution.fhf_F2D_sp_bhf.cols() == Nbqp_I);
             const int TwoK_I = setting.labels_S1D_sp[indices.front()].twom_I;
 
-            // E_qp̄ = E_qp; K_qp̄ = −K_qp.
+            // Ehf_qp̄ = Ehf_qp; E_qp̄ = E_qp; K_qp̄ = −K_qp.
+            Ehf_F1D_2qp.segment(qpBegin_I, Nbqp_I) = solution.Ehf_F1D_bhf;
+            Ehf_F1D_2qp.segment(qpBegin_I + Nqp_I, Nbqp_I) = solution.Ehf_F1D_bhf;
             Eqp_F1D_2qp.segment(qpBegin_I, Nbqp_I) = solution.Eqp_F1D_bhf;
             Eqp_F1D_2qp.segment(qpBegin_I + Nqp_I, Nbqp_I) = solution.Eqp_F1D_bhf;
             TwoK_I1D_2qp.segment(qpBegin_I, Nbqp_I).setConstant(TwoK_I);
@@ -109,8 +112,8 @@ void PSMSpherical::solve_hfbcs() {
         assert(qpBegin_I == Nqp_I);
     };
 
-    expand_UVEK(psm_setting.sphericalsetting_neutron, hfb_neutron, Un_F2D_2spn_2qpn, Vn_F2D_2spn_2qpn, Eqpn_F1D_2qpn, TwoKn_I1D_2qpn);
-    expand_UVEK(psm_setting.sphericalsetting_proton, hfb_proton, Up_F2D_2spp_2qpp, Vp_F2D_2spp_2qpp, Eqpp_F1D_2qpp, TwoKp_I1D_2qpp);
+    expand_UVEK(psm_setting.sphericalsetting_neutron, hfb_neutron, Un_F2D_2spn_2qpn, Vn_F2D_2spn_2qpn, Ehfn_F1D_2qpn, Eqpn_F1D_2qpn, TwoKn_I1D_2qpn);
+    expand_UVEK(psm_setting.sphericalsetting_proton, hfb_proton, Up_F2D_2spp_2qpp, Vp_F2D_2spp_2qpp, Ehfp_F1D_2qpp, Eqpp_F1D_2qpp, TwoKp_I1D_2qpp);
 
     // ρ = VVᵀ.
     rhon_F2D_2spn_2spn.noalias() = Vn_F2D_2spn_2qpn * Vn_F2D_2spn_2qpn.transpose();

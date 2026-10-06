@@ -8,7 +8,6 @@
 #include "psm_spherical.hpp"
 #include "spherical_rotation.hpp"
 #include <Eigen/Eigenvalues>
-#include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <utility>
@@ -20,34 +19,18 @@
  */
 void PSMSpherical::build_projection(int Nbeta_I, int Nphin_I, int Nphip_I) {
     assert(Un_F2D_2spn_2qpn.rows() > 0 && Up_F2D_2spp_2qpp.rows() > 0);
-    // Active shells → masks; ±K partners share shell membership.
-    const Eigen::Index Nspn_I = psm_setting.sphericalsetting_neutron.labels_S1D_sp.size();
-    const Eigen::Index Nspp_I = psm_setting.sphericalsetting_proton.labels_S1D_sp.size();
-    Eigen::VectorXi maskn_I1D_2qpn = Eigen::VectorXi::Zero(2 * Nspn_I);
-    Eigen::VectorXi maskp_I1D_2qpp = Eigen::VectorXi::Zero(2 * Nspp_I);
-    for (Eigen::Index qpn_I = 0; qpn_I < Nspn_I; ++qpn_I) {
-        maskn_I1D_2qpn(qpn_I) = std::find(psm_setting.Nshelln_I1D_Nactive.begin(), psm_setting.Nshelln_I1D_Nactive.end(), psm_setting.sphericalsetting_neutron.labels_S1D_sp[qpn_I].N_I) != psm_setting.Nshelln_I1D_Nactive.end();
-        maskn_I1D_2qpn(qpn_I + Nspn_I) = maskn_I1D_2qpn(qpn_I);
-    }
-    for (Eigen::Index qpp_I = 0; qpp_I < Nspp_I; ++qpp_I) {
-        maskp_I1D_2qpp(qpp_I) = std::find(psm_setting.Nshellp_I1D_Nactive.begin(), psm_setting.Nshellp_I1D_Nactive.end(), psm_setting.sphericalsetting_proton.labels_S1D_sp[qpp_I].N_I) != psm_setting.Nshellp_I1D_Nactive.end();
-        maskp_I1D_2qpp(qpp_I + Nspp_I) = maskp_I1D_2qpp(qpp_I);
-    }
-    // (Eqp,2K,mask) → configurations in complete U,V columns.
-    psm_setting.configuration_neutron.build_config(Eqpn_F1D_2qpn, TwoKn_I1D_2qpn, maskn_I1D_2qpn);
-    psm_setting.configuration_proton.build_config(Eqpp_F1D_2qpp, TwoKp_I1D_2qpp, maskp_I1D_2qpp);
-    assert(!psm_setting.configuration_neutron.config_I2D_cfg_cqp.empty() && !psm_setting.configuration_proton.config_I2D_cfg_cqp.empty());
+    psm_setting.build_ci_config(Ehfn_F1D_2qpn, Eqpn_F1D_2qpn, TwoKn_I1D_2qpn, Ehfp_F1D_2qpp, Eqpp_F1D_2qpp, TwoKp_I1D_2qpp);
 
     // 2K_cfg = Σqp 2K_qp; Φ₁ = Φ₂.
-    TwoKn_I1D_cfgn.resize(psm_setting.configuration_neutron.config_I2D_cfg_cqp.size());
+    TwoKn_I1D_cfgn.resize(psm_setting.configuration_nucleus.confign_I2D_tensorcfgn_cqpn.size());
     TwoKn_I1D_cfgn.setZero();
-    TwoKp_I1D_cfgp.resize(psm_setting.configuration_proton.config_I2D_cfg_cqp.size());
+    TwoKp_I1D_cfgp.resize(psm_setting.configuration_nucleus.configp_I2D_tensorcfgp_cqpp.size());
     TwoKp_I1D_cfgp.setZero();
     for (Eigen::Index cfgn_I = 0; cfgn_I < TwoKn_I1D_cfgn.size(); ++cfgn_I) {
-        for (const int qp_I : psm_setting.configuration_neutron.config_I2D_cfg_cqp[cfgn_I]) { TwoKn_I1D_cfgn(cfgn_I) += TwoKn_I1D_2qpn(qp_I); }
+        for (const int qp_I : psm_setting.configuration_nucleus.confign_I2D_tensorcfgn_cqpn[cfgn_I]) { TwoKn_I1D_cfgn(cfgn_I) += TwoKn_I1D_2qpn(qp_I); }
     }
     for (Eigen::Index cfgp_I = 0; cfgp_I < TwoKp_I1D_cfgp.size(); ++cfgp_I) {
-        for (const int qp_I : psm_setting.configuration_proton.config_I2D_cfg_cqp[cfgp_I]) { TwoKp_I1D_cfgp(cfgp_I) += TwoKp_I1D_2qpp(qp_I); }
+        for (const int qp_I : psm_setting.configuration_nucleus.configp_I2D_tensorcfgp_cqpp[cfgp_I]) { TwoKp_I1D_cfgp(cfgp_I) += TwoKp_I1D_2qpp(qp_I); }
     }
 
     // Axial projection: Nα = Nγ = 1.
@@ -58,8 +41,8 @@ void PSMSpherical::build_projection(int Nbeta_I, int Nphin_I, int Nphip_I) {
 
     // (N−Ncore,Z−Zcore,Cₙ,Cₚ) → nuclear projection.
     projection_nucleus = HFBProjectionNucleus(
-        HFBProjection(static_cast<int>(Un_F2D_2spn_2qpn.rows()), psm_setting.configuration_neutron.config_I2D_cfg_cqp, psm_setting.configuration_neutron.config_I2D_cfg_cqp, psm_setting.N_I - psm_setting.Ncore_I, Nphin_I, 1, Nbeta_I, 1),
-        HFBProjection(static_cast<int>(Up_F2D_2spp_2qpp.rows()), psm_setting.configuration_proton.config_I2D_cfg_cqp, psm_setting.configuration_proton.config_I2D_cfg_cqp, psm_setting.Z_I - psm_setting.Zcore_I, Nphip_I, 1, Nbeta_I, 1));
+        HFBProjection(static_cast<int>(Un_F2D_2spn_2qpn.rows()), psm_setting.configuration_nucleus.confign_I2D_tensorcfgn_cqpn, psm_setting.configuration_nucleus.confign_I2D_tensorcfgn_cqpn, psm_setting.N_I - psm_setting.Ncore_I, Nphin_I, 1, Nbeta_I, 1),
+        HFBProjection(static_cast<int>(Up_F2D_2spp_2qpp.rows()), psm_setting.configuration_nucleus.configp_I2D_tensorcfgp_cqpp, psm_setting.configuration_nucleus.configp_I2D_tensorcfgp_cqpp, psm_setting.Z_I - psm_setting.Zcore_I, Nphip_I, 1, Nbeta_I, 1));
 
     // Φ₁ = Φ₂: U₁ = U₂, V₁ = V₂.
     projection_nucleus.projection_neutron.update_UV(Un_F2D_2spn_2qpn, Vn_F2D_2spn_2qpn, Un_F2D_2spn_2qpn, Vn_F2D_2spn_2qpn);
@@ -87,8 +70,8 @@ void PSMSpherical::build_ci(double gamma_F) {
     assert(projection_nucleus.projection_neutron.Nalpha_I == 1 && projection_nucleus.projection_neutron.Ngamma_I == 1);
     assert(projection_nucleus.projection_neutron.alpha_F1D_alpha(0) == 0.0 && projection_nucleus.projection_neutron.gamma_F1D_gamma(0) == 0.0);
 
-    psm_setting.set_CI_QQ(rhon_F2D_2spn_2spn, rhop_F2D_2spp_2spp, Qn_F3D_2spn_2spn_mu, Qp_F3D_2spp_2spp_mu);
-    psm_setting.set_CI_PP(gamma_F);
+    psm_setting.set_ci_QQ(rhon_F2D_2spn_2spn, rhop_F2D_2spp_2spp, Qn_F3D_2spn_2spn_mu, Qp_F3D_2spp_2spp_mu);
+    psm_setting.set_ci_PP(gamma_F);
 
     // N_ab(Ω) = ⟨Φ_a|PₙPₚR(Ω)|Φ_b⟩.
     const Eigen::Index Ncfgn_I = projection_nucleus.projection_neutron.Ncfg1_I;
@@ -203,7 +186,9 @@ void PSMSpherical::build_ci(double gamma_F) {
  * @math N = U n U†; X = Uᵣ nᵣ^(-1/2); (X†HX)Xci = Xci E.
  * @math f = X Xci; Xci†Xci = 1; r = eigenN, ν = eigenH.
  * @output Eci_F1D_eigenH and Xci_C2D_eigenN_eigenH.
- * @note Retains nᵢ > 1e-10 nmax; energies ascend.
+ * @math ncut = ε Tr(N)/Nallowed.
+ * @math Retain nᵢ > ncut; ε = 0.001 (EE/EO/OE), 0.03 (OO).
+ * @note Requires build_ci().
  */
 void PSMSpherical::solve_ci(int TargetTwoI_I) {
     assert(TargetTwoI_I >= 0);
@@ -220,13 +205,31 @@ void PSMSpherical::solve_ci(int TargetTwoI_I) {
     const Eigen::Map<const Eigen::MatrixXcd> N_C2D_cfgncfgp_cfgncfgp(N_C4D_cfgn_cfgp_cfgn_cfgp.data(), Ncfgncfgp_I, Ncfgncfgp_I);
     const Eigen::Map<const Eigen::MatrixXcd> H_C2D_cfgncfgp_cfgncfgp(H_C4D_cfgn_cfgp_cfgn_cfgp.data(), Ncfgncfgp_I, Ncfgncfgp_I);
 
+    // cfg → tensorcfgn + Ntensorcfgn × tensorcfgp.
+    const auto& configuration = psm_setting.configuration_nucleus;
+    std::vector<int> config_I1D_cfgncfgp{};
+    int Nallowed_I = 0;
+    for (int cfg_I = 0; cfg_I < static_cast<int>(configuration.confign_I2D_cfgnp_cqpn.size()); ++cfg_I) {
+        const auto [tensorcfgn_I, tensorcfgp_I] = configuration.find_tensorcfg(cfg_I);
+        config_I1D_cfgncfgp.push_back(tensorcfgn_I + static_cast<int>(configuration.confign_I2D_tensorcfgn_cqpn.size()) * tensorcfgp_I);
+        const int TwoK_I = TwoKn_I1D_cfgn(tensorcfgn_I) + TwoKp_I1D_cfgp(tensorcfgp_I);
+        if (std::abs(TwoK_I) <= TargetTwoI_I) {++Nallowed_I;}
+    }
+
+    // Selected nuclear configurations → principal N,H submatrices.
+    assert(Nallowed_I > 0);
+    const Eigen::MatrixXcd Nselected_C2D_cfg_cfg = N_C2D_cfgncfgp_cfgncfgp(config_I1D_cfgncfgp, config_I1D_cfgncfgp);
+    const Eigen::MatrixXcd Hselected_C2D_cfg_cfg = H_C2D_cfgncfgp_cfgncfgp(config_I1D_cfgncfgp, config_I1D_cfgncfgp);
     // N → (N+N†)/2; H → (H+H†)/2.
-    const Eigen::MatrixXcd Nhermitian_C2D_cfgncfgp_cfgncfgp = 0.5 * (N_C2D_cfgncfgp_cfgncfgp + N_C2D_cfgncfgp_cfgncfgp.adjoint());
-    const Eigen::MatrixXcd Hhermitian_C2D_cfgncfgp_cfgncfgp = 0.5 * (H_C2D_cfgncfgp_cfgncfgp + H_C2D_cfgncfgp_cfgncfgp.adjoint());
+    const Eigen::MatrixXcd Nhermitian_C2D_cfgncfgp_cfgncfgp = 0.5 * (Nselected_C2D_cfg_cfg + Nselected_C2D_cfg_cfg.adjoint());
+    const Eigen::MatrixXcd Hhermitian_C2D_cfgncfgp_cfgncfgp = 0.5 * (Hselected_C2D_cfg_cfg + Hselected_C2D_cfg_cfg.adjoint());
     const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXcd> N_solver(Nhermitian_C2D_cfgncfgp_cfgncfgp);
     assert(N_solver.info() == Eigen::Success);
-    const double normCut_F = 1.0e-10 * N_solver.eigenvalues().maxCoeff();
-    assert(normCut_F > 0.0 && N_solver.eigenvalues().minCoeff() >= -normCut_F);
+    // ncut = ε Tr(N)/Nallowed; εOO = 0.03.
+    double normEps_F = 0.001;
+    if (psm_setting.N_I % 2 == 1 && psm_setting.Z_I % 2 == 1) {normEps_F = 0.03;}
+    const double normCut_F = normEps_F * Nhermitian_C2D_cfgncfgp_cfgncfgp.trace().real() / Nallowed_I;
+    assert(normCut_F > 0.0 && N_solver.eigenvalues().minCoeff() >= -1.0e-8 * N_solver.eigenvalues().maxCoeff());
     const Eigen::Index Nstate_I = (N_solver.eigenvalues().array() > normCut_F).count();
     assert(Nstate_I > 0);
 

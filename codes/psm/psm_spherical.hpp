@@ -49,6 +49,8 @@ public:
     Eigen::MatrixXd rhon_F2D_2spn_2spn{};
     Eigen::MatrixXd rhop_F2D_2spp_2spp{};
 
+    Eigen::VectorXd Ehfn_F1D_2qpn{};
+    Eigen::VectorXd Ehfp_F1D_2qpp{};
     Eigen::VectorXd Eqpn_F1D_2qpn{};
     Eigen::VectorXd Eqpp_F1D_2qpp{};
     Eigen::VectorXi TwoKn_I1D_2qpn{};
@@ -112,7 +114,9 @@ public:
      * @brief Solve configuration mixing using canonical norm orthogonalization.
      * @math Hᴵf = ENᴵf; Xci†Xci = 1.
      * @output Eci_F1D_eigenH and Xci_C2D_eigenN_eigenH.
-     * @note Requires build_ci(); retains nᵢ > 1e-10 nmax.
+     * @math ncut = ε Tr(N)/Nallowed.
+     * @math Retain nᵢ > ncut; ε = 0.001 (EE/EO/OE), 0.03 (OO).
+     * @note Requires build_ci().
      */
     void solve_ci(int TargetTwoI_I);
 
