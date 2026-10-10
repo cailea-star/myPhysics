@@ -87,7 +87,7 @@ inline MatrixTrace calc_matrix_trace(const HFBKramers& hfb_) {
  * @math (ρ,τ,J,h) → (E_{local},Tr[hρ])
  * @output Physical energy and field trace.
  */
-inline LocalEnergyTrace calc_local_energy_trace(const HFBKramersNucleusCylindrical& hfb_, const EDFParamsSkyrme& edf_skyrme_) {
+inline LocalEnergyTrace calc_local_energy_trace(const HFBKramersNucleusCylindrical& hfb_, const ParamsUNEDF& edf_skyrme_) {
     LocalEnergyTrace trace_;
     const auto& density_n_ = hfb_.density_neutron;
     const auto& density_p_ = hfb_.density_proton;
@@ -106,9 +106,9 @@ inline LocalEnergyTrace calc_local_energy_trace(const HFBKramersNucleusCylindric
         return field_.vcent_F2D_z_r(z_I, r_I) * density_.rho_F2D_z_r(z_I, r_I)
              + field_.vmass_F2D_z_r(z_I, r_I) * density_.tau_F2D_z_r(z_I, r_I)
              + field_.vD2_F2D_z_r(z_I, r_I) * density_.rhoLaplacian_F2D_z_r(z_I, r_I)
-             + field_.vDr_F2D_z_r(z_I, r_I) * density_.rhoDr_F2D_z_r(z_I, r_I)
-             + field_.vDz_F2D_z_r(z_I, r_I) * density_.rhoDz_F2D_z_r(z_I, r_I)
-             + field_.vdJ_F2D_z_r(z_I, r_I) * density_.dJ_F2D_z_r(z_I, r_I)
+             + field_.vDr_F2D_z_r(z_I, r_I) * density_.rhoNablaR_F2D_z_r(z_I, r_I)
+             + field_.vDz_F2D_z_r(z_I, r_I) * density_.rhoNablaZ_F2D_z_r(z_I, r_I)
+             + field_.vdJ_F2D_z_r(z_I, r_I) * density_.divJ_F2D_z_r(z_I, r_I)
              + field_.vJzphi_F2D_z_r(z_I, r_I) * density_.Jzphi_F2D_z_r(z_I, r_I)
              + field_.vJphiz_F2D_z_r(z_I, r_I) * density_.Jphiz_F2D_z_r(z_I, r_I)
              + field_.vJphir_F2D_z_r(z_I, r_I) * density_.Jphir_F2D_z_r(z_I, r_I)
@@ -129,12 +129,12 @@ inline LocalEnergyTrace calc_local_energy_trace(const HFBKramersNucleusCylindric
             const double tau1_F = tau_n_F - tau_p_F;
             const double rhoD20_F = density_n_.rhoLaplacian_F2D_z_r(z_I, r_I) + density_p_.rhoLaplacian_F2D_z_r(z_I, r_I);
             const double rhoD21_F = density_n_.rhoLaplacian_F2D_z_r(z_I, r_I) - density_p_.rhoLaplacian_F2D_z_r(z_I, r_I);
-            const double rhoDr0_F = density_n_.rhoDr_F2D_z_r(z_I, r_I) + density_p_.rhoDr_F2D_z_r(z_I, r_I);
-            const double rhoDr1_F = density_n_.rhoDr_F2D_z_r(z_I, r_I) - density_p_.rhoDr_F2D_z_r(z_I, r_I);
-            const double rhoDz0_F = density_n_.rhoDz_F2D_z_r(z_I, r_I) + density_p_.rhoDz_F2D_z_r(z_I, r_I);
-            const double rhoDz1_F = density_n_.rhoDz_F2D_z_r(z_I, r_I) - density_p_.rhoDz_F2D_z_r(z_I, r_I);
-            const double dJ0_F = density_n_.dJ_F2D_z_r(z_I, r_I) + density_p_.dJ_F2D_z_r(z_I, r_I);
-            const double dJ1_F = density_n_.dJ_F2D_z_r(z_I, r_I) - density_p_.dJ_F2D_z_r(z_I, r_I);
+            const double rhoDr0_F = density_n_.rhoNablaR_F2D_z_r(z_I, r_I) + density_p_.rhoNablaR_F2D_z_r(z_I, r_I);
+            const double rhoDr1_F = density_n_.rhoNablaR_F2D_z_r(z_I, r_I) - density_p_.rhoNablaR_F2D_z_r(z_I, r_I);
+            const double rhoDz0_F = density_n_.rhoNablaZ_F2D_z_r(z_I, r_I) + density_p_.rhoNablaZ_F2D_z_r(z_I, r_I);
+            const double rhoDz1_F = density_n_.rhoNablaZ_F2D_z_r(z_I, r_I) - density_p_.rhoNablaZ_F2D_z_r(z_I, r_I);
+            const double dJ0_F = density_n_.divJ_F2D_z_r(z_I, r_I) + density_p_.divJ_F2D_z_r(z_I, r_I);
+            const double dJ1_F = density_n_.divJ_F2D_z_r(z_I, r_I) - density_p_.divJ_F2D_z_r(z_I, r_I);
 
             // J_t = (J_{φz}-J_{zφ},J_{rφ}-J_{φr}).
             const double Jzphi0_F = density_n_.Jzphi_F2D_z_r(z_I, r_I) + density_p_.Jzphi_F2D_z_r(z_I, r_I);
@@ -305,7 +305,7 @@ inline void HFBCylindricalObservable::update_observable(const HFBKramersNucleusC
     const double Epair_n_F = matrixTrace_n_.Epair_F;
     const double Epair_p_F = matrixTrace_p_.Epair_F;
     const int Atarget_I = static_cast<int>(std::floor(NSum_n_F + NSum_p_F + 0.5));
-    const EDFParamsSkyrme activeEDF_ = termSwitches_.make_active_edf(hfb_.edf_skyrme, Atarget_I);
+    const ParamsUNEDF activeEDF_ = termSwitches_.make_active_edf(hfb_.edf_skyrme, Atarget_I);
     const LocalEnergyTrace localEnergyTrace_ = calc_local_energy_trace(hfb_, activeEDF_);
     const double EphMatrixTrace_F = matrixTrace_n_.Eph_F + matrixTrace_p_.Eph_F;
     double EnonlocalPh_F = 0.0;

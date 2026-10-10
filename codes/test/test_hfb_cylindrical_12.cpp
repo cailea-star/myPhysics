@@ -38,7 +38,7 @@ int main() {
     EDFTermSwitches termSwitches_ = EDFTermSwitches::gogny();
     termSwitches_.useCmCorrection_B = true;
     hfbsettings_.accuracy_F = 1.0e-9;
-    const EDFParamsGogny edf_gogny_ = EDFParamsGogny::D1S();
+    const ParamsGogny edf_gogny_ = ParamsGogny::D1S();
 
     // Inputs → stdout.
     std::cout << "[Input] (N,Z,Nshell,b0,Nz,Nr) = (" << Ntarget_I << "," << Ztarget_I << "," << Nshell_I << "," << b0_F << "," << cylindricalsetting_.Nz_I << "," << cylindricalsetting_.Nr_I << ")\n";

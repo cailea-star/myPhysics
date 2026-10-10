@@ -53,7 +53,7 @@ int main() {
     std::cout << "[Input] blocking candidate = 5\n";
 
     // ⁴⁸Ca → B₅ → ⁴⁹Ca.
-    EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::SKMstar();
+    ParamsUNEDF edf_skyrme_ = HFBfunctionals::SKMstar();
     edf_skyrme_.CpV0_0_F = -250.0;
     edf_skyrme_.CpV0_1_F = -250.0;
     HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, termSwitches_, edf_skyrme_);

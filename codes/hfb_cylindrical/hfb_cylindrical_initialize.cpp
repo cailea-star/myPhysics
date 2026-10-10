@@ -139,7 +139,7 @@ void HFBKramersNucleusCylindrical::initialize_WS_field(int TargetN_I_, int Targe
     const int Nr_I = cylindricalsetting.Nr_I;
     const int Atarget_I = TargetN_I_ + TargetZ_I_;
     const double Atarget_F = static_cast<double>(Atarget_I);
-    const EDFParamsSkyrme active_edf_ = termSwitches.make_active_edf(edf_skyrme, Atarget_I);
+    const ParamsUNEDF active_edf_ = termSwitches.make_active_edf(edf_skyrme, Atarget_I);
     const double R0WS_F = r0WS_F * std::cbrt(Atarget_F);
     const double R0LS_F = r0LS_F * std::cbrt(Atarget_F);
 

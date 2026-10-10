@@ -15,7 +15,7 @@
 /**
  * @brief Store two-range Gogny-force parameters.
  */
-class EDFParamsGogny {
+class ParamsGogny {
 public:
     static constexpr int Ng_I = 2;
     using GaussianValues = std::array<double, Ng_I>;
@@ -38,14 +38,14 @@ public:
      * @math   ∅ → P_G
      * @output Zero-initialized Gogny parameters.
      */
-    EDFParamsGogny() = default;
+    ParamsGogny() = default;
 
     /**
      * @brief  Construct a two-range Gogny parameter set.
      * @math   {μ_g,W_g,B_g,H_g,M_g,t_3^G,x_3,α,W_{LS}} → P_G
      * @output Initialized Gogny parameters.
      */
-    EDFParamsGogny(const std::string& forceName_Str_, const GaussianValues& mu_F1D_g_, const GaussianValues& W_F1D_g_, const GaussianValues& B_F1D_g_, const GaussianValues& H_F1D_g_, const GaussianValues& M_F1D_g_, double t3G_F_, double x3_F_, double alpha_F_, double WLS_F_, double hbzero_F_) {
+    ParamsGogny(const std::string& forceName_Str_, const GaussianValues& mu_F1D_g_, const GaussianValues& W_F1D_g_, const GaussianValues& B_F1D_g_, const GaussianValues& H_F1D_g_, const GaussianValues& M_F1D_g_, double t3G_F_, double x3_F_, double alpha_F_, double WLS_F_, double hbzero_F_) {
         // {μ_g,W_g,B_g,H_g,M_g,t_3^G,x_3,α,W_{LS}} → P_G.
         forceName_Str = forceName_Str_;
         mu_F1D_g = mu_F1D_g_;
@@ -65,15 +65,15 @@ public:
      * @math   (t_3^G,x_3,α,W_{LS}) → {C_t}
      * @output Local companion EDF.
      */
-    EDFParamsSkyrme make_local_edf() const;
+    ParamsUNEDF make_local_edf() const;
 
     /**
      * @brief  Build the D1 Gogny parameterization.
      * @math   D1 → P_G
      * @output D1 parameters.
      */
-    static EDFParamsGogny D1() {
-        return EDFParamsGogny("D1", GaussianValues{0.7, 1.2}, GaussianValues{-402.40, -21.30}, GaussianValues{-100.00, -11.77}, GaussianValues{-496.20, 37.27}, GaussianValues{-23.56, -68.81}, 1350.00, 1.0, 1.0 / 3.0, 115.000, 20.73667552957479);
+    static ParamsGogny D1() {
+        return ParamsGogny("D1", GaussianValues{0.7, 1.2}, GaussianValues{-402.40, -21.30}, GaussianValues{-100.00, -11.77}, GaussianValues{-496.20, 37.27}, GaussianValues{-23.56, -68.81}, 1350.00, 1.0, 1.0 / 3.0, 115.000, 20.73667552957479);
     }
 
     /**
@@ -81,8 +81,8 @@ public:
      * @math   D1S → P_G
      * @output D1S parameters.
      */
-    static EDFParamsGogny D1S() {
-        return EDFParamsGogny("D1S", GaussianValues{0.7, 1.2}, GaussianValues{-1720.30, 103.64}, GaussianValues{1300.00, -163.48}, GaussianValues{-1813.53, 162.81}, GaussianValues{1397.60, -223.93}, 1390.600, 1.0, 1.0 / 3.0, 130.000, 20.73667622931579050281);
+    static ParamsGogny D1S() {
+        return ParamsGogny("D1S", GaussianValues{0.7, 1.2}, GaussianValues{-1720.30, 103.64}, GaussianValues{1300.00, -163.48}, GaussianValues{-1813.53, 162.81}, GaussianValues{1397.60, -223.93}, 1390.600, 1.0, 1.0 / 3.0, 130.000, 20.73667622931579050281);
     }
 
     /**
@@ -90,8 +90,8 @@ public:
      * @math   D1N → P_G
      * @output D1N parameters.
      */
-    static EDFParamsGogny D1N() {
-        return EDFParamsGogny("D1N", GaussianValues{0.8, 1.2}, GaussianValues{-2047.61, 293.02}, GaussianValues{1700.00, -300.78}, GaussianValues{-2414.93, 414.59}, GaussianValues{1519.35, -316.84}, 1609.50, 1.0, 1.0 / 3.0, 115.000, 20.73667552957479);
+    static ParamsGogny D1N() {
+        return ParamsGogny("D1N", GaussianValues{0.8, 1.2}, GaussianValues{-2047.61, 293.02}, GaussianValues{1700.00, -300.78}, GaussianValues{-2414.93, 414.59}, GaussianValues{1519.35, -316.84}, 1609.50, 1.0, 1.0 / 3.0, 115.000, 20.73667552957479);
     }
 };
 
@@ -100,8 +100,8 @@ public:
  * @math   (t_3^G,x_3,α,W_{LS}) → {C_t}
  * @output Local companion EDF.
  */
-inline EDFParamsSkyrme EDFParamsGogny::make_local_edf() const {
-    EDFParamsSkyrme local_edf_;
+inline ParamsUNEDF ParamsGogny::make_local_edf() const {
+    ParamsUNEDF local_edf_;
     // (ℏ²/2m,e²,α,C_ex) ← P_G.
     local_edf_.functionalName_Str = forceName_Str + "-local";
     local_edf_.hbzero_F = hbzero_F;

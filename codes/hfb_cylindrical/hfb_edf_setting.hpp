@@ -79,7 +79,7 @@ public:
      */
     static double calc_b0(int Atarget_I) {
         assert(Atarget_I > 0);
-        const double hbzero_F = EDFParamsSkyrme{}.hbzero_F;
+        const double hbzero_F = ParamsUNEDF{}.hbzero_F;
         const double r0_F = 1.20;
         const double hbar_omega_F = 41.0 * std::pow(static_cast<double>(Atarget_I), -1.0 / 3.0) * r0_F;
         return std::sqrt(2.0 * hbzero_F / hbar_omega_F);
@@ -90,9 +90,9 @@ public:
      * @math (C,A,P_{HFB}) → C_{active}
      * @output Active Skyrme EDF parameters.
      */
-    EDFParamsSkyrme make_active_edf(const EDFParamsSkyrme& base_edf_, int Atarget_I) const {
+    ParamsUNEDF make_active_edf(const ParamsUNEDF& base_edf_, int Atarget_I) const {
         assert(Atarget_I > 0);
-        EDFParamsSkyrme active_edf_ = base_edf_;
+        ParamsUNEDF active_edf_ = base_edf_;
         const double cm_factor_F = 1.0 - static_cast<double>(useCmCorrection_B) / static_cast<double>(Atarget_I);
 
         // C_{kin} → s_{kin}(1-s_{cm}/A)C_{kin}.

@@ -51,7 +51,7 @@ int main() {
     std::cout << "[Input] b_0, N_shell = " << b0_F << ", " << Nshell_I << "\n";
 
     // ⁴⁸Ca → {B_μ | μ=1,…,6}.
-    EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::SKMstar();
+    ParamsUNEDF edf_skyrme_ = HFBfunctionals::SKMstar();
     HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, termSwitches_, edf_skyrme_);
     hfb_.initialize_h0(Ncore_I, Zcore_I);
     hfb_.initialize_GammaDelta(Ncore_I, Zcore_I);

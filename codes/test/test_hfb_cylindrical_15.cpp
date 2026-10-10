@@ -41,7 +41,7 @@ int main() {
     termSwitches_.useLocalPairRegularization_B = true;
     hfbsettings_.EspCut_F = 80.0;
     hfbsettings_.accuracy_F = 1.0e-8;
-    EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::SLY4();
+    ParamsUNEDF edf_skyrme_ = HFBfunctionals::SLY4();
     edf_skyrme_.CpV0_0_F = -370.2;
     edf_skyrme_.CpV0_1_F = -370.2;
 

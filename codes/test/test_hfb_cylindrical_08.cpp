@@ -41,7 +41,7 @@ int main() {
     hfbsettings_.accuracy_F = 1.0e-9;
 
     // (C_{axial},P_{HFB},SLY4) → O_{C++}.
-    const EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::SLY4();
+    const ParamsUNEDF edf_skyrme_ = HFBfunctionals::SLY4();
     HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, termSwitches_, edf_skyrme_);
     hfb_.initialize_h0(Ntarget_I, Ztarget_I);
     hfb_.initialize_GammaDelta(Ntarget_I, Ztarget_I);

@@ -41,7 +41,7 @@ int main() {
     termSwitches_.useCmCorrection_B = true;
     termSwitches_.addFiniteRangeCoulomb_B = false;
     hfbsettings_.accuracy_F = 1.0e-8;
-    const EDFParamsGogny edf_gogny_ = EDFParamsGogny::D1S();
+    const ParamsGogny edf_gogny_ = ParamsGogny::D1S();
 
     // Inputs → stdout.
     std::cout << "[Input] (N,Z,Nshell,b0,beta20,Nz,Nr) = (" << Ntarget_I << "," << Ztarget_I << "," << Nshell_I << "," << b0_F << "," << beta20_F << "," << cylindricalsetting_.Nz_I << "," << cylindricalsetting_.Nr_I << ")\n";

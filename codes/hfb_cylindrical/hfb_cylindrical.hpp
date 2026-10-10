@@ -78,14 +78,14 @@ public:
      * @math (ρ_0,κ_q,λ_q) → Δ_q
      * @output Updated neutron and proton pairing fields.
      */
-    static void add_pairing_fields(HFBCylindricalField& field_p_, HFBCylindricalField& field_n_, const CylindricalDensity& density_p_, const CylindricalDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSetting& hfbsetting_, const EDFTermSwitches& termSwitches_, double lambda_n_F, double lambda_p_F);
+    static void add_pairing_fields(HFBCylindricalField& field_p_, HFBCylindricalField& field_n_, const CylindricalDensity& density_p_, const CylindricalDensity& density_n_, const ParamsUNEDF& edf_skyrme_, const HFBSetting& hfbsetting_, const EDFTermSwitches& termSwitches_, double lambda_n_F, double lambda_p_F);
 
     /**
      * @brief Add local neutron and proton fields.
      * @math (F_p,F_n) → (F_p,F_n)+(δE/δD_p,δE/δD_n)
      * @output Accumulated coordinate-space fields.
      */
-    static void add_nuclei_fields(HFBCylindricalField& field_p_, HFBCylindricalField& field_n_, const CylindricalDensity& density_p_, const CylindricalDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_);
+    static void add_nuclei_fields(HFBCylindricalField& field_p_, HFBCylindricalField& field_n_, const CylindricalDensity& density_p_, const CylindricalDensity& density_n_, const ParamsUNEDF& edf_skyrme_);
 };
 
 class HFBKramersNucleusCylindrical : public HFBKramersNucleus {
@@ -96,7 +96,7 @@ public:
     EDFTermSwitches termSwitches;
     CylindricalSetting cylindricalsetting;
     CylindricalBasis2D cylindricalbasis;
-    EDFParamsSkyrme edf_skyrme; // Base local EDF.
+    ParamsUNEDF edf_skyrme; // Base local EDF.
     CylindricalGaussianGogny gaussian_gogny; // Finite-range Gogny interaction.
     CylindricalGaussianCoulomb gaussian_coulomb; // Finite-range Coulomb interaction.
     CylindricalCoulombField coulomb_field; // ρ_p → v_C^{dir}.
@@ -111,7 +111,7 @@ public:
      * @math (C_cyl,P_HFB,P_Skyrme,P_Gogny) → HFB; η = 2Σ.
      * @output Allocated species, basis, densities, fields, and interaction objects.
      */
-    HFBKramersNucleusCylindrical(const CylindricalSetting& cylindricalsetting_, const HFBSetting& hfbsetting_, const EDFTermSwitches& termSwitches_, const EDFParamsSkyrme& edf_skyrme_, const EDFParamsGogny& edf_gogny_ = EDFParamsGogny::D1S())
+    HFBKramersNucleusCylindrical(const CylindricalSetting& cylindricalsetting_, const HFBSetting& hfbsetting_, const EDFTermSwitches& termSwitches_, const ParamsUNEDF& edf_skyrme_, const ParamsGogny& edf_gogny_ = ParamsGogny::D1S())
     : HFBKramersNucleus(cylindricalsetting_.eta_F2D_block_bsp, hfbsetting_), 
     termSwitches(termSwitches_), 
     cylindricalsetting(cylindricalsetting_), 

@@ -46,7 +46,7 @@ int main() {
     hfbsettings_.accuracy_F = 1.0e-5;
 
     // ^{48}Ca → HFB_{core}.
-    const EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::SKMstar();
+    const ParamsUNEDF edf_skyrme_ = HFBfunctionals::SKMstar();
     HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, termSwitches_, edf_skyrme_);
     hfb_.initialize_h0(Ncore_I, Zcore_I);
     hfb_.initialize_GammaDelta(Ncore_I, Zcore_I);

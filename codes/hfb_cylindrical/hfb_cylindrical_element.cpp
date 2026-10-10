@@ -169,7 +169,7 @@ void HFBKramersNucleusCylindrical::add_Gamma_Delta_from_field() {
 void HFBKramersNucleusCylindrical::update_Gamma_Delta() {
     const int TargetA_I = TargetN_I + TargetZ_I;
     assert(TargetN_I >= 0 && TargetZ_I >= 0 && TargetA_I > 0);
-    const EDFParamsSkyrme active_edf_ = termSwitches.make_active_edf(edf_skyrme, TargetA_I);
+    const ParamsUNEDF active_edf_ = termSwitches.make_active_edf(edf_skyrme, TargetA_I);
 
     // Enabled interactions → reusable kernels.
     if (termSwitches.addFiniteRangeGogny_B) {gaussian_gogny.build_tables();}

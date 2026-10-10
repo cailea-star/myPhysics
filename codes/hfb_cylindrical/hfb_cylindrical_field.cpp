@@ -68,7 +68,7 @@ void HFBCylindricalField::set_zero() {
     vdJ_F2D_z_r.setZero();
 }
 
-void HFBCylindricalField::add_nuclei_fields(HFBCylindricalField& field_p_, HFBCylindricalField& field_n_, const CylindricalDensity& density_p_, const CylindricalDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_) {
+void HFBCylindricalField::add_nuclei_fields(HFBCylindricalField& field_p_, HFBCylindricalField& field_n_, const CylindricalDensity& density_p_, const CylindricalDensity& density_n_, const ParamsUNEDF& edf_skyrme_) {
     const int Nz_I = static_cast<int>(field_n_.vcent_F2D_z_r.rows());
     const int Nr_I = static_cast<int>(field_n_.vcent_F2D_z_r.cols());
 
@@ -85,12 +85,12 @@ void HFBCylindricalField::add_nuclei_fields(HFBCylindricalField& field_p_, HFBCy
     #pragma omp parallel for collapse(2) schedule(static)
     for (int r_I = 0; r_I < Nr_I; ++r_I) {
         for (int z_I = 0; z_I < Nz_I; ++z_I) {
-            const auto [dJ0_F, dJ1_F] = combine_rho01_Func(density_n_.dJ_F2D_z_r, density_p_.dJ_F2D_z_r, z_I, r_I);
+            const auto [dJ0_F, dJ1_F] = combine_rho01_Func(density_n_.divJ_F2D_z_r, density_p_.divJ_F2D_z_r, z_I, r_I);
             const auto [rho0_F, rho1_F] = combine_rho01_Func(density_n_.rho_F2D_z_r, density_p_.rho_F2D_z_r, z_I, r_I);
             const auto [tau0_F, tau1_F] = combine_rho01_Func(density_n_.tau_F2D_z_r, density_p_.tau_F2D_z_r, z_I, r_I);
             const auto [rhoD20_F, rhoD21_F] = combine_rho01_Func(density_n_.rhoLaplacian_F2D_z_r, density_p_.rhoLaplacian_F2D_z_r, z_I, r_I);
-            const auto [rhoDr0_F, rhoDr1_F] = combine_rho01_Func(density_n_.rhoDr_F2D_z_r, density_p_.rhoDr_F2D_z_r, z_I, r_I);
-            const auto [rhoDz0_F, rhoDz1_F] = combine_rho01_Func(density_n_.rhoDz_F2D_z_r, density_p_.rhoDz_F2D_z_r, z_I, r_I);
+            const auto [rhoDr0_F, rhoDr1_F] = combine_rho01_Func(density_n_.rhoNablaR_F2D_z_r, density_p_.rhoNablaR_F2D_z_r, z_I, r_I);
+            const auto [rhoDz0_F, rhoDz1_F] = combine_rho01_Func(density_n_.rhoNablaZ_F2D_z_r, density_p_.rhoNablaZ_F2D_z_r, z_I, r_I);
             const auto [Jphiz0_F, Jphiz1_F] = combine_rho01_Func(density_n_.Jphiz_F2D_z_r, density_p_.Jphiz_F2D_z_r, z_I, r_I);
             const auto [Jzphi0_F, Jzphi1_F] = combine_rho01_Func(density_n_.Jzphi_F2D_z_r, density_p_.Jzphi_F2D_z_r, z_I, r_I);
             const auto [Jphir0_F, Jphir1_F] = combine_rho01_Func(density_n_.Jphir_F2D_z_r, density_p_.Jphir_F2D_z_r, z_I, r_I);
@@ -238,7 +238,7 @@ void HFBCylindricalField::add_coulomb_field(HFBCylindricalField& field_p_, const
     }
 }
 
-void HFBCylindricalField::add_pairing_fields(HFBCylindricalField& field_p_, HFBCylindricalField& field_n_, const CylindricalDensity& density_p_, const CylindricalDensity& density_n_, const EDFParamsSkyrme& edf_skyrme_, const HFBSetting& hfbsetting_, const EDFTermSwitches& termSwitches_, double lambda_n_F, double lambda_p_F) {
+void HFBCylindricalField::add_pairing_fields(HFBCylindricalField& field_p_, HFBCylindricalField& field_n_, const CylindricalDensity& density_p_, const CylindricalDensity& density_n_, const ParamsUNEDF& edf_skyrme_, const HFBSetting& hfbsetting_, const EDFTermSwitches& termSwitches_, double lambda_n_F, double lambda_p_F) {
     assert(termSwitches_.addLocalPair_B);
 
     const int Nz_I = static_cast<int>(field_n_.vcent_F2D_z_r.rows());

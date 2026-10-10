@@ -39,7 +39,7 @@ int main() {
     hfbsettings_.accuracy_F = 1.0e-9;
 
     // (C_{axial},P_{HFB},D1S) → O_{C++}.
-    const EDFParamsGogny edf_gogny_ = EDFParamsGogny::D1S();
+    const ParamsGogny edf_gogny_ = ParamsGogny::D1S();
     HFBKramersNucleusCylindrical hfb_(cylindricalsetting_, hfbsettings_, termSwitches_, edf_gogny_.make_local_edf(), edf_gogny_);
     hfb_.initialize_h0(Ntarget_I, Ztarget_I);
     hfb_.initialize_GammaDelta(Ntarget_I, Ztarget_I);

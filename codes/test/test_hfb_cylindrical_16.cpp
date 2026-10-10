@@ -39,7 +39,7 @@ int main() {
     EDFTermSwitches termSwitches_ = EDFTermSwitches::skyrme();
     hfbsettings_.useEspCut_B = true;
     hfbsettings_.useLipkinNogami_B = true;
-    const EDFParamsSkyrme edf_skyrme_ = HFBfunctionals::UNEDF1();
+    const ParamsUNEDF edf_skyrme_ = HFBfunctionals::UNEDF1();
     std::cout << "[Input] (N,Z,Nshell,b0,Nz,Nr) = (" << Ntarget_I << "," << Ztarget_I << "," << Nshell_I << "," << b0_F << "," << cylindricalsetting_.Nz_I << "," << cylindricalsetting_.Nr_I << ")\n";
     std::cout << "[Input] functional = " << edf_skyrme_.functionalName_Str << ", Lipkin-Nogami = true\n";
 
