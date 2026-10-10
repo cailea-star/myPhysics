@@ -90,6 +90,64 @@ $$
 \boxed{\nabla^2=\frac{1}{r^2}\frac{\partial}{\partial r}\left(r^2\frac{\partial}{\partial r}\right)+\frac{1}{r^2}\nabla_{\hat{\mathbf r}}^2=\frac{1}{r^2}\left[\frac{\partial}{\partial r}\left(r^2\frac{\partial}{\partial r}\right)-\frac{\hat{\mathbf L}^2}{\hbar^2}\right]}.
 $$
 
+## Differential Operators in Component Form
+
+The position and momentum operators are
+
+$$
+\mathbf r=x\hat{\mathbf x}+y\hat{\mathbf y}+z\hat{\mathbf z},\qquad \hat{\mathbf p}=-i\hbar\nabla,\qquad \hat p_x=-i\hbar\partial_x,\quad \hat p_y=-i\hbar\partial_y,\quad \hat p_z=-i\hbar\partial_z.
+$$
+
+The coordinate and derivative transformations are
+
+$$
+x=r\sin\theta\cos\phi,\qquad \partial_x=\sin\theta\cos\phi\,\partial_r+\frac{\cos\theta\cos\phi}{r}\partial_\theta-\frac{\sin\phi}{r\sin\theta}\partial_\phi,
+$$
+
+$$
+y=r\sin\theta\sin\phi,\qquad \partial_y=\sin\theta\sin\phi\,\partial_r+\frac{\cos\theta\sin\phi}{r}\partial_\theta+\frac{\cos\phi}{r\sin\theta}\partial_\phi,
+$$
+
+$$
+z=r\cos\theta,\qquad \partial_z=\cos\theta\,\partial_r-\frac{\sin\theta}{r}\partial_\theta.
+$$
+
+For $\hat{\mathbf L}=\mathbf r\times\hat{\mathbf p}$, the components are
+
+$$
+\hat L_x=y\hat p_z-z\hat p_y=i\hbar\left(\sin\phi\,\partial_\theta+\cot\theta\cos\phi\,\partial_\phi\right),
+$$
+
+$$
+\hat L_y=z\hat p_x-x\hat p_z=i\hbar\left(-\cos\phi\,\partial_\theta+\cot\theta\sin\phi\,\partial_\phi\right),
+$$
+
+$$
+\hat L_z=x\hat p_y-y\hat p_x=-i\hbar\partial_\phi.
+$$
+
+The ladder operators are
+
+$$
+\hat L_\pm=\hat L_x\pm i\hat L_y,
+$$
+
+$$
+\hat L_\pm=\hbar e^{\pm i\phi}\left(\pm\partial_\theta+i\cot\theta\,\partial_\phi\right).
+$$
+
+Hence,
+
+$$
+\partial_\theta=\frac{e^{-i\phi}\hat L_+-e^{i\phi}\hat L_-}{2\hbar},\qquad \partial_\phi=\frac{i}{\hbar}\hat L_z.
+$$
+
+The tangential gradient on the unit sphere becomes
+
+$$
+\boxed{\nabla_{\hat{\mathbf r}}=\hat{\boldsymbol\theta}\partial_\theta+\frac{\hat{\boldsymbol\phi}}{\sin\theta}\partial_\phi=\hat{\boldsymbol\theta}\frac{e^{-i\phi}\hat L_+-e^{i\phi}\hat L_-}{2\hbar}+\hat{\boldsymbol\phi}\frac{i\hat L_z}{\hbar\sin\theta}.}
+$$
+
 ## Spherical Harmonics
 
 Let $l=0,1,\ldots$, $m=-l,\ldots,l$, and let $Y_{lm}(\hat{\mathbf r})$ be simultaneous eigenfunctions of $\hat{\mathbf L}^2$ and $\hat L_z$:

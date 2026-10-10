@@ -182,6 +182,52 @@ $$
 \nabla^2\rho(z,r_\perp)=\left(\partial_z^2+\partial_{r_\perp}^2+\frac{1}{r_\perp}\partial_{r_\perp}\right)\rho(z,r_\perp).
 $$
 
+## Gradient of Particle Density
+
+Under axial symmetry, the particle density is independent of $\varphi$. Its gradient is
+
+$$
+\nabla\rho(\mathbf r)=\hat{\mathbf r}_\perp\,\partial_{r_\perp}\rho(z,r_\perp)+\hat{\mathbf z}\,\partial_z\rho(z,r_\perp).
+$$
+
+### Radial derivative
+
+The two branch contractions are
+
+$$
+\partial_{r_\perp}\left[(\phi_\beta^+)^\dagger(\mathbf r)\phi_\alpha^+(\mathbf r)\right]=\frac{e^{i(\Lambda_\alpha-\Lambda_\beta)\varphi}}{2\pi}\left[(\partial_{r_\perp}\phi_\beta)\phi_\alpha+\phi_\beta(\partial_{r_\perp}\phi_\alpha)\right]\delta_{\Sigma_\alpha,\Sigma_\beta},
+$$
+
+$$
+\partial_{r_\perp}\left[(\phi_\beta^-)^\dagger(\mathbf r)\phi_\alpha^-(\mathbf r)\right]=\frac{e^{-i(\Lambda_\alpha-\Lambda_\beta)\varphi}}{2\pi}\left[(\partial_{r_\perp}\phi_\beta)\phi_\alpha+\phi_\beta(\partial_{r_\perp}\phi_\alpha)\right]\delta_{\Sigma_\alpha,\Sigma_\beta}.
+$$
+
+Cross-group terms vanish. Within each spin group, $\Lambda_\alpha=\Lambda_\beta$; the phases cancel and both branches combine through $R_{\alpha\beta}^{(+)}$:
+
+$$
+\boxed{\partial_{r_\perp}\rho(z,r_\perp)=\frac1{2\pi}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\uparrow}R_{\alpha^\uparrow,\beta^\uparrow}^{(+)}\left((\partial_{r_\perp}\phi_{\alpha^\uparrow})\phi_{\beta^\uparrow}+\phi_{\alpha^\uparrow}(\partial_{r_\perp}\phi_{\beta^\uparrow})\right)+\sum_{\alpha^\downarrow,\beta^\downarrow}R_{\alpha^\downarrow,\beta^\downarrow}^{(+)}\left((\partial_{r_\perp}\phi_{\alpha^\downarrow})\phi_{\beta^\downarrow}+\phi_{\alpha^\downarrow}(\partial_{r_\perp}\phi_{\beta^\downarrow})\right)\right].}
+$$
+
+### Longitudinal derivative
+
+The two branch contractions are
+
+$$
+\partial_z\left[(\phi_\beta^+)^\dagger(\mathbf r)\phi_\alpha^+(\mathbf r)\right]=\frac{e^{i(\Lambda_\alpha-\Lambda_\beta)\varphi}}{2\pi}\left[(\partial_z\phi_\beta)\phi_\alpha+\phi_\beta(\partial_z\phi_\alpha)\right]\delta_{\Sigma_\alpha,\Sigma_\beta},
+$$
+
+$$
+\partial_z\left[(\phi_\beta^-)^\dagger(\mathbf r)\phi_\alpha^-(\mathbf r)\right]=\frac{e^{-i(\Lambda_\alpha-\Lambda_\beta)\varphi}}{2\pi}\left[(\partial_z\phi_\beta)\phi_\alpha+\phi_\beta(\partial_z\phi_\alpha)\right]\delta_{\Sigma_\alpha,\Sigma_\beta}.
+$$
+
+The same spin selection and phase cancellation give
+
+$$
+\boxed{\partial_z\rho(z,r_\perp)=\frac1{2\pi}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\uparrow}R_{\alpha^\uparrow,\beta^\uparrow}^{(+)}\left((\partial_z\phi_{\alpha^\uparrow})\phi_{\beta^\uparrow}+\phi_{\alpha^\uparrow}(\partial_z\phi_{\beta^\uparrow})\right)+\sum_{\alpha^\downarrow,\beta^\downarrow}R_{\alpha^\downarrow,\beta^\downarrow}^{(+)}\left((\partial_z\phi_{\alpha^\downarrow})\phi_{\beta^\downarrow}+\phi_{\alpha^\downarrow}(\partial_z\phi_{\beta^\downarrow})\right)\right].}
+$$
+
+All spatial amplitudes and their derivatives are evaluated at $(z,r_\perp)$. Arrows denote representative spins in both branches.
+
 ## Spin-Current Tensor
 
 In the local cylindrical frame, the Pauli matrices are
