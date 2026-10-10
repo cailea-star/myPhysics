@@ -28,14 +28,8 @@ public:
     Eigen::MatrixXd rho_F2D_z_r{};
     Eigen::MatrixXd tau_F2D_z_r{};
     Eigen::MatrixXd rhoLaplacian_F2D_z_r{};
-    Eigen::MatrixXd rhoDr_F2D_z_r{};
-    Eigen::MatrixXd rhoDz_F2D_z_r{};
-    Eigen::MatrixXd jz_F2D_z_r{};
-    Eigen::MatrixXd jr_F2D_z_r{};
-    Eigen::MatrixXd jphi_F2D_z_r{};
-    Eigen::MatrixXd sz_F2D_z_r{};
-    Eigen::MatrixXd sr_F2D_z_r{};
-    Eigen::MatrixXd sphi_F2D_z_r{};
+    Eigen::MatrixXd rhoNablaR_F2D_z_r{};
+    Eigen::MatrixXd rhoNablaZ_F2D_z_r{};
     Eigen::MatrixXd Jphiz_F2D_z_r{};
     Eigen::MatrixXd Jzphi_F2D_z_r{};
     Eigen::MatrixXd Jphir_F2D_z_r{};
@@ -45,7 +39,7 @@ public:
     Eigen::MatrixXd Jzz_F2D_z_r{};
     Eigen::MatrixXd Jrr_F2D_z_r{};
     Eigen::MatrixXd Jphiphi_F2D_z_r{};
-    Eigen::MatrixXd dJ_F2D_z_r{};
+    Eigen::MatrixXd divJ_F2D_z_r{};
     Eigen::MatrixXd kappa_F2D_z_r{};
 
 public:
@@ -75,14 +69,8 @@ public:
         rho_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
         tau_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
         rhoLaplacian_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
-        rhoDr_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
-        rhoDz_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
-        jz_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
-        jr_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
-        jphi_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
-        sz_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
-        sr_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
-        sphi_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        rhoNablaR_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        rhoNablaZ_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
         Jphiz_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
         Jzphi_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
         Jphir_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
@@ -92,7 +80,7 @@ public:
         Jzz_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
         Jrr_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
         Jphiphi_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
-        dJ_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
+        divJ_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
         kappa_F2D_z_r.resize(cylindricalsetting_.Nz_I, cylindricalsetting_.Nr_I);
 
         set_zero();
@@ -107,7 +95,7 @@ public:
 
     /**
      * @brief  Contract block matrices with cylindrical basis functions.
-     * @math   {ρ⁺⁺,ρ⁻⁻,κ⁺⁻} → {ρ,τ,∇ρ,∇²ρ,j,s,J,∇·J,κ}.
+     * @math   {ρ⁺⁺,ρ⁻⁻,κ⁺⁻} → {ρ,τ,∇ρ,∇²ρ,J,∇·J,κ}.
      * @math   κ⁻⁺ = −(κ⁺⁻)ᵀ.
      * @output Rebuilt grids summed over all blocks.
      * @note   Real symmetric ρ inputs; imaginary-part contributions vanish.
@@ -121,18 +109,12 @@ public:
  * @output Zeroed coordinate-space density grids.
  */
 inline void CylindricalDensity::set_zero() {
-    // {ρ,τ,∇ρ,∇²ρ,j,s,J,∇·J,κ} = 0.
+    // {ρ,τ,∇ρ,∇²ρ,J,∇·J,κ} = 0.
     rho_F2D_z_r.setZero();
     tau_F2D_z_r.setZero();
     rhoLaplacian_F2D_z_r.setZero();
-    rhoDr_F2D_z_r.setZero();
-    rhoDz_F2D_z_r.setZero();
-    jz_F2D_z_r.setZero();
-    jr_F2D_z_r.setZero();
-    jphi_F2D_z_r.setZero();
-    sz_F2D_z_r.setZero();
-    sr_F2D_z_r.setZero();
-    sphi_F2D_z_r.setZero();
+    rhoNablaR_F2D_z_r.setZero();
+    rhoNablaZ_F2D_z_r.setZero();
     Jphiz_F2D_z_r.setZero();
     Jzphi_F2D_z_r.setZero();
     Jphir_F2D_z_r.setZero();
@@ -142,7 +124,7 @@ inline void CylindricalDensity::set_zero() {
     Jzz_F2D_z_r.setZero();
     Jrr_F2D_z_r.setZero();
     Jphiphi_F2D_z_r.setZero();
-    dJ_F2D_z_r.setZero();
+    divJ_F2D_z_r.setZero();
     kappa_F2D_z_r.setZero();
 }
 
@@ -183,9 +165,8 @@ inline void CylindricalDensity::update_density(const std::vector<Eigen::MatrixXd
                 // Λ_β = Λ_α within the up-spin group.
                 const double L2_F = basis.ddphidz_F3D_sp_z_r(spUp2_I, z_I, r_I) + basis.ddphidr_F3D_sp_z_r(spUp2_I, z_I, r_I) + rInv_F * dphi2dr_F - Lambda_F * Lambda_F * rInv2_F * phi2_F;
 
-                // R± = ρ⁺⁺ ± ρ⁻⁻.
+                // R⁺ = ρ⁺⁺ + ρ⁻⁻.
                 const double RPlus_F = rhoPosPos_F2D_bsp_bsp(bUp1_I, bUp2_I) + rhoNegNeg_F2D_bsp_bsp(bUp1_I, bUp2_I);
-                const double RMinus_F = rhoPosPos_F2D_bsp_bsp(bUp1_I, bUp2_I) - rhoNegNeg_F2D_bsp_bsp(bUp1_I, bUp2_I);
                 const double rhoKernel_F = phi1_F * phi2_F;
 
                 // τ_αβ = ∂_zφ_α∂_zφ_β + ∂_rφ_α∂_rφ_β + Λ²r⁻²φ_αφ_β.
@@ -198,16 +179,14 @@ inline void CylindricalDensity::update_density(const std::vector<Eigen::MatrixXd
                 rhoLaplacian_F2D_z_r(z_I, r_I) += norm_F * RPlus_F * rhoLaplacianKernel_F;
 
                 // ∇ρ: ∂(φ_αφ_β) = (∂φ_α)φ_β + φ_α(∂φ_β).
-                rhoDr_F2D_z_r(z_I, r_I) += norm_F * RPlus_F * (dphi1dr_F * phi2_F + phi1_F * dphi2dr_F);
-                rhoDz_F2D_z_r(z_I, r_I) += norm_F * RPlus_F * (dphi1dz_F * phi2_F + phi1_F * dphi2dz_F);
+                rhoNablaR_F2D_z_r(z_I, r_I) += norm_F * RPlus_F * (dphi1dr_F * phi2_F + phi1_F * dphi2dr_F);
+                rhoNablaZ_F2D_z_r(z_I, r_I) += norm_F * RPlus_F * (dphi1dz_F * phi2_F + phi1_F * dphi2dz_F);
 
-                // j_φ, s_z ← R⁻; J_φz ← R⁺.
-                jphi_F2D_z_r(z_I, r_I) += norm_F * RMinus_F * Lambda_F * rInv_F * rhoKernel_F;
-                sz_F2D_z_r(z_I, r_I) += norm_F * RMinus_F * rhoKernel_F;
+                // J_φz ← R⁺.
                 Jphiz_F2D_z_r(z_I, r_I) += norm_F * RPlus_F * Lambda_F * rInv_F * rhoKernel_F;
 
                 // ∇·J: 2 Re[(∇_rφ_β†)σ_z(∇_φφ_α)/i].
-                dJ_F2D_z_r(z_I, r_I) += 2.0 * norm_F * RPlus_F * Lambda_F * rInv_F * dphi2dr_F * phi1_F;
+                divJ_F2D_z_r(z_I, r_I) += 2.0 * norm_F * RPlus_F * Lambda_F * rInv_F * dphi2dr_F * phi1_F;
 
                 // κ: representative ↑↑ contribution.
                 kappa_F2D_z_r(z_I, r_I) += norm_F * kappaPosNeg_F2D_bsp_bsp(bUp1_I, bUp2_I) * rhoKernel_F;
@@ -244,9 +223,8 @@ inline void CylindricalDensity::update_density(const std::vector<Eigen::MatrixXd
                 // Λ_β = Λ_α within the down-spin group.
                 const double L2_F = basis.ddphidz_F3D_sp_z_r(spDown2_I, z_I, r_I) + basis.ddphidr_F3D_sp_z_r(spDown2_I, z_I, r_I) + rInv_F * dphi2dr_F - Lambda_F * Lambda_F * rInv2_F * phi2_F;
 
-                // R± = ρ⁺⁺ ± ρ⁻⁻.
+                // R⁺ = ρ⁺⁺ + ρ⁻⁻.
                 const double RPlus_F = rhoPosPos_F2D_bsp_bsp(bDown1_I, bDown2_I) + rhoNegNeg_F2D_bsp_bsp(bDown1_I, bDown2_I);
-                const double RMinus_F = rhoPosPos_F2D_bsp_bsp(bDown1_I, bDown2_I) - rhoNegNeg_F2D_bsp_bsp(bDown1_I, bDown2_I);
                 const double rhoKernel_F = phi1_F * phi2_F;
 
                 // τ_αβ = ∂_zφ_α∂_zφ_β + ∂_rφ_α∂_rφ_β + Λ²r⁻²φ_αφ_β.
@@ -259,16 +237,14 @@ inline void CylindricalDensity::update_density(const std::vector<Eigen::MatrixXd
                 rhoLaplacian_F2D_z_r(z_I, r_I) += norm_F * RPlus_F * rhoLaplacianKernel_F;
 
                 // ∇ρ: ∂(φ_αφ_β) = (∂φ_α)φ_β + φ_α(∂φ_β).
-                rhoDr_F2D_z_r(z_I, r_I) += norm_F * RPlus_F * (dphi1dr_F * phi2_F + phi1_F * dphi2dr_F);
-                rhoDz_F2D_z_r(z_I, r_I) += norm_F * RPlus_F * (dphi1dz_F * phi2_F + phi1_F * dphi2dz_F);
+                rhoNablaR_F2D_z_r(z_I, r_I) += norm_F * RPlus_F * (dphi1dr_F * phi2_F + phi1_F * dphi2dr_F);
+                rhoNablaZ_F2D_z_r(z_I, r_I) += norm_F * RPlus_F * (dphi1dz_F * phi2_F + phi1_F * dphi2dz_F);
 
-                // j_φ ← R⁻; s_z ← −R⁻; J_φz ← −R⁺.
-                jphi_F2D_z_r(z_I, r_I) += norm_F * RMinus_F * Lambda_F * rInv_F * rhoKernel_F;
-                sz_F2D_z_r(z_I, r_I) -= norm_F * RMinus_F * rhoKernel_F;
+                // J_φz ← −R⁺.
                 Jphiz_F2D_z_r(z_I, r_I) -= norm_F * RPlus_F * Lambda_F * rInv_F * rhoKernel_F;
 
                 // ∇·J: 2 Re[(∇_rφ_β†)σ_z(∇_φφ_α)/i].
-                dJ_F2D_z_r(z_I, r_I) -= 2.0 * norm_F * RPlus_F * Lambda_F * rInv_F * dphi2dr_F * phi1_F;
+                divJ_F2D_z_r(z_I, r_I) -= 2.0 * norm_F * RPlus_F * Lambda_F * rInv_F * dphi2dr_F * phi1_F;
 
                 // κ: representative ↓↓ contribution.
                 kappa_F2D_z_r(z_I, r_I) -= norm_F * kappaPosNeg_F2D_bsp_bsp(bDown1_I, bDown2_I) * rhoKernel_F;
@@ -298,22 +274,20 @@ inline void CylindricalDensity::update_density(const std::vector<Eigen::MatrixXd
                 const double dphiDowndr_F = basis.dphidr_F3D_sp_z_r(spDown_I, z_I, r_I);
                 const double dphiDowndz_F = basis.dphidz_F3D_sp_z_r(spDown_I, z_I, r_I);
 
-                // R±_↑↓ = ρ⁺⁺_↑↓ ± ρ⁻⁻_↑↓.
-                const double RPlus_F = rhoPosPos_F2D_bsp_bsp(bUp_I, bDown_I) + rhoNegNeg_F2D_bsp_bsp(bUp_I, bDown_I);
+                // R⁻_↑↓ = ρ⁺⁺_↑↓ − ρ⁻⁻_↑↓.
                 const double RMinus_F = rhoPosPos_F2D_bsp_bsp(bUp_I, bDown_I) - rhoNegNeg_F2D_bsp_bsp(bUp_I, bDown_I);
 
                 const double rhoKernel_F = phiUp_F * phiDown_F;
                 const double JrphiKernel_F = phiDown_F * dphiUpdr_F - phiUp_F * dphiDowndr_F;
                 const double JzphiKernel_F = phiDown_F * dphiUpdz_F - phiUp_F * dphiDowndz_F;
 
-                // s_r ← R⁺; J_{rφ}, J_{zφ}, J_{φr} ← R⁻.
-                sr_F2D_z_r(z_I, r_I) += norm_F * RPlus_F * rhoKernel_F;
+                // J_{rφ}, J_{zφ}, J_{φr} ← R⁻.
                 Jrphi_F2D_z_r(z_I, r_I) += 0.5 * norm_F * RMinus_F * JrphiKernel_F;
                 Jzphi_F2D_z_r(z_I, r_I) += 0.5 * norm_F * RMinus_F * JzphiKernel_F;
                 Jphir_F2D_z_r(z_I, r_I) += 0.5 * norm_F * RMinus_F * (LambdaUp_F + LambdaDown_F) * rInv_F * rhoKernel_F;
 
                 // ∇·J: angular-bra and σ_φ kernels, including 2 Re.
-                dJ_F2D_z_r(z_I, r_I) += 2.0 * norm_F * RMinus_F * (-LambdaDown_F * rInv_F * phiDown_F * dphiUpdz_F + dphiDowndz_F * dphiUpdr_F);
+                divJ_F2D_z_r(z_I, r_I) += 2.0 * norm_F * RMinus_F * (-LambdaDown_F * rInv_F * phiDown_F * dphiUpdz_F + dphiDowndz_F * dphiUpdr_F);
             }
         }
     };
@@ -340,8 +314,7 @@ inline void CylindricalDensity::update_density(const std::vector<Eigen::MatrixXd
                 const double dphiUpdr_F = basis.dphidr_F3D_sp_z_r(spUp_I, z_I, r_I);
                 const double dphiUpdz_F = basis.dphidz_F3D_sp_z_r(spUp_I, z_I, r_I);
 
-                // R±_↓↑ = ρ⁺⁺_↓↑ ± ρ⁻⁻_↓↑.
-                const double RPlus_F = rhoPosPos_F2D_bsp_bsp(bDown_I, bUp_I) + rhoNegNeg_F2D_bsp_bsp(bDown_I, bUp_I);
+                // R⁻_↓↑ = ρ⁺⁺_↓↑ − ρ⁻⁻_↓↑.
                 const double RMinus_F = rhoPosPos_F2D_bsp_bsp(bDown_I, bUp_I) - rhoNegNeg_F2D_bsp_bsp(bDown_I, bUp_I);
 
                 const double rhoKernel_F = phiDown_F * phiUp_F;
@@ -349,13 +322,12 @@ inline void CylindricalDensity::update_density(const std::vector<Eigen::MatrixXd
                 const double JzphiKernel_F = phiUp_F * dphiDowndz_F - phiDown_F * dphiUpdz_F;
 
                 // σ_φ: ↓↑ contributes with the opposite sign.
-                sr_F2D_z_r(z_I, r_I) += norm_F * RPlus_F * rhoKernel_F;
                 Jrphi_F2D_z_r(z_I, r_I) -= 0.5 * norm_F * RMinus_F * JrphiKernel_F;
                 Jzphi_F2D_z_r(z_I, r_I) -= 0.5 * norm_F * RMinus_F * JzphiKernel_F;
                 Jphir_F2D_z_r(z_I, r_I) += 0.5 * norm_F * RMinus_F * (LambdaDown_F + LambdaUp_F) * rInv_F * rhoKernel_F;
 
                 // ∇·J: angular-bra and σ_φ kernels, including 2 Re.
-                dJ_F2D_z_r(z_I, r_I) += 2.0 * norm_F * RMinus_F * (-LambdaUp_F * rInv_F * phiUp_F * dphiDowndz_F - dphiUpdz_F * dphiDowndr_F);
+                divJ_F2D_z_r(z_I, r_I) += 2.0 * norm_F * RMinus_F * (-LambdaUp_F * rInv_F * phiUp_F * dphiDowndz_F - dphiUpdz_F * dphiDowndr_F);
             }
         }
     };
