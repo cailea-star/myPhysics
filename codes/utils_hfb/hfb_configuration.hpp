@@ -60,19 +60,27 @@ public:
      * @brief Enumerate zero-to-four quasiparticle configurations using nested loops.
      * @math |c| = q; E_c = ΣE_i; 2K_c = Σ2K_i.
      * @output Rebuilt configurations, ordered by count, energy, then indices.
-     * @note Inputs follow U,V columns; TwoK is signed.
+     * @note Inputs follow U,V columns; empty allowed list permits all orbitals.
      */
-    void build_config(const Eigen::VectorXd& Eqp_F1D_qp, const Eigen::VectorXi& TwoK_I1D_qp);
+    void build_config(const Eigen::VectorXd& Eqp_F1D_qp, const Eigen::VectorXi& TwoK_I1D_qp, const std::vector<int>& qp_I1D_allowed = {});
 };
 
-inline void HFBConfiguration::build_config(const Eigen::VectorXd& Eqp_F1D_qp, const Eigen::VectorXi& TwoK_I1D_qp) {
+inline void HFBConfiguration::build_config(const Eigen::VectorXd& Eqp_F1D_qp, const Eigen::VectorXi& TwoK_I1D_qp, const std::vector<int>& qp_I1D_allowed) {
     assert(Nqp_I >= 0);
     assert(Eqp_F1D_qp.size() == Nqp_I && TwoK_I1D_qp.size() == Nqp_I);
+    for (const int qp_I : qp_I1D_allowed) {assert(qp_I >= 0 && qp_I < Nqp_I);}
 
     assert(Ncqp_I1D_Ncqp.size() == ECut_F1D_Ncqp.size());
     assert(Ncqp_I1D_Ncqp.size() == NCut_I1D_Ncqp.size());
     assert(Ncqp_I1D_Ncqp.size() == TwoKCut_I1D_Ncqp.size());
     assert((Ncqp_I1D_Ncqp.array() >= 0).all() && (Ncqp_I1D_Ncqp.array() <= 4).all());
+
+    // Empty list → full space; ascending unique qp indices.
+    std::vector<int> qp_I1D_candidate = qp_I1D_allowed;
+    if (qp_I1D_candidate.empty()) {for (int qp_I = 0; qp_I < Nqp_I; ++qp_I) {qp_I1D_candidate.push_back(qp_I);}}
+    std::sort(qp_I1D_candidate.begin(), qp_I1D_candidate.end());
+    qp_I1D_candidate.erase(std::unique(qp_I1D_candidate.begin(), qp_I1D_candidate.end()), qp_I1D_candidate.end());
+    const int Ncandidate_I = static_cast<int>(qp_I1D_candidate.size());
 
     // C → ∅; reusable candidate buffer.
     config_I2D_cfg_cqp.clear();
@@ -85,7 +93,7 @@ inline void HFBConfiguration::build_config(const Eigen::VectorXd& Eqp_F1D_qp, co
 
     // q = 1: increasing orbital indices.
     const auto build_1qp = [&](int NCut_I, double ECut_F, int twoKCut_I) {
-        for (int qp1_I = 0; qp1_I < Nqp_I; ++qp1_I) {
+        for (const int qp1_I : qp_I1D_candidate) {
             // E_c = ΣE_i; 2K_c = Σ2K_i.
             const double Econfig_F = Eqp_F1D_qp(qp1_I);
             const long long TwoKconfig_I = static_cast<long long>(TwoK_I1D_qp(qp1_I));
@@ -99,8 +107,10 @@ inline void HFBConfiguration::build_config(const Eigen::VectorXd& Eqp_F1D_qp, co
 
     // q = 2: increasing orbital indices.
     const auto build_2qp = [&](int NCut_I, double ECut_F, int twoKCut_I) {
-        for (int qp1_I = 0; qp1_I < Nqp_I - 1; ++qp1_I) {
-            for (int qp2_I = qp1_I + 1; qp2_I < Nqp_I; ++qp2_I) {
+        for (int i1_I = 0; i1_I < Ncandidate_I - 1; ++i1_I) {
+            const int qp1_I = qp_I1D_candidate[i1_I];
+            for (int i2_I = i1_I + 1; i2_I < Ncandidate_I; ++i2_I) {
+                const int qp2_I = qp_I1D_candidate[i2_I];
                 // E_c = ΣE_i; 2K_c = Σ2K_i.
                 const double Econfig_F = Eqp_F1D_qp(qp1_I) + Eqp_F1D_qp(qp2_I);
                 const long long TwoKconfig_I = static_cast<long long>(TwoK_I1D_qp(qp1_I)) + TwoK_I1D_qp(qp2_I);
@@ -115,9 +125,12 @@ inline void HFBConfiguration::build_config(const Eigen::VectorXd& Eqp_F1D_qp, co
 
     // q = 3: increasing orbital indices.
     const auto build_3qp = [&](int NCut_I, double ECut_F, int twoKCut_I) {
-        for (int qp1_I = 0; qp1_I < Nqp_I - 2; ++qp1_I) {
-            for (int qp2_I = qp1_I + 1; qp2_I < Nqp_I - 1; ++qp2_I) {
-                for (int qp3_I = qp2_I + 1; qp3_I < Nqp_I; ++qp3_I) {
+        for (int i1_I = 0; i1_I < Ncandidate_I - 2; ++i1_I) {
+            const int qp1_I = qp_I1D_candidate[i1_I];
+            for (int i2_I = i1_I + 1; i2_I < Ncandidate_I - 1; ++i2_I) {
+                const int qp2_I = qp_I1D_candidate[i2_I];
+                for (int i3_I = i2_I + 1; i3_I < Ncandidate_I; ++i3_I) {
+                    const int qp3_I = qp_I1D_candidate[i3_I];
                     // E_c = ΣE_i; 2K_c = Σ2K_i.
                     const double Econfig_F = Eqp_F1D_qp(qp1_I) + Eqp_F1D_qp(qp2_I) + Eqp_F1D_qp(qp3_I);
                     const long long TwoKconfig_I = static_cast<long long>(TwoK_I1D_qp(qp1_I)) + TwoK_I1D_qp(qp2_I) + TwoK_I1D_qp(qp3_I);
@@ -133,10 +146,14 @@ inline void HFBConfiguration::build_config(const Eigen::VectorXd& Eqp_F1D_qp, co
 
     // q = 4: increasing orbital indices.
     const auto build_4qp = [&](int NCut_I, double ECut_F, int twoKCut_I) {
-        for (int qp1_I = 0; qp1_I < Nqp_I - 3; ++qp1_I) {
-            for (int qp2_I = qp1_I + 1; qp2_I < Nqp_I - 2; ++qp2_I) {
-                for (int qp3_I = qp2_I + 1; qp3_I < Nqp_I - 1; ++qp3_I) {
-                    for (int qp4_I = qp3_I + 1; qp4_I < Nqp_I; ++qp4_I) {
+        for (int i1_I = 0; i1_I < Ncandidate_I - 3; ++i1_I) {
+            const int qp1_I = qp_I1D_candidate[i1_I];
+            for (int i2_I = i1_I + 1; i2_I < Ncandidate_I - 2; ++i2_I) {
+                const int qp2_I = qp_I1D_candidate[i2_I];
+                for (int i3_I = i2_I + 1; i3_I < Ncandidate_I - 1; ++i3_I) {
+                    const int qp3_I = qp_I1D_candidate[i3_I];
+                    for (int i4_I = i3_I + 1; i4_I < Ncandidate_I; ++i4_I) {
+                        const int qp4_I = qp_I1D_candidate[i4_I];
                         // E_c = ΣE_i; 2K_c = Σ2K_i.
                         const double Econfig_F = Eqp_F1D_qp(qp1_I) + Eqp_F1D_qp(qp2_I) + Eqp_F1D_qp(qp3_I) + Eqp_F1D_qp(qp4_I);
                         const long long TwoKconfig_I = static_cast<long long>(TwoK_I1D_qp(qp1_I)) + TwoK_I1D_qp(qp2_I) + TwoK_I1D_qp(qp3_I) + TwoK_I1D_qp(qp4_I);
@@ -157,7 +174,7 @@ inline void HFBConfiguration::build_config(const Eigen::VectorXd& Eqp_F1D_qp, co
         const double ECut_F = ECut_F1D_Ncqp(iNcqp_I);
         const int NCut_I = NCut_I1D_Ncqp(iNcqp_I);
         const int twoKCut_I = TwoKCut_I1D_Ncqp(iNcqp_I);
-        if (NCut_I == 0 || Ncqp_I > Nqp_I) {continue;}
+        if (NCut_I == 0 || Ncqp_I > Ncandidate_I) {continue;}
 
         // Reuse buffers for fixed q.
         candidates.clear();

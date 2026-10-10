@@ -683,18 +683,20 @@ inline void HFBPfaffian::calc_two_body(Eigen::Ref<Eigen::MatrixXcd> result_C2D_c
         eta3_C2D_compactqp12_sp.bottomRows(Ncompactqp2_I) = -SpQp2Dag_C2D_sp_qp2(Eigen::placeholders::all, qp2_I1D_compactqp2).transpose();
         eta4_C2D_compactqp12_sp = eta3_C2D_compactqp12_sp;
 
-        // T⁰ = Σbd (C01 C23 − C02 C13 + C03 C12).
-        T0_C = (x1x2_C2D_sp_sp.array() * SpSp_C2D_sp_sp.transpose().array()).sum()
-            - (x1x3_C2D_sp_sp.array() * x2x3_C2D_sp_sp.transpose().array()).sum()
-            + x1x3_C2D_sp_sp.trace() * x2x3_C2D_sp_sp.trace();
+        // Reference PSM: direct contractions only.
+        T0_C = 0.0;
+        // T0_C += (x1x2_C2D_sp_sp.array() * SpSp_C2D_sp_sp.transpose().array()).sum();
+        // T0_C -= (x1x3_C2D_sp_sp.array() * x2x3_C2D_sp_sp.transpose().array()).sum();
+        T0_C += x1x3_C2D_sp_sp.trace() * x2x3_C2D_sp_sp.trace();
 
-        // T² = antisym[−η¹ C34 (η²)ᵀ + η¹ C24 (η³)ᵀ − ⋯].
-        T2_C2D_compactqp12_compactqp12.noalias() = -eta1_C2D_compactqp12_sp * SpSp_C2D_sp_sp.transpose() * eta2_C2D_compactqp12_sp.transpose();
-        T2_C2D_compactqp12_compactqp12.noalias() += eta1_C2D_compactqp12_sp * x2x3_C2D_sp_sp.transpose() * eta3_C2D_compactqp12_sp.transpose();
+        // T²_Q = antisym[−⟨23⟩η¹(η⁴)ᵀ − ⟨14⟩η²(η³)ᵀ].
+        T2_C2D_compactqp12_compactqp12.setZero();
+        // T2_C2D_compactqp12_compactqp12.noalias() -= eta1_C2D_compactqp12_sp * SpSp_C2D_sp_sp.transpose() * eta2_C2D_compactqp12_sp.transpose();
+        // T2_C2D_compactqp12_compactqp12.noalias() += eta1_C2D_compactqp12_sp * x2x3_C2D_sp_sp.transpose() * eta3_C2D_compactqp12_sp.transpose();
         T2_C2D_compactqp12_compactqp12.noalias() -= x2x3_C2D_sp_sp.trace() * eta1_C2D_compactqp12_sp * eta4_C2D_compactqp12_sp.transpose();
         T2_C2D_compactqp12_compactqp12.noalias() -= x1x3_C2D_sp_sp.trace() * eta2_C2D_compactqp12_sp * eta3_C2D_compactqp12_sp.transpose();
-        T2_C2D_compactqp12_compactqp12.noalias() += eta2_C2D_compactqp12_sp * x1x3_C2D_sp_sp.transpose() * eta4_C2D_compactqp12_sp.transpose();
-        T2_C2D_compactqp12_compactqp12.noalias() -= eta3_C2D_compactqp12_sp * x1x2_C2D_sp_sp.transpose() * eta4_C2D_compactqp12_sp.transpose();
+        // T2_C2D_compactqp12_compactqp12.noalias() += eta2_C2D_compactqp12_sp * x1x3_C2D_sp_sp.transpose() * eta4_C2D_compactqp12_sp.transpose();
+        // T2_C2D_compactqp12_compactqp12.noalias() -= eta3_C2D_compactqp12_sp * x1x2_C2D_sp_sp.transpose() * eta4_C2D_compactqp12_sp.transpose();
 
         // T⁴ = Π¹⁴ ∧ Π²³.
         PI14_C2D_compactqp12_compactqp12.noalias() = eta1_C2D_compactqp12_sp * eta4_C2D_compactqp12_sp.transpose();
@@ -725,17 +727,19 @@ inline void HFBPfaffian::calc_two_body(Eigen::Ref<Eigen::MatrixXcd> result_C2D_c
         eta4_C2D_compactqp12_sp.topRows(Ncompactqp1_I).noalias() = Qp1Sp_C2D_qp1_sp(qp1_I1D_compactqp1, Eigen::placeholders::all) * P_C2D_sp_sp.conjugate();
         eta4_C2D_compactqp12_sp.bottomRows(Ncompactqp2_I).noalias() = -SpQp2Dag_C2D_sp_qp2(Eigen::placeholders::all, qp2_I1D_compactqp2).transpose() * P_C2D_sp_sp.conjugate();
 
-        // T⁰ = Σbd (C01 C23 − C02 C13 + C03 C12).
-        T0_C = trace12_C * trace34_C
-            - (x1x3_C2D_sp_sp.array() * x2x4_C2D_sp_sp.array()).sum()
-            + (x1x4_C2D_sp_sp.array() * x2x3_C2D_sp_sp.array()).sum();
+        // Reference PSM: direct contractions only.
+        T0_C = 0.0;
+        T0_C += trace12_C * trace34_C;
+        // T0_C -= (x1x3_C2D_sp_sp.array() * x2x4_C2D_sp_sp.array()).sum();
+        // T0_C += (x1x4_C2D_sp_sp.array() * x2x3_C2D_sp_sp.array()).sum();
 
-        // T²: pair two external z with two insertions.
-        T2_C2D_compactqp12_compactqp12.noalias() = -trace34_C * eta1_C2D_compactqp12_sp * eta2_C2D_compactqp12_sp.transpose();
-        T2_C2D_compactqp12_compactqp12.noalias() += eta1_C2D_compactqp12_sp * x2x4_C2D_sp_sp * eta3_C2D_compactqp12_sp.transpose();
-        T2_C2D_compactqp12_compactqp12.noalias() -= eta1_C2D_compactqp12_sp * x2x3_C2D_sp_sp * eta4_C2D_compactqp12_sp.transpose();
-        T2_C2D_compactqp12_compactqp12.noalias() -= eta2_C2D_compactqp12_sp * x1x4_C2D_sp_sp * eta3_C2D_compactqp12_sp.transpose();
-        T2_C2D_compactqp12_compactqp12.noalias() += eta2_C2D_compactqp12_sp * x1x3_C2D_sp_sp * eta4_C2D_compactqp12_sp.transpose();
+        // T²_P = antisym[−⟨34⟩η¹(η²)ᵀ − ⟨12⟩η³(η⁴)ᵀ].
+        T2_C2D_compactqp12_compactqp12.setZero();
+        T2_C2D_compactqp12_compactqp12.noalias() -= trace34_C * eta1_C2D_compactqp12_sp * eta2_C2D_compactqp12_sp.transpose();
+        // T2_C2D_compactqp12_compactqp12.noalias() += eta1_C2D_compactqp12_sp * x2x4_C2D_sp_sp * eta3_C2D_compactqp12_sp.transpose();
+        // T2_C2D_compactqp12_compactqp12.noalias() -= eta1_C2D_compactqp12_sp * x2x3_C2D_sp_sp * eta4_C2D_compactqp12_sp.transpose();
+        // T2_C2D_compactqp12_compactqp12.noalias() -= eta2_C2D_compactqp12_sp * x1x4_C2D_sp_sp * eta3_C2D_compactqp12_sp.transpose();
+        // T2_C2D_compactqp12_compactqp12.noalias() += eta2_C2D_compactqp12_sp * x1x3_C2D_sp_sp * eta4_C2D_compactqp12_sp.transpose();
         T2_C2D_compactqp12_compactqp12.noalias() -= trace12_C * eta3_C2D_compactqp12_sp * eta4_C2D_compactqp12_sp.transpose();
 
         T2_C2D_compactqp12_compactqp12 = (T2_C2D_compactqp12_compactqp12 - T2_C2D_compactqp12_compactqp12.transpose()).eval();
@@ -806,6 +810,18 @@ inline void HFBPfaffian::calc_two_body(Eigen::Ref<Eigen::MatrixXcd> result_C2D_c
         calc_constract_P(P_C2D_sp_sp);
         calc_kernel024(0.25 * gP_F1D_p(iP_I), PI12_C2D_compactqp12_compactqp12, PI34_C2D_compactqp12_compactqp12);
     }
+
+    // h₀Q = Σᵢ gQi Qi†Qi.
+    // Eigen::MatrixXcd h0Q_C2D_sp_sp = Eigen::MatrixXcd::Zero(Nsp_I, Nsp_I);
+    // for (Eigen::Index iQ_I = 0; iQ_I < gQ_F1D_q.size(); ++iQ_I) {
+    //     const Eigen::Index offset_I = iQ_I * Nsp_I * Nsp_I;
+    //     const Eigen::Map<const Eigen::MatrixXcd> Q_C2D_sp_sp(Q_C3D_sp_sp_q.data() + offset_I, Nsp_I, Nsp_I);
+    //     h0Q_C2D_sp_sp.noalias() += gQ_F1D_q(iQ_I) * Q_C2D_sp_sp.adjoint() * Q_C2D_sp_sp;
+    // }
+    // result ← result + ⟨Φ₁;cfg1|h₀Q|Φ₂;cfg2⟩.
+    // Eigen::MatrixXcd h0Q_C2D_cfg1_cfg2(result_C2D_cfg1_cfg2.rows(), result_C2D_cfg1_cfg2.cols());
+    // calc_one_body(h0Q_C2D_cfg1_cfg2, h0Q_C2D_sp_sp);
+    // result_C2D_cfg1_cfg2 += h0Q_C2D_cfg1_cfg2;
 }
 
 inline doubleC HFBPfaffian::calc_pfaffian(Eigen::Ref<Eigen::MatrixXcd> S_C2D_chain_chain) {
