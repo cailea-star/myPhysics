@@ -182,139 +182,59 @@ $$
 \nabla^2\rho(z,r_\perp)=\left(\partial_z^2+\partial_{r_\perp}^2+\frac{1}{r_\perp}\partial_{r_\perp}\right)\rho(z,r_\perp).
 $$
 
-## Current Density
+## Gradient of Particle Density
 
-The current density is
-
-$$
-\mathbf j(\mathbf r)=\frac{1}{2i}\sum_{\alpha,\beta}\left\{\rho_{\alpha\beta}^{++}\left[(\phi_\beta^+)^\dagger\nabla\phi_\alpha^+-(\nabla(\phi_\beta^+)^\dagger)\phi_\alpha^+\right]+\rho_{\alpha\beta}^{--}\left[(\phi_\beta^-)^\dagger\nabla\phi_\alpha^--(\nabla(\phi_\beta^-)^\dagger)\phi_\alpha^-\right]\right\}.
-$$
-
-All basis spinors in this expression are evaluated at $\mathbf r$. The cylindrical derivatives are $\nabla_r=\partial_{r_\perp}$, $\nabla_\varphi=r_\perp^{-1}\partial_\varphi$, and $\nabla_z=\partial_z$. Only contractions within the same representative spin group survive. Within each spin group of a block, $\Lambda_\alpha=\Lambda_\beta$, so the azimuthal phases cancel.
-
-### $j_r$
-
-The radial contractions in the two branches are
+Under axial symmetry, the particle density is independent of $\varphi$. Its gradient is
 
 $$
-\frac{1}{2i}\left[(\phi_\beta^\pm)^\dagger\nabla_r\phi_\alpha^\pm-(\nabla_r(\phi_\beta^\pm)^\dagger)\phi_\alpha^\pm\right]=\frac{1}{4\pi i}\left(\phi_\beta\partial_{r_\perp}\phi_\alpha-\phi_\alpha\partial_{r_\perp}\phi_\beta\right)e^{\pm i(\Lambda_\alpha-\Lambda_\beta)\varphi}\delta_{\Sigma_\alpha,\Sigma_\beta}.
+\nabla\rho(\mathbf r)=\hat{\mathbf r}_\perp\,\partial_{r_\perp}\rho(z,r_\perp)+\hat{\mathbf z}\,\partial_z\rho(z,r_\perp).
 $$
 
-After phase cancellation, both branches share the same kernel and combine through $R^{(+)}$:
+### Radial derivative
+
+The two branch contractions are
 
 $$
-\boxed{j_r(z,r_\perp)=\frac{1}{4\pi i}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\uparrow}R_{\alpha^\uparrow,\beta^\uparrow}^{(+)}\left(\phi_{\beta^\uparrow}\partial_{r_\perp}\phi_{\alpha^\uparrow}-\phi_{\alpha^\uparrow}\partial_{r_\perp}\phi_{\beta^\uparrow}\right)+\sum_{\alpha^\downarrow,\beta^\downarrow}R_{\alpha^\downarrow,\beta^\downarrow}^{(+)}\left(\phi_{\beta^\downarrow}\partial_{r_\perp}\phi_{\alpha^\downarrow}-\phi_{\alpha^\downarrow}\partial_{r_\perp}\phi_{\beta^\downarrow}\right)\right].}
+\partial_{r_\perp}\left[(\phi_\beta^+)^\dagger(\mathbf r)\phi_\alpha^+(\mathbf r)\right]=\frac{e^{i(\Lambda_\alpha-\Lambda_\beta)\varphi}}{2\pi}\left[(\partial_{r_\perp}\phi_\beta)\phi_\alpha+\phi_\beta(\partial_{r_\perp}\phi_\alpha)\right]\delta_{\Sigma_\alpha,\Sigma_\beta},
 $$
 
-### $j_\varphi$
-
-The angular derivatives give opposite signs in the two branches:
-
 $$
-\frac{1}{2i}\left[(\phi_\beta^\pm)^\dagger\nabla_\varphi\phi_\alpha^\pm-(\nabla_\varphi(\phi_\beta^\pm)^\dagger)\phi_\alpha^\pm\right]=\pm\frac{\Lambda_\alpha+\Lambda_\beta}{4\pi r_\perp}\phi_\beta\phi_\alpha e^{\pm i(\Lambda_\alpha-\Lambda_\beta)\varphi}\delta_{\Sigma_\alpha,\Sigma_\beta}.
+\partial_{r_\perp}\left[(\phi_\beta^-)^\dagger(\mathbf r)\phi_\alpha^-(\mathbf r)\right]=\frac{e^{-i(\Lambda_\alpha-\Lambda_\beta)\varphi}}{2\pi}\left[(\partial_{r_\perp}\phi_\beta)\phi_\alpha+\phi_\beta(\partial_{r_\perp}\phi_\alpha)\right]\delta_{\Sigma_\alpha,\Sigma_\beta}.
 $$
 
-After phase cancellation, $\Lambda_\alpha+\Lambda_\beta=2\Lambda_\alpha$, and the branch contributions combine through $R^{(-)}$:
+Cross-group terms vanish. Within each spin group, $\Lambda_\alpha=\Lambda_\beta$; the phases cancel and both branches combine through $R_{\alpha\beta}^{(+)}$:
 
 $$
-\boxed{j_\varphi(z,r_\perp)=\frac{1}{2\pi r_\perp}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\uparrow}R_{\alpha^\uparrow,\beta^\uparrow}^{(-)}\Lambda_{\alpha^\uparrow}\phi_{\alpha^\uparrow}\phi_{\beta^\uparrow}+\sum_{\alpha^\downarrow,\beta^\downarrow}R_{\alpha^\downarrow,\beta^\downarrow}^{(-)}\Lambda_{\alpha^\downarrow}\phi_{\alpha^\downarrow}\phi_{\beta^\downarrow}\right].}
+\boxed{\partial_{r_\perp}\rho(z,r_\perp)=\frac1{2\pi}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\uparrow}R_{\alpha^\uparrow,\beta^\uparrow}^{(+)}\left((\partial_{r_\perp}\phi_{\alpha^\uparrow})\phi_{\beta^\uparrow}+\phi_{\alpha^\uparrow}(\partial_{r_\perp}\phi_{\beta^\uparrow})\right)+\sum_{\alpha^\downarrow,\beta^\downarrow}R_{\alpha^\downarrow,\beta^\downarrow}^{(+)}\left((\partial_{r_\perp}\phi_{\alpha^\downarrow})\phi_{\beta^\downarrow}+\phi_{\alpha^\downarrow}(\partial_{r_\perp}\phi_{\beta^\downarrow})\right)\right].}
 $$
 
-### $j_z$
+### Longitudinal derivative
 
-The longitudinal contractions in the two branches are
-
-$$
-\frac{1}{2i}\left[(\phi_\beta^\pm)^\dagger\nabla_z\phi_\alpha^\pm-(\nabla_z(\phi_\beta^\pm)^\dagger)\phi_\alpha^\pm\right]=\frac{1}{4\pi i}\left(\phi_\beta\partial_z\phi_\alpha-\phi_\alpha\partial_z\phi_\beta\right)e^{\pm i(\Lambda_\alpha-\Lambda_\beta)\varphi}\delta_{\Sigma_\alpha,\Sigma_\beta}.
-$$
-
-After phase cancellation, both branches share the same kernel and combine through $R^{(+)}$:
+The two branch contractions are
 
 $$
-\boxed{j_z(z,r_\perp)=\frac{1}{4\pi i}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\uparrow}R_{\alpha^\uparrow,\beta^\uparrow}^{(+)}\left(\phi_{\beta^\uparrow}\partial_z\phi_{\alpha^\uparrow}-\phi_{\alpha^\uparrow}\partial_z\phi_{\beta^\uparrow}\right)+\sum_{\alpha^\downarrow,\beta^\downarrow}R_{\alpha^\downarrow,\beta^\downarrow}^{(+)}\left(\phi_{\beta^\downarrow}\partial_z\phi_{\alpha^\downarrow}-\phi_{\alpha^\downarrow}\partial_z\phi_{\beta^\downarrow}\right)\right].}
+\partial_z\left[(\phi_\beta^+)^\dagger(\mathbf r)\phi_\alpha^+(\mathbf r)\right]=\frac{e^{i(\Lambda_\alpha-\Lambda_\beta)\varphi}}{2\pi}\left[(\partial_z\phi_\beta)\phi_\alpha+\phi_\beta(\partial_z\phi_\alpha)\right]\delta_{\Sigma_\alpha,\Sigma_\beta},
 $$
 
-All spatial amplitudes are real, evaluated at $(z,r_\perp)$, and carry positive-branch labels. Hermiticity makes all three components real. For real density matrices, $j_r=j_z=0$, while $j_\varphi$ may remain nonzero. The definition of $\mathbf j$ does not include a factor of $\hbar/M$.
+$$
+\partial_z\left[(\phi_\beta^-)^\dagger(\mathbf r)\phi_\alpha^-(\mathbf r)\right]=\frac{e^{-i(\Lambda_\alpha-\Lambda_\beta)\varphi}}{2\pi}\left[(\partial_z\phi_\beta)\phi_\alpha+\phi_\beta(\partial_z\phi_\alpha)\right]\delta_{\Sigma_\alpha,\Sigma_\beta}.
+$$
 
-## Spin Density
-
-The spin density is
+The same spin selection and phase cancellation give
 
 $$
-\mathbf s(\mathbf r)=\langle\hat\psi^\dagger(\mathbf r)\boldsymbol\sigma\hat\psi(\mathbf r)\rangle=\sum_{\alpha,\beta}\left[\rho_{\alpha\beta}^{++}(\phi_\beta^+)^\dagger(\mathbf r)\boldsymbol\sigma\phi_\alpha^+(\mathbf r)+\rho_{\alpha\beta}^{--}(\phi_\beta^-)^\dagger(\mathbf r)\boldsymbol\sigma\phi_\alpha^-(\mathbf r)\right].
+\boxed{\partial_z\rho(z,r_\perp)=\frac1{2\pi}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\uparrow}R_{\alpha^\uparrow,\beta^\uparrow}^{(+)}\left((\partial_z\phi_{\alpha^\uparrow})\phi_{\beta^\uparrow}+\phi_{\alpha^\uparrow}(\partial_z\phi_{\beta^\uparrow})\right)+\sum_{\alpha^\downarrow,\beta^\downarrow}R_{\alpha^\downarrow,\beta^\downarrow}^{(+)}\left((\partial_z\phi_{\alpha^\downarrow})\phi_{\beta^\downarrow}+\phi_{\alpha^\downarrow}(\partial_z\phi_{\beta^\downarrow})\right)\right].}
 $$
+
+All spatial amplitudes and their derivatives are evaluated at $(z,r_\perp)$. Arrows denote representative spins in both branches.
+
+## Spin-Current Tensor
 
 In the local cylindrical frame, the Pauli matrices are
 
 $$
 \sigma_z=\begin{pmatrix}1&0\\0&-1\end{pmatrix},\qquad \sigma_r=\begin{pmatrix}0&e^{-i\varphi}\\e^{i\varphi}&0\end{pmatrix},\qquad \sigma_\varphi=\frac{1}{i}\begin{pmatrix}0&e^{-i\varphi}\\-e^{i\varphi}&0\end{pmatrix}.
 $$
-
-All spatial amplitudes below are real and evaluated at $(z,r_\perp)$. Arrows denote representative spins in both branches, as defined in [Spin Groups](#spin-groups).
-
-### $s_z$
-
-The contractions within each representative spin group are
-
-$$
-(\phi_{\beta^\uparrow}^\pm)^\dagger\sigma_z\phi_{\alpha^\uparrow}^\pm=\pm\frac{\phi_{\beta^\uparrow}\phi_{\alpha^\uparrow}}{2\pi}e^{\pm i(\Lambda_{\alpha^\uparrow}-\Lambda_{\beta^\uparrow})\varphi},
-$$
-
-$$
-(\phi_{\beta^\downarrow}^\pm)^\dagger\sigma_z\phi_{\alpha^\downarrow}^\pm=\mp\frac{\phi_{\beta^\downarrow}\phi_{\alpha^\downarrow}}{2\pi}e^{\pm i(\Lambda_{\alpha^\downarrow}-\Lambda_{\beta^\downarrow})\varphi}.
-$$
-
-Cross-group contractions vanish. Within each spin group of a block, $\Lambda_\alpha=\Lambda_\beta$, so both phases equal one. The negative branch reverses the spin sign, giving $R^{(-)}$:
-
-$$
-\boxed{s_z(z,r_\perp)=\frac{1}{2\pi}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\uparrow}R_{\alpha^\uparrow,\beta^\uparrow}^{(-)}\phi_{\alpha^\uparrow}\phi_{\beta^\uparrow}-\sum_{\alpha^\downarrow,\beta^\downarrow}R_{\alpha^\downarrow,\beta^\downarrow}^{(-)}\phi_{\alpha^\downarrow}\phi_{\beta^\downarrow}\right].}
-$$
-
-### $s_r$
-
-The cross-group contractions in the two branches are
-
-$$
-(\phi_{\beta^\downarrow}^\pm)^\dagger\sigma_r\phi_{\alpha^\uparrow}^\pm=\frac{\phi_{\beta^\downarrow}\phi_{\alpha^\uparrow}}{2\pi}e^{\pm i(\Lambda_{\alpha^\uparrow}-\Lambda_{\beta^\downarrow}+1)\varphi},
-$$
-
-$$
-(\phi_{\beta^\uparrow}^\pm)^\dagger\sigma_r\phi_{\alpha^\downarrow}^\pm=\frac{\phi_{\beta^\uparrow}\phi_{\alpha^\downarrow}}{2\pi}e^{\pm i(\Lambda_{\alpha^\downarrow}-\Lambda_{\beta^\uparrow}-1)\varphi}.
-$$
-
-Same-group contractions vanish. Within a block,
-
-$$
-\Lambda_{\alpha^\uparrow}-\Lambda_{\beta^\downarrow}=-1,\qquad \Lambda_{\alpha^\downarrow}-\Lambda_{\beta^\uparrow}=1,
-$$
-
-so all phases equal one. Both branches retain the same sign and combine through $R^{(+)}$:
-
-$$
-\boxed{s_r(z,r_\perp)=\frac{1}{2\pi}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\downarrow}R_{\alpha^\uparrow,\beta^\downarrow}^{(+)}\phi_{\alpha^\uparrow}\phi_{\beta^\downarrow}+\sum_{\alpha^\downarrow,\beta^\uparrow}R_{\alpha^\downarrow,\beta^\uparrow}^{(+)}\phi_{\alpha^\downarrow}\phi_{\beta^\uparrow}\right].}
-$$
-
-### $s_\varphi$
-
-The cross-group contractions are
-
-$$
-(\phi_{\beta^\downarrow}^\pm)^\dagger\sigma_\varphi\phi_{\alpha^\uparrow}^\pm=\mp\frac{\phi_{\beta^\downarrow}\phi_{\alpha^\uparrow}}{2\pi i}e^{\pm i(\Lambda_{\alpha^\uparrow}-\Lambda_{\beta^\downarrow}+1)\varphi},
-$$
-
-$$
-(\phi_{\beta^\uparrow}^\pm)^\dagger\sigma_\varphi\phi_{\alpha^\downarrow}^\pm=\pm\frac{\phi_{\beta^\uparrow}\phi_{\alpha^\downarrow}}{2\pi i}e^{\pm i(\Lambda_{\alpha^\downarrow}-\Lambda_{\beta^\uparrow}-1)\varphi}.
-$$
-
-Same-group contractions vanish. The phase relations are the same as for $s_r$, but the negative branch reverses the contraction sign, giving $R^{(-)}$:
-
-$$
-\boxed{s_\varphi(z,r_\perp)=\frac{1}{2\pi i}\sum_{\text{blocks}}\left[\sum_{\alpha^\downarrow,\beta^\uparrow}R_{\alpha^\downarrow,\beta^\uparrow}^{(-)}\phi_{\alpha^\downarrow}\phi_{\beta^\uparrow}-\sum_{\alpha^\uparrow,\beta^\downarrow}R_{\alpha^\uparrow,\beta^\downarrow}^{(-)}\phi_{\alpha^\uparrow}\phi_{\beta^\downarrow}\right].}
-$$
-
-Hermiticity makes all three components real; for real density matrices, $s_\varphi=0$. The physical spin-angular-momentum density is $\hbar\mathbf s/2$.
-
-## Spin-Current Tensor
 
 The first index denotes the flow direction; the second denotes the spin direction. Define
 
@@ -731,3 +651,129 @@ $$
 $$
 
 All spatial amplitudes are real and evaluated at $(z,r_\perp)$. Arrows on block-matrix indices denote representative spins. The scalar pairing density can be complex; no real-part operation is applied.
+
+## Current Density
+
+The current density is
+
+$$
+\mathbf j(\mathbf r)=\frac{1}{2i}\sum_{\alpha,\beta}\left\{\rho_{\alpha\beta}^{++}\left[(\phi_\beta^+)^\dagger\nabla\phi_\alpha^+-(\nabla(\phi_\beta^+)^\dagger)\phi_\alpha^+\right]+\rho_{\alpha\beta}^{--}\left[(\phi_\beta^-)^\dagger\nabla\phi_\alpha^--(\nabla(\phi_\beta^-)^\dagger)\phi_\alpha^-\right]\right\}.
+$$
+
+All basis spinors in this expression are evaluated at $\mathbf r$. The cylindrical derivatives are $\nabla_r=\partial_{r_\perp}$, $\nabla_\varphi=r_\perp^{-1}\partial_\varphi$, and $\nabla_z=\partial_z$. Only contractions within the same representative spin group survive. Within each spin group of a block, $\Lambda_\alpha=\Lambda_\beta$, so the azimuthal phases cancel.
+
+### $j_r$
+
+The radial contractions in the two branches are
+
+$$
+\frac{1}{2i}\left[(\phi_\beta^\pm)^\dagger\nabla_r\phi_\alpha^\pm-(\nabla_r(\phi_\beta^\pm)^\dagger)\phi_\alpha^\pm\right]=\frac{1}{4\pi i}\left(\phi_\beta\partial_{r_\perp}\phi_\alpha-\phi_\alpha\partial_{r_\perp}\phi_\beta\right)e^{\pm i(\Lambda_\alpha-\Lambda_\beta)\varphi}\delta_{\Sigma_\alpha,\Sigma_\beta}.
+$$
+
+After phase cancellation, both branches share the same kernel and combine through $R^{(+)}$:
+
+$$
+\boxed{j_r(z,r_\perp)=\frac{1}{4\pi i}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\uparrow}R_{\alpha^\uparrow,\beta^\uparrow}^{(+)}\left(\phi_{\beta^\uparrow}\partial_{r_\perp}\phi_{\alpha^\uparrow}-\phi_{\alpha^\uparrow}\partial_{r_\perp}\phi_{\beta^\uparrow}\right)+\sum_{\alpha^\downarrow,\beta^\downarrow}R_{\alpha^\downarrow,\beta^\downarrow}^{(+)}\left(\phi_{\beta^\downarrow}\partial_{r_\perp}\phi_{\alpha^\downarrow}-\phi_{\alpha^\downarrow}\partial_{r_\perp}\phi_{\beta^\downarrow}\right)\right].}
+$$
+
+### $j_\varphi$
+
+The angular derivatives give opposite signs in the two branches:
+
+$$
+\frac{1}{2i}\left[(\phi_\beta^\pm)^\dagger\nabla_\varphi\phi_\alpha^\pm-(\nabla_\varphi(\phi_\beta^\pm)^\dagger)\phi_\alpha^\pm\right]=\pm\frac{\Lambda_\alpha+\Lambda_\beta}{4\pi r_\perp}\phi_\beta\phi_\alpha e^{\pm i(\Lambda_\alpha-\Lambda_\beta)\varphi}\delta_{\Sigma_\alpha,\Sigma_\beta}.
+$$
+
+After phase cancellation, $\Lambda_\alpha+\Lambda_\beta=2\Lambda_\alpha$, and the branch contributions combine through $R^{(-)}$:
+
+$$
+\boxed{j_\varphi(z,r_\perp)=\frac{1}{2\pi r_\perp}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\uparrow}R_{\alpha^\uparrow,\beta^\uparrow}^{(-)}\Lambda_{\alpha^\uparrow}\phi_{\alpha^\uparrow}\phi_{\beta^\uparrow}+\sum_{\alpha^\downarrow,\beta^\downarrow}R_{\alpha^\downarrow,\beta^\downarrow}^{(-)}\Lambda_{\alpha^\downarrow}\phi_{\alpha^\downarrow}\phi_{\beta^\downarrow}\right].}
+$$
+
+### $j_z$
+
+The longitudinal contractions in the two branches are
+
+$$
+\frac{1}{2i}\left[(\phi_\beta^\pm)^\dagger\nabla_z\phi_\alpha^\pm-(\nabla_z(\phi_\beta^\pm)^\dagger)\phi_\alpha^\pm\right]=\frac{1}{4\pi i}\left(\phi_\beta\partial_z\phi_\alpha-\phi_\alpha\partial_z\phi_\beta\right)e^{\pm i(\Lambda_\alpha-\Lambda_\beta)\varphi}\delta_{\Sigma_\alpha,\Sigma_\beta}.
+$$
+
+After phase cancellation, both branches share the same kernel and combine through $R^{(+)}$:
+
+$$
+\boxed{j_z(z,r_\perp)=\frac{1}{4\pi i}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\uparrow}R_{\alpha^\uparrow,\beta^\uparrow}^{(+)}\left(\phi_{\beta^\uparrow}\partial_z\phi_{\alpha^\uparrow}-\phi_{\alpha^\uparrow}\partial_z\phi_{\beta^\uparrow}\right)+\sum_{\alpha^\downarrow,\beta^\downarrow}R_{\alpha^\downarrow,\beta^\downarrow}^{(+)}\left(\phi_{\beta^\downarrow}\partial_z\phi_{\alpha^\downarrow}-\phi_{\alpha^\downarrow}\partial_z\phi_{\beta^\downarrow}\right)\right].}
+$$
+
+All spatial amplitudes are real, evaluated at $(z,r_\perp)$, and carry positive-branch labels. Hermiticity makes all three components real. For real density matrices, $j_r=j_z=0$, while $j_\varphi$ may remain nonzero. The definition of $\mathbf j$ does not include a factor of $\hbar/M$.
+
+## Spin Density
+
+The spin density is
+
+$$
+\mathbf s(\mathbf r)=\langle\hat\psi^\dagger(\mathbf r)\boldsymbol\sigma\hat\psi(\mathbf r)\rangle=\sum_{\alpha,\beta}\left[\rho_{\alpha\beta}^{++}(\phi_\beta^+)^\dagger(\mathbf r)\boldsymbol\sigma\phi_\alpha^+(\mathbf r)+\rho_{\alpha\beta}^{--}(\phi_\beta^-)^\dagger(\mathbf r)\boldsymbol\sigma\phi_\alpha^-(\mathbf r)\right].
+$$
+
+All spatial amplitudes below are real and evaluated at $(z,r_\perp)$. Arrows denote representative spins in both branches, as defined in [Spin Groups](#spin-groups).
+
+### $s_z$
+
+The contractions within each representative spin group are
+
+$$
+(\phi_{\beta^\uparrow}^\pm)^\dagger\sigma_z\phi_{\alpha^\uparrow}^\pm=\pm\frac{\phi_{\beta^\uparrow}\phi_{\alpha^\uparrow}}{2\pi}e^{\pm i(\Lambda_{\alpha^\uparrow}-\Lambda_{\beta^\uparrow})\varphi},
+$$
+
+$$
+(\phi_{\beta^\downarrow}^\pm)^\dagger\sigma_z\phi_{\alpha^\downarrow}^\pm=\mp\frac{\phi_{\beta^\downarrow}\phi_{\alpha^\downarrow}}{2\pi}e^{\pm i(\Lambda_{\alpha^\downarrow}-\Lambda_{\beta^\downarrow})\varphi}.
+$$
+
+Cross-group contractions vanish. Within each spin group of a block, $\Lambda_\alpha=\Lambda_\beta$, so both phases equal one. The negative branch reverses the spin sign, giving $R^{(-)}$:
+
+$$
+\boxed{s_z(z,r_\perp)=\frac{1}{2\pi}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\uparrow}R_{\alpha^\uparrow,\beta^\uparrow}^{(-)}\phi_{\alpha^\uparrow}\phi_{\beta^\uparrow}-\sum_{\alpha^\downarrow,\beta^\downarrow}R_{\alpha^\downarrow,\beta^\downarrow}^{(-)}\phi_{\alpha^\downarrow}\phi_{\beta^\downarrow}\right].}
+$$
+
+### $s_r$
+
+The cross-group contractions in the two branches are
+
+$$
+(\phi_{\beta^\downarrow}^\pm)^\dagger\sigma_r\phi_{\alpha^\uparrow}^\pm=\frac{\phi_{\beta^\downarrow}\phi_{\alpha^\uparrow}}{2\pi}e^{\pm i(\Lambda_{\alpha^\uparrow}-\Lambda_{\beta^\downarrow}+1)\varphi},
+$$
+
+$$
+(\phi_{\beta^\uparrow}^\pm)^\dagger\sigma_r\phi_{\alpha^\downarrow}^\pm=\frac{\phi_{\beta^\uparrow}\phi_{\alpha^\downarrow}}{2\pi}e^{\pm i(\Lambda_{\alpha^\downarrow}-\Lambda_{\beta^\uparrow}-1)\varphi}.
+$$
+
+Same-group contractions vanish. Within a block,
+
+$$
+\Lambda_{\alpha^\uparrow}-\Lambda_{\beta^\downarrow}=-1,\qquad \Lambda_{\alpha^\downarrow}-\Lambda_{\beta^\uparrow}=1,
+$$
+
+so all phases equal one. Both branches retain the same sign and combine through $R^{(+)}$:
+
+$$
+\boxed{s_r(z,r_\perp)=\frac{1}{2\pi}\sum_{\text{blocks}}\left[\sum_{\alpha^\uparrow,\beta^\downarrow}R_{\alpha^\uparrow,\beta^\downarrow}^{(+)}\phi_{\alpha^\uparrow}\phi_{\beta^\downarrow}+\sum_{\alpha^\downarrow,\beta^\uparrow}R_{\alpha^\downarrow,\beta^\uparrow}^{(+)}\phi_{\alpha^\downarrow}\phi_{\beta^\uparrow}\right].}
+$$
+
+### $s_\varphi$
+
+The cross-group contractions are
+
+$$
+(\phi_{\beta^\downarrow}^\pm)^\dagger\sigma_\varphi\phi_{\alpha^\uparrow}^\pm=\mp\frac{\phi_{\beta^\downarrow}\phi_{\alpha^\uparrow}}{2\pi i}e^{\pm i(\Lambda_{\alpha^\uparrow}-\Lambda_{\beta^\downarrow}+1)\varphi},
+$$
+
+$$
+(\phi_{\beta^\uparrow}^\pm)^\dagger\sigma_\varphi\phi_{\alpha^\downarrow}^\pm=\pm\frac{\phi_{\beta^\uparrow}\phi_{\alpha^\downarrow}}{2\pi i}e^{\pm i(\Lambda_{\alpha^\downarrow}-\Lambda_{\beta^\uparrow}-1)\varphi}.
+$$
+
+Same-group contractions vanish. The phase relations are the same as for $s_r$, but the negative branch reverses the contraction sign, giving $R^{(-)}$:
+
+$$
+\boxed{s_\varphi(z,r_\perp)=\frac{1}{2\pi i}\sum_{\text{blocks}}\left[\sum_{\alpha^\downarrow,\beta^\uparrow}R_{\alpha^\downarrow,\beta^\uparrow}^{(-)}\phi_{\alpha^\downarrow}\phi_{\beta^\uparrow}-\sum_{\alpha^\uparrow,\beta^\downarrow}R_{\alpha^\uparrow,\beta^\downarrow}^{(-)}\phi_{\alpha^\uparrow}\phi_{\beta^\downarrow}\right].}
+$$
+
+Hermiticity makes all three components real; for real density matrices, $s_\varphi=0$. The physical spin-angular-momentum density is $\hbar\mathbf s/2$.

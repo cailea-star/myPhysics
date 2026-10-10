@@ -256,166 +256,50 @@ $$
 
 All radial functions and their derivatives are evaluated at $r$.
 
-## Current Density
+## Gradient of Particle Density
 
-The current density is defined without the factor $\hbar/M$ as
-
-$$
-\boldsymbol j(\boldsymbol r)=\frac1{2i}\left\langle\hat\psi^\dagger(\boldsymbol r)\nabla\hat\psi(\boldsymbol r)-[\nabla\hat\psi^\dagger(\boldsymbol r)]\hat\psi(\boldsymbol r)\right\rangle.
-$$
-
-Following the [spherical-coordinate differential operators](../../notes/mathematical_physics/coordinate_spherical.md#differential-operators), use
+Following the [spherical-coordinate differential operators](../../notes/mathematical_physics/coordinate_spherical.md#differential-operators),
 
 $$
-\nabla=\hat{\mathbf r}\,\partial_r+\frac1r\nabla_{\hat{\mathbf r}},\qquad \nabla_{\hat{\mathbf r}}=-\frac{i}{\hbar}\hat{\mathbf r}\times\hat{\mathbf L}.
+\nabla=\hat{\mathbf r}\,\partial_r+\frac1r\nabla_{\hat{\mathbf r}}.
 $$
 
-With the real radial functions $\phi_\alpha(r)=\phi_{n_\alpha l_\alpha}(r)$, the two branch contributions separate as
+Applying this to the particle-density expansion gives
 
 $$
-\frac{(\phi_\beta^+)^\dagger\nabla\phi_\alpha^+-[\nabla(\phi_\beta^+)^\dagger]\phi_\alpha^+}{2i}=\frac{\hat{\mathbf r}}{2i}\left(\phi_\beta\partial_r\phi_\alpha-\partial_r\phi_\beta\,\phi_\alpha\right)A_{\rho,\alpha\beta}^{++}+\frac{\phi_\beta\phi_\alpha}{r}\boldsymbol A_{j,\alpha\beta}^{++},
+\nabla\rho(\mathbf r)=\sum_{j,m}\left[\frac{\mathrm d\rho_{jm}(r)}{\mathrm dr}\hat{\mathbf r}Y_{jm}(\hat{\mathbf r})+\frac{\rho_{jm}(r)}r\nabla_{\hat{\mathbf r}}Y_{jm}(\hat{\mathbf r})\right].
 $$
 
-$$
-\frac{(\phi_\beta^-)^\dagger\nabla\phi_\alpha^--[\nabla(\phi_\beta^-)^\dagger]\phi_\alpha^-}{2i}=\frac{\hat{\mathbf r}}{2i}\left(\phi_\beta\partial_r\phi_\alpha-\partial_r\phi_\beta\,\phi_\alpha\right)A_{\rho,\alpha\beta}^{--}+\frac{\phi_\beta\phi_\alpha}{r}\boldsymbol A_{j,\alpha\beta}^{--}.
-$$
-
-Define the tangential current-density angular factors as
+Using the [relations between the two bases](../../notes/mathematical_physics/specialfunction_spherical_harmonics.md#relations-between-the-two-bases),
 
 $$
-\boldsymbol A_{j,\alpha\beta}^{++}=\frac1{2i}\left\{\left[\mathcal Y^{l_\beta}_{j_\beta m_\beta}\right]^\dagger\nabla_{\hat{\mathbf r}}\mathcal Y^{l_\alpha}_{j_\alpha m_\alpha}-\left[\nabla_{\hat{\mathbf r}}\mathcal Y^{l_\beta}_{j_\beta m_\beta}\right]^\dagger\mathcal Y^{l_\alpha}_{j_\alpha m_\alpha}\right\},
+\hat{\mathbf r}Y_{jm}=\sqrt{\frac{j}{2j+1}}\mathbf Y_{jm}^{\,j-1}-\sqrt{\frac{j+1}{2j+1}}\mathbf Y_{jm}^{\,j+1},
 $$
 
 $$
-\boldsymbol A_{j,\alpha\beta}^{--}=\frac1{2i}\left\{\left[\mathcal Y^{l_\beta}_{j_\beta,-m_\beta}\right]^\dagger\nabla_{\hat{\mathbf r}}\mathcal Y^{l_\alpha}_{j_\alpha,-m_\alpha}-\left[\nabla_{\hat{\mathbf r}}\mathcal Y^{l_\beta}_{j_\beta,-m_\beta}\right]^\dagger\mathcal Y^{l_\alpha}_{j_\alpha,-m_\alpha}\right\}.
+\nabla_{\hat{\mathbf r}}Y_{jm}=(j+1)\sqrt{\frac{j}{2j+1}}\mathbf Y_{jm}^{\,j-1}+j\sqrt{\frac{j+1}{2j+1}}\mathbf Y_{jm}^{\,j+1}.
 $$
 
-All angular functions are evaluated at $\hat{\mathbf r}$. Following the [tangential vector spherical harmonics](../../notes/mathematical_physics/specialfunction_spherical_harmonics.md#tangential-vector-spherical-harmonics), expand
+Both sides are evaluated at $\hat{\mathbf r}$. Therefore,
 
 $$
-\boldsymbol A_{j,\alpha\beta}^{++}(\hat{\mathbf r})=\sum_{L\geq1,M}\left[A_{j,\alpha\beta}^{++,LM}(\Psi)\boldsymbol\Psi_{LM}(\hat{\mathbf r})+A_{j,\alpha\beta}^{++,LM}(\Phi)\boldsymbol\Phi_{LM}(\hat{\mathbf r})\right],
+\nabla\!\left[\rho_{jm}(r)Y_{jm}(\hat{\mathbf r})\right]=-\sqrt{\frac{j+1}{2j+1}}\left(\frac{\mathrm d}{\mathrm dr}-\frac jr\right)\rho_{jm}(r)\mathbf Y_{jm}^{\,j+1}(\hat{\mathbf r})+\sqrt{\frac{j}{2j+1}}\left(\frac{\mathrm d}{\mathrm dr}+\frac{j+1}{r}\right)\rho_{jm}(r)\mathbf Y_{jm}^{\,j-1}(\hat{\mathbf r}).
 $$
 
-$$
-\boldsymbol A_{j,\alpha\beta}^{--}(\hat{\mathbf r})=\sum_{L\geq1,M}\left[A_{j,\alpha\beta}^{--,LM}(\Psi)\boldsymbol\Psi_{LM}(\hat{\mathbf r})+A_{j,\alpha\beta}^{--,LM}(\Phi)\boldsymbol\Phi_{LM}(\hat{\mathbf r})\right].
-$$
-
-For either branch, let $u$ and $v$ denote the $\beta$ and $\alpha$ spinors in the fixed spin basis. The divergence and surface curl satisfy
+Writing the resulting vector field as
 
 $$
-\nabla_{\hat{\mathbf r}}\cdot\frac{u^\dagger\nabla_{\hat{\mathbf r}}v-(\nabla_{\hat{\mathbf r}}u)^\dagger v}{2i}=\frac{u^\dagger\Delta_{\hat{\mathbf r}}v-(\Delta_{\hat{\mathbf r}}u)^\dagger v}{2i},
+\nabla\rho(\mathbf r)=\sum_{j,m}\sum_{\substack{l=j\pm1\\l\geq0}}(\nabla\rho)_{jm}^{\,l}(r)\mathbf Y_{jm}^{\,l}(\hat{\mathbf r}),
 $$
 
-$$
-\operatorname{curl}_{\hat{\mathbf r}}\frac{u^\dagger\nabla_{\hat{\mathbf r}}v-(\nabla_{\hat{\mathbf r}}u)^\dagger v}{2i}=-\frac1{2\hbar}\nabla_{\hat{\mathbf r}}\cdot\left[u^\dagger\hat{\mathbf L}v+(\hat{\mathbf L}u)^\dagger v\right]=-\frac1\hbar(\nabla_{\hat{\mathbf r}}u)^\dagger\cdot\hat{\mathbf L}v.
-$$
-
-Here $\operatorname{curl}_{\hat{\mathbf r}}\mathbf V=-\nabla_{\hat{\mathbf r}}\cdot(\hat{\mathbf r}\times\mathbf V)$. Using $\Delta_{\hat{\mathbf r}}\mathcal Y^l_{jm}=-l(l+1)\mathcal Y^l_{jm}$, spherical integration by parts gives the gradient-type coefficients
+the radial coefficients are
 
 $$
-A_{j,\alpha\beta}^{++,LM}(\Psi)=\frac{l_\alpha(l_\alpha+1)-l_\beta(l_\beta+1)}{2i\sqrt{L(L+1)}}A_{\rho,\alpha\beta}^{++,LM},
+\boxed{(\nabla\rho)_{jm}^{\,j+1}(r)=-\sqrt{\frac{j+1}{2j+1}}\left(\frac{\mathrm d}{\mathrm dr}-\frac jr\right)\rho_{jm}(r)=-\sqrt{\frac{j+1}{2j+1}}\sum_{\text{blocks}}\sum_{\alpha,\beta}\left[\partial_r\phi_\beta(r)\,\phi_\alpha(r)+\phi_\beta(r)\,\partial_r\phi_\alpha(r)-\frac jr\phi_\beta(r)\phi_\alpha(r)\right]\left[\rho_{\alpha\beta}^{++}A_{\rho,\alpha\beta}^{++,jm}+\rho_{\alpha\beta}^{--}A_{\rho,\alpha\beta}^{--,jm}\right].}
 $$
 
 $$
-A_{j,\alpha\beta}^{--,LM}(\Psi)=\frac{l_\alpha(l_\alpha+1)-l_\beta(l_\beta+1)}{2i\sqrt{L(L+1)}}A_{\rho,\alpha\beta}^{--,LM}.
+\boxed{(\nabla\rho)_{jm}^{\,j-1}(r)=\sqrt{\frac{j}{2j+1}}\left(\frac{\mathrm d}{\mathrm dr}+\frac{j+1}{r}\right)\rho_{jm}(r)=\sqrt{\frac{j}{2j+1}}\sum_{\text{blocks}}\sum_{\alpha,\beta}\left[\partial_r\phi_\beta(r)\,\phi_\alpha(r)+\phi_\beta(r)\,\partial_r\phi_\alpha(r)+\frac{j+1}{r}\phi_\beta(r)\phi_\alpha(r)\right]\left[\rho_{\alpha\beta}^{++}A_{\rho,\alpha\beta}^{++,jm}+\rho_{\alpha\beta}^{--}A_{\rho,\alpha\beta}^{--,jm}\right],\qquad j\geq1.}
 $$
 
-For the rotational-type coefficients, the solid-harmonic gradient relation and $\hat{\mathbf r}\cdot\hat{\mathbf L}=0$ give
-
-$$
-(\nabla_{\hat{\mathbf r}}Y_{LM})\cdot\hat{\mathbf L}=\sqrt{L(2L+1)}[Y_{L-1}\otimes\hat{\mathbf L}]_{LM}.
-$$
-
-The coupled tensor is explicitly
-
-$$
-[Y_{L-1}\otimes\hat{\mathbf L}]_{LM}=\sum_{\mu=-1}^{1}\langle L-1,M-\mu;1,\mu|LM\rangle Y_{L-1,M-\mu}\hat L_\mu,
-$$
-
-where $\hat L_0=\hat L_z$ and $\hat L_{\pm1}=\mp(\hat L_x\pm i\hat L_y)/\sqrt2$. Spherical integration by parts then yields
-
-$$
-A_{j,\alpha\beta}^{++,LM}(\Phi)=-(-1)^M\sqrt{\frac{2L+1}{L+1}}\left\langle(l_\beta s)j_\beta m_\beta\middle|\left[Y_{L-1}\otimes\frac{\hat{\mathbf L}}{\hbar}\right]_{L,-M}\middle|(l_\alpha s)j_\alpha m_\alpha\right\rangle,
-$$
-
-$$
-A_{j,\alpha\beta}^{--,LM}(\Phi)=-(-1)^M\sqrt{\frac{2L+1}{L+1}}\left\langle(l_\beta s)j_\beta,-m_\beta\middle|\left[Y_{L-1}\otimes\frac{\hat{\mathbf L}}{\hbar}\right]_{L,-M}\middle|(l_\alpha s)j_\alpha,-m_\alpha\right\rangle.
-$$
-
-Here $s=\frac12$, and $\hat{\mathbf L}$ acts on the ket. Combining both branches within each axial block gives
-
-$$
-\boxed{\boldsymbol j(\boldsymbol r)=\sum_{\text{blocks}}\sum_{\alpha,\beta}\left\{\frac{\hat{\mathbf r}}{2i}\left(\phi_\beta\partial_r\phi_\alpha-\partial_r\phi_\beta\,\phi_\alpha\right)\left[\rho_{\alpha\beta}^{++}A_{\rho,\alpha\beta}^{++}(\hat{\mathbf r})+\rho_{\alpha\beta}^{--}A_{\rho,\alpha\beta}^{--}(\hat{\mathbf r})\right]+\frac{\phi_\beta\phi_\alpha}{r}\left[\rho_{\alpha\beta}^{++}\boldsymbol A_{j,\alpha\beta}^{++}(\hat{\mathbf r})+\rho_{\alpha\beta}^{--}\boldsymbol A_{j,\alpha\beta}^{--}(\hat{\mathbf r})\right]\right\}.}
-$$
-
-All radial functions and their derivatives are evaluated at $r$.
-
-## Spin Density
-
-The spin density is defined without the factor $\hbar/2$ as
-
-$$
-\boldsymbol s(\boldsymbol r)=\left\langle\hat\psi^\dagger(\boldsymbol r)\boldsymbol\sigma\hat\psi(\boldsymbol r)\right\rangle,
-$$
-
-where $\boldsymbol\sigma$ denotes the Pauli matrices. Under axial symmetry,
-
-$$
-\boldsymbol s(\boldsymbol r)=\sum_{\text{blocks}}\sum_{\alpha,\beta}\left[\rho_{\alpha\beta}^{++}(\phi_\beta^+)^\dagger\boldsymbol\sigma\phi_\alpha^++\rho_{\alpha\beta}^{--}(\phi_\beta^-)^\dagger\boldsymbol\sigma\phi_\alpha^-\right].
-$$
-
-With the real radial functions $\phi_\alpha(r)=\phi_{n_\alpha l_\alpha}(r)$, define the spin-density angular factors as
-
-$$
-\boldsymbol A_{s,\alpha\beta}^{++}(\hat{\mathbf r})=\left[\mathcal Y^{l_\beta}_{j_\beta m_\beta}(\hat{\mathbf r})\right]^\dagger\boldsymbol\sigma\mathcal Y^{l_\alpha}_{j_\alpha m_\alpha}(\hat{\mathbf r}),
-$$
-
-$$
-\boldsymbol A_{s,\alpha\beta}^{--}(\hat{\mathbf r})=\left[\mathcal Y^{l_\beta}_{j_\beta,-m_\beta}(\hat{\mathbf r})\right]^\dagger\boldsymbol\sigma\mathcal Y^{l_\alpha}_{j_\alpha,-m_\alpha}(\hat{\mathbf r}).
-$$
-
-The spin density can have both radial and tangential components. Following the [coupled vector spherical harmonics](../../notes/mathematical_physics/specialfunction_spherical_harmonics.md#vector-spherical-harmonics), use
-
-$$
-\mathbf Y_{LM}^{\lambda}(\hat{\mathbf r})=\sum_{\mu=-1}^{1}\langle\lambda,M-\mu;1,\mu|L,M\rangle Y_{\lambda,M-\mu}(\hat{\mathbf r})\mathbf e_\mu,
-$$
-
-where $\lambda$ is the orbital rank, $L=|\lambda-1|,\ldots,\lambda+1$ is the total rank, and $M=-L,\ldots,L$. Expand the angular factors as
-
-$$
-\boldsymbol A_{s,\alpha\beta}^{++}(\hat{\mathbf r})=\sum_{\lambda LM}A_{s,\alpha\beta}^{++,\lambda LM}\mathbf Y_{LM}^{\lambda}(\hat{\mathbf r}),
-$$
-
-$$
-\boldsymbol A_{s,\alpha\beta}^{--}(\hat{\mathbf r})=\sum_{\lambda LM}A_{s,\alpha\beta}^{--,\lambda LM}\mathbf Y_{LM}^{\lambda}(\hat{\mathbf r}).
-$$
-
-Using $[\mathbf Y_{LM}^{\lambda}]^*=(-1)^{L+\lambda+M+1}\mathbf Y_{L,-M}^{\lambda}$, the expansion coefficients become
-
-$$
-A_{s,\alpha\beta}^{++,\lambda LM}=\int d\hat{\mathbf r}\,[\mathbf Y_{LM}^{\lambda}]^*\cdot\boldsymbol A_{s,\alpha\beta}^{++}=(-1)^{L+\lambda+M+1}\left\langle(l_\beta s)j_\beta m_\beta\middle|[Y_\lambda\otimes\boldsymbol\sigma]_{L,-M}\middle|(l_\alpha s)j_\alpha m_\alpha\right\rangle,
-$$
-
-$$
-A_{s,\alpha\beta}^{--,\lambda LM}=\int d\hat{\mathbf r}\,[\mathbf Y_{LM}^{\lambda}]^*\cdot\boldsymbol A_{s,\alpha\beta}^{--}=(-1)^{L+\lambda+M+1}\left\langle(l_\beta s)j_\beta,-m_\beta\middle|[Y_\lambda\otimes\boldsymbol\sigma]_{L,-M}\middle|(l_\alpha s)j_\alpha,-m_\alpha\right\rangle.
-$$
-
-Here $s=\frac12$. The coupled operator acts on the orbital and spin spaces separately:
-
-$$
-[Y_\lambda\otimes\boldsymbol\sigma]_{LM}=\sum_{\mu=-1}^{1}\langle\lambda,M-\mu;1,\mu|L,M\rangle Y_{\lambda,M-\mu}\sigma_\mu,
-$$
-
-with $\sigma_0=\sigma_z$ and $\sigma_{\pm1}=\mp(\sigma_x\pm i\sigma_y)/\sqrt2$.
-
-Combining both branches gives the vector multipole expansion
-
-$$
-\boldsymbol s(\boldsymbol r)=\sum_{\text{blocks}}\sum_{\alpha,\beta}\phi_\beta(r)\phi_\alpha(r)\left[\rho_{\alpha\beta}^{++}\boldsymbol A_{s,\alpha\beta}^{++}(\hat{\mathbf r})+\rho_{\alpha\beta}^{--}\boldsymbol A_{s,\alpha\beta}^{--}(\hat{\mathbf r})\right]=\sum_{\lambda LM}s_{\lambda LM}(r)\mathbf Y_{LM}^{\lambda}(\hat{\mathbf r}),
-$$
-
-with radial coefficients
-
-$$
-\boxed{s_{\lambda LM}(r)=\sum_{\text{blocks}}\sum_{\alpha,\beta}\phi_\beta(r)\phi_\alpha(r)\left[\rho_{\alpha\beta}^{++}A_{s,\alpha\beta}^{++,\lambda LM}+\rho_{\alpha\beta}^{--}A_{s,\alpha\beta}^{--,\lambda LM}\right].}
-$$
+The $l=j$ vector channel vanishes.

@@ -13,7 +13,7 @@ $$
 where $s_1=\uparrow,\downarrow$ and $q_1=n,p$. Define
 
 $$
-\int d1\equiv\sum_{s_1,q_1}\int d^3r_1,\qquad \int d1\,\psi_\alpha^*(1)\psi_\beta(1)=\delta_{\alpha\beta}.
+\int \mathrm d1\equiv\sum_{s_1,q_1}\int \mathrm d^3\mathbf r_1,\qquad \int \mathrm d1\,\psi_\alpha^*(1)\psi_\beta(1)=\delta_{\alpha\beta}.
 $$
 
 Here $|\Phi\rangle$ is a normalized Slater determinant constructed from the occupied single-particle states.
@@ -57,13 +57,13 @@ $$
 The interaction energy is
 
 $$
-E_V=\frac12\sum_{\alpha,\beta\in\mathrm{occ}}\int d1\,d2\,d1'\,d2'\,\psi_\alpha^*(1)\psi_\beta^*(2)v(1,2;1',2')\left[\psi_\alpha(1')\psi_\beta(2')-\psi_\beta(1')\psi_\alpha(2')\right].
+E_V=\frac12\sum_{\alpha,\beta\in\mathrm{occ}}\int \mathrm d1\,\mathrm d2\,\mathrm d1'\,\mathrm d2'\,\psi_\alpha^*(1)\psi_\beta^*(2)v(1,2;1',2')\left[\psi_\alpha(1')\psi_\beta(2')-\psi_\beta(1')\psi_\alpha(2')\right].
 $$
 
 If the interaction can be represented by coordinate, internal-state, and differential operators acting on the wave functions, this becomes
 
 $$
-E_V=\frac12\sum_{\alpha,\beta\in\mathrm{occ}}\int d1\,d2\,\psi_\alpha^*(1)\psi_\beta^*(2)\hat v(1,2)\left[\psi_\alpha(1)\psi_\beta(2)-\psi_\beta(1)\psi_\alpha(2)\right].
+E_V=\frac12\sum_{\alpha,\beta\in\mathrm{occ}}\int \mathrm d1\,\mathrm d2\,\psi_\alpha^*(1)\psi_\beta^*(2)\hat v(1,2)\left[\psi_\alpha(1)\psi_\beta(2)-\psi_\beta(1)\psi_\alpha(2)\right].
 $$
 
 Right-acting gradients act on the ket, left-acting gradients on the bra; spin and isospin operators act on the corresponding internal indices. This expression uses the interaction $\hat v$ before antisymmetrization.
@@ -79,7 +79,7 @@ $$
 Summing over occupied states gives
 
 $$
-E_V=\frac12\int d1\,d2\,d1'\,d2'\,v(1,2;1',2')\left[\rho(1',1)\rho(2',2)-\rho(2',1)\rho(1',2)\right].
+E_V=\frac12\int \mathrm d1\,\mathrm d2\,\mathrm d1'\,\mathrm d2'\,v(1,2;1',2')\left[\rho(1',1)\rho(2',2)-\rho(2',1)\rho(1',2)\right].
 $$
 
 The two density-matrix pairings correspond to the direct and exchange contributions.
@@ -213,7 +213,7 @@ Here $\sigma_\mu$ are the single-particle Pauli matrices; $P_\sigma$ exchanges o
 The interaction energy is
 
 $$
-E_{t_0}=\frac{t_0}{2}\sum_{\alpha,\beta\in\mathrm{occ}}\int d1\,d2\,\psi_\alpha^*(1)\psi_\beta^*(2)(1+x_0P_\sigma)\delta(\mathbf r_1-\mathbf r_2)\Bigl[\psi_\alpha(1)\psi_\beta(2)-\psi_\beta(1)\psi_\alpha(2)\Bigr].
+E_{t_0}=\frac{t_0}{2}\sum_{\alpha,\beta\in\mathrm{occ}}\int \mathrm d1\,\mathrm d2\,\psi_\alpha^*(1)\psi_\beta^*(2)(1+x_0P_\sigma)\delta(\mathbf r_1-\mathbf r_2)\Bigl[\psi_\alpha(1)\psi_\beta(2)-\psi_\beta(1)\psi_\alpha(2)\Bigr].
 $$
 
 Without proton–neutron mixing, the four contractions are written directly in terms of the density matrix defined in the first section. The sums run over occupied states; the expressions omit $t_0/2$, the exchange minus sign, and the factor $x_0$.
@@ -251,19 +251,19 @@ $$
 Adding the two direct terms and summing over internal indices gives the Hartree energy:
 
 $$
-E_{t_0}^{\mathrm{Hartree}}=\frac{t_0}{2}\int d^3r\,\sum_{q,q'}\Bigl[\rho(q;\mathbf r)\rho(q';\mathbf r)+\frac{x_0}{2}\bigl(\rho(q;\mathbf r)\rho(q';\mathbf r)+\mathbf s(q;\mathbf r)\cdot\mathbf s(q';\mathbf r)\bigr)\Bigr]=\frac{t_0}{4}\int d^3r\,\Bigl[(2+x_0)\rho(\mathbf r)^2+x_0|\mathbf s(\mathbf r)|^2\Bigr].
+E_{t_0}^{\mathrm{Hartree}}=\frac{t_0}{2}\int \mathrm d^3\mathbf r\,\sum_{q,q'}\Bigl[\rho(q;\mathbf r)\rho(q';\mathbf r)+\frac{x_0}{2}\bigl(\rho(q;\mathbf r)\rho(q';\mathbf r)+\mathbf s(q;\mathbf r)\cdot\mathbf s(q';\mathbf r)\bigr)\Bigr]=\frac{t_0}{4}\int \mathrm d^3\mathbf r\,\Bigl[(2+x_0)\rho(\mathbf r)^2+x_0|\mathbf s(\mathbf r)|^2\Bigr].
 $$
 
 The exchange factor $\delta_{q_1,q_2}$ restricts the contractions to the same species, giving
 
 $$
-E_{t_0}^{\mathrm{Fock}}=-\frac{t_0}{2}\int d^3r\,\sum_q\Bigl[\frac12\bigl(\rho(q;\mathbf r)^2+|\mathbf s(q;\mathbf r)|^2\bigr)+x_0\rho(q;\mathbf r)^2\Bigr]=-\frac{t_0}{4}\int d^3r\,\sum_q\Bigl[(1+2x_0)\rho(q;\mathbf r)^2+|\mathbf s(q;\mathbf r)|^2\Bigr].
+E_{t_0}^{\mathrm{Fock}}=-\frac{t_0}{2}\int \mathrm d^3\mathbf r\,\sum_q\Bigl[\frac12\bigl(\rho(q;\mathbf r)^2+|\mathbf s(q;\mathbf r)|^2\bigr)+x_0\rho(q;\mathbf r)^2\Bigr]=-\frac{t_0}{4}\int \mathrm d^3\mathbf r\,\sum_q\Bigl[(1+2x_0)\rho(q;\mathbf r)^2+|\mathbf s(q;\mathbf r)|^2\Bigr].
 $$
 
 The total $t_0$ energy is
 
 $$
-E_{t_0}=E_{t_0}^{\mathrm{Hartree}}+E_{t_0}^{\mathrm{Fock}}=\frac{t_0}{4}\int d^3r\,\Bigl[(2+x_0)\rho(\mathbf r)^2-(1+2x_0)\sum_q\rho(q;\mathbf r)^2+x_0|\mathbf s(\mathbf r)|^2-\sum_q|\mathbf s(q;\mathbf r)|^2\Bigr].
+E_{t_0}=E_{t_0}^{\mathrm{Hartree}}+E_{t_0}^{\mathrm{Fock}}=\frac{t_0}{4}\int \mathrm d^3\mathbf r\,\Bigl[(2+x_0)\rho(\mathbf r)^2-(1+2x_0)\sum_q\rho(q;\mathbf r)^2+x_0|\mathbf s(\mathbf r)|^2-\sum_q|\mathbf s(q;\mathbf r)|^2\Bigr].
 $$
 
 Varying the particle and spin densities separately while holding the remaining densities fixed gives
@@ -285,7 +285,7 @@ $$
 The energy reduces to
 
 $$
-\boxed{E_{t_0}=\frac{t_0}{4}\int d^3r\,\Bigl[(2+x_0)\rho(\mathbf r)^2-(1+2x_0)\sum_q\rho(q;\mathbf r)^2\Bigr].}
+\boxed{E_{t_0}=\frac{t_0}{4}\int \mathrm d^3\mathbf r\,\Bigl[(2+x_0)\rho(\mathbf r)^2-(1+2x_0)\sum_q\rho(q;\mathbf r)^2\Bigr].}
 $$
 
 The corresponding variations are
@@ -313,7 +313,7 @@ The left and right derivatives act on the corresponding wave functions, not on t
 The corresponding energy is
 
 $$
-E_{t_1}=\frac{t_1}{4}\sum_{\alpha,\beta\in\mathrm{occ}}\int d1\,d2\,\psi_\alpha^*(1)\psi_\beta^*(2)(1+x_1P_\sigma)\Bigl[\overleftarrow{\mathbf k}^{\,2}\delta(\mathbf r_1-\mathbf r_2)+\delta(\mathbf r_1-\mathbf r_2)\overrightarrow{\mathbf k}^{\,2}\Bigr]\Bigl[\psi_\alpha(1)\psi_\beta(2)-\psi_\beta(1)\psi_\alpha(2)\Bigr],
+E_{t_1}=\frac{t_1}{4}\sum_{\alpha,\beta\in\mathrm{occ}}\int \mathrm d1\,\mathrm d2\,\psi_\alpha^*(1)\psi_\beta^*(2)(1+x_1P_\sigma)\Bigl[\overleftarrow{\mathbf k}^{\,2}\delta(\mathbf r_1-\mathbf r_2)+\delta(\mathbf r_1-\mathbf r_2)\overrightarrow{\mathbf k}^{\,2}\Bigr]\Bigl[\psi_\alpha(1)\psi_\beta(2)-\psi_\beta(1)\psi_\alpha(2)\Bigr],
 $$
 
 The following expansions omit external coefficients, occupied-state sums, and integrals. The exchange minus sign remains in the energy expression above.
@@ -409,17 +409,17 @@ $$
 Use these contractions, the spin-density matrix decomposition from the first section, and integration by parts:
 
 $$
-\int d^3r\,\rho(\mathbf r)\Delta\rho(\mathbf r)=-\int d^3r\,|\nabla\rho(\mathbf r)|^2.
+\int \mathrm d^3\mathbf r\,\rho(\mathbf r)\Delta\rho(\mathbf r)=-\int \mathrm d^3\mathbf r\,|\nabla\rho(\mathbf r)|^2.
 $$
 
 Boundary terms vanish. Below, all densities are evaluated at $\mathbf r$, and $|\nabla\mathbf s|^2=\sum_{\mu,\nu}(\partial_\mu s_\nu)^2$.
 
 $$
-E_{t_1}^{\mathrm{Hartree}}=\frac{t_1}{8}\int d^3r\,\Bigl[(2+x_1)(\rho\tau-|\mathbf j|^2)+x_1\Bigl(\mathbf s\cdot\mathbf T-\sum_{\mu,\nu}J_{\mu\nu}^2\Bigr)\Bigr]+\frac{3t_1}{32}\int d^3r\,\Bigl[(2+x_1)|\nabla\rho|^2+x_1|\nabla\mathbf s|^2\Bigr].
+E_{t_1}^{\mathrm{Hartree}}=\frac{t_1}{8}\int \mathrm d^3\mathbf r\,\Bigl[(2+x_1)(\rho\tau-|\mathbf j|^2)+x_1\Bigl(\mathbf s\cdot\mathbf T-\sum_{\mu,\nu}J_{\mu\nu}^2\Bigr)\Bigr]+\frac{3t_1}{32}\int \mathrm d^3\mathbf r\,\Bigl[(2+x_1)|\nabla\rho|^2+x_1|\nabla\mathbf s|^2\Bigr].
 $$
 
 $$
-E_{t_1}^{\mathrm{Fock}}=-\frac{t_1}{8}\int d^3r\,\sum_q\Bigl[(1+2x_1)\bigl(\rho(q)\tau(q)-|\mathbf j(q)|^2\bigr)+\mathbf s(q)\cdot\mathbf T(q)-\sum_{\mu,\nu}J_{\mu\nu}(q)^2\Bigr]-\frac{3t_1}{32}\int d^3r\,\sum_q\Bigl[(1+2x_1)|\nabla\rho(q)|^2+|\nabla\mathbf s(q)|^2\Bigr].
+E_{t_1}^{\mathrm{Fock}}=-\frac{t_1}{8}\int \mathrm d^3\mathbf r\,\sum_q\Bigl[(1+2x_1)\bigl(\rho(q)\tau(q)-|\mathbf j(q)|^2\bigr)+\mathbf s(q)\cdot\mathbf T(q)-\sum_{\mu,\nu}J_{\mu\nu}(q)^2\Bigr]-\frac{3t_1}{32}\int \mathrm d^3\mathbf r\,\sum_q\Bigl[(1+2x_1)|\nabla\rho(q)|^2+|\nabla\mathbf s(q)|^2\Bigr].
 $$
 
 These expressions do not assume time-reversal symmetry.
@@ -465,7 +465,7 @@ $$
 The spin-current tensor $J_{\mu\nu}(q;\mathbf r)$ need not vanish. The energy reduces to
 
 $$
-\boxed{E_{t_1}=E_{t_1}^{\mathrm{Hartree}}+E_{t_1}^{\mathrm{Fock}}=\frac{t_1}{8}\int d^3r\,\Bigl[(2+x_1)\rho\tau-(1+2x_1)\sum_q\rho(q)\tau(q)-x_1\sum_{\mu,\nu}J_{\mu\nu}^2+\sum_q\sum_{\mu,\nu}J_{\mu\nu}(q)^2\Bigr]+\frac{3t_1}{32}\int d^3r\,\Bigl[(2+x_1)|\nabla\rho|^2-(1+2x_1)\sum_q|\nabla\rho(q)|^2\Bigr].}
+\boxed{E_{t_1}=E_{t_1}^{\mathrm{Hartree}}+E_{t_1}^{\mathrm{Fock}}=\frac{t_1}{8}\int \mathrm d^3\mathbf r\,\Bigl[(2+x_1)\rho\tau-(1+2x_1)\sum_q\rho(q)\tau(q)-x_1\sum_{\mu,\nu}J_{\mu\nu}^2+\sum_q\sum_{\mu,\nu}J_{\mu\nu}(q)^2\Bigr]+\frac{3t_1}{32}\int \mathrm d^3\mathbf r\,\Bigl[(2+x_1)|\nabla\rho|^2-(1+2x_1)\sum_q|\nabla\rho(q)|^2\Bigr].}
 $$
 
 The corresponding variations are
@@ -501,7 +501,7 @@ Use the relative wave-number operators defined in the $t_1$ term.
 The corresponding energy is
 
 $$
-E_{t_2}=\frac{t_2}{2}\sum_{\alpha,\beta\in\mathrm{occ}}\int d1\,d2\,\psi_\alpha^*(1)\psi_\beta^*(2)(1+x_2P_\sigma)\overleftarrow{\mathbf k}\cdot\delta(\mathbf r_1-\mathbf r_2)\overrightarrow{\mathbf k}\Bigl[\psi_\alpha(1)\psi_\beta(2)-\psi_\beta(1)\psi_\alpha(2)\Bigr].
+E_{t_2}=\frac{t_2}{2}\sum_{\alpha,\beta\in\mathrm{occ}}\int \mathrm d1\,\mathrm d2\,\psi_\alpha^*(1)\psi_\beta^*(2)(1+x_2P_\sigma)\overleftarrow{\mathbf k}\cdot\delta(\mathbf r_1-\mathbf r_2)\overrightarrow{\mathbf k}\Bigl[\psi_\alpha(1)\psi_\beta(2)-\psi_\beta(1)\psi_\alpha(2)\Bigr].
 $$
 
 The following expansions omit external coefficients, occupied-state sums, and integrals. The exchange minus sign remains in the energy expression above.
@@ -535,11 +535,11 @@ $$
 Using the local densities and derivative contractions defined in the $t_1$ term, with vanishing boundary terms, gives
 
 $$
-E_{t_2}^{\mathrm{Hartree}}=\frac{t_2}{8}\int d^3r\,\Bigl[(2+x_2)(\rho\tau-|\mathbf j|^2)+x_2\Bigl(\mathbf s\cdot\mathbf T-\sum_{\mu,\nu}J_{\mu\nu}^2\Bigr)\Bigr]-\frac{t_2}{32}\int d^3r\,\Bigl[(2+x_2)|\nabla\rho|^2+x_2|\nabla\mathbf s|^2\Bigr].
+E_{t_2}^{\mathrm{Hartree}}=\frac{t_2}{8}\int \mathrm d^3\mathbf r\,\Bigl[(2+x_2)(\rho\tau-|\mathbf j|^2)+x_2\Bigl(\mathbf s\cdot\mathbf T-\sum_{\mu,\nu}J_{\mu\nu}^2\Bigr)\Bigr]-\frac{t_2}{32}\int \mathrm d^3\mathbf r\,\Bigl[(2+x_2)|\nabla\rho|^2+x_2|\nabla\mathbf s|^2\Bigr].
 $$
 
 $$
-E_{t_2}^{\mathrm{Fock}}=\frac{t_2}{8}\int d^3r\,\sum_q\Bigl[(1+2x_2)\bigl(\rho(q)\tau(q)-|\mathbf j(q)|^2\bigr)+\mathbf s(q)\cdot\mathbf T(q)-\sum_{\mu,\nu}J_{\mu\nu}(q)^2\Bigr]-\frac{t_2}{32}\int d^3r\,\sum_q\Bigl[(1+2x_2)|\nabla\rho(q)|^2+|\nabla\mathbf s(q)|^2\Bigr].
+E_{t_2}^{\mathrm{Fock}}=\frac{t_2}{8}\int \mathrm d^3\mathbf r\,\sum_q\Bigl[(1+2x_2)\bigl(\rho(q)\tau(q)-|\mathbf j(q)|^2\bigr)+\mathbf s(q)\cdot\mathbf T(q)-\sum_{\mu,\nu}J_{\mu\nu}(q)^2\Bigr]-\frac{t_2}{32}\int \mathrm d^3\mathbf r\,\sum_q\Bigl[(1+2x_2)|\nabla\rho(q)|^2+|\nabla\mathbf s(q)|^2\Bigr].
 $$
 
 These expressions do not assume time-reversal symmetry.
@@ -585,7 +585,7 @@ $$
 The spin-current tensor $J_{\mu\nu}(q;\mathbf r)$ need not vanish. The energy reduces to
 
 $$
-\boxed{E_{t_2}=E_{t_2}^{\mathrm{Hartree}}+E_{t_2}^{\mathrm{Fock}}=\frac{t_2}{8}\int d^3r\,\Bigl[(2+x_2)\rho\tau+(1+2x_2)\sum_q\rho(q)\tau(q)-x_2\sum_{\mu,\nu}J_{\mu\nu}^2-\sum_q\sum_{\mu,\nu}J_{\mu\nu}(q)^2\Bigr]-\frac{t_2}{32}\int d^3r\,\Bigl[(2+x_2)|\nabla\rho|^2+(1+2x_2)\sum_q|\nabla\rho(q)|^2\Bigr].}
+\boxed{E_{t_2}=E_{t_2}^{\mathrm{Hartree}}+E_{t_2}^{\mathrm{Fock}}=\frac{t_2}{8}\int \mathrm d^3\mathbf r\,\Bigl[(2+x_2)\rho\tau+(1+2x_2)\sum_q\rho(q)\tau(q)-x_2\sum_{\mu,\nu}J_{\mu\nu}^2-\sum_q\sum_{\mu,\nu}J_{\mu\nu}(q)^2\Bigr]-\frac{t_2}{32}\int \mathrm d^3\mathbf r\,\Bigl[(2+x_2)|\nabla\rho|^2+(1+2x_2)\sum_q|\nabla\rho(q)|^2\Bigr].}
 $$
 
 The corresponding variations are
@@ -621,7 +621,7 @@ Here $t_3,x_3,\gamma$ are the strength, spin-exchange parameter, and density exp
 The corresponding energy is
 
 $$
-E_{t_3}=\frac{t_3}{12}\sum_{\alpha,\beta\in\mathrm{occ}}\int d1\,d2\,\rho^\gamma\!\left(\frac{\mathbf r_1+\mathbf r_2}{2}\right)\delta(\mathbf r_1-\mathbf r_2)\psi_\alpha^*(1)\psi_\beta^*(2)(1+x_3P_\sigma)\Bigl[\psi_\alpha(1)\psi_\beta(2)-\psi_\beta(1)\psi_\alpha(2)\Bigr].
+E_{t_3}=\frac{t_3}{12}\sum_{\alpha,\beta\in\mathrm{occ}}\int \mathrm d1\,\mathrm d2\,\rho^\gamma\!\left(\frac{\mathbf r_1+\mathbf r_2}{2}\right)\delta(\mathbf r_1-\mathbf r_2)\psi_\alpha^*(1)\psi_\beta^*(2)(1+x_3P_\sigma)\Bigl[\psi_\alpha(1)\psi_\beta(2)-\psi_\beta(1)\psi_\alpha(2)\Bigr].
 $$
 
 Without proton–neutron mixing, the four contractions are the same as in the $t_0$ term. The following expressions omit $t_3/12$, the density factor $\rho^\gamma$, the exchange minus sign, and $x_3$.
@@ -655,17 +655,17 @@ $$
 Integrate using $\delta(\mathbf r_1-\mathbf r_2)$ and sum over spin and nucleon species. Below, all densities are evaluated at $\mathbf r$, with $\mathbf s=\sum_q\mathbf s(q)$.
 
 $$
-E_{t_3}^{\mathrm{Hartree}}=\frac{t_3}{12}\int d^3r\,\rho^\gamma\sum_{q,q'}\Bigl[\rho(q)\rho(q')+\frac{x_3}{2}\bigl(\rho(q)\rho(q')+\mathbf s(q)\cdot\mathbf s(q')\bigr)\Bigr]=\frac{t_3}{24}\int d^3r\,\rho^\gamma\Bigl[(2+x_3)\rho^2+x_3|\mathbf s|^2\Bigr].
+E_{t_3}^{\mathrm{Hartree}}=\frac{t_3}{12}\int \mathrm d^3\mathbf r\,\rho^\gamma\sum_{q,q'}\Bigl[\rho(q)\rho(q')+\frac{x_3}{2}\bigl(\rho(q)\rho(q')+\mathbf s(q)\cdot\mathbf s(q')\bigr)\Bigr]=\frac{t_3}{24}\int \mathrm d^3\mathbf r\,\rho^\gamma\Bigl[(2+x_3)\rho^2+x_3|\mathbf s|^2\Bigr].
 $$
 
 $$
-E_{t_3}^{\mathrm{Fock}}=-\frac{t_3}{12}\int d^3r\,\rho^\gamma\sum_q\Bigl[\frac12\bigl(\rho(q)^2+|\mathbf s(q)|^2\bigr)+x_3\rho(q)^2\Bigr]=-\frac{t_3}{24}\int d^3r\,\rho^\gamma\sum_q\Bigl[(1+2x_3)\rho(q)^2+|\mathbf s(q)|^2\Bigr].
+E_{t_3}^{\mathrm{Fock}}=-\frac{t_3}{12}\int \mathrm d^3\mathbf r\,\rho^\gamma\sum_q\Bigl[\frac12\bigl(\rho(q)^2+|\mathbf s(q)|^2\bigr)+x_3\rho(q)^2\Bigr]=-\frac{t_3}{24}\int \mathrm d^3\mathbf r\,\rho^\gamma\sum_q\Bigl[(1+2x_3)\rho(q)^2+|\mathbf s(q)|^2\Bigr].
 $$
 
 The total energy is
 
 $$
-\boxed{E_{t_3}=E_{t_3}^{\mathrm{Hartree}}+E_{t_3}^{\mathrm{Fock}}=\frac{t_3}{24}\int d^3r\,\rho^\gamma\Bigl[(2+x_3)\rho^2-(1+2x_3)\sum_q\rho(q)^2+x_3|\mathbf s|^2-\sum_q|\mathbf s(q)|^2\Bigr].}
+\boxed{E_{t_3}=E_{t_3}^{\mathrm{Hartree}}+E_{t_3}^{\mathrm{Fock}}=\frac{t_3}{24}\int \mathrm d^3\mathbf r\,\rho^\gamma\Bigl[(2+x_3)\rho^2-(1+2x_3)\sum_q\rho(q)^2+x_3|\mathbf s|^2-\sum_q|\mathbf s(q)|^2\Bigr].}
 $$
 
 Varying the particle and spin densities separately while holding the remaining densities fixed gives
@@ -689,7 +689,7 @@ $$
 The energy reduces to
 
 $$
-\boxed{E_{t_3}=\frac{t_3}{24}\int d^3r\,\rho^\gamma\Bigl[(2+x_3)\rho^2-(1+2x_3)\sum_q\rho(q)^2\Bigr].}
+\boxed{E_{t_3}=\frac{t_3}{24}\int \mathrm d^3\mathbf r\,\rho^\gamma\Bigl[(2+x_3)\rho^2-(1+2x_3)\sum_q\rho(q)^2\Bigr].}
 $$
 
 The corresponding variations are
@@ -719,7 +719,7 @@ $$
 The corresponding energy is
 
 $$
-E_{\mathrm{SO}}=\frac{iW_0}{2}\sum_{\alpha,\beta\in\mathrm{occ}}\int d1\,d2\,\psi_\alpha^*(1)\psi_\beta^*(2)(\boldsymbol\sigma_1+\boldsymbol\sigma_2)\cdot\Bigl[\overleftarrow{\mathbf k}\times\delta(\mathbf r_1-\mathbf r_2)\overrightarrow{\mathbf k}\Bigr]\Bigl[\psi_\alpha(1)\psi_\beta(2)-\psi_\beta(1)\psi_\alpha(2)\Bigr].
+E_{\mathrm{SO}}=\frac{iW_0}{2}\sum_{\alpha,\beta\in\mathrm{occ}}\int \mathrm d1\,\mathrm d2\,\psi_\alpha^*(1)\psi_\beta^*(2)(\boldsymbol\sigma_1+\boldsymbol\sigma_2)\cdot\Bigl[\overleftarrow{\mathbf k}\times\delta(\mathbf r_1-\mathbf r_2)\overrightarrow{\mathbf k}\Bigr]\Bigl[\psi_\alpha(1)\psi_\beta(2)-\psi_\beta(1)\psi_\alpha(2)\Bigr].
 $$
 
 The following expansions omit $iW_0/2$, occupied-state sums, and integrals. The exchange minus sign remains in the energy expression above.
@@ -751,11 +751,11 @@ $$
 Integrate using $\delta(\mathbf r_1-\mathbf r_2)$, perform the spin contractions, and integrate by parts with vanishing boundary terms. Below, all densities are evaluated at $\mathbf r$.
 
 $$
-E_{\mathrm{SO}}^{\mathrm{Hartree}}=-\frac{W_0}{2}\int d^3r\,\Bigl[\rho\,\nabla\cdot\mathbf J+\mathbf s\cdot(\nabla\times\mathbf j)\Bigr],
+E_{\mathrm{SO}}^{\mathrm{Hartree}}=-\frac{W_0}{2}\int \mathrm d^3\mathbf r\,\Bigl[\rho\,\nabla\cdot\mathbf J+\mathbf s\cdot(\nabla\times\mathbf j)\Bigr],
 $$
 
 $$
-E_{\mathrm{SO}}^{\mathrm{Fock}}=-\frac{W_0}{2}\int d^3r\,\sum_q\Bigl[\rho(q)\,\nabla\cdot\mathbf J(q)+\mathbf s(q)\cdot(\nabla\times\mathbf j(q))\Bigr].
+E_{\mathrm{SO}}^{\mathrm{Fock}}=-\frac{W_0}{2}\int \mathrm d^3\mathbf r\,\sum_q\Bigl[\rho(q)\,\nabla\cdot\mathbf J(q)+\mathbf s(q)\cdot(\nabla\times\mathbf j(q))\Bigr].
 $$
 
 The total energy is
@@ -791,7 +791,7 @@ $$
 The spin-current tensor need not vanish. The energy reduces to
 
 $$
-\boxed{E_{\mathrm{SO}}=-\frac{W_0}{2}\int d^3r\,\Bigl[\rho\,\nabla\cdot\mathbf J+\sum_q\rho(q)\,\nabla\cdot\mathbf J(q)\Bigr].}
+\boxed{E_{\mathrm{SO}}=-\frac{W_0}{2}\int \mathrm d^3\mathbf r\,\Bigl[\rho\,\nabla\cdot\mathbf J+\sum_q\rho(q)\,\nabla\cdot\mathbf J(q)\Bigr].}
 $$
 
 The corresponding variations are
@@ -823,7 +823,7 @@ Here $e^2$ includes the Coulomb constant $1/(4\pi\epsilon_0)$; $\delta_{q,p}$ se
 The corresponding energy is
 
 $$
-E_{\mathrm C}=\frac{e^2}{2}\sum_{\alpha,\beta\in\mathrm{occ}}\int d1\,d2\,\frac{\delta_{q_1,p}\delta_{q_2,p}}{|\mathbf r_1-\mathbf r_2|}\psi_\alpha^*(1)\psi_\beta^*(2)\Bigl[\psi_\alpha(1)\psi_\beta(2)-\psi_\beta(1)\psi_\alpha(2)\Bigr].
+E_{\mathrm C}=\frac{e^2}{2}\sum_{\alpha,\beta\in\mathrm{occ}}\int \mathrm d1\,\mathrm d2\,\frac{\delta_{q_1,p}\delta_{q_2,p}}{|\mathbf r_1-\mathbf r_2|}\psi_\alpha^*(1)\psi_\beta^*(2)\Bigl[\psi_\alpha(1)\psi_\beta(2)-\psi_\beta(1)\psi_\alpha(2)\Bigr].
 $$
 
 The following expressions omit $e^2/2$, the Coulomb kernel, the proton selectors, and the exchange minus sign.
@@ -845,11 +845,11 @@ $$
 Summing over spin gives
 
 $$
-E_{\mathrm C}^{\mathrm{Hartree}}=\frac{e^2}{2}\int d^3r\,d^3r'\,\frac{\rho(p;\mathbf r)\rho(p;\mathbf r')}{|\mathbf r-\mathbf r'|},
+E_{\mathrm C}^{\mathrm{Hartree}}=\frac{e^2}{2}\int \mathrm d^3\mathbf r\,\mathrm d^3\mathbf r'\,\frac{\rho(p;\mathbf r)\rho(p;\mathbf r')}{|\mathbf r-\mathbf r'|},
 $$
 
 $$
-E_{\mathrm C}^{\mathrm{Fock}}=-\frac{e^2}{2}\int d^3r\,d^3r'\,\frac{\sum_{s,s'}\rho_{s,s'}(p;\mathbf r,\mathbf r')\rho_{s',s}(p;\mathbf r',\mathbf r)}{|\mathbf r-\mathbf r'|}.
+E_{\mathrm C}^{\mathrm{Fock}}=-\frac{e^2}{2}\int \mathrm d^3\mathbf r\,\mathrm d^3\mathbf r'\,\frac{\sum_{s,s'}\rho_{s,s'}(p;\mathbf r,\mathbf r')\rho_{s',s}(p;\mathbf r',\mathbf r)}{|\mathbf r-\mathbf r'|}.
 $$
 
 The total energy is
@@ -861,7 +861,7 @@ $$
 The particle-density variation of the direct term is
 
 $$
-\frac{\delta E_{\mathrm C}^{\mathrm{Hartree}}}{\delta\rho(q;\mathbf r)}=\delta_{q,p}\,e^2\int d^3r'\,\frac{\rho(p;\mathbf r')}{|\mathbf r-\mathbf r'|}.
+\frac{\delta E_{\mathrm C}^{\mathrm{Hartree}}}{\delta\rho(q;\mathbf r)}=\delta_{q,p}\,e^2\int \mathrm d^3\mathbf r'\,\frac{\rho(p;\mathbf r')}{|\mathbf r-\mathbf r'|}.
 $$
 
 The exact exchange term depends on the nonlocal density matrix; its variation generates a nonlocal exchange operator.
@@ -877,7 +877,7 @@ $$
 Applying the Slater local-density approximation to the exchange term gives
 
 $$
-E_{\mathrm C}^{\mathrm{Fock}}\approx E_{\mathrm C}^{\mathrm{Slater}}=-\frac{3e^2}{4}\left(\frac{3}{\pi}\right)^{1/3}\int d^3r\,\rho(p;\mathbf r)^{4/3}.
+E_{\mathrm C}^{\mathrm{Fock}}\approx E_{\mathrm C}^{\mathrm{Slater}}=-\frac{3e^2}{4}\left(\frac{3}{\pi}\right)^{1/3}\int \mathrm d^3\mathbf r\,\rho(p;\mathbf r)^{4/3}.
 $$
 
 This is an additional approximation to exchange, not a consequence of time-reversal symmetry alone. [Slater approximation reference](https://arxiv.org/abs/1210.3162)
@@ -885,13 +885,13 @@ This is an additional approximation to exchange, not a consequence of time-rever
 The total energy becomes
 
 $$
-\boxed{E_{\mathrm C}\approx E_{\mathrm C}^{\mathrm{Hartree}}+E_{\mathrm C}^{\mathrm{Slater}}=\frac{e^2}{2}\int d^3r\,d^3r'\,\frac{\rho(p;\mathbf r)\rho(p;\mathbf r')}{|\mathbf r-\mathbf r'|}-\frac{3e^2}{4}\left(\frac{3}{\pi}\right)^{1/3}\int d^3r\,\rho(p;\mathbf r)^{4/3}.}
+\boxed{E_{\mathrm C}\approx E_{\mathrm C}^{\mathrm{Hartree}}+E_{\mathrm C}^{\mathrm{Slater}}=\frac{e^2}{2}\int \mathrm d^3\mathbf r\,\mathrm d^3\mathbf r'\,\frac{\rho(p;\mathbf r)\rho(p;\mathbf r')}{|\mathbf r-\mathbf r'|}-\frac{3e^2}{4}\left(\frac{3}{\pi}\right)^{1/3}\int \mathrm d^3\mathbf r\,\rho(p;\mathbf r)^{4/3}.}
 $$
 
 The corresponding particle-density variation is
 
 $$
-\frac{\delta\bigl(E_{\mathrm C}^{\mathrm{Hartree}}+E_{\mathrm C}^{\mathrm{Slater}}\bigr)}{\delta\rho(q;\mathbf r)}=\delta_{q,p}\Biggl[e^2\int d^3r'\,\frac{\rho(p;\mathbf r')}{|\mathbf r-\mathbf r'|}-e^2\left(\frac{3}{\pi}\right)^{1/3}\rho(p;\mathbf r)^{1/3}\Biggr].
+\frac{\delta\bigl(E_{\mathrm C}^{\mathrm{Hartree}}+E_{\mathrm C}^{\mathrm{Slater}}\bigr)}{\delta\rho(q;\mathbf r)}=\delta_{q,p}\Biggl[e^2\int \mathrm d^3\mathbf r'\,\frac{\rho(p;\mathbf r')}{|\mathbf r-\mathbf r'|}-e^2\left(\frac{3}{\pi}\right)^{1/3}\rho(p;\mathbf r)^{1/3}\Biggr].
 $$
 
 ## Time-reversal symmetry
@@ -935,7 +935,7 @@ $$
 Here
 
 $$
-E_{\mathrm{kin}}=\frac{\hbar^2}{2m}\int d^3r\,\tau(\mathbf r).
+E_{\mathrm{kin}}=\frac{\hbar^2}{2m}\int \mathrm d^3\mathbf r\,\tau(\mathbf r).
 $$
 
 Use the time-reversal-symmetric expressions given above for each interaction term. The Skyrme terms retain the full spin-current tensor; the SO term uses only
@@ -957,7 +957,11 @@ Below, the variations with respect to $\rho,\tau,J_{\mu\nu}$ are listed in the o
 **t0 term**
 
 $$
-\frac{\delta E_{t_0}}{\delta\rho(q;\mathbf r)}=\frac{t_0}{2}\Bigl[(2+x_0)\rho-(1+2x_0)\rho(q)\Bigr],
+E_{t_0}=\frac{t_0}{4}\int \mathrm d^3\mathbf r\,\Bigl[(2+x_0)\rho(\mathbf r)^2-(1+2x_0)\sum_q\rho(q;\mathbf r)^2\Bigr].
+$$
+
+$$
+\frac{\delta E_{t_0}}{\delta\rho(q;\mathbf r)}=\frac{t_0}{2}\Bigl[(2+x_0)\rho(\mathbf r)-(1+2x_0)\rho(q;\mathbf r)\Bigr],
 $$
 
 $$
@@ -967,35 +971,47 @@ $$
 **t1 term**
 
 $$
-\frac{\delta E_{t_1}}{\delta\rho(q;\mathbf r)}=\frac{t_1}{8}\Bigl[(2+x_1)\tau-(1+2x_1)\tau(q)\Bigr]-\frac{3t_1}{16}\Bigl[(2+x_1)\Delta\rho-(1+2x_1)\Delta\rho(q)\Bigr],
+E_{t_1}=\frac{t_1}{8}\int \mathrm d^3\mathbf r\,\Bigl[(2+x_1)\rho(\mathbf r)\tau(\mathbf r)-(1+2x_1)\sum_q\rho(q;\mathbf r)\tau(q;\mathbf r)-x_1\sum_{\mu,\nu}J_{\mu\nu}(\mathbf r)^2+\sum_q\sum_{\mu,\nu}J_{\mu\nu}(q;\mathbf r)^2\Bigr]+\frac{3t_1}{32}\int \mathrm d^3\mathbf r\,\Bigl[(2+x_1)|\nabla\rho(\mathbf r)|^2-(1+2x_1)\sum_q|\nabla\rho(q;\mathbf r)|^2\Bigr].
 $$
 
 $$
-\frac{\delta E_{t_1}}{\delta\tau(q;\mathbf r)}=\frac{t_1}{8}\Bigl[(2+x_1)\rho-(1+2x_1)\rho(q)\Bigr],
+\frac{\delta E_{t_1}}{\delta\rho(q;\mathbf r)}=\frac{t_1}{8}\Bigl[(2+x_1)\tau(\mathbf r)-(1+2x_1)\tau(q;\mathbf r)\Bigr]-\frac{3t_1}{16}\Bigl[(2+x_1)\Delta\rho(\mathbf r)-(1+2x_1)\Delta\rho(q;\mathbf r)\Bigr],
 $$
 
 $$
-\frac{\delta E_{t_1}}{\delta J_{\mu\nu}(q;\mathbf r)}=-\frac{t_1}{4}\Bigl[x_1J_{\mu\nu}-J_{\mu\nu}(q)\Bigr].
+\frac{\delta E_{t_1}}{\delta\tau(q;\mathbf r)}=\frac{t_1}{8}\Bigl[(2+x_1)\rho(\mathbf r)-(1+2x_1)\rho(q;\mathbf r)\Bigr],
+$$
+
+$$
+\frac{\delta E_{t_1}}{\delta J_{\mu\nu}(q;\mathbf r)}=-\frac{t_1}{4}\Bigl[x_1J_{\mu\nu}(\mathbf r)-J_{\mu\nu}(q;\mathbf r)\Bigr].
 $$
 
 **t2 term**
 
 $$
-\frac{\delta E_{t_2}}{\delta\rho(q;\mathbf r)}=\frac{t_2}{8}\Bigl[(2+x_2)\tau+(1+2x_2)\tau(q)\Bigr]+\frac{t_2}{16}\Bigl[(2+x_2)\Delta\rho+(1+2x_2)\Delta\rho(q)\Bigr],
+E_{t_2}=\frac{t_2}{8}\int \mathrm d^3\mathbf r\,\Bigl[(2+x_2)\rho(\mathbf r)\tau(\mathbf r)+(1+2x_2)\sum_q\rho(q;\mathbf r)\tau(q;\mathbf r)-x_2\sum_{\mu,\nu}J_{\mu\nu}(\mathbf r)^2-\sum_q\sum_{\mu,\nu}J_{\mu\nu}(q;\mathbf r)^2\Bigr]-\frac{t_2}{32}\int \mathrm d^3\mathbf r\,\Bigl[(2+x_2)|\nabla\rho(\mathbf r)|^2+(1+2x_2)\sum_q|\nabla\rho(q;\mathbf r)|^2\Bigr].
 $$
 
 $$
-\frac{\delta E_{t_2}}{\delta\tau(q;\mathbf r)}=\frac{t_2}{8}\Bigl[(2+x_2)\rho+(1+2x_2)\rho(q)\Bigr],
+\frac{\delta E_{t_2}}{\delta\rho(q;\mathbf r)}=\frac{t_2}{8}\Bigl[(2+x_2)\tau(\mathbf r)+(1+2x_2)\tau(q;\mathbf r)\Bigr]+\frac{t_2}{16}\Bigl[(2+x_2)\Delta\rho(\mathbf r)+(1+2x_2)\Delta\rho(q;\mathbf r)\Bigr],
 $$
 
 $$
-\frac{\delta E_{t_2}}{\delta J_{\mu\nu}(q;\mathbf r)}=-\frac{t_2}{4}\Bigl[x_2J_{\mu\nu}+J_{\mu\nu}(q)\Bigr].
+\frac{\delta E_{t_2}}{\delta\tau(q;\mathbf r)}=\frac{t_2}{8}\Bigl[(2+x_2)\rho(\mathbf r)+(1+2x_2)\rho(q;\mathbf r)\Bigr],
+$$
+
+$$
+\frac{\delta E_{t_2}}{\delta J_{\mu\nu}(q;\mathbf r)}=-\frac{t_2}{4}\Bigl[x_2J_{\mu\nu}(\mathbf r)+J_{\mu\nu}(q;\mathbf r)\Bigr].
 $$
 
 **t3 term**
 
 $$
-\frac{\delta E_{t_3}}{\delta\rho(q;\mathbf r)}=\frac{t_3}{12}\rho^\gamma\Bigl[(2+x_3)\rho-(1+2x_3)\rho(q)\Bigr]+\frac{\gamma t_3}{24}\rho^{\gamma-1}\Bigl[(2+x_3)\rho^2-(1+2x_3)\sum_{q'}\rho(q')^2\Bigr],
+E_{t_3}=\frac{t_3}{24}\int \mathrm d^3\mathbf r\,\rho(\mathbf r)^\gamma\Bigl[(2+x_3)\rho(\mathbf r)^2-(1+2x_3)\sum_q\rho(q;\mathbf r)^2\Bigr].
+$$
+
+$$
+\frac{\delta E_{t_3}}{\delta\rho(q;\mathbf r)}=\frac{t_3}{12}\rho(\mathbf r)^\gamma\Bigl[(2+x_3)\rho(\mathbf r)-(1+2x_3)\rho(q;\mathbf r)\Bigr]+\frac{\gamma t_3}{24}\rho(\mathbf r)^{\gamma-1}\Bigl[(2+x_3)\rho(\mathbf r)^2-(1+2x_3)\sum_{q'}\rho(q';\mathbf r)^2\Bigr],
 $$
 
 $$
@@ -1005,7 +1021,11 @@ $$
 **SO term**
 
 $$
-\frac{\delta E_{\mathrm{SO}}}{\delta\rho(q;\mathbf r)}=-\frac{W_0}{2}\Bigl[\nabla\cdot\mathbf J+\nabla\cdot\mathbf J(q)\Bigr],
+E_{\mathrm{SO}}=-\frac{W_0}{2}\int \mathrm d^3\mathbf r\,\Bigl[\rho(\mathbf r)\nabla\cdot\mathbf J(\mathbf r)+\sum_q\rho(q;\mathbf r)\nabla\cdot\mathbf J(q;\mathbf r)\Bigr].
+$$
+
+$$
+\frac{\delta E_{\mathrm{SO}}}{\delta\rho(q;\mathbf r)}=-\frac{W_0}{2}\Bigl[\nabla\cdot\mathbf J(\mathbf r)+\nabla\cdot\mathbf J(q;\mathbf r)\Bigr],
 $$
 
 $$
@@ -1013,7 +1033,7 @@ $$
 $$
 
 $$
-\frac{\delta E_{\mathrm{SO}}}{\delta J_{\mu\nu}(q;\mathbf r)}=\frac{W_0}{2}\sum_\kappa\epsilon_{\kappa\mu\nu}\Bigl[\partial_\kappa\rho+\partial_\kappa\rho(q)\Bigr].
+\frac{\delta E_{\mathrm{SO}}}{\delta J_{\mu\nu}(q;\mathbf r)}=\frac{W_0}{2}\sum_\kappa\epsilon_{\kappa\mu\nu}\Bigl[\partial_\kappa\rho(\mathbf r)+\partial_\kappa\rho(q;\mathbf r)\Bigr].
 $$
 
 **Coulomb term**
@@ -1021,15 +1041,193 @@ $$
 With the Slater approximation for exchange,
 
 $$
-\frac{\delta(E_{\mathrm C}^{\mathrm{Hartree}}+E_{\mathrm C}^{\mathrm{Slater}})}{\delta\rho(q;\mathbf r)}=\delta_{q,p}\Biggl[e^2\int d^3r'\,\frac{\rho(p;\mathbf r')}{|\mathbf r-\mathbf r'|}-e^2\left(\frac{3}{\pi}\right)^{1/3}\rho(p;\mathbf r)^{1/3}\Biggr],
+E_{\mathrm C}\approx E_{\mathrm C}^{\mathrm{Hartree}}+E_{\mathrm C}^{\mathrm{Slater}}=\frac{e^2}{2}\int \mathrm d^3\mathbf r\,\mathrm d^3\mathbf r'\,\frac{\rho(p;\mathbf r)\rho(p;\mathbf r')}{|\mathbf r-\mathbf r'|}-\frac{3e^2}{4}\left(\frac{3}{\pi}\right)^{1/3}\int \mathrm d^3\mathbf r\,\rho(p;\mathbf r)^{4/3}.
+$$
+
+$$
+\frac{\delta(E_{\mathrm C}^{\mathrm{Hartree}}+E_{\mathrm C}^{\mathrm{Slater}})}{\delta\rho(q;\mathbf r)}=\delta_{q,p}\Biggl[e^2\int \mathrm d^3\mathbf r'\,\frac{\rho(p;\mathbf r')}{|\mathbf r-\mathbf r'|}-e^2\left(\frac{3}{\pi}\right)^{1/3}\rho(p;\mathbf r)^{1/3}\Biggr],
 $$
 
 $$
 \frac{\delta(E_{\mathrm C}^{\mathrm{Hartree}}+E_{\mathrm C}^{\mathrm{Slater}})}{\delta\tau(q;\mathbf r)}=\frac{\delta(E_{\mathrm C}^{\mathrm{Hartree}}+E_{\mathrm C}^{\mathrm{Slater}})}{\delta J_{\mu\nu}(q;\mathbf r)}=0.
 $$
 
-Sum the contributions to obtain the total variations. The kinetic energy additionally contributes
+Sum the contributions to obtain the total variations.
+
+**Kinetic term**
+
+$$
+E_{\mathrm{kin}}=\frac{\hbar^2}{2m}\int \mathrm d^3\mathbf r\,\tau(\mathbf r).
+$$
 
 $$
 \frac{\delta E_{\mathrm{kin}}}{\delta\rho(q;\mathbf r)}=0,\qquad \frac{\delta E_{\mathrm{kin}}}{\delta\tau(q;\mathbf r)}=\frac{\hbar^2}{2m},\qquad \frac{\delta E_{\mathrm{kin}}}{\delta J_{\mu\nu}(q;\mathbf r)}=0.
 $$
+
+## UNEDF energy density functional
+
+The energy density functional is specified directly through density couplings. The general form below follows the code's EDF parameterization; UNEDF1 selects a particular set of these couplings.
+
+### Densities and coupling constants
+
+For each density $X$, define the isoscalar and isovector combinations
+
+$$
+X_0(\mathbf r)=X_n(\mathbf r)+X_p(\mathbf r),\qquad X_1(\mathbf r)=X_n(\mathbf r)-X_p(\mathbf r),\qquad X\in\{\rho,\mathbf s,\tau,\mathbf T,\mathbf j,J_{\mu\nu}\}.
+$$
+
+Here $t=0,1$ labels the isospin channel. The spin-current vector is
+
+$$
+J_{t,\kappa}(\mathbf r)=\sum_{\mu,\nu}\epsilon_{\kappa\mu\nu}J_{t,\mu\nu}(\mathbf r).
+$$
+
+Coupling superscripts identify the associated density products. The density-dependent couplings are
+
+$$
+C_t^{\rho\rho}[\rho_0(\mathbf r)]=C_{t,0}^{\rho\rho}+C_{t,D}^{\rho\rho}\rho_0^\alpha(\mathbf r),\qquad C_t^{ss}[\rho_0(\mathbf r)]=C_{t,0}^{ss}+C_{t,D}^{ss}\rho_0^\alpha(\mathbf r).
+$$
+
+Here $\alpha$ is the density exponent, corresponding to $\gamma$ in the preceding Skyrme interaction.
+
+### Time-even energy density
+
+All densities below are evaluated at $\mathbf r$. The time-even interaction energy density contains eight density combinations:
+
+$$
+\boxed{\mathcal H_{\mathrm{even}}(\mathbf r)=\sum_{t=0,1}\Bigl[C_t^{\rho\rho}[\rho_0(\mathbf r)]\rho_t^2(\mathbf r)+C_t^{\rho\tau}\rho_t(\mathbf r)\tau_t(\mathbf r)+C_t^{\rho\Delta\rho}\rho_t(\mathbf r)\Delta\rho_t(\mathbf r)+C_t^{\rho\nabla J}\rho_t(\mathbf r)\nabla\cdot\mathbf J_t(\mathbf r)+C_t^{JJ}\sum_{\mu,\nu}J_{t,\mu\nu}^2(\mathbf r)+C_t^{JJ^{\mathsf T}}\sum_{\mu,\nu}J_{t,\mu\nu}(\mathbf r)J_{t,\nu\mu}(\mathbf r)+C_t^{\nabla\rho\nabla\rho}|\nabla\rho_t(\mathbf r)|^2+C_t^{J\nabla\rho}\mathbf J_t(\mathbf r)\cdot\nabla\rho_t(\mathbf r)\Bigr].}
+$$
+
+The two tensor contractions are distinct. The vector $\mathbf J_t$ contains only the antisymmetric part of $J_{t,\mu\nu}$.
+
+For constant gradient couplings and vanishing boundary terms,
+
+$$
+\int \mathrm d^3\mathbf r\,\rho_t(\mathbf r)\Delta\rho_t(\mathbf r)=-\int \mathrm d^3\mathbf r\,|\nabla\rho_t(\mathbf r)|^2,
+$$
+
+$$
+\int \mathrm d^3\mathbf r\,\rho_t(\mathbf r)\nabla\cdot\mathbf J_t(\mathbf r)=-\int \mathrm d^3\mathbf r\,\mathbf J_t(\mathbf r)\cdot\nabla\rho_t(\mathbf r).
+$$
+
+Thus the integrated energy depends on the combinations
+
+$$
+C_t^{\rho\Delta\rho}-C_t^{\nabla\rho\nabla\rho},\qquad C_t^{\rho\nabla J}-C_t^{J\nabla\rho}.
+$$
+
+The code retains both representations explicitly.
+
+### Time-odd energy density
+
+The general parameterization also includes the tensor-kinetic density $\mathbf F_t$. In terms of the nonlocal spin density,
+
+$$
+F_{t,\mu}(\mathbf r)=\frac12\sum_\nu\left[(\partial_\mu\partial_\nu'+\partial_\mu'\partial_\nu)s_{t,\nu}(\mathbf r,\mathbf r')\right]_{\mathbf r'=\mathbf r}.
+$$
+
+The time-odd interaction energy density is
+
+$$
+\boxed{\mathcal H_{\mathrm{odd}}(\mathbf r)=\sum_{t=0,1}\Bigl[C_t^{ss}[\rho_0(\mathbf r)]|\mathbf s_t(\mathbf r)|^2+C_t^{jj}|\mathbf j_t(\mathbf r)|^2+C_t^{s\Delta s}\mathbf s_t(\mathbf r)\cdot\Delta\mathbf s_t(\mathbf r)+C_t^{s\nabla j}\mathbf s_t(\mathbf r)\cdot(\nabla\times\mathbf j_t(\mathbf r))+C_t^{sT}\mathbf s_t(\mathbf r)\cdot\mathbf T_t(\mathbf r)+C_t^{\nabla s\nabla s}(\nabla\cdot\mathbf s_t(\mathbf r))^2+C_t^{sF}\mathbf s_t(\mathbf r)\cdot\mathbf F_t(\mathbf r)\Bigr].}
+$$
+
+These couplings are declared in the general parameter container; their presence does not establish a full time-reversal-breaking solver implementation.
+
+For time-reversal symmetry,
+
+$$
+\mathbf s_t(\mathbf r)=\mathbf j_t(\mathbf r)=\mathbf T_t(\mathbf r)=\mathbf F_t(\mathbf r)=0,\qquad \mathcal H_{\mathrm{odd}}(\mathbf r)=0.
+$$
+
+### Conversion between Skyrme parameters and EDF couplings
+
+For the standard Skyrme interaction without explicit tensor terms, use $\alpha=\gamma$ and the $\rho_t\Delta\rho_t$, $\rho_t\nabla\cdot\mathbf J_t$ representation.
+
+**Time-even couplings**
+
+The particle-density couplings are
+
+$$
+C_{0,0}^{\rho\rho}=\frac38t_0,\qquad C_{1,0}^{\rho\rho}=-\frac18t_0(1+2x_0),
+$$
+
+$$
+C_{0,D}^{\rho\rho}=\frac1{16}t_3,\qquad C_{1,D}^{\rho\rho}=-\frac1{48}t_3(1+2x_3).
+$$
+
+The kinetic-density and surface couplings are
+
+$$
+C_0^{\rho\tau}=\frac1{16}\bigl[3t_1+(5+4x_2)t_2\bigr],\qquad C_1^{\rho\tau}=\frac1{16}\bigl[-(1+2x_1)t_1+(1+2x_2)t_2\bigr],
+$$
+
+$$
+C_0^{\rho\Delta\rho}=\frac1{64}\bigl[-9t_1+(5+4x_2)t_2\bigr],\qquad C_1^{\rho\Delta\rho}=\frac1{64}\bigl[3(1+2x_1)t_1+(1+2x_2)t_2\bigr].
+$$
+
+The spin-current and spin-orbit couplings are
+
+$$
+C_0^{JJ}=\frac1{16}\bigl[(1-2x_1)t_1-(1+2x_2)t_2\bigr],\qquad C_1^{JJ}=\frac1{16}(t_1-t_2),
+$$
+
+$$
+C_0^{\rho\nabla J}=-\frac34W_0,\qquad C_1^{\rho\nabla J}=-\frac14W_0.
+$$
+
+The remaining couplings vanish:
+
+$$
+C_t^{JJ^{\mathsf T}}=C_t^{\nabla\rho\nabla\rho}=C_t^{J\nabla\rho}=0.
+$$
+
+The $JJ$ term arises from the momentum-dependent central interaction even without explicit tensor terms.
+
+**Time-odd couplings**
+
+The spin-density couplings are
+
+$$
+C_{0,0}^{ss}=-\frac18t_0(1-2x_0),\qquad C_{1,0}^{ss}=-\frac18t_0,
+$$
+
+$$
+C_{0,D}^{ss}=-\frac1{48}t_3(1-2x_3),\qquad C_{1,D}^{ss}=-\frac1{48}t_3.
+$$
+
+The spin-gradient couplings are
+
+$$
+C_0^{s\Delta s}=\frac1{64}\bigl[3(1-2x_1)t_1+(1+2x_2)t_2\bigr],\qquad C_1^{s\Delta s}=\frac1{64}(3t_1+t_2).
+$$
+
+The remaining nonzero couplings satisfy
+
+$$
+\boxed{C_t^{jj}=-C_t^{\rho\tau},\qquad C_t^{sT}=-C_t^{JJ},\qquad C_t^{s\nabla j}=C_t^{\rho\nabla J}.}
+$$
+
+Without explicit tensor terms,
+
+$$
+C_t^{\nabla s\nabla s}=C_t^{sF}=0.
+$$
+
+These relations apply to an EDF generated by the specified Skyrme interaction. Independently fitted EDF couplings, including UNEDF parameter sets, need not satisfy all of them; the reverse conversion reproduces the full functional only when the corresponding constraints hold.
+
+### Pairing term
+
+For each nucleon species $q=n,p$, introduce the local pairing density $\kappa_q(\mathbf r)$ and the density-dependent pairing coupling $C_q^{\mathrm{pair}}[\rho_0(\mathbf r)]$. Here $C_q^{V0}$ is the pairing strength, $C_q^{V1}$ is the dimensionless density factor, and $\rho_c=0.16\,\mathrm{fm}^{-3}$ is the reference density used in the code.
+
+$$
+C_q^{\mathrm{pair}}[\rho_0(\mathbf r)]=C_q^{V0}\left[1-C_q^{V1}\frac{\rho_0(\mathbf r)}{\rho_c}\right].
+$$
+
+With the code's normalization convention, the local pairing field $\Delta_q(\mathbf r)$ and pairing energy are
+
+$$
+\boxed{\Delta_q(\mathbf r)=C_q^{\mathrm{pair}}[\rho_0(\mathbf r)]\,\kappa_q(\mathbf r),\qquad E_{\mathrm{pair}}=\sum_{q=n,p}\int\mathrm d^3\mathbf r\,\kappa_q^*(\mathbf r)\Delta_q(\mathbf r).}
+$$
+
+The pairing density $\kappa_q$ supplements the normal densities; $C_q^{\mathrm{pair}}$ is a coupling, not a density. The pairing field $\Delta_q$ is distinct from the Laplacian operator $\Delta$.

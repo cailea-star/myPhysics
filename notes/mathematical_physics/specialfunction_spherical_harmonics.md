@@ -58,6 +58,8 @@ $$
 
 ## Vector Spherical Harmonics
 
+### Angular-momentum coupling
+
 Let $\mathbf e_0$ and $\mathbf e_\pm$ denote the spherical vector basis,
 
 $$
@@ -112,7 +114,7 @@ Let $\hat{\mathbf S}$ act on the vector index and define $\hat{\mathbf J}=\hat{\
   \hat J_\pm\mathbf Y_{jm}^{l}=\hbar\sqrt{j(j+1)-m(m\pm1)}\,\mathbf Y_{j,m\pm1}^{l}.
   $$
 
-## Tangential Vector Spherical Harmonics
+### Construction from scalar harmonics
 
 For $j\geq1$, define the radial and tangential harmonics by
 
@@ -136,15 +138,17 @@ Here $\nabla_{\hat{\mathbf r}}$ is the surface gradient on the unit sphere, and 
 
 - Orthonormality
 
-  $$
-  \int \mathrm d\hat{\mathbf r}\,\boldsymbol\Psi_{jm}^{*}\cdot\boldsymbol\Psi_{j'm'}=\int \mathrm d\hat{\mathbf r}\,\boldsymbol\Phi_{jm}^{*}\cdot\boldsymbol\Phi_{j'm'}=\delta_{jj'}\delta_{mm'},\qquad \int \mathrm d\hat{\mathbf r}\,\boldsymbol\Psi_{jm}^{*}\cdot\boldsymbol\Phi_{j'm'}=0.
-  $$
-
-  The radial harmonics are orthogonal to both tangential families and satisfy
+  For $j,j'\geq1$,
 
   $$
-  \int \mathrm d\hat{\mathbf r}\,\left[\mathbf Y_{jm}^{(r)}\right]^*\cdot\mathbf Y_{j'm'}^{(r)}=\delta_{jj'}\delta_{mm'}.
+  \int\mathrm d\hat{\mathbf r}\,\left[\mathbf Y_{jm}^{(r)}\right]^*\cdot\mathbf Y_{j'm'}^{(r)}=\int\mathrm d\hat{\mathbf r}\,\boldsymbol\Psi_{jm}^*\cdot\boldsymbol\Psi_{j'm'}=\int\mathrm d\hat{\mathbf r}\,\boldsymbol\Phi_{jm}^*\cdot\boldsymbol\Phi_{j'm'}=\delta_{jj'}\delta_{mm'}.
   $$
+
+  $$
+  \int\mathrm d\hat{\mathbf r}\,\left[\mathbf Y_{jm}^{(r)}\right]^*\cdot\boldsymbol\Psi_{j'm'}=\int\mathrm d\hat{\mathbf r}\,\left[\mathbf Y_{jm}^{(r)}\right]^*\cdot\boldsymbol\Phi_{j'm'}=\int\mathrm d\hat{\mathbf r}\,\boldsymbol\Psi_{jm}^*\cdot\boldsymbol\Phi_{j'm'}=0.
+  $$
+
+  The radial normalization also holds for $j=0$, and $\mathbf Y_{00}^{(r)}$ is orthogonal to all tangential harmonics. The reversed inner products follow by complex conjugation.
 
 - Surface divergence and curl
 
@@ -184,15 +188,97 @@ Here $\nabla_{\hat{\mathbf r}}$ is the surface gradient on the unit sphere, and 
   F_{jm}^{(\Psi)}(r)=-\frac1{\sqrt{j(j+1)}}\int \mathrm d\hat{\mathbf r}\,Y_{jm}^{*}\nabla_{\hat{\mathbf r}}\cdot\mathbf F_{\mathrm t},\qquad F_{jm}^{(\Phi)}(r)=-\frac1{\sqrt{j(j+1)}}\int \mathrm d\hat{\mathbf r}\,Y_{jm}^{*}\operatorname{curl}_{\hat{\mathbf r}}\mathbf F_{\mathrm t}.
   $$
 
-- Relation to the coupled basis
+### Relations between the two bases
 
-  For fixed $(j,m)$, the full vector field has equivalent coupled and differential basis expansions:
+**Radial harmonic $\mathbf Y_{jm}^{(r)}$**
 
-  $$
-  \mathbf F_{jm}(r,\hat{\mathbf r})=\sum_{l=|j-1|}^{j+1}F_{jlm}(r)\mathbf Y_{jm}^{l}(\hat{\mathbf r})=F_{jm}^{(r)}(r)\mathbf Y_{jm}^{(r)}(\hat{\mathbf r})+F_{jm}^{(\Psi)}(r)\boldsymbol\Psi_{jm}(\hat{\mathbf r})+F_{jm}^{(\Phi)}(r)\boldsymbol\Phi_{jm}(\hat{\mathbf r}).
-  $$
+Expressing the radial unit vector in the fixed spherical basis gives
 
-  For $j\geq1$, the two bases span the same three-dimensional space and are related by a unitary change of basis. For $j=0$, only $\mathbf Y_{00}^{(r)}$ remains.
+$$
+\hat{\mathbf r}=\cos\theta\,\mathbf e_0+\frac{\sin\theta}{\sqrt2}\left(e^{i\varphi}\mathbf e_{-1}-e^{-i\varphi}\mathbf e_{+1}\right)=\sqrt{\frac{4\pi}{3}}\sum_qY_{1q}^{*}\mathbf e_q.
+$$
+
+Multiplying by $Y_{jm}$, expanding the scalar products, and recoupling the Clebsch–Gordan coefficients yields
+
+$$
+\hat{\mathbf r}Y_{jm}=\sqrt{\frac{4\pi}{3}}\sum_qY_{1q}^{*}Y_{jm}\mathbf e_q=-\sum_{l=j\pm1}\langle j,0;1,0\mid l,0\rangle\underbrace{\sum_q\langle l,m-q;1,q\mid j,m\rangle Y_{l,m-q}\mathbf e_q}_{\mathbf Y_{jm}^{\,l}}.
+$$
+
+The $l=j$ contribution vanishes because $\langle j,0;1,0\mid j,0\rangle=0$. Evaluating the remaining coefficients gives
+
+$$
+\boxed{\mathbf Y_{jm}^{(r)}=\hat{\mathbf r}Y_{jm}=\sqrt{\frac{j}{2j+1}}\mathbf Y_{jm}^{\,j-1}-\sqrt{\frac{j+1}{2j+1}}\mathbf Y_{jm}^{\,j+1}.}
+$$
+
+**Rotational harmonic $\boldsymbol\Phi_{jm}$**
+
+The cross-product operator has a simpler angular-momentum representation:
+
+$$
+\hat{\mathbf r}\times\nabla_{\hat{\mathbf r}}=\frac{i}{\hbar}\hat{\mathbf L}=\frac{i}{\hbar}\left(\mathbf e_0\hat L_z-\frac{\mathbf e_{+1}}{\sqrt2}\hat L_-+\frac{\mathbf e_{-1}}{\sqrt2}\hat L_+\right).
+$$
+
+The ladder relations give
+
+$$
+(\hat{\mathbf r}\times\nabla_{\hat{\mathbf r}})Y_{jm}=imY_{jm}\mathbf e_0-\frac{i}{\sqrt2}\sqrt{(j+m)(j-m+1)}Y_{j,m-1}\mathbf e_{+1}+\frac{i}{\sqrt2}\sqrt{(j-m)(j+m+1)}Y_{j,m+1}\mathbf e_{-1}.
+$$
+
+$$
+(\hat{\mathbf r}\times\nabla_{\hat{\mathbf r}})Y_{jm}=i\sqrt{j(j+1)}\underbrace{\sum_q\langle j,m-q;1,q\mid j,m\rangle Y_{j,m-q}\mathbf e_q}_{\mathbf Y_{jm}^{\,j}}.
+$$
+
+Therefore,
+
+$$
+\boxed{\boldsymbol\Phi_{jm}=\frac{(\hat{\mathbf r}\times\nabla_{\hat{\mathbf r}})Y_{jm}}{\sqrt{j(j+1)}}=i\mathbf Y_{jm}^{\,j},\qquad j\geq1.}
+$$
+
+**Gradient harmonic $\boldsymbol\Psi_{jm}$**
+
+Applying the product rule gives
+
+$$
+\Delta(\mathbf rY_{jm})=\mathbf r\,\Delta Y_{jm}+2\nabla Y_{jm}=\frac1{r^2}\left[-j(j+1)\mathbf rY_{jm}+2r\nabla_{\hat{\mathbf r}}Y_{jm}\right].
+$$
+
+The position-vector product has the expansion
+
+$$
+\mathbf rY_{jm}=r\mathbf Y_{jm}^{(r)}=r\left[\sqrt{\frac{j}{2j+1}}\mathbf Y_{jm}^{\,j-1}-\sqrt{\frac{j+1}{2j+1}}\mathbf Y_{jm}^{\,j+1}\right].
+$$
+
+In the fixed vector basis, the Laplacian acts componentwise:
+
+$$
+\Delta\!\left[r\mathbf Y_{jm}^{\,l}\right]=\frac1{r^2}\left[\frac{\partial}{\partial r}\left(r^2\frac{\partial}{\partial r}\right)-\frac{\hat L^2}{\hbar^2}\right]\left[r\mathbf Y_{jm}^{\,l}\right]=\frac{2-l(l+1)}r\mathbf Y_{jm}^{\,l}.
+$$
+
+Consequently,
+
+$$
+\Delta(\mathbf rY_{jm})=\frac1r\left[\bigl(2-j(j-1)\bigr)\sqrt{\frac{j}{2j+1}}\mathbf Y_{jm}^{\,j-1}-\bigl(2-(j+1)(j+2)\bigr)\sqrt{\frac{j+1}{2j+1}}\mathbf Y_{jm}^{\,j+1}\right].
+$$
+
+Comparing the two expressions gives
+
+$$
+2\nabla_{\hat{\mathbf r}}Y_{jm}=r\Delta(\mathbf rY_{jm})+j(j+1)\hat{\mathbf r}Y_{jm}=2(j+1)\sqrt{\frac{j}{2j+1}}\mathbf Y_{jm}^{\,j-1}+2j\sqrt{\frac{j+1}{2j+1}}\mathbf Y_{jm}^{\,j+1}.
+$$
+
+Thus,
+
+$$
+\nabla_{\hat{\mathbf r}}Y_{jm}=(j+1)\sqrt{\frac{j}{2j+1}}\mathbf Y_{jm}^{\,j-1}+j\sqrt{\frac{j+1}{2j+1}}\mathbf Y_{jm}^{\,j+1},
+$$
+
+and
+
+$$
+\boxed{\boldsymbol\Psi_{jm}=\frac{\nabla_{\hat{\mathbf r}}Y_{jm}}{\sqrt{j(j+1)}}=\sqrt{\frac{j+1}{2j+1}}\mathbf Y_{jm}^{\,j-1}+\sqrt{\frac{j}{2j+1}}\mathbf Y_{jm}^{\,j+1},\qquad j\geq1.}
+$$
+
+All sums over $q$ run from $-1$ to $1$. Terms with negative orbital angular momentum or out-of-range magnetic projections are omitted. For $j=0$, the surface gradient vanishes and only $\mathbf Y_{00}^{(r)}=-\mathbf Y_{00}^{\,1}$ remains.
 
 ## Spinor Spherical Harmonics
 
